@@ -1153,7 +1153,7 @@ function checkout_disable(val) {
 	}
 }
 
-function validation(cartTotal)
+function validation(cartTotal, flagOneStep)
 {
 	if (redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL') > 0 && cartTotal < redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL'))
 	{
@@ -1161,7 +1161,7 @@ function validation(cartTotal)
 		return false;
 	}
 
-	if (!document.getElementById('termscondition').checked) {
+	if (!document.getElementById('termscondition').checked && flagOneStep != 1) {
 		alert(Joomla.JText._('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS'));
 		return false;
 	}
@@ -1201,4 +1201,52 @@ function validateInfoQuotation() {
 		return false;
 	}
 	return true;
+}
+
+function setsendImagepath(elm) {
+	var path = document.getElementById('<?php echo "main_image" . $this->pid;?>').src;
+	var filenamepath = path.replace(/\\/g, '/').replace(/.*\//, '');
+	var imageName = filenamepath.split('&');
+	elm.href = elm + '&imageName=' + imageName[0];
+}
+
+function getCatalogSampleValidation() {
+	var frm = document.frmcatalogsample;
+	var email = frm.email_address.value;
+	var patt1 = new RegExp("([a-z0-9_]+)@([a-z0-9_-]+)[.][a-z]");
+
+	if (frm.name_2.value == '') {
+		alert(Joomla.JText._('COM_REDSHOP_ENTER_NAME'));
+		frm.name_2.focus();
+		return false;
+	}
+
+	if (email == '') {
+		alert(Joomla.JText._('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS'));
+		frm.email_address.focus();
+		return false;
+	} else if (patt1.test(email) == false) {
+		alert(Joomla.JText._('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID'));
+		frm.email_address.focus();
+		return false;
+	}
+	var sampleArr = [];
+
+	if (document.getElementsByName('sample_code[]')) {
+		var sName = document.getElementsByName('sample_code[]');
+		var i = 0;
+
+		for (var p = 0; p < sName.length; p++) {
+			if (sName[p].checked) {
+				sampleArr[i++] = sName[p].value;
+			}
+		}
+	}
+
+	if (sampleArr.length > 0) {
+		return true;
+	} else {
+		alert(Joomla.JText._('COM_REDSHOP_SELECT_SAMPLE_COLOR'));
+		return false;
+	}
 }

@@ -47,6 +47,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 
     /**
      * Init function
+     *
      * @return mixed|void
      *
      * @throws Exception
@@ -67,6 +68,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 
     /**
      * Executing replace
+     *
      * @return string
      *
      * @throws Exception
@@ -115,6 +117,230 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
     }
 
     /**
+     * @param $templateContent
+     * @param $product
+     * @param $userId
+     *
+     * @return bool
+     *
+     * @throws Exception
+     * @since 2.1.5
+     */
+    public function replaceMainAccessory($templateContent, $product, $userId)
+    {
+        $this->replacements = array();
+
+        $subTemplate = $this->getTemplateBetweenLoop('{if accessory_main}', '{accessory_main end if}');
+
+        if (!$subTemplate) {
+            return false;
+        }
+
+        $template = $subTemplate['template'];
+
+        if ($this->isTagExists('{accessory_main_short_desc}')) {
+            $this->replacements['{accessory_main_short_desc}'] = $this->replaceMainAccessoryShortDesc($product);
+        }
+
+        if ($this->isTagExists('{accessory_main_title}')) {
+            $this->replacements['{accessory_main_title}'] = $this->replaceMainAccessoryTitle($product);
+        }
+
+        if ($this->isTagExists('{accessory_main_readmore}')) {
+            $this->replacements['{accessory_main_readmore}'] = $this->replaceMainAccessoryReadmore($product);
+        }
+
+        $infoAccessoryMainImg = $this->getWidthHeight(
+            $template,
+            'accessory_main_image',
+            'ACCESSORY_THUMB_HEIGHT',
+            'ACCESSORY_THUMB_WIDTH'
+        );
+
+        $this->replacements[$infoAccessoryMainImg['imageTag']] = $this->replaceMainAccessoryImage(
+            $product,
+            $infoAccessoryMainImg['width'],
+            $infoAccessoryMainImg['height']
+        );
+        $productPrices                                         = array();
+
+        // @Todo Check selected accessory price
+        if ($this->isTagExists('{accessory_mainproduct_price}') || strpos(
+                $templateContent,
+                "{selected_accessory_price}"
+            ) !== false) {
+            $productPrices = RedshopHelperProductPrice::getNetPrice($product->product_id, $userId, 1, $templateContent);
+        }
+
+        if ($this->isTagExists('{accessory_mainproduct_price}')) {
+            if (Redshop::getConfig()->get('SHOW_PRICE')
+                && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
+                    || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
+                        && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))) {
+                $accessoryMainProductPrice = RedshopHelperProductPrice::priceReplacement(
+                    $productPrices['product_price']
+                );
+
+                $this->replacements["{accessory_mainproduct_price}"] = $accessoryMainProductPrice;
+            }
+        }
+
+        $template = $this->strReplace($this->replacements, $template);
+
+        // @Todo refactor stock
+        $template = Redshop\Product\Stock::replaceInStock($product->product_id, $template);
+
+        $this->template = $subTemplate['begin'] . $template . $subTemplate['end'];
+    }
+
+    /**
+     * @param $product
+     *
+     * @return string
+     *
+     * @since 2.1.5
+     */
+    public function replaceMainAccessoryShortDesc($product)
+    {
+        $mainShortDesc = RedshopHelperUtility::limitText(
+            $product->product_s_desc,
+            Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_MAX_CHARS'),
+            Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_END_SUFFIX')
+        );
+
+        $htmlShortDesc = RedshopLayoutHelper::render(
+            'tags.common.short_desc',
+            array(
+                'text'  => $mainShortDesc,
+                'class' => 'accessory-main-short-desc'
+            ),
+            '',
+            RedshopLayoutHelper::$layoutOption
+        );
+
+        return $htmlShortDesc;
+    }
+
+    /**
+     * @param $product
+     *
+     * @return string
+     *
+     * @since 2.1.5
+     */
+    public function replaceMainAccessoryTitle($product)
+    {
+        $mainTitle = RedshopHelperUtility::limitText(
+            $product->product_name,
+            Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
+            Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
+        );
+
+        $htmlTitle = RedshopLayoutHelper::render(
+            'tags.common.label',
+            array(
+                'text'  => $mainTitle,
+                'id'    => '',
+                'class' => 'accessory-main-title'
+            ),
+            '',
+            RedshopLayoutHelper::$layoutOption
+        );
+
+        return $htmlTitle;
+    }
+
+    /**
+     * @param $product
+     *
+     * @return string
+     *
+     * @since 2.1.5
+     */
+    public function replaceMainAccessoryReadmore($product)
+    {
+        $accessoryMainReadMore = RedshopLayoutHelper::render(
+            'tags.common.readmore',
+            array(
+                'title'        => $product->product_name,
+                'readMoreLink' => '#',
+                'class'        => "accessory-main-readmore accessory_readmore_" . $product->product_id
+            ),
+            '',
+            RedshopLayoutHelper::$layoutOption
+        );
+
+        return $accessoryMainReadMore;
+    }
+
+    /**
+     * @param $product
+     * @param $accessoryWidthThumb
+     * @param $accessoryHeightThumb
+     *
+     * @return string
+     *
+     * @throws Exception
+     * @since 2.1.5
+     */
+    public function replaceMainAccessoryImage($product, $accessoryWidthThumb, $accessoryHeightThumb)
+    {
+        $accessoryMainImage  = $product->product_full_image;
+        $accessoryMainImage2 = '';
+
+        if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryMainImage)) {
+            $thumbUrl = RedshopHelperMedia::getImagePath(
+                $accessoryMainImage,
+                '',
+                'thumb',
+                'product',
+                $accessoryWidthThumb,
+                $accessoryHeightThumb,
+                Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+            );
+
+            if (Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX') == 1) {
+                $accessoryMainImage2 = RedshopLayoutHelper::render(
+                    'tags.accessory.image.lightbox',
+                    array(
+                        'accessoryImage'       => $accessoryMainImage,
+                        'accessoryId'          => '',
+                        'thumbUrl'             => $thumbUrl,
+                        'imageUrl'             => REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $accessoryMainImage,
+                        'accessoryWidthThumb'  => $accessoryWidthThumb,
+                        'accessoryHeightThumb' => $accessoryHeightThumb
+                    ),
+                    '',
+                    array(
+                        'component'  => 'com_redshop',
+                        'layoutType' => 'Twig',
+                        'layoutOf'   => 'library'
+                    )
+                );
+            } else {
+                $accessoryMainImage2 = RedshopLayoutHelper::render(
+                    'tags.accessory.image.no_lightbox',
+                    array(
+                        'accessoryProductLink' => '',
+                        'accessoryId'          => '',
+                        'thumbUrl'             => $thumbUrl,
+                        'accessoryWidthThumb'  => $accessoryWidthThumb,
+                        'accessoryHeightThumb' => $accessoryHeightThumb
+                    ),
+                    '',
+                    array(
+                        'component'  => 'com_redshop',
+                        'layoutType' => 'Twig',
+                        'layoutOf'   => 'library'
+                    )
+                );
+            }
+        }
+
+        return $accessoryMainImage2;
+    }
+
+    /**
      * Replace Accessory Tags
      *
      * @param $accessory
@@ -128,9 +354,9 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      */
     public function replaceAccessory($accessory, $template, $attributeTemplate)
     {
-    	$this->replacements = array();
-        $accessoryProduct = \Redshop\Product\Product::getProductById($accessory->child_product_id);
-        $commonId         = $this->data['prefix'] . $this->data['productId'] . '_' . $accessory->accessory_id;
+        $this->replacements = array();
+        $accessoryProduct   = \Redshop\Product\Product::getProductById($accessory->child_product_id);
+        $commonId           = $this->data['prefix'] . $this->data['productId'] . '_' . $accessory->accessory_id;
 
         $template = RedshopLayoutHelper::render(
             'tags.accessory.template',
@@ -253,7 +479,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 
         if ($this->isTagExists('{accessory_title}')) {
             $accessoryProductName = RedshopHelperUtility::maxChars(
-	            $accessoryProduct->product_name,
+                $accessoryProduct->product_name,
                 Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
                 Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
             );
@@ -399,77 +625,6 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
     }
 
     /**
-     * Replace customfield
-     *
-     * @param   object  $accessory
-     * @param   string  $template
-     *
-     * @return  void
-     *
-     * @since   2.1.5
-     */
-    public function replaceCustomField($accessory, &$template)
-    {
-        $fields = RedshopHelperExtrafields::getSectionFieldList(
-            RedshopHelperExtrafields::SECTION_PRODUCT,
-            1,
-            1
-        );
-
-        if (count($fields) > 0) {
-            foreach ($fields as $field) {
-                $fieldValues = RedshopHelperExtrafields::getSectionFieldDataList(
-                    $field->id,
-                    1,
-                    $accessory->child_product_id
-                );
-
-                if ($fieldValues && $fieldValues->data_txt != ""
-                    && $field->show_in_front == 1 && $field->published == 1) {
-                    $this->replacements['{' . $field->name . '}']     = $fieldValues->data_txt;
-                    $this->replacements['{' . $field->name . '_lbl}'] = $field->title;
-                } else {
-                    $this->replacements['{' . $field->name . '}']     = '';
-                    $this->replacements['{' . $field->name . '_lbl}'] = '';
-                }
-            }
-
-            $template = $this->strReplace($this->replacements, $template);
-        }
-    }
-
-    /**
-     * Replace tags price
-     *
-     * @param           $tag
-     * @param           $price
-     * @param           $template
-     * @param   string  $class
-     *
-     * @return string
-     *
-     * @since 2.1.5
-     */
-    public function replaceTagPrice($tag, $price, $template, $class = '')
-    {
-        $htmlPrice = RedshopHelperProductPrice::formattedPrice($price);
-        $tagPrice  = RedshopLayoutHelper::render(
-            'tags.common.price',
-            array(
-                'price'     => $price,
-                'htmlPrice' => $htmlPrice,
-                'class'     => $class
-            ),
-            '',
-            RedshopLayoutHelper::$layoutOption
-        );
-
-        $this->replacements[$tag] = $tagPrice;
-
-        return $this->strReplace($this->replacements, $template);
-    }
-
-    /**
      * @param $accessory
      * @param $template
      *
@@ -479,17 +634,20 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      */
     public function replaceImage($accessory, &$template)
     {
-        $input        = JFactory::getApplication()->input;
-        $itemId       = $input->get('Itemid');
-        $accessoryImg = '';
-
-        $this->getWidthHeight(
+        $input            = JFactory::getApplication()->input;
+        $itemId           = $input->get('Itemid');
+        $accessoryImg     = '';
+        $infoAccessoryImg = $this->getWidthHeight(
             $template,
             'accessory_image',
-            $accessoryImgTag,
-            $accessoryWidthThumb,
-            $accessoryHeightThumb
+            'ACCESSORY_THUMB_HEIGHT',
+            'ACCESSORY_THUMB_WIDTH'
         );
+
+        $accessoryImgTag      = $infoAccessoryImg['imageTag'];
+        $accessoryWidthThumb  = $infoAccessoryImg['width'];
+        $accessoryHeightThumb = $infoAccessoryImg['height'];
+
 
         $accessoryProductLink = JRoute::_(
             'index.php?option=com_redshop&view=product&pid=' . $accessory->child_product_id . '&Itemid=' . $itemId,
@@ -652,261 +810,73 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
     }
 
     /**
-     * @param $product
+     * Replace tags price
+     *
+     * @param           $tag
+     * @param           $price
+     * @param           $template
+     * @param   string  $class
      *
      * @return string
      *
      * @since 2.1.5
      */
-    public function replaceMainAccessoryReadmore($product)
+    public function replaceTagPrice($tag, $price, $template, $class = '')
     {
-        $accessoryMainReadMore = RedshopLayoutHelper::render(
-            'tags.common.readmore',
+        $htmlPrice = RedshopHelperProductPrice::formattedPrice($price);
+        $tagPrice  = RedshopLayoutHelper::render(
+            'tags.common.price',
             array(
-                'title'        => $product->product_name,
-                'readMoreLink' => '#',
-                'class'        => "accessory-main-readmore accessory_readmore_" . $product->product_id
+                'price'     => $price,
+                'htmlPrice' => $htmlPrice,
+                'class'     => $class
             ),
             '',
             RedshopLayoutHelper::$layoutOption
         );
 
-        return $accessoryMainReadMore;
+        $this->replacements[$tag] = $tagPrice;
+
+        return $this->strReplace($this->replacements, $template);
     }
 
     /**
-     * @param $product
+     * Replace customfield
      *
-     * @return string
-     *
-     * @since 2.1.5
-     */
-    public function replaceMainAccessoryTitle($product)
-    {
-        $mainTitle = RedshopHelperUtility::limitText(
-            $product->product_name,
-            Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
-            Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
-        );
-
-        $htmlTitle = RedshopLayoutHelper::render(
-            'tags.common.label',
-            array(
-                'text'  => $mainTitle,
-                'id'    => '',
-                'class' => 'accessory-main-title'
-            ),
-            '',
-            RedshopLayoutHelper::$layoutOption
-        );
-
-        return $htmlTitle;
-    }
-
-    /**
-     * @param $product
-     *
-     * @return string
-     *
-     * @since 2.1.5
-     */
-    public function replaceMainAccessoryShortDesc($product)
-    {
-        $mainShortDesc = RedshopHelperUtility::limitText(
-            $product->product_s_desc,
-            Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_MAX_CHARS'),
-            Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_END_SUFFIX')
-        );
-
-        $htmlShortDesc = RedshopLayoutHelper::render(
-            'tags.common.short_desc',
-            array(
-                'text'  => $mainShortDesc,
-                'class' => 'accessory-main-short-desc'
-            ),
-            '',
-            RedshopLayoutHelper::$layoutOption
-        );
-
-        return $htmlShortDesc;
-    }
-
-    /**
-     * @param $product
-     * @param $accessoryWidthThumb
-     * @param $accessoryHeightThumb
-     *
-     * @return string
-     *
-     * @throws Exception
-     * @since 2.1.5
-     */
-    public function replaceMainAccessoryImage($product, $accessoryWidthThumb, $accessoryHeightThumb)
-    {
-        $accessoryMainImage  = $product->product_full_image;
-        $accessoryMainImage2 = '';
-
-        if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryMainImage)) {
-            $thumbUrl = RedshopHelperMedia::getImagePath(
-                $accessoryMainImage,
-                '',
-                'thumb',
-                'product',
-                $accessoryWidthThumb,
-                $accessoryHeightThumb,
-                Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-            );
-
-            if (Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX') == 1) {
-                $accessoryMainImage2 = RedshopLayoutHelper::render(
-                    'tags.accessory.image.lightbox',
-                    array(
-                        'accessoryImage'       => $accessoryMainImage,
-                        'accessoryId'          => '',
-                        'thumbUrl'             => $thumbUrl,
-                        'imageUrl'             => REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $accessoryMainImage,
-                        'accessoryWidthThumb'  => $accessoryWidthThumb,
-                        'accessoryHeightThumb' => $accessoryHeightThumb
-                    ),
-                    '',
-                    array(
-                        'component'  => 'com_redshop',
-                        'layoutType' => 'Twig',
-                        'layoutOf'   => 'library'
-                    )
-                );
-            } else {
-                $accessoryMainImage2 = RedshopLayoutHelper::render(
-                    'tags.accessory.image.no_lightbox',
-                    array(
-                        'accessoryProductLink' => '',
-                        'accessoryId'          => '',
-                        'thumbUrl'             => $thumbUrl,
-                        'accessoryWidthThumb'  => $accessoryWidthThumb,
-                        'accessoryHeightThumb' => $accessoryHeightThumb
-                    ),
-                    '',
-                    array(
-                        'component'  => 'com_redshop',
-                        'layoutType' => 'Twig',
-                        'layoutOf'   => 'library'
-                    )
-                );
-            }
-        }
-
-        return $accessoryMainImage2;
-    }
-
-    /**
-     * @param $templateContent
-     * @param $product
-     * @param $userId
-     *
-     * @return bool
-     *
-     * @throws Exception
-     * @since 2.1.5
-     */
-    public function replaceMainAccessory($templateContent, $product, $userId)
-    {
-        $this->replacements = array();
-
-        $subTemplate = $this->getTemplateBetweenLoop('{if accessory_main}', '{accessory_main end if}');
-
-        if (!$subTemplate) {
-            return false;
-        }
-
-        $template = $subTemplate['template'];
-
-        if ($this->isTagExists('{accessory_main_short_desc}')) {
-            $this->replacements['{accessory_main_short_desc}'] = $this->replaceMainAccessoryShortDesc($product);
-        }
-
-        if ($this->isTagExists('{accessory_main_title}')) {
-            $this->replacements['{accessory_main_title}'] = $this->replaceMainAccessoryTitle($product);
-        }
-
-        if ($this->isTagExists('{accessory_main_readmore}')) {
-            $this->replacements['{accessory_main_readmore}'] = $this->replaceMainAccessoryReadmore($product);
-        }
-
-        $this->getWidthHeight(
-            $template,
-            'accessory_main_image',
-            $accessoryImgTag,
-            $accessoryWidthThumb,
-            $accessoryHeightThumb
-        );
-
-        $this->replacements[$accessoryImgTag] = $this->replaceMainAccessoryImage(
-            $product,
-            $accessoryWidthThumb,
-            $accessoryHeightThumb
-        );
-        $productPrices                        = array();
-
-        // @Todo Check selected accessory price
-        if ($this->isTagExists('{accessory_mainproduct_price}') || strpos(
-                $templateContent,
-                "{selected_accessory_price}"
-            ) !== false) {
-            $productPrices = RedshopHelperProductPrice::getNetPrice($product->product_id, $userId, 1, $templateContent);
-        }
-
-        if ($this->isTagExists('{accessory_mainproduct_price}')) {
-            if (Redshop::getConfig()->get('SHOW_PRICE')
-                && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
-                    || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
-                        && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))) {
-                $accessoryMainProductPrice = RedshopHelperProductPrice::priceReplacement(
-                    $productPrices['product_price']
-                );
-
-                $this->replacements["{accessory_mainproduct_price}"] = $accessoryMainProductPrice;
-            }
-        }
-
-        $template = $this->strReplace($this->replacements, $template);
-
-        // @Todo refactor stock
-        $template = Redshop\Product\Stock::replaceInStock($product->product_id, $template);
-
-        $this->template = $subTemplate['begin'] . $template . $subTemplate['end'];
-    }
-
-    /**
-     * Get width height
-     *
-     * @param   string   $template
-     * @param   string   $type
-     * @param   string   $imageTag
-     * @param   integer  $width
-     * @param   integer  $height
+     * @param   object  $accessory
+     * @param   string  $template
      *
      * @return  void
      *
      * @since   2.1.5
      */
-    public static function getWidthHeight($template, $type, &$imageTag, &$width, &$height)
+    public function replaceCustomField($accessory, &$template)
     {
-        if (strpos($template, '{' . $type . '_3}') !== false) {
-            $imageTag = '{' . $type . '_3}';
-            $height   = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT_3');
-            $width    = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH_3');
-        } elseif (strpos($template, '{' . $type . '_2}') !== false) {
-            $imageTag = '{' . $type . '_2}';
-            $height   = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT_2');
-            $width    = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH_2');
-        } elseif (strpos($template, '{' . $type . '_1}') !== false) {
-            $imageTag = '{' . $type . '_1}';
-            $height   = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT');
-            $width    = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH');
-        } else {
-            $imageTag = '{' . $type . '}';
-            $height   = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT');
-            $width    = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH');
+        $fields = RedshopHelperExtrafields::getSectionFieldList(
+            RedshopHelperExtrafields::SECTION_PRODUCT,
+            1,
+            1
+        );
+
+        if (count($fields) > 0) {
+            foreach ($fields as $field) {
+                $fieldValues = RedshopHelperExtrafields::getSectionFieldDataList(
+                    $field->id,
+                    1,
+                    $accessory->child_product_id
+                );
+
+                if ($fieldValues && $fieldValues->data_txt != ""
+                    && $field->show_in_front == 1 && $field->published == 1) {
+                    $this->replacements['{' . $field->name . '}']     = $fieldValues->data_txt;
+                    $this->replacements['{' . $field->name . '_lbl}'] = $field->title;
+                } else {
+                    $this->replacements['{' . $field->name . '}']     = '';
+                    $this->replacements['{' . $field->name . '_lbl}'] = '';
+                }
+            }
+
+            $template = $this->strReplace($this->replacements, $template);
         }
     }
 }

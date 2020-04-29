@@ -18,65 +18,61 @@ defined('_JEXEC') or die;
  */
 class PlgSystemRedSHOP extends JPlugin
 {
-	/**
-	 * Auto load language
-	 *
-	 * @var  string
-	 */
-	protected $autoloadLanguage = true;
+    /**
+     * Auto load language
+     *
+     * @var  string
+     */
+    protected $autoloadLanguage = true;
 
-	/**
-	 * onAfterDispatch function.
-	 *
-	 * @return void
-	 */
-	public function onAfterDispatch()
-	{
-		if (!JFactory::getApplication()->isSite())
-		{
-			return;
-		}
+    /**
+     * onAfterDispatch function.
+     *
+     * @return void
+     */
+    public function onAfterDispatch()
+    {
+        if (!JFactory::getApplication()->isSite()) {
+            return;
+        }
 
-		JLoader::import('redshop.library');
+        JLoader::import('redshop.library');
 
-		RedshopHelperJs::init();
-	}
+        RedshopHelperJs::init();
+    }
 
-	/**
-	 * onBeforeCompileHead function
-	 *
-	 * @return  void
-	 */
-	public function onBeforeCompileHead()
-	{
-		if (class_exists('RedshopHelperConfig'))
-		{
-			RedshopHelperConfig::scriptDeclaration();
-		}
+    /**
+     * onBeforeCompileHead function
+     *
+     * @return  void
+     */
+    public function onBeforeCompileHead()
+    {
+        if (class_exists('RedshopHelperConfig')) {
+            RedshopHelperConfig::scriptDeclaration();
+        }
 
-		if (JFactory::getApplication()->input->get('option') != 'com_redshop')
-		{
-			return;
-		}
+        if (JFactory::getApplication()->input->get('option') != 'com_redshop') {
+            return;
+        }
 
-		$doc = new RedshopHelperDocument;
-		$doc->cleanHeader();
-	}
+        $doc = new RedshopHelperDocument;
+        $doc->cleanHeader();
+    }
 
-	/**
-	 * onBeforeRender function.
-	 *
-	 * @return void
-	 */
-	public function onAfterInitialise()
-	{
-		// Set product currency
-		$session       = JFactory::getSession();
-		$newCurrencyId = JFactory::getApplication()->input->getInt('product_currency', 0);
+    /**
+     * onBeforeRender function.
+     *
+     * @return void
+     */
+    public function onAfterInitialise()
+    {
+        // Set product currency
+        $session       = JFactory::getSession();
+        $newCurrencyId = JFactory::getApplication()->input->getInt('product_currency', 0);
 
-		if ($newCurrencyId)
-		{
-			$session->set('product_currency', $newCurrencyId);
-		}
-	}
+        if ($newCurrencyId) {
+            $session->set('product_currency', $newCurrencyId);
+        }
+    }
 }

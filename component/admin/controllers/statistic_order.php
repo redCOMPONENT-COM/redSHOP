@@ -18,122 +18,131 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 {
-	/**
-	 * Proxy for getModel.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  object  The model.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function getModel($name = 'Statistic_Order', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
-	{
-		$model = parent::getModel($name, $prefix, $config);
+    /**
+     * Export orders CSV.
+     *
+     * @return  mixed.
+     *
+     * @since   2.0.0.3
+     */
+    public function exportOrder()
+    {
+        $model        = $this->getModel();
+        $data         = $model->exportOrder();
+        $noProducts   = $model->countProductByOrder();
+        $productCount = array();
 
-		return $model;
-	}
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Content-type: text/x-csv");
+        header("Content-type: text/csv");
+        header("Content-type: application/csv");
+        header('Content-Disposition: attachment; filename=Order.csv');
 
-	/**
-	 * Export orders CSV.
-	 *
-	 * @return  mixed.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function exportOrder()
-	{
-		$model         = $this->getModel();
-		$data          = $model->exportOrder();
-		$noProducts    = $model->countProductByOrder();
-		$productCount  = array();
+        for ($i = 0, $in = count($data); $i < $in; $i++) {
+            $productCount[] = $noProducts [$i]->noproduct;
+        }
 
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header("Content-type: text/x-csv");
-		header("Content-type: text/csv");
-		header("Content-type: application/csv");
-		header('Content-Disposition: attachment; filename=Order.csv');
+        $noProducts = max($productCount);
 
-		for ($i = 0, $in = count($data); $i < $in; $i++)
-		{
-			$productCount[] = $noProducts [$i]->noproduct;
-		}
+        ob_clean();
 
-		$noProducts = max($productCount);
+        echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address,";
+        echo "Shipping postalcode,Shipping city, Shipping country, Company name, Email ,Billing address,";
+        echo "Billing postalcode, Billing city, Billing country,Billing User ,";
 
-		ob_clean();
+        for ($i = 1; $i <= $noProducts; $i++) {
+            echo JText::_('COM_REDSHOP_PRODUCT_NAME') . $i . ' ,';
+            echo JText::_('COM_REDSHOP_PRODUCT') . ' ' . JText::_('COM_REDSHOP_PRODUCT_PRICE') . $i . ' ,';
+            echo JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE') . $i . ' ,';
+        }
 
-		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address,";
-		echo "Shipping postalcode,Shipping city, Shipping country, Company name, Email ,Billing address,";
-		echo "Billing postalcode, Billing city, Billing country,Billing User ,";
+        echo "Order Total\n";
 
-		for ($i = 1; $i <= $noProducts; $i++)
-		{
-			echo JText::_('COM_REDSHOP_PRODUCT_NAME') . $i . ' ,';
-			echo JText::_('COM_REDSHOP_PRODUCT') . ' ' . JText::_('COM_REDSHOP_PRODUCT_PRICE') . $i . ' ,';
-			echo JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE') . $i . ' ,';
-		}
+        for ($i = 0, $in = count($data); $i < $in; $i++) {
+            $billingInfo = RedshopHelperOrder::getOrderBillingUserInfo($data[$i]->order_id);
+            $details     = Redshop\Shipping\Rate::decrypt($data[$i]->ship_method_id);
 
-		echo "Order Total\n";
+            echo $data [$i]->order_id . ",";
+            echo utf8_decode(RedshopHelperOrder::getOrderStatusTitle($data [$i]->order_status)) . " ,";
+            echo date('d-m-Y H:i', $data[$i]->cdate) . " ,";
 
-		for ($i = 0, $in = count($data); $i < $in; $i++)
-		{
-			$billingInfo = RedshopHelperOrder::getOrderBillingUserInfo($data[$i]->order_id);
-			$details     = Redshop\Shipping\Rate::decrypt($data[$i]->ship_method_id);
+            if (empty($details)) {
+                echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
+            } else {
+                echo '';
+            }
 
-			echo $data [$i]->order_id . ",";
-			echo utf8_decode(RedshopHelperOrder::getOrderStatusTitle($data [$i]->order_status)) . " ,";
-			echo date('d-m-Y H:i', $data[$i]->cdate) . " ,";
+            $shippingInfo = RedshopHelperOrder::getOrderShippingUserInfo($data[$i]->order_id);
 
-			if (empty($details))
-			{
-				echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
-			}
-			else
-			{
-				echo '';
-			}
+            echo str_replace(",", " ", $shippingInfo->firstname) . " " . str_replace(
+                    ",",
+                    " ",
+                    $shippingInfo->lastname
+                ) . " ,";
+            echo str_replace(",", " ", utf8_decode($shippingInfo->address)) . " ,";
+            echo $shippingInfo->zipcode . " ,";
+            echo str_replace(",", " ", utf8_decode($shippingInfo->city)) . " ,";
+            echo $shippingInfo->country_code . " ,";
+            echo str_replace(",", " ", $shippingInfo->company_name) . " ,";
+            echo $shippingInfo->user_email . " ,";
 
-			$shippingInfo = RedshopHelperOrder::getOrderShippingUserInfo($data[$i]->order_id);
+            echo str_replace(",", " ", utf8_decode($billingInfo->address)) . " ,";
+            echo $billingInfo->zipcode . " ,";
+            echo str_replace(",", " ", utf8_decode($billingInfo->city)) . " ,";
+            echo $billingInfo->country_code . " ,";
+            echo str_replace(",", " ", $billingInfo->firstname) . " " . str_replace(
+                    ",",
+                    " ",
+                    $billingInfo->lastname
+                ) . " ,";
 
-			echo str_replace(",", " ", $shippingInfo->firstname) . " " . str_replace(",", " ", $shippingInfo->lastname) . " ,";
-			echo str_replace(",", " ", utf8_decode($shippingInfo->address)) . " ,";
-			echo $shippingInfo->zipcode . " ,";
-			echo str_replace(",", " ", utf8_decode($shippingInfo->city)) . " ,";
-			echo $shippingInfo->country_code . " ,";
-			echo str_replace(",", " ", $shippingInfo->company_name) . " ,";
-			echo $shippingInfo->user_email . " ,";
+            $noItems = RedshopHelperOrder::getOrderItemDetail($data[$i]->order_id);
 
-			echo str_replace(",", " ", utf8_decode($billingInfo->address)) . " ,";
-			echo $billingInfo->zipcode . " ,";
-			echo str_replace(",", " ", utf8_decode($billingInfo->city)) . " ,";
-			echo $billingInfo->country_code . " ,";
-			echo str_replace(",", " ", $billingInfo->firstname) . " " . str_replace(",", " ", $billingInfo->lastname) . " ,";
+            for ($it = 0, $countItem = count($noItems); $it < $countItem; $it++) {
+                echo str_replace(",", " ", utf8_decode($noItems[$it]->order_item_name)) . " ,";
+                echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $noItems[$it]->product_final_price . ",";
 
-			$noItems = RedshopHelperOrder::getOrderItemDetail($data[$i]->order_id);
+                $productAttribute = RedshopHelperProduct::makeAttributeOrder(
+                    $noItems[$it]->order_item_id,
+                    0,
+                    $noItems[$it]->product_id,
+                    0,
+                    1
+                );
+                $productAttribute = strip_tags(str_replace(",", " ", $productAttribute->product_attribute));
+                echo trim(utf8_decode($productAttribute)) . " ,";
+            }
 
-			for ($it = 0, $countItem = count($noItems); $it < $countItem; $it++)
-			{
-				echo str_replace(",", " ", utf8_decode($noItems[$it]->order_item_name)) . " ,";
-				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $noItems[$it]->product_final_price . ",";
+            $temp = $noProducts - count($noItems);
 
-				$productAttribute = RedshopHelperProduct::makeAttributeOrder($noItems[$it]->order_item_id, 0, $noItems[$it]->product_id, 0, 1);
-				$productAttribute = strip_tags(str_replace(",", " ", $productAttribute->product_attribute));
-				echo trim(utf8_decode($productAttribute)) . " ,";
-			}
+            if ($temp >= 0) {
+                echo str_repeat(' ,', $temp * 3);
+            }
 
-			$temp = $noProducts - count($noItems);
+            echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $data [$i]->order_total . "\n";
+        }
 
-			if ($temp >= 0)
-			{
-				echo str_repeat(' ,', $temp * 3);
-			}
+        exit();
+    }
 
-			echo  Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $data [$i]->order_total . "\n";
-		}
+    /**
+     * Proxy for getModel.
+     *
+     * @param   string  $name    The model name. Optional.
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  object  The model.
+     *
+     * @since   2.0.0.3
+     */
+    public function getModel(
+        $name = 'Statistic_Order',
+        $prefix = 'RedshopModel',
+        $config = array('ignore_request' => true)
+    ) {
+        $model = parent::getModel($name, $prefix, $config);
 
-		exit();
-	}
+        return $model;
+    }
 }

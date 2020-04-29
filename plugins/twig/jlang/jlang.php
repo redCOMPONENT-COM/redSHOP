@@ -23,16 +23,16 @@ use Twig\Environment;
  */
 class PlgTwigJlang extends BaseTwigPlugin
 {
-	/**
-	 * @param   Environment  $environment
-	 * @param                $params
-	 *
-	 *
-	 * @since 1.0.0
-	 */
-	public function onTwigAfterLoad(Environment $environment, $params)
-	{
-		$environment->addExtension(new TwigJLang);
-		$environment->addGlobal('jlang', Factory::getLanguage());
-	}
+    /**
+     * @param   Environment  $environment
+     * @param                $params
+     *
+     *
+     * @since 1.0.0
+     */
+    public function onTwigAfterLoad(Environment $environment, $params)
+    {
+        $environment->addExtension(new TwigJLang);
+        $environment->addGlobal('jlang', Factory::getLanguage());
+    }
 }

@@ -16,18 +16,18 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperManufacturer
 {
-	/**
-	 * Function getmanufacturers.
-	 *
-	 * @return array
-	 */
-	public static function getManufacturers()
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn(array('id', 'name')))
-			->from($db->qn('#__redshop_manufacturer'));
+    /**
+     * Function getmanufacturers.
+     *
+     * @return array
+     */
+    public static function getManufacturers()
+    {
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true)
+            ->select($db->qn(array('id', 'name')))
+            ->from($db->qn('#__redshop_manufacturer'));
 
-		return $db->setQuery($query)->loadObjectlist();
-	}
+        return $db->setQuery($query)->loadObjectlist();
+    }
 }

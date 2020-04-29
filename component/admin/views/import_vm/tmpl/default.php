@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -8,13 +9,13 @@
  */
 defined('_JEXEC') or die;
 
-$categories    = $this->model->countCategories();
-$products      = $this->model->countProducts();
+$categories = $this->model->countCategories();
+$products = $this->model->countProducts();
 $shopperGroups = $this->model->countShopperGroups();
-$users         = $this->model->countUsers();
+$users = $this->model->countUsers();
 $manufacturers = $this->model->countManufacturers();
 $orderStatuses = $this->model->countOrderStatuses();
-$orders        = $this->model->countOrders();
+$orders = $this->model->countOrders();
 ?>
 
 <?php if (!$this->checkVirtuemart): ?>
@@ -35,10 +36,10 @@ $orders        = $this->model->countOrders();
 
     function syncCategories(index) {
         (function ($) {
-            var next    = index + 1;
+            var next = index + 1;
             var percent = index / categories * 100;
             var $slide = $("#category_sync");
-            var $log    = $("#category_log");
+            var $log = $("#category_log");
             $slide.css("width", percent + "%");
             $slide.html(percent.toFixed(2) + "%");
             $slide.parent().removeClass("hidden");
@@ -65,7 +66,9 @@ $orders        = $this->model->countOrders();
                     if (next < categories) {
                         syncCategories(next);
                     } else {
-                        $slide.css("width", "100%").removeClass('progress-bar-striped active').html("<?php echo JText::_('COM_REDSHOP_IMPORT_VM_DONE') ?>")
+                        $slide.css("width", "100%").removeClass('progress-bar-striped active').html("<?php echo JText::_(
+                            'COM_REDSHOP_IMPORT_VM_DONE'
+                        ) ?>")
                             .addClass("progress-bar-success");
                         syncManufacturer(0);
                     }
@@ -87,10 +90,10 @@ $orders        = $this->model->countOrders();
 
     function syncManufacturer(index) {
         (function ($) {
-            var next    = index + 1;
+            var next = index + 1;
             var percent = index / manufacturers * 100;
             var $slide = $("#manufacturer_sync");
-            var $log    = $("#manufacturer_log");
+            var $log = $("#manufacturer_log");
             $slide.css("width", percent + "%");
             $slide.html(percent.toFixed(2) + "%");
             $slide.parent().removeClass("hidden");
@@ -140,10 +143,10 @@ $orders        = $this->model->countOrders();
 
     function syncShopperGroup(index) {
         (function ($) {
-            var next    = index + 1;
+            var next = index + 1;
             var percent = index / shopperGroups * 100;
             var $slide = $("#shoppergroup_sync");
-            var $log    = $("#shoppergroup_log");
+            var $log = $("#shoppergroup_log");
             $slide.css("width", percent + "%");
             $slide.html(percent.toFixed(2) + "%");
             $slide.parent().removeClass("hidden");
@@ -193,10 +196,10 @@ $orders        = $this->model->countOrders();
 
     function syncUser(index) {
         (function ($) {
-            var next    = index + 1;
+            var next = index + 1;
             var percent = index / users * 100;
             var $slide = $("#customer_sync");
-            var $log    = $("#customer_log");
+            var $log = $("#customer_log");
             $slide.css("width", percent + "%");
             $slide.html(percent.toFixed(2) + "%");
             $slide.parent().removeClass("hidden");
@@ -246,10 +249,10 @@ $orders        = $this->model->countOrders();
 
     function syncOrderStatus(index) {
         (function ($) {
-            var next    = index + 1;
+            var next = index + 1;
             var percent = index / orderStatuses * 100;
-            var $slide  = $("#orderstatus_sync");
-            var $log    = $("#orderstatus_log");
+            var $slide = $("#orderstatus_sync");
+            var $log = $("#orderstatus_log");
             $slide.css("width", percent + "%");
             $slide.html(percent.toFixed(2) + "%");
             $slide.parent().removeClass("hidden");
@@ -299,10 +302,10 @@ $orders        = $this->model->countOrders();
 
     function syncProduct(index) {
         (function ($) {
-            var next    = index + 1;
+            var next = index + 1;
             var percent = index / products * 100;
-            var $slide  = $("#product_sync");
-            var $log    = $("#product_log");
+            var $slide = $("#product_sync");
+            var $log = $("#product_log");
             $slide.css("width", percent + "%");
             $slide.html(percent.toFixed(2) + "%");
             $slide.parent().removeClass("hidden");
@@ -352,10 +355,10 @@ $orders        = $this->model->countOrders();
 
     function syncOrder(index) {
         (function ($) {
-            var next    = index + 1;
+            var next = index + 1;
             var percent = index / orders * 100;
-            var $slide  = $("#order_sync");
-            var $log    = $("#order_log");
+            var $slide = $("#order_sync");
+            var $log = $("#order_log");
             $slide.css("width", percent + "%");
             $slide.html(percent.toFixed(2) + "%");
             $slide.parent().removeClass("hidden");
@@ -435,12 +438,14 @@ $orders        = $this->model->countOrders();
     })(jQuery);
 </script>
 <style type="text/css">
-    .table-import-vm td { vertical-align: top !important; }
+    .table-import-vm td {
+        vertical-align: top !important;
+    }
 </style>
 <div class="row">
     <div class="col-md-12">
         <div class="btn btn-primary btn-large" id="start_import">
-			<?php echo JText::_('COM_REDSHOP_IMPORT_VM_START') ?>
+            <?php echo JText::_('COM_REDSHOP_IMPORT_VM_START') ?>
         </div>
     </div>
 </div>
@@ -558,5 +563,5 @@ $orders        = $this->model->countOrders();
             </tbody>
         </table>
     </div>
-	<?php endif; ?>
+    <?php endif; ?>
 </div>

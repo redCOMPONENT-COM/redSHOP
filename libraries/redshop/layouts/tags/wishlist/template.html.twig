@@ -1,0 +1,61 @@
+<div class='mod_redshop_wishlist'>
+    {% if userId == false %}
+        {% if countSesion > 0 %}
+            {{ content }}
+
+            {% if countNoUserField > 0 %}
+                <div id='saveid' style='clear:both' style='display:block'>
+                    <form method='post'>
+                        <input type='hidden' name='product_id' value='{{ myProductId }}'>
+                        <input type='button' onClick='return productalladdprice(1)'
+                               value='"{{ jtext('SAVE_WISHLIST') }}'>
+                    </form>
+                </div>
+            {% else %}
+                <div id='saveid' style='clear:both'>
+                    <input type='button' onClick='window.location = "{{ link }}"'
+                           value='{{ jtext('COM_REDSHOP_SAVE_WISHLIST') }}'>
+                </div>
+            {% endif %}
+        {% else %}
+            <div>{{ jtext('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') }}</div>
+        {% endif %}
+    {% else %}
+        {% if countSesion > 0 %}
+            {{ content }}
+
+            {% if countNoUserField > 0 %}
+                <div style='clear:both'>
+                    <a class="redcolorproductimg" href='{{ link }}'>
+                        <form method='post'>
+                            <input type='hidden' name='product_id' value='{{ myProductId }}'>
+                            <input type='button' onClick='return productalladdprice(2)'
+                                   value='{{ jtext('COM_REDSHOP_SAVE_WISHLIST') }}'>
+                        </form>
+                    </a>
+                </div>
+                <br/>
+            {% else %}
+                <div style="clear:both">
+                    <a class="redcolorproductimg" href='{{ link }}' data-productid='{{ myProductId }}'>
+                        <input type='button' value='{{ jtext('COM_REDSHOP_SAVE_WISHLIST') }}'>
+                    </a>
+                </div>
+                <br/>
+            {% endif %}
+        {% endif %}
+
+        {% if wishlists|length > 0 %}
+            <table>
+                {% for wishlist in wishlists %}
+                    <tr>
+                        <td><a href='{{ wishlist.wishlistLink }}'>{{ wishlist.wishlistName }}</a></td>
+                        <td><a href='{{ wishlist.delWishlist }}'>{{ jtext('COM_REDSHOP_DELETE') }}</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <div>{{ jtext('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') }}</div>
+        {% endif %}
+    {% endif %}
+</div>

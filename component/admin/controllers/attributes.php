@@ -18,21 +18,21 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerAttributes extends RedshopControllerAdmin
 {
-	/**
-	 * Proxy for getModel.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  object  The model.
-	 *
-	 * @since   2.0.0.2
-	 */
-	public function getModel($name = 'Attribute', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
-	{
-		$model = parent::getModel($name, $prefix, $config);
+    /**
+     * Proxy for getModel.
+     *
+     * @param   string  $name    The model name. Optional.
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  object  The model.
+     *
+     * @since   2.0.0.2
+     */
+    public function getModel($name = 'Attribute', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+    {
+        $model = parent::getModel($name, $prefix, $config);
 
-		return $model;
-	}
+        return $model;
+    }
 }

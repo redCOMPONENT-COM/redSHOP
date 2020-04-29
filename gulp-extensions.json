@@ -1,7 +1,6 @@
 {
   "components": [
-    "redshop",
-    "redshop.assets"
+    "redshop"
   ],
   "libraries": [
     "redshop"
@@ -13,7 +12,7 @@
     ]
   },
   "plugins": {
-    "content" : [
+    "content": [
       "rs_menuitem_sh404urls"
     ],
     "finder": [

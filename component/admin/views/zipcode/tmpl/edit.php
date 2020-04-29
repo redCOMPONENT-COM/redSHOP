@@ -17,8 +17,7 @@ echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' 
 ?>
 
 <script>
-    function getState2Code()
-    {
+    function getState2Code() {
         var filterData = {};
         filterData['<?php echo JSession::getFormToken(); ?>'] = 1;
         filterData['country_code'] = jQuery('#jform_country_code').val();
@@ -33,13 +32,13 @@ echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' 
             }
         }).done(function (data) {
             jQuery('#jform_state_code').html(data);
-            jQuery('#jform_state_code').select2({ width: 'resolve' });
+            jQuery('#jform_state_code').select2({width: 'resolve'});
             jQuery('#jform_state_code').val("<?php echo $this->item->state_code ?>").trigger('change');
             jQuery('#jform_state_code').select2
         });
     }
 
-    jQuery(window).load(function() {
+    jQuery(window).load(function () {
         filterData = jQuery('#jform_country_code').val();
 
         if (filterData != '') {

@@ -11,18 +11,18 @@ defined('_JEXEC') or die;
 
 class Tablealert_detail extends JTable
 {
-	public $id = 0;
+    public $id = 0;
 
-	public $message = null;
+    public $message = null;
 
-	public $sent_date = null;
+    public $sent_date = null;
 
-	public $read = 0;
+    public $read = 0;
 
-	public function __construct(&$db)
-	{
-		$this->_table_prefix = '#__redshop_';
+    public function __construct(&$db)
+    {
+        $this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'alert', 'id', $db);
-	}
+        parent::__construct($this->_table_prefix . 'alert', 'id', $db);
+    }
 }

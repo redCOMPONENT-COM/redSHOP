@@ -1,15 +1,15 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Class PluginManagerJoomla3Page
  *
- * @since  2.4
+ * @since  1.4.0
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
@@ -19,51 +19,61 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $URL = '/administrator/index.php?option=com_plugins';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $pluginSearch = "//input[@id='filter_search']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $searchButton = "//button[@type='submit' and @data-original-title='Search']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $searchResultRow = "//form[@id='adminForm']/div/table/tbody/tr[1]";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $pluginStatePath = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[3]/a";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $checkAll = "//input[@onclick='Joomla.checkAll(this)']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $firstCheck = "//input[@id='cb0']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $pluginEnabledSuccessMessage = "Plugin successfully enabled";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $btnDisable = 'Disable';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $messageDisable = "disabled";
 

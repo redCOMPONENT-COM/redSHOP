@@ -1,10 +1,14 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use AcceptanceTester\CategoryManagerJoomla3Steps;
+use AcceptanceTester\ProductManagerJoomla3Steps;
+use AcceptanceTester\VoucherManagerJoomla3Steps;
 
 /**
  * Class VoucherCheckoutProductCest
@@ -19,80 +23,98 @@ class VoucherCheckoutProductCest
 {
 	/**
 	 * @var \Faker\Generator
+	 * @since 1.4.0
 	 */
 	public $faker;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $randomVoucherCode;
 
 	/**
 	 * @var int
+	 * @since 1.4.0
 	 */
 	public $voucherAmount;
 
 	/**
 	 * @var int
+	 * @since 1.4.0
 	 */
 	public $voucherCount;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $startDate;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $endDate;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $randomCategoryName;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $productName;
 
 	/**
 	 * @var int
+	 * @since 1.4.0
 	 */
 	public $minimumPerProduct;
 
 	/**
 	 * @var int
+	 * @since 1.4.0
 	 */
 	public $minimumQuantity;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $discountStart;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $discountEnd;
 
 	/**
 	 * @var int
+	 * @since 1.4.0
 	 */
 	public $maximumQuantity;
 
 	/**
 	 * @var int
+	 * @since 1.4.0
 	 */
 	public $randomProductNumber;
 
 	/**
 	 * @var int
+	 * @since 1.4.0
 	 */
 	public $randomProductPrice;
 
-
+	/**
+	 * VoucherCheckoutProductCest constructor.
+	 * @since 1.4.0
+	 */
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
@@ -117,6 +139,11 @@ class VoucherCheckoutProductCest
 		$this->randomProductPrice  = 24;
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 * @since 1.4.0
+	 */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -128,20 +155,21 @@ class VoucherCheckoutProductCest
 	 *
 	 * @param AcceptanceTester $I
 	 * @param                  $scenario
-	 *
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function createCategory(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Voucher creation in Administrator');
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->randomCategoryName);
 
 		$I->wantTo('Test Voucher creation in Administrator');
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSave($this->productName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
 		$I->wantTo('Test Voucher creation in Administrator');
-		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+		$I = new VoucherManagerJoomla3Steps($scenario);
 		$I->addVoucher($this->randomVoucherCode, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount, $this->productName, 'validday');
 		$this->checkoutProductWithVoucherCode($I, $this->productName, $this->randomCategoryName, $this->randomVoucherCode);
 
@@ -159,19 +187,19 @@ class VoucherCheckoutProductCest
 	 * @param   string           $voucherCode    Code for the Coupon
 	 *
 	 * @return void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	private function checkoutProductWithVoucherCode(AcceptanceTester $I, $productName, $categoryName, $voucherCode)
 	{
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
-		$I->wait(3);
-		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-//		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
-//		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->amOnPage(\GiftCardCheckoutPage::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$I->fillField(\GiftCardCheckoutPage::$couponInput, $voucherCode);
@@ -182,23 +210,24 @@ class VoucherCheckoutProductCest
 		$I->see("DKK 14,00", \GiftCardCheckoutPage::$priceEnd);
 	}
 
-
 	/**
 	 * Function to Test Voucher Deletion
 	 *
 	 * @depends createCategory
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function deleteVoucher(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Deletion of Voucher in Administrator');
-		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+		$I = new VoucherManagerJoomla3Steps($scenario);
 		$I->deleteVoucher($this->randomVoucherCode);
 
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Product  in Administrator');
 		$I->deleteProduct($this->productName);
 
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Category in Administrator');
 		$I->deleteCategory($this->randomCategoryName);
 	}

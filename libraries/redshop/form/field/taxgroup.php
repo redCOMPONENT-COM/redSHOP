@@ -18,31 +18,31 @@ JFormHelper::loadFieldClass('list');
  */
 class RedshopFormFieldTaxgroup extends JFormFieldList
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  1.0
-	 */
-	public $type = 'Taxgroup';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  1.0
+     */
+    public $type = 'Taxgroup';
 
-	/**
-	 * Method to get the field input markup.
-	 *
-	 * @return  string  The field input markup.
-	 */
-	protected function getOptions()
-	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('id', 'value'))
-			->select($db->qn('name', 'text'))
-			->from($db->qn('#__redshop_tax_group'));
-		$options = $db->setQuery($query)->loadObjectList();
+    /**
+     * Method to get the field input markup.
+     *
+     * @return  string  The field input markup.
+     */
+    protected function getOptions()
+    {
+        $db      = JFactory::getDbo();
+        $query   = $db->getQuery(true)
+            ->select($db->qn('id', 'value'))
+            ->select($db->qn('name', 'text'))
+            ->from($db->qn('#__redshop_tax_group'));
+        $options = $db->setQuery($query)->loadObjectList();
 
-		$parentOptions = parent::getOptions();
-		$options = array_merge($parentOptions, $options);
+        $parentOptions = parent::getOptions();
+        $options       = array_merge($parentOptions, $options);
 
-		return $options;
-	}
+        return $options;
+    }
 }

@@ -18,34 +18,33 @@ defined('_JEXEC') or die;
  */
 class RedshopViewTemplates extends RedshopViewList
 {
-	/**
-	 * Display duplicate button or not.
-	 *
-	 * @var   boolean
-	 * @since  2.0.7
-	 */
-	protected $enableDuplicate = true;
+    /**
+     * Display duplicate button or not.
+     *
+     * @var   boolean
+     * @since  2.0.7
+     */
+    protected $enableDuplicate = true;
 
-	/**
-	 * Method for render 'Published' column
-	 *
-	 * @param   array   $config  Row config.
-	 * @param   int     $index   Row index.
-	 * @param   object  $row     Row data.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.0.7
-	 */
-	public function onRenderColumn($config, $index, $row)
-	{
-		if ($config['dataCol'] === 'section')
-		{
-			$return = RedshopHelperTemplate::getTemplateSections($row->section);
+    /**
+     * Method for render 'Published' column
+     *
+     * @param   array   $config  Row config.
+     * @param   int     $index   Row index.
+     * @param   object  $row     Row data.
+     *
+     * @return  string
+     *
+     * @since   2.0.7
+     */
+    public function onRenderColumn($config, $index, $row)
+    {
+        if ($config['dataCol'] === 'section') {
+            $return = RedshopHelperTemplate::getTemplateSections($row->section);
 
-			return is_string($return) ? $return : '';
-		}
+            return is_string($return) ? $return : '';
+        }
 
-		return parent::onRenderColumn($config, $index, $row);
-	}
+        return parent::onRenderColumn($config, $index, $row);
+    }
 }

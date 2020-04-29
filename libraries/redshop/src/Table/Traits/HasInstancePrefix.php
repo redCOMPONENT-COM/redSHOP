@@ -18,25 +18,24 @@ defined('_JEXEC') or die;
  */
 trait HasInstancePrefix
 {
-	/**
-	 * Instance prefix used for autoloading + events.
-	 *
-	 * @var    string
-	 */
-	protected $instancePrefix;
+    /**
+     * Instance prefix used for autoloading + events.
+     *
+     * @var    string
+     */
+    protected $instancePrefix;
 
-	/**
-	 * Get the class prefix
-	 *
-	 * @return  string
-	 */
-	public function getInstancePrefix()
-	{
-		if (null === $this->instancePrefix)
-		{
-			$this->instancePrefix = strtolower(strstr(get_class($this), 'Table', true));
-		}
+    /**
+     * Get the class prefix
+     *
+     * @return  string
+     */
+    public function getInstancePrefix()
+    {
+        if (null === $this->instancePrefix) {
+            $this->instancePrefix = strtolower(strstr(get_class($this), 'Table', true));
+        }
 
-		return $this->instancePrefix;
-	}
+        return $this->instancePrefix;
+    }
 }

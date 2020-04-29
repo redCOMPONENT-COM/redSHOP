@@ -2,17 +2,17 @@
 <form>
     <fields name="filter">
         <field
-            name="date_range"
-            type="Rdaterange"
-            label="COM_REDSHOP_STATISTIC_CUSTOMER_FILTER_DATE_RANGE"
-            placeholder="COM_REDSHOP_STATISTIC_CUSTOMER_FILTER_DATE_RANGE_DESC"
-            format="DD.MM.YYYY"
-            phpFormat="d.m.Y"
-            first_day="1"
-            auto_apply="true"
-            class="form-control"
-            onChange="document.adminForm.submit();"
-            />
+                name="date_range"
+                type="Rdaterange"
+                label="COM_REDSHOP_STATISTIC_CUSTOMER_FILTER_DATE_RANGE"
+                placeholder="COM_REDSHOP_STATISTIC_CUSTOMER_FILTER_DATE_RANGE_DESC"
+                format="DD.MM.YYYY"
+                phpFormat="d.m.Y"
+                first_day="1"
+                auto_apply="true"
+                class="form-control"
+                onChange="document.adminForm.submit();"
+        />
     </fields>
     <fields name="list">
         <field
@@ -23,6 +23,6 @@
                 description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
                 onchange="this.form.submit();"
                 class="form-control"
-                />
+        />
     </fields>
 </form>

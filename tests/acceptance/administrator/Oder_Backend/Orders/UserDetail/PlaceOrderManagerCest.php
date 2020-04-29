@@ -1,6 +1,15 @@
 <?php
+/**
+ * @package     redSHOP
+ * @subpackage  Cest
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
 use AcceptanceTester\CategoryManagerJoomla3Steps;
+use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
+use AcceptanceTester\UserManagerJoomla3Steps;
 
 /**
  * Class PlaceOrderManagerCest
@@ -13,6 +22,106 @@ use AcceptanceTester\ProductManagerJoomla3Steps;
  */
 class PlaceOrderManagerCest
 {
+    /**
+     * @var \Faker\Generator
+     * @since 2.1.2
+     */
+    protected $faker;
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    protected $userName;
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    protected $password;
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    protected $email;
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    protected $emailMissingUser;
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    protected $emailsave;
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    protected $shopperGroup;
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    protected $group;
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    protected $firstName;
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    protected $updateFirstName;
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    protected $lastName;
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    protected $categoryName;
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    protected $productName;
+
+    /**
+     * @var int
+     * @since 2.1.2
+     */
+    protected $randomProductNumber;
+
+    /**
+     * @var int
+     * @since 2.1.2
+     */
+    protected $randomProductPrice;
+
+    /**
+     * @var int
+     * @since 2.1.2
+     */
+    protected $quantity;
+
+    /**
+     * PlaceOrderManagerCest constructor
+     * @since 2.1.2
+     */
 	public function __construct()
 	{
 		$this->faker                        = Faker\Factory::create();
@@ -36,6 +145,8 @@ class PlaceOrderManagerCest
 
 	/**
 	 * @param AcceptanceTester $I
+     * @throws \Exception
+     * @since 2.1.2
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -46,6 +157,7 @@ class PlaceOrderManagerCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
+     * @since 2.1.2
 	 */
 	public function createProduct(AcceptanceTester $I, $scenario)
 	{
@@ -64,11 +176,13 @@ class PlaceOrderManagerCest
 	 *
 	 * @param AcceptanceTester $I
 	 * @param $scenario
+     * @throws \Exception
+     * @since 2.1.2
 	 */
 	public function createOder(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test User creation with save button in Administrator');
-		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
+		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'saveclose');
 
 		$I->wantTo('Create Oder');
@@ -83,7 +197,7 @@ class PlaceOrderManagerCest
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Delete Oder');
-		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
+		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->wantTo('Test Order delete by user  in Administrator');
 		$I->deleteOrder($this->firstName);
 
@@ -96,7 +210,7 @@ class PlaceOrderManagerCest
 		$I->deleteCategory($this->categoryName);
 
 		$I->wantTo('Deletion of User in Administrator');
-		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
+		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName, 'true');
 	}
 }

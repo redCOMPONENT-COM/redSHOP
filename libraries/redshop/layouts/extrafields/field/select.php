@@ -24,22 +24,23 @@ extract($displayData);
 ?>
 
 <td valign="top" width="100" align="right" class="key">
-	<?php echo $extraFieldLabel; ?>
+    <?php echo $extraFieldLabel; ?>
 </td>
 <td>
-	<select 
-		name="<?php echo $rowData->name; ?>" 
-		class="<?php echo $rowData->class; ?>" 
-		id="<?php echo $rowData->name; ?>"
-		<?php echo $required; ?>
-		<?php echo $requiredLabel; ?>
-		<?php echo $errorMsg; ?>
-	>
-		<option><?php echo JText::_('COM_REDSHOP_SELECT'); ?></option>
-		<?php foreach ($fieldCheck as $key => $field) : ?>
-			<?php $selected = (!empty($checkData) && (in_array(urlencode($field->field_value), $checkData)) ||
-				in_array($field->field_value, $checkData)) ? ' selected="selected" ' : ''; ?>
-			<option <?php echo $selected; ?> value="<?php echo $field->field_value; ?>"><?php echo $field->field_name; ?></option>
-		<?php endforeach; ?>
-	</select>
+    <select
+            name="<?php echo $rowData->name; ?>"
+            class="<?php echo $rowData->class; ?>"
+            id="<?php echo $rowData->name; ?>"
+        <?php echo $required; ?>
+        <?php echo $requiredLabel; ?>
+        <?php echo $errorMsg; ?>
+    >
+        <option><?php echo JText::_('COM_REDSHOP_SELECT'); ?></option>
+        <?php foreach ($fieldCheck as $key => $field) : ?>
+            <?php $selected = (!empty($checkData) && (in_array(urlencode($field->field_value), $checkData)) ||
+                in_array($field->field_value, $checkData)) ? ' selected="selected" ' : ''; ?>
+            <option <?php echo $selected; ?>
+                    value="<?php echo $field->field_value; ?>"><?php echo $field->field_name; ?></option>
+        <?php endforeach; ?>
+    </select>
 </td>	

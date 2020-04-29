@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -13,15 +14,15 @@ defined('_JEXEC') or die;
 <fieldset class="adminform">
     <div class="row">
         <div class="col-md-12">
-			<?php
-			echo RedshopLayoutHelper::render(
-				'config.group',
-				array(
-					'title'   => JText::_('COM_REDSHOP_MENUHIDE'),
-					'content' => $this->loadTemplate('menuhide')
-				)
-			);
-			?>
+            <?php
+            echo RedshopLayoutHelper::render(
+                'config.group',
+                array(
+                    'title'   => JText::_('COM_REDSHOP_MENUHIDE'),
+                    'content' => $this->loadTemplate('menuhide')
+                )
+            );
+            ?>
         </div>
     </div>
 </fieldset>

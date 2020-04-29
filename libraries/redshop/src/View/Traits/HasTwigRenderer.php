@@ -3,8 +3,8 @@
  * @package     Phproberto.Joomla-Twig
  * @subpackage  Twig
  *
- * @copyright  Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
- * @license    See COPYING.txt
+ * @copyright   Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
+ * @license     See COPYING.txt
  */
 
 namespace Redshop\Twig\View\Traits;
@@ -20,85 +20,80 @@ use Redshop\Twig\Twig;
  */
 trait HasTwigRenderer
 {
-	/**
-	 * Component option.
-	 *
-	 * @var  string
-	 */
-	protected $option;
+    /**
+     * Component option.
+     *
+     * @var  string
+     */
+    protected $option;
 
-	/**
-	 * Get the data that will be sent to renderer.
-	 *
-	 * @return  array
-	 */
-	abstract protected function getLayoutData();
+    /**
+     * Load a template file -- first look in the templates folder for an override
+     *
+     * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
+     *
+     * @return  string  The output of the the template script.
+     *
+     * @throws  \Exception
+     */
+    public function loadTemplate($tpl = null)
+    {
+        $layout = $this->getLayout();
+        $tpl    = $tpl ? $layout . '_' . $tpl : $layout;
 
-	/**
-	 * Get this component option.
-	 *
-	 * @return  string
-	 */
-	public function getOption()
-	{
-		if (null === $this->option)
-		{
-			$this->option = $this->getOptionFromPrefix();
-		}
+        $renderer = Twig::instance();
 
-		return $this->option;
-	}
+        $data   = $this->getLayoutData();
+        $prefix = '@component/' . $this->getOption() . '/' . $this->getName();
 
-	/**
-	 * Get the component from the prefix. Ex.: ContentViewArticle will return com_content
-	 *
-	 * @return  string
-	 */
-	protected function getOptionFromPrefix()
-	{
-		$class = get_class($this);
+        $name = $prefix . '/' . $tpl . '.html.twig';
 
-		if (false !== strpos($class, '\\'))
-		{
-			$name = array_filter(explode('\\', strstr($class, 'View', true)));
-			$name = strtolower(end($name));
-		}
-		else
-		{
-			$name = strtolower(strstr($class, 'View', true));
-		}
+        if ($renderer->environment()->getLoader()->exists($name)) {
+            return $renderer->render($name, $data);
+        }
 
-		return 'com_' . strtolower($name);
-	}
+        $name = $prefix . '/default.html.twig';
 
-	/**
-	 * Load a template file -- first look in the templates folder for an override
-	 *
-	 * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
-	 *
-	 * @return  string  The output of the the template script.
-	 *
-	 * @throws  \Exception
-	 */
-	public function loadTemplate($tpl = null)
-	{
-		$layout = $this->getLayout();
-		$tpl = $tpl ? $layout . '_' . $tpl : $layout;
+        return $renderer->render($name, $data);
+    }
 
-		$renderer = Twig::instance();
+    /**
+     * Get the data that will be sent to renderer.
+     *
+     * @return  array
+     */
+    abstract protected function getLayoutData();
 
-		$data = $this->getLayoutData();
-		$prefix = '@component/' . $this->getOption() . '/' . $this->getName();
+    /**
+     * Get this component option.
+     *
+     * @return  string
+     */
+    public function getOption()
+    {
+        if (null === $this->option) {
+            $this->option = $this->getOptionFromPrefix();
+        }
 
-		$name = $prefix . '/' . $tpl . '.html.twig';
+        return $this->option;
+    }
 
-		if ($renderer->environment()->getLoader()->exists($name))
-		{
-			return $renderer->render($name, $data);
-		}
+    /**
+     * Get the component from the prefix. Ex.: ContentViewArticle will return com_content
+     *
+     * @return  string
+     */
+    protected function getOptionFromPrefix()
+    {
+        $class = get_class($this);
 
-		$name = $prefix . '/default.html.twig';
+        if (false !== strpos($class, '\\')) {
+            $name = array_filter(explode('\\', strstr($class, 'View', true)));
+            $name = strtolower(end($name));
+        } else {
+            $name = strtolower(strstr($class, 'View', true));
+        }
 
-		return $renderer->render($name, $data);
-	}
+        return 'com_' . strtolower($name);
+    }
 }

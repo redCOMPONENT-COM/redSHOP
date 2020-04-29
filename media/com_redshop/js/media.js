@@ -81,9 +81,9 @@ var rsMedia = {
      *
      * @return  {[type]}  [description]
      */
-    cropping: function(jDropzone) {
+    cropping: function (jDropzone) {
 
-        $(document).on('click', 'button.rs-media-cropping',function(e) {
+        $(document).on('click', 'button.rs-media-cropping', function (e) {
             e.preventDefault();
             // ignore files which were already cropped and re-rendered
             // to prevent infinite loop
@@ -147,7 +147,7 @@ var rsMedia = {
             console.log('abc');
 
             // listener for 'Crop and Upload' button in modal
-            $uploadCrop.on('click', function() {
+            $uploadCrop.on('click', function () {
                 // get cropped image data
                 var blob = $img.cropper('getCroppedCanvas').toDataURL();
                 // transform it to Blob object
@@ -174,7 +174,7 @@ var rsMedia = {
      *
      * @return  {void}
      */
-    dropzone: function() {
+    dropzone: function () {
         // Disable DropzoneJS auto discover and apply default settings
         Dropzone.autoDiscover = false;
 
@@ -208,7 +208,7 @@ var rsMedia = {
      *
      * @return  {void}
      */
-    dropzoneEvents: function(jDropzone) {
+    dropzoneEvents: function (jDropzone) {
         // jDropzone.on("maxfilesreached", function(file) {
         // 	console.log("trigger reach max: %s", this.files.length);
         // 	if (this.files.length > 1) {
@@ -217,7 +217,7 @@ var rsMedia = {
         // 	}
         // });
 
-        jDropzone.on('addedfile',  function(file) {
+        jDropzone.on('addedfile', function (file) {
             if (file.type.indexOf("image/") < 0) {
                 this.removeFile(file);
                 $('#alertModal').find('.alert-text').text('You can not upload this type of file!');
@@ -233,7 +233,7 @@ var rsMedia = {
             $('#j-dropzone').parent().find('.btn.rs-media-cropping').removeClass('disabled').prop('disabled', false);
         });
 
-        jDropzone.on('success', function(file, response){
+        jDropzone.on('success', function (file, response) {
             response = JSON.parse(response);
             if (response.success) {
                 $(".img-select").val(response.data.file.url);
@@ -249,7 +249,7 @@ var rsMedia = {
         // 	$('#alertModal').modal('show');
         // });
 
-        $(document).on('click', 'button.rs-media-removing',function(e) {
+        $(document).on('click', 'button.rs-media-removing', function (e) {
             jDropzone.removeAllFiles();
             $(".img-select").val('');
             $('#j-dropzone').parent().find('.btn.rs-media-removing').addClass('disabled').prop('disabled', true);
@@ -271,7 +271,7 @@ var rsMedia = {
      *
      * @return  {void}
      */
-    dropzonePreload: function(jDropzone, file) {
+    dropzonePreload: function (jDropzone, file) {
         if (file) {
             // Preload file from server
             newfile = rsMedia.dataURItoBlob(file.blob);
@@ -291,14 +291,14 @@ var rsMedia = {
      *
      * @return  Blob
      */
-    dataURItoBlob: function(dataURI) {
+    dataURItoBlob: function (dataURI) {
         var byteString = atob(dataURI.split(',')[1]);
         var ab = new ArrayBuffer(byteString.length);
         var ia = new Uint8Array(ab);
         for (var i = 0; i < byteString.length; i++) {
             ia[i] = byteString.charCodeAt(i);
         }
-        return new Blob([ab], { type: 'image/jpg' });
+        return new Blob([ab], {type: 'image/jpg'});
     },
 
     /**
@@ -306,7 +306,7 @@ var rsMedia = {
      *
      * @return  {void}
      */
-    init: function() {
+    init: function () {
         // set limit for backdrop
         $.fn.modalmanager.defaults.backdropLimit = 1;
 
@@ -321,7 +321,7 @@ var rsMedia = {
      *
      * @return  {void}
      */
-    galleryDropzone: function() {
+    galleryDropzone: function () {
         // check if Dropzone HTML was included
         if ($('#g-dropzone').length) {
             // Initialize new Dropzone
@@ -348,23 +348,23 @@ var rsMedia = {
      *
      * @return  {void}
      */
-    galleryEvents: function(galleryId) {
+    galleryEvents: function (galleryId) {
         if (typeof galleryId == "undefined" || galleryId == "")
             galleryId = "galleryModal";
 
         // open gallery modal
-        $(".choosing").on('click', function(e){
+        $(".choosing").on('click', function (e) {
             e.preventDefault();
 
             $("#" + galleryId).modal('show');
         });
 
         // Click on gallery items
-        $(document).on('click', "#" + galleryId + " .img-obj", function(e){
+        $(document).on('click', "#" + galleryId + " .img-obj", function (e) {
             e.preventDefault();
             if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
-            } else{
+            } else {
                 $("#" + galleryId + " .img-obj").removeClass('selected');
                 $(this).addClass('selected');
                 rsMedia.showInfoThumbnail(this);
@@ -374,7 +374,7 @@ var rsMedia = {
         });
 
         // change filters
-        $("#" + galleryId + " #type-filter").on("change", function(e){
+        $("#" + galleryId + " #type-filter").on("change", function (e) {
             var value = $(this).val();
             if (value == 'all') {
                 $("#" + galleryId + " .img-obj").parent().removeClass('hidden');
@@ -387,12 +387,12 @@ var rsMedia = {
             }
 
             // filter by media type
-            $("#" + galleryId + " .img-obj > img:not([data-media="+value+"])").parent().parent().addClass('hidden');
-            $("#" + galleryId + " .img-obj > img[data-media="+value+"]").parent().parent().removeClass('hidden');
+            $("#" + galleryId + " .img-obj > img:not([data-media=" + value + "])").parent().parent().addClass('hidden');
+            $("#" + galleryId + " .img-obj > img[data-media=" + value + "]").parent().parent().removeClass('hidden');
         });
 
         // insert and image
-        $("#" + galleryId + " .btn-insert").on('click', function(e) {
+        $("#" + galleryId + " .btn-insert").on('click', function (e) {
             e.preventDefault();
 
             var imgObj = $("#" + galleryId + " .img-obj.selected").find('img').first();
@@ -404,10 +404,10 @@ var rsMedia = {
             xhr.open("GET", imgUrl);
             xhr.responseType = "blob";
             xhr.send();
-            xhr.addEventListener("load", function() {
+            xhr.addEventListener("load", function () {
                 var reader = new FileReader();
                 reader.readAsDataURL(xhr.response);
-                reader.addEventListener("loadend", function() {
+                reader.addEventListener("loadend", function () {
                     var newFile = rsMedia.dataURItoBlob(reader.result);
                     newFile.name = imgObj.attr('alt');
                     rsMedia.dropzoneInstance.addFile(newFile);
@@ -417,7 +417,7 @@ var rsMedia = {
         });
 
         // open delete gallery modal
-        $("#" + galleryId + " .btn-del-g").on('click', function(e){
+        $("#" + galleryId + " .btn-del-g").on('click', function (e) {
             e.preventDefault();
 
             $("#" + galleryId + "Delete .btn-confirm-del-g").data('id', $(this).data('id'));
@@ -429,7 +429,7 @@ var rsMedia = {
         });
 
         // confirm delete item
-        $("#" + galleryId + "Delete .btn-confirm-del-g").on('click', function(e){
+        $("#" + galleryId + "Delete .btn-confirm-del-g").on('click', function (e) {
             e.preventDefault();
 
             console.log('abc');
@@ -441,23 +441,23 @@ var rsMedia = {
                     method: 'post',
                     data: {id: id}
                 })
-                .done(function(response){
-                    $("#" + galleryId).find(".img-obj.selected").parent().remove();
-                    $("#" + galleryId + " .pv-wrapper").addClass('hidden');
-                })
-                .always(function(e){
-                    $("#" + galleryId + "Delete").modal('hide');
-                });
+                    .done(function (response) {
+                        $("#" + galleryId).find(".img-obj.selected").parent().remove();
+                        $("#" + galleryId + " .pv-wrapper").addClass('hidden');
+                    })
+                    .always(function (e) {
+                        $("#" + galleryId + "Delete").modal('hide');
+                    });
             }
         });
     },
 
-    galleryDropzoneEvents: function(gDropzone) {
-        gDropzone.on("sending", function(file, xhr, data) {
+    galleryDropzoneEvents: function (gDropzone) {
+        gDropzone.on("sending", function (file, xhr, data) {
             data.append("new", true);
         });
 
-        gDropzone.on('success', function(file, res) {
+        gDropzone.on('success', function (file, res) {
             res = JSON.parse(res);
             var file = res.data.file;
             var item = $('#g-item-tpl').html();
@@ -479,11 +479,11 @@ var rsMedia = {
             $item.find('.img-mime').data('mime', file.mime);
             if (file.mime != '') {
                 $itemObj.find('i.fa')
-                .removeClass('fa-file-o')
-                .addClass('fa-file-' + file.mime + '-o');
+                    .removeClass('fa-file-o')
+                    .addClass('fa-file-' + file.mime + '-o');
                 $item.find('.img-mime i.fa')
-                .removeClass('fa-file-o')
-                .addClass('fa-file-' + file.mime + '-o');
+                    .removeClass('fa-file-o')
+                    .addClass('fa-file-' + file.mime + '-o');
             }
             $item.find('.img-name').text(file.name);
             $("#upload-lib .list-pane").append($item[0]);
@@ -500,8 +500,7 @@ var rsMedia = {
      *
      * @return  {void}
      */
-    showInfoThumbnail: function(elem)
-    {
+    showInfoThumbnail: function (elem) {
         var $imgObj = $(elem).find('.img-type');
 
         var info = {
@@ -523,7 +522,7 @@ var rsMedia = {
         $pane.find('.pv-name').text(info.name);
         $pane.find('.pv-size').text(info.size);
         $pane.find('.pv-dimension').text(info.dimension);
-        $pane.find('.pv-url').html('<input type="text" value="'+info.url+'" class="form-control" readonly="true">');
+        $pane.find('.pv-url').html('<input type="text" value="' + info.url + '" class="form-control" readonly="true">');
         $pane.find('.pv-remove > a').data('id', info.id);
 
         $pane.find('.pv-wrapper').removeClass('hidden');
@@ -534,8 +533,7 @@ var rsMedia = {
      *
      * @return  {void}
      */
-    resetInfoThumbnail: function()
-    {
+    resetInfoThumbnail: function () {
         var $pane = $(".preview-pane");
         if ($(".img-obj.selected").length <= 0) {
             $pane.find('.pv-wrapper').addClass('hidden');
@@ -547,8 +545,7 @@ var rsMedia = {
      *
      * @return  {void}
      */
-    toggleInsert: function()
-    {
+    toggleInsert: function () {
         if ($(".img-obj.selected").length > 0) {
             $(".btn-insert").removeAttr('disabled');
         } else {

@@ -1,8 +1,8 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,6 +26,7 @@ class ManufacturerCest extends AbstractCest
 	 * Name field, which is use for search
 	 *
 	 * @var string
+     * @since 1.4.0
 	 */
 	public $nameField = 'name';
 
@@ -33,6 +34,7 @@ class ManufacturerCest extends AbstractCest
 	 * Method for set new data.
 	 *
 	 * @return  array
+     * @since 1.4.0
 	 */
 	protected function prepareNewData()
 	{
@@ -53,6 +55,7 @@ class ManufacturerCest extends AbstractCest
      * @return  void
      *
      * @depends testItemCreate
+     * @since 1.4.0
      */
     public function deleteDataSave(\AcceptanceTester $tester, Codeception\Scenario $scenario)
     {
@@ -72,7 +75,7 @@ class ManufacturerCest extends AbstractCest
      * @param   Codeception\Scenario  $scenario  Scenario
      *
      * @return  void
-     *
+     * @since 1.4.0
      * @depends testItemCreateSaveClose
      */
     public function deleteDataSaveClose(\AcceptanceTester $tester, Codeception\Scenario $scenario)
@@ -87,7 +90,7 @@ class ManufacturerCest extends AbstractCest
     }
 	/**
 	 * Method for set new data.
-	 *
+	 * @since 1.4.0
 	 * @return  array
 	 */
 	protected function prepareEditData()
@@ -105,7 +108,7 @@ class ManufacturerCest extends AbstractCest
 	 *
 	 * @param   AcceptanceTester $client   Tester
 	 * @param   Scenario         $scenario Scenario
-	 *
+	 * @since 1.4.0
 	 * @return  void
 	 */
 	public function checkCancelButton(AcceptanceTester $client, Scenario $scenario)
@@ -123,7 +126,7 @@ class ManufacturerCest extends AbstractCest
 	 *
 	 * @param   AcceptanceTester $tester   Tester
 	 * @param   Scenario         $scenario Scenario
-	 *
+	 * @since 1.4.0
 	 * @return  void
 	 */
 	public function badCaseMissingName(AcceptanceTester $tester, Scenario $scenario)
@@ -141,7 +144,7 @@ class ManufacturerCest extends AbstractCest
 	 *
 	 * @param   AcceptanceTester $tester   Tester
 	 * @param   Scenario         $scenario Scenario
-	 *
+	 * @since 1.4.0
 	 * @return  void
 	 */
 	public function badCaseWrongEmailFormat(AcceptanceTester $tester, Scenario $scenario)

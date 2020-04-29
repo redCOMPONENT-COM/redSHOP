@@ -12,7 +12,7 @@
                    disable="separator"
                    label="COM_REDSHOP_LOGOUT_REDIRECTION_PAGE"
                    description="COM_REDSHOP_PARAMLOGOUTREDIRECTURL"
-                    />
+            />
         </fieldset>
     </fields>
     <fields name="params">

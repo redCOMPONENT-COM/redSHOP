@@ -16,107 +16,110 @@ defined('_JEXEC') || die;
  */
 class RedshopTagsSectionsLogin extends RedshopTagsAbstract
 {
-	public $tags = array(
-		'{rs_username}', '{rs_username_lbl}', '{rs_password}', '{rs_password_lbl}',
-		'{rs_login_button}', '{forget_password_link}'
-	);
+    public $tags = array(
+        '{rs_username}',
+        '{rs_username_lbl}',
+        '{rs_password}',
+        '{rs_password_lbl}',
+        '{rs_login_button}',
+        '{forget_password_link}'
+    );
 
-	public function init()
-	{
+    public function init()
+    {
+    }
 
-	}
+    public function replace()
+    {
+        $layoutOption = RedshopLayoutHelper::$layoutOption;
 
-	public function replace()
-	{
-		$layoutOption = RedshopLayoutHelper::$layoutOption;
+        $txtUsername = RedshopLayoutHelper::render(
+            'tags.common.input',
+            array(
+                'id'    => 'username',
+                'name'  => 'username',
+                'class' => 'inputbox',
+                'type'  => 'text'
+            ),
+            '',
+            $layoutOption
+        );
 
-		$txtUsername = RedshopLayoutHelper::render(
-			'tags.common.input',
-			array(
-				'id' => 'username',
-				'name' => 'username',
-				'class' => 'inputbox',
-				'type' => 'text'
-			),
-			'',
-			$layoutOption
-		);
+        $this->addReplace('{rs_username}', $txtUsername);
 
-		$this->addReplace('{rs_username}', $txtUsername);
+        $usernameLbl = RedshopLayoutHelper::render(
+            'tags.common.label',
+            array(
+                'id'   => 'username',
+                'name' => 'username',
+                'text' => JText::_('COM_REDSHOP_USERNAME'),
+            ),
+            '',
+            $layoutOption
+        );
 
-		$usernameLbl = RedshopLayoutHelper::render(
-			'tags.common.label',
-			array(
-				'id' => 'username',
-				'name' => 'username',
-				'text' => JText::_('COM_REDSHOP_USERNAME'),
-			),
-			'',
-			$layoutOption
-		);
+        $this->addReplace('{rs_username_lbl}', $usernameLbl);
 
-		$this->addReplace('{rs_username_lbl}', $usernameLbl);
+        $txtPassword = RedshopLayoutHelper::render(
+            'tags.common.input',
+            array(
+                'id'    => 'password',
+                'name'  => 'password',
+                'class' => 'inputbox',
+                'type'  => 'password'
+            ),
+            '',
+            $layoutOption
+        );
 
-		$txtPassword = RedshopLayoutHelper::render(
-			'tags.common.input',
-			array(
-				'id' => 'password',
-				'name' => 'password',
-				'class' => 'inputbox',
-				'type' => 'password'
-			),
-			'',
-			$layoutOption
-		);
+        $this->addReplace('{rs_password}', $txtPassword);
 
-		$this->addReplace('{rs_password}', $txtPassword);
+        $passwordLbl = RedshopLayoutHelper::render(
+            'tags.common.label',
+            array(
+                'id'   => 'password',
+                'name' => 'password',
+                'text' => JText::_('COM_REDSHOP_PASSWORD')
+            ),
+            '',
+            $layoutOption
+        );
 
-		$passwordLbl = RedshopLayoutHelper::render(
-			'tags.common.label',
-			array(
-				'id' => 'password',
-				'name' => 'password',
-				'text' => JText::_('COM_REDSHOP_PASSWORD')
-			),
-			'',
-			$layoutOption
-		);
+        $this->addReplace('{rs_password_lbl}', $passwordLbl);
 
-		$this->addReplace('{rs_password_lbl}', $passwordLbl);
+        $loginButton = RedshopLayoutHelper::render(
+            'tags.login.button',
+            array(
+                'returnUrl' => $this->data['returnUrl'],
+                'Itemid'    => $this->data['Itemid']
+            ),
+            '',
+            $layoutOption
+        );
 
-		$loginButton = RedshopLayoutHelper::render(
-			'tags.login.button',
-			array(
-				'returnUrl' => $this->data['returnUrl'],
-				'Itemid' => $this->data['Itemid']
-			),
-			'',
-			$layoutOption
-		);
+        $this->addReplace('{rs_login_button}', $loginButton);
 
-		$this->addReplace('{rs_login_button}', $loginButton);
+        $forgotPwd = RedshopLayoutHelper::render(
+            'tags.common.link',
+            array(
+                'link'    => JRoute::_('index.php?option=com_users&view=reset'),
+                'content' => JText::_('COM_REDSHOP_FORGOT_PWD_LINK')
+            ),
+            '',
+            $layoutOption
+        );
 
-		$forgotPwd = RedshopLayoutHelper::render(
-			'tags.common.link',
-			array(
-				'link' => JRoute::_('index.php?option=com_users&view=reset'),
-				'content' => JText::_('COM_REDSHOP_FORGOT_PWD_LINK')
-			),
-			'',
-			$layoutOption
-		);
+        $this->addReplace('{forget_password_link}', $forgotPwd);
 
-		$this->addReplace('{forget_password_link}', $forgotPwd);
+        $this->template = RedshopLayoutHelper::render(
+            'tags.login.form',
+            array(
+                'content' => $this->template
+            ),
+            '',
+            $layoutOption
+        );
 
-		$this->template = RedshopLayoutHelper::render(
-			'tags.login.form',
-			array(
-				'content' => $this->template
-			),
-			'',
-			$layoutOption
-		);
-
-		return parent::replace();
-	}
+        return parent::replace();
+    }
 }
