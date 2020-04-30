@@ -1,9 +1,20 @@
 <?php
+/**
+ * @package     redSHOP
+ * @subpackage  Cest
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategorySteps;
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutSteps;
 use Configuration\ConfigurationSteps;
 
+/**
+ * Class CompareProductsCest
+ * @since 3.0.2
+ */
 class CompareProductsCest
 {
 	/**
@@ -116,31 +127,34 @@ class CompareProductsCest
 
 	public function __construct()
 	{
-		$this->faker = Faker\Factory::create();
-		$this->ProductName = $this->faker->bothify('Testing Product ??####?');
-		$this->CategoryName = $this->faker->bothify('CategoryName ?###?');;
+		$this->faker             = Faker\Factory::create();
+		$this->ProductName       = $this->faker->bothify('Testing Product ??####?');
+		$this->CategoryName      = $this->faker->bothify('CategoryName ?###?');;
 		$this->minimumPerProduct = 1;
-		$this->minimumQuantity = 1;
-		$this->maximumQuantity = $this->faker->numberBetween(100, 1000);
-		$this->discountStart = "12-12-2016";
-		$this->discountEnd = "23-05-2017";
-		$this->productNumber = $this->faker->numberBetween(999, 9999);
-		$this->productPrice = 100;
+		$this->minimumQuantity   = 1;
+		$this->maximumQuantity   = $this->faker->numberBetween(100, 1000);
+		$this->discountStart     = "12-12-2016";
+		$this->discountEnd       = "23-05-2017";
+		$this->productNumber     = $this->faker->numberBetween(999, 9999);
+		$this->productPrice      = 100;
 
-		$this->subtotal="DKK 100,00";
-		$this->Discount ="DKK 50,00";
-		$this->Total="DKK 50,00";
+		$this->subtotal = "DKK 100,00";
+		$this->Discount = "DKK 50,00";
+		$this->Total    = "DKK 50,00";
 
-		$this->productNameCompares = $this->faker->bothify('Product Compare ??####?');
+		$this->productNameCompares   = $this->faker->bothify('Product Compare ??####?');
 		$this->productNumberCompares = $this->faker->numberBetween(999, 9999);
-		$this->productPriceCompares = 80;
+		$this->productPriceCompares  = 80;
 
-		$this->productPriceDKK = "DKK 100,00";
+		$this->productPriceDKK         = "DKK 100,00";
 		$this->productPriceComparesDKK = "DKK 80,00";
-
 	}
 
-
+	/**
+	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 * @since 3.0.2
+	 */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -149,6 +163,8 @@ class CompareProductsCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
+	 * @throws \Exception
+	 * @since 3.0.2
 	 */
 	public function compareProducts(AcceptanceTester $I, $scenario)
 	{
@@ -175,6 +191,12 @@ class CompareProductsCest
 		$I->comparesProducts($this->CategoryName, $this->ProductName,$this->productNameCompares);
 	}
 
+	/**
+	 * @param ProductSteps $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 3.0.2
+	 */
 	public function deleteDataEnd(ProductSteps $I, $scenario)
 	{
 		$I->wantTo('Delete Product in Administrator');

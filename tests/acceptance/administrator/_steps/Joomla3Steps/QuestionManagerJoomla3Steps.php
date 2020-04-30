@@ -1,11 +1,14 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace AcceptanceTester;
+use QuestionManagerJoomla3Page;
+
 /**
  * Class QuestionManagerJoomla3Steps
  *
@@ -25,27 +28,29 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string  $question         Question which is to be asked
 	 *
 	 * @return void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function addQuestion($productName = 'redSHOEMANIAC', $userPhoneNumber = '123456', $question = 'Why is this Happening')
 	{
 		$I = $this;
-		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
-		$questionManagerPage = new \QuestionManagerJoomla3Page;
+		$I->amOnPage(QuestionManagerJoomla3Page::$URL);
+		$questionManagerPage = new QuestionManagerJoomla3Page;
 		$I->verifyNotices(false, $this->checkForNotices(), 'Question Manager Page');
 		$I->click('New');
-		$I->waitForElement(\QuestionManagerJoomla3Page::$userPhone,30);
-		$I->fillField(\QuestionManagerJoomla3Page::$userPhone, $userPhoneNumber);
-		$I->click(\QuestionManagerJoomla3Page::$productNameDropDown);
-		$I->fillField(\QuestionManagerJoomla3Page::$productNameSearchField, $productName);
+		$I->waitForElement(QuestionManagerJoomla3Page::$userPhone,30);
+		$I->fillField(QuestionManagerJoomla3Page::$userPhone, $userPhoneNumber);
+		$I->click(QuestionManagerJoomla3Page::$productNameDropDown);
+		$I->fillField(QuestionManagerJoomla3Page::$productNameSearchField, $productName);
 		$I->waitForElement($questionManagerPage->productName($productName),60);
 		$I->click($questionManagerPage->productName($productName));
-		$I->scrollTo(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor,0,-200);
-		$I->click(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
-		$I->fillField(\QuestionManagerJoomla3Page::$question, $question);
-		$I->click(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
+		$I->scrollTo(QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor,0,-200);
+		$I->click(QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
+		$I->fillField(QuestionManagerJoomla3Page::$question, $question);
+		$I->click(QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
 		$I->click('Save & Close');
-		$I->waitForText(\QuestionManagerJoomla3Page::$questionSuccessMessage,60,['id' => 'system-message-container']);
-		$I->see(\QuestionManagerJoomla3Page::$questionSuccessMessage,['id' => 'system-message-container']);
+		$I->waitForText(QuestionManagerJoomla3Page::$questionSuccessMessage,60,QuestionManagerJoomla3Page::$idInstallSuccess);
+		$I->see(QuestionManagerJoomla3Page::$questionSuccessMessage,QuestionManagerJoomla3Page::$idInstallSuccess);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click('Reset');
 		$I->wait(1);
@@ -62,25 +67,27 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string  $updatedQuestion  New Question
 	 *
 	 * @return void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function editQuestion($question = 'Why is this Happening', $updatedQuestion = 'Updated question')
 	{
 		$I = $this;
-		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
+		$I->amOnPage(QuestionManagerJoomla3Page::$URL);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
-		$I->see($question, \QuestionManagerJoomla3Page::$firstResultRow);
-		$I->click(\QuestionManagerJoomla3Page::$selectFirst);
+		$I->see($question, QuestionManagerJoomla3Page::$firstResultRow);
+		$I->click(QuestionManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
-		$I->waitForElement(\QuestionManagerJoomla3Page::$userPhone,30);
-		$I->scrollTo(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor,0,-200);
-		$I->click(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
-		$I->fillField(\QuestionManagerJoomla3Page::$question, $updatedQuestion);
-		$I->click(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
+		$I->waitForElement(QuestionManagerJoomla3Page::$userPhone,30);
+		$I->scrollTo(QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor,0,-200);
+		$I->click(QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
+		$I->fillField(QuestionManagerJoomla3Page::$question, $updatedQuestion);
+		$I->click(QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
 		$I->click('Save & Close');
-		$I->waitForText(\QuestionManagerJoomla3Page::$questionSuccessMessage,60,['id' => 'system-message-container']);
-		$I->see(\QuestionManagerJoomla3Page::$questionSuccessMessage, ['id' => 'system-message-container']);
-		$I->see($updatedQuestion, \QuestionManagerJoomla3Page::$firstResultRow);
+		$I->waitForText(QuestionManagerJoomla3Page::$questionSuccessMessage,60, QuestionManagerJoomla3Page::$idInstallSuccess);
+		$I->see(QuestionManagerJoomla3Page::$questionSuccessMessage, QuestionManagerJoomla3Page::$idInstallSuccess);
+		$I->see($updatedQuestion, QuestionManagerJoomla3Page::$firstResultRow);
 		$I->click(['link' => 'ID']);
 	}
 
@@ -91,18 +98,19 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string  $state     State of the Question
 	 *
 	 * @return void
+	 * @since 1.4.0
 	 */
 	public function changeQuestionState($question, $state = 'unpublish')
 	{
 		$I = $this;
-		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
+		$I->amOnPage(QuestionManagerJoomla3Page::$URL);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click('Reset');
 		$I->wait(1);
 		$I->fillField(['id' => 'filter'], $question);
 		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->wait(1);
-		$I->checkOption(\QuestionManagerJoomla3Page::$selectFirst);
+		$I->checkOption(QuestionManagerJoomla3Page::$selectFirst);
 
 		if ($state == 'unpublish')
 		{
@@ -121,10 +129,11 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string  $functionName  Name of the function After Which search is being Called
 	 *
 	 * @return void
+	 * @since 1.4.0
 	 */
 	public function searchQuestion($question, $functionName = 'Search')
 	{
-		$this->search(new \QuestionManagerJoomla3Page, $question, \QuestionManagerJoomla3Page::$firstResultRow, $functionName);
+		$this->search(new QuestionManagerJoomla3Page, $question, QuestionManagerJoomla3Page::$firstResultRow, $functionName);
 	}
 
 	/**
@@ -133,10 +142,12 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   String  $question  Question  for which state is to be fetched
 	 *
 	 * @return string
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function getQuestionState($question)
 	{
-		$result = $this->getState(new \QuestionManagerJoomla3Page, $question, \QuestionManagerJoomla3Page::$firstResultRow, \QuestionManagerJoomla3Page::$questionStatePath);
+		$result = $this->getState(new QuestionManagerJoomla3Page, $question, QuestionManagerJoomla3Page::$firstResultRow, QuestionManagerJoomla3Page::$questionStatePath);
 
 		return $result;
 	}
@@ -147,18 +158,19 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   String  $question  Question which  is to be Deleted
 	 *
 	 * @return void
+	 * @since 1.4.0
 	 */
 	public function deleteQuestion($question)
 	{
 		$I = $this;
-		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
+		$I->amOnPage(QuestionManagerJoomla3Page::$URL);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click('Reset');
 		$I->wait(1);
 		$I->fillField(['id' => 'filter'], $question);
 		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->wait(1);
-		$I->checkOption(\QuestionManagerJoomla3Page::$selectFirst);
+		$I->checkOption(QuestionManagerJoomla3Page::$selectFirst);
 		$I->click('Delete');
 		$I->wait(1);
 		$I->dontSee($question, ['id' => 'adminform']);
