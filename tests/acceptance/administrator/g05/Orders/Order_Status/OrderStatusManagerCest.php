@@ -2,7 +2,7 @@
 /**
  * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,14 +16,8 @@ use Configuration\ConfigurationSteps;
 
 /**
  * Class OrderStatusManagerCest
- *
- * @package  AcceptanceTester
- *
- * @link     http://codeception.com/docs/07-AdvancedUsage
- *
- * @since    2.4
+ * @since 3.0.2
  */
-
 class OrderStatusManagerCest
 {
 	/**
@@ -56,9 +50,36 @@ class OrderStatusManagerCest
 	 */
 	protected $paymentMethod;
 
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $orderStatusName;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $orderStatusCode;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $changeName;
+
+	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	protected $product;
+
+	/**
+	 * OrderStatusManagerCest constructor.
+	 * @since 2.1.3
+	 */
 	public function __construct()
 	{
-		//create user for quotation
 		$this->faker           = Faker\Factory::create();
 		$this->orderStatusName = $this->faker->bothify('ManageNameStatus ?##?');
 		$this->orderStatusCode = $this->faker->bothify('?##?');
@@ -87,8 +108,11 @@ class OrderStatusManagerCest
 
 		$this->paymentMethod = 'RedSHOP - Bank Transfer Payment';
 	}
+
 	/**
 	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 * @since 2.1.3
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -103,6 +127,7 @@ class OrderStatusManagerCest
 	 * @return  void
 	 *
 	 * @throws  Exception
+	 * @since 2.1.3
 	 */
 	public function createEditDeleteOrderStatus(AcceptanceTester $I, $scenario)
 	{

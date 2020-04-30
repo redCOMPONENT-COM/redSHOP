@@ -1,8 +1,8 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -328,13 +328,13 @@ class GiftCardCheckoutProductCest
 	{
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester($scenario);
-		$I->amOnPage(\CouponPage::$url);
+		$I->amOnPage(CouponPage::$url);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
-		$I->waitForElement(\CouponPage::$selectValueCoupon, 30);
-		$I->click(\CouponPage::$selectValueCoupon);
-		$I->waitForElement(\CouponPage::$idFromCode, 30);
-		$this->couponCode = $I->grabValueFrom(\CouponPage::$idFromCode);
+		$I->waitForElement(CouponPage::$selectValueCoupon, 30);
+		$I->click(CouponPage::$selectValueCoupon);
+		$I->waitForElement(CouponPage::$idFromCode, 30);
+		$this->couponCode = $I->grabValueFrom(CouponPage::$idFromCode);
 	}
 
 	/**

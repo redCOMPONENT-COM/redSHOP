@@ -1,41 +1,94 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
+
 /**
  * Class ProductNotForSaleOnFrontendCest
- *
- * @package  AcceptanceTester
- *
- * @link     http://codeception.com/docs/07-AdvancedUsage
- *
- * @since    2.4
+ * @since 1.4.0
  */
 class ProductNotForSaleOnFrontendCest
 {
+	/**
+	 * @var \Faker\Generator
+	 * @since 1.4.0
+	 */
+	protected $faker;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $productName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $categoryName;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $minimumPerProduct;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $minimumQuantity;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $maximumQuantity;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $productNumber;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $price;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $showPriceYes;
+
+	/**
+	 * ProductNotForSaleOnFrontendCest constructor.
+	 * @since 1.4.0
+	 */
 	public function __construct()
 	{
-		$this->faker = Faker\Factory::create();
-		$this->productName = 'ProductName' . rand(100, 999);
-		$this->categoryName = "CategoryName" . rand(1, 100);
+		$this->faker             = Faker\Factory::create();
+		$this->productName       = $this->faker->bothify('Product name ?###?');
+		$this->categoryName      = $this->faker->bothify('Category name ?###?');
 		$this->minimumPerProduct = 1;
-		$this->minimumQuantity = 1;
-		$this->maximumQuantity = $this->faker->numberBetween(100, 1000);
-		$this->ProductNumber = $this->faker->numberBetween(999, 9999);
-		$this->price = $this->faker->numberBetween(100, 999);
-		$this->saleYes = 'Yes';
-		$this->saleNo = 'No';
-		$this->showPriceYes = 'Yes';
-		$this->showPriceNo = 'No';
+		$this->minimumQuantity   = 1;
+		$this->maximumQuantity   = $this->faker->numberBetween(100, 1000);
+		$this->productNumber     = $this->faker->numberBetween(999, 9999);
+		$this->price             = $this->faker->numberBetween(100, 999);
+		$this->showPriceYes      = 'Yes';
 	}
 
 	/**
 	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 * @since 1.4.0
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -44,12 +97,10 @@ class ProductNotForSaleOnFrontendCest
 
 	/**
 	 * @param AcceptanceTester $I
-	 *
 	 * @param   \Codeception\Scenario $scenario Scenario
-	 *
 	 * @return  void
-	 *
 	 * @throws  Exception
+	 * @since 1.4.0
 	 */
 	public function productNotForSaleOnFrontend(AcceptanceTester $I, $scenario)
 	{
@@ -59,7 +110,7 @@ class ProductNotForSaleOnFrontendCest
 
 		$I->wantTo('create product with stockroom in Administrator');
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->createProductNotForSale($this->productName, $this->ProductNumber, $this->price, $this->categoryName);
+		$I->createProductNotForSale($this->productName, $this->productNumber, $this->price, $this->categoryName);
 
 		$I->wantTo("I want to check product have show price in frontend");
 		$I = new ProductManagerJoomla3Steps($scenario);

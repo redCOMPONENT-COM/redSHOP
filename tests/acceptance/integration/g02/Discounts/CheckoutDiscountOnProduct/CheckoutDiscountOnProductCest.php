@@ -1,6 +1,9 @@
 <?php
 /**
- * Checkout with product discount on price
+ * @package     redSHOP
+ * @subpackage  Cest
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use AcceptanceTester\CategoryManagerJoomla3Steps;
@@ -19,102 +22,163 @@ class CheckoutDiscountOnProductCest
 {
 	/**
 	 * @var \Faker\Generator
+	 * @since 1.6.0
 	 */
 	public $faker;
 
 	/**
 	 * @var string
+	 * @since 1.6.0
 	 */
 	public $productName;
 
 	/**
 	 * @var string
+	 * @since 1.6.0
 	 */
 	public $categoryName;
 
 	/**
 	 * @var integer
+	 * @since 1.6.0
 	 */
 	public $minimumPerProduct;
 
 	/**
 	 * @var integer
+	 * @since 1.6.0
 	 */
 	public $minimumQuantity;
 
 	/**
 	 * @var integer
+	 * @since 1.6.0
 	 */
 	public $maximumQuantity;
 
 	/**
 	 * @var string
+	 * @since 1.6.0
 	 */
 	public $discountStart;
 
 	/**
 	 * @var string
+	 * @since 1.6.0
 	 */
 	public $discountEnd;
 
 	/**
 	 * @var integer
+	 * @since 1.6.0
 	 */
 	public $randomProductNumber;
 
 	/**
 	 * @var integer
+	 * @since 1.6.0
 	 */
 	public $randomProductPrice;
 
 	/**
 	 * @var string
+	 * @since 1.6.0
 	 */
 	public $subtotal;
 
 	/**
 	 * @var string
+	 * @since 1.6.0
 	 */
 	public $discount;
 
 	/**
 	 * @var string
+	 * @since 1.6.0
 	 */
 	public $total;
 
 	/**
 	 * @var integer
+	 * @since 1.6.0
 	 */
 	public $productPrice;
 
 	/**
 	 * @var integer
+	 * @since 1.6.0
 	 */
 	public $condition;
 
 	/**
 	 * @var integer
+	 * @since 1.6.0
 	 */
 	public $type;
 
 	/**
 	 * @var integer
+	 * @since 1.6.0
 	 */
 	public $discountAmount;
 
 	/**
 	 * @var string
+	 * @since 1.6.0
 	 */
 	public $groupName;
 
 	/**
+	 * @var string
+	 * @since 1.6.0
+	 */
+	protected $userName;
+
+	/**
+	 * @var string
+	 * @since 1.6.0
+	 */
+	protected $password;
+
+	/**
+	 * @var string
+	 * @since 1.6.0
+	 */
+	protected $email;
+
+	/**
+	 * @var string
+	 * @since 1.6.0
+	 */
+	protected $shopperGroup;
+
+	/**
+	 * @var string
+	 * @since 1.6.0
+	 */
+	protected $group;
+
+	/**
+	 * @var string
+	 * @since 1.6.0
+	 */
+	protected $firstName;
+
+	/**
+	 * @var string
+	 * @since 1.6.0
+	 */
+	protected $lastName;
+
+	/**
 	 * CheckoutDiscountOnProductCest constructor.
+	 * @since 1.6.0
 	 */
 	public function __construct()
 	{
 		$this->faker               = Faker\Factory::create();
-		$this->productName         = 'ProductName' . rand(100, 999);
-		$this->categoryName        = "CategoryName" . rand(1, 100);
+        $this->productName         = $this->faker->bothify('Product testing ??##?');
+        $this->categoryName        = $this->faker->bothify('Category testing ??##?');
 		$this->minimumPerProduct   = 1;
 		$this->minimumQuantity     = 1;
 		$this->maximumQuantity     = $this->faker->numberBetween(100, 1000);
@@ -130,13 +194,13 @@ class CheckoutDiscountOnProductCest
 		$this->type                = "Percentage";
 		$this->discountAmount      = 50;
 		$this->groupName           = "Default Private";
-        $this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
-        $this->password = $this->faker->bothify('Password ?##?');
-        $this->email = $this->faker->email;
-        $this->shopperGroup = 'Default Private';
-        $this->group = 'Super Users';
-        $this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
-        $this->lastName = 'Last';
+		$this->userName            = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+		$this->password            = $this->faker->bothify('Password ?##?');
+		$this->email               = $this->faker->email;
+		$this->shopperGroup        = 'Default Private';
+		$this->group               = 'Super Users';
+		$this->firstName           = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->lastName            = 'Last';
 	}
 
 	/**
@@ -145,6 +209,8 @@ class CheckoutDiscountOnProductCest
 	 * @param   AcceptanceTester $I
 	 *
 	 * @return  void
+	 * @since 1.6.0
+	 * @throws \Exception
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -163,6 +229,8 @@ class CheckoutDiscountOnProductCest
 	 * @param  mixed            $scenario
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since 1.6.0
 	 */
 	public function checkoutOnProductPrice(AcceptanceTester $I, $scenario)
 	{

@@ -1,8 +1,8 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,8 +23,10 @@ class CouponSteps extends AbstractStep
 
 	/**
 	 * @param array $data
+	 * @param $type
 	 * @param $startDate
 	 * @param $endDate
+	 * @throws Exception
 	 * @since 2.1.3
 	 */
 	public function checkStartDateLargerThanEndDate($data = array(), $type, $startDate, $endDate)
