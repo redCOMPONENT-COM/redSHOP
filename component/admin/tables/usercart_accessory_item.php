@@ -18,37 +18,32 @@ defined('_JEXEC') or die;
  */
 class RedshopTableUsercart_Accessory_Item extends \Redshop\Table\AbstractTable
 {
-	/**
-	 * The table name without the prefix. Ex: cursos_courses
-	 *
-	 * @var  string
-	 */
-	protected $_tableName = 'redshop_usercart_accessory_item';
-
-	/**
-	 * The table key column. Usually: id
-	 *
-	 * @var  string
-	 */
-	protected $_tableKey = 'cart_acc_item_id';
-
-	/**
-	 * @var integer
-	 */
-	public $cart_acc_item_id = 0;
-
-	/**
-	 * @var integer
-	 */
-	public $cart_item_id = 0;
-
-	/**
-	 * @var integer
-	 */
-	public $accessoryId = 0;
-
-	/**
-	 * @var integer
-	 */
-	public $accessory_quantity = 0;
+    /**
+     * @var integer
+     */
+    public $cart_acc_item_id = 0;
+    /**
+     * @var integer
+     */
+    public $cart_item_id = 0;
+    /**
+     * @var integer
+     */
+    public $accessoryId = 0;
+    /**
+     * @var integer
+     */
+    public $accessory_quantity = 0;
+    /**
+     * The table name without the prefix. Ex: cursos_courses
+     *
+     * @var  string
+     */
+    protected $_tableName = 'redshop_usercart_accessory_item';
+    /**
+     * The table key column. Usually: id
+     *
+     * @var  string
+     */
+    protected $_tableKey = 'cart_acc_item_id';
 }

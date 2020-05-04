@@ -18,22 +18,21 @@ defined('_JEXEC') or die;
  */
 class RedshopViewCatalog extends RedshopViewForm
 {
-	/**
-	 * Method for prepare field HTML
-	 *
-	 * @param   object  $field  Group object
-	 *
-	 * @return  boolean|string  False if keep. String for HTML content if success.
-	 *
-	 * @since   2.1.2
-	 */
-	public function prepareField($field)
-	{
-		if ($field->getAttribute('name') == 'media')
-		{
-			return false;
-		}
+    /**
+     * Method for prepare field HTML
+     *
+     * @param   object  $field  Group object
+     *
+     * @return  boolean|string  False if keep. String for HTML content if success.
+     *
+     * @since   2.1.2
+     */
+    public function prepareField($field)
+    {
+        if ($field->getAttribute('name') == 'media') {
+            return false;
+        }
 
-		return parent::/** @scrutinizer ignore-call */ prepareField($field);
-	}
+        return parent::/** @scrutinizer ignore-call */ prepareField($field);
+    }
 }

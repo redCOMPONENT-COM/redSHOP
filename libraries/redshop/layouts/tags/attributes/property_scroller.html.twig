@@ -14,28 +14,28 @@
             <a class="leftButton" id="FirstButton" href="javascript:isFlowers{{ commonId }}.scrollReverse();"></a>
         </td>
         <td>
-            <div id="isFlowersFrame{{ commonId }}" name="isFlowersFrame{{ commonId }}" style="margin: 0px; padding: 0px;position: relative; overflow: hidden;">
-                <div id="isFlowersImageRow{{ commonId }}" name="isFlowersImageRow{{ commonId }}" style="position: absolute; top: 0px;left: 0px;">
+            <div id="isFlowersFrame{{ commonId }}" name="isFlowersFrame{{ commonId }}"
+                 style="margin: 0px; padding: 0px;position: relative; overflow: hidden;">
+                <div id="isFlowersImageRow{{ commonId }}" name="isFlowersImageRow{{ commonId }}"
+                     style="position: absolute; top: 0px;left: 0px;">
                     <script type="text/javascript">
                         var isFlowers{{ commonId }} = new ImageScroller("isFlowersFrame{{ commonId }}", "isFlowersImageRow{{ commonId }}");
                         {% for property in properties %}
-                            {% set borderStyle = (selectedProperty == property.value) ? " 1px solid " : "" %}
-                            {%
-                                set thumbUrl = redSHOPCall(
-                                'RedshopHelperMedia',
-                                'getImagePath',
-                                [
-                                    property.property_image,
-                                    '\'\'',
-                                    'thumb',
-                                    'product_attributes',
-                                    width,
-                                    height,
-                                    'USE_IMAGE_SIZE_SWAPPING' | redconfig
-                                ]
-                                )
-                            %}
-                            isFlowers{{ commonId }}.addThumbnail("{{ thumbUrl }}", "javascript:isFlowers{{ commonId }}.scrollImageCenter(\"{{ loop.index }}\");setPropImage(\"{{ productId }}\", \"{{ propertyId }}\", \"{{ property.value }}\");changePropertyDropdown(\"{{ productId }}\", \"{{ accessoryId }}\", \"{{ relatedProductId }}\", \"{{ attribute.value }}\", \"{{ property.value }}\", \"{{ width }}\", \"{{ height }}\");", "{{ property.text }}", "", "{{ propertyId }}_propimg_{{ property.value }}", "{{ borderStyle }}");
+                        {% set borderStyle = (selectedProperty == property.value) ? " 1px solid " : "" %}
+                        {% set thumbUrl = redSHOPCall(
+                            'RedshopHelperMedia',
+                            'getImagePath',
+                            [
+                                property.property_image,
+                                '\'\'',
+                                'thumb',
+                                'product_attributes',
+                                width,
+                                height,
+                                'USE_IMAGE_SIZE_SWAPPING' | redconfig
+                            ]
+                            ) %}
+                        isFlowers{{ commonId }}.addThumbnail("{{ thumbUrl }}", "javascript:isFlowers{{ commonId }}.scrollImageCenter(\"{{ loop.index }}\");setPropImage(\"{{ productId }}\", \"{{ propertyId }}\", \"{{ property.value }}\");changePropertyDropdown(\"{{ productId }}\", \"{{ accessoryId }}\", \"{{ relatedProductId }}\", \"{{ attribute.value }}\", \"{{ property.value }}\", \"{{ width }}\", \"{{ height }}\");", "{{ property.text }}", "", "{{ propertyId }}_propimg_{{ property.value }}", "{{ borderStyle }}");
                         {% endfor %}
                         isFlowers{{ commonId }}.setThumbnailHeight({{ atth }});
                         isFlowers{{ commonId }}.setThumbnailWidth({{ attw }});

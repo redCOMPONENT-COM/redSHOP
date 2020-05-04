@@ -21,6 +21,7 @@ class Tool
     /**
      * @param $db
      * @param $query
+     *
      * @return bool
      */
     public static function safeExecute(\JDatabaseDriver $db, $query)
@@ -35,6 +36,7 @@ class Tool
         } catch (\Exception $e) {
             $db->transactionRollback();
             \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
             return false;
         }
 
@@ -42,10 +44,11 @@ class Tool
     }
 
     /**
-     * @param $db
-     * @param $query
-     * @param bool $getList
-     * @param null $defaultReturn
+     * @param         $db
+     * @param         $query
+     * @param   bool  $getList
+     * @param   null  $defaultReturn
+     *
      * @return null
      */
     public static function safeSelect(\JDatabaseDriver $db, $query, $getList = false, $defaultReturn = null)
@@ -54,9 +57,11 @@ class Tool
             if ($getList) {
                 return $db->setQuery($query)->loadObjectList();
             }
+
             return $db->setQuery($query)->loadObject();
         } catch (\RuntimeException $e) {
             \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
             return $defaultReturn;
         }
     }

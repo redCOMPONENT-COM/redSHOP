@@ -517,7 +517,7 @@ abstract class AdminJ3Page
 	 * @var array
 	 * @since 2.1.2
 	 */
-	public static $paymentPayPad = "//input[@id='rs_payment_paypal1']";
+	public static $paymentPayPad = "//input[@value='rs_payment_paypal']";
 
 	/**
 	 * @var array
@@ -664,6 +664,12 @@ abstract class AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $addAccessory = '//input[@totalattributs="0"]';
+
+    /**
+     * @var string
+     * @since 3.0.2
+     */
+	public static $select2Results = "//ul[@class='select2-results']/li[1]/div";
 
 	/**
 	 * @param $menuCategory

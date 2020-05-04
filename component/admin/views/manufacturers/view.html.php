@@ -18,47 +18,45 @@ defined('_JEXEC') or die;
  */
 class RedshopViewManufacturers extends RedshopViewList
 {
-	/**
-	 * @var  boolean
-	 */
-	public $hasOrdering = true;
+    /**
+     * @var  boolean
+     */
+    public $hasOrdering = true;
 
-	/**
-	 * @var  boolean
-	 */
-	public $enableDuplicate = true;
+    /**
+     * @var  boolean
+     */
+    public $enableDuplicate = true;
 
-	/**
-	 * Method for render 'Published' column
-	 *
-	 * @param   array   $config  Row config.
-	 * @param   int     $index   Row index.
-	 * @param   object  $row     Row data.
-	 *
-	 * @return  string
-	 * @throws  Exception
-	 *
-	 * @since   2.0.7
-	 */
-	public function onRenderColumn($config, $index, $row)
-	{
-		if ($config['dataCol'] !== 'media')
-		{
-			return parent::onRenderColumn($config, $index, $row);
-		}
+    /**
+     * Method for render 'Published' column
+     *
+     * @param   array   $config  Row config.
+     * @param   int     $index   Row index.
+     * @param   object  $row     Row data.
+     *
+     * @return  string
+     * @throws  Exception
+     *
+     * @since   2.0.7
+     */
+    public function onRenderColumn($config, $index, $row)
+    {
+        if ($config['dataCol'] !== 'media') {
+            return parent::onRenderColumn($config, $index, $row);
+        }
 
-		$media = RedshopEntityManufacturer::getInstance($row->id)->getMedia();
+        $media = RedshopEntityManufacturer::getInstance($row->id)->getMedia();
 
-		if (!$media->isValid())
-		{
-			return '';
-		}
+        if (!$media->isValid()) {
+            return '';
+        }
 
-		$mediaFile = $media->generateThumb(100, 100);
+        $mediaFile = $media->generateThumb(100, 100);
 
-		return '<a class="joom-box img-thumbnail" href="' . $media->getAbsImagePath() . '"'
-			. 'rel="{handler: \'image\', size: {}}">'
-			. '<img src="' . $mediaFile['abs'] . '" height="50" width="50"/>'
-			. '</a>';
-	}
+        return '<a class="joom-box img-thumbnail" href="' . $media->getAbsImagePath() . '"'
+            . 'rel="{handler: \'image\', size: {}}">'
+            . '<img src="' . $mediaFile['abs'] . '" height="50" width="50"/>'
+            . '</a>';
+    }
 }

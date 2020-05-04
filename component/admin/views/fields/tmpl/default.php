@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -8,7 +9,7 @@
  */
 defined('_JEXEC') or die;
 
-$filterSection = (int) $this->state->get('filter.field_section');
+$filterSection = (int)$this->state->get('filter.field_section');
 
 echo RedshopLayoutHelper::render('view.list', array('data' => $this));
 
@@ -40,37 +41,37 @@ echo RedshopLayoutHelper::render('view.list', array('data' => $this));
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <h4 class="modal-title" id="fieldsAssignGroupLabel">
-						<?php echo JText::_('COM_REDSHOP_FIELDS_MASS_ASSIGN_GROUP_MODAL_TITLE') ?>
+                        <?php echo JText::_('COM_REDSHOP_FIELDS_MASS_ASSIGN_GROUP_MODAL_TITLE') ?>
                     </h4>
                 </div>
                 <div class="modal-body">
-					<?php if (!empty($this->fieldGroups)): ?>
+                    <?php if (!empty($this->fieldGroups)): ?>
                         <ul class="list-group no-margin">
                             <li class="list-group-item">
                                 <label>
                                     <input type="radio" name="field_assign_group" value="" checked="checked"/>
-			                        <?php echo JText::_('COM_REDSHOP_FIELDS_MASS_ASSIGN_GROUP_CLEAR') ?>
+                                    <?php echo JText::_('COM_REDSHOP_FIELDS_MASS_ASSIGN_GROUP_CLEAR') ?>
                                 </label>
                             </li>
-							<?php foreach ($this->fieldGroups as $fieldGroup): ?>
+                            <?php foreach ($this->fieldGroups as $fieldGroup): ?>
                                 <li class="list-group-item">
                                     <label>
                                         <input type="radio" name="field_assign_group"
                                                value="<?php echo $fieldGroup->id ?>"
                                         />
-										<?php echo $fieldGroup->name ?>
+                                        <?php echo $fieldGroup->name ?>
                                     </label>
                                 </li>
-							<?php endforeach; ?>
+                            <?php endforeach; ?>
                         </ul>
-					<?php endif; ?>
+                    <?php endif; ?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">
-						<?php echo JText::_('JTOOLBAR_CANCEL') ?>
+                        <?php echo JText::_('JTOOLBAR_CANCEL') ?>
                     </button>
                     <button type="button" class="btn btn-primary" id="fieldsAssignGroupBtn">
-						<?php echo JText::_('COM_REDSHOP_FIELDS_MASS_ASSIGN_GROUP_ASSIGN_BTN') ?>
+                        <?php echo JText::_('COM_REDSHOP_FIELDS_MASS_ASSIGN_GROUP_ASSIGN_BTN') ?>
                     </button>
                 </div>
             </div>

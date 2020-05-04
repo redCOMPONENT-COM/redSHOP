@@ -18,57 +18,57 @@ defined('_JEXEC') or die;
  */
 class ShopperGroup
 {
-	/**
-	 * @var array
-	 *
-	 * @since  2.0.7
-	 */
-	protected static $list = array();
+    /**
+     * @var array
+     *
+     * @since  2.0.7
+     */
+    protected static $list = array();
 
-	/**
-	 * Method for get list shopper group for select
-	 *
-	 * @param   int  $shopperGroupId  ID of shopper group
-	 *
-	 * @return  array
-	 *
-	 * @since   2.0.7
-	 */
-	public static function generateList($shopperGroupId = 0)
-	{
-		if (!array_key_exists($shopperGroupId, self::$list))
-		{
-			$db    = \JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select(array('sh.*', $db->qn('sh.shopper_group_id', 'value'), $db->qn('sh.shopper_group_name', 'text')))
-				->from($db->qn('#__redshop_shopper_group', 'sh'))
-				->where('sh.published = 1');
+    /**
+     * Method for get default shopper group data
+     *
+     * @return   array
+     *
+     * @since   2.1.0
+     */
+    public static function getDefault()
+    {
+        $shopperGroupId = \RedshopHelperUser::getShopperGroup();
+        $result         = self::generateList($shopperGroupId);
 
-			if ($shopperGroupId)
-			{
-				$query->where('sh.shopper_group_id = ' . (int) $shopperGroupId);
-			}
+        return count($result) ? $result[0] : array();
+    }
 
-			$db->setQuery($query);
+    /**
+     * Method for get list shopper group for select
+     *
+     * @param   int  $shopperGroupId  ID of shopper group
+     *
+     * @return  array
+     *
+     * @since   2.0.7
+     */
+    public static function generateList($shopperGroupId = 0)
+    {
+        if (!array_key_exists($shopperGroupId, self::$list)) {
+            $db = \JFactory::getDbo();
+            $query = $db->getQuery(true)
+                ->select(
+                    array('sh.*', $db->qn('sh.shopper_group_id', 'value'), $db->qn('sh.shopper_group_name', 'text'))
+                )
+                ->from($db->qn('#__redshop_shopper_group', 'sh'))
+                ->where('sh.published = 1');
 
-			self::$list[$shopperGroupId] = $db->loadObjectList();
-		}
+            if ($shopperGroupId) {
+                $query->where('sh.shopper_group_id = ' . (int)$shopperGroupId);
+            }
 
-		return self::$list[$shopperGroupId];
-	}
+            $db->setQuery($query);
 
-	/**
-	 * Method for get default shopper group data
-	 *
-	 * @return   array
-	 *
-	 * @since   2.1.0
-	 */
-	public static function getDefault()
-	{
-		$shopperGroupId = \RedshopHelperUser::getShopperGroup();
-		$result         = self::generateList($shopperGroupId);
+            self::$list[$shopperGroupId] = $db->loadObjectList();
+        }
 
-		return count($result) ? $result[0] : array();
-	}
+        return self::$list[$shopperGroupId];
+    }
 }

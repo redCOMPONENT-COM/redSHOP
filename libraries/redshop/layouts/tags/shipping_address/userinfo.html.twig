@@ -1,51 +1,46 @@
 {% if billingAddresses %}
-	{% set shippingCheck = (usersInfoId == billingAddresses.users_info_id) ? 'checked="checked"' : '' %}
-	<div class="radio">
-		<label class="radio">
-			<input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,'');"
-				   name="users_info_id" value="{{ billingAddresses.users_info_id }}" {{ shippingCheck }}/>
-			{{ jtext('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') }}
-		</label>
-	</div>
+    {% set shippingCheck = (usersInfoId == billingAddresses.users_info_id) ? 'checked="checked"' : '' %}
+    <div class="radio">
+        <label class="radio">
+            <input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,'');"
+                   name="users_info_id" value="{{ billingAddresses.users_info_id }}" {{ shippingCheck }}/>
+            {{ jtext('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') }}
+        </label>
+    </div>
 {% endif %}
 
 {% for shippingAddress in shippingAddresses %}
-	{%
-		set addShippingLink = jroute(
-		'index.php?option=com_redshop&view=account_shipto&tmpl=component&task=addshipping'
-		~ '&return=checkout&Itemid=' ~ itemId ~ '&infoid=' ~ shippingAddress.users_info_id,
-		false
-		)
-	%}
-	{%
-		set removeShippingLink = jroute(juri.base() ~
-		'index.php?option=com_redshop&view=account_shipto&return=checkout'
-		~ '&tmpl=component&task=remove&infoid=' ~ shippingAddress.users_info_id ~ '&Itemid=' ~ itemId,
-		false
-		)
-	%}
+    {% set addShippingLink = jroute(
+        'index.php?option=com_redshop&view=account_shipto&tmpl=component&task=addshipping'
+        ~ '&return=checkout&Itemid=' ~ itemId ~ '&infoid=' ~ shippingAddress.users_info_id,
+        false
+        ) %}
+    {% set removeShippingLink = jroute(juri.base() ~
+        'index.php?option=com_redshop&view=account_shipto&return=checkout'
+        ~ '&tmpl=component&task=remove&infoid=' ~ shippingAddress.users_info_id ~ '&Itemid=' ~ itemId,
+        false
+        ) %}
 
-	{% set shippingCheck = (usersInfoId == shippingAddress.users_info_id) ? 'checked="checked"' : '' %}
+    {% set shippingCheck = (usersInfoId == shippingAddress.users_info_id) ? 'checked="checked"' : '' %}
 
-	<div class="radio">
-		<label class="radio inline">
-			<input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,'');"
-			 name="users_info_id" value="{{ shippingAddress.users_info_id }}" {{ shippingCheck }} />
-			 {{ shippingAddress.firstname }} {{ shippingAddress.lastname }}
-		</label>
-		<a class="modal" href="{{ addShippingLink }}" rel="{handler: \'iframe\', size: {x: 570, y: 470}}">
-			({{ jtext('COM_REDSHOP_EDIT_LBL') }})
-		</a>
-		<a href="{{ removeShippingLink }}" title="">
-			({{ jtext('COM_REDSHOP_DELETE_LBL') }})
-		</a>
-	</div>
+    <div class="radio">
+        <label class="radio inline">
+            <input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,'');"
+                   name="users_info_id" value="{{ shippingAddress.users_info_id }}" {{ shippingCheck }} />
+            {{ shippingAddress.firstname }} {{ shippingAddress.lastname }}
+        </label>
+        <a class="modal" href="{{ addShippingLink }}" rel="{handler: 'iframe', size: {x: 570, y: 470}}">
+            ({{ jtext('COM_REDSHOP_EDIT_LBL') }})
+        </a>
+        <a href="{{ removeShippingLink }}" title="">
+            ({{ jtext('COM_REDSHOP_DELETE_LBL') }})
+        </a>
+    </div>
 {% endfor %}
 {% set addLink = jroute('index.php?option=com_redshop&view=account_shipto&tmpl=component&task=addshipping'
-						~ '&return=checkout&Itemid=' ~ itemId ~ '&infoid=0&is_company=' ~ billingAddresses.is_company,
-						false)
-%}
+    ~ '&return=checkout&Itemid=' ~ itemId ~ '&infoid=0&is_company=' ~ billingAddresses.is_company,
+    false) %}
 
 <a class="modal btn btn-primary" href="{{ addLink }}" rel="{handler: 'iframe', size: {x: 570, y: 470}}">
-	{{ jtext('COM_REDSHOP_ADD_ADDRESS') }}
+    {{ jtext('COM_REDSHOP_ADD_ADDRESS') }}
 </a>

@@ -18,128 +18,127 @@ defined('_JEXEC') or die;
  */
 class RedshopModelAsk_Question extends RedshopModelForm
 {
-	/**
-	 * @var string
-	 */
-	protected $context = 'com_redshop.ask_question';
+    /**
+     * @var string
+     */
+    protected $context = 'com_redshop.ask_question';
 
-	/**
-	 * Method to get the record form.
-	 *
-	 * @param   array   $data     Data for the form.
-	 * @param   boolean $loadData True if the form is to load its own data (default case), false if not.
-	 *
-	 * @return  mixed  A JForm object on success, false on failure
-	 *
-	 * @since   1.5
-	 */
-	public function getForm($data = array(), $loadData = true)
-	{
-		// Get the form.
-		$form = $this->loadForm('com_redshop.ask_question', 'ask_question', array('control' => 'jform', 'load_data' => $loadData));
+    /**
+     * Method to get the record form.
+     *
+     * @param   array    $data      Data for the form.
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+     *
+     * @return  mixed  A JForm object on success, false on failure
+     *
+     * @since   1.5
+     */
+    public function getForm($data = array(), $loadData = true)
+    {
+        // Get the form.
+        $form = $this->loadForm(
+            'com_redshop.ask_question',
+            'ask_question',
+            array('control' => 'jform', 'load_data' => $loadData)
+        );
 
-		if (empty($form))
-		{
-			return false;
-		}
+        if (empty($form)) {
+            return false;
+        }
 
-		return $form;
-	}
+        return $form;
+    }
 
-	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return  array    The default data is an empty array.
-	 * @throws  Exception
-	 *
-	 * @since   1.5
-	 */
-	protected function loadFormData()
-	{
-		$data = (array) JFactory::getApplication()->getUserState('com_redshop.ask_question.data', array());
+    /**
+     * Send Mail For Ask Question
+     *
+     * @param   array  $data  Question data
+     *
+     * @return  boolean
+     * @throws  Exception
+     */
+    public function sendMailForAskQuestion($data)
+    {
+        if (!$this->store($data)) {
+            return false;
+        }
 
-		return $data;
-	}
+        if (!Redshop\Mail\AskQuestion::sendAskQuestion($data)) {
+            $this->setError(JText::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY'));
 
-	/**
-	 * Method to store the records
-	 *
-	 * @param   array $data array of data
-	 *
-	 * @return  boolean
-	 * @throws  Exception
-	 */
-	public function store($data)
-	{
-		$user                  = JFactory::getUser();
-		$data['user_id']       = $user->id;
-		$data['user_name']     = $data['your_name'];
-		$data['user_email']    = $data['your_email'];
-		$data['question']      = $data['your_question'];
-		$data['published']     = 1;
-		$data['question_date'] = time();
+            return false;
+        }
 
-		$row = $this->getTable('Question');
+        return true;
+    }
 
-		$data['ordering'] = $this->maxOrdering();
+    /**
+     * Method to store the records
+     *
+     * @param   array  $data  array of data
+     *
+     * @return  boolean
+     * @throws  Exception
+     */
+    public function store($data)
+    {
+        $user                  = JFactory::getUser();
+        $data['user_id']       = $user->id;
+        $data['user_name']     = $data['your_name'];
+        $data['user_email']    = $data['your_email'];
+        $data['question']      = $data['your_question'];
+        $data['published']     = 1;
+        $data['question_date'] = time();
 
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
+        $row = $this->getTable('Question');
 
-			return false;
-		}
+        $data['ordering'] = $this->maxOrdering();
 
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
+        if (!$row->bind($data)) {
+            $this->setError($this->_db->getErrorMsg());
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        if (!$row->store()) {
+            $this->setError($this->_db->getErrorMsg());
 
-	/**
-	 * Method to get max ordering
-	 *
-	 * @access public
-	 *
-	 * @return boolean
-	 */
-	public function maxOrdering()
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('MAX(ordering)+1')
-			->from($db->qn('#__redshop_customer_question'))
-			->where('parent_id = 0');
+            return false;
+        }
 
-		return $db->setQuery($query)->loadResult();
-	}
+        return true;
+    }
 
-	/**
-	 * Send Mail For Ask Question
-	 *
-	 * @param   array $data Question data
-	 *
-	 * @return  boolean
-	 * @throws  Exception
-	 */
-	public function sendMailForAskQuestion($data)
-	{
-		if (!$this->store($data))
-		{
-			return false;
-		}
+    /**
+     * Method to get max ordering
+     *
+     * @access public
+     *
+     * @return boolean
+     */
+    public function maxOrdering()
+    {
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true)
+            ->select('MAX(ordering)+1')
+            ->from($db->qn('#__redshop_customer_question'))
+            ->where('parent_id = 0');
 
-		if (!Redshop\Mail\AskQuestion::sendAskQuestion($data))
-		{
-			$this->setError(JText::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY'));
+        return $db->setQuery($query)->loadResult();
+    }
 
-			return false;
-		}
+    /**
+     * Method to get the data that should be injected in the form.
+     *
+     * @return  array    The default data is an empty array.
+     * @throws  Exception
+     *
+     * @since   1.5
+     */
+    protected function loadFormData()
+    {
+        $data = (array)JFactory::getApplication()->getUserState('com_redshop.ask_question.data', array());
 
-		return true;
-	}
+        return $data;
+    }
 }

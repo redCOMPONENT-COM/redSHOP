@@ -21,32 +21,149 @@ use AcceptanceTester\UserManagerJoomla3Steps;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    2.2
+ * @since   2.1.0
  */
 class CheckoutSearchProductFrontendCest
 {
+	/**
+	 * @var string
+	 * @since 2.1.0
+	 */
+	public $categoryName;
 
+	/**
+	 * @var string
+	 * @since 2.1.0
+	 */
+	public $productName;
+
+	/**
+	 * @var int
+	 * @since 2.1.0
+	 */
+	public $productPrice;
+
+	/**
+	 * @var string
+	 * @since 2.1.0
+	 */
+	public $total;
+
+	/**
+	 * @var string
+	 * @since 2.1.0
+	 */
+	public $subtotal;
+
+	/**
+	 * @var int
+	 * @since 2.1.0
+	 */
+	public $randomProductNumber;
+
+	/**
+	 * @var int
+	 * @since 2.1.0
+	 */
+	public $randomProductPrice;
+
+	/**
+	 * @var string
+	 * @since 2.1.0
+	 */
+	public $userName;
+
+	/**
+	 * @var string
+	 * @since 2.1.0
+	 */
+	public $password;
+
+	/**
+	 * @var string
+	 * @since 2.1.0
+	 */
+	public $email;
+
+	/**
+	 * @var string
+	 * @since 2.1.0
+	 */
+	public $shopperGroup;
+
+	/**
+	 * @var string
+	 * @since 2.1.0
+	 */
+	public $group;
+
+	/**
+	 * @var string
+	 * @since 2.1.0
+	 */
+	public $firstName;
+
+	/**
+	 * @var string
+	 * @since 2.1.0
+	 */
+	public $lastName;
+
+	/**
+	 * @var \Faker\Generator
+	 * @since 2.1.0
+	 */
+	public $faker;
+
+	/**
+	 * @var array
+	 * @since 2.1.0
+	 */
+	protected $cartSetting;
+
+	/**
+	 * @var array
+	 * @since 2.1.0
+	 */
+	protected $module;
+
+	/**
+	 * @var string
+	 * @since 2.1.0
+	 */
+	protected $paymentMethod;
+
+	/**
+	 * @var array
+	 * @since 2.1.0
+	 */
+	protected $customerInformation;
+
+	/**
+	 * CheckoutSearchProductFrontendCest constructor.
+	 * @since 2.1.0
+	 */
 	public function __construct()
 	{
 		//Product & Category
-		$this->faker = Faker\Factory::create();
-		$this->productName = $this->faker->bothify('Product Name ?##?');;
-		$this->categoryName = $this->faker->bothify('Category Name ?##?');
-		$this->subtotal = "DKK 1.000,00";
-		$this->total = "DKK 1.000,00";
+		$this->faker               = Faker\Factory::create();
+		$this->productName         = $this->faker->bothify('Product Name ?##?');;
+		$this->categoryName        = $this->faker->bothify('Category Name ?##?');
+		$this->subtotal            = "DKK 1.000,00";
+		$this->total               = "DKK 1.000,00";
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
-		$this->randomProductPrice = 100;
+		$this->randomProductPrice  = 100;
 
 		$this->module  = array();
-		$this->module['name'] = 'Search product';
-		$this->module['module']= 'redSHOP Search';
-		$this->module['Position']= 'position-2';
-		$this->module['SearchTypeField'] = 'no';
-		$this->module['SearchField'] = 'yes';
-		$this->module['CategoryField'] = 'no';
-		$this->module['ManufacturerField'] = 'no';
+		$this->module['name']               = 'Search product';
+		$this->module['module']             = 'redSHOP Search';
+		$this->module['Position']           = 'position-2';
+		$this->module['SearchTypeField']    = 'no';
+		$this->module['SearchField']        = 'yes';
+		$this->module['CategoryField']      = 'no';
+		$this->module['ManufacturerField']  = 'no';
 		$this->module['ProductSearchTitle'] = 'no';
-		$this->module['KeywordTitle'] = 'no';
+		$this->module['KeywordTitle']       = 'no';
 
 		//User
 		$this->paymentMethod       = 'RedSHOP - Bank Transfer Payment';
@@ -82,6 +199,7 @@ class CheckoutSearchProductFrontendCest
 	/**
 	 * @param CheckoutSearchProductFrontendSteps $I
 	 * @throws Exception
+	 * @since 2.1.0
 	 */
 	public function createModuleRedShopSearch(CheckoutSearchProductFrontendSteps $I)
 	{
@@ -93,6 +211,7 @@ class CheckoutSearchProductFrontendCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since 2.1.0
 	 */
 	public function createProductAndCategory(ConfigurationSteps $I, $scenario)
 	{
@@ -117,6 +236,7 @@ class CheckoutSearchProductFrontendCest
 	 * @param CheckoutSearchProductFrontendSteps $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since 2.1.0
 	 */
 	public function checkoutSearchProductFrontend(CheckoutSearchProductFrontendSteps $I, $scenario)
 	{
@@ -132,6 +252,7 @@ class CheckoutSearchProductFrontendCest
 	 * @param CheckoutSearchProductFrontendSteps $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since 2.1.0
 	 */
 	public function clearAllData(CheckoutSearchProductFrontendSteps $I, $scenario)
 	{

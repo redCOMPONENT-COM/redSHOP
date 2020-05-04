@@ -106,8 +106,8 @@
                         description="PLG_RS_PAYMENT_PAYPAL_EXTRAFIELD_PAYMENT_DESC"
                 />
 
-                <field 
-                        name="logo" 
+                <field
+                        name="logo"
                         label="PLG_RS_PAYMENT_PAYPAL_LOGO_LBL"
                         type="media"
                         default="plugins/redshop_payment/rs_payment_paypal/rs_payment_paypal/paypal.jpg"

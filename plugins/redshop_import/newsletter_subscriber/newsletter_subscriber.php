@@ -20,123 +20,126 @@ JLoader::import('redshop.library');
  */
 class PlgRedshop_ImportNewsletter_Subscriber extends AbstractImportPlugin
 {
-	/**
-	 * @var string
-	 */
-	protected $primaryKey = 'subscription_id';
+    /**
+     * @var string
+     */
+    protected $primaryKey = 'subscription_id';
 
-	/**
-	 * @var string
-	 */
-	protected $nameKey = 'email';
+    /**
+     * @var string
+     */
+    protected $nameKey = 'email';
 
-	protected $newsletterId;
+    protected $newsletterId;
 
-	/**
-	 * Event run when user load config for export this data.
-	 *
-	 * @return  string
-	 *
-	 * @since  1.0.0
-	 */
-	public function onAjaxNewsletter_Subscriber_Config()
-	{
-		\Redshop\Helper\Ajax::validateAjaxRequest();
-		$newsletter = $this->getNewsletters();
-		$configs    = array();
+    /**
+     * Event run when user load config for export this data.
+     *
+     * @return  string
+     *
+     * @since  1.0.0
+     */
+    public function onAjaxNewsletter_Subscriber_Config()
+    {
+        \Redshop\Helper\Ajax::validateAjaxRequest();
+        $newsletter = $this->getNewsletters();
+        $configs    = array();
 
-		$configs[] = '<div class="form-group">
+        $configs[] = '<div class="form-group">
 			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_IMPORT_NEWSLETTER_SUBSCRIBER_LABLE') . '</label>
 			<div class="col-md-10">'
-			. JHTML::_('select.genericlist', $newsletter, 'newsletter_id', 'class="inputbox" size="1" ', 'value', 'text', '') . '</div>
+            . JHTML::_(
+                'select.genericlist',
+                $newsletter,
+                'newsletter_id',
+                'class="inputbox" size="1" ',
+                'value',
+                'text',
+                ''
+            ) . '</div>
 		</div>';
 
-		return implode('', $configs);
+        return implode('', $configs);
+    }
 
-	}
+    /**
+     * Get newsletters.
+     *
+     * @return  mixed
+     *
+     * @since   1.0.0
+     */
+    public function getNewsletters()
+    {
+        $db    = $this->db;
+        $query = $db->getQuery(true)
+            ->select(array('newsletter_id AS value', 'name AS text'))
+            ->from($db->qn('#__redshop_newsletter'))
+            ->where($db->qn('published') . ' = 1');
 
-	/**
-	 * Event run when run importing.
-	 *
-	 * @return  mixed
-	 *
-	 * @since  1.0.0
-	 */
-	public function onAjaxNewsletter_Subscriber_Import()
-	{
-		\Redshop\Helper\Ajax::validateAjaxRequest();
+        return $db->setQuery($query)->loadObjectList();
+    }
 
-		$input              = JFactory::getApplication()->input;
-		$this->encoding     = $input->getString('encoding', 'UTF-8');
-		$this->separator    = $input->getString('separator', ',');
-		$this->folder       = $input->getCmd('folder', '');
-		$this->newsletterId = $input->getString('newsletter_id', '');
+    /**
+     * Event run when run importing.
+     *
+     * @return  mixed
+     *
+     * @since  1.0.0
+     */
+    public function onAjaxNewsletter_Subscriber_Import()
+    {
+        \Redshop\Helper\Ajax::validateAjaxRequest();
 
-		return json_encode($this->importing());
-	}
+        $input              = JFactory::getApplication()->input;
+        $this->encoding     = $input->getString('encoding', 'UTF-8');
+        $this->separator    = $input->getString('separator', ',');
+        $this->folder       = $input->getCmd('folder', '');
+        $this->newsletterId = $input->getString('newsletter_id', '');
 
-	/**
-	 * Method for get table object.
-	 *
-	 * @return  \JTable|boolean
-	 *
-	 * @since   1.0.0
-	 */
-	public function getTable()
-	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
+        return json_encode($this->importing());
+    }
 
-		return JTable::getInstance('newslettersubscr_detail', 'Table');
-	}
+    /**
+     * Method for get table object.
+     *
+     * @return  \JTable|boolean
+     *
+     * @since   1.0.0
+     */
+    public function getTable()
+    {
+        JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
-	/**
-	 * Process import data.
-	 *
-	 * @param   \JTable $table Header array
-	 * @param   array   $data  Data array
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.0.0
-	 */
-	public function processImport($table, $data)
-	{
-		if (!$data['newsletter_id'])
-		{
-			$data['newsletter_id'] = $this->newsletterId;
-		}
+        return JTable::getInstance('newslettersubscr_detail', 'Table');
+    }
 
-		if (array_key_exists($this->primaryKey, $data) && $data[$this->primaryKey])
-		{
-			if (!$table->load($data[$this->primaryKey]))
-			{
-				return false;
-			}
-		}
+    /**
+     * Process import data.
+     *
+     * @param   \JTable  $table  Header array
+     * @param   array    $data   Data array
+     *
+     * @return  boolean
+     *
+     * @since   1.0.0
+     */
+    public function processImport($table, $data)
+    {
+        if (!$data['newsletter_id']) {
+            $data['newsletter_id'] = $this->newsletterId;
+        }
 
-		if (!$table->bind($data) || !$table->check() || !$table->store())
-		{
-			return false;
-		}
+        if (array_key_exists($this->primaryKey, $data) && $data[$this->primaryKey]) {
+            if (!$table->load($data[$this->primaryKey])) {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        if (!$table->bind($data) || !$table->check() || !$table->store()) {
+            return false;
+        }
 
-	/**
-	 * Get newsletters.
-	 *
-	 * @return  mixed
-	 *
-	 * @since   1.0.0
-	 */
-	public function getNewsletters()
-	{
-		$db    = $this->db;
-		$query = $db->getQuery(true)
-			->select(array('newsletter_id AS value', 'name AS text'))
-			->from($db->qn('#__redshop_newsletter'))
-			->where($db->qn('published') . ' = 1');
-
-		return $db->setQuery($query)->loadObjectList();
-	}
+        return true;
+    }
 }

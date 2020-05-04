@@ -1,10 +1,10 @@
-<form class="delete_cart{{ i }}" name="delete_cart{{ i }}"  method="POST" >
-    <input type="hidden" name="giftcard_id" value="{{ giftCartId }}" />
-    <input type="hidden" name="cart_index" value="{{ i }}" />
-    <input type="hidden" name="task" value="" />
-    <input type="hidden" name="Itemid" value="{{ itemId }}" />
-        <img class="delete_cart" src="{{ sourceImage }}"
-                title="{{ jtext('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') }}";
-                alt="{{ jtext('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') }}"
-                onclick="document.delete_cart{{ i }}.task.value='delete'; document.delete_cart{{ i }}.submit();" />
+<form class="delete_cart{{ i }}" name="delete_cart{{ i }}" method="POST">
+    <input type="hidden" name="giftcard_id" value="{{ giftCartId }}"/>
+    <input type="hidden" name="cart_index" value="{{ i }}"/>
+    <input type="hidden" name="task" value=""/>
+    <input type="hidden" name="Itemid" value="{{ itemId }}"/>
+    <img class="delete_cart" src="{{ sourceImage }}"
+         title="{{ jtext('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') }}" ;
+         alt="{{ jtext('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') }}"
+         onclick="document.delete_cart{{ i }}.task.value='delete'; document.delete_cart{{ i }}.submit();"/>
 </form>

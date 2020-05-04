@@ -11,22 +11,19 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
-if (!$app->input->getInt('questionSend', 0))
-{
-	echo RedshopTagsReplacer::_(
-		'askquestion',
-		'',
-		array(
-			'form' => $this->form,
-			'ask' => $app->input->getInt('ask', 0)
-		)
-	);
-}
-else
-{
-	?>
-<script>
-	setTimeout("window.parent.redBOX.close();", 5000);
-</script>
-<?php
+if (!$app->input->getInt('questionSend', 0)) {
+    echo RedshopTagsReplacer::_(
+        'askquestion',
+        '',
+        array(
+            'form' => $this->form,
+            'ask'  => $app->input->getInt('ask', 0)
+        )
+    );
+} else {
+    ?>
+    <script>
+        setTimeout("window.parent.redBOX.close();", 5000);
+    </script>
+    <?php
 }

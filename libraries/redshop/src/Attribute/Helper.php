@@ -124,7 +124,7 @@ class Helper
                 $property           = \RedshopHelperProduct_Attribute::getAttributeProperties(
                     $orderPropData[$p]->section_id
                 );
-                $prices          = \RedshopHelperProduct_Attribute::getPropertyPrice(
+                $prices             = \RedshopHelperProduct_Attribute::getPropertyPrice(
                     $orderPropData[$p]->section_id,
                     $quantity,
                     'property'
@@ -152,7 +152,7 @@ class Helper
                     $subProperty = \RedshopHelperProduct_Attribute::getAttributeSubProperties(
                         $orderSubPropData[$sp]->section_id
                     );
-                    $prices   = \RedshopHelperProduct_Attribute::getPropertyPrice(
+                    $prices      = \RedshopHelperProduct_Attribute::getPropertyPrice(
                         $orderSubPropData[$sp]->section_id,
                         $quantity,
                         'subproperty'
@@ -240,10 +240,10 @@ class Helper
                 $selectedPropertyId = implode(",", $selectedPropId);
             }
 
-            $unSelectedSubPropId = 0;
+            $unSelectedSubPropertyId = 0;
 
             if (is_array($unSelectedSubPropId) && count($unSelectedSubPropId) > 0) {
-                $unSelectedSubPropId = implode(",", $unSelectedSubPropId);
+                $unSelectedSubPropertyId = implode(",", $unSelectedSubPropId);
             }
 
             $requiredProperty = \RedshopHelperProduct_Attribute::getAttributeProperties(
@@ -252,7 +252,7 @@ class Helper
                                             $data['product_id'],
                                             0,
                                             1,
-                /** @scrutinizer ignore-type */ $unSelectedSubPropId
+                /** @scrutinizer ignore-type */ $unSelectedSubPropertyId
             );
 
             if (!empty($requiredProperty)) {
@@ -266,11 +266,75 @@ class Helper
 
                 // Give error as second attribute is required
                 if ($data['reorder'] != 1) {
-                    return $requiredSubAttributeName . " " . JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
+                    return $requiredSubAttributeName . " " . \JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
                 }
             }
         }
 
         return;
+    }
+
+    /**
+     * @param   Object  $params
+     *
+     * @return int / null
+     * @since 3.0.1
+     */
+    public static function getAttributePriceStartId($params = null)
+    {
+        // Validate
+        if (empty($params)
+            || empty($params->shopper_group_id)
+            || empty($params->section_id)
+            || empty($params->price_quantity_start)
+            || empty($params->price_quantity_start)
+        ) {
+            return null;
+        }
+
+        $db    = \JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select($db->qn('price_id'))
+            ->from($db->qn('product_attribute_price'))
+            ->where($db->qn('shopper_group_id') . ' = ' . $db->q($params->shopper_group_id))
+            ->where($db->qn('section_id') . ' = ' . $db->q((int)$params->section_id))
+            ->where($db->qn('price_quantity_start') . ' <= ' . $db->q((int)$params->price_quantity_start))
+            ->where($db->qn('price_quantity_end') . ' >= ' . $db->q((int)$params->price_quantity_start));
+
+        $attributePriceIdStart = \Redshop\DB\Tool::safeSelect($db, $query);
+
+        return $attributePriceIdStart->price_id ?? null;
+    }
+
+    /**
+     * @param   Object  $params
+     *
+     * @return int / null
+     * @since 3.0.1
+     */
+    public static function getAttributePriceEndId($params = null)
+    {
+        // Validate
+        if (empty($params)
+            || empty($params->shopper_group_id)
+            || empty($params->section_id)
+            || empty($params->price_quantity_end)
+            || empty($params->price_quantity_end)
+        ) {
+            return null;
+        }
+
+        $db    = \JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select($db->qn('price_id'))
+            ->from($db->qn('product_attribute_price'))
+            ->where($db->qn('shopper_group_id') . ' = ' . $db->q($params->shopper_group_id))
+            ->where($db->qn('section_id') . ' = ' . $db->q((int)$params->section_id))
+            ->where($db->qn('price_quantity_start') . ' <= ' . $db->q((int)$params->price_quantity_end))
+            ->where($db->qn('price_quantity_end') . ' >= ' . $db->q((int)$params->price_quantity_end));
+
+        $attributePriceIdStart = \Redshop\DB\Tool::safeSelect($db, $query);
+
+        return $attributePriceIdStart->price_id ?? null;
     }
 }

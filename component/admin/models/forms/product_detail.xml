@@ -5,6 +5,6 @@
                 id="product_image"
                 name="product_image"
                 type="mediadragdrop"
-                />
+        />
     </fieldset>
 </form>

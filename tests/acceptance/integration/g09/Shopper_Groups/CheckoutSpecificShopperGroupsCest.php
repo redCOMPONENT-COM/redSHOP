@@ -13,13 +13,213 @@ use Configuration\ConfigurationSteps;
 class CheckoutSpecificShopperGroupsCest
 {
 	/**
+	 * @var \Faker\Generator
+	 * @since 3.0.2
+	 */
+	protected $faker;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $shopperName;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $shopperNameSaveClose;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $shopperType;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $categoryName;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $customerType;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $shippingRate;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $shippingCheckout;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $catalog;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $showPrice;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $nameShopperEdit;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $idShopperChange;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $shipping;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $enableQuotation;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $showVat;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $shopperGroupPortal;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $userName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $password;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $email;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $shopperGroup;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $group;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $firstName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $updateFirstName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $lastName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $productName;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $minimumPerProduct;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $minimumQuantity;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $maximumQuantity;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $discountStart;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $discountEnd;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $randomProductNumber;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $randomProductPrice;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $shippingWithVat;
+
+	protected $total;
+
+	/**
 	 * CheckoutSpecificShopperGroupsCest constructor.
 	 */
 	public function __construct()
 	{
 		$this->faker               = Faker\Factory::create();
-		$this->ProductName         = 'ProductName' . rand(100, 999);
-		$this->CategoryName        = "CategoryName" . rand(1, 100);
+		$this->productName         = 'productName' . rand(100, 999);
+		$this->categoryName        = "categoryName" . rand(1, 100);
 		$this->minimumPerProduct   = 1;
 		$this->minimumQuantity     = 1;
 		$this->maximumQuantity     = $this->faker->numberBetween(100, 1000);
@@ -27,9 +227,8 @@ class CheckoutSpecificShopperGroupsCest
 		$this->discountEnd         = "2017-05-27";
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice  = 100;
-		$this->subtotal            = "DKK 100,00";
 		$this->shippingWithVat     = "DKK 10,00";
-		$this->Total               = "DKK 110,00";
+		$this->total               = "DKK 110,00";
 
 		// Create shopper groups
 		$this->shopperName        = $this->faker->bothify(' Testing shopper ##??');
@@ -71,6 +270,12 @@ class CheckoutSpecificShopperGroupsCest
 		);
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 1.4.0
+	 */
 	public function _before(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
@@ -87,11 +292,13 @@ class CheckoutSpecificShopperGroupsCest
 	 *
 	 * @param   AcceptanceTester      $I
 	 * @param   \Codeception\Scenario $scenario
+	 * @since 1.4.0
+	 * @throws \Exception
 	 */
 	public function checkoutWithSpecificShopperGroups(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
 		$I->wantTo('Test enable Stockroom in Administrator');
-		$I = new Configuration\ConfigurationSteps($scenario);
+		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Test off Stockroom in Administrator');
 		$I->featureOffStockRoom();
 
@@ -100,16 +307,16 @@ class CheckoutSpecificShopperGroupsCest
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->addCategorySave($this->CategoryName);
+		$I->addCategorySave($this->categoryName);
 
 		$I->wantTo('I Want to add product inside the category');
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->createProductSave($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+		$I->createProductSave($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
 
 		$I = new ShopperGroupManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category Save button');
-		$I->addShopperGroups($this->shopperName, $this->shopperType, $this->customerType, $this->shopperGroupPortal, $this->CategoryName, $this->shipping, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showVat, $this->showPrice, $this->enableQuotation, 'save');
+		$I->addShopperGroups($this->shopperName, $this->shopperType, $this->customerType, $this->shopperGroupPortal, $this->categoryName, $this->shipping, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showVat, $this->showPrice, $this->enableQuotation, 'save');
 
 
 		$I->wantTo('Test User creation with save button in Administrator');
@@ -122,7 +329,7 @@ class CheckoutSpecificShopperGroupsCest
 
 		$I->wantTo('Test Checkout Product with specific Shopper Group');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutSpecificShopperGroup($this->userName, $this->password, $this->ProductName, $this->CategoryName, $this->shippingWithVat, $this->Total);
+		$I->checkoutSpecificShopperGroup($this->userName, $this->password, $this->productName, $this->categoryName, $this->shippingWithVat, $this->total);
 
 		$I = new ConfigurationSteps($scenario);
 		$this->cartSetting["onePage"] = 'no';
@@ -132,6 +339,8 @@ class CheckoutSpecificShopperGroupsCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function clearData(AcceptanceTester $I, $scenario)
 	{

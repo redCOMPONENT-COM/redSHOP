@@ -13,7 +13,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
-class ExtensionManagerJoomla3Page
+class ExtensionManagerJoomla3Page extends AdminJ3Page
 {
 	// Include url of current page
 
@@ -22,6 +22,12 @@ class ExtensionManagerJoomla3Page
 	 * @since 2.9.5
 	 */
 	public static $URL = '/administrator/index.php?option=com_installer';
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $urlManage = "/administrator/index.php?option=com_installer&view=manage";
 
 	/**
 	 * @var string
@@ -159,4 +165,40 @@ class ExtensionManagerJoomla3Page
 	 * @since 2.9.5
 	 */
 	 public static $buttonClear = 'Clear';
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	 public static $filterType = '#filter_type';
+
+    /**
+     * @var string
+     * @since 3.0.2
+     */
+	 public static $manageList = "#manageList";
+
+    /**
+     * @var array
+     * @since 3.0.2
+     */
+	 public static $linkLocation = ['link' => 'Location'];
+
+    /**
+     * @var string
+     * @since 3.0.2
+     */
+	 public static $buttonUninstall = "Uninstall";
+
+    /**
+     * @var string
+     * @since 3.0.2
+     */
+	 public static $messageUninstallSuccess = 'Uninstalling the component was successful';
+
+    /**
+     * @var string
+     * @since 3.0.2
+     */
+	 public static $messageUninstall = 'There are no extensions installed matching your query.';
 }

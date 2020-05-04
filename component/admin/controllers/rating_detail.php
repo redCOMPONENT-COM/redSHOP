@@ -11,77 +11,84 @@ defined('_JEXEC') or die;
 
 class RedshopControllerRating_detail extends RedshopController
 {
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-		$this->registerTask('add', 'edit');
-	}
+    public function __construct($default = array())
+    {
+        parent::__construct($default);
+        $this->registerTask('add', 'edit');
+    }
 
-	public function edit()
-	{
-		$this->input->set('view', 'rating_detail');
-		$this->input->set('layout', 'default');
-		$this->input->set('hidemainmenu', 1);
+    public function edit()
+    {
+        $this->input->set('view', 'rating_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
 
-		$model = $this->getModel('rating_detail');
-		$users = $model->getUsers();
-		$this->input->set('userslist', $users);
+        $model = $this->getModel('rating_detail');
+        $users = $model->getUsers();
+        $this->input->set('userslist', $users);
 
-		$product = $model->getProducts();
-		$this->input->set('product', $product);
+        $product = $model->getProducts();
+        $this->input->set('product', $product);
 
-		parent::display();
-	}
+        parent::display();
+    }
 
-	public function save()
-	{
-		$post            = $this->input->post->getArray();
-		$comment         = $this->input->post->get('comment', '', 'raw');
-		$post["comment"] = $comment;
+    public function apply()
+    {
+        $this->save(1);
+    }
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
+    public function save()
+    {
+        $post            = $this->input->post->getArray();
+        $comment         = $this->input->post->get('comment', '', 'raw');
+        $post["comment"] = $comment;
+        $task            = $post['task'];
+        $cid             = $this->input->post->get('cid', 0);
 
-		$post ['rating_id'] = $cid [0];
+        $post['rating_id'] = $cid;
 
-		/** @var RedshopModelRating_detail $model */
-		$model = $this->getModel('rating_detail');
+        /** @var RedshopModelRating_detail $model */
+        $model = $this->getModel('rating_detail');
+        $row   = $model->store($post);
 
-		if ($model->store($post))
-		{
-			$msg = JText::_('COM_REDSHOP_RATING_DETAIL_SAVED');
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_RATING_DETAIL');
-		}
+        if ($row) {
+            $msg = JText::_('COM_REDSHOP_RATING_DETAIL_SAVED');
+        } else {
+            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_RATING_DETAIL');
+        }
 
-		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
-	}
+        if ($task == 'rating_detail.apply') {
+            $ratingId = max((int)$cid, (int)$row['rating_id']);
 
-	public function remove()
-	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
+            $this->setRedirect('index.php?option=com_redshop&view=rating_detail&layout=edit&cid=' . $ratingId, $msg);
+        } else {
+            $this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
+        }
+    }
 
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-		}
+    public function remove()
+    {
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
-		/** @var RedshopModelRating_detail $model */
-		$model = $this->getModel('rating_detail');
+        if (!is_array($cid) || count($cid) < 1) {
+            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+        }
 
-		if (!$model->delete($cid))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
+        /** @var RedshopModelRating_detail $model */
+        $model = $this->getModel('rating_detail');
 
-		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
-	}
+        if (!$model->delete($cid)) {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
 
-	public function cancel()
-	{
-		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
-	}
+        $msg = JText::_('COM_REDSHOP_RATING_DETAIL_DELETED_SUCCESSFULLY');
+        $this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
+    }
+
+    public function cancel()
+    {
+        $msg = JText::_('COM_REDSHOP_RATING_DETAIL_EDITING_CANCELLED');
+        $this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
+    }
 }

@@ -45,10 +45,10 @@ $lang->load('plg_redshop_payment_rs_payment_paypal', JPATH_ADMINISTRATOR, 'en-GB
         />
 
         <?php if (!empty($logo) && JFile::exists(JPATH_ROOT . '/' . $logo)): ?>
-        <img 
-            alt="<?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?>" 
-            title="<?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?>" 
-            src="<?php echo JUri::root() . $logo ?>" />
+            <img
+                    alt="<?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?>"
+                    title="<?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?>"
+                    src="<?php echo JUri::root() . $logo ?>"/>
         <?php endif; ?>
 
         <span><?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?></span>
