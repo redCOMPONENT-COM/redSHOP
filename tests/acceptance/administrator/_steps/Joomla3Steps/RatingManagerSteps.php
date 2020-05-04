@@ -173,6 +173,12 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 	public function createRatingOnFrontEnd($rating, $categoryName, $function)
 	{
 		$I = $this;
+
+		if($function == 'yes')
+		{
+			$I->doFrontEndLogin($rating['userName'], $rating['password']);
+		}
+
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;

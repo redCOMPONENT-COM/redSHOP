@@ -8,6 +8,7 @@
 
 namespace Configuration;
 use AcceptanceTester\AdminManagerJoomla3Steps;
+use AdminJ3Page;
 use ConfigurationPage;
 use OrderManagerPage;
 
@@ -995,5 +996,6 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 
 		$I->waitForText(ConfigurationPage::$buttonSaveClose);
 		$I->click(ConfigurationPage::$buttonSaveClose);
+		$I->waitForText(ConfigurationPage::$messageSaveSuccess, 30, ConfigurationPage::$idInstallSuccess);
 	}
 }

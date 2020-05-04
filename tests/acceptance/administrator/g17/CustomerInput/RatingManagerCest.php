@@ -90,6 +90,12 @@ class RatingManagerCest
 	protected $stateUnpublish;
 
 	/**
+	 * @var array
+	 * @since 3.0.2
+	 */
+	protected $ratingFrontEndUserLogin;
+
+	/**
 	 * RatingManagerCest constructor.
 	 * @since 3.0.2
 	 */
@@ -142,6 +148,15 @@ class RatingManagerCest
 				"numberRating"  => 3,
 				"loginRequired" => 'no',
 			);
+
+		$this->ratingFrontEndUserLogin = array(
+			"title"        => $this->faker->bothify('Title rating ?##?'),
+			"numberRating" => 5,
+			"comment"      => $this->faker->bothify('Comment rating ?##?'),
+			"product"      => $this->productName,
+			"userName"     => $this->user['userName'],
+			"password"     => $this->user['password'],
+		);
 	}
 
 	/**
@@ -200,6 +215,15 @@ class RatingManagerCest
 		$I->checkDisplayRatingOnFrontEnd($this->ratingFrontEnd);
 		$I->wantTo("I want to delete rating on backend");
 		$I->deleteRating($this->ratingFrontEnd);
+
+		$I = new ConfigurationSteps($scenario);
+		$I->wantTo("I want to change config with rating");
+		$this->configRating['loginRequired'] = 'yes';
+		$I->configRating($this->configRating);
+		$I = new RatingManagerSteps($scenario);
+		$I->wantTo("I want to create new rating on front end");
+		$I->createRatingOnFrontEnd($this->ratingFrontEndUserLogin, $this->categoryName, 'yes');
+		$I->deleteRating($this->ratingFrontEndUserLogin);
 	}
 
 	/**
