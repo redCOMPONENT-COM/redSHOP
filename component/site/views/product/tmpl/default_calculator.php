@@ -26,15 +26,8 @@ $calcoption         = array();
 $calcoption[]       = JHTML::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
 $calcoption[]       = JHTML::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
 $calcoption[]       = JHTML::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
-$discount_calc_unit = JHTML::_(
-    'select.genericlist',
-    $calcoption,
-    'discount_calc_unit',
-    'class="inputbox" size="1" ',
-    'value',
-    'text',
-    Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT')
-);
+$discountCalcUnit = JHTML::_('select.genericlist', $calcoption, 'discount_calc_unit', 'class="inputbox" size="1" ', 'value', 'text', Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
+
 unset($calcoption);
 
 $height    = "<tr><td><label>" . JText::_(
@@ -56,13 +49,12 @@ $calculate .= '<input type="button" name="calc_calculate" id="calc_calculate" on
 $hiddenVar = "<tr><td colspan='2'><input type='hidden' name='calc_unit' id='calc_unit' value='' />
 			  <input type='hidden' name='calc_method' id='calc_method' value='" . $calcMethod . "' /></td></tr>";
 
-$calc_output = "<table><tr><td colspan='2'><span id='discount_cal_final_price'></span></td></tr>";
+$calcOutput = "<table><tr><td colspan='2'><span id='discount_cal_final_price'></span></td></tr>";
 
-$calc_output .= "<tr><td><label>" . JText::_(
-        'COM_REDSHOP_UNIT'
-    ) . "</label></td><td>" . $discount_calc_unit . "</td></tr>";
+$calcOutput .= "<tr><td><label>" . JText::_('COM_REDSHOP_UNIT') . "</label></td><td>" . $discountCalcUnit . "</td></tr>";
 
-switch ($calcMethod) {
+switch ($calcMethod)
+{
     case "volume":
         $calc_output .= $height;
         $calc_output .= $width;
@@ -79,24 +71,25 @@ switch ($calcMethod) {
         break;
 }
 
-$pdc_extra_output = "";
-$pdc_extra_datas  = \Redshop\Promotion\Discount::getDiscountCalcDataExtra("", $this->data->product_id);
+$pdcExtraOutput = "";
+$pdcExtraDatas  = \Redshop\Promotion\Discount::getDiscountCalcDataExtra("", $this->data->product_id);
 
-for ($p = 0, $pn = count($pdc_extra_datas); $p < $pn; $p++) {
-    $pdc_extra_data = $pdc_extra_datas[$p];
-    $option_name    = $pdc_extra_data->option_name;
-    $pdcextra_id    = $pdc_extra_data->pdcextra_id;
-    $pdcprice       = $pdc_extra_data->price;
-    $pdcoprand      = $pdc_extra_data->oprand;
+for ($p = 0, $pn = count($pdcExtraDatas); $p < $pn; $p++)
+{
+	$pdcExtraData = $pdcExtraDatas[$p];
+	$optionName    = $pdcExtraData->option_name;
+	$pdcExtraId    = $pdcExtraData->pdcextra_id;
+	$pdcPrice       = $pdcExtraData->price;
+	$pdcOprand      = $pdcExtraData->oprand;
 
-    $pdcstring = $option_name . ' (' . $pdcoprand . ' ' . $pdcprice . ' )';
+	$pdcString = $optionName . ' (' . $pdcOprand . ' ' . $pdcPrice . ' )';
 
-    $pdc_extra_output .= "<tr>";
-    $pdc_extra_output .= '<td colspan="2">' . $pdcstring . '<input type="checkbox" name="pdc_option_name[]" onclick="discountCalculation(\'' . $this->pid . '\')" value="' . $pdcextra_id . '"></td>';
-    $pdc_extra_output .= "</tr>";
+	$pdcExtraOutput .= "<tr>";
+	$pdcExtraOutput .= '<td colspan="2">' . $pdcString . '<input type="checkbox" name="pdc_option_name[]" onclick="discountCalculation(\'' . $this->pid . '\')" value="' . $pdcExtraId . '"></td>';
+	$pdcExtraOutput .= "</tr>";
 }
 
-$calc_output .= $pdc_extra_output . $calculate . $hiddenVar;
-$calc_output .= "</table>";
+$calcOutput .= $pdcExtraOutput . $calculate . $hiddenVar;
+$calcOutput .= "</table>";
 
-echo $calc_output;
+echo $calcOutput;

@@ -1014,6 +1014,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                 $reviewForm = RedshopLayoutHelper::render(
                     'tags.common.modal',
                     [
+                        'name'  => 'product-rating-iframe',
                         'class' => 'redbox btn btn-primary',
                         'link'  => JURI::root(
                             ) . 'index.php?option=com_redshop&view=product_rating&tmpl=component&product_id=' . $this->product->product_id .
@@ -1096,6 +1097,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
             $this->replacements['{ask_question_about_product}'] = RedshopLayoutHelper::render(
                 'tags.common.modal',
                 [
+                    'name'  => 'question-iframe',
                     'class' => 'redbox btn btn-primary',
                     'link'  => JURI::root(
                         ) . 'index.php?option=com_redshop&view=ask_question&pid=' . $this->product->product_id .
