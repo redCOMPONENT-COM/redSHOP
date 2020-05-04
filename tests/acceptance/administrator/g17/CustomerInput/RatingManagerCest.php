@@ -78,20 +78,34 @@ class RatingManagerCest
 	protected $configRating;
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $statePublish;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $stateUnpublish;
+
+	/**
 	 * RatingManagerCest constructor.
 	 * @since 3.0.2
 	 */
 	public function __construct()
 	{
-		$this->faker        = Faker\Factory::create();
-		$this->categoryName         = $this->faker->bothify('Category Name ?###?');
+		$this->faker               = Faker\Factory::create();
+		$this->categoryName        = $this->faker->bothify('Category Name ?###?');
 		$this->productName         = $this->faker->bothify('Name Product ?###?');
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice  = 100;
+		$this->statePublish        = "Publish";
+		$this->stateUnpublish      = "unpublish";
 
 		$this->user = array(
 			"userName"     => $this->faker->bothify('User name ?####?'),
-			"password"     => $this->faker->bothify('Password VN ?##?'),
+			"password"     => $this->faker->bothify('Password ?##?'),
 			"email"        => $this->faker->email,
 			"group"        => 'Registered',
 			"shopperGroup" => 'Default Private',
@@ -174,10 +188,15 @@ class RatingManagerCest
 		$I->deleteRating($this->rating);
 
 		$I = new ConfigurationSteps($scenario);
-		$I->wantTo("create new rating on front end");
+		$I->wantTo("change config with rating");
 		$I->configRating($this->configRating);
 		$I = new RatingManagerSteps($scenario);
+		$I->wantTo("create new rating on front end");
 		$I->createRatingOnFrontEnd($this->ratingFrontEnd, $this->categoryName, 'no');
+		$I->wantTo("change state rating to publish");
+		$I->changeStateRating($this->ratingFrontEnd, $this->statePublish);
+		$I->wantTo("check rating display on front end");
+		$I->checkDisplayRatingOnFrontEnd($this->ratingFrontEnd);
 		$I->wantTo("delete rating on backend");
 		$I->deleteRating($this->ratingFrontEnd);
 	}

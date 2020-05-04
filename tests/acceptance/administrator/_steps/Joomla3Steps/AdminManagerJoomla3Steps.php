@@ -189,17 +189,13 @@ class AdminManagerJoomla3Steps extends Redshop
 	 * Function to change State of an Item in the Backend
 	 *
 	 * @param   Object $pageClass   Page Class on which we are performing the Operation
-	 * @param   String $item        Item which we are supposed to change
 	 * @param   String $state       State for the Item
-	 * @param   String $resultRow   Result row where we need to look for the item
-	 * @param   String $check       Checkbox path for Selecting the Item
-	 * @param   String $searchField The locator for the search field
 	 *
 	 * @return void
 	 * @throws  \Exception
 	 * @since 1.4.0
 	 */
-	public function changeState($pageClass, $item, $state, $resultRow, $check, $searchField = "#filter")
+	public function changeState($pageClass, $state)
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);

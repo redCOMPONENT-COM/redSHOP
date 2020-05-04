@@ -22,7 +22,7 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 	public function createRating($rating)
 	{
 		$I = $this;
-		$I->amOnPage(RatingManagerPage::$url);
+		$I->amOnPage(RatingManagerPage::$URL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForText(RatingManagerPage::$titlePage, 10, RatingManagerPage::$h1);
 		$I->waitForText(RatingManagerPage::$buttonNew, 30);
@@ -113,7 +113,7 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->wantTo('Search the Product');
-		$I->amOnPage(RatingManagerPage::$url);
+		$I->amOnPage(RatingManagerPage::$URL);
 		$I->filterListBySearching($ratingName, RatingManagerPage::$filterSearch);
 	}
 
@@ -127,13 +127,41 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 		$I = $this;
 		$I->searchRating($rating['product']);
 		$I->waitForText(RatingManagerPage::$titlePage, 10, RatingManagerPage::$h1);
-		$I->checkAllResults();
+		$I->waitForElementVisible(RatingManagerPage::$firstItem, 20);
+		$I->click(RatingManagerPage::$firstItem);
 		$I->waitForText(RatingManagerPage::$buttonDelete, 10);
 		$I->click(RatingManagerPage::$buttonDelete);
 		$I->canSeeInPopup(RatingManagerPage::$messageDeleteRating);
 		$I->acceptPopup();
 		$I->waitForText(RatingManagerPage::$messageDeleteRatingSuccess, 10);
 		$I->dontSee($rating['title']);
+	}
+
+	/**
+	 * @param $rating
+	 * @param $state
+	 * @throws Exception
+	 */
+	public function changeStateRating($rating, $state)
+	{
+		$I = $this;
+		$I->searchRating($rating['product']);
+		$I->waitForText(RatingManagerPage::$titlePage, 10, RatingManagerPage::$h1);
+		$I->waitForElementVisible(RatingManagerPage::$firstItem, 20);
+		$I->click(RatingManagerPage::$firstItem);
+
+		if ($state == 'unpublish')
+		{
+			$I->waitForText(RatingManagerPage::$buttonUnpublish, 10);
+			$I->click(RatingManagerPage::$buttonUnpublish);
+			$I->waitForText(RatingManagerPage::$messageUnpublishSuccess, 10);
+		}
+		else
+		{
+			$I->waitForText(RatingManagerPage::$buttonPublish, 10);
+			$I->click(RatingManagerPage::$buttonPublish);
+			$I->waitForText(RatingManagerPage::$messagePublishSuccess, 30);
+		}
 	}
 
 	/**
@@ -195,4 +223,19 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 		$I->waitForText(RatingManagerPage::$messageSaveRatingSuccessFrontEnd, 30);
 	}
 
+	/**
+	 * @param $rating
+	 * @throws Exception
+	 * @since 3.0.2
+	 */
+	public function checkDisplayRatingOnFrontEnd($rating)
+	{
+		$I = $this;
+		$I->amOnPage(RatingManagerPage::$urlFrontEnd);
+		$I->waitForElementVisible(RatingManagerPage::$classRating, 10);
+		$I->waitForText($rating['product'], 10);
+		$I->waitForText($rating['title'], 10, RatingManagerPage::$titleReview2);
+		$I->waitForText($rating['comment'], 10, RatingManagerPage::$commentReview2);
+		$I->waitForText($rating['userName'], 10, RatingManagerPage::$fullNameReview2);
+	}
 }

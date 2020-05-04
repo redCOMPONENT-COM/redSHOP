@@ -99,7 +99,7 @@ class StockRoomCest
 	{
 		$I->wantTo('Test if State of a Stock Room gets Updated in Administrator');
 		$I = new StockRoomManagerJoomla3Steps($scenario);
-		$I->changeStockRoomState($this->newName);
+		$I->changeStockRoomState();
 		$I->waitForElement(AdminJ3Page::$resetButton, 30);
 		$I->click(AdminJ3Page::$resetButton);
 		$I->filterListBySearching($this->newName, $searchField = "#filter");

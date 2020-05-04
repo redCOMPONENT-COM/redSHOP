@@ -16,7 +16,7 @@ class RatingManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $url = "administrator/index.php?option=com_redshop&view=rating";
+	public static $URL = "administrator/index.php?option=com_redshop&view=rating";
 
 	/**
 	 * @var string
@@ -38,6 +38,12 @@ class RatingManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $classRating = ".redSHOPSiteViewRatings";
+
+	/**
+	 * @var string
 	 * @since
 	 */
 	public static $filterSearch = "#comment_filter";
@@ -47,6 +53,12 @@ class RatingManagerPage extends AdminJ3Page
 	 * @since 3.0.2
 	 */
 	public static $inputTitle = "#title";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $firstItem = "#cb0";
 
 	/**
 	 * @var string
@@ -143,6 +155,36 @@ class RatingManagerPage extends AdminJ3Page
 	 * @since 3.0.2
 	 */
 	public static $messageDeleteRatingSuccess = "Rating detail deleted successfully";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $messageUnpublishSuccess = 'unpublished successfully';
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $messagePublishSuccess = 'published successfully';
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $titleReview2 = "(//div[@id='reviews_title'])[2]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $commentReview2 = "(//div[@id='reviews_comment'])[2]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $fullNameReview2 = "(//div[@id='reviews_fullname'])[2]";
 
 	/**
 	 * @param $number
