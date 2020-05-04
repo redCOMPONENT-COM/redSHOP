@@ -1,13 +1,15 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use AcceptanceTester\AdminManagerJoomla3Steps;
+
 /**
- * Class ZZUninstallExtensionCest
+ * Class UninstallExtensionCest
  *
  * @package  AcceptanceTester
  *
@@ -18,41 +20,14 @@
 class UninstallExtensionCest
 {
 	/**
-	 * Function to Uninstall redSHOP extension
-	 *
-	 * @return void
+	 * @param AdminManagerJoomla3Steps $I
+	 * @throws Exception
+	 * @since 1.4.0
 	 */
-	public function uninstallExtension(AcceptanceTester $I, $scenario)
+	public function uninstallExtension(AdminManagerJoomla3Steps $I)
 	{
 		$I->wantTo('Uninstall redSHOP Extensions');
 		$I->doAdministratorLogin();
-		$I->amOnPage('/administrator/index.php?option=com_installer&view=manage');
-		$I->checkForPhpNoticesOrWarnings();
-		$I->waitForText(\ExtensionManagerJoomla3Page::$buttonClear, 30);
-		$I->click(\ExtensionManagerJoomla3Page::$buttonClear);
-
-		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
-		$I->waitForElementVisible(\ExtensionManagerJoomla3Page::$searchTools, 30);
-		$I->wait(0.5);
-		$I->click(\ExtensionManagerJoomla3Page::$searchTools);
-		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
-		$I->waitForElement('#filter_type', 30);
-		$I->selectOptionInChosen('#filter_type', 'Component');
-		$I->fillField('#filter_search', 'redSHOP');
-		$I->click(\ExtensionManagerJoomla3Page::$searchButtonJ3);
-		$I->waitForElement('#manageList');
-		$I->click(['link' => 'Location']);
-		$I->waitForElement('#manageList');
-		$I->click(['link' => 'Location']);
-		$I->click(\ExtensionManagerJoomla3Page::$firstCheck);
-		$I->click("Uninstall");
-		$I->acceptPopup();
-		$I->see('Uninstalling the component was successful', '#system-message-container');
-
-		$I->fillField('#filter_search', 'redSHOP');
-		$I->click(\ExtensionManagerJoomla3Page::$searchButtonJ3);
-		$I->waitForText('There are no extensions installed matching your query.', 10, '.alert-no-items');
-		$I->see('There are no extensions installed matching your query.', '.alert-no-items');
-		$I->selectOptionInChosen('#filter_type', '- Select Type -');
+		$I->uninstallRedSHOP();
 	}
 }

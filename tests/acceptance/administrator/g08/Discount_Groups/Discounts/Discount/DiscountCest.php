@@ -1,8 +1,8 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,56 +21,67 @@ class DiscountCest
 {
 	/**
 	 * @var \Faker\Generator
+	 * @since 1.4.0
 	 */
 	public $faker;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $discountName;
 
 	/**
-	 * @var integer
+	 * @var int
+	 * @since 1.4.0
 	 */
 	public $amount;
 
 	/**
-	 * @var integer
+	 * @var int
+	 * @since 1.4.0
 	 */
 	public $discountAmount;
 
 	/**
-	 * @var integer
+	 * @var int
+	 * @since 1.4.0
 	 */
 	public $newAmount;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $startDate;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $endDate;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $shopperGroup;
 
 	/**
-	 * @var integer
+	 * @var int
+	 * @since 1.4.0
 	 */
 	public $discountType;
 
 	/**
-	 * @var integer
+	 * @var int
+	 * @since 1.4.0
 	 */
 	public $discountCondition;
 
 	/**
 	 * DiscountCest constructor.
+	 * @since 1.4.0
 	 */
 	public function __construct()
 	{
@@ -85,20 +96,20 @@ class DiscountCest
 		$this->discountType      = 0;
 		$this->discountCondition = 1;
 	}
+
 	/**
 	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 * @since 1.4.0
 	 */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
 	}
+
 	/**
-	 * Function to Test Discount Creation in Backend
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
+	 * @param DiscountSteps $client
+	 * @since 1.4.0
 	 */
 	public function createDiscount(DiscountSteps $client)
 	{
@@ -112,14 +123,8 @@ class DiscountCest
 	}
 
 	/**
-	 * Function add Discount with save button
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @depends createDiscount
-	 *
-	 * @return  void
+	 * @param DiscountSteps $client
+	 * @since 1.4.0
 	 */
 	public function addDiscountSaveChangeStatus(DiscountSteps $client)
 	{
@@ -132,14 +137,9 @@ class DiscountCest
 	}
 
 	/**
-	 * Function to Test Discount Updation in the Administrator
-	 *
-	 * @param   AcceptanceTester  $client    Acceptance Tester case.
-	 * @param   string            $scenario  Scenario for test.
-	 *
-	 * @depends addDiscountSaveChangeStatus
-	 *
-	 * @return void
+	 * Function to Test Discount Update in the Administrator
+	 * @param DiscountSteps $client
+	 * @since 1.4.0
 	 */
 	public function updateDiscount(DiscountSteps $client)
 	{
@@ -150,13 +150,8 @@ class DiscountCest
 
 	/**
 	 * Function test discount with start date higher than end date.
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @depends addDiscountSaveChangeStatus
-	 *
-	 * @return  void
+	 * @param DiscountSteps $client
+	 * @since 1.4.0
 	 */
 	public function addDiscountBadCases(DiscountSteps $client)
 	{
@@ -183,5 +178,4 @@ class DiscountCest
 		$client->wantTo('Test Discount creation with missing all fields.');
 		$client->addDiscountWithAllFieldsEmpty();
 	}
-
 }

@@ -1,12 +1,10 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-use Codeception\Scenario;
 
 /**
  * Class ManageAdministratorNoticesCest
@@ -15,17 +13,19 @@ use Codeception\Scenario;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    1.4
+ * @since 1.4.0
  */
 class NoticesCest
 {
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public $allExtensionPages = array();
 
 	/**
 	 * ManageAdministratorNoticesCest constructor.
+	 * @since 1.4.0
 	 */
 	public function __construct()
 	{
@@ -59,14 +59,11 @@ class NoticesCest
 	}
 
 	/**
-	 * Function to Verify Notices and Errors in Administrator Pages
-	 *
-	 * @param   AcceptanceTester $tester   Tester
-	 * @param   Scenario         $scenario Scenario
-	 *
-	 * @return void
+	 * @param AcceptanceTester $tester
+	 * @throws Exception
+	 * @since 1.4.0
 	 */
-	public function verifyNotices(AcceptanceTester $tester, $scenario)
+	public function verifyNotices(AcceptanceTester $tester)
 	{
 		$tester->wantTo('Test Presence of Notices, Warnings on Administrator Pages');
 		$tester->doAdministratorLogin();

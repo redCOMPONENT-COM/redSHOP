@@ -6,18 +6,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use AcceptanceTester\MassDiscountManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductManagerSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
-use AcceptanceTester\DiscountSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use Configuration\ConfigurationSteps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 
 /**
- * Class CheckoutWithTotalDiscoutBeforeTodayCest
+ * Class CheckoutMassDiscountsBeforeTodayCest
  * @since 2.1.0
  */
-class CheckoutWithTotalDiscoutBeforeTodayCest
+class CheckoutMassDiscountsBeforeTodayCest
 {
 	/**
 	 * @var \Faker\Generator
@@ -173,7 +173,7 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 	 * @var string
 	 * @since 2.1.0
 	 */
-	protected $randomDiscountName;
+	protected $randomMassDiscountName;
 
 	/**
 	 * @var string
@@ -223,33 +223,32 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 	 */
 	public function __construct()
 	{
-		$this->faker                         = Faker\Factory::create();
+		$this->faker                  = Faker\Factory::create();
 		$this->categoryName           = 'TestingCategory' . rand(99, 999);
 		$this->productName            = 'TestingProducts' . rand(99, 999);
-		$this->randomDiscountName           = 'discount total order ' . rand(99, 999);
-		$this->minimumPerProduct            = 2;
-		$this->minimumQuantity              = 2;
-		$this->maximumQuantity              = 5;
-		$this->productStart                 = "2018-05-05";
-		$this->productEnd                   = "2018-07-08";
-		$this->discountStart                = "2018-04-04";
-		$this->discountEnd                  = "2018-04-20";
-		$this->randomProductNumber          = rand(999, 9999);
-		$this->randomProductPrice           = rand(9, 19);
-		$this->totalAmount                  = $this->faker->numberBetween(100, 999);
-		$this->discountAmount               = $this->faker->numberBetween(10, 100);
+		$this->randomMassDiscountName = 'Mass discount' . rand(99, 999);
+		$this->minimumPerProduct      = 1;
+		$this->minimumQuantity        = 1;
+		$this->maximumQuantity        = 5;
+		$this->productStart           = "2018-05-05";
+		$this->productEnd             = "2018-07-08";
+		$this->discountStart          = "2018-04-04";
+		$this->discountEnd            = "2018-04-20";
+		$this->randomProductNumber    = rand(999, 9999);
+		$this->randomProductPrice     = rand(10, 50);
+		$this->totalAmount            = $this->faker->numberBetween(100, 999);
+		$this->discountAmount         = $this->faker->numberBetween(10, 100);
 
-		$this->userName                   = $this->faker->bothify('ManageUserAdministratorCest ?##?');
-		$this->password                   = $this->faker->bothify('Password ?##?');
-		$this->email                      = $this->faker->email;
-		$this->shopperGroup               = 'Default Private';
-		$this->group                      = 'Registered';
-		$this->firstName                  = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
-		$this->lastName                   = 'Last';
-	
-		$this->userNameDelete             = $this->firstName;
-		$this->searchOrder                = $this->firstName.' '.$this->lastName ;
-		$this->paymentMethod             = 'RedSHOP - Bank Transfer Payment';
+		$this->userName       = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+		$this->password       = $this->faker->bothify('Password ?##?');
+		$this->email          = $this->faker->email;
+		$this->shopperGroup   = 'Default Private';
+		$this->group          = 'Registered';
+		$this->firstName      = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->lastName       = 'Last';
+		$this->userNameDelete = $this->firstName;
+		$this->searchOrder    = $this->firstName.' '.$this->lastName ;
+		$this->paymentMethod  = 'RedSHOP - Bank Transfer Payment';
 
 		//configuration enable one page checkout
 		$this->cartSetting = array(
@@ -291,9 +290,6 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 	 */
 	public function addFunction(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
-		$I->wantTo('Disable PayPal');
-		$I->disablePlugin('PayPal');
-
 		$I->wantTo('Test User creation with save button in Administrator');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'saveclose');
@@ -308,8 +304,8 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 		$I->createProductSave($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->productStart, $this->productEnd);
 
 		$I->wantTo('Create Total Discount in Administrator');
-		$I = new DiscountSteps($scenario);
-		$I->addTotalDiscountSaveClose($this->randomDiscountName,  $this->totalAmount, 'Higher', 'Total', $this->discountAmount, $this->discountStart, $this->discountEnd, $this->shopperGroup);
+		$I = new MassDiscountManagerJoomla3Steps($scenario);
+		$I->addMassDiscountBeforeToday($this->randomMassDiscountName,  $this->totalAmount,$this->categoryName );
 	}
 
 	/**
@@ -365,8 +361,8 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 		$I->deleteUser($this->userNameDelete, 'true');
 
 		$I->wantTo('Deletion of Total Discount in Administrator');
-		$I = new DiscountSteps($scenario);
-		$I->deleteDiscount($this->randomDiscountName);
+		$I = new MassDiscountManagerJoomla3Steps($scenario);
+		$I->deleteMassDiscountOK($this->randomMassDiscountName);
 
 		$I->wantTo('Deletion of Order Total Discount in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);

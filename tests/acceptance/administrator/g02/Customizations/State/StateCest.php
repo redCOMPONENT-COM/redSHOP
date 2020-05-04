@@ -1,8 +1,8 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,46 +22,55 @@ class StateCest
 {
 	/**
 	 * @var  string
+	 * @since 1.4.0
 	 */
 	public $faker;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $manufacturerName;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $randomCountryName;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $randomStateName;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $updatedRandomStateName;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $randomTwoCode;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $randomThreeCode;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $randomCountry;
 
 	/**
 	 * ManageStateAdministratorCest constructor.
+	 * @since 1.4.0
 	 */
 	public function __construct()
 	{
@@ -74,13 +83,16 @@ class StateCest
 		$this->randomThreeCode        = $this->faker->numberBetween(100, 999);
 		$this->randomCountry          = 'Country ' . $this->faker->numberBetween(99, 999);
 	}
-    /**
-     * @param AcceptanceTester $I
-     */
-    public function _before(AcceptanceTester $I)
-    {
-        $I->doAdministratorLogin();
-    }
+
+	/**
+	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 * @since 1.4.0
+	 */
+	public function _before(AcceptanceTester $I)
+	{
+		$I->doAdministratorLogin();
+	}
 
 	/**
 	 * Function to Test State Creation in Backend
@@ -89,12 +101,12 @@ class StateCest
 	 * @param   Scenario         $scenario Scenario object.
 	 *
 	 * @return  void
+	 * @since 1.4.0
 	 */
 	public function createState(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Test State creation in Administrator');
 
-		/** @var CountrySteps $client */
 		$client = new CountrySteps($scenario);
 		$client->addNewItem(
 			array(
@@ -117,6 +129,7 @@ class StateCest
 	 * @return  void
 	 *
 	 * @depends createState
+	 * @since 1.4.0
 	 */
 	public function updateState(AcceptanceTester $client, $scenario)
 	{
@@ -134,17 +147,12 @@ class StateCest
 	 * @return  void
 	 *
 	 * @depends updateState
+	 * @since 1.4.0
 	 */
 	public function deleteState(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Deletion of State in Administrator');
 		$client = new StateSteps($scenario);
 		$client->deleteState($this->updatedRandomStateName);
-		/**
-		 * @TODO: Why delete country here?
-		 */
-		/*$client = new AcceptanceTester\CountryManagerJoomla3Steps($scenario);
-		$client->deleteCountry($this->randomCountryName);
-		$client->searchCountry($this->randomCountryName, 'Delete');*/
 	}
 }
