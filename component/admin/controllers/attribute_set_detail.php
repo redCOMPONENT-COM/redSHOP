@@ -170,6 +170,8 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
                     $subPropertiesSave['subattribute_color_number'] = $subProperties[$sp]['number'];
                     $subPropertiesSave['setdefault_selected']       = ($subProperties[$sp]['chk_propdselected'] == 'on'
                         || $subProperties[$sp]['chk_propdselected'] == '1') ? '1' : '0';
+                    $subPropertiesSave['subattribute_show_fe']       = ($subProperties[$sp]['subattribute_show_fe'] == 'on'
+                        || $subProperties[$sp]['subattribute_show_fe'] == '1') ? '1' : '0';
                     $subPropertiesSave['subattribute_published']    = ($subProperties[$sp]['published'] == 'on'
                         || $subProperties[$sp]['published'] == '1') ? '1' : '0';
                     $subPropertiesSave['extra_field']               = $subProperties[$sp]['extra_field'];

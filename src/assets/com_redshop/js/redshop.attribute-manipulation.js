@@ -290,6 +290,10 @@
 				+ '</div>'
 
 				+ '<div class="col-sm-1">'
+				+ '<label>' + Joomla.JText._('COM_REDSHOP_SHOW_ATTRIBUTE_FE') + '</label><input type="checkbox" value="1" name="' + subPref + '[subattribute_show_fe]">'
+				+ '</div>'
+
+				+ '<div class="col-sm-1">'
 				+ '<input value="' + Joomla.JText._('COM_REDSHOP_DELETE') + '" class="btn btn-danger delete_subproperty btn-small" type="button" />'
 				+ '</div>'
 

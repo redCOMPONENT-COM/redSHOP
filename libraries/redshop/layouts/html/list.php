@@ -66,10 +66,16 @@ $idText = $idtag ? $idtag : $name;
                    <?php if (isset($obj->property_show_fe) && $obj->property_show_fe == 0): ?>
                    style="display: none"
                    <?php endif ?>
+                    <?php if (isset($obj->subattribute_show_fe) && $obj->subattribute_show_fe == 0): ?>
+                        style="display: none"
+                    <?php endif ?>
                    value="<?php echo $key; ?>"
                 <?php echo $extra; ?> <?php echo $attribs; ?> rel="noicheck"/>
             <label class="<?php echo $type; ?>" for="<?php echo $id; ?>" id="<?php echo $id; ?>-lbl"
                 <?php if (isset($obj->property_show_fe) && $obj->property_show_fe == 0): ?>
+                    style="display: none"
+                <?php endif ?>
+                <?php if (isset($obj->subattribute_show_fe) && $obj->subattribute_show_fe == 0): ?>
                     style="display: none"
                 <?php endif ?>
             >

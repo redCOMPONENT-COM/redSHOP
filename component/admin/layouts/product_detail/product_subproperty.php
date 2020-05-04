@@ -101,7 +101,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
             <input type="text" class="input-mini" name="<?php echo $subPropPref; ?>[extra_field]"
                    value="<?php echo $subProperty->extra_field; ?>"/>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <label>
                 <?php echo JText::_('COM_REDSHOP_ORDERING'); ?>
             </label>
@@ -143,6 +143,13 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
             </label>
             <input type="checkbox" value="1"
                    name="<?php echo $subPropPref; ?>[chk_propdselected]" <?php echo ($subProperty->setdefault_selected == 1) ? 'checked' : ''; ?> />
+        </div>
+        <div class="col-sm-1">
+            <label>
+                <?php echo JText::_('COM_REDSHOP_SHOW_ATTRIBUTE_FE'); ?>
+            </label>
+            <input type="checkbox" value="1"
+                   name="<?php echo $subPropPref; ?>[chk_propdselected]" <?php echo ($subProperty->subattribute_show_fe == 1) ? 'checked' : ''; ?> />
         </div>
 
         <div class="col-sm-1">

@@ -4569,6 +4569,13 @@ class RedshopHelperProduct
                         'ASTERISK_POSITION'
                     ) > 0 ? $displayPropertyName . "<span id='asterisk_right'> * </span>" : "<span id='asterisk_left'>* </span>" . $displayPropertyName;
                 }
+
+                /* REDSHOP-5977 show/hide subproperty */
+                if ($subproperty[0]->subattribute_show_fe == 0) {
+                    $displayPropertyName = '';
+                }
+                /* END REDSHOP-5977 */
+
                 $attribute_table = str_replace("{property_title}", $displayPropertyName, $attribute_table);
                 $attribute_table = str_replace("{subproperty_dropdown}", $lists ['subproperty_id'], $attribute_table);
 

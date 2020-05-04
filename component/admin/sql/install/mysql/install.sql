@@ -1586,6 +1586,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_subattribute_color` (
   `subattribute_color_number` VARCHAR(255) NOT NULL,
   `subattribute_color_title` VARCHAR(255) NOT NULL,
   `subattribute_color_main_image` VARCHAR(255) NOT NULL,
+  `subattribute_show_fe` TINYINT(1) NULL DEFAULT '1',
   PRIMARY KEY (`subattribute_color_id`),
   INDEX `idx_subattribute_id` (`subattribute_id` ASC),
   INDEX `idx_subattribute_published` (`subattribute_published` ASC),
