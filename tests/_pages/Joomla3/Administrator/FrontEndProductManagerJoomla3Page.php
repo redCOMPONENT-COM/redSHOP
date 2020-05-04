@@ -972,9 +972,9 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $productSecond = "(//div[@class='category_box_inside'])[2]";
 
-    /**
-     * @var string
-     * @since 3.0.2
-     */
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
 	public static $buttonWriteReview = "//a[contains(text(),'Write review')]";
 }
