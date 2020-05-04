@@ -7,7 +7,8 @@
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.vn</authorEmail>
     <authorUrl>http://www.redweb.vn</authorUrl>
-    <version>1.0.0</version>
+    <version>1.1</version>
+    <redshop>3.0.1</redshop>
     <description>PLG_REDSHOP_PRODUCT_SH404URLS_DESC</description>
     <files>
         <filename plugin="sh404urls">sh404urls.php</filename>
