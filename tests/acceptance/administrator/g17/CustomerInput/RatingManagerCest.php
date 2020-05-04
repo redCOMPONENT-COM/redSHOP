@@ -27,67 +27,7 @@ class RatingManagerCest
 	 * @var string
 	 * @since 3.0.2
 	 */
-	protected $taxGroupName;
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
 	protected $country;
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	protected $vatDefault;
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	protected $vatCalculation;
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	protected $vatAfter;
-
-	/**
-	 * @var int
-	 * @since 3.0.2
-	 */
-	protected $vatNumber;
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	protected $calculationBase;
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	protected $requireVAT;
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	protected $taxRateNameDenmark;
-
-	/**
-	 * @var float
-	 * @since 3.0.2
-	 */
-	protected $taxRateValueDenmark;
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	protected $countryDenmark;
 
 	/**
 	 * @var string
@@ -224,6 +164,7 @@ class RatingManagerCest
 	 * @param RatingManagerSteps $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since 3.0.2
 	 */
 	public function checkRating(RatingManagerSteps $I, $scenario)
 	{
