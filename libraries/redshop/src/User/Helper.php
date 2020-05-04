@@ -40,7 +40,7 @@ class Helper
                     if (!isset($data[$requiredFields[$i]->name])
                         || (isset($data[$requiredFields[$i]->name])
                             && $data[$requiredFields[$i]->name] == "")) {
-                        $msg .= $requiredFields[$i]->title . " " . JText::_('COM_REDSHOP_IS_REQUIRED') . "<br/>";
+                        $msg .= $requiredFields[$i]->title . " " . \JText::_('COM_REDSHOP_IS_REQUIRED') . "<br/>";
                     }
                 }
             }
