@@ -79,6 +79,32 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
             $maxQuantity       = 0;
             $minQuantity       = 0;
         } else {
+            // IF PRODUCT CHILD IS EXISTS THEN DONT SHOW PRODUCT ATTRIBUTES
+            if ($isChild) {
+                return str_replace("{form_addtocart:$cartTemplate->name}", "", $content);
+            } elseif (\RedshopHelperProduct::isProductDateRange($userFields, $productId)) {
+                // New type custom field - Selection based on selected conditions
+                return str_replace(
+                    "{form_addtocart:$cartTemplate->name}",
+                    \JText::_('COM_REDSHOP_PRODUCT_DATE_FIELD_EXPIRED'),
+                    $content
+                );
+            } elseif ($product->not_for_sale) {
+                return str_replace("{form_addtocart:$cartTemplate->name}", '', $content);
+            } elseif (!$taxExemptAddToCart) {
+                $content = str_replace("{form_addtocart:$cartTemplate->name}", '', $content);
+
+                return $content;
+            } elseif (!\Redshop::getConfig()->get('SHOW_PRICE')) {
+                return str_replace("{form_addtocart:$cartTemplate->name}", '', $content);
+            } elseif ($product->expired == 1) {
+                return str_replace(
+                    "{form_addtocart:$cartTemplate->name}",
+                    \Redshop::getConfig()->get('PRODUCT_EXPIRE_TEXT'),
+                    $content
+                );
+            }
+
             // Get stock for Product
             $isStockExist = \RedshopHelperStockroom::isStockExists($productId);
 
@@ -279,7 +305,6 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 $categoryId = \RedshopHelperProduct::getCategoryProduct($productId);
             }
 
-
             if (count($userFields) > 0) {
                 $productHiddenUserFields = '<table>';
                 $idx                     = 0;
@@ -366,81 +391,6 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 );
             }
 
-            if (!$isStockExist) {
-                if (($productPreOrder == "global" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
-                    || ($productPreOrder == "yes")
-                    || ($productPreOrder == "" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))) {
-                    // Get preorder stock for Product
-                    $isPreOrderStockExists = \RedshopHelperStockroom::isPreorderStockExists($productId);
-
-                    if ($totalAttr > 0 && !$isPreOrderStockExists) {
-                        $attributeProperties = \RedshopHelperProduct_Attribute::getAttributeProperties(
-                            0,
-                            0,
-                            $productId
-                        );
-
-                        foreach ($attributeProperties as $attributeProperty) {
-                            $isSubPropertyStock     = false;
-                            $attributeSubProperties = \RedshopHelperProduct_Attribute::getAttributeSubProperties(
-                                0,
-                                $attributeProperty->property_id
-                            );
-
-                            foreach ($attributeSubProperties as $attributeSubProperty) {
-                                $isSubPropertyStock = \RedshopHelperStockroom::isPreorderStockExists(
-                                    $attributeSubProperty->subattribute_color_id,
-                                    'subproperty'
-                                );
-
-                                if ($isSubPropertyStock) {
-                                    $isPreOrderStockExists = $isSubPropertyStock;
-                                    break;
-                                }
-                            }
-
-                            if ($isSubPropertyStock) {
-                                break;
-                            }
-
-                            $isPropertyStockExist = \RedshopHelperStockroom::isPreorderStockExists(
-                                $attributeProperty->property_id,
-                                "property"
-                            );
-
-                            if ($isPropertyStockExist) {
-                                $isPreOrderStockExists = $isPropertyStockExist;
-                                break;
-                            }
-                        }
-                    }
-
-                    // Check preorder stock$
-                    if (!$isPreOrderStockExists) {
-                        $stockDisplay = true;
-                        $addCartFlag  = true;
-                        $displayText  = \JText::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE');
-                    } else {
-                        //$pre_order_value = 1;
-                        $preOrderDisplay      = true;
-                        $addCartFlag          = true;
-                        $productAvailableDate = "";
-
-                        if ($product->product_availability_date != "") {
-                            $productAvailableDate = \RedshopHelperDatetime::convertDateFormat(
-                                $product->product_availability_date
-                            );
-                        }
-                    }
-                } else {
-                    $stockDisplay = true;
-                    $addCartFlag  = true;
-                }
-            } else {
-                $cartDisplay = true;
-                $addCartFlag = true;
-            }
-
             $stockStyle    = '';
             $cartStyle     = '';
             $preOrderStyle = '';
@@ -518,6 +468,34 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                     . '\', \'user_fields_form\')){checkAddtocartValidation(\'' . $cartFromName . '\',\''
                     . $productId . '\',\'' . $relatedProductId . '\',\'' . $giftCardId . '\', \'user_fields_form\',\''
                     . $totalAttr . '\',\'' . $totalAccessory . '\',\'' . $countNoUserField . '\');}" ';
+
+                if ($product->product_type == "subscription")
+                {
+                    $subscriptionId = $input->getInt('subscription_id', 0);
+                }
+
+                $ajaxDetailTemplate = \Redshop\Template\Helper::getAjaxDetailBox($product);
+
+                if (null !== $ajaxDetailTemplate)
+                {
+                    $ajaxCartDetailDesc = $ajaxDetailTemplate->template_desc;
+
+                    if (strpos($ajaxCartDetailDesc, "{if product_userfield}") !== false)
+                    {
+                        $ajaxExtraField1      = explode("{if product_userfield}", $ajaxCartDetailDesc);
+                        $ajaxExtraField2      = explode("{product_userfield end if}", $ajaxExtraField1 [1]);
+                        $ajaxExtraFieldCenter = $ajaxExtraField2 [0];
+
+                        if (strpos($ajaxExtraFieldCenter, "{") === false)
+                        {
+                            $countNoUserField = 0;
+                        }
+                    }
+                    else
+                    {
+                        $countNoUserField = 0;
+                    }
+                }
             }
 
             $class    = '';
@@ -679,6 +657,8 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                     'totalRequiredProperties' => $totalRequiredProperties,
                     'preSelectedAttrImage'    => $preSelectedAttrImage,
                     'giftcardId'              => $giftCardId,
+                    'subscriptionId'          => $subscriptionId ?? '',
+                    'productHiddenUserFields' => $productHiddenUserFields,
                     'stockStyle'              => $stockStyle,
                     'preOrderImage'           => $preOrderImage,
                     'preOrderStyle'           => $preOrderStyle,
