@@ -79,7 +79,6 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 					$I->click($ratingPage->returnIdFavoured(0));
 					break;
 			}
-
 		}
 
 		if (isset( $rating['published']))
@@ -96,7 +95,6 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 					$I->click($ratingPage->returnIdFavoured(0));
 					break;
 			}
-
 		}
 
 		$I->waitForText(RatingManagerPage::$buttonSaveClose, 10);
@@ -185,9 +183,9 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
 
-		$I->executeJS('jQuery(".iframe").attr("name", "product-rating-iframe")');
+		$I->executeJS(RatingManagerPage::jQueryIframe());
 		$I->wait(0.5);
-		$I->switchToIFrame('product-rating-iframe');
+		$I->switchToIFrame(RatingManagerPage::$nameIframe);
 		$I->waitForElementVisible(RatingManagerPage::$inputTitleFrontEnd, 30);
 		$I->fillField(RatingManagerPage::$inputTitleFrontEnd, $rating['title']);
 		$ratingPage = new RatingManagerPage();

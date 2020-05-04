@@ -172,6 +172,12 @@ class RatingManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
+	public static $nameIframe = 'product-rating-iframe';
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
 	public static $titleReview2 = "(//div[@id='reviews_title'])[2]";
 
 	/**
@@ -226,4 +232,12 @@ class RatingManagerPage extends AdminJ3Page
 		return '//label[@for ="jform_user_rating'.$number.'"]';
 	}
 
+	/**
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public function jQueryIframe()
+	{
+		return 'jQuery(".iframe").attr("name", "product-rating-iframe")';
+	}
 }
