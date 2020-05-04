@@ -141,6 +141,7 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 	 * @param $rating
 	 * @param $state
 	 * @throws Exception
+	 * @since 3.0.2
 	 */
 	public function changeStateRating($rating, $state)
 	{

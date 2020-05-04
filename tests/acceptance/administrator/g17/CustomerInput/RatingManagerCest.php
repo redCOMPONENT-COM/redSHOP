@@ -162,15 +162,16 @@ class RatingManagerCest
 	 */
 	public function createData(CategoryManagerJoomla3Steps $I, $scenario)
 	{
-		$I->wantTo('Create Category in Administrator');
+		$I->wantTo('Create category in administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->wantTo('I Want to add product inside the category');
+		$I->wantTo('I want to add product inside the category');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 
 		$I = new UserManagerJoomla3Steps($scenario);
+		$I->wantTo('I want to add user');
 		$I->addUser($this->user['userName'], $this->user['password'], $this->user['email'], $this->user['group'], $this->user['shopperGroup'], $this->user['firstName'], $this->user['lastName'], 'save');
 	}
 
@@ -182,22 +183,22 @@ class RatingManagerCest
 	 */
 	public function checkRating(RatingManagerSteps $I, $scenario)
 	{
-		$I->wantTo("create new rating on backend");
+		$I->wantTo("I want to create new rating on backend");
 		$I->createRating($this->rating);
-		$I->wantTo("delete rating on backend");
+		$I->wantTo("I want to delete rating on backend");
 		$I->deleteRating($this->rating);
 
 		$I = new ConfigurationSteps($scenario);
-		$I->wantTo("change config with rating");
+		$I->wantTo("I want to change config with rating");
 		$I->configRating($this->configRating);
 		$I = new RatingManagerSteps($scenario);
-		$I->wantTo("create new rating on front end");
+		$I->wantTo("I want to create new rating on front end");
 		$I->createRatingOnFrontEnd($this->ratingFrontEnd, $this->categoryName, 'no');
-		$I->wantTo("change state rating to publish");
+		$I->wantTo("I want to change state rating to publish");
 		$I->changeStateRating($this->ratingFrontEnd, $this->statePublish);
-		$I->wantTo("check rating display on front end");
+		$I->wantTo("I want to check rating display on front end");
 		$I->checkDisplayRatingOnFrontEnd($this->ratingFrontEnd);
-		$I->wantTo("delete rating on backend");
+		$I->wantTo("I want to delete rating on backend");
 		$I->deleteRating($this->ratingFrontEnd);
 	}
 
