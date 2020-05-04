@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.0" client="site" method="upgrade">
+    <name>MOD_REDSHOP_LOGIN</name>
+    <version>1.0</version>
+    <redshop>3.0</redshop>
+    <creationDate>May 2020</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>MOD_REDSHOP_LOGIN</description>
+    <files>
+        <filename module="mod_redshop_login">mod_redshop_login.php</filename>
+        <filename module="mod_redshop_login">helper.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+        <folder module="mod_redshop_login">images</folder>
+        <folder module="mod_redshop_login">css</folder>
+        <folder module="mod_redshop_login">js</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_login.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_login.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic"
+                      addfieldpath="/administrator/components/com_menus/models/fields"
+            >
+                <field
+                        name="pretext"
+                        type="textarea"
+                        label="MOD_REDSHOP_LOGIN_FIELD_PRE_TEXT_LABEL"
+                        description="MOD_REDSHOP_LOGIN_FIELD_PRE_TEXT_DESC"
+                        filter="safehtml"
+                        cols="30"
+                        rows="5"
+                />
+
+                <field
+                        name="posttext"
+                        type="textarea"
+                        label="MOD_REDSHOP_LOGIN_FIELD_POST_TEXT_LABEL"
+                        description="MOD_REDSHOP_LOGIN_FIELD_POST_TEXT_DESC"
+                        filter="safehtml"
+                        cols="30"
+                        rows="5"
+                />
+
+                <field
+                        name="login"
+                        type="modal_menu"
+                        label="MOD_REDSHOP_LOGIN_FIELD_LOGIN_REDIRECTURL_LABEL"
+                        description="MOD_REDSHOP_LOGIN_FIELD_LOGIN_REDIRECTURL_DESC"
+                        disable="separator,alias,heading,url"
+                        select="true"
+                        new="true"
+                        edit="true"
+                        clear="true"
+                >
+                    <option value="">JDEFAULT</option>
+                </field>
+
+                <field
+                        name="logout"
+                        type="modal_menu"
+                        label="MOD_REDSHOP_LOGIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
+                        description="MOD_REDSHOP_LOGIN_FIELD_LOGOUT_REDIRECTURL_DESC"
+                        disable="separator,alias,heading,url"
+                        select="true"
+                        new="true"
+                        edit="true"
+                        clear="true"
+                >
+                    <option value="">JDEFAULT</option>
+                </field>
+
+                <field
+                        name="greeting"
+                        type="radio"
+                        label="MOD_REDSHOP_LOGIN_FIELD_GREETING_LABEL"
+                        description="MOD_REDSHOP_LOGIN_FIELD_GREETING_DESC"
+                        class="btn-group btn-group-yesno"
+                        default="1"
+                        filter="integer"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                        name="name"
+                        type="list"
+                        label="MOD_REDSHOP_LOGIN_FIELD_NAME_LABEL"
+                        description="MOD_REDSHOP_LOGIN_FIELD_NAME_DESC"
+                        default="0"
+                        filter="integer"
+                        showon="greeting:1"
+                >
+                    <option value="0">MOD_REDSHOP_LOGIN_VALUE_NAME</option>
+                    <option value="1">MOD_REDSHOP_LOGIN_VALUE_USERNAME</option>
+                </field>
+
+                <field
+                        name="profilelink"
+                        type="radio"
+                        label="MOD_REDSHOP_LOGIN_FIELD_PROFILE_LABEL"
+                        description="MOD_REDSHOP_LOGIN_FIELD_PROFILE_DESC"
+                        class="btn-group btn-group-yesno"
+                        default="0"
+                        filter="integer"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                        name="usesecure"
+                        type="radio"
+                        label="MOD_REDSHOP_LOGIN_FIELD_USESECURE_LABEL"
+                        description="MOD_REDSHOP_LOGIN_FIELD_USESECURE_DESC"
+                        class="btn-group btn-group-yesno"
+                        default="0"
+                        filter="integer"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                        name="usetext"
+                        type="list"
+                        label="MOD_REDSHOP_LOGIN_FIELD_USETEXT_LABEL"
+                        description="MOD_REDSHOP_LOGIN_FIELD_USETEXT_DESC"
+                        default="0"
+                        filter="integer"
+                >
+                    <option value="0">MOD_REDSHOP_LOGIN_VALUE_ICONS</option>
+                    <option value="1">MOD_REDSHOP_LOGIN_VALUE_TEXT</option>
+                </field>
+            </fieldset>
+
+            <fieldset name="advanced">
+                <field
+                        name="layout"
+                        type="modulelayout"
+                        label="JFIELD_ALT_LAYOUT_LABEL"
+                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+                />
+
+                <field
+                        name="moduleclass_sfx"
+                        type="textarea"
+                        label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                        description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+                        rows="3"
+                />
+
+                <field
+                        name="cache"
+                        type="list"
+                        label="COM_MODULES_FIELD_CACHING_LABEL"
+                        description="COM_MODULES_FIELD_CACHING_DESC"
+                        default="0"
+                        filter="integer"
+                >
+                    <option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
