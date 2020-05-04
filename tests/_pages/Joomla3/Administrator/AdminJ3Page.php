@@ -665,10 +665,10 @@ abstract class AdminJ3Page
 	 */
 	public static $addAccessory = '//input[@totalattributs="0"]';
 
-    /**
-     * @var string
-     * @since 3.0.2
-     */
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
 	public static $select2Results = "//ul[@class='select2-results']/li[1]/div";
 
 	/**
@@ -730,5 +730,14 @@ abstract class AdminJ3Page
 	{
 		$path = "//a[contains(text()[normalize-space()], '$menuItem')]";
 		return $path;
+	}
+
+	/**
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public static function jQueryIframeMenuType()
+	{
+		return 'jQuery(".iframe").attr("name", "Menu Item Type")';
 	}
 }
