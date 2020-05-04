@@ -1321,6 +1321,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_attribute_property` (
   `extra_field` VARCHAR(250) NOT NULL,
   `property_published` INT(11) NOT NULL DEFAULT '1',
   `property_number` VARCHAR(255) NOT NULL,
+  `property_show_fe` TINYINT(1) NULL DEFAULT '1',
   PRIMARY KEY (`property_id`),
   INDEX `idx_attribute_id` (`attribute_id` ASC),
   INDEX `idx_setrequire_selected` (`setrequire_selected` ASC),

@@ -39,6 +39,8 @@ class Tableattribute_property extends JTable
 
     public $property_published = 1;
 
+    public $property_show_fe = 1;
+
     public function __construct(&$db)
     {
         $this->_table_prefix = '#__redshop_';

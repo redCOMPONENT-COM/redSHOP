@@ -14,6 +14,7 @@ extract($displayData);
 $propertyId        = $property->property_id;
 $totalSubProp      = (isset($property->subvalue)) ? count($property->subvalue) : 0;
 $propertyPublished = ($property->property_published == 1) ? 'checked="checked"' : '';
+$subAttrShowFe     = ($property->property_show_fe == 1) ? 'checked="checked"' : '';
 $style             = ($totalSubProp) ? 'style="display:block;"' : 'style="display:none;"';
 
 $propertyImage      = '';
@@ -263,7 +264,16 @@ if ($property->property_main_image && JFile::exists(
                        name="<?php echo $propPref; ?>[published]"/>
             </div>
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>
+                    <?php echo JText::_('COM_REDSHOP_SHOW_ATTRIBUTE_FE'); ?>
+                </label>
+                <input type="checkbox" value="1" <?php echo $subAttrShowFe; ?>
+                       name="<?php echo $propPref; ?>[subattr_show_fe]"/>
+            </div>
+        </div>
+        <div class="col-sm-4">
             <input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
                    id="deleteProperty_<?php echo $propertyId; ?>_<?php
                    echo $attributeId; ?>" class="btn btn-danger delete_property" type="button"/>

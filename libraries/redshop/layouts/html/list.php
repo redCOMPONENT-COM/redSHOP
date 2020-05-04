@@ -63,9 +63,16 @@ $idText = $idtag ? $idtag : $name;
             }
             ?>
             <input type="<?php echo $type; ?>" id="<?php echo $id; ?>" name="<?php echo $name; ?>"
+                   <?php if (isset($obj->property_show_fe) && $obj->property_show_fe == 0): ?>
+                   style="display: none"
+                   <?php endif ?>
                    value="<?php echo $key; ?>"
                 <?php echo $extra; ?> <?php echo $attribs; ?> rel="noicheck"/>
-            <label class="<?php echo $type; ?>" for="<?php echo $id; ?>" id="<?php echo $id; ?>-lbl">
+            <label class="<?php echo $type; ?>" for="<?php echo $id; ?>" id="<?php echo $id; ?>-lbl"
+                <?php if (isset($obj->property_show_fe) && $obj->property_show_fe == 0): ?>
+                    style="display: none"
+                <?php endif ?>
+            >
                 <?php echo $title ?>
             </label>
         <?php endforeach; ?>

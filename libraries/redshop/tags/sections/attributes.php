@@ -257,11 +257,17 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
         $product
     ) {
 
-        if ($attribute->attribute_show_fe == 0) {
-            $target = '<div class="attribute_wrapper">';
-            $replacement = '<div class="attribute_wrapper" style="display: none;">';
-            $attributeTemplateData = str_replace($target, $replacement, $attributeTemplateData);
+        /** REDSHOP-5977 Show / Hide Attribute **/
+        if (isset($attribute->attribute_show_fe) && ($attribute->attribute_show_fe == 0)) {
+            $doc = new DOMDocument();
+            $doc->loadHTML($attributeTemplateData);
+
+            $div = $doc->getElementsByTagName('div');
+            $div[0]->setAttribute('style', 'display: none;');
+
+            $attributeTemplateData = $doc->saveHTML();
         }
+        /** End REDSHOP-5977 Show / Hide Attribute **/
 
         $subDisplay  = false;
         $replaceAttr = [];
@@ -392,6 +398,12 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             if ($selectedProperty) {
                 $subDisplay          = true;
                 $defaultPropertyId[] = $selectedProperty;
+            }
+
+            foreach ($properties as $prop) {
+                if ($prop->property_show_fe == 0) {
+                    $prop->disabled = true;
+                }
             }
 
             $lists['property_id'] = JHTML::_(
@@ -555,6 +567,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
         $attribute
     ) {
         $propertyWoscrollerDiv = '';
+
         if (count($selectProperty) > 0) {
             if (in_array($property->value, $selectProperty)) {
                 $selectedProperty = $property->value;

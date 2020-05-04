@@ -316,6 +316,7 @@ class RedshopControllerProduct_Detail extends RedshopController
                 $propertiesSave['setmulti_selected']   = isset($property['multi_sub_att'])
                 && ($property['multi_sub_att'] == 'on' || $property['multi_sub_att'] == '1') ? '1' : '0';
                 $propertiesSave['setdefault_selected'] = !empty($property['default_sel']) && ($property['default_sel'] == 'on' || $property['default_sel'] == '1') ? '1' : '0';
+                $propertiesSave['property_show_fe']     = !empty($property['subattr_show_fe']) && ($property['subattr_show_fe'] == 'on' || $property['subattr_show_fe'] == '1') ? '1' : '0';
                 $propertiesSave['setdisplay_type']     = $property['setdisplay_type'];
                 $propertiesSave['property_published']  = ($property['published'] == 'on' || $property['published'] == '1') ? '1' : '0';
                 $propertiesSave['extra_field']         = $property['extra_field'];

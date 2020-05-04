@@ -123,6 +123,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
                 $propertiesSave['setrequire_selected'] = ($property[$p]['req_sub_att'] == 'on' || $property[$p]['req_sub_att'] == '1') ? '1' : '0';
                 $propertiesSave['setmulti_selected']   = ($property[$p]['multi_sub_att'] == 'on' || $property[$p]['multi_sub_att'] == '1') ? '1' : '0';
                 $propertiesSave['setdefault_selected'] = ($property[$p]['default_sel'] == 'on' || $property[$p]['default_sel'] == '1') ? '1' : '0';
+                $propertiesSave['property_show_fe']    = ($property[$p]['subattr_show_fe'] == 'on' || $property[$p]['subattr_show_fe'] == '1') ? '1' : '0';
                 $propertiesSave['setdisplay_type']     = $property[$p]['setdisplay_type'];
                 $propertiesSave['property_published']  = ($property[$p]['published'] == 'on' || $property[$p]['published'] == '1') ? '1' : '0';
                 $propertiesSave['extra_field']         = $property[$p]['extra_field'];
