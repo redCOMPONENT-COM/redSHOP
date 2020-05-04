@@ -136,6 +136,30 @@ class RatingManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
+	public static $nameIframe = 'product-rating-iframe';
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $titleReview2 = "(//div[@id='reviews_title'])[2]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $commentReview2 = "(//div[@id='reviews_comment'])[2]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $fullNameReview2 = "(//div[@id='reviews_fullname'])[2]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
 	public static $messageSaveRatingSuccess = "Rating details saved";
 
 	/**
@@ -167,30 +191,6 @@ class RatingManagerPage extends AdminJ3Page
 	 * @since 3.0.2
 	 */
 	public static $messagePublishSuccess = 'published successfully';
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $nameIframe = 'product-rating-iframe';
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $titleReview2 = "(//div[@id='reviews_title'])[2]";
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $commentReview2 = "(//div[@id='reviews_comment'])[2]";
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $fullNameReview2 = "(//div[@id='reviews_fullname'])[2]";
 
 	/**
 	 * @param $number
