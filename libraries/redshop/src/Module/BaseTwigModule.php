@@ -2,16 +2,16 @@
 /**
  * @package     Phproberto.Joomla-Twig
  *
- * @copyright  Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
- * @license    See COPYING.txt
+ * @copyright   Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
+ * @license     See COPYING.txt
  */
 
 namespace Redshop\Twig\Module;
 
 defined('_JEXEC') || die;
 
-use Redshop\Twig\Traits\HasParams;
 use Redshop\Twig\Traits\HasLayoutData;
+use Redshop\Twig\Traits\HasParams;
 use Redshop\Twig\Traits\HasTwigRenderer;
 
 /**
@@ -21,91 +21,90 @@ use Redshop\Twig\Traits\HasTwigRenderer;
  */
 abstract class BaseTwigModule
 {
-	use HasLayoutData, HasParams, HasTwigRenderer;
+    use HasLayoutData, HasParams, HasTwigRenderer;
 
-	/**
-	 * Module element. Example: mod_menu
-	 *
-	 * @var  string
-	 */
-	protected $element;
+    /**
+     * Module element. Example: mod_menu
+     *
+     * @var  string
+     */
+    protected $element;
 
-	/**
-	 * Module data.
-	 *
-	 * @var  stdClass
-	 */
-	protected $module;
+    /**
+     * Module data.
+     *
+     * @var  stdClass
+     */
+    protected $module;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   array|Registry  $params  Module parameters
-	 * @param   \stdClass       $module  Module object coming from joomla
-	 */
-	public function __construct($params = [], \stdClass $module = null)
-	{
-		$this->setParams($params);
-		$this->module = $module ? $module : new \stdClass;
-	}
+    /**
+     * Constructor.
+     *
+     * @param   array|Registry  $params  Module parameters
+     * @param   \stdClass       $module  Module object coming from joomla
+     */
+    public function __construct($params = [], \stdClass $module = null)
+    {
+        $this->setParams($params);
+        $this->module = $module ? $module : new \stdClass;
+    }
 
-	/**
-	 * CSS class assignable to the module.
-	 *
-	 * @return  string
-	 */
-	protected function getCssClass() : string
-	{
-		return str_replace('_', '-', $this->getElement());
-	}
+    /**
+     * Load layout data.
+     *
+     * @return  array
+     */
+    protected function loadLayoutData(): array
+    {
+        return [
+            'cssClass'       => $this->getCssClass(),
+            'cssId'          => $this->getCssId(),
+            'moduleInstance' => $this,
+            'params'         => $this->getParams()
+        ];
+    }
 
-	/**
-	 * Create an unique CSS identifier for the module.
-	 *
-	 * @return  string
-	 */
-	protected function getCssId() : string
-	{
-		return $this->getCssClass() . '-' . $this->getId();
-	}
+    /**
+     * CSS class assignable to the module.
+     *
+     * @return  string
+     */
+    protected function getCssClass(): string
+    {
+        return str_replace('_', '-', $this->getElement());
+    }
 
-	/**
-	 * Get module element.
-	 *
-	 * @return  string
-	 */
-	public function getElement() : string
-	{
-		if (null === $this->element)
-		{
-			$this->element = empty($this->module->module) ? basename(dirname(__DIR__)) : $this->module->module;
-		}
+    /**
+     * Get module element.
+     *
+     * @return  string
+     */
+    public function getElement(): string
+    {
+        if (null === $this->element) {
+            $this->element = empty($this->module->module) ? basename(dirname(__DIR__)) : $this->module->module;
+        }
 
-		return $this->element;
-	}
+        return $this->element;
+    }
 
-	/**
-	 * Get the module identifier.
-	 *
-	 * @return  string
-	 */
-	public function getId() : string
-	{
-		return empty($this->module->id) ? uniqid() : $this->module->id;
-	}
+    /**
+     * Create an unique CSS identifier for the module.
+     *
+     * @return  string
+     */
+    protected function getCssId(): string
+    {
+        return $this->getCssClass() . '-' . $this->getId();
+    }
 
-	/**
-	 * Load layout data.
-	 *
-	 * @return  array
-	 */
-	protected function loadLayoutData() : array
-	{
-		return [
-			'cssClass'       => $this->getCssClass(),
-			'cssId'          => $this->getCssId(),
-			'moduleInstance' => $this,
-			'params'         => $this->getParams()
-		];
-	}
+    /**
+     * Get the module identifier.
+     *
+     * @return  string
+     */
+    public function getId(): string
+    {
+        return empty($this->module->id) ? uniqid() : $this->module->id;
+    }
 }

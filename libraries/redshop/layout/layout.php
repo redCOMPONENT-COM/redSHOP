@@ -19,21 +19,21 @@ defined('JPATH_BASE') or die;
  */
 interface RedshopLayout
 {
-	/**
-	 * Method to escape output.
-	 *
-	 * @param   string  $output  The output to escape.
-	 *
-	 * @return  string  The escaped output.
-	 */
-	public function escape($output);
+    /**
+     * Method to escape output.
+     *
+     * @param   string  $output  The output to escape.
+     *
+     * @return  string  The escaped output.
+     */
+    public function escape($output);
 
-	/**
-	 * Method to render the layout.
-	 *
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
-	 *
-	 * @return  string  The rendered layout.
-	 */
-	public function render($displayData);
+    /**
+     * Method to render the layout.
+     *
+     * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+     *
+     * @return  string  The rendered layout.
+     */
+    public function render($displayData);
 }

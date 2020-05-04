@@ -19,7 +19,8 @@ defined('_JEXEC') or die;
 class Group
 {
     /**
-     * @param array $accountGroupIds
+     * @param   array  $accountGroupIds
+     *
      * @return bool
      * @throws \Exception
      */
@@ -29,8 +30,8 @@ class Group
             // Sanitise ids
             $accountGroupIds = \Joomla\Utilities\ArrayHelper::toInteger($accountGroupIds);
             $accountGroupIds = implode(',', $accountGroupIds);
-            $db = \JFactory::getDbo();
-            $query = $db->getQUery(true);
+            $db              = \JFactory::getDbo();
+            $query           = $db->getQUery(true);
             $query->delete($db->qn('#__redshop_economic_accountgroup'))
                 ->where($db->qn('accountgroup_id') . ' IN (' . $db->q($accountGroupIds) . ')');
 
@@ -41,8 +42,9 @@ class Group
     }
 
     /**
-     * @param array $accountGroupIds
-     * @param int $publish
+     * @param   array  $accountGroupIds
+     * @param   int    $publish
+     *
      * @return bool
      * @throws \Exception
      */
@@ -52,12 +54,14 @@ class Group
             // Sanitise ids
             $accountGroupIds = \Joomla\Utilities\ArrayHelper::toInteger($accountGroupIds);
             $accountGroupIds = implode(',', $accountGroupIds);
-            $db = \JFactory::getDbo();
-            $query = $db->getQuery(true);
+            $db              = \JFactory::getDbo();
+            $query           = $db->getQuery(true);
             $query->update($db->qn('#__redshop_economic_accountgroup'))
-                ->set([
-                    $db->qn('published') . ' = ' . $db->q($publish)
-                ])
+                ->set(
+                    [
+                        $db->qn('published') . ' = ' . $db->q($publish)
+                    ]
+                )
                 ->where($db->qn('accountgroup_id') . ' IN (' . $db->q($accountGroupIds) . ')');
 
             return \Redshop\DB\Tool::safeExecute($db, $query);

@@ -11,33 +11,30 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.modal');
 
-$redTemplate      = Redtemplate::getInstance();
-$model            = $this->getModel('checkout');
-$paymentTemplate  = \RedshopHelperTemplate::getTemplate("redshop_payment");
+$redTemplate     = Redtemplate::getInstance();
+$model           = $this->getModel('checkout');
+$paymentTemplate = \RedshopHelperTemplate::getTemplate("redshop_payment");
 
-if (isset($paymentTemplate[0]->template_desc))
-{
-	$templateDesc = $paymentTemplate[0]->template_desc;
-}
-else
-{
-	$templateDesc = \RedshopHelperTemplate::getDefaultTemplateContent('payment_method');
+if (isset($paymentTemplate[0]->template_desc)) {
+    $templateDesc = $paymentTemplate[0]->template_desc;
+} else {
+    $templateDesc = \RedshopHelperTemplate::getDefaultTemplateContent('payment_method');
 }
 
 // Get billing info for check is_company
 $billingAddresses = $model->billingaddresses();
 $isCompany        = $billingAddresses->is_company;
 
-$eanNumber 	  = (int) $billingAddresses->ean_number;
+$eanNumber = (int)$billingAddresses->ean_number;
 
 $templateDesc = \RedshopTagsReplacer::_(
-	'paymentmethod',
-	$templateDesc,
-	array(
-		'paymentMethodId' => $this->element,
-		'isCompany' => $isCompany,
-		'eanNumber' => $eanNumber
-	)
+    'paymentmethod',
+    $templateDesc,
+    array(
+        'paymentMethodId' => $this->element,
+        'isCompany'       => $isCompany,
+        'eanNumber'       => $eanNumber
+    )
 );
 
 $templateDesc = \RedshopHelperTemplate::parseRedshopPlugin($templateDesc);

@@ -2,7 +2,7 @@
 /**
  * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -197,7 +197,7 @@ class CheckoutWithSKRILLPaymentCest
 		$I->wantTo("install plugin payment Skrill");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
 		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->wantTo('Enable Plugin E-Way Payments in Administrator');
+		$I->wantTo('Enable Plugin Skrill Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
 		$I = new PluginPaymentManagerJoomla($scenario);
 		$I->configMoneyBookerPlugin($this->pluginName, $this->checkoutAccountInformation['email'], $this->checkoutAccountInformation['password']);
@@ -209,7 +209,7 @@ class CheckoutWithSKRILLPaymentCest
 	 * @throws Exception
 	 * @since  2.1.3
 	 */
-	public function testEWAYPaymentPlugin(ConfigurationSteps $I, $scenario)
+	public function testSkrillPaymentPlugin(ConfigurationSteps $I, $scenario)
 	{
 		$I->wantTo('I Want to setting cart');
 		$I->cartSetting($this->cartSetting);

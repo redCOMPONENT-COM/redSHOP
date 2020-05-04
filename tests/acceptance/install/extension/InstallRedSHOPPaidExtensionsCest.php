@@ -2,7 +2,7 @@
 /**
  * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,9 +17,31 @@ use AcceptanceTester\AdminManagerJoomla3Steps;
  *
  * @since    2.1.2
  */
-
 class InstallRedSHOPPaidExtensionsCest
 {
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $extensionURL;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $modulesURL;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $pluginURL;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	protected $modules;
 
 	/**
 	 * InstallRedSHOPPaidExtensionsCest constructor.

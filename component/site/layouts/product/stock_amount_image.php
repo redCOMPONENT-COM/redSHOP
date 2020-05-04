@@ -14,16 +14,17 @@ JHtml::_('bootstrap.tooltip');
 extract($displayData);
 
 $thumbUrl = RedshopHelperMedia::getImagePath(
-	$stockamountImage->stock_amount_image,
-	'',
-	'thumb',
-	'stockroom',
-	Redshop::getConfig()->get('DEFAULT_STOCKAMOUNT_THUMB_WIDTH'),
-	Redshop::getConfig()->get('DEFAULT_STOCKAMOUNT_THUMB_HEIGHT'),
-	Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+    $stockamountImage->stock_amount_image,
+    '',
+    'thumb',
+    'stockroom',
+    Redshop::getConfig()->get('DEFAULT_STOCKAMOUNT_THUMB_WIDTH'),
+    Redshop::getConfig()->get('DEFAULT_STOCKAMOUNT_THUMB_HEIGHT'),
+    Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 );
 ?>
 
 <span class="hasTooltip" title="<?php echo $stockamountImage->stock_amount_image_tooltip ?>">
-	<img src="<?php echo $thumbUrl ?>" alt="<?php echo $stockamountImage->stock_amount_image_tooltip ?>" id="stockImage<?php echo $productId ?>"/>
+	<img src="<?php echo $thumbUrl ?>" alt="<?php echo $stockamountImage->stock_amount_image_tooltip ?>"
+         id="stockImage<?php echo $productId ?>"/>
 </span>

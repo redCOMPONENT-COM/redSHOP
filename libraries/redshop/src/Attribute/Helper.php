@@ -9,8 +9,6 @@
 
 namespace Redshop\Attribute;
 
-use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
-
 defined('_JEXEC') or die;
 
 /**
@@ -126,7 +124,7 @@ class Helper
                 $property           = \RedshopHelperProduct_Attribute::getAttributeProperties(
                     $orderPropData[$p]->section_id
                 );
-                $prices          = \RedshopHelperProduct_Attribute::getPropertyPrice(
+                $prices             = \RedshopHelperProduct_Attribute::getPropertyPrice(
                     $orderPropData[$p]->section_id,
                     $quantity,
                     'property'
@@ -154,7 +152,7 @@ class Helper
                     $subProperty = \RedshopHelperProduct_Attribute::getAttributeSubProperties(
                         $orderSubPropData[$sp]->section_id
                     );
-                    $prices   = \RedshopHelperProduct_Attribute::getPropertyPrice(
+                    $prices      = \RedshopHelperProduct_Attribute::getPropertyPrice(
                         $orderSubPropData[$sp]->section_id,
                         $quantity,
                         'subproperty'
@@ -242,10 +240,10 @@ class Helper
                 $selectedPropertyId = implode(",", $selectedPropId);
             }
 
-            $unSelectedSubPropId = 0;
+            $unSelectedSubPropertyId = 0;
 
             if (is_array($unSelectedSubPropId) && count($unSelectedSubPropId) > 0) {
-                $unSelectedSubPropId = implode(",", $unSelectedSubPropId);
+                $unSelectedSubPropertyId = implode(",", $unSelectedSubPropId);
             }
 
             $requiredProperty = \RedshopHelperProduct_Attribute::getAttributeProperties(
@@ -254,7 +252,7 @@ class Helper
                                             $data['product_id'],
                                             0,
                                             1,
-                /** @scrutinizer ignore-type */ $unSelectedSubPropId
+                /** @scrutinizer ignore-type */ $unSelectedSubPropertyId
             );
 
             if (!empty($requiredProperty)) {
@@ -268,7 +266,7 @@ class Helper
 
                 // Give error as second attribute is required
                 if ($data['reorder'] != 1) {
-                    return $requiredSubAttributeName . " " . JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
+                    return $requiredSubAttributeName . " " . \JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
                 }
             }
         }
@@ -280,7 +278,7 @@ class Helper
      * @param   Object  $params
      *
      * @return int / null
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.1
      */
     public static function getAttributePriceStartId($params = null)
     {
@@ -294,7 +292,7 @@ class Helper
             return null;
         }
 
-        $db = \JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select($db->qn('price_id'))
             ->from($db->qn('product_attribute_price'))
@@ -312,7 +310,7 @@ class Helper
      * @param   Object  $params
      *
      * @return int / null
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.1
      */
     public static function getAttributePriceEndId($params = null)
     {
@@ -326,7 +324,7 @@ class Helper
             return null;
         }
 
-        $db = \JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select($db->qn('price_id'))
             ->from($db->qn('product_attribute_price'))

@@ -18,45 +18,44 @@ defined('_JEXEC') or die;
  */
 class RedshopModelZipcode extends RedshopModelForm
 {
-	/**
-	 * Method to save a record.
-	 *
-	 * @param   array  $data data
-	 * @return  boolean
-	 *
-	 * @since   2.1.3
-	 * @throws  Exception
-	 */
-	public function save($data)
-	{
-		/** @var RedshopTableZipcode $table */
-		$table = $this->getTable('Zipcode');
+    /**
+     * Method to save a record.
+     *
+     * @param   array  $data  data
+     *
+     * @return  boolean
+     *
+     * @throws  Exception
+     * @since   2.1.3
+     */
+    public function save($data)
+    {
+        /** @var RedshopTableZipcode $table */
+        $table = $this->getTable('Zipcode');
 
-		if ($data['zipcodeto'] && ($data['zipcode'] > $data['zipcodeto']))
-		{
-			return false;
-		}
+        if ($data['zipcodeto'] && ($data['zipcode'] > $data['zipcodeto'])) {
+            return false;
+        }
 
-		if (!$data['zipcodeto'])
-		{
-			$data['zipcodeto'] = $data['zipcode'];
-		}
+        if (!$data['zipcodeto']) {
+            $data['zipcodeto'] = $data['zipcode'];
+        }
 
-		for ($i = $data['zipcode']; $i <= $data['zipcodeto']; $i++)
-		{
-			$data['zipcode'] = is_numeric($data['zipcode']) ? $i : $data['zipcode'];
+        for ($i = $data['zipcode']; $i <= $data['zipcodeto']; $i++) {
+            $data['zipcode'] = is_numeric($data['zipcode']) ? $i : $data['zipcode'];
 
-			if (!$table->bind($data) || !$table->docheck())
-			{
-				/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_ZIPCODE_ALREADY_EXISTS') . ": " . $data['zipcode']);
-				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', /** @scrutinizer ignore-deprecated */ $this->getError());
+            if (!$table->bind($data) || !$table->docheck()) {
+                /** @scrutinizer ignore-deprecated */
+                $this->setError(JText::_('COM_REDSHOP_ZIPCODE_ALREADY_EXISTS') . ": " . $data['zipcode']);
+                /** @scrutinizer ignore-deprecated */
+                JError::raiseWarning('', /** @scrutinizer ignore-deprecated */ $this->getError());
 
-				continue;
-			}
+                continue;
+            }
 
-			parent::save($data);
-		}
+            parent::save($data);
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

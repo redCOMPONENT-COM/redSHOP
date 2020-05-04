@@ -8,7 +8,9 @@
  */
 
 namespace Redshop\Payment;
+
 use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die;
 
 /**
@@ -43,7 +45,7 @@ class Helper
         if (file_exists(
             JPATH_SITE . '/plugins/redshop_payment/' . $paymentMethod->element . '/' . $paymentMethod->element . '.php'
         )) {
-            $paymentParams = new Registry($paymentMethod->params);
+            $paymentParams      = new Registry($paymentMethod->params);
             $acceptedCreditCard = $paymentParams->get("accepted_credict_card", array());
 
             if ($paymentParams->get('is_creditcard', 0)

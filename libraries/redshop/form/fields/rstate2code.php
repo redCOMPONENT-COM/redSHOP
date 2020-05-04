@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Field
@@ -8,6 +9,7 @@
  */
 defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
+
 /**
  * Economic account group select list for redSHOP
  *
@@ -18,43 +20,41 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldRState2Code extends JFormFieldList
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var		string
-	 */
-	protected $type = 'RState2Code';
-	/**
-	 * Get the select options
-	 *
-	 * @return  array  Options to populate the select field
-	 */
-	public function getOptions()
-	{
-		$app          = JFactory::getApplication();
-		$country3Code = $app->input->get('country_code');
-		$db           = JFactory::getDbo();
-		$query        = $db->getQuery(true);
-		$query->select($db->qn('s.state_2_code', 'value'))
-			->select($db->qn('s.state_name', 'text'))
-			->from($db->qn('#__redshop_state', 's'))
-			->leftJoin($db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('s.country_id'))
-			->where($db->qn('c.country_3_code') . ' = ' . $db->q($country3Code));
+    /**
+     * The form field type.
+     *
+     * @var        string
+     */
+    protected $type = 'RState2Code';
 
-		$db->setQuery($query);
+    /**
+     * Get the select options
+     *
+     * @return  array  Options to populate the select field
+     */
+    public function getOptions()
+    {
+        $app          = JFactory::getApplication();
+        $country3Code = $app->input->get('country_code');
+        $db           = JFactory::getDbo();
+        $query        = $db->getQuery(true);
+        $query->select($db->qn('s.state_2_code', 'value'))
+            ->select($db->qn('s.state_name', 'text'))
+            ->from($db->qn('#__redshop_state', 's'))
+            ->leftJoin($db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('s.country_id'))
+            ->where($db->qn('c.country_3_code') . ' = ' . $db->q($country3Code));
 
-		try
-		{
-			$options = $db->loadObjectList();
-		}
-		catch (RuntimeException $e)
-		{
-			throw new Exception($e->getMessage());
-		}
+        $db->setQuery($query);
 
-		// Get other options inserted in the XML file
-		$parentOptions = parent::getOptions();
+        try {
+            $options = $db->loadObjectList();
+        } catch (RuntimeException $e) {
+            throw new Exception($e->getMessage());
+        }
 
-		return array_merge($parentOptions, $options);
-	}
+        // Get other options inserted in the XML file
+        $parentOptions = parent::getOptions();
+
+        return array_merge($parentOptions, $options);
+    }
 }

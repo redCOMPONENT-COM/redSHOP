@@ -11,18 +11,21 @@ a.prev, a.next, a.prevPage, a.nextPage {
     cursor: pointer;
     outline: none;
 }
+
 /* mouseover state */
 
 a.prev:hover, a.next:hover, a.prevPage:hover, a.nextPage:hover {
     background-position: 0px -18px;
     outline: none;
 }
+
 /* disabled navigational button */
 
 a.disabled {
     visibility: hidden !important;
     outline: none;
 }
+
 /* next button uses another background image */
 
 a.next, a.nextPage {
@@ -30,6 +33,7 @@ a.next, a.nextPage {
     clear: right;
     outline: none;
 }
+
 /*********** navigator ***********/
 /* position and dimensions of the navigator */
 
@@ -39,6 +43,7 @@ div.navi {
     height: 20px;
     outline: none;
 }
+
 /* items inside navigator */
 
 div.navi a {
@@ -50,18 +55,21 @@ div.navi a {
     cursor: pointer;
     outline: none;
 }
+
 /* mouseover state */
 
 div.navi a:hover {
     background-position: 0 -8px;
     outline: none;
 }
+
 /* active state (current page state) */
 
 div.navi a.active {
     background-position: 0 -16px;
     outline: none;
 }
+
 div.items div.active {
     border: 1px solid #ccc;
     background-color: #fff;

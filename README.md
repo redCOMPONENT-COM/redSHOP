@@ -68,7 +68,7 @@ Before you can run any Gulp command you need to:
 
 ## Gulp 4 support
 
-- we will support gulp task rewritten in version 4 very soon. Currently, all gulp script are executed properly with version 3.9
+- Currently, redSHOP support GULP 4 with all updated dependencies.
 ### Following tasks and switches are available:
 #### Setup gulp config file. Copy and rename `gulp-config.sample.json` file into `gulp-config.json`
 

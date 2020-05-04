@@ -17,17 +17,17 @@ $params = JFactory::getApplication()->input->get('params', '', 'raw');
         <div class="col-md-6">
             <fieldset class="adminform">
                 <legend><?php echo JText::_('COM_REDSHOP_PRICE'); ?></legend>
-				<?php echo $this->loadTemplate('price'); ?>
+                <?php echo $this->loadTemplate('price'); ?>
             </fieldset>
             <fieldset class="adminform">
                 <legend><?php echo JText::_('COM_REDSHOP_TAX_TAB'); ?></legend>
-				<?php echo $this->loadTemplate('vat'); ?>
+                <?php echo $this->loadTemplate('vat'); ?>
             </fieldset>
         </div>
         <div class="col-md-6">
             <fieldset class="adminform">
                 <legend><?php echo JText::_('COM_REDSHOP_DISCOUPON_TAB'); ?></legend>
-				<?php echo $this->loadTemplate('discount'); ?>
+                <?php echo $this->loadTemplate('discount'); ?>
             </fieldset>
         </div>
     </div>

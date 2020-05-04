@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -28,8 +29,7 @@ defined('_JEXEC') or die;
     function resetOrderId() {
         if (!confirm("<?php echo Jtext::_('COM_REDSHOP_CONFIRM_ORDER_ID_RESET');?> ")) {
             return false;
-        }
-        else {
+        } else {
             xmlhttp = GetXmlHttpObject();
             if (xmlhttp == null) {
                 alert("Your browser does not support XMLHTTP!");
@@ -54,52 +54,54 @@ defined('_JEXEC') or die;
                 <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_ORDER_MAIN_SETTINGS') ?></h3>
             </div>
             <div class="box-body">
-				<?php
-				echo RedshopLayoutHelper::render(
-					'config.config',
-					array(
-						'title' => JText::_('COM_REDSHOP_ORDER_ID_RESET_LBL'),
-						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_ORDER_ID_RESET_LBL'),
-						'field' => '<a class="btn btn-success" onclick="javascript:resetOrderId();"
-                            title="' . JText::_('COM_REDSHOP_ORDER_ID_RESET_LBL') . '">' . JText::_('COM_REDSHOP_ORDER_ID_RESET') . '</a>'
-					)
-				);
-				echo RedshopLayoutHelper::render(
-					'config.config',
-					array(
-						'title' => JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_LBL'),
-						'desc'  => JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_LBL'),
-						'field' => $this->lists['order_mail_after']
-					)
-				);
-				echo RedshopLayoutHelper::render(
-					'config.config',
-					array(
-						'title' => JText::_('COM_REDSHOP_INVOICE_MAIL_ENABLE_LBL'),
-						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_INVOICE_MAIL_ENABLE'),
-						'field' => $this->lists['invoice_mail_enable']
-					)
-				);
-				echo RedshopLayoutHelper::render(
-					'config.config',
-					array(
-						'title'  => JText::_('COM_REDSHOP_INVOICE_MAIL_SEND_OPTION_LBL'),
-						'desc'   => JText::_('COM_REDSHOP_TOOLTIP_INVOICE_MAIL_SEND_OPTION'),
-						'field'  => $this->lists['invoice_mail_send_option'],
-						'id'     => 'invoice_mail_send_option',
-						'showOn' => 'invoice_mail_enable:1'
-					)
-				);
-				echo RedshopLayoutHelper::render(
-					'config.config',
-					array(
-						'title' => JText::_('COM_REDSHOP_TOOLTIP_SEND_MAIL_TO_CUSTOMER_LBL'),
-						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_SEND_MAIL_TO_CUSTOMER'),
-						'field' => $this->lists['send_mail_to_customer'],
-						'line'  => false
-					)
-				);
-				?>
+                <?php
+                echo RedshopLayoutHelper::render(
+                    'config.config',
+                    array(
+                        'title' => JText::_('COM_REDSHOP_ORDER_ID_RESET_LBL'),
+                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_ORDER_ID_RESET_LBL'),
+                        'field' => '<a class="btn btn-success" onclick="javascript:resetOrderId();"
+                            title="' . JText::_('COM_REDSHOP_ORDER_ID_RESET_LBL') . '">' . JText::_(
+                                'COM_REDSHOP_ORDER_ID_RESET'
+                            ) . '</a>'
+                    )
+                );
+                echo RedshopLayoutHelper::render(
+                    'config.config',
+                    array(
+                        'title' => JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_LBL'),
+                        'desc'  => JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_LBL'),
+                        'field' => $this->lists['order_mail_after']
+                    )
+                );
+                echo RedshopLayoutHelper::render(
+                    'config.config',
+                    array(
+                        'title' => JText::_('COM_REDSHOP_INVOICE_MAIL_ENABLE_LBL'),
+                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_INVOICE_MAIL_ENABLE'),
+                        'field' => $this->lists['invoice_mail_enable']
+                    )
+                );
+                echo RedshopLayoutHelper::render(
+                    'config.config',
+                    array(
+                        'title' => JText::_('COM_REDSHOP_INVOICE_MAIL_SEND_OPTION_LBL'),
+                        'desc' => JText::_('COM_REDSHOP_TOOLTIP_INVOICE_MAIL_SEND_OPTION'),
+                        'field' => $this->lists['invoice_mail_send_option'],
+                        'id' => 'invoice_mail_send_option',
+                        'showOn' => 'invoice_mail_enable:1'
+                    )
+                );
+                echo RedshopLayoutHelper::render(
+                    'config.config',
+                    array(
+                        'title' => JText::_('COM_REDSHOP_TOOLTIP_SEND_MAIL_TO_CUSTOMER_LBL'),
+                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_SEND_MAIL_TO_CUSTOMER'),
+                        'field' => $this->lists['send_mail_to_customer'],
+                        'line'  => false
+                    )
+                );
+                ?>
             </div>
         </div>
     </div>
@@ -110,49 +112,49 @@ defined('_JEXEC') or die;
                 <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_ORDER_INVOICE_SETTINGS') ?></h3>
             </div>
             <div class="box-body">
-				<?php
-				echo RedshopLayoutHelper::render(
-					'config.config',
-					array(
-						'title' => JText::_('COM_REDSHOP_FIRST_INVOICE_NUMBER_LBL'),
-						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_FIRST_INVOICE_NUMBER_LBL'),
-						'field' => '<input type="text" name="first_invoice_number" id="first_invoice_number" class="form-control"
+                <?php
+                echo RedshopLayoutHelper::render(
+                    'config.config',
+                    array(
+                        'title' => JText::_('COM_REDSHOP_FIRST_INVOICE_NUMBER_LBL'),
+                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_FIRST_INVOICE_NUMBER_LBL'),
+                        'field' => '<input type="text" name="first_invoice_number" id="first_invoice_number" class="form-control"
                             value="' . $this->config->get('FIRST_INVOICE_NUMBER') . '" />'
-					)
-				);
-				echo RedshopLayoutHelper::render(
-					'config.config',
-					array(
-						'title' => JText::_('COM_REDSHOP_ORDER_NUMBER_TEMPLATE_LBL'),
-						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_ORDER_NUMBER_TEMPLATE'),
-						'field' => '<input type="text" name="invoice_number_template" id="invoice_number_template" class="form-control"
+                    )
+                );
+                echo RedshopLayoutHelper::render(
+                    'config.config',
+                    array(
+                        'title' => JText::_('COM_REDSHOP_ORDER_NUMBER_TEMPLATE_LBL'),
+                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_ORDER_NUMBER_TEMPLATE'),
+                        'field' => '<input type="text" name="invoice_number_template" id="invoice_number_template" class="form-control"
                             value="' . $this->config->get('INVOICE_NUMBER_TEMPLATE') . '" />'
-					)
-				);
-				echo RedshopLayoutHelper::render(
-					'config.config',
-					array(
-						'title' => JText::_('COM_REDSHOP_INVOICE_NUMBER_TEMPLATE_LBL'),
-						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_INVOICE_NUMBER_TEMPLATE'),
-						'field' => '<input type="text" name="real_invoice_number_template" id="real_invoice_number_template" class="form-control"
+                    )
+                );
+                echo RedshopLayoutHelper::render(
+                    'config.config',
+                    array(
+                        'title' => JText::_('COM_REDSHOP_INVOICE_NUMBER_TEMPLATE_LBL'),
+                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_INVOICE_NUMBER_TEMPLATE'),
+                        'field' => '<input type="text" name="real_invoice_number_template" id="real_invoice_number_template" class="form-control"
                             value="' . $this->config->get('REAL_INVOICE_NUMBER_TEMPLATE') . '" />'
-					)
-				);
-				echo RedshopLayoutHelper::render(
-					'config.config',
-					array(
-						'title' => JText::_('COM_REDSHOP_INVOICE_NUMBER_FOR_FREE_ORDER_LBL'),
-						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_INVOICE_NUMBER_FOR_FREE_ORDER_LBL'),
-						'field' => JHtml::_(
-							'redshopselect.booleanlist',
-							'invoice_number_for_free_order',
-							'',
-							$this->config->get('INVOICE_NUMBER_FOR_FREE_ORDER')
-						),
-						'line'  => false
-					)
-				);
-				?>
+                    )
+                );
+                echo RedshopLayoutHelper::render(
+                    'config.config',
+                    array(
+                        'title' => JText::_('COM_REDSHOP_INVOICE_NUMBER_FOR_FREE_ORDER_LBL'),
+                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_INVOICE_NUMBER_FOR_FREE_ORDER_LBL'),
+                        'field' => JHtml::_(
+                            'redshopselect.booleanlist',
+                            'invoice_number_for_free_order',
+                            '',
+                            $this->config->get('INVOICE_NUMBER_FOR_FREE_ORDER')
+                        ),
+                        'line'  => false
+                    )
+                );
+                ?>
             </div>
         </div>
     </div>

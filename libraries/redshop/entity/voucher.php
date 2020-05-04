@@ -18,62 +18,58 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityVoucher extends RedshopEntity
 {
-	/**
-	 * @var  RedshopEntitiesCollection
-	 * @since  2.0.7
-	 */
-	protected $products;
+    /**
+     * @var  RedshopEntitiesCollection
+     * @since  2.0.7
+     */
+    protected $products;
 
-	/**
-	 * Method for get products available with this voucher
-	 *
-	 * @return  RedshopEntitiesCollection
-	 *
-	 * @since  2.0.7
-	 */
-	public function getProducts()
-	{
-		if (null === $this->products)
-		{
-			$this->loadProducts();
-		}
+    /**
+     * Method for get products available with this voucher
+     *
+     * @return  RedshopEntitiesCollection
+     *
+     * @since  2.0.7
+     */
+    public function getProducts()
+    {
+        if (null === $this->products) {
+            $this->loadProducts();
+        }
 
-		return $this->products;
-	}
+        return $this->products;
+    }
 
-	/**
-	 * Method for load products available with this voucher
-	 *
-	 * @return  self
-	 *
-	 * @since  2.0.7
-	 */
-	protected function loadProducts()
-	{
-		$this->products = new RedshopEntitiesCollection;
+    /**
+     * Method for load products available with this voucher
+     *
+     * @return  self
+     *
+     * @since  2.0.7
+     */
+    protected function loadProducts()
+    {
+        $this->products = new RedshopEntitiesCollection;
 
-		if (!$this->hasId())
-		{
-			return $this;
-		}
+        if (!$this->hasId()) {
+            return $this;
+        }
 
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('product_id'))
-			->from($db->qn('#__redshop_product_voucher_xref'))
-			->where($db->qn('voucher_id') . ' = ' . $this->getId());
-		$result = $db->setQuery($query)->loadColumn();
+        $db     = JFactory::getDbo();
+        $query  = $db->getQuery(true)
+            ->select($db->qn('product_id'))
+            ->from($db->qn('#__redshop_product_voucher_xref'))
+            ->where($db->qn('voucher_id') . ' = ' . $this->getId());
+        $result = $db->setQuery($query)->loadColumn();
 
-		if (empty($result))
-		{
-			return $this;
-		}
+        if (empty($result)) {
+            return $this;
+        }
 
-		foreach ($result as $productId)
-		{
-			$this->products->add(RedshopEntityProduct::getInstance($productId));
-		}
+        foreach ($result as $productId) {
+            $this->products->add(RedshopEntityProduct::getInstance($productId));
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 }

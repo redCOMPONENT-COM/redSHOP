@@ -18,17 +18,17 @@ defined('_JEXEC') or die;
  */
 class RedshopTablePage_Viewer extends RedshopTable
 {
-	/**
-	 * The table name without the prefix. Ex: cursos_courses
-	 *
-	 * @var  string
-	 */
-	protected $_tableName = 'redshop_pageviewer';
+    /**
+     * The table name without the prefix. Ex: cursos_courses
+     *
+     * @var  string
+     */
+    protected $_tableName = 'redshop_pageviewer';
 
-	/**
-	 * Format for audit date fields (created_date, modified_date)
-	 *
-	 * @var  string
-	 */
-	protected $_auditDateFormat = 'U';
+    /**
+     * Format for audit date fields (created_date, modified_date)
+     *
+     * @var  string
+     */
+    protected $_auditDateFormat = 'U';
 }

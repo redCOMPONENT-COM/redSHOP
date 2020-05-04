@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Class RedshopControllerWizard
  */
@@ -25,7 +23,7 @@ class RedshopControllerWizard extends RedshopController
         jimport('joomla.filesystem.file');
 
         $this->_temp_file_dist = JPATH_COMPONENT_ADMINISTRATOR . '/config/config.dist.php';
-        $this->_temp_file = JPATH_COMPONENT_ADMINISTRATOR . '/config/config.php';
+        $this->_temp_file      = JPATH_COMPONENT_ADMINISTRATOR . '/config/config.php';
 
         \JFile::copy($this->_temp_file_dist, $this->_temp_file);
     }
@@ -36,19 +34,19 @@ class RedshopControllerWizard extends RedshopController
     public function save()
     {
         // Get temporary saved config via wizard
-        $session = \JFactory::getSession();
+        $session      = \JFactory::getSession();
         $wizardConfig = $session->get('redshop.wizard');
 
         // Get submit data
         $post = $this->input->post->getArray();
-        $go = $post['go'];
+        $go   = $post['go'];
 
         $subStep = $post['substep'];
 
         if ($subStep == 2) {
             $country_list = $this->input->get('country_list');
 
-            $i = 0;
+            $i            = 0;
             $countryCodes = '';
 
             if ($country_list) {
@@ -83,7 +81,7 @@ class RedshopControllerWizard extends RedshopController
 
         if ($post['VATREMOVE'] == 1) {
             $taxRateId = $post['VATTAX_RATE_ID'];
-            $vatLink = 'index.php?option=com_redshop&view=tax_detail&task=removefromwizrd&cid[]=' . $taxRateId . '&tax_group_id=1';
+            $vatLink   = 'index.php?option=com_redshop&view=tax_detail&task=removefromwizrd&cid[]=' . $taxRateId . '&tax_group_id=1';
 
             $this->setRedirect($vatLink);
         } else {
@@ -98,8 +96,8 @@ class RedshopControllerWizard extends RedshopController
     public function finish()
     {
         $session = \JFactory::getSession();
-        $msg = "";
-        $post = \JFactory::getApplication()->input->post->getArray();
+        $msg     = "";
+        $post    = \JFactory::getApplication()->input->post->getArray();
 
         /**
          *    install sample data
@@ -113,18 +111,18 @@ class RedshopControllerWizard extends RedshopController
 
         // Convert array to JRegistry before saving
         $configHelper = \Redshop::getConfig();
-        $config = new \Registry;
+        $config       = new \Registry;
         $config->loadArray($session->get('redshop.wizard'));
 
         if ($configHelper->save($config)) {
             // Clear temporary redshop wizard configuration
             $session->clear('redshop.wizard');
-            $msg .= JText::_('COM_REDSHOP_FINISH_WIZARD');
+            $msg  .= JText::_('COM_REDSHOP_FINISH_WIZARD');
             $link = 'index.php?option=com_redshop';
         } else {
             $subStep = 4;
-            $msg .= \JText::_('COM_REDSHOP_ERROR_SAVING_DETAIL');
-            $link = 'index.php?option=com_redshop&step=' . $subStep;
+            $msg     .= \JText::_('COM_REDSHOP_ERROR_SAVING_DETAIL');
+            $link    = 'index.php?option=com_redshop&step=' . $subStep;
         }
 
         $this->setRedirect($link, $msg);

@@ -16,9 +16,8 @@ $data = $displayData;
 // Receive overridable options
 $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
-if (is_array($data['options']))
-{
-	$data['options'] = new Registry($data['options']);
+if (is_array($data['options'])) {
+    $data['options'] = new Registry($data['options']);
 }
 
 // Options
@@ -29,20 +28,21 @@ $filters = $data['view']->filterForm->getGroup('filter');
 ?>
 
 <?php if (!empty($filters['filter_search'])) : ?>
-	<?php if ($searchButton) : ?>
-		<div class="filterItem">
-			<div class="btn-wrapper input-append">
-				<?php echo $filters['filter_search']->input; ?>
-				<input type="submit" class="btn" value="<?php echo JText::_('JSEARCH_FILTER_SUBMIT') ?>" />
-                <input type="button" class="btn reset js-stools-btn-clear" value="<?php echo JText::_('COM_REDSHOP_RESET');?>" />
-			</div>
-		</div>
-		<?php if ($filterButton) : ?>
-			<div class="btn-wrapper hidden-phone">
-				<button type="button" class="btn js-stools-btn-filter btn-large btn-primary">
-					<?php echo JText::_('JSEARCH_TOOLS');?> <span class="caret"></span>
-				</button>
-			</div>
-		<?php endif; ?>
-	<?php endif; ?>
+    <?php if ($searchButton) : ?>
+        <div class="filterItem">
+            <div class="btn-wrapper input-append">
+                <?php echo $filters['filter_search']->input; ?>
+                <input type="submit" class="btn" value="<?php echo JText::_('JSEARCH_FILTER_SUBMIT') ?>"/>
+                <input type="button" class="btn reset js-stools-btn-clear"
+                       value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"/>
+            </div>
+        </div>
+        <?php if ($filterButton) : ?>
+            <div class="btn-wrapper hidden-phone">
+                <button type="button" class="btn js-stools-btn-filter btn-large btn-primary">
+                    <?php echo JText::_('JSEARCH_TOOLS'); ?> <span class="caret"></span>
+                </button>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
 <?php endif;

@@ -235,7 +235,7 @@ class RedshopControllerProduct extends RedshopController
                 $result['attrbimg'] = $pluginResults['attrbimg'];
             }
         } else {
-            $result = \RedshopHelperProductTag::displayAdditionalImage(
+            $result            = \RedshopHelperProductTag::displayAdditionalImage(
                 $productId,
                 $accessoryId,
                 $relatedProductId,
@@ -821,6 +821,7 @@ class RedshopControllerProduct extends RedshopController
             // If Extension is not legal than don't upload file
             if (!in_array(strtolower($fileExtension), $legalExts)) {
                 echo '<li class="error">' . JText::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED') . '</li>';
+
                 return;
             }
 

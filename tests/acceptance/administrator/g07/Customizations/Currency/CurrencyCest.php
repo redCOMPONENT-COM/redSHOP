@@ -1,8 +1,8 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Cest\AbstractCest;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    1.4
+ * @since    1.4.0
  */
 class CurrencyCest extends AbstractCest
 {
@@ -25,6 +25,7 @@ class CurrencyCest extends AbstractCest
 	 * Name field, which is use for search
 	 *
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $nameField = 'name';
 
@@ -32,6 +33,7 @@ class CurrencyCest extends AbstractCest
 	 * Method for set new data.
 	 *
 	 * @return  array
+	 * @since 1.4.0
 	 */
 	protected function prepareNewData()
 	{
@@ -50,6 +52,7 @@ class CurrencyCest extends AbstractCest
 	 * @return  void
 	 *
 	 * @depends testItemCreate
+	 * @since 1.4.0
 	 */
 	public function deleteDataSave(\AcceptanceTester $tester, Codeception\Scenario $scenario)
 	{
@@ -71,6 +74,7 @@ class CurrencyCest extends AbstractCest
 	 * @return  void
 	 *
 	 * @depends testItemCreateSaveClose
+	 * @since 1.4.0
 	 */
 	public function deleteDataSaveClose(\AcceptanceTester $tester, Codeception\Scenario $scenario)
 	{
@@ -82,10 +86,12 @@ class CurrencyCest extends AbstractCest
 		$tester->deleteItem('New ' . $this->dataNew['name']);
 
 	}
+
 	/**
 	 * Method for set new data.
 	 *
 	 * @return  array
+	 * @since 1.4.0
 	 */
 	protected function prepareEditData()
 	{

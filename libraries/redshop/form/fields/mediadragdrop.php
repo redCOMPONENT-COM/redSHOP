@@ -20,35 +20,35 @@ jimport('joomla.form.formfield');
  */
 class JFormFieldMediadragdrop extends JFormField
 {
-	/**
-	 * The form field type
-	 *
-	 * @var    string
-	 *
-	 * @since  2.0.3
-	 */
-	protected $type = 'mediadragdrop';
+    /**
+     * The form field type
+     *
+     * @var    string
+     *
+     * @since  2.0.3
+     */
+    protected $type = 'mediadragdrop';
 
-	/**
-	 * [getInput description]
-	 *
-	 * @return  [type]  [description]
-	 */
-	protected function getInput()
-	{
-		// Define data to display in html
-		$displayData = [
-			'id'    => $this->id,
-			'name'  => $this->name,
-			'value' => $this->value
-		];
+    /**
+     * [getInput description]
+     *
+     * @return  [type]  [description]
+     */
+    protected function getInput()
+    {
+        // Define data to display in html
+        $displayData = [
+            'id'    => $this->id,
+            'name'  => $this->name,
+            'value' => $this->value
+        ];
 
-		// Render html in layouts/html
-		return RedshopLayoutHelper::render(
-			'media.dropzone',
-			$displayData,
-			null,
-			array('option' => 'com_redshop')
-		);
-	}
+        // Render html in layouts/html
+        return RedshopLayoutHelper::render(
+            'media.dropzone',
+            $displayData,
+            null,
+            array('option' => 'com_redshop')
+        );
+    }
 }

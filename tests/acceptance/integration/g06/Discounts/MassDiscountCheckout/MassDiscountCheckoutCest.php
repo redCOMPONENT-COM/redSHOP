@@ -8,7 +8,9 @@
 
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\MassDiscountManagerJoomla3Steps;
+use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
+use AcceptanceTester\UserManagerJoomla3Steps;
 
 /**
  * Class MassDiscountCheckoutCest
@@ -218,14 +220,14 @@ class MassDiscountCheckoutCest
 		$I->wantTo('Test check add Mass discount ');
 		$I->addMassDiscount($this->massDiscountName, $this->massDiscountAmountTotal, $this->discountStart, $this->discountEnd, $this->categoryName, $this->productName);
 
-		$I = new \AcceptanceTester\UserManagerJoomla3Steps($scenario);
+		$I = new UserManagerJoomla3Steps($scenario);
 		$I->wantTo("I want to create user");
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
 
 		$I->wantTo('I want to login in site page');
 		$I->doFrontEndLogin($this->userName, $this->password);
 
-		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutWithDiscount($this->productName, $this->categoryName, $this->subtotal, $this->discount, $this->total);
 	}
 
@@ -241,11 +243,11 @@ class MassDiscountCheckoutCest
 		$I->wantTo('Test check add Mass discount ');
 		$I->deleteMassDiscountOK($this->massDiscountName);
 
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Product  in Administrator');
 		$I->deleteProduct($this->productName);
 
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Category in Administrator');
 		$I->deleteCategory($this->categoryName);
 	}

@@ -18,28 +18,28 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldShoppergrouplist extends JFormFieldList
 {
-	/**
-	 * Element name
-	 *
-	 * @access    protected
-	 * @var        string
-	 */
-	public $type = 'shoppergrouplist';
+    /**
+     * Element name
+     *
+     * @access    protected
+     * @var        string
+     */
+    public $type = 'shoppergrouplist';
 
-	/**
-	 * Set select list options
-	 *
-	 * @return  string  select list options
-	 */
-	protected function getOptions()
-	{
-		// Load redSHOP Library
-		JLoader::import('redshop.library');
-		$shopperGroups = Redshop\Helper\ShopperGroup::generateList();
+    /**
+     * Set select list options
+     *
+     * @return  string  select list options
+     */
+    protected function getOptions()
+    {
+        // Load redSHOP Library
+        JLoader::import('redshop.library');
+        $shopperGroups = Redshop\Helper\ShopperGroup::generateList();
 
-		// Merge any additional options in the XML definition.
-		$shopperGroups = array_merge(parent::getOptions(), $shopperGroups);
+        // Merge any additional options in the XML definition.
+        $shopperGroups = array_merge(parent::getOptions(), $shopperGroups);
 
-		return $shopperGroups;
-	}
+        return $shopperGroups;
+    }
 }

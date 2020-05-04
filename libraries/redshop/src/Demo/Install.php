@@ -19,71 +19,21 @@ defined('_JEXEC') or die;
 class Install
 {
     /**
-     * @TODO: need to fix SQL of install demo
-     */
-    public static function demoManufacturers()
-    {
-        $db = \JFactory::getDbo();
-
-        // Insert manufacturer data
-        $query = "INSERT IGNORE INTO `#__redshop_manufacturer` (`id`, `name`, `description`, `email`, `product_per_page`, `template_id`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `ordering`, `manufacturer_url`) VALUES
-			(1, 'redweb.dk', '<p>http://redweb.dk</p>', '', 12, 14, '', '', '', '', '', '', '', 1, 1, ''),
-			(2, 'redhost.dk', '<p>http://redhost.dk</p>', '', 12, 14, '', '', '', '', '', '', '', 1, 2, ''),
-			(3, 'redcomponent.com', '<p>http://redcomponent.com</p>', '', 12, 14, '', '', '', '', '', '', '', 1, 3, '')";
-
-        $db->setQuery($query)->execute();
-
-        // Insert media
-        $query = "INSERT IGNORE INTO `#__redshop_media`
-			(`media_id`, `media_name`, `media_section`, `section_id`, `media_type`, `media_mimetype`, `published`, `media_alternate_text`)
-			VALUES (33, 'redweb-logo.jpg', 'manufacturer', 1, 'images', 'images/jpg', 1, 'redweb.dk'),
-			(34, 'redhost-logo.jpg', 'manufacturer', 2, 'ima1ges', 'images/jpg', 1, 'redhost.dk'),
-			(35, 'redcomponent-logo.jpg', 'manufacturer', 3, 'images', 'images/jpg', 1, 'redcomponent.com')";
-
-        $db->setQuery($query)->execute();
-
-        // Copy files
-        $file = \JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'redweb-logo.jpg');
-
-        if (\JFile::exists($file)) {
-            \RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/1');
-            \RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/1/thumb');
-            \JFile::copy($file, REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/1/redweb-logo.jpg');
-        }
-
-        $file = \JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'redhost-logo.jpg');
-
-        if (\JFile::exists($file)) {
-            \RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/2');
-            \RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/2/thumb');
-            \JFile::copy($file, REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/2/redhost-logo.jpg');
-        }
-
-        $file = \JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'redcomponent-logo.jpg');
-
-        if (\JFile::exists($file)) {
-            \RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/3');
-            \RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/3/thumb');
-            \JFile::copy($file, REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/3/redcomponent-logo.jpg');
-        }
-    }
-
-    /**
      * @return bool
      */
     public static function demoContentInsert()
     {
-        $db = \JFactory::getDbo();
+        $db            = \JFactory::getDbo();
         $categoryTable = \RedshopTable::getAdminInstance('Category');
 
         // Category insert
-        $categoryTable->id = null;
-        $categoryTable->name = 'Events and Forms';
-        $categoryTable->template = 5;
-        $categoryTable->more_template = '5,8';
-        $categoryTable->products_per_page = 4;
-        $categoryTable->published = 1;
-        $categoryTable->ordering = 1;
+        $categoryTable->id                   = null;
+        $categoryTable->name                 = 'Events and Forms';
+        $categoryTable->template             = 5;
+        $categoryTable->more_template        = '5,8';
+        $categoryTable->products_per_page    = 4;
+        $categoryTable->published            = 1;
+        $categoryTable->ordering             = 1;
         $categoryTable->append_to_global_seo = 'append';
         $categoryTable->setLocation(\RedshopHelperCategory::getRootId(), 'last-child');
         $categoryTable->store();
@@ -92,12 +42,12 @@ class Install
 
         // Category insert
         $categoryTable->reset();
-        $categoryTable->id = null;
-        $categoryTable->name = 'CCK and e-Commerce';
-        $categoryTable->template = 5;
-        $categoryTable->products_per_page = 4;
-        $categoryTable->published = 1;
-        $categoryTable->ordering = 2;
+        $categoryTable->id                   = null;
+        $categoryTable->name                 = 'CCK and e-Commerce';
+        $categoryTable->template             = 5;
+        $categoryTable->products_per_page    = 4;
+        $categoryTable->published            = 1;
+        $categoryTable->ordering             = 2;
         $categoryTable->append_to_global_seo = 'append';
         $categoryTable->setLocation(\RedshopHelperCategory::getRootId(), 'last-child');
         $categoryTable->store();
@@ -106,12 +56,12 @@ class Install
 
         // Category insert
         $categoryTable->reset();
-        $categoryTable->id = null;
-        $categoryTable->name = 'Templates';
-        $categoryTable->template = 8;
-        $categoryTable->products_per_page = 6;
-        $categoryTable->published = 1;
-        $categoryTable->ordering = 3;
+        $categoryTable->id                   = null;
+        $categoryTable->name                 = 'Templates';
+        $categoryTable->template             = 8;
+        $categoryTable->products_per_page    = 6;
+        $categoryTable->published            = 1;
+        $categoryTable->ordering             = 3;
         $categoryTable->append_to_global_seo = 'append';
         $categoryTable->setLocation(\RedshopHelperCategory::getRootId(), 'last-child');
         $categoryTable->store();
@@ -193,7 +143,7 @@ class Install
 
         // Get the current columns for redshop category_xref
 
-        $q = "SHOW INDEX FROM #__redshop_product_category_xref";
+        $q    = "SHOW INDEX FROM #__redshop_product_category_xref";
         $cols = $db->setQuery($q)->loadObjectList('Key_name');
 
         if (is_array($cols)) {
@@ -229,7 +179,7 @@ class Install
 
         // Get the first user_id from #__redshop_users_info table then insert to userid field of demo rating content in #__redshop_product_rating table
 
-        $query = "SELECT user_id FROM `#__redshop_users_info` LIMIT 1";
+        $query   = "SELECT user_id FROM `#__redshop_users_info` LIMIT 1";
         $firstId = $db->setQuery($query)->loadResult();
 
         if (!empty($firstId)) {
@@ -242,7 +192,7 @@ class Install
 
         // Get the current columns for redshop product related
 
-        $q = "SHOW INDEX FROM #__redshop_product_related";
+        $q    = "SHOW INDEX FROM #__redshop_product_related";
         $cols = $db->setQuery($q)->loadObjectList('Key_name');
 
         if (is_array($cols)) {
@@ -266,7 +216,7 @@ class Install
 
         // Get the current columns for redshop product stockroom
 
-        $q = "SHOW INDEX FROM #__redshop_product_stockroom_xref";
+        $q    = "SHOW INDEX FROM #__redshop_product_stockroom_xref";
         $cols = $db->setQuery($q)->loadObjectList('Key_name');
 
         if (is_array($cols)) {
@@ -289,5 +239,55 @@ class Install
         $db->setQuery($query)->execute();
 
         return true;
+    }
+
+    /**
+     * @TODO: need to fix SQL of install demo
+     */
+    public static function demoManufacturers()
+    {
+        $db = \JFactory::getDbo();
+
+        // Insert manufacturer data
+        $query = "INSERT IGNORE INTO `#__redshop_manufacturer` (`id`, `name`, `description`, `email`, `product_per_page`, `template_id`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `ordering`, `manufacturer_url`) VALUES
+			(1, 'redweb.dk', '<p>http://redweb.dk</p>', '', 12, 14, '', '', '', '', '', '', '', 1, 1, ''),
+			(2, 'redhost.dk', '<p>http://redhost.dk</p>', '', 12, 14, '', '', '', '', '', '', '', 1, 2, ''),
+			(3, 'redcomponent.com', '<p>http://redcomponent.com</p>', '', 12, 14, '', '', '', '', '', '', '', 1, 3, '')";
+
+        $db->setQuery($query)->execute();
+
+        // Insert media
+        $query = "INSERT IGNORE INTO `#__redshop_media`
+			(`media_id`, `media_name`, `media_section`, `section_id`, `media_type`, `media_mimetype`, `published`, `media_alternate_text`)
+			VALUES (33, 'redweb-logo.jpg', 'manufacturer', 1, 'images', 'images/jpg', 1, 'redweb.dk'),
+			(34, 'redhost-logo.jpg', 'manufacturer', 2, 'ima1ges', 'images/jpg', 1, 'redhost.dk'),
+			(35, 'redcomponent-logo.jpg', 'manufacturer', 3, 'images', 'images/jpg', 1, 'redcomponent.com')";
+
+        $db->setQuery($query)->execute();
+
+        // Copy files
+        $file = \JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'redweb-logo.jpg');
+
+        if (\JFile::exists($file)) {
+            \RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/1');
+            \RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/1/thumb');
+            \JFile::copy($file, REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/1/redweb-logo.jpg');
+        }
+
+        $file = \JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'redhost-logo.jpg');
+
+        if (\JFile::exists($file)) {
+            \RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/2');
+            \RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/2/thumb');
+            \JFile::copy($file, REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/2/redhost-logo.jpg');
+        }
+
+        $file = \JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'redcomponent-logo.jpg');
+
+        if (\JFile::exists($file)) {
+            \RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/3');
+            \RedshopHelperMedia::createDir(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/3/thumb');
+            \JFile::copy($file, REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/3/redcomponent-logo.jpg');
+        }
     }
 }

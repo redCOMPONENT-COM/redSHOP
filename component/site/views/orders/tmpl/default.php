@@ -14,18 +14,18 @@ JHTML::_('behavior.modal');
 $ordersListTemplate = RedshopHelperTemplate::getTemplate("order_list", $this->params->get('template_id'));
 
 if (isset($ordersListTemplate[0]->template_desc) && !empty(trim($ordersListTemplate[0]->template_desc))) {
-	$templateDesc = $ordersListTemplate[0]->template_desc;
+    $templateDesc = $ordersListTemplate[0]->template_desc;
 } else {
-	$templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('order_list');
+    $templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('order_list');
 }
 
 echo RedshopTagsReplacer::_(
-	'orderlist',
-	$templateDesc,
-	[
-		'pagination' => $this->pagination,
-		'detail' => $this->detail,
-		'params' => $this->params
-	]
+    'orderlist',
+    $templateDesc,
+    [
+        'pagination' => $this->pagination,
+        'detail'     => $this->detail,
+        'params'     => $this->params
+    ]
 );
 

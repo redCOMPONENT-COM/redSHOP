@@ -16,114 +16,111 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerAccountgroup_Detail extends RedshopController
 {
-	/**
-	 * RedshopControllerAccountgroup_Detail constructor.
-	 *
-	 * @param   array  $default  Config
-	 */
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-		$this->registerTask('add', 'edit');
-	}
+    /**
+     * RedshopControllerAccountgroup_Detail constructor.
+     *
+     * @param   array  $default  Config
+     */
+    public function __construct($default = array())
+    {
+        parent::__construct($default);
+        $this->registerTask('add', 'edit');
+    }
 
     /**
-     * @param bool $cachable
-     * @param array $urlparams
+     * @param   bool   $cachable
+     * @param   array  $urlparams
      */
-	public function edit($cachable = false, $urlparams = [])
-	{
-		$this->input->set('view', 'accountgroup_detail');
-		$this->input->set('layout', 'default');
-		$this->input->set('hidemainmenu', 1);
+    public function edit($cachable = false, $urlparams = [])
+    {
+        $this->input->set('view', 'accountgroup_detail');
+        $this->input->set('layout', 'default');
+        $this->input->set('hidemainmenu', 1);
 
-		parent::display($cachable, $urlparams);
-	}
+        parent::display($cachable, $urlparams);
+    }
 
-	/**
-	 * Apply
-	 *
-	 * @return  void
-	 */
-	public function apply()
-	{
-		$this->save(1);
-	}
+    /**
+     * Apply
+     *
+     * @return  void
+     */
+    public function apply()
+    {
+        $this->save(1);
+    }
 
-	/**
-	 * Save
-	 *
-	 * @param   integer  $apply  Apply or not.
-	 *
-	 * @return  void
-	 */
-	public function save($apply = 0)
-	{
-		$post = $this->input->post->getArray();
-		$cid  = $this->input->post->get('cid', array(0), 'array');
+    /**
+     * Save
+     *
+     * @param   integer  $apply  Apply or not.
+     *
+     * @return  void
+     */
+    public function save($apply = 0)
+    {
+        $post = $this->input->post->getArray();
+        $cid  = $this->input->post->get('cid', array(0), 'array');
 
-		$post['accountgroup_id'] = $cid[0];
+        $post['accountgroup_id'] = $cid[0];
 
-		/** @var RedshopModelAccountgroup_detail $model */
-		$model = $this->getModel('accountgroup_detail');
-		$row   = $model->store($post);
+        /** @var RedshopModelAccountgroup_detail $model */
+        $model = $this->getModel('accountgroup_detail');
+        $row   = $model->store($post);
 
-		if ($row)
-		{
-			$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_SAVED');
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_ACCOUNTGROUP_DETAIL');
-		}
+        if ($row) {
+            $msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_SAVED');
+        } else {
+            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_ACCOUNTGROUP_DETAIL');
+        }
 
-		if ($apply == 1)
-		{
-			$this->setRedirect('index.php?option=com_redshop&view=accountgroup_detail&task=edit&cid[]='
-                . $row->accountgroup_id, $msg);
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=com_redshop&view=accountgroup', $msg);
-		}
-	}
+        if ($apply == 1) {
+            $this->setRedirect(
+                'index.php?option=com_redshop&view=accountgroup_detail&task=edit&cid[]='
+                . $row->accountgroup_id,
+                $msg
+            );
+        } else {
+            $this->setRedirect('index.php?option=com_redshop&view=accountgroup', $msg);
+        }
+    }
 
-	/**
-	 * Cancel
-	 *
-	 * @return  void
-	 */
-	public function cancel()
-	{
-		$this->setRedirect('index.php?option=com_redshop&view=accountgroup',
-            JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_EDITING_CANCELLED'));
-	}
+    /**
+     * Cancel
+     *
+     * @return  void
+     */
+    public function cancel()
+    {
+        $this->setRedirect(
+            'index.php?option=com_redshop&view=accountgroup',
+            JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_EDITING_CANCELLED')
+        );
+    }
 
-	/**
-	 * Remove
-	 *
-	 * @return  void
-	 *
-	 * @throws  Exception
-	 */
-	public function remove()
-	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
+    /**
+     * Remove
+     *
+     * @return  void
+     *
+     * @throws  Exception
+     */
+    public function remove()
+    {
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-		}
+        if (!is_array($cid) || count($cid) < 1) {
+            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+        }
 
-		/** @var RedshopModelAccountgroup_detail $model */
-		$model = $this->getModel('accountgroup_detail');
+        /** @var RedshopModelAccountgroup_detail $model */
+        $model = $this->getModel('accountgroup_detail');
 
-		if (!$model->delete($cid))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
+        if (!$model->delete($cid)) {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
 
-		$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=accountgroup', $msg);
-	}
+        $msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_DELETED_SUCCESSFULLY');
+        $this->setRedirect('index.php?option=com_redshop&view=accountgroup', $msg);
+    }
 }

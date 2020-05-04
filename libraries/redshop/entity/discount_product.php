@@ -18,111 +18,104 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityDiscount_Product extends RedshopEntity
 {
-	/**
-	 * @var RedshopEntitiesCollection
-	 */
-	protected $shopperGroups;
+    /**
+     * @var RedshopEntitiesCollection
+     */
+    protected $shopperGroups;
 
-	/**
-	 * @var RedshopEntitiesCollection
-	 */
-	protected $categories;
+    /**
+     * @var RedshopEntitiesCollection
+     */
+    protected $categories;
 
-	/**
-	 * Method for get shopper groups associate with this discount
-	 *
-	 * @return  RedshopEntitiesCollection
-	 *
-	 * @since   2.1.0
-	 */
-	public function getShopperGroups()
-	{
-		if (null === $this->shopperGroups)
-		{
-			$this->loadShopperGroups();
-		}
+    /**
+     * Method for get shopper groups associate with this discount
+     *
+     * @return  RedshopEntitiesCollection
+     *
+     * @since   2.1.0
+     */
+    public function getShopperGroups()
+    {
+        if (null === $this->shopperGroups) {
+            $this->loadShopperGroups();
+        }
 
-		return $this->shopperGroups;
-	}
+        return $this->shopperGroups;
+    }
 
-	/**
-	 * Method for get categories associate with this discount
-	 *
-	 * @return  RedshopEntitiesCollection
-	 *
-	 * @since   2.1.0
-	 */
-	public function getCategories()
-	{
-		if (null === $this->categories)
-		{
-			$this->loadCategories();
-		}
+    /**
+     * Method for load shopper groups associate with this discount
+     *
+     * @return  self
+     *
+     * @since   2.1.0
+     */
+    protected function loadShopperGroups()
+    {
+        $this->shopperGroups = new RedshopEntitiesCollection;
 
-		return $this->categories;
-	}
+        if (!$this->hasId()) {
+            return $this;
+        }
 
-	/**
-	 * Method for load categories associate with this discount
-	 *
-	 * @return  self
-	 *
-	 * @since   2.1.0
-	 */
-	protected function loadCategories()
-	{
-		$this->categories = new RedshopEntitiesCollection;
+        $db = JFactory::getDbo();
 
-		if (!$this->hasId() || empty($this->get('category_ids')))
-		{
-			return $this;
-		}
+        $query = $db->getQuery(true)
+            ->select($db->qn('shopper_group_id'))
+            ->from($db->qn('#__redshop_discount_product_shoppers'))
+            ->where($db->qn('discount_product_id') . ' = ' . $this->getId());
 
-		$categoryIds = explode(',', $this->get('category_ids'));
+        $result = $db->setQuery($query)->loadColumn();
 
-		foreach ($categoryIds as $categoryId)
-		{
-			$this->categories->add(RedshopEntityCategory::getInstance($categoryId));
-		}
+        if (empty($result)) {
+            return $this;
+        }
 
-		return $this;
-	}
+        foreach ($result as $shopperGroupId) {
+            $this->shopperGroups->add(RedshopEntityShopper_Group::getInstance($shopperGroupId));
+        }
 
-	/**
-	 * Method for load shopper groups associate with this discount
-	 *
-	 * @return  self
-	 *
-	 * @since   2.1.0
-	 */
-	protected function loadShopperGroups()
-	{
-		$this->shopperGroups = new RedshopEntitiesCollection;
+        return $this;
+    }
 
-		if (!$this->hasId())
-		{
-			return $this;
-		}
+    /**
+     * Method for get categories associate with this discount
+     *
+     * @return  RedshopEntitiesCollection
+     *
+     * @since   2.1.0
+     */
+    public function getCategories()
+    {
+        if (null === $this->categories) {
+            $this->loadCategories();
+        }
 
-		$db = JFactory::getDbo();
+        return $this->categories;
+    }
 
-		$query = $db->getQuery(true)
-			->select($db->qn('shopper_group_id'))
-			->from($db->qn('#__redshop_discount_product_shoppers'))
-			->where($db->qn('discount_product_id') . ' = ' . $this->getId());
+    /**
+     * Method for load categories associate with this discount
+     *
+     * @return  self
+     *
+     * @since   2.1.0
+     */
+    protected function loadCategories()
+    {
+        $this->categories = new RedshopEntitiesCollection;
 
-		$result = $db->setQuery($query)->loadColumn();
+        if (!$this->hasId() || empty($this->get('category_ids'))) {
+            return $this;
+        }
 
-		if (empty($result))
-		{
-			return $this;
-		}
+        $categoryIds = explode(',', $this->get('category_ids'));
 
-		foreach ($result as $shopperGroupId)
-		{
-			$this->shopperGroups->add(RedshopEntityShopper_Group::getInstance($shopperGroupId));
-		}
+        foreach ($categoryIds as $categoryId) {
+            $this->categories->add(RedshopEntityCategory::getInstance($categoryId));
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 }

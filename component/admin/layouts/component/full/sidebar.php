@@ -12,5 +12,5 @@ defined('_JEXEC') or die;
 ?>
 <!-- sidebar: style can be found in sidebar.less -->
 <section class="sidebar">
-	<?php echo RedshopMenuLeft_Menu::render(); ?>
+    <?php echo RedshopMenuLeft_Menu::render(); ?>
 </section>

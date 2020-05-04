@@ -1,70 +1,88 @@
 <?php
+/**
+ * @package     redSHOP
+ * @subpackage  Cest
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 use AcceptanceTester\DiscountProductSteps;
 
 /**
- * * Class ManageDiscountProductAdministratorCest
- *
- * @package  AcceptanceTester
- *
- * @link     http://codeception.com/docs/07-AdvancedUsage
- *
- * @since    2.1.0
- */
+ * Class DiscountProductCest
+ * @since 2.1.0
+*/
 class DiscountProductCest
 {
 	/**
 	 * @var \Faker\Generator
+	 * @since 2.1.0
 	 */
 	public $faker;
 
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $categoryName;
 
 	/**
-	 * @var integer
+	 * @var int
+	 * @since 2.1.0
 	 */
 	public $noPage;
 
 	/**
-	 * @var integer
+	 * @var int
+	 * @since 2.1.0
 	 */
 	public $productPrice;
 
 	/**
-	 * @var integer
+	 * @var int
+	 * @since 2.1.0
 	 */
 	public $condition;
 
 	/**
-	 * @var integer
+	 * @var int
+	 * @since 2.1.0
 	 */
 	public $type;
 
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $startDate;
 
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $endDate;
 
 	/**
-	 * @var integer
+	 * @var int
+	 * @since 2.1.0
 	 */
 	public $discountAmount;
 
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $groupName;
 
 	/**
-	 * ManageDiscountProductAdministratorCest constructor
+	 * @var array
+	 * @since 2.1.0
+	 */
+	protected $dataCategory;
+
+	/**
+	 * DiscountProductCest constructor.
+	 * @since 2.1.0
 	 */
 	public function __construct()
 	{
@@ -88,25 +106,29 @@ class DiscountProductCest
 
 	/**
 	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 * @since 2.1.0
 	 */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
 	}
 
+	/**
+	 * @param CategorySteps $client
+	 * @since 2.1.0
+	 */
 	public function createCategory(CategorySteps $client)
 	{
 		$client->wantTo('Test Category creation in Administrator');
 		$client->wantTo('Create a Category');
 		$client->addNewItem($this->dataCategory);
 	}
+
 	/**
 	 * Function to Test Discount Product Creation in Backend
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
+	 * @param DiscountProductSteps $client
+	 * @since 2.1.0
 	 */
 	public function createDiscountSave(DiscountProductSteps $client)
 	{
@@ -124,30 +146,19 @@ class DiscountProductCest
 
 	/**
 	 * Function check cancel button
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends createDiscountSave
+	 * @param DiscountProductSteps $client
+	 * @since 2.1.0
 	 */
 	public function addDiscountProductCancelButton(DiscountProductSteps $client)
 	{
 		$client->addDiscountProductCancelButton();
-		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
+		$client->see(DiscountProductPage::$namePage, DiscountProductPage::$selectorPageTitle);
 	}
 
 	/**
-	 *
 	 * Function add discount product missing amount
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends addDiscountProductCancelButton
+	 * @param DiscountProductSteps $client
+	 * @since 2.1.0
 	 */
 	public function addDiscountProductMissingAmountSaveClose(DiscountProductSteps $client)
 	{
@@ -187,30 +198,19 @@ class DiscountProductCest
 
 	/**
 	 * Function check delete button
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends addDiscountProductMissingAmountSaveClose
+	 * @param DiscountProductSteps $client
+	 * @since 2.1.0
 	 */
 	public function checkDeleteButton(DiscountProductSteps $client)
 	{
 		$client->checkDeleteButton();
-		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
+		$client->see(DiscountProductPage::$namePage, DiscountProductPage::$selectorPageTitle);
 	}
 
 	/**
 	 * Function delete all discounts
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends checkDeleteButton
-	 *
+	 * @param DiscountProductSteps $client
+	 * @since 2.1.0
 	 */
 	public function checkDeleteAll(DiscountProductSteps $client)
 	{

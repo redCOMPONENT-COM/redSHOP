@@ -1,15 +1,15 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Class ProductFrontEndJoomla3Page
  *
- * @since  2.4
+ * @since  1.4.0
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
@@ -19,87 +19,104 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $URL = '/index.php?option=com_redshop';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $cartPageUrL = "index.php?option=com_redshop&view=cart";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $quotation = "/index.php?option=com_redshop&view=quotation";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $addQuotation = "//input[@name='addquotation']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $categoryDiv = "//div[@id='redshopcomponent']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $productList = "//div[@id='redcatproducts']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $addToCart = "//span[contains(text(), 'Add to cart')]";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 
 	public static $addToCompare = "//input[@name='rsProductCompareChk']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $showProductToCompare = "//a[text() = 'Show Products To Compare']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $alertMessageDiv = "//div[@class='alert alert-success']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $alertSuccessMessage = "Product has been added to your cart.";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $alterOutOfStock = "Sorry, This product is out of stock....";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $addQuotationSuccess = 'Quotation detail has been sent successfully';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $checkoutURL = "/index.php?option=com_redshop&view=checkout";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $headBilling = 'Billing Address Information';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $checkoutButton = "//input[@class='greenbutton btn btn-primary']";
 
@@ -117,236 +134,283 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $addressEmail = "#private-email1";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $userEmail = "//input[@id='user_email']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $addressFirstName = "//input[@id='private-firstname']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $addressLastName = "//input[@id='private-lastname']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $addressAddress = "//input[@id='private-address']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $addressPostalCode = "//input[@id='private-zipcode']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $addressCity = "//input[@id='private-city']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $addressCountry = "//select[@id='rs_country_country_code']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $addressState = "//select[@id='state_code']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $addressPhone = "//input[@id='private-phone']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $shippingFirstName = "//input[@id='firstname_ST']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $shippingLastName = "//input[@id='lastname_ST']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $shippingAddress = "//input[@id='address_ST']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $shippingPostalCode = "//input[@id='zipcode_ST']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $shippingCity = "//input[@id='city_ST']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $countryId = "#rs_country_country_code";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $selectSecondCountry = "//select[@id='rs_country_country_code']/option[2]";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $shippingCountry = "//select[@id='country_code_ST']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $shippingState = "//select[@id='state_code_ST']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $shippingPhone = "//input[@id='phone_ST']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $billingFinal = "//h3[text() = 'Bill to information']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $termAndConditions = "//input[@id='termscondition']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $termAndConditionsId = 'termscondition';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $checkoutFinalStep = "#checkout_final";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $orderReceiptTitle = "//h1[contains(text(), 'Order Receipt')]";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $orderReceipt = "Order Receipt";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idAddAccount = "//label//input[@id='createaccount']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idUserNameOneStep = "//input[@id='onestep-createaccount-username']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idPassOneStep = "//input[@id='password1']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idPassConfirmOneStep = "//input[@id='password2']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $radioCompany = "//input[@id='toggler2']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $radioIDCompany = "//input[@id='toggler2']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $radioPrivate = "//input[@billing_type='private']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idCompanyName = "//input[@id='company_name']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idCompanyNameOnePage = "//input[@id='company-company_name']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idCompanyAddressOnePage = "//input[@id='company-address']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idCompanyEmailOnePage = "//input[@id='company-email1']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idCompanyZipCodeOnePage = "//input[@id='company-zipcode']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idCompanyCityOnePage = "//input[@id='company-city']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idCompanyPhoneOnePage = "//input[@id='company-phone']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idBusinessNumber = "//input[@id='vat_number']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idEanNumber = "//input[@id='ean_number']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idCompanyFirstName = "//input[@id='company-firstname']";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
 	public static $idCompanyLastName = "//input[@id='company-lastname']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $searchProductRedShop = "//div[@class='product_search']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $inputSearchProductRedShop = "//input[@id='keyword']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $buttonSearchProductRedShop = "//input[@id='Search']";
 
@@ -638,6 +702,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 3.0.1
+	 */
+	public static $nameProduct1OnCart = "//tr[1]/td[1]";
+
+	/**
+	 * @var string
+	 * @since 3.0.1
+	 */
+	public static $nameProduct2OnCart = "//tr[2]/td[1]";
+
+	/**
+	 * @var string
 	 * @since 2.1.3
 	 */
 	public static $shippingWithVat = '#spnShippingrate';
@@ -734,6 +810,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @param   String $categoryName Name of the Category
 	 *
 	 * @return string
+	 * @since 1.4.0
 	 */
 	public function productCategory($categoryName)
 	{
@@ -748,6 +825,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @param   String $productName Name of the Product
 	 *
 	 * @return string
+	 * @since 1.4.0
 	 */
 	public function product($productName)
 	{
@@ -762,6 +840,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @param   String $productName Name of the Product
 	 *
 	 * @return string
+	 * @since 1.4.0
 	 */
 	public function finalCheckout($productName)
 	{
@@ -776,6 +855,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @param String $productName Name of the Product
 	 *
 	 * @return string
+	 * @since 1.4.0
 	 */
 	public function productName($productName)
 	{
@@ -867,4 +947,28 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.4
 	 */
 	public static $buttonEmptyCart = '//input[@onclick = "document.empty_cart.submit();"]';
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $productRelatedTitle = "//div[@class='mod_redshop_products_title']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $addToCartProductRelated = "//div[@class='mod_redshop_products_addtocart']//span[contains(text(),'Add to cart')]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $productFirst = "(//div[@class='category_box_inside'])[1]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $productSecond = "(//div[@class='category_box_inside'])[2]";
 }

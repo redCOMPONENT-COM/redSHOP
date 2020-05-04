@@ -12,16 +12,16 @@ defined('_JEXEC') or die;
 $template = RedshopHelperTemplate::getTemplate("product_sample");
 
 if (count($template) > 0 && $template[0]->template_desc != "") {
-	$templateDesc = $template[0]->template_desc;
+    $templateDesc = $template[0]->template_desc;
 } else {
-	$templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('product_sample');
+    $templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('product_sample');
 }
 
 echo RedshopTagsReplacer::_(
-	'productsample',
-	$templateDesc,
-	[
-		'params' => $this->params
-	]
+    'productsample',
+    $templateDesc,
+    [
+        'params' => $this->params
+    ]
 );
 

@@ -8,7 +8,7 @@
     <reference>
         <table name="redshop_textlibrary">
             <field type="referenceid" name="id" translate="0">ID</field>
-            <field type="titletext" name="name" translate="1" >Name</field>
+            <field type="titletext" name="name" translate="1">Name</field>
             <field type="text" name="desc" translate="1">Description</field>
             <field type="htmltext" name="content" translate="1" ebuttons="readmore,pagebreak">Content</field>
             <field type="state" name="published" stateoptions="0,1" translate="1">State</field>

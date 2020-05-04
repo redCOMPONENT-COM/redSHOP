@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Field
@@ -8,6 +9,7 @@
  */
 defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
+
 /**
  * RCountry3Code select list for redSHOP
  *
@@ -18,38 +20,36 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldRCountry3Code extends JFormFieldList
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var		string
-	 */
-	protected $type = 'RCountry3Code';
-	/**
-	 * Get the select options
-	 *
-	 * @return  array  Options to populate the select field
-	 */
-	public function getOptions()
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('country_3_code', 'value'))
-			->select($db->quoteName('country_name', 'text'))
-			->from($db->quoteName('#__redshop_country'));
-		$db->setQuery($query);
+    /**
+     * The form field type.
+     *
+     * @var        string
+     */
+    protected $type = 'RCountry3Code';
 
-		try
-		{
-			$options = $db->loadObjectList();
-		}
-		catch (RuntimeException $e)
-		{
-			throw new Exception($e->getMessage());
-		}
+    /**
+     * Get the select options
+     *
+     * @return  array  Options to populate the select field
+     */
+    public function getOptions()
+    {
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName('country_3_code', 'value'))
+            ->select($db->quoteName('country_name', 'text'))
+            ->from($db->quoteName('#__redshop_country'));
+        $db->setQuery($query);
 
-		// Get other options inserted in the XML file
-		$parentOptions = parent::getOptions();
+        try {
+            $options = $db->loadObjectList();
+        } catch (RuntimeException $e) {
+            throw new Exception($e->getMessage());
+        }
 
-		return array_merge($parentOptions, $options);
-	}
+        // Get other options inserted in the XML file
+        $parentOptions = parent::getOptions();
+
+        return array_merge($parentOptions, $options);
+    }
 }

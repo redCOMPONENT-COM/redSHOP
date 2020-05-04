@@ -1,8 +1,8 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,14 @@
 
 class FrontEndNoticesCest
 {
-    public $allFrontEndPages = array();
+	/**
+	 * @var array
+	 */
+	protected $allFrontEndPages = array();
+
+	/**
+	 * FrontEndNoticesCest constructor.
+	 */
 	public function __construct()
 	{
 		$this->allFrontEndPages = array (

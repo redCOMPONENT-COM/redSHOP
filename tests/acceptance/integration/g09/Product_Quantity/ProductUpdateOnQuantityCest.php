@@ -26,28 +26,63 @@ class ProductUpdateOnQuantityCest
 {
 	/**
 	 * @var   Generator
+	 * @since 2.1.2
 	 */
 	protected $faker;
 
 	/**
 	 * @var string
+	 * @since 2.1.2
 	 */
 	protected $menuItem;
 
 	/**
 	 * @var string
+	 * @since 2.1.2
 	 */
 	protected  $menuCategory;
 
 	/**
 	 * @var string
+	 * @since 2.1.2
 	 */
 	protected  $nameProduct;
 
 	/**
 	 * @var int
+	 * @since 2.1.2
 	 */
 	protected  $quantity;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $paymentMethod;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	protected $customerInformation;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $categoryName;
+
+	/**
+	 * @var int
+	 * @since 2.1.2
+	 */
+	protected $randomProductNumber;
+
+	/**
+	 * @var int
+	 * @since 2.1.2
+	 */
+	protected $randomProductPrice;
 
 	/**
 	 * @var array
@@ -100,6 +135,7 @@ class ProductUpdateOnQuantityCest
 	/**
 	 * @param ProductUpdateOnQuantitySteps $I
 	 * @throws Exception
+	 * @since 2.1.2
 	 */
 	public function _before(ProductUpdateOnQuantitySteps $I)
 	{
@@ -109,6 +145,7 @@ class ProductUpdateOnQuantityCest
 	/**
 	 * @param ProductUpdateOnQuantitySteps $I
 	 * @throws Exception
+	 * @since 2.1.2
 	 */
 	public function createMenuItem(ProductUpdateOnQuantitySteps $I)
 	{
@@ -120,6 +157,7 @@ class ProductUpdateOnQuantityCest
 	 * @param ProductUpdateOnQuantitySteps $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since 2.1.2
 	 */
 	public function addToCartWithProductUpdateQuantity(ProductUpdateOnQuantitySteps $I,$scenario)
 	{
@@ -168,6 +206,7 @@ class ProductUpdateOnQuantityCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since 2.1.2
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{

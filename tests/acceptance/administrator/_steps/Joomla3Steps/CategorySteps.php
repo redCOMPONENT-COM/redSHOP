@@ -1,8 +1,8 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,6 +30,7 @@ class CategorySteps extends AbstractStep
 	 *
 	 * @return  void
 	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function addCategoryChild($categoryParent, $categoryName, $noPage)
 	{
@@ -57,6 +58,8 @@ class CategorySteps extends AbstractStep
 	 * @param   integer  $productAccessories  Product accessories.
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function addCategoryAccessories($categoryName, $noPage, $productAccessories)
 	{
@@ -78,6 +81,7 @@ class CategorySteps extends AbstractStep
 	 * @param   string   $accessoryName  Accessory name
 	 *
 	 * @return  void
+	 * @throws \Exception
 	 */
 	private function selectAccessories($accessoryName)
 	{
