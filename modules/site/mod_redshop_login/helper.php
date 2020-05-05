@@ -104,7 +104,8 @@ class ModRedshopLoginHelper
      * @since  1.0
      */
     public static function fbLoginCallBackAjax() {
-        $input = \JFactory::getApplication()->input;
+        $app = \JFactory::getApplication();
+        $input = $app->input;
 
         $response = $input->getString('code', '');
         $error = $input->getString('error_message', null);
@@ -123,42 +124,40 @@ class ModRedshopLoginHelper
             $accessToken = $helper->getAccessToken();
         } catch (\Facebook\Exceptions\FacebookResponseException $e) {
             // When Graph returns an error
-            echo 'Graph returned an error: ' . $e->getMessage();
-            exit;
+            $app->enqueueMessage('Graph returned an error: ' . $e->getMessage());
         } catch (\Facebook\Exceptions\FacebookSDKException $e) {
             // When validation fails or other local issues
-            echo 'Facebook SDK returned an error: ' . $e->getMessage();
-            exit;
+            $app->enqueueMessage('Facebook SDK returned an error: ' . $e->getMessage());
         }
 
         if (!isset($accessToken)) {
             if ($helper->getError()) {
                 header('HTTP/1.0 401 Unauthorized');
-                echo "Error: " . $helper->getError() . "\n";
-                echo "Error Code: " . $helper->getErrorCode() . "\n";
-                echo "Error Reason: " . $helper->getErrorReason() . "\n";
-                echo "Error Description: " . $helper->getErrorDescription() . "\n";
+                $msg = "Error: " . $helper->getError() . "\n";
+                $msg .= "Error Code: " . $helper->getErrorCode() . "\n";
+                $msg .= "Error Reason: " . $helper->getErrorReason() . "\n";
+                $msg .= "Error Description: " . $helper->getErrorDescription() . "\n";
+
+                $app->enqueueMessage($msg);
+
             } else {
                 header('HTTP/1.0 400 Bad Request');
-                echo 'Bad request';
+                $app->enqueueMessage('Bad request');
             }
-            exit;
         }
 
         // Logged in
-        echo '<h3>Access Token</h3>';
-        var_dump($accessToken->getValue());
+        $token = $accessToken->getValue();
 
         // The OAuth 2.0 client handler helps us manage access tokens
         $oAuth2Client = $fb->getOAuth2Client();
 
         // Get the access token metadata from /debug_token
         $tokenMetadata = $oAuth2Client->debugToken($accessToken);
-        echo '<h3>Metadata</h3>';
-        var_dump($tokenMetadata);
+        $userFbId = $tokenMetadata->getUserId();
 
         // Validation (these will throw FacebookSDKException's when they fail)
-        $tokenMetadata->validateAppId($config['app_id']);
+        $tokenMetadata->validateAppId('526790588005827');
         // If you know the user ID this access token belongs to, you can validate it here
         //$tokenMetadata->validateUserId('123');
         $tokenMetadata->validateExpiration();
@@ -168,18 +167,48 @@ class ModRedshopLoginHelper
             try {
                 $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
             } catch (Facebook\Exceptions\FacebookSDKException $e) {
-                echo "<p>Error getting long-lived access token: " . $e->getMessage() . "</p>\n\n";
-                exit;
+                $app->enqueueMessage("Error getting long-lived access token: " . $e->getMessage());
             }
 
-            echo '<h3>Long-lived</h3>';
-            var_dump($accessToken->getValue());
+            $token = $accessToken->getValue();
+        }
+
+        $response = $fb->get('/me?fields=id,name,email', $token);
+        $userFb = $response->getGraphUser();
+
+        $password = \JUserHelper::genRandomPassword(32);
+
+        $data = [];
+        $data['password']  = $password;
+        $data['password2'] = $password;
+        $data['email']     = $data['email1'] = $data['username'] = $userFb->getEmail();
+        $data['name'] = $data['firstname'] = $userFb->getName();
+
+        $jUser = JUserHelper::getUserId($data['email']);
+
+        if ($jUser > 0) {
+            $jUser = \JFactory::getUser($jUser);
+
+            JPluginHelper::importPlugin('user');
+
+            $options = array();
+            $options['action'] = 'core.login.site';
+
+            $response->username = $jUser->username;
+            $result = $app->triggerEvent('onUserLogin', array((array) $response, $options));
+
+        } else {
+            $jUser = \RedshopHelperJoomla::createJoomlaUser($data, 1);
+        }
+
+        $check = \RedshopHelperUser::getUserInformation($jUser->id);
+
+        if (empty($check)) {
+            $redUser = \RedshopHelperUser::storeRedshopUser($data, $jUser->id);
         }
 
         $_SESSION['fb_access_token'] = (string)$accessToken;
 
-        // User is logged in with a long-lived access token.
-        // You can redirect them to a members-only page.
-        //header('Location: https://example.com/members.php');
+        $app->redirect(\JUri::root());
     }
 }
