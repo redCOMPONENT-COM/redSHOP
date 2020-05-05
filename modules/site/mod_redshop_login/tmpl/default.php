@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Site
- * @subpackage  mod_login
+ * @subpackage  MOD_REDSHOP_LOGIN
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -27,14 +27,14 @@ JHtml::_('bootstrap.tooltip');
                 <?php if (!$params->get('usetext', 0)) : ?>
                 <div class="input-prepend">
 						<span class="add-on">
-							<span class="icon-user hasTooltip" title="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
-							<label for="modlgn-username" class="element-invisible"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+							<span class="icon-user hasTooltip" title="<?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?>"></span>
+							<label for="modlgn-username" class="element-invisible"><?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?></label>
 						</span>
-                    <input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?>" />
+                    <input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?>" />
                 </div>
                 <?php else : ?>
-                <label for="modlgn-username"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-                <input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?>" />
+                <label for="modlgn-username"><?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?></label>
+                <input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?>" />
                 <?php endif; ?>
             </div>
         </div>
@@ -85,7 +85,7 @@ JHtml::_('bootstrap.tooltip');
         <?php endif; ?>
         <?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
         <div id="form-login-remember" class="control-group checkbox">
-            <label for="modlgn-remember" class="control-label"><?php echo JText::_('MOD_LOGIN_REMEMBER_ME'); ?></label> <input id="modlgn-remember" type="checkbox" name="remember" class="inputbox" value="yes"/>
+            <label for="modlgn-remember" class="control-label"><?php echo JText::_('MOD_REDSHOP_LOGIN_REMEMBER_ME'); ?></label> <input id="modlgn-remember" type="checkbox" name="remember" class="inputbox" value="yes"/>
         </div>
         <?php endif; ?>
         <div id="form-login-submit" class="control-group">
@@ -99,16 +99,16 @@ JHtml::_('bootstrap.tooltip');
             <?php if ($usersConfig->get('allowUserRegistration')) : ?>
             <li>
                 <a href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
-                    <?php echo JText::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
+                    <?php echo JText::_('MOD_REDSHOP_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
             </li>
             <?php endif; ?>
             <li>
                 <a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
-                    <?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
+                    <?php echo JText::_('MOD_REDSHOP_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
             </li>
             <li>
                 <a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
-                    <?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
+                    <?php echo JText::_('MOD_REDSHOP_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
             </li>
         </ul>
         <input type="hidden" name="option" value="com_users" />
@@ -122,8 +122,6 @@ JHtml::_('bootstrap.tooltip');
     </div>
     <?php endif; ?>
 </form>
-<div class="row">
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v6.0"></script>
-    <div class="fb-login-button" data-size="medium" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
+<div class="row form-inline">
+    <?php echo \ModRedshopLoginHelper::loginFb() ?>
 </div>
