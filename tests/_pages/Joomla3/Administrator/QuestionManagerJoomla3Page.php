@@ -19,7 +19,13 @@ class QuestionManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $URL = '/administrator/index.php?option=com_redshop&view=question';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=questions';
+
+    /**
+     * @var string
+     * @since 3.0.2
+     */
+    public static $namePage = "Question Management";
 
 	/**
 	 * @var string
@@ -89,4 +95,28 @@ class QuestionManagerJoomla3Page extends AdminJ3Page
 
 		return $path;
 	}
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $fieldNameQuestion = "#jform_your_name";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $fieldEmailQuestion = "#jform_your_email";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $fieldYourQuestion = "#jform_your_question";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $sendButton = "//input[@class='btn']";
 }
