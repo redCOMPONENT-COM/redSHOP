@@ -17,11 +17,13 @@ abstract class AdminJ3Page
 {
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $installURL = '/administrator/index.php?option=com_installer';
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $moduleURL = '/administrator/index.php?option=com_modules';
 
@@ -57,56 +59,61 @@ abstract class AdminJ3Page
 
 	/**
 	 * @var array
+	 * @since  2.1.2
 	 */
 	public static $link = ['link' => 'Install from URL'];
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $urlID = "#install_url";
 
 	/**
 	 * @var array
+	 * @since  2.1.2
 	 */
 	public static $installButton = "#installbutton_url";
 
 	/**
 	 * @var array
+	 * @since  2.1.2
 	 */
 	public static $installDemoContent = "#btn-demo-content";
 
 	/**
-	 * @var array
-	 */
-	public static $buttonStatic = "//body//div[2]//section//div//div//div//div//p[3]/a[3]";
-
-	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $namePage = "";
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $url = 'index.php?option=com_redshop';
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messageHead = "Message";
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messageError = "Error";
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messageItemSaveSuccess = "Item saved.";
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messageDeleteSuccess = "successfully deleted";
 
@@ -124,21 +131,25 @@ abstract class AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messageUnpublishSuccess = 'successfully unpublished';
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messagePublishSuccess = 'successfully published';
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messageCheckInSuccess = 'successfully checked in';
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messageInstallSuccess = 'installed successfully';
 
@@ -197,18 +208,6 @@ abstract class AdminJ3Page
 	public static $idFieldName = "#jform_name";
 
 	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $namePath = "//div[@class='table-responsive']/table/tbody/tr/td[2]";
-
-	/**
-	 * @var array
-	 * @since 2.1.2
-	 */
-	public static $listId = "#s2id_list_limit";
-
-	/**
 	 * @var array
 	 * @since 2.1.2
 	 */
@@ -227,12 +226,6 @@ abstract class AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $stateCheckInPathBlock = "//a[contains(@class, 'btn-checkin')]";
-
-	/**
-	 * @var array
-	 * @since 2.1.2
-	 */
-	public static $stateCheckInPath = "//a[contains(@class, 'btn-edit-item')]";
 
 	/**
 	 * @var array
@@ -275,12 +268,6 @@ abstract class AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $selectorPageTitle = '.page-title';
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $selectorHeading = '.alert-heading';
 
 	/**
 	 * @var string
@@ -384,21 +371,11 @@ abstract class AdminJ3Page
 	 */
 	public static $buttonSaveCopy = "Save & Copy";
 
-// Include url of current page
-// Fontend checkout first name
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $URLLoginAdmin = '/administrator/index.php';
-
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public static $cartPageUrL="index.php?option=com_redshop&view=cart";
-
 
 	/**
 	 * @var string
@@ -520,12 +497,6 @@ abstract class AdminJ3Page
 	public static $paymentPayPad = "//input[@value='rs_payment_paypal']";
 
 	/**
-	 * @var array
-	 * @since 2.1.2
-	 */
-	public static $paymentId = ['rs_payment_paypal'];
-
-	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
@@ -536,18 +507,6 @@ abstract class AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $bankTransferId = "rs_payment_banktransfer0";
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $jqueryBankTransfer = "jQuery('#rs_payment_banktransfer0').click()";
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $scriftClickTransfer = 'document.getElementById("rs_payment_banktransfer0").checked = true;';
 
 	/**
 	 * @var array
