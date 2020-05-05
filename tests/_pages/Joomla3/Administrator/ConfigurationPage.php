@@ -787,6 +787,30 @@ class ConfigurationPage extends AdminJ3Page
 	public static $inputDefaultSort = "//input[@id='s2id_autogen26_search']";
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $inputRatingMsg = "#rating_msg";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $inputFavouredReviews = "#favoured_reviews";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $inputThumbWidth = "#rating_thumb_image_width";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $inputThumbHeight = "#rating_thumb_image_height";
+
+	/**
 	 * @param $option
 	 * @return string
 	 * @since 2.1.3
@@ -794,5 +818,15 @@ class ConfigurationPage extends AdminJ3Page
 	public function displayOutOfStockAfterNormal($option)
 	{
 		return $path = "//label[@for='display_out_of_stock_after_".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public function ratingLoginRequired($option)
+	{
+		return $path = "#rating_review_login_required_".$option."-lbl";
 	}
 }

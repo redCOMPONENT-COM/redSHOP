@@ -64,14 +64,13 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	/**
 	 * Function to change State of a Stockroom
-	 * @param $name
 	 * @param string $state
 	 * @throws \Exception
 	 * @since 1.4.0
 	 */
-	public function changeStockRoomState($name, $state = 'unpublish')
+	public function changeStockRoomState($state = 'unpublish')
 	{
-		$this->changeState(new StockRoomManagerJoomla3Page, $name, $state, StockRoomManagerJoomla3Page::$firstResultRow, StockRoomManagerJoomla3Page::$selectFirst);
+		$this->changeState(new StockRoomManagerJoomla3Page, $state);
 	}
 
 	/**
