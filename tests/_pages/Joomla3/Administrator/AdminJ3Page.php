@@ -208,6 +208,18 @@ abstract class AdminJ3Page
 	public static $idFieldName = "#jform_name";
 
 	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $namePath = "//div[@class='table-responsive']/table/tbody/tr/td[2]";
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	public static $listId = "#s2id_list_limit";
+
+	/**
 	 * @var array
 	 * @since 2.1.2
 	 */
@@ -226,6 +238,12 @@ abstract class AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $stateCheckInPathBlock = "//a[contains(@class, 'btn-checkin')]";
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	public static $stateCheckInPath = "//a[contains(@class, 'btn-edit-item')]";
 
 	/**
 	 * @var array
@@ -268,6 +286,12 @@ abstract class AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $selectorPageTitle = '.page-title';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $selectorHeading = '.alert-heading';
 
 	/**
 	 * @var string
@@ -370,6 +394,12 @@ abstract class AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $buttonSaveCopy = "Save & Copy";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $URLLoginAdmin = '/administrator/index.php';
 
 	/**
 	 * @var string
@@ -497,6 +527,12 @@ abstract class AdminJ3Page
 	public static $paymentPayPad = "//input[@value='rs_payment_paypal']";
 
 	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	public static $paymentId = ['rs_payment_paypal'];
+
+	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
@@ -507,6 +543,18 @@ abstract class AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $bankTransferId = "rs_payment_banktransfer0";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $jqueryBankTransfer = "jQuery('#rs_payment_banktransfer0').click()";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $scriftClickTransfer = 'document.getElementById("rs_payment_banktransfer0").checked = true;';
 
 	/**
 	 * @var array
@@ -631,6 +679,12 @@ abstract class AdminJ3Page
 	public static $select2Results = "//ul[@class='select2-results']/li[1]/div";
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $select2Drop = "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div";
+
+	/**
 	 * @param $menuCategory
 	 * @return array
 	 * @since 2.1.2
@@ -647,24 +701,24 @@ abstract class AdminJ3Page
 	 *
 	 * @param   string  $value  Value string
 	 *
-	 * @return array
+	 * @return string
 	 * @since 2.1.2
 	 */
 	public static function returnChoice($value)
 	{
-		return ['xpath' => "//span[contains(text(), '" . $value . "')]"];
+		return "//span[contains(text(), '" . $value . "')]";
 	}
 
 	/**
 	 * Function get value
 	 * @param String $value Value string
 	 *
-	 * @return array
+	 * @return string
 	 * @since 2.1.2
 	 */
 	public static function xPathATag($value)
 	{
-		return ['xpath' => "//a[contains(text(), '" . $value . "')]"];
+		return "//a[contains(text(), '" . $value . "')]";
 	}
 
 	/**
@@ -698,5 +752,16 @@ abstract class AdminJ3Page
 	public static function jQueryIframeMenuType()
 	{
 		return 'jQuery(".iframe").attr("name", "Menu Item Type")';
+	}
+
+	/**
+	 * @param $elementId
+	 * @param $text
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public static function jQuerySearch($elementId, $text)
+	{
+		return 'jQuery("#' . $elementId . '").select2("search", "' . $text . '")';
 	}
 }
