@@ -92,7 +92,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeFieldState($title, $state = 'unpublish')
 	{
-		$this->changeState(new CustomFieldManagerJoomla3Page, $title, $state, CustomFieldManagerJoomla3Page::$firstResultRow, CustomFieldManagerJoomla3Page::$selectFirst);
+		$this->changeState(new CustomFieldManagerJoomla3Page,  $state);
 	}
 
 	/**

@@ -1,19 +1,20 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Step
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Step;
 
+use AdminJ3Page;
 use Codeception\Scenario;
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use TheSeer\Tokenizer\Exception;
 
 /**
- * Class Redshop
+ * Class AbstractStep
  *
  * @package Step\Acceptance
  *
@@ -23,6 +24,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 {
 	/**
 	 * @var \AdminJ3Page
+	 * @since  2.1.0
 	 */
 	public $pageClass;
 
@@ -30,6 +32,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	 * AbstractStep constructor.
 	 *
 	 * @param   Scenario  $scenario  Scenario
+	 * @since  2.1.0
 	 */
 	public function __construct(Scenario $scenario)
 	{
@@ -44,6 +47,8 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	 * @param   string $message The message
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since  2.1.0
 	 */
 	public function assertSystemMessageContains($message)
 	{
@@ -58,6 +63,8 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	 * @param   array  $data  Array of data.
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since  2.1.0
 	 */
 	public function addNewItem($data = array(), $function = 'save')
 	{
@@ -69,7 +76,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->click($pageClass::$buttonNew);
 		$tester->checkForPhpNoticesOrWarnings();
 		$tester->fillFormData($this->getFormFields(), $data);
-		
+
 		switch ($function)
 		{
 			case 'save':
@@ -99,8 +106,10 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	 *
 	 * @param   string   $searchName  Old item search name
 	 * @param   array    $data        Array of data.
-	 *
+	 * @param $function
 	 * @return  void
+	 * @throws \Exception
+	 * @since  2.1.0
 	 */
 	public function editItem($searchName = '', $data = array(), $function)
 	{
@@ -115,7 +124,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->checkForPhpNoticesOrWarnings();
 		$tester->waitForElement($pageClass::$selectorPageTitle, 30);
 		$tester->fillFormData($this->getFormFields(), $data);
-		
+
 		switch ($function)
 		{
 			case 'save':
@@ -147,6 +156,8 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	 * @param   array   $searchField  XPath for search field
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since  2.1.0
 	 */
 	public function searchItem($item = '',  $searchField = ['id' => 'filter_search'])
 	{
@@ -164,8 +175,10 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	/**
 	 * @param string $item
 	 * @param array $searchField
+	 * @throws \Exception
+	 * @since  2.1.0
 	 */
-	public function searchItemCheckIn($item = '',  $searchField = ['id' => 'filter_search'])
+	public function searchItemCheckIn($item = '',  $searchField = '#filter_search')
 	{
 		$pageClass = $this->pageClass;
 		$tester    = $this;
@@ -189,6 +202,8 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	 * Method for click button "Delete" without choice
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since  2.1.0
 	 */
 	public function deleteWithoutChoice()
 	{
@@ -202,10 +217,11 @@ class AbstractStep extends AdminManagerJoomla3Steps
 
 	/**
 	 *
-	 * Method for change show list 
+	 * Method for change show list
 	 *
 	 * @param $value
-	 *
+	 * @throws \Exception
+	 * @since  2.1.0
 	 */
 	public function showAllItem($value)
 	{
@@ -218,7 +234,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->fillField(\AdminJ3Page::$listSearchId, $value);
 		$tester->pressKey(\AdminJ3Page::$listSearchId, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
-	
+
 	/**
 	 * Method for fill data in form.
 	 *
@@ -226,6 +242,8 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	 * @param   array  $data        Array of data.
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since  2.1.0
 	 */
 	protected function fillFormData($formFields = array(), $data = array())
 	{
@@ -243,9 +261,6 @@ class AbstractStep extends AdminManagerJoomla3Steps
 					$this->selectOption($field['xpath'], $data[$index]);
 					break;
 				case 'redshop.fieldsection':
-					$this->chooseOnSelect2($field['xpath'], $data[$index]);
-					break;
-
 				case 'redshop.mail_section':
 				case 'redshop.template':
 				case 'categories':
@@ -265,6 +280,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	 * Method for set form fields.
 	 *
 	 * @return  array
+	 * @since  2.1.0
 	 */
 	protected function getFormFields()
 	{
@@ -303,12 +319,14 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	 * @param   string  $text     Text of option
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since  2.1.0
 	 */
 	public function chooseOnSelect2($element, $text)
 	{
 		$elementId = is_array($element) ? $element['id'] : $element;
-		$this->executeJS('jQuery("#' . $elementId . '").select2("search", "' . $text . '")');
-		$this->waitForElement(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"], 60);
-		$this->click(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"]);
+		$this->executeJS(AdminJ3Page::jQuerySearch($elementId, $text));
+		$this->waitForElementVisible(AdminJ3Page::$select2Drop, 60);
+		$this->click(AdminJ3Page::$select2Drop);
 	}
 }
