@@ -83,13 +83,7 @@ class ModRedshopLoginHelper
      */
     public static function loginFb()
     {
-        $fb = new Facebook\Facebook(
-            [
-                'app_id'                => '526790588005827',
-                'app_secret'            => 'ceee70802e8b8da67727737036b93655',
-                'default_graph_version' => 'v2.10',
-            ]
-        );
+        $fb = self::getFbObject();
 
         $helper = $fb->getRedirectLoginHelper();
 
@@ -107,16 +101,7 @@ class ModRedshopLoginHelper
         $app = \JFactory::getApplication();
         $input = $app->input;
 
-        $response = $input->getString('code', '');
-        $error = $input->getString('error_message', null);
-
-        $fb = new \Facebook\Facebook(
-            [
-                'app_id'                => '526790588005827',
-                'app_secret'            => 'ceee70802e8b8da67727737036b93655',
-                'default_graph_version' => 'v2.10',
-            ]
-        );
+        $fb = self::getFbObject();
 
         $helper = $fb->getRedirectLoginHelper();
 
@@ -210,5 +195,26 @@ class ModRedshopLoginHelper
         $_SESSION['fb_access_token'] = (string)$accessToken;
 
         $app->redirect(\JUri::root());
+    }
+
+    /**
+     * @return \Facebook\Facebook
+     * @throws \Facebook\Exceptions\FacebookSDKException
+     * @since  1.0
+     */
+    public static function getFbObject() {
+        $module = \JModuleHelper::getModule('mod_redshop_login');
+        $params = new \JRegistry();
+        $params->loadString($module->params);
+
+        $fb = new \Facebook\Facebook(
+            [
+                'app_id'                => $params->get('fbappid', ''),
+                'app_secret'            => $params->get('fbappsecret', ''),
+                'default_graph_version' => 'v2.10',
+            ]
+        );
+
+        return $fb;
     }
 }
