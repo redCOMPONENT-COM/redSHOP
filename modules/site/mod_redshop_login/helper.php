@@ -95,7 +95,7 @@ class ModRedshopLoginHelper
             $permissions
         );
 
-        echo '<a href="' . $loginUrl . '" class="btn btn-primary login-button">Log in with Facebook!</a>';
+        return $loginUrl;
     }
 
     /**
@@ -211,7 +211,7 @@ class ModRedshopLoginHelper
         //Đây là URL đến Google, bạn cần mở nếu chưa đăng nhập
         $auth_url = $client->createAuthUrl();
 
-        echo '<a href="' . $auth_url . '" class="btn btn-primary login-button">Log in with Google!</a>';
+        return $auth_url;
     }
 
     /**

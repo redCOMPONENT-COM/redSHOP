@@ -122,9 +122,13 @@ JHtml::_('bootstrap.tooltip');
     </div>
     <?php endif; ?>
 </form>
-<div class="row form-inline">
-    <?php echo \ModRedshopLoginHelper::loginFb() ?>
+<div class="row login-fb">
+    <a href="<?php echo $loginFbUrl; ?>" class="btn btn-primary login-button">
+        <?php echo \JText::_('MOD_REDSHOP_LOGIN_WITH_FB_BTN') ?>
+    </a>
 </div>
-<div class="row form-inline">
-    <?php echo \ModRedshopLoginHelper::loginGoogle() ?>
+<div class="row login-gg">
+    <a href="<?php echo $loginGgUrl; ?>" class="btn btn-primary login-button">
+        <?php echo \JText::_('MOD_REDSHOP_LOGIN_WITH_GG_BTN') ?>
+    </a>
 </div>

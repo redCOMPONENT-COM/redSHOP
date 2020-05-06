@@ -19,6 +19,8 @@ $type             = \ModRedshopLoginHelper::getType();
 $return           = \ModRedshopLoginHelper::getReturnUrl($params, $type);
 $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 $user             = JFactory::getUser();
+$loginFbUrl       = \ModRedshopLoginHelper::loginFb();
+$loginGgUrl       = \ModRedshopLoginHelper::loginGoogle();
 $layout           = $params->get('layout', 'default');
 
 // Logged users must load the logout sub layout
@@ -28,18 +30,3 @@ if (!$user->guest)
 }
 
 require JModuleHelper::getLayoutPath('mod_redshop_login', $layout);
-/*
-$twigParams = [
-
-];
-print RedshopLayoutHelper::render(
-    $layout,
-    $twigParams,
-    '',
-    array(
-        'component'  => 'com_redshop',
-        'layoutType' => 'Twig',
-        'layoutOf'   => 'module',
-        'prefix'     => $moduleName
-    )
-);*/
