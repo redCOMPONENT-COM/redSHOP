@@ -17,38 +17,37 @@ class QuestionManagerJoomla3Page extends AdminJ3Page
 {
 	/**
 	 * @var string
-	 * @since 1.4.0
+	 * @since 3.0.2
 	 */
 	public static $URL = '/administrator/index.php?option=com_redshop&view=questions';
 
-    /**
-     * @var string
-     * @since 3.0.2
-     */
-    public static $namePage = "Question Management";
-
-    /**
+	/**
 	 * @var string
-	 * @since 1.4.0
+	 * @since 3.0.2
+	 */
+	public static $namePage = "Question Management";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
 	 */
 	public static $userPhone = "#jform_telephone";
 
-    /**
-     * @var string
-     * @since 3.0.2
-     */
-    public static $userAddress = "#jform_address";
-
-
-    /**
+	/**
 	 * @var string
-	 * @since 1.4.0
+	 * @since 3.0.2
+	 */
+	public static $userAddress = "#jform_address";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
 	 */
 	public static $productNameDropDown = "#s2id_jform_product_id";
 
 	/**
 	 * @var string
-	 * @since 1.4.0
+	 * @since 3.0.2
 	 */
 	public static $productNameSearchField = "#s2id_autogen1_search";
 
@@ -56,21 +55,21 @@ class QuestionManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-    public static $toggleQuestionDescriptionEditor = "//div[@id='mceu_50-body']";
+	public static $toggleQuestionDescriptionEditor = "//div[@id='mceu_50-body']";
 
 	/**
 	 * @var string
-	 * @since 1.4.0
+	 * @since 3.0.2
 	 */
 	public static $question = "#jform_question";
 
-    /**
-     * @var string
-     * @since 3.0.2
-     */
-    public static $buttonToggle = "Toggle editor";
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $buttonToggle = "Toggle editor";
 
-    /**
+	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
@@ -109,27 +108,27 @@ class QuestionManagerJoomla3Page extends AdminJ3Page
 		return $path;
 	}
 
-    /**
-     * @var string
-     * @since 3.0.2
-     */
-    public static $fieldNameQuestion = "#jform_your_name";
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $fieldNameQuestion = "#jform_your_name";
 
-    /**
-     * @var string
-     * @since 3.0.2
-     */
-    public static $fieldEmailQuestion = "#jform_your_email";
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $fieldEmailQuestion = "#jform_your_email";
 
-    /**
-     * @var string
-     * @since 3.0.2
-     */
-    public static $fieldYourQuestion = "#jform_your_question";
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $fieldYourQuestion = "#jform_your_question";
 
-    /**
-     * @var string
-     * @since 3.0.2
-     */
-    public static $sendButton = "//input[@class='btn']";
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $sendButton = "//input[@class='btn']";
 }
