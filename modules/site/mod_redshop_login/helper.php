@@ -106,6 +106,9 @@ class ModRedshopLoginHelper
     {
         $app   = \JFactory::getApplication();
         $input = $app->input;
+        $module = \JModuleHelper::getModule('mod_redshop_login');
+        $params = new \JRegistry();
+        $params->loadString($module->params);
 
         $fb = self::getFbObject();
 
@@ -147,7 +150,7 @@ class ModRedshopLoginHelper
         $userFbId      = $tokenMetadata->getUserId();
 
         // Validation (these will throw FacebookSDKException's when they fail)
-        $tokenMetadata->validateAppId('526790588005827');
+        $tokenMetadata->validateAppId($params->get('fbappid', ''));
         // If you know the user ID this access token belongs to, you can validate it here
         //$tokenMetadata->validateUserId('123');
         $tokenMetadata->validateExpiration();
