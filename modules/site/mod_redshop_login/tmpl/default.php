@@ -125,3 +125,6 @@ JHtml::_('bootstrap.tooltip');
 <div class="row form-inline">
     <?php echo \ModRedshopLoginHelper::loginFb() ?>
 </div>
+<div class="row form-inline">
+    <?php echo \ModRedshopLoginHelper::loginGoogle() ?>
+</div>

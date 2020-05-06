@@ -157,6 +157,24 @@
                         cols="30"
                         rows="5"
                 />
+                <field
+                        name="ggclientid"
+                        type="textarea"
+                        label="MOD_REDSHOP_LOGIN_GG_APP_ID_LABEL"
+                        description="MOD_REDSHOP_LOGIN_FB_APP_ID_LABEL"
+                        filter="safehtml"
+                        cols="30"
+                        rows="5"
+                />
+                <field
+                        name="ggsecrect"
+                        type="textarea"
+                        label="MOD_REDSHOP_LOGIN_GG_APP_SECRET_LABEL"
+                        description="MOD_REDSHOP_LOGIN_FB_APP_SECRET_LABEL"
+                        filter="safehtml"
+                        cols="30"
+                        rows="5"
+                />
             </fieldset>
 
             <fieldset name="advanced">
