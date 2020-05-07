@@ -82,7 +82,6 @@ class QuestionManagerCest
 	 */
 	protected $questionInformation ;
 
-
 	/**
 	 * QuestionManagerCest constructor.
 	 * @since 3.0.2

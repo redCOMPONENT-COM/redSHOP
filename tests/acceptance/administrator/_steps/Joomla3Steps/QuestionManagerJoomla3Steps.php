@@ -34,23 +34,23 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$questionManagerPage = new QuestionManagerJoomla3Page;
 		$I->verifyNotices(false, $this->checkForNotices(), 'Question Manager Page');
 		$I->click('New');
-		$I->waitForElement(QuestionManagerJoomla3Page::$userPhone,30);
+		$I->waitForElement(QuestionManagerJoomla3Page::$userPhone, 30);
 		$I->fillField(QuestionManagerJoomla3Page::$userPhone, $questionInformation['phone']);
-		$I->waitForElement(QuestionManagerJoomla3Page::$userAddress,30);
+		$I->waitForElement(QuestionManagerJoomla3Page::$userAddress, 30);
 		$I->fillField(QuestionManagerJoomla3Page::$userAddress, $questionInformation['address']);
 		$I->click(QuestionManagerJoomla3Page::$productNameDropDown);
 		$I->fillField(QuestionManagerJoomla3Page::$productNameSearchField, $productName);
-		$I->waitForElement($questionManagerPage->productName($productName),60);
+		$I->waitForElement($questionManagerPage->productName($productName), 60);
 		$I->click($questionManagerPage->productName($productName));
-		$I->scrollTo(QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor,0,-200);
+		$I->scrollTo(QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor, 0, -200);
 		$I->click(QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
 		$I->click(QuestionManagerJoomla3Page::$buttonToggle);
 		$I->click(QuestionManagerJoomla3Page::$question);
 
 		$I->fillField(QuestionManagerJoomla3Page::$question, $questionInformation ['question']);
 		$I->click(QuestionManagerJoomla3Page::$buttonSaveClose);
-		$I->waitForText(QuestionManagerJoomla3Page::$questionSuccessMessage,60,QuestionManagerJoomla3Page::$idInstallSuccess);
-		$I->see(QuestionManagerJoomla3Page::$questionSuccessMessage,QuestionManagerJoomla3Page::$idInstallSuccess);
+		$I->waitForText(QuestionManagerJoomla3Page::$questionSuccessMessage, 60, QuestionManagerJoomla3Page::$idInstallSuccess);
+		$I->see(QuestionManagerJoomla3Page::$questionSuccessMessage, QuestionManagerJoomla3Page::$idInstallSuccess);
 	}
 
 	/**
@@ -68,7 +68,7 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(1);
 		$I->checkOption(QuestionManagerJoomla3Page::$selectFirst);
 		$I->click(QuestionManagerJoomla3Page::$buttonEdit);
-		$I->waitForElement(QuestionManagerJoomla3Page::$userPhone,30);
+		$I->waitForElement(QuestionManagerJoomla3Page::$userPhone, 30);
 		$I->scrollTo(QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor,0,-200);
 		$I->click(QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
 		$I->click(QuestionManagerJoomla3Page::$buttonToggle);
@@ -76,7 +76,7 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->fillField(QuestionManagerJoomla3Page::$question, $questionInformation['edit']);
 		$I->click(QuestionManagerJoomla3Page::$buttonSaveClose);
-		$I->waitForText(QuestionManagerJoomla3Page::$questionSuccessMessage,60, QuestionManagerJoomla3Page::$idInstallSuccess);
+		$I->waitForText(QuestionManagerJoomla3Page::$questionSuccessMessage, 60, QuestionManagerJoomla3Page::$idInstallSuccess);
 		$I->see(QuestionManagerJoomla3Page::$questionSuccessMessage, QuestionManagerJoomla3Page::$idInstallSuccess);
 	}
 
@@ -132,11 +132,11 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv,30);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$I->checkForPhpNoticesOrWarnings();
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList,30);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
@@ -165,11 +165,11 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->doFrontEndLogin($user['userName'], $user['password']);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv,30);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$I->checkForPhpNoticesOrWarnings();
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList,30);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
@@ -205,6 +205,10 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(QuestionManagerJoomla3Page::$buttonClose);
 	}
 
+    /**
+     * Delete all Question
+     *@since 3.0.2
+     */
 	public function deleteAll()
 	{
 		$I = $this;
