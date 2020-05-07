@@ -118,7 +118,6 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkOption(QuestionManagerJoomla3Page::$selectFirst);
 		$I->click(QuestionManagerJoomla3Page::$buttonDelete);
 		$I->acceptPopup();
-
 	}
 
 	/**
