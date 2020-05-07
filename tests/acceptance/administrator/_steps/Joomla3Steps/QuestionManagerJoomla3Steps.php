@@ -89,11 +89,11 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see(QuestionManagerJoomla3Page::$questionSuccessMessage, QuestionManagerJoomla3Page::$idInstallSuccess);
 	}
 
-    /**
-     * @param $questionInformation
-     * @param string $state
-     * @since 3.0.2
-     */
+	/**
+	 * @param $questionInformation
+	 * @param string $state
+	 * @since 3.0.2
+	 */
 	public function changeQuestionState($questionInformation, $state = 'unpublish')
 	{
 		$I = $this;
