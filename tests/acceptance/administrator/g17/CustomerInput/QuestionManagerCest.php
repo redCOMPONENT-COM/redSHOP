@@ -118,12 +118,12 @@ class QuestionManagerCest
 	}
 
 	/**
-	 * @param CategoryManagerJoomla3Steps $I
+	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
 	 * @since 3.0.2
 	 */
-	public function createData(CategoryManagerJoomla3Steps $I, $scenario)
+	public function createData(AcceptanceTester $I, $scenario)
 	{
 		//Create data
 		$I->wantTo('Create category in administrator');
@@ -155,6 +155,6 @@ class QuestionManagerCest
 
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->categoryName);
+		$I->deleteAllCategory();
 	}
 }
