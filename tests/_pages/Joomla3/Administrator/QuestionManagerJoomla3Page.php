@@ -124,7 +124,7 @@ class QuestionManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
-    public static $fieldYourQuestion = "//textarea[@id='jform_your_question']";
+    public static $fieldYourQuestion = "#jform_your_question";
 
 	/**
 	 * @var string
