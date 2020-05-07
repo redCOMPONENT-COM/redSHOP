@@ -3,7 +3,7 @@
         $("#redSHOPAdminContainer .label-edit-inline").each(function (index, item) {
             var $label = $(item);
             var $input = $("#" + $(this).data("target"));
-            var $id = $(this).data("id");
+            var $id    = $(this).data("id");
             var $value = $(this).data("original-value");
 
             $(item).click(function (e) {

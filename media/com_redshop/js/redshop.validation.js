@@ -65,7 +65,7 @@ function templateData() {
 
             if (calName.match(patt) == 'rs_') {
 
-                window.addEvent('domready', function () {
+                window.addEvent('domready', function() {
                     Calendar.setup({
                         inputField: calName, // id of the input field
                         ifFormat: "%d-%m-%Y", // format of the input field
@@ -141,7 +141,7 @@ function validate(ind) {
     JSONstring = JSON.stringify(JSONObject);
 
     request = getHTTPObject();
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (request.readyState == 4) {
             var JSONtext = request.responseText;
             var JSONobject = JSON.parse(JSONtext);
@@ -409,7 +409,7 @@ function delimg(str, divname, spath, data_id) {
     } else { // code for IE6, IE5
         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
     }
-    xmlhttp.onreadystatechange = function () {
+    xmlhttp.onreadystatechange = function() {
 
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById(divname).innerHTML = xmlhttp.responseText;
@@ -427,7 +427,8 @@ function delimg(str, divname, spath, data_id) {
 
 // User registration related function
 function showOfflineCompanyOrCustomer(isCompany) {
-    if (isCompany == 1) {
+    if (isCompany == 1)
+    {
         if (document.getElementById('trCompanyName')) {
             document.getElementById('trCompanyName').style.display = '';
         }
@@ -615,7 +616,7 @@ function validateExtrafield(form) {
 
                 if (rOptions.length > 1) {
                     for (var r = 0; r < rOptions.length; r++) {
-                        if ((typeof (rOptions[r].getAttribute('required')) != "null") && (rOptions[r].getAttribute('required') == 1)) {
+                        if ((typeof(rOptions[r].getAttribute('required')) != "null") && (rOptions[r].getAttribute('required') == 1)) {
                             if (rOptions[r].checked) {
                                 rChecked = 1;
                             }
@@ -687,9 +688,10 @@ function validateExtrafield(form) {
 }
 
 // Validate username field
-jQuery(document).ready(function () {
-    jQuery("#username").blur(function () {
-        if (jQuery('input[name="guestuser"]:checked').val() == 1) {
+jQuery(document).ready(function(){
+    jQuery("#username").blur(function() {
+        if (jQuery('input[name="guestuser"]:checked').val() == 1)
+        {
             var dataAjax = {
                 username: jQuery("#username").val(), user_id: jQuery("input[name=user_id]").val()
             };
@@ -699,17 +701,17 @@ jQuery(document).ready(function () {
                 url: "index.php?option=com_redshop&view=user_detail&task=ajaxValidationUsername",
                 type: "GET",
                 data: dataAjax,
-                success: function (data) {
+                success: function(data){
                     data = JSON.parse('{' + data.substring(data.indexOf('{') + 1));
                     jQuery('#user_valid').html(data.message);
                     jQuery('#user_valid').css('color', 'green');
 
-                    if (data.type == 'error') {
+                    if (data.type == 'error')
+                    {
                         jQuery('#user_valid').css('color', 'red');
                     }
                 },
-                error: function () {
-                }
+                error: function(){}
             });
         }
     });
@@ -717,12 +719,12 @@ jQuery(document).ready(function () {
     jQuery(document).on('keydown', "input[name*='phone']", function (e) {
         // Allow: backspace, delete, tab, escape, enter and .
         if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 107, 109, 110, 190]) !== -1 ||
-            // Allow: Ctrl+A, Command+A
+             // Allow: Ctrl+A, Command+A
             (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-            // Allow: home, end, left, right, down, up
+             // Allow: home, end, left, right, down, up
             (e.keyCode >= 35 && e.keyCode <= 40)) {
-            // let it happen, don't do anything
-            return;
+                 // let it happen, don't do anything
+                 return;
         }
         // Ensure that it is a number and stop the keypress
         if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
@@ -733,12 +735,12 @@ jQuery(document).ready(function () {
     jQuery(document).on('keydown', "input[name*='phone_ST']", function (e) {
         // Allow: backspace, delete, tab, escape, enter and .
         if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 107, 109, 110, 190]) !== -1 ||
-            // Allow: Ctrl+A, Command+A
+             // Allow: Ctrl+A, Command+A
             (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-            // Allow: home, end, left, right, down, up
+             // Allow: home, end, left, right, down, up
             (e.keyCode >= 35 && e.keyCode <= 40)) {
-            // let it happen, don't do anything
-            return;
+                 // let it happen, don't do anything
+                 return;
         }
         // Ensure that it is a number and stop the keypress
         if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
