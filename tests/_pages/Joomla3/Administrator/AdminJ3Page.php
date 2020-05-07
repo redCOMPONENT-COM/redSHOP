@@ -17,11 +17,13 @@ abstract class AdminJ3Page
 {
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $installURL = '/administrator/index.php?option=com_installer';
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $moduleURL = '/administrator/index.php?option=com_modules';
 
@@ -57,56 +59,61 @@ abstract class AdminJ3Page
 
 	/**
 	 * @var array
+	 * @since  2.1.2
 	 */
 	public static $link = ['link' => 'Install from URL'];
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $urlID = "#install_url";
 
 	/**
 	 * @var array
+	 * @since  2.1.2
 	 */
 	public static $installButton = "#installbutton_url";
 
 	/**
 	 * @var array
+	 * @since  2.1.2
 	 */
 	public static $installDemoContent = "#btn-demo-content";
 
 	/**
-	 * @var array
-	 */
-	public static $buttonStatic = "//body//div[2]//section//div//div//div//div//p[3]/a[3]";
-
-	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $namePage = "";
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $url = 'index.php?option=com_redshop';
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messageHead = "Message";
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messageError = "Error";
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messageItemSaveSuccess = "Item saved.";
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messageDeleteSuccess = "successfully deleted";
 
@@ -124,21 +131,25 @@ abstract class AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messageUnpublishSuccess = 'successfully unpublished';
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messagePublishSuccess = 'successfully published';
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messageCheckInSuccess = 'successfully checked in';
 
 	/**
 	 * @var string
+	 * @since  2.1.2
 	 */
 	public static $messageInstallSuccess = 'installed successfully';
 
@@ -384,9 +395,6 @@ abstract class AdminJ3Page
 	 */
 	public static $buttonSaveCopy = "Save & Copy";
 
-// Include url of current page
-// Fontend checkout first name
-
 	/**
 	 * @var string
 	 * @since 2.1.2
@@ -398,7 +406,6 @@ abstract class AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $cartPageUrL="index.php?option=com_redshop&view=cart";
-
 
 	/**
 	 * @var string
@@ -665,11 +672,17 @@ abstract class AdminJ3Page
 	 */
 	public static $addAccessory = '//input[@totalattributs="0"]';
 
-    /**
-     * @var string
-     * @since 3.0.2
-     */
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
 	public static $select2Results = "//ul[@class='select2-results']/li[1]/div";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $select2Drop = "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div";
 
 	/**
 	 * @param $menuCategory
@@ -688,24 +701,24 @@ abstract class AdminJ3Page
 	 *
 	 * @param   string  $value  Value string
 	 *
-	 * @return array
+	 * @return string
 	 * @since 2.1.2
 	 */
 	public static function returnChoice($value)
 	{
-		return ['xpath' => "//span[contains(text(), '" . $value . "')]"];
+		return "//span[contains(text(), '" . $value . "')]";
 	}
 
 	/**
 	 * Function get value
 	 * @param String $value Value string
 	 *
-	 * @return array
+	 * @return string
 	 * @since 2.1.2
 	 */
 	public static function xPathATag($value)
 	{
-		return ['xpath' => "//a[contains(text(), '" . $value . "')]"];
+		return "//a[contains(text(), '" . $value . "')]";
 	}
 
 	/**
@@ -730,5 +743,25 @@ abstract class AdminJ3Page
 	{
 		$path = "//a[contains(text()[normalize-space()], '$menuItem')]";
 		return $path;
+	}
+
+	/**
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public static function jQueryIframeMenuType()
+	{
+		return 'jQuery(".iframe").attr("name", "Menu Item Type")';
+	}
+
+	/**
+	 * @param $elementId
+	 * @param $text
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public static function jQuerySearch($elementId, $text)
+	{
+		return 'jQuery("#' . $elementId . '").select2("search", "' . $text . '")';
 	}
 }

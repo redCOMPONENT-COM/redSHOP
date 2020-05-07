@@ -75,8 +75,9 @@ class RedshopHelperJoomla
             return $user;
         }
 
-        $data['password']  = $input->post->get('password1', '', 'RAW');
-        $data['password2'] = $input->post->get('password2', '', 'RAW');
+        $data['password']  = $data['password'] ?? $input->post->get('password1', '', 'RAW');
+        $data['password2'] = $data['password2'] ?? $input->post->get('password2', '', 'RAW');
+
         $data['email']     = $data['email1'];
         $data['name']      = $name = $data['firstname'];
 
