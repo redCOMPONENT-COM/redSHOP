@@ -205,10 +205,10 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(QuestionManagerJoomla3Page::$buttonClose);
 	}
 
-    /**
-     * Delete all Question
-     *@since 3.0.2
-     */
+	/**
+	 * Delete all Question
+	 *@since 3.0.2
+	 */
 	public function deleteAll()
 	{
 		$I = $this;
