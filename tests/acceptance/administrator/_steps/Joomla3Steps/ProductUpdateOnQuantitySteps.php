@@ -70,7 +70,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->waitForText(AdminJ3Page::$menuNewItemTitle, '30',AdminJ3Page::$h1);
 		$I->wantTo('I save the menu');
 		$I->click(AdminJ3Page::$buttonSave);
-		$I->waitForText(AdminJ3Page::$messageMenuItemSuccess, 5, AdminJ3Page::$idInstallSuccess);
+		$I->waitForText(AdminJ3Page::$messageMenuItemSuccess, 10, AdminJ3Page::$idInstallSuccess);
 	}
 
 	/**
