@@ -493,7 +493,6 @@ class RedshopHelperCategory
         $filterCategory = $filters['category'];
 
         if (!empty($filterCategory)) {
-            $filterCategory = array_merge(array($categoryId), $filterCategory);
             $query->where($db->qn('pc.category_id') . ' IN (' . implode(',', $filterCategory) . ')');
         }
 
