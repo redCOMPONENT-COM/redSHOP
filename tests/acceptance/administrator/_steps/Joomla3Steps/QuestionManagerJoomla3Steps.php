@@ -188,7 +188,7 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 		$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
 
-        $I->waitForElementVisible(QuestionManagerJoomla3Page::$fieldYourQuestion, 30);
+		$I->waitForElementVisible(QuestionManagerJoomla3Page::$fieldYourQuestion, 30);
 		$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question2']);
 		$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
 		$I->click(QuestionManagerJoomla3Page::$sendButton);

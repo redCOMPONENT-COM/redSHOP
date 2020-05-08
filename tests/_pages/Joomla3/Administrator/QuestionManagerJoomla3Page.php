@@ -112,19 +112,19 @@ class QuestionManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
-    public static $fieldNameQuestion = "//input[@id='jform_your_name']";
+	public static $fieldNameQuestion = "//input[@id='jform_your_name']";
 
 	/**
 	 * @var string
 	 * @since 3.0.2
 	 */
-    public static $fieldEmailQuestion = "//input[@id='jform_your_email']";
+	public static $fieldEmailQuestion = "//input[@id='jform_your_email']";
 
 	/**
 	 * @var string
 	 * @since 3.0.2
 	 */
-    public static $fieldYourQuestion = "#jform_your_question";
+	public static $fieldYourQuestion = "#jform_your_question";
 
 	/**
 	 * @var string
