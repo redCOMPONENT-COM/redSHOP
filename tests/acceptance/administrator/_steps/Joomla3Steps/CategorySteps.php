@@ -113,7 +113,7 @@ class CategorySteps extends AbstractStep
 		$I->fillField(CategoryPage::$idFieldName, $categoryName);
 		$I->fillField(CategoryPage::$categoryNoPage, $noPage);
 		$I->waitForElement(CategoryPage::$fieldUploadImage, 30);
-//		$I->attachFile(CategoryPage::$fieldUploadImage, $fileImage);
+		$I->attachFile(CategoryPage::$fieldUploadImage, $fileImage);
 		$I->click(CategoryPage::$tabSEO);
 		$I->waitForElementVisible(CategoryPage::$titlePage, 30);
 		$I->fillField(CategoryPage::$titlePage, $titleSEO);
