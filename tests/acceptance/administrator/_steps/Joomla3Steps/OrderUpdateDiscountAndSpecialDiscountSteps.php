@@ -66,6 +66,7 @@ class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Step
 		$I->waitForElement(OrderManagerPage::$productsSearch, 60);
 		$I->fillField(OrderManagerPage::$productsSearch, $productName);
 		$I->waitForElementVisible($userOrderPage->returnSearch($productName), 30);
+		$I->wait(0.5);
 		$I->click($userOrderPage->returnSearch($productName));
 		$I->wait(0.5);
 		$I->see($randomProductPrice);
