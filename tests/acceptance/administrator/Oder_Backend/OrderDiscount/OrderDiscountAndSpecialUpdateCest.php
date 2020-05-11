@@ -148,6 +148,7 @@ class OrderDiscountAndSpecialUpdateCest
 		$this->categoryName        = $this->faker->bothify('Category Name ?##?');
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice  = "900";
+
 		//User
 		$this->userName     = $this->faker->bothify('ManagerUser ?##?');
 		$this->password     = $this->faker->bothify('123456');
@@ -156,14 +157,15 @@ class OrderDiscountAndSpecialUpdateCest
 		$this->group        = 'Super User';
 		$this->firstName    = $this->faker->bothify('FirstName FN ?##?');
 		$this->lastName     = "LastName";
+
 		//Orders
-		$this->address = '449 Tran Hung Dao';
-		$this->zipCode = '5000';
-		$this->city = 'Ho Chi Minh';
-		$this->phone = '0126541687';
-		$this->quantity = '1';
+		$this->address        = '449 Tran Hung Dao';
+		$this->zipCode        = '5000';
+		$this->city           = 'Ho Chi Minh';
+		$this->phone          = '0126541687';
+		$this->quantity       = '1';
 		$this->discountUpdate = '10';
-		$this->specialUpdate = '10';
+		$this->specialUpdate  = '10';
 	}
 
 	/**
