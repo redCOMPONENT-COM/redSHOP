@@ -188,7 +188,7 @@ class RedshopModelCheckout extends RedshopModel
         $customer_message = $input->post->getString('rs_customer_message_ta', "");
         $referral_code    = $input->post->getString('txt_referral_code', "");
 	    $userSession = \JFactory::getSession()->get('rs_user');
-	    $vatUserNoApplyTax = \RedshopHelperTax::getTaxRateByShopperGroup($userSession['rs_user_shopperGroup']);
+	    $vatUserNoApplyTax = \RedshopHelperTax::getTaxRateByShopperGroup($userSession['rs_user_shopperGroup'], $userSession['vatCountry']);
 
         if ($gls_mobile) {
             $shop_id .= '###' . $gls_mobile;

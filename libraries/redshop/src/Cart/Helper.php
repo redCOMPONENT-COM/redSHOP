@@ -60,7 +60,7 @@ class Helper
             $subTotalNoVAT += $quantity * ($cart[$i]['product_price_excl_vat'] ?? 0);
 
 	        if ($rsUser['rs_user_info_id']) {
-		        $vatGroupTax = \RedshopHelperTax::getTaxRateByShopperGroup($rsUser['rs_user_shopperGroup']);
+		        $vatGroupTax = \RedshopHelperTax::getTaxRateByShopperGroup($rsUser['rs_user_shopperGroup'], $rsUser['vatCountry']);
 
 		        if ($vatGroupTax == 0) {
 			        $subTotal = $cart[$i]['product_price'] - $cart[$i]['product_vat'];
@@ -68,7 +68,7 @@ class Helper
 			        $vat += $quantity * ($cart[$i]['product_vat'] ?? 0);
 		        }
 	        } else {
-		        $vat           += $quantity * ($cart[$i]['product_vat'] ?? 0);
+		        $vat += $quantity * ($cart[$i]['product_vat'] ?? 0);
 	        }
         }
 

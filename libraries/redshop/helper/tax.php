@@ -138,7 +138,7 @@ class RedshopHelperTax
         return self::$vatRate[$key];
     }
 
-	public static function getTaxRateByShopperGroup($shopperGroupId)
+	public static function getTaxRateByShopperGroup($shopperGroupId, $vatCountry)
 	{
 		if (empty($shopperGroupId))
 		{
@@ -149,7 +149,8 @@ class RedshopHelperTax
 		$query = $db->getQuery(true)
 			->select('tax_rate')
 			->from($db->qn('#__redshop_tax_rate'))
-			->where($db->qn('user_group_id') . '=' . $db->q($shopperGroupId));
+			->where($db->qn('shopper_group_id') . '=' . $db->q($shopperGroupId))
+			->where($db->qn('tax_country') . '=' . $db->q($vatCountry));
 
 		return $db->setQuery($query)->loadResult();
 	}

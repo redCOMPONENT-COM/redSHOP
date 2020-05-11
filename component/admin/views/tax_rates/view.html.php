@@ -39,29 +39,32 @@ class RedshopViewTax_Rates extends RedshopViewList
      */
     public function onRenderColumn($config, $index, $row)
     {
-        $value = $row->{$config['dataCol']};
+	    $value = $row->{$config['dataCol']};
 
-        switch ($config['dataCol']) {
-            case 'tax_group_id':
-                return '<a href="index.php?option=com_redshop&task=tax_group.edit&id=' . $value . '">'
-                    . $row->tax_group_name . '</a>';
+	    switch ($config['dataCol']) {
+		    case 'tax_group_id':
+			    return '<a href="index.php?option=com_redshop&task=tax_group.edit&id=' . $value . '">'
+				    . $row->tax_group_name . '</a>';
 
-            case 'tax_country':
-                return $row->country_name;
+		    case 'shopper_group_id':
+			    return $row->shopper_group_name;
 
-            case 'tax_state':
-                return $row->state_name;
+		    case 'tax_country':
+			    return $row->country_name;
 
-            case 'tax_rate':
-                return number_format(
-                        $value * 100,
-                        2,
-                        Redshop::getConfig()->get('PRICE_SEPERATOR'),
-                        Redshop::getConfig()->get('THOUSAND_SEPERATOR')
-                    ) . ' %';
+		    case 'tax_state':
+			    return $row->state_name;
 
-            default:
-                return parent::onRenderColumn($config, $index, $row);
-        }
+		    case 'tax_rate':
+			    return number_format(
+					    $value * 100,
+					    2,
+					    Redshop::getConfig()->get('PRICE_SEPERATOR'),
+					    Redshop::getConfig()->get('THOUSAND_SEPERATOR')
+				    ) . ' %';
+
+		    default:
+			    return parent::onRenderColumn($config, $index, $row);
+	    }
     }
 }
