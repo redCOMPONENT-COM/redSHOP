@@ -137,4 +137,20 @@ class RedshopHelperTax
 
         return self::$vatRate[$key];
     }
+
+	public static function getTaxRateByShopperGroup($shopperGroupId)
+	{
+		if (empty($shopperGroupId))
+		{
+			return false;
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('tax_rate')
+			->from($db->qn('#__redshop_tax_rate'))
+			->where($db->qn('user_group_id') . '=' . $db->q($shopperGroupId));
+
+		return $db->setQuery($query)->loadResult();
+	}
 }
