@@ -1889,6 +1889,14 @@ class RedshopHelperProduct
             $query->where($db->qn('r.related_id') . ' = ' . (int)$relatedId);
         }
 
+        /* REDSHOP-5987 */
+        if (\Redshop::getConfig()->getInt('SHOW_DISCONTINUED_PRODUCTS')) {
+            $query->where($db->qn('p.expired') . ' IN (0, 1)');
+        } else {
+            $query->where($db->qn('p.expired') . ' IN (0)');
+        }
+        /* REDSHOP-5987 */
+
         if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
             && (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig(
                 )->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC')) {
