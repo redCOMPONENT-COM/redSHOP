@@ -273,6 +273,12 @@ class OrderManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
+	public static $orderDetailTitle = "//h3[contains(text(),'Order Details')]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
 	public static $paymentTitle = "//h3[contains(text(),'Payment Method')]";
 
 	/**

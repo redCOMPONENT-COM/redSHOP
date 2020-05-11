@@ -143,19 +143,19 @@ class OrderDiscountAndSpecialUpdateCest
 	public function __construct()
 	{
 		//Product & Category
-		$this->faker = Faker\Factory::create();
-		$this->productName = $this->faker->bothify('Product Name ?##?');;
-		$this->categoryName = $this->faker->bothify('Category Name ?##?');
+		$this->faker               = Faker\Factory::create();
+		$this->productName         = $this->faker->bothify('Product Name ?##?');;
+		$this->categoryName        = $this->faker->bothify('Category Name ?##?');
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
-		$this->randomProductPrice = '1000';
+		$this->randomProductPrice  = "900";
 		//User
-		$this->userName = $this->faker->bothify('ManagerUser ?##?');
-		$this->password = $this->faker->bothify('123456');
-		$this->email = $this->faker->email;
+		$this->userName     = $this->faker->bothify('ManagerUser ?##?');
+		$this->password     = $this->faker->bothify('123456');
+		$this->email        = $this->faker->email;
 		$this->shopperGroup = 'Default Private';
-		$this->group = 'Super User';
-		$this->firstName = $this->faker->bothify('FirstName FN ?##?');
-		$this->lastName = "LastName";
+		$this->group        = 'Super User';
+		$this->firstName    = $this->faker->bothify('FirstName FN ?##?');
+		$this->lastName     = "LastName";
 		//Orders
 		$this->address = '449 Tran Hung Dao';
 		$this->zipCode = '5000';
