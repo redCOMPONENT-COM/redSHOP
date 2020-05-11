@@ -619,16 +619,16 @@ class RedshopModelCheckout extends RedshopModel
                 $rowItem->product_item_old_price = $cart[$i]['product_price'];
             } else {
                 $rowItem->product_id             = $productId;
-	            $rowItem->product_item_old_price = ($vatUserNoApplyTax == 0) ? $cart[$i]['product_price_excl_vat'] : $cart[$i]['product_old_price'];
+	            $rowItem->product_item_old_price = (isset($vatUserNoApplyTax) && (int) $vatUserNoApplyTax == 0) ? $cart[$i]['product_price_excl_vat'] : $cart[$i]['product_old_price'];
                 $rowItem->supplier_id            = $product->manufacturer_id;
                 $rowItem->order_item_sku         = $product->product_number;
                 $rowItem->order_item_name        = $product->product_name;
             }
 
-	        $rowItem->product_item_price          = ($vatUserNoApplyTax == 0) ? $cart[$i]['product_price_excl_vat'] : $cart[$i]['product_price'];
+	        $rowItem->product_item_price          = (isset($vatUserNoApplyTax) && (int) $vatUserNoApplyTax == 0) ? $cart[$i]['product_price_excl_vat'] : $cart[$i]['product_price'];
             $rowItem->product_quantity            = $cart[$i]['quantity'];
             $rowItem->product_item_price_excl_vat = $cart[$i]['product_price_excl_vat'];
-	        $rowItem->product_final_price         = ($vatUserNoApplyTax == 0) ? ($cart[$i]['product_price_excl_vat'] * $cart[$i]['quantity']) : ($cart[$i]['product_price'] * $cart[$i]['quantity']);
+	        $rowItem->product_final_price         = (isset($vatUserNoApplyTax) && (int) $vatUserNoApplyTax == 0) ? ($cart[$i]['product_price_excl_vat'] * $cart[$i]['quantity']) : ($cart[$i]['product_price'] * $cart[$i]['quantity']);
             $rowItem->is_giftcard                 = $isGiftCard;
 
             $retAttArr     = RedshopHelperProduct::makeAttributeCart(
