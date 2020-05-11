@@ -1,8 +1,8 @@
-(function ($) {
-    $(document).ready(function () {
+(function($) {
+    $(document).ready(function() {
 
         // User
-        $('.redshop-wishlist-button, .redshop-wishlist-link').click(function (event) {
+        $('.redshop-wishlist-button, .redshop-wishlist-link').click(function(event) {
             event.preventDefault();
 
             var productId = $(this).attr('data-productid');
@@ -60,7 +60,7 @@
         });
 
         // Guest
-        $('.redshop-wishlist-form-button, .redshop-wishlist-form-link').click(function (event) {
+        $('.redshop-wishlist-form-button, .redshop-wishlist-form-link').click(function(event) {
             event.preventDefault();
             var productId = $(this).attr('data-productid');
             var formId = $(this).attr('data-formid');
