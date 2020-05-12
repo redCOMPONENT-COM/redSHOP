@@ -724,9 +724,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_manufacturer` (
   `checked_out` INT(11) NULL DEFAULT NULL,
   `checked_out_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` INT(11) NULL DEFAULT NULL,
-  `created_date` VARCHAR(45) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified_by` INT(11) NULL DEFAULT NULL,
-  `modified_date` VARCHAR(45) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   INDEX `#__manufacturer_published` (`published` ASC),
   INDEX `#__manufacturer_common_idx` (`id` ASC, `name` ASC, `published` ASC))
@@ -2095,7 +2095,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_supplier` (
   `created_by` INT(11) NULL DEFAULT NULL,
   `created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified_by` INT(11) NULL DEFAULT NULL,
-  `modified_date` VARCHAR(45) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   INDEX `#__rs_idx_supplier_published` (`published` ASC))
 ENGINE = InnoDB
