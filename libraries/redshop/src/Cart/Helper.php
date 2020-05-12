@@ -62,7 +62,7 @@ class Helper
 	        if ($rsUser['rs_user_info_id']) {
 		        $vatGroupTax = \RedshopHelperTax::getTaxRateByShopperGroup($rsUser['rs_user_shopperGroup'], $rsUser['vatCountry']);
 
-		        if (isset($vatGroupTax) && (int) $vatGroupTax == 0) {
+		        if (isset($vatGroupTax) && $vatGroupTax === 0) {
 			        $subTotal = $cart[$i]['product_price'] - $cart[$i]['product_vat'];
 		        } else {
 			        $cart[$i]['product_vat'] = $quantity * ($cart[$i]['product_old_price'] - $cart[$i]['product_price']);

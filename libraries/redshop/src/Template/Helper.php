@@ -86,7 +86,7 @@ class Helper
 	    if (isset($userSession['rs_user_info_id'])) {
 		    $taxRateShopperGroup = \RedshopHelperTax::getTaxRateByShopperGroup($userSession['rs_user_shopperGroup'], $userSession['vatCountry']);
 
-		    if (isset($taxRateShopperGroup) && (int) $taxRateShopperGroup == 0) {
+		    if (isset($taxRateShopperGroup) && $taxRateShopperGroup === 0) {
 			    return false;
 		    }
 
