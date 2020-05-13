@@ -135,57 +135,19 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param $productName
 	 * @param $categoryName
 	 * @param $questionInformation
-	 * @throws \Exception
-	 * @since 3.0.2
-	 */
-	public function addQuestionOnProductDetailOnFrontendMissingLogin($productName, $categoryName, $questionInformation)
-	{
-		$I = $this;
-		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-		$I->checkForPhpNoticesOrWarnings();
-		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
-		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
-		$I->click($productFrontEndManagerPage->product($productName));
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
-		$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
-
-		try
-		{
-			$I->executeJS(FrontEndProductManagerJoomla3Page::jQueryIframe());
-			$I->wait(1);
-			$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
-			$I->waitForElementVisible(QuestionManagerJoomla3Page::$fieldNameQuestion, 30);
-		}catch (\Exception $exception)
-		{
-			$I->reloadPage();
-			$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
-			$I->executeJS(FrontEndProductManagerJoomla3Page::jQueryIframe());
-			$I->wait(1);
-			$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
-			$I->waitForElementVisible(QuestionManagerJoomla3Page::$fieldNameQuestion, 30);
-		}
-
-		$I->fillField(QuestionManagerJoomla3Page::$fieldNameQuestion, $questionInformation['userName']);
-		$I->fillField(QuestionManagerJoomla3Page::$fieldEmailQuestion, $questionInformation['email']);
-		$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question1']);
-		$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
-		$I->click(QuestionManagerJoomla3Page::$sendButton);
-	}
-
-	/**
-	 * @param $productName
-	 * @param $categoryName
-	 * @param $questionInformation
 	 * @param $user
 	 * @throws \Exception
 	 * @since 3.0.2
 	 */
-	public function addQuestionOnProductDetailOnFrontendLogin($productName, $categoryName, $questionInformation, $user)
+	public function addQuestionOnProductDetailOnFrontend($productName, $categoryName, $questionInformation, $user = array())
 	{
 		$I = $this;
-		$I->doFrontEndLogin($user['userName'], $user['password']);
+
+		if((isset($user)))
+		{
+			$I->doFrontEndLogin($user['userName'], $user['password']);
+		}
+
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$I->checkForPhpNoticesOrWarnings();
@@ -196,14 +158,37 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
 
-		$I->executeJS(FrontEndProductManagerJoomla3Page::jQueryIframe());
-		$I->wait(0.5);
-		$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
-
-		$I->waitForElementVisible(QuestionManagerJoomla3Page::$fieldYourQuestion, 30);
-		$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question2']);
-		$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
-		$I->click(QuestionManagerJoomla3Page::$sendButton);
+		if((isset($user)))
+		{
+			try
+			{
+				$I->executeJS(FrontEndProductManagerJoomla3Page::jQueryIframe());
+				$I->wait(1);
+				$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
+				$I->waitForElementVisible(QuestionManagerJoomla3Page::$fieldYourQuestion, 30);
+				$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question2']);
+				$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
+				$I->click(QuestionManagerJoomla3Page::$sendButton);
+			}catch (\Exception $exception)
+			{
+			}
+		}else
+		{
+			try
+			{
+				$I->executeJS(FrontEndProductManagerJoomla3Page::jQueryIframe());
+				$I->wait(1);
+				$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
+				$I->waitForElementVisible(QuestionManagerJoomla3Page::$fieldNameQuestion, 30);
+				$I->fillField(QuestionManagerJoomla3Page::$fieldNameQuestion, $questionInformation['userName']);
+				$I->fillField(QuestionManagerJoomla3Page::$fieldEmailQuestion, $questionInformation['email']);
+				$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question1']);
+				$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
+				$I->click(QuestionManagerJoomla3Page::$sendButton);
+			}catch (\Exception $exception)
+			{
+			}
+		}
 	}
 
 	/**
