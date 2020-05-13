@@ -55,9 +55,8 @@ class Helper
         $shipping      = 0;
 
         for ($i = 0; $i < $index; $i++) {
-            $quantity      = $cart[$i]['quantity'] ?? 0;
-            $subTotal      += $quantity * ($cart[$i]['product_price'] ?? 0);
-            $subTotalNoVAT += $quantity * ($cart[$i]['product_price_excl_vat'] ?? 0);
+	        $quantity      = $cart[$i]['quantity'] ?? 0;
+	        $subTotalNoVAT += $quantity * ($cart[$i]['product_price_excl_vat'] ?? 0);
 
 	        if ($rsUser['rs_user_info_id']) {
 		        $vatGroupTax = \RedshopHelperTax::getTaxRateByShopperGroup($rsUser['rs_user_shopperGroup'], $rsUser['vatCountry']);
@@ -66,11 +65,11 @@ class Helper
 			        $subTotal += $quantity * ($cart[$i]['product_price'] - $cart[$i]['product_vat']);
 		        } else {
 			        $cart[$i]['product_vat'] = $quantity * ($cart[$i]['product_old_price'] - $cart[$i]['product_old_price_excl_vat']);
-			        $subTotal += $quantity * ($cart[$i]['product_price'] + $cart[$i]['product_vat']);
+			        $subTotal += $quantity * ($cart[$i]['product_old_price'] ?? 0);
 			        $vat += $quantity * ($cart[$i]['product_vat'] ?? 0);
 		        }
 	        } else {
-		        $subTotal += $quantity * ($cart[$i]['product_price'] ?? 0);
+		        $subTotal      += $quantity * ($cart[$i]['product_price'] ?? 0);
 		        $vat += $quantity * ($cart[$i]['product_vat'] ?? 0);
 	        }
         }
