@@ -43,6 +43,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(UserManagerJoomla3Page::$URL);
 		$I->checkForPhpNoticesOrWarnings();
 		$userManagerPage = new UserManagerJoomla3Page;
+		$I->waitForText(UserManagerJoomla3Page::$newButton, 30);
 		$I->click(UserManagerJoomla3Page::$newButton);
 		switch ($function) {
 			case 'save':

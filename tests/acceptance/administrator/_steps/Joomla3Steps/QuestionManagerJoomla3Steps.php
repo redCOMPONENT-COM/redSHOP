@@ -125,7 +125,8 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField(QuestionManagerJoomla3Page::$searchField, $questionInformation['edit']);
 		$I->pressKey(QuestionManagerJoomla3Page::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->checkOption(QuestionManagerJoomla3Page::$selectFirst);
+		$I->waitForElementVisible(QuestionManagerJoomla3Page::$selectFirst, 30);
+		$I->click(QuestionManagerJoomla3Page::$selectFirst);
 		$I->waitForText(QuestionManagerJoomla3Page::$buttonDelete, 30);
 		$I->click(QuestionManagerJoomla3Page::$buttonDelete);
 		$I->acceptPopup();
@@ -158,7 +159,7 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
 
-		if((isset($user)))
+		if((isset($user['userName'])))
 		{
 			try
 			{
@@ -208,7 +209,8 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(QuestionManagerJoomla3Page::$searchField, $questionInformation['question1']);
 		$I->pressKey(QuestionManagerJoomla3Page::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->wait(1);
-		$I->checkOption(QuestionManagerJoomla3Page::$selectFirst);
+		$I->waitForElementVisible(QuestionManagerJoomla3Page::$selectFirst, 30);
+		$I->click(QuestionManagerJoomla3Page::$selectFirst);
 		$I->waitForText(QuestionManagerJoomla3Page::$buttonEdit, 60);
 		$I->click(QuestionManagerJoomla3Page::$buttonEdit);
 		$I->see($productName);
