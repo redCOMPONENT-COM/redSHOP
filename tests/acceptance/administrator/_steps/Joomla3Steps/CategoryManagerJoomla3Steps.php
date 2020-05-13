@@ -369,21 +369,19 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
 		$I->searchCategory($categoryName);
+		$I->waitForElementVisible(CategoryManagerJ3Page::$checkAllXpath, 30);
 		$I->checkAllResults();
 		$I->click(CategoryManagerJ3Page::$buttonDelete);
 		$I->acceptPopup();
 
 		try
 		{
-			$I->waitForElementVisible(CategoryManagerJ3Page::$categoryFilter, 30);
-			$I->fillField(CategoryManagerJ3Page::$categoryFilter, $categoryName);
-			$I->pressKey(CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
-			$I->dontSee($categoryName);
-
+			$I->waitForText(CategoryManagerJ3Page::$messageDeleteSuccess, 30);
 		}catch (\Exception $e)
 		{
 			$I->waitForElementVisible(CategoryManagerJ3Page::$checkAllXpath, 30);
 			$I->click(CategoryManagerJ3Page::$checkAllXpath);
+			$I->waitForText(CategoryManagerJ3Page::$buttonDelete, 30);
 			$I->click(CategoryManagerJ3Page::$buttonDelete);
 			$I->acceptPopup();
 		}
