@@ -143,7 +143,7 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 
-		if((isset($user)))
+		if((isset($user['userName'])))
 		{
 			$I->doFrontEndLogin($user['userName'], $user['password']);
 		}
