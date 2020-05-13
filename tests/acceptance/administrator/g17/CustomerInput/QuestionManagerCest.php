@@ -107,14 +107,14 @@ class QuestionManagerCest
 		$this->randomProductPrice  = 100;
 
 		$this->questionInformation = array(
-			"address"       => $this->faker->address,
-			"phone"         => $this->faker->phoneNumber,
-			"question"      => $this->faker->bothify('Why is this Happening ??####??'),
-			"edit"          => $this->faker->bothify('Edit Why is this Happening ??####??'),
-			"userName"     => $this->faker->bothify('User name ?####?'),
-			"email"        => $this->faker->email,
-			"question1"    => $this->faker->bothify('I not login account and comment question product ?####?'),
-			"question2"    => $this->faker->bothify('I login account and comment question product ??##??')
+			"address"   => $this->faker->address,
+			"phone"     => $this->faker->phoneNumber,
+			"question"  => $this->faker->bothify('Why is this Happening ??####??'),
+			"edit"      => $this->faker->bothify('Edit Why is this Happening ??####??'),
+			"userName"  => $this->faker->bothify('User name ?####?'),
+			"email"     => $this->faker->email,
+			"question1" => $this->faker->bothify('I not login account and comment question product ?####?'),
+			"question2" => $this->faker->bothify('I login account and comment question product ??##??')
 		);
 
 		$this->user        = array (
@@ -141,10 +141,9 @@ class QuestionManagerCest
 	 */
 	public function createData(AcceptanceTester $I, $scenario)
 	{
-		//Login Administrator Page
+		$I->wantTo('Login to administrator');
 		$I->doAdministratorLogin();
 
-		//Create data
 		$I->wantTo('Create category in administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
@@ -182,11 +181,11 @@ class QuestionManagerCest
 	{
 		$I->wantTo('Create Question in Frontend page with Missing login account');
 		$I = new QuestionManagerJoomla3Steps($scenario);
-		$I->addQuestionOnProductDetailOnFrontendMissingLogin($this->productName, $this->categoryName, $this->questionInformation);
+		$I->addQuestionOnProductDetailOnFrontend($this->productName, $this->categoryName, $this->questionInformation);
 
 		$I->wantTo('Create Question in Frontend page with login account');
 		$I = new QuestionManagerJoomla3Steps($scenario);
-		$I->addQuestionOnProductDetailOnFrontendLogin($this->productName, $this->categoryName, $this->questionInformation, $this->user);
+		$I->addQuestionOnProductDetailOnFrontend($this->productName, $this->categoryName, $this->questionInformation, $this->user);
 	}
 
 	/**
