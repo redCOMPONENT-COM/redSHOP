@@ -116,7 +116,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(ConfigurationPage::$URL);
 		$I->click(ConfigurationPage::$featureSetting);
 		$I->waitForElement(ConfigurationPage::$comparisonTab, 60);
+		$I->waitForElementVisible(ConfigurationPage::$comparisonYes, 60);
 		$I->click(ConfigurationPage::$comparisonYes);
+		$I->executeJS('window.scrollTo(0,0);');
 		$I->click(ConfigurationPage::$buttonSave);
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
