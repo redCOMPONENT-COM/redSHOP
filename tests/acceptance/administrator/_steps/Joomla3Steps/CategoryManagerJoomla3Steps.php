@@ -376,7 +376,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		try
 		{
-			$I->waitForText(CategoryManagerJ3Page::$messageDeleteSuccess, 30);
+			$I->waitForText(CategoryManagerJ3Page::$messageNoItemOnTable, 30);
 		}catch (\Exception $e)
 		{
 			$I->waitForElementVisible(CategoryManagerJ3Page::$checkAllXpath, 30);
