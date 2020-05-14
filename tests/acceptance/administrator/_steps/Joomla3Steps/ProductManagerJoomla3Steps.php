@@ -321,6 +321,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForText(ProductManagerPage::$namePage, 30, ProductManagerPage::$h1);
 		$this->searchProduct($productName);
+		$I->waitForElementVisible(ProductManagerPage::$checkAllXpath, 30);
 		$I->checkAllResults();
 		$I->click(ProductManagerPage::$buttonDelete);
 		$I->acceptPopup();

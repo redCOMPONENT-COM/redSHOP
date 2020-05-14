@@ -518,20 +518,26 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(UserManagerJoomla3Page::$selectFirst);
 		$I->click(UserManagerJoomla3Page::$deleteButton);
 
-		if ($deleteJoomlaUser) {
+		if ($deleteJoomlaUser)
+		{
 			$I->acceptPopup();
-		} else {
+		} else
+		{
 			$I->cancelPopup();
 		}
 
 		$I->dontSee($name, UserManagerJoomla3Page::$firstResultRow);
 		$I->executeJS('window.scrollTo(0,0)');
+		$I->waitForElementVisible(['link' => 'ID'], 30);
 		$I->click(['link' => 'ID']);
 		$I->amOnPage(UserManagerJoomla3Page::$URLJoomla);
 		$I->searchForItem($name);
-		if ($deleteJoomlaUser) {
+
+		if ($deleteJoomlaUser)
+		{
 			$I->dontSee($name, UserManagerJoomla3Page::$userJoomla);
-		} else {
+		} else
+		{
 			$I->see($name, UserManagerJoomla3Page::$userJoomla);
 		}
 	}
