@@ -239,7 +239,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->executeJS("jQuery('.button-apply').click()");
 
 		try
-        {
+		{
 			$I->waitForElement(OrderManagerPage::$productId, 5);
 		}catch (\Exception $e)
 		{
