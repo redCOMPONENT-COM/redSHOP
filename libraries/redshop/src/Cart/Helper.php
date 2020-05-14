@@ -64,8 +64,8 @@ class Helper
 		        if (isset($vatGroupTax) && $vatGroupTax == 0) {
 			        $subTotal += $quantity * ($cart[$i]['product_price'] - $cart[$i]['product_vat']);
 		        } else {
-			        $cart[$i]['product_vat'] = $quantity * ($cart[$i]['product_old_price'] - $cart[$i]['product_old_price_excl_vat']);
-			        $subTotal += $quantity * ($cart[$i]['product_old_price'] ?? 0);
+			        $cart[$i]['product_vat'] = $quantity * ($cart[$i]['product_price'] - $cart[$i]['product_old_price_excl_vat']);
+			        $subTotal += $quantity * ($cart[$i]['product_price'] ?? 0);
 			        $vat += $quantity * ($cart[$i]['product_vat'] ?? 0);
 		        }
 	        } else {

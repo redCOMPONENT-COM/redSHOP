@@ -36,6 +36,7 @@
                 label="COM_REDSHOP_TAX_RATE_USER_SHOPPER_GROUP"
                 description="COM_REDSHOP_TAX_RATE_USER_SHOPPER_GROUP_DESC"
                 class="form-control"
+                required="true"
                 default=""
                 table-sortable="1"
                 table-width="20%">
