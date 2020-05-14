@@ -141,7 +141,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(ProductManagerPage::$URL);
 		$I->filterListBySearchingProduct($productName);
 	}
-	
+
 	/**
 	 * @param $name
 	 * @throws \Exception
@@ -237,25 +237,28 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(1);
 		$I->waitForElement(OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
-		try{
+
+		try
+        {
 			$I->waitForElement(OrderManagerPage::$productId, 5);
 		}catch (\Exception $e)
 		{
 			$I->executeJS("jQuery('.button-apply').click()");
 		}
-		$I->waitForElement(OrderManagerPage::$productId, 10);
-		$I->scrollTo(OrderManagerPage::$productId);
-		$I->waitForElement(OrderManagerPage::$productId, 30);
+
+		$I->waitForElement(OrderManagerPage::$orderDetailTable, 10);
+		$I->scrollTo(OrderManagerPage::$orderDetailTable);
+		$I->waitForElementVisible(OrderManagerPage::$productId, 30);
 		$I->click(OrderManagerPage::$productId);
-		$I->waitForElement(OrderManagerPage::$productsSearch, 30);
+		$I->waitForElementVisible(OrderManagerPage::$productsSearch, 30);
 		$I->fillField(OrderManagerPage::$productsSearch, $nameProduct);
-		$I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
+		$I->waitForElementVisible($userOrderPage->returnSearch($nameProduct), 30);
 		$I->click($userOrderPage->returnSearch($nameProduct));
 		$I->waitForElementVisible(OrderManagerPage::$valueAttribute, 30);
 		$I->wait(1);
 		$I->click(OrderManagerPage::$valueAttribute);
 		$I->wait(1);
-		$adminFinalPriceEnd = $price+$priceAttribute;
+		$adminFinalPriceEnd = $price + $priceAttribute;
 		$I->waitForText("$adminFinalPriceEnd",30);
 		$I->scrollTo(OrderManagerPage::$adminFinalPriceEnd);
 		$I->waitForElement(OrderManagerPage::$adminFinalPriceEnd, 60);
