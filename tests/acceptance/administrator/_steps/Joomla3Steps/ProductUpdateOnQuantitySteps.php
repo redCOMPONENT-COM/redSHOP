@@ -40,7 +40,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 
 		$I->wantTo("I click in the menu: $menu");
 		$I->click(array('link' => $menu));
-		$I->waitForText(AdminJ3Page::$menuItemsTitle, 5,AdminJ3Page::$h1);
+		$I->waitForText(AdminJ3Page::$menuItemsTitle, 5, AdminJ3Page::$h1);
 		$I->checkForPhpNoticesOrWarnings();
 
 		$I->wantTo("I click new");
@@ -52,13 +52,13 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->wantTo("Open the menu types iframe");
 		$I->click(AdminJ3Page::$buttonSelect);
 		$I->waitForElement(AdminJ3Page::$menuTypeModal, 5);
-		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->executeJS(AdminJ3Page::jQueryIframeMenuType());
-		$I->wait(1);
+		$I->wait(0.5);
 		$I->switchToIFrame(AdminJ3Page::$menuItemType);
 
 		$I->wantTo("Open the menu category: $menuCategory");
 		$I->waitForElement(AdminJ3Page::getMenuCategory($menuCategory), 30);
+		$I->wait(0.5);
 		$I->click(AdminJ3Page::getMenuCategory($menuCategory));
 		$I->wantTo("Choose the menu item type: $menuItem");
 		$I->waitForElementVisible(AdminJ3Page::returnMenuItem($menuItem), 30);
@@ -70,7 +70,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->waitForText(AdminJ3Page::$menuNewItemTitle, '30',AdminJ3Page::$h1);
 		$I->wantTo('I save the menu');
 		$I->click(AdminJ3Page::$buttonSave);
-		$I->waitForText(AdminJ3Page::$messageMenuItemSuccess, 5, AdminJ3Page::$idInstallSuccess);
+		$I->waitForText(AdminJ3Page::$messageMenuItemSuccess, 10, AdminJ3Page::$idInstallSuccess);
 	}
 
 	/**
