@@ -977,4 +977,25 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 3.0.2
 	 */
 	public static $buttonWriteReview = "//a[contains(text(),'Write review')]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $buttonWriteQuestion = "//a[contains(text(),'Ask Question About Product')]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $nameIframe = "question-iframe";
+
+	/**
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public function jQueryIframe()
+	{
+		return 'jQuery(".iframe").attr("name", "question-iframe")';
+	}
 }

@@ -287,7 +287,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$I->addressInformation($addressDetail);
 		$I->shippingInformation($shipmentDetail);
 		$I->click(FrontEndProductManagerJoomla3Page::$proceedButton);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->click(AdminJ3Page::$checkoutButton);
 
