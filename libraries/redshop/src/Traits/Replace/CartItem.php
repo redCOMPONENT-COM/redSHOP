@@ -376,7 +376,7 @@ trait CartItem
                 );
             } else {
                 $productImage = \RedshopLayoutHelper::render(
-                    'tags.commmon.tag',
+                    'tags.common.tag',
                     array(
                         'tag'   => 'div',
                         'class' => 'product_image'
