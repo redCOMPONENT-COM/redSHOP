@@ -497,9 +497,20 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
             $this->optionLayout
         );
 
-        $this->addReplace('{manufacturer_link}', $manufacturerLink);
-        $this->addReplace('{manufacturer_product_link}', $manufacturerPLink);
-        $this->addReplace('{manufacturer_name}', $this->product->manufacturer_name);
+	    if ($this->isTagExists('{manufacturer_link}'))
+	    {
+		    $this->addReplace('{manufacturer_link}', $manufacturerLink);
+	    }
+
+	    if ($this->isTagExists('{manufacturer_product_link}'))
+	    {
+		    $this->addReplace('{manufacturer_product_link}', $manufacturerPLink);
+	    }
+
+        if ($this->isTagExists('{manufacturer_name}'))
+        {
+	        $this->addReplace('{manufacturer_name}', $this->product->manufacturer_name);
+        }
 
         $supplierName = '';
 
