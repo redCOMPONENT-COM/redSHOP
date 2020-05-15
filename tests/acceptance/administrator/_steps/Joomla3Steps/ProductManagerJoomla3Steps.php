@@ -406,6 +406,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(ProductManagerPage::$URL);
+		$I->waitForText(ProductManagerPage::$buttonNew, 30);
 		$I->click(ProductManagerPage::$buttonNew);
 		$I->waitForElementVisible(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productName);
