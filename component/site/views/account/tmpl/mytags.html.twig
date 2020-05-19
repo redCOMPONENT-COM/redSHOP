@@ -95,19 +95,12 @@
                                     {% set productPrice = taxAmount %}
                                 {% endif %}
 
-                                {% set dataAdd = dataAdd ~ redSHOPCall('RedshopLayoutHelper', 'render', [
-                                    'tags.addtocart.addtocartscroll',
-                                    {
-                                        'i': i,
-                                        'row': row,
-                                        'productPrice':  productPrice
-                                    },
-                                    '',
-                                    {
-                                        'component': 'com_redshop',
-                                        'layoutType': 'Twig',
-                                        'layoutOf': 'library'
-                                    }
+                                {% set dataAdd = dataAdd ~ redSHOPCall('\\Redshop\\Cart\\Render', 'replace', [
+	                                row.product_id,
+	                                0,
+	                                0,
+	                                0,
+	                                '{form_addtocart:add_to_cart1}'
                                 ]) %}
                                 {% set i = i + 1 %}
                                 {% set dataAdd = dataAdd ~ '</div>' %}
