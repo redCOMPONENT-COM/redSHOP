@@ -318,7 +318,10 @@ class RedshopHelperUser
             $userArr['rs_is_user_login'] = 0;
         }
 
-        $userArr['rs_user_shopperGroup'] = self::getShopperGroup($userId);
+	    if (empty($userArr['shopperGroupOneStep'])) {
+		    $userArr['rs_user_shopperGroup'] = self::getShopperGroup($userId);
+	    }
+
         $session->set('rs_user', $userArr);
 
         return $userArr;
