@@ -71,6 +71,14 @@ class RedshopModelTemplates extends RedshopModelList
             $query->where($db->qn('t.section') . ' = ' . $db->q($filterSection));
         }
 
+        // Filter by search in name.
+        $published = $this->getState('filter.published');
+
+        if ($published != '')
+        {
+            $query->where($db->qn('t.published') . ' = ' . $db->q($published));
+        }
+
         // Add the list ordering clause.
         $orderCol  = $this->state->get('list.ordering', 'id');
         $orderDirn = $this->state->get('list.direction', 'asc');
