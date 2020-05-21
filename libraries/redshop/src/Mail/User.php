@@ -91,6 +91,11 @@ class User
                 $bcc = explode(",", trim(\Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
             }
 
+	        \JPluginHelper::importPlugin('redshop_mail');
+	        $dispatcher = \RedshopHelperUtility::getDispatcher();
+	        // Process the product plugin before send mail
+	        $dispatcher->trigger('removeBccMailRegistration', array(&$bcc, $mailSection));
+
             $bcc = array_merge($bcc, $mailBcc);
             Helper::sendEmail(
                 $mailFrom,
