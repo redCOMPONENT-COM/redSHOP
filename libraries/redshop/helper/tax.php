@@ -148,9 +148,10 @@ class RedshopHelperTax
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('tax_rate')
-			->from($db->qn('#__redshop_tax_rate'))
-			->where($db->qn('shopper_group_id') . '=' . $db->q($shopperGroupId))
-			->where($db->qn('tax_country') . '=' . $db->q($vatCountry));
+			->from($db->qn('#__redshop_tax_rate', 'tr'))
+			->leftJoin($db->qn('#__redshop_tax_shoppergroup_xref', 'tsx') . ' ON ' . $db->qn('tr.id') . ' = ' . $db->qn('tsx.tax_rate_id'))
+			->where($db->qn('tsx.shopper_group_id') . '=' . $db->q($shopperGroupId))
+			->where($db->qn('tr.tax_country') . '=' . $db->q($vatCountry));
 
 		return $db->setQuery($query)->loadResult();
 	}

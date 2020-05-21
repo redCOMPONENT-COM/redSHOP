@@ -116,4 +116,36 @@ class RedshopModelTax_Groups extends RedshopModelList
 
         return parent::getStoreId($id);
     }
+
+	/**
+	 * @param   string  $id
+	 *
+	 * @return  array
+	 *
+	 * @since   3.0.2
+	 */
+	public static function getShopperTax($id)
+	{
+		$result = [];
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select('shopper_group_id')
+			->from($db->qn('#__redshop_tax_shoppergroup_xref'))
+			->where($db->qn('tax_rate_id') . ' = ' . $db->q($id));
+
+		$shopperGroupIds = $db->setQuery($query)->loadColumn();
+
+		foreach ($shopperGroupIds as $shopperGroupId)
+		{
+			$query = $db->getQuery(true)
+				->select('shopper_group_name')
+				->from($db->qn('#__redshop_shopper_group'))
+				->where($db->qn('shopper_group_id') . ' = ' . $db->q($shopperGroupId));
+
+			$result[] = $db->setQuery($query)->loadResult();
+		}
+
+		return $result;
+	}
 }

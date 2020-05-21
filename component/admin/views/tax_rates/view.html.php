@@ -41,13 +41,24 @@ class RedshopViewTax_Rates extends RedshopViewList
     {
 	    $value = $row->{$config['dataCol']};
 
+	    $taxShopperGroup = JFactory::getApplication()->input->post->get('shopper_group', array(), 'array');
+	    $model  = $this->getModel('tax_rates');
+
+	    if (!empty($taxShopperGroup)) {
+		    $shoppTax = $taxShopperGroup;
+	    } else {
+		    $shoppTax = $model::getShopperTax($row->id);
+	    }
+
+	    $shoppTax = implode("<br/>", $shoppTax);
+
 	    switch ($config['dataCol']) {
 		    case 'tax_group_id':
 			    return '<a href="index.php?option=com_redshop&task=tax_group.edit&id=' . $value . '">'
 				    . $row->tax_group_name . '</a>';
 
-		    case 'shopper_group_id':
-			    return $row->shopper_group_name;
+		    case 'shopper_group':
+			    return $shoppTax;
 
 		    case 'tax_country':
 			    return $row->country_name;
