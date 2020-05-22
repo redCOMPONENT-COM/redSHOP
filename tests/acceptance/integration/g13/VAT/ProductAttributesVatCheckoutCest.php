@@ -26,304 +26,310 @@ use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
  */
 class ProductAttributesVatCheckoutCest
 {
-    /**
-     * @var \Faker\Generator
-     * @since  2.2.0
-     */
-    public $faker;
+	/**
+	 * @var \Faker\Generator
+	 * @since  2.2.0
+	 */
+	public $faker;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    public $categoryName;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $categoryName;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    public $shopperName;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $shopperName;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    public $shopperType;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $shopperType;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    public $customerType;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $customerType;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    public $shopperGroupPortal;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $shopperGroupPortal;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    public $taxGroupName;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $taxGroupName;
 
-    /**
-     * @var integer
-     * @since  2.2.0
-     */
-    public $noPage;
+	/**
+	 * @var integer
+	 * @since  2.2.0
+	 */
+	public $noPage;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    public $productName;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $productName;
 
-    /**
-     * @var integer
-     * @since  2.2.0
-     */
-    public $productPrice = 70;
+	/**
+	 * @var integer
+	 * @since  2.2.0
+	 */
+	public $productPrice = 70;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    public $minimumPerProduct = '1';
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $minimumPerProduct = '1';
 
-    /**
-     * @var int|string
-     * @since  2.2.0
-     */
-    public $productNumber = '1';
+	/**
+	 * @var int|string
+	 * @since  2.2.0
+	 */
+	public $productNumber = '1';
 
-    /**
-     * @var integer
-     * @since  2.2.0
-     */
-    public $minimumQuantity = 1;
+	/**
+	 * @var integer
+	 * @since  2.2.0
+	 */
+	public $minimumQuantity = 1;
 
-    /**
-     * @var int
-     * @since  2.2.0
-     */
-    protected $maximumQuantity;
+	/**
+	 * @var int
+	 * @since  2.2.0
+	 */
+	protected $maximumQuantity;
 
-    /**
-     * @var array
-     * @since  2.2.0
-     */
-    public $attributes;
+	/**
+	 * @var array
+	 * @since  2.2.0
+	 */
+	public $attributes;
 
-    /**
-     * @var int
-     * @since  2.2.0
-     */
-    protected $shippingRate;
+	/**
+	 * @var int
+	 * @since  2.2.0
+	 */
+	protected $shippingRate;
 
-    /**
-     * @var int
-     * @since  2.2.0
-     */
-    protected $shippingCheckout;
+	/**
+	 * @var int
+	 * @since  2.2.0
+	 */
+	protected $shippingCheckout;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $catalog;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $catalog;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $showPrice;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $showPrice;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $enableQuotation;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $enableQuotation;
 
-    /**
-     * @var null
-     * @since  2.2.0
-     */
-    protected $showVat;
+	/**
+	 * @var null
+	 * @since  2.2.0
+	 */
+	protected $showVat;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $userName;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $userName;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $password;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $password;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $email;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $email;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $group;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $group;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $firstName;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $firstName;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $lastName;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $lastName;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $subTotal;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $subTotal;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $vatPrice;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $vatPrice;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $total;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $total;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $shippingPrice;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $shippingPrice;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $shippingMethod;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $shippingMethod;
 
-    /**
-     * @var array
-     * @since  2.2.0
-     */
-    protected $shipping;
+	/**
+	 * @var array
+	 * @since  2.2.0
+	 */
+	protected $shipping;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $taxRateName;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $taxRateName;
 
-    /**
-     * @var float
-     * @since  2.2.0
-     */
-    protected $taxRateValue;
+	/**
+	 * @var float
+	 * @since  2.2.0
+	 */
+	protected $taxRateValue;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $countryName;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $countryName;
 
-    /**
-     * @var int
-     * @since  2.2.0
-     */
-    protected $taxRateValueNegative;
+	/**
+	 * @var int
+	 * @since  2.2.0
+	 */
+	protected $taxRateValueNegative;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $taxRateValueString;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $taxRateValueString;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $vatCalculation;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $vatCalculation;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $vatAfter;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $vatAfter;
 
-    /**
-     * @var int
-     * @since  2.2.0
-     */
-    protected $vatNumber;
+	/**
+	 * @var int
+	 * @since  2.2.0
+	 */
+	protected $vatNumber;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $calculationBase;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $calculationBase;
 
-    /**
-     * @var string
-     * @since  2.2.0
-     */
-    protected $requiredVAT;
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $requiredVAT;
 
-    /**
-     * @var string
-     * @since 2.2.0     
-     */
-    protected $nameAttribute;
+	/**
+	 * @var string
+	 * @since 2.2.0
+	 */
+	protected $nameAttribute;
 
-    /**
-     * @var string
-     * @since 2.2.0
-     */
-    protected $product1;
+	/**
+	 * @var string
+	 * @since 2.2.0
+	 */
+	protected $product1;
 
-    /**
-     * @var string
-     * @since 2.2.0
-     */
-    protected $product2;
+	/**
+	 * @var string
+	 * @since 2.2.0
+	 */
+	protected $product2;
 
-    /**
-     * @var array
-     * @since 2.2.0
-     */
-    protected $cartSetting;
+	/**
+	 * @var array
+	 * @since 2.2.0
+	 */
+	protected $cartSetting;
 
-    /**
-     * @var array
-     * @since 2.2.0
-     */
-    protected $customerInformation;
+	/**
+	 * @var array
+	 * @since 2.2.0
+	 */
+	protected $customerInformation;
 
-    /**
-     * @var array
-     * @since 2.2.0
-     */
-    protected $customerBussinesInformation;
+	/**
+	 * @var array
+	 * @since 2.2.0
+	 */
+	protected $customerBussinesInformation;
 
-    /**
-     * ProductAttributesVatCheckoutCest constructor
-     * @since 2.2.0
-     */
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public $shopperGroup;
+
+	/**
+	 * ProductAttributesVatCheckoutCest constructor
+	 * @since 2.2.0
+	 */
 	public function __construct()
 	{
 		$this->faker                = Faker\Factory::create();
@@ -414,12 +420,14 @@ class ProductAttributesVatCheckoutCest
 			"eanNumber"      => 1212331331231,
 			"shopperGroup"   => "Default Company",
 		);
+
+		$this->shopperGroup         = 'All';
 	}
 
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
-     * @since 2.2.0
+	 * @since 2.2.0
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -434,7 +442,7 @@ class ProductAttributesVatCheckoutCest
 	 *
 	 * @return  void
 	 * @throws  Exception
-     * @since 2.2.0
+	 * @since 2.2.0
 	 */
 	public function createVATGroupSave(TaxGroupSteps $I, $scenario)
 	{
@@ -444,7 +452,7 @@ class ProductAttributesVatCheckoutCest
 
 		$I->wantTo('Test TAX Rates Save creation in Administrator');
 		$I = new TaxRateSteps($scenario);
-		$I->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null);
+		$I->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null, $this->shopperGroup);
 
 		$I->wantTo('Create new category ');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -498,7 +506,7 @@ class ProductAttributesVatCheckoutCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-     * @since 2.2.0
+	 * @since 2.2.0
 	 */
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
