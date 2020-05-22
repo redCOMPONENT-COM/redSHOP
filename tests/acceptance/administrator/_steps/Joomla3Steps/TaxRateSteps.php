@@ -55,16 +55,16 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 
 		if (isset($shopperGroup))
 		{
-			$client->waitForElementVisible("#s2id_jform_shopper_group", 30);
+			$client->waitForElementVisible(TaxRatePage::$fieldShopperGroup, 30);
 
 			if($shopperGroup == "All")
 			{
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", "Default Private");
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", "Default Company");
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", "Default Tax Exempt");
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Private");
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Company");
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Tax Exempt");
 			}else
 			{
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", $shopperGroup);
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, $shopperGroup);
 			}
 		}
 
@@ -271,16 +271,16 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 
 		if (isset($shopperGroup))
 		{
-			$client->waitForElementVisible("#s2id_jform_shopper_group", 30);
+			$client->waitForElementVisible(TaxRatePage::$fieldShopperGroup, 30);
 
 			if($shopperGroup == "All")
 			{
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", "Default Private");
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", "Default Company");
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", "Default Tax Exempt");
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Private");
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Company");
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Tax Exempt");
 			}else
 			{
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", $shopperGroup);
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, $shopperGroup);
 			}
 		}
 
@@ -315,16 +315,16 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 
 		if (isset($shopperGroup))
 		{
-			$client->waitForElementVisible("#s2id_jform_shopper_group", 30);
+			$client->waitForElementVisible(TaxRatePage::$fieldShopperGroup, 30);
 
 			if($shopperGroup == "All")
 			{
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", "Default Private");
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", "Default Company");
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", "Default Tax Exempt");
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Private");
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Company");
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Tax Exempt");
 			}else
 			{
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", $shopperGroup);
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, $shopperGroup);
 			}
 		}
 
@@ -376,16 +376,16 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 
 		if (isset($shopperGroup))
 		{
-			$client->waitForElementVisible("#s2id_jform_shopper_group", 30);
+			$client->waitForElementVisible(TaxRatePage::$fieldShopperGroup, 30);
 
 			if($shopperGroup == "All")
 			{
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", "Default Private");
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", "Default Company");
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", "Default Tax Exempt");
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Private");
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Company");
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Tax Exempt");
 			}else
 			{
-				$client->chooseOnSelect2("#s2id_jform_shopper_group", $shopperGroup);
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, $shopperGroup);
 			}
 		}
 

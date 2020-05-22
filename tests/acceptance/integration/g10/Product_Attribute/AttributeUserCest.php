@@ -282,12 +282,6 @@ class AttributeUserCest
 	protected $requiredVAT;
 
 	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public $shopperGroup;
-
-	/**
 	 * AttributeUserCest constructor.
 	 * @since  2.1.0
 	 */
@@ -358,8 +352,6 @@ class AttributeUserCest
 		$this->vatNumber       = 0;
 		$this->calculationBase = 'billing';
 		$this->requiredVAT     = 'no';
-
-		$this->shopperGroup         = 'All';
 	}
 
 	/**
@@ -377,9 +369,6 @@ class AttributeUserCest
 
 		$client->wantTo('VAT Groups - Save creation in Administrator');
 		(new TaxGroupSteps($scenario))->addVATGroupsSave($this->taxGroupName);
-
-		$client->wantTo('Test TAX Rates Save creation in Administrator');
-		(new TaxRateSteps($scenario))->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null, $this->shopperGroup);
 
 		$client->wantTo('Create Category in Administrator');
 		$client = new CategorySteps($scenario);
@@ -409,6 +398,9 @@ class AttributeUserCest
 
 		$client->wantTo('Add shipping rate');
 		(new ShippingSteps($scenario))->createShippingRateStandard($this->shippingMethod, $this->shipping);
+
+		$client->wantTo('Test TAX Rates Save creation in Administrator');
+		(new TaxRateSteps($scenario))->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null, $this->shopperName);
 	}
 
 	/**
