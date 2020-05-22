@@ -1183,7 +1183,7 @@ class RedshopModelCheckout extends RedshopModel
         $orderuserrow->order_id     = $orderId;
         $orderuserrow->address_type = 'ST';
 
-        $dispatcher->trigger('onBeforeUserShippingStore', array(&$orderuserrow));
+        $dispatcher->trigger('onBeforeUserShippingStore', array(&$orderuserrow, $row));
 
         if (!$orderuserrow->store()) {
             /** @scrutinizer ignore-deprecated */
