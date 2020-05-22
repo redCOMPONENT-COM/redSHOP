@@ -282,6 +282,12 @@ class AttributeUserCest
 	protected $requiredVAT;
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public $shopperGroup;
+
+	/**
 	 * AttributeUserCest constructor.
 	 * @since  2.1.0
 	 */
@@ -352,6 +358,8 @@ class AttributeUserCest
 		$this->vatNumber       = 0;
 		$this->calculationBase = 'billing';
 		$this->requiredVAT     = 'no';
+
+		$this->shopperGroup         = 'All';
 	}
 
 	/**
@@ -371,7 +379,7 @@ class AttributeUserCest
 		(new TaxGroupSteps($scenario))->addVATGroupsSave($this->taxGroupName);
 
 		$client->wantTo('Test TAX Rates Save creation in Administrator');
-		(new TaxRateSteps($scenario))->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null);
+		(new TaxRateSteps($scenario))->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null, $this->shopperGroup);
 
 		$client->wantTo('Create Category in Administrator');
 		$client = new CategorySteps($scenario);
@@ -420,7 +428,7 @@ class AttributeUserCest
 			$this->vatPrice, $this->total, $this->shippingPrice
 		);
 	}
-	
+
 	/**
 	 * @param AcceptanceTester $client
 	 * @param $scenario
@@ -430,12 +438,12 @@ class AttributeUserCest
 	public function clearUpDatabase(AcceptanceTester $client, $scenario)
 	{
 		$client->doAdministratorLogin();
-		
+
 		$client->wantTo('Delete  TAX Rates in Administrator');
 		(new TaxRateSteps($scenario))->deleteTAXRatesOK($this->taxRateName);
 		$client->wantTo(' Delete VAT Groups in Administrator');
 		(new TaxGroupSteps($scenario))->deleteVATGroupOK($this->taxGroupName);
-		
+
 		$client->wantTo('Delete product with attribute');
 		$client = new ProductSteps($scenario);
 		$client->deleteProduct($this->productName);
