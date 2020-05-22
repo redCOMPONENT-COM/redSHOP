@@ -45,10 +45,7 @@ class RedshopModelTax_Rates extends RedshopModelList
                 'state_name',
                 'tax_group_id',
                 't.tax_group_id',
-                'tax_group_name',
-	            'shopper_group_id',
-	            't.shopper_group_id',
-	            'shopper_group_name',
+                'tax_group_name'
             );
         }
 
@@ -69,7 +66,6 @@ class RedshopModelTax_Rates extends RedshopModelList
             ->select($db->qn('c.country_name', 'country_name'))
             ->select($db->qn('s.state_name', 'state_name'))
             ->select($db->qn('g.name', 'tax_group_name'))
-	        ->select($db->qn('sg.shopper_group_name', 'shopper_group_name'))
             ->from($db->qn('#__redshop_tax_rate', 't'))
             ->leftJoin(
                 $db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('t.tax_country') . ' = ' . $db->qn(
@@ -81,10 +77,7 @@ class RedshopModelTax_Rates extends RedshopModelList
             )
             ->leftJoin(
                 $db->qn('#__redshop_tax_group', 'g') . ' ON ' . $db->qn('t.tax_group_id') . ' = ' . $db->qn('g.id')
-            )
-		    ->leftJoin(
-			    $db->qn('#__redshop_shopper_group', 'sg') . ' ON ' . $db->qn('t.shopper_group_id') . ' = ' . $db->qn('sg.shopper_group_id')
-		    );
+            );
 
         // Filter by search in name.
         $search = $this->getState('filter.search');
