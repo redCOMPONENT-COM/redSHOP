@@ -8,8 +8,6 @@ CALL redSHOP_Column_Update('#__redshop_fields', 'desc', 'description', 'VARCHAR(
 -- -----------------------------------------------------
 -- Table `#__redshop_tax_shoppergroup_xref`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `#__redshop_tax_shoppergroup_xref` ;
-
 CREATE TABLE IF NOT EXISTS `#__redshop_tax_shoppergroup_xref` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `tax_rate_id` INT(11) NOT NULL,

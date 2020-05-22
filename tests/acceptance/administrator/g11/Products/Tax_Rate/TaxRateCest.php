@@ -82,6 +82,12 @@ class TaxRateCest
 	public $taxRateValueString;
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public $shopperGroup;
+
+	/**
 	 * TaxRateCest constructor.
 	 * @since 1.4.0
 	 */
@@ -96,6 +102,7 @@ class TaxRateCest
 		$this->stateName            = 'Alabama';
 		$this->taxRateValueNegative = -1;
 		$this->taxRateValueString   = 'Test';
+		$this->shopperGroup         = 'All';
 	}
 
 	/**
@@ -117,7 +124,7 @@ class TaxRateCest
 
 		$client->wantTo('Test TAX Rates Save creation in Administrator');
 		$client = new TaxRateSteps($scenario);
-		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName, $this->shopperGroup);
 	}
 
 	/**
@@ -130,7 +137,7 @@ class TaxRateCest
 		$I->doAdministratorLogin();
 		$I->wantTo("Check button");
 		$I->checkEdit($this->taxRateName);
-		$I->addTAXRatesSave($this->taxRateName2, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+		$I->addTAXRatesSave($this->taxRateName2, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName, $this->shopperGroup);
 		$I->checkResetButton($this->taxRateName, $this->taxRateName2);
 		$I->deleteTAXRatesOK($this->taxRateName2);
 		$I->checkSearchToolsEUCountry();
@@ -177,7 +184,7 @@ class TaxRateCest
 		$client->doAdministratorLogin();
 		$client->wantTo('Test TAX Rates Save and Close creation in Administrator');
 		$client = new TaxRateSteps($scenario);
-		$client->addTAXRatesSaveClose($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+		$client->addTAXRatesSaveClose($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->shopperGroup);
 		$client->see(TaxRatePage::$namePage, TaxRatePage::$selectorPageTitle);
 		$client->searchTAXRates($this->taxRateName);
 	}
@@ -237,7 +244,7 @@ class TaxRateCest
 
 		$client->wantTo('Test TAX Rates with amount is string  Save creation in Administrator');
 		$client->addTAXRatesValueAmountString(
-			$this->taxRateValueString, $this->taxGroupName, $this->taxRateValueString, $this->countryName, $this->stateName, 'Save'
+			$this->taxRateValueString, $this->taxGroupName, $this->taxRateValueString, $this->countryName, $this->shopperGroup, 'Save'
 		);
 	}
 
@@ -250,18 +257,18 @@ class TaxRateCest
 	{
 		$I->doAdministratorLogin();
 		$I->wantTo('Test TAX Rates missing name with Save & Close and Save & New');
-		$I->addTAXRatesMissingNameSaveCloseAndSaveNew($this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+		$I->addTAXRatesMissingNameSaveCloseAndSaveNew($this->taxGroupName, $this->taxRateValue, $this->countryName);
 
 		$I->wantTo('Test TAX Rates missing groups with Save & Close and Save & New');
 		$I->addTAXRatesMissingGroupsSaveCloseAndSaveNew($this->taxRateName, $this->taxRateValue);
 
 		$I->wantTo("Test TAX Rates value amount string with Save Close");
-		$I->addTAXRatesValueAmountString($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+		$I->addTAXRatesValueAmountString($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->shopperGroup);
 
 		$I->wantTo("Test TAX Rates value amount string with Save New");
-		$I->addTAXRatesValueAmountString($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName, 'SaveNew');
+		$I->addTAXRatesValueAmountString($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->shopperGroup, 'SaveNew');
 
 		$I->wantTo('Test TAX Rates with rates value amount less zero Save & Close and Save & New');
-		$I->addTAXRatesValueAmountLessZeroSaveCloseAndSaveNew($this->taxRateName, $this->taxGroupName, $this->taxRateValueNegative);
+		$I->addTAXRatesValueAmountLessZeroSaveCloseAndSaveNew($this->taxRateName, $this->taxGroupName, $this->taxRateValueNegative, $this->shopperGroup);
 	}
 }
