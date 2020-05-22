@@ -44,6 +44,12 @@ class TaxRatePage extends AdminJ3Page
 	public static $fieldValue = "#jform_tax_rate";
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $fieldShopperGroup = "#s2id_jform_shopper_group";
+
+	/**
 	 * @var array
 	 */
 	public static $fieldState = "#s2id_jform_tax_state";
