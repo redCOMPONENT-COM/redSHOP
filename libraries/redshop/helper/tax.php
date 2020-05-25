@@ -71,7 +71,8 @@ class RedshopHelperTax
 
             if ($userArr['vatCountry'] == $userData->country_code
                 && $userArr['vatState'] == $userData->state_code
-                && $userArr['vatGroup'] == $productInfo->product_tax_group_id) {
+                && $userArr['vatGroup'] == $productInfo->product_tax_group_id
+	            && empty($userArr['shopperGroupOneStep'])) {
                 return $userArr['taxData'];
             }
         }
@@ -103,6 +104,11 @@ class RedshopHelperTax
                         's.state_3_code'
                     )
                 )
+	            ->leftJoin(
+		            $db->qn('#__redshop_tax_shoppergroup_xref', 'tsx') . ' ON ' . $db->qn('tr.id') . ' = ' . $db->qn(
+			            'tsx.tax_rate_id'
+		            )
+	            )
                 ->where($db->qn('tg.published') . ' = 1')
                 ->where(
                     '(' . $db->qn('s.state_2_code') . ' = ' . $db->quote($userData->state_code) . ' OR '
@@ -115,6 +121,7 @@ class RedshopHelperTax
                     . ' OR ' . $db->qn('tr.tax_country') . ' IS NULL))'
                 )
                 ->where('tr.tax_group_id = ' . (int)$taxGroup)
+	            ->where($db->qn('tsx.shopper_group_id') . ' = ' . $db->q($userArr['rs_user_shopperGroup']))
                 ->order('tax_rate');
 
             if (Redshop::getConfig()->get('VAT_BASED_ON') == 2) {
