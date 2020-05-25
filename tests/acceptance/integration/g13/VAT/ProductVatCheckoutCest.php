@@ -219,6 +219,7 @@ class ProductVatCheckoutCest
 		$this->countryName          = 'Denmark';
 		$this->taxRateValueNegative = -1;
 		$this->taxRateValueString   = 'Test';
+		$this->shopperGroup         = 'All';
 		$this->productName          = $this->faker->bothify('NameProductVAT ?###?');
 		$this->categoryName         = $this->faker->bothify('CategoryNameVAT ?###?');
 		$this->randomProductNumber  = $this->faker->bothify('productNumber ?###?');
@@ -289,7 +290,7 @@ class ProductVatCheckoutCest
 
 		$client->wantTo('Test TAX Rates Save creation in Administrator');
 		$client = new TaxRateSteps($scenario);
-		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null);
+		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null, $this->shopperGroup);
 
 		$client->wantTo('Create new category ');
 		$client = new CategoryManagerJoomla3Steps($scenario);
