@@ -178,7 +178,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
                     'paymentMethodId'    => $this->data['paymentMethodId'],
                     'index'              => $index,
                     'totalPaymentMethod' => $totalPaymentMethod,
-                    'checked'            => $checked ? 'checked="' . $checked . '"' : '',
+                    'checked'            => $checked,
                     'isCompany'          => $this->data['isCompany'],
                     'eanNumber'          => $this->data['eanNumber'],
                     'logo'               => $logo,
