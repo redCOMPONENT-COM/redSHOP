@@ -72,6 +72,7 @@ class RedshopHelperTax
             if ($userArr['vatCountry'] == $userData->country_code
                 && $userArr['vatState'] == $userData->state_code
                 && $userArr['vatGroup'] == $productInfo->product_tax_group_id
+	            && isset($userArr['rs_user_shopperGroup']) != isset($userData->shopper_group_id)
 	            && empty($userArr['shopperGroupOneStep'])) {
                 return $userArr['taxData'];
             }
