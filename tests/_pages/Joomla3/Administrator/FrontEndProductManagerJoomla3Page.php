@@ -580,6 +580,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
+	public static $searchCountryCompany3 = '#s2id_autogen15_search';
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
 	public static $searchCountryPrivate1 = "//input[@id='s2id_autogen5_search']";
 
 	/**

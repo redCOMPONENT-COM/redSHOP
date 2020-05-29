@@ -348,8 +348,17 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 			$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryCompany1, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		}catch (Exception $e)
 		{
-			$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryCompany2, $addressDetail['country']);
-			$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryCompany2, \Facebook\WebDriver\WebDriverKeys::ENTER);
+			try
+			{
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$searchCountryCompany2, 2);
+				$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryCompany2, $addressDetail['country']);
+				$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryCompany2, \Facebook\WebDriver\WebDriverKeys::ENTER);
+			}catch (Exception $e)
+			{
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$searchCountryCompany3, 2);
+				$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryCompany3, $addressDetail['country']);
+				$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryCompany3, \Facebook\WebDriver\WebDriverKeys::ENTER);
+			}
 		}
 	}
 
@@ -472,7 +481,6 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 				$I->seeElement(['link' => $productName]);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-				$I->reloadPage();
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$headBilling, 30);
 
 				if($user['shopperGroup'] == 'Default Private')

@@ -315,13 +315,13 @@ class CheckVATWithUserMultiGroupCest
 	 */
 	public function testProductWithUserMultiGroupWithOnePageCheckout(CheckoutOnFrontEnd $I)
 	{
-		$I->testProductWithUserMultiGroup($this->userCompany, $this->productName, $this->categoryName, $this->randomProductPrice, $this->taxRateCompany['amount'], "OnePage");
-		$I->doFrontEndLogin($this->userCompany['userName'], $this->userCompany['password']);
-		$I->doFrontendLogout();
 		$I->testProductWithUserMultiGroup($this->userPrivate, $this->productName, $this->categoryName, $this->randomProductPrice, $this->taxRatePrivate['amount'], "OnePage");
 		$I->doFrontEndLogin($this->userCompany['userName'], $this->userCompany['password']);
 		$I->doFrontendLogout();
 		$I->testProductWithUserMultiGroup($this->userRegion, $this->productName, $this->categoryName, $this->randomProductPrice, $this->taxRateRegion['amount'], "OnePage");
+		$I->doFrontEndLogin($this->userCompany['userName'], $this->userCompany['password']);
+		$I->doFrontendLogout();
+		$I->testProductWithUserMultiGroup($this->userCompany, $this->productName, $this->categoryName, $this->randomProductPrice, $this->taxRateCompany['amount'], "OnePage");
 	}
 
 	/**
