@@ -629,7 +629,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	/**
 	 * @param array $user
 	 * @throws \Exception
-	 * @since 2.1.3
+	 * @since 3.0.2
 	 */
 	public function addUserWithMultiGroup($user= array())
 	{

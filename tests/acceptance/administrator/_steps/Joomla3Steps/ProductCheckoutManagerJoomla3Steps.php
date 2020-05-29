@@ -12,7 +12,7 @@ use \ConfigurationPage as ConfigurationPage;
 use GiftCardCheckoutPage;
 use FrontEndProductManagerJoomla3Page;
 use CheckoutChangeQuantityProductPage;
-use ImageOptimizer\Exception\Exception;
+
 
 /**
  * Class ProductCheckoutManagerJoomla3Steps

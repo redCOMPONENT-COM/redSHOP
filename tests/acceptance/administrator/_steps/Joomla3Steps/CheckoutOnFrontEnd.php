@@ -310,6 +310,7 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 	/**
 	 * @param $addressDetail
 	 * @throws Exception
+	 * @since 3.0.2
 	 */
 	public function addressInformationCompany($addressDetail)
 	{
@@ -337,7 +338,6 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $addressDetail['phone']);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idEanNumber, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $addressDetail['eanNumber']);
-
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$countryCode1, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$countryCode1);
 
@@ -361,6 +361,7 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 	 * @param $vatAmount
 	 * @param $function
 	 * @throws Exception
+	 * @since 3.0.2
 	 */
 	public function testProductWithUserMultiGroup($user, $productName, $categoryName, $price, $vatAmount, $function)
 	{
@@ -399,7 +400,6 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 				$I->seeElement(['link' => $productName]);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText($subTotal, 30);

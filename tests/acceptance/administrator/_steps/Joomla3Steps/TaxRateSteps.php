@@ -8,7 +8,6 @@
 
 namespace AcceptanceTester;
 
-use PHPMD\Rule\CleanCode\ElseExpression;
 use TaxRatePage;
 use TaxGroupPage;
 
