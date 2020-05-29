@@ -12,6 +12,7 @@ use \ConfigurationPage as ConfigurationPage;
 use GiftCardCheckoutPage;
 use FrontEndProductManagerJoomla3Page;
 use CheckoutChangeQuantityProductPage;
+use ImageOptimizer\Exception\Exception;
 
 /**
  * Class ProductCheckoutManagerJoomla3Steps
@@ -112,11 +113,24 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $addressDetail['postalCode']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $addressDetail['city']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $addressDetail['phone']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$countryCode1, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$countryCode1);
 
 		try
 		{
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$selectorEmailInvalid, 10);
-			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 10, FrontEndProductManagerJoomla3Page::$selectorEmailInvalid);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$searchCountryPrivate1, 5);
+			$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryPrivate1, $addressDetail['country']);
+			$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryPrivate1, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		}catch (\Exception $e)
+		{
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$searchCountryPrivate2, 5);
+			$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryPrivate2, $addressDetail['country']);
+			$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryPrivate2, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		}
+
+		try
+		{
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 5, FrontEndProductManagerJoomla3Page::$selectorEmailInvalid);
 			$I->see(FrontEndProductManagerJoomla3Page::$messageEmailInvalid);
 			$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
 			$I->seeInField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
@@ -145,6 +159,19 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPostalCode, $shippingDetail['postalCode']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingCity, $shippingDetail['city']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPhone, $shippingDetail['phone']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$countryCode2, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$countryCode2);
+
+		try
+		{
+			$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryShipping1, $shippingDetail['country']);
+			$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryShipping1, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		}
+		catch(\Exception $e)
+		{
+			$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryShipping2, $shippingDetail['country']);
+			$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryShipping2, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		}
 	}
 
 	/**
@@ -748,7 +775,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 
 		try
-        {
+		{
 			$I->waitForElement($usePage->productName($productFirst), 5);
 		}catch (\Exception $e)
 		{

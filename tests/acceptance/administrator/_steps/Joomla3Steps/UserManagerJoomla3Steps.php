@@ -625,4 +625,72 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(UserManagerJoomla3Page::$userSuccessMessage, 60, UserManagerJoomla3Page::$selectorSuccess);
 		$I->see(UserManagerJoomla3Page::$userSuccessMessage, UserManagerJoomla3Page::$selectorSuccess);
 	}
+
+	/**
+	 * @param array $user
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function addUserWithMultiGroup($user= array())
+	{
+		$I = $this;
+		$I->amOnPage(UserManagerJoomla3Page::$URL);
+		$I->waitForText(UserManagerJoomla3Page::$titlePageUser, 30);
+		$I->click(UserManagerJoomla3Page::$newButton);
+		$userManagerPage = new UserManagerJoomla3Page;
+		$I->waitForText(UserManagerJoomla3Page::$titlePageUser, 30);
+		$I->waitForElementVisible(UserManagerJoomla3Page::$generalTab, 30);
+		$I->click(UserManagerJoomla3Page::$generalTab);
+		$I->waitForElementVisible(UserManagerJoomla3Page::$userName, 30);
+		$I->fillField(UserManagerJoomla3Page::$userName, $user['userName']);
+		$I->fillField(UserManagerJoomla3Page::$newPassword, $user['password']);
+		$I->fillField(UserManagerJoomla3Page::$confirmNewPassword, $user['password']);
+		$I->fillField(UserManagerJoomla3Page::$email, $user['email']);
+		$I->selectOption(UserManagerJoomla3Page::$groupRadioButton, $user['group']);
+		$I->click(UserManagerJoomla3Page::$shopperGroupDropDown);
+		$I->waitForElement($userManagerPage->shopperGroup($user['shopperGroup']), 30);
+		$I->click($userManagerPage->shopperGroup($user['shopperGroup']));
+
+		if (isset($user['shopperGroup']))
+		{
+			if ($user['shopperGroup'] == 'Default Company')
+			{
+				$I->waitForElementVisible(UserManagerJoomla3Page::$registeredAsCompany, 30);
+				$I->click(UserManagerJoomla3Page::$registeredAsCompany);
+			}else
+			{
+				$I->waitForElementVisible(UserManagerJoomla3Page::$registeredAsPrivate, 30);
+				$I->click(UserManagerJoomla3Page::$registeredAsPrivate);
+			}
+		}
+
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->waitForElementVisible(UserManagerJoomla3Page::$billingInformationTab, 30);
+		$I->click(UserManagerJoomla3Page::$billingInformationTab);
+		$I->waitForElementVisible(UserManagerJoomla3Page::$firstName, 30);
+		$I->fillField(UserManagerJoomla3Page::$firstName, $user['firstName']);
+		$I->fillField(UserManagerJoomla3Page::$lastName, $user['lastName']);
+		$I->fillField(UserManagerJoomla3Page::$address, $user['address']);
+		$I->fillField(UserManagerJoomla3Page::$city, $user['city']);
+		$I->fillField(UserManagerJoomla3Page::$zipcode, $user['zipcode']);
+		$I->fillField(UserManagerJoomla3Page::$phone, $user['phone']);
+		$I->waitForElementVisible(UserManagerJoomla3Page::$country, 30);
+		$I->click(UserManagerJoomla3Page::$country);
+		$I->waitForElement($userManagerPage->shopperGroup($user['country']), 30);
+		$I->click($userManagerPage->shopperGroup($user['country']));
+
+		if ($user['shopperGroup'] == 'Default Company')
+		{
+			$I->waitForElementVisible(UserManagerJoomla3Page::$companyName, 30);
+			$I->fillField(UserManagerJoomla3Page::$companyName, $user['companyName']);
+			$I->waitForElementVisible(UserManagerJoomla3Page::$eanNumber, 30);
+			$I->fillField(UserManagerJoomla3Page::$eanNumber, $user['eanNumber']);
+			$I->waitForElementVisible(UserManagerJoomla3Page::$vatNumber, 30);
+			$I->fillField(UserManagerJoomla3Page::$vatNumber, $user['vatNumber']);
+		}
+
+		$I->click(UserManagerJoomla3Page::$saveCloseButton);
+		$I->waitForText(UserManagerJoomla3Page::$userSuccessMessage, 60, UserManagerJoomla3Page::$selectorSuccess);
+		$I->see(UserManagerJoomla3Page::$userSuccessMessage, UserManagerJoomla3Page::$selectorSuccess);
+	}
 }

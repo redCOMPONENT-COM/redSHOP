@@ -113,6 +113,18 @@ class UserManagerJoomla3Page
 
 	/**
 	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $registeredAsPrivate  = '#is_company0';
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $registeredAsCompany  = '#is_company1';
+
+	/**
+	 * @var string
 	 * @since 2.1.3
 	 */
 	public static $firstName = "//input[@id='firstname']";
@@ -146,6 +158,24 @@ class UserManagerJoomla3Page
 	 * @since 2.1.3
 	 */
 	public static $city = "//input[@id='city']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $companyName = "//input[@name='company_name']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $eanNumber = "//input[@name='ean_number']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $vatNumber = "//input[@name='vat_number']";
 
 	/**
 	 * @var string

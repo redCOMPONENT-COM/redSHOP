@@ -591,4 +591,49 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$I->click(TaxRatePage::$buttonCheckIn);
 		$I->waitForText(TaxRatePage::$messageCheckInSuccess, 30, TaxRatePage::$selectorSuccess);
 	}
+
+	/**
+	 * @param $taxRate
+	 * @param $taxGroupName
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function createVATRateEUMode($taxRate, $taxGroupName)
+	{
+		$client = $this;
+		$client->amOnPage(TaxRatePage::$url);
+		$client->click(TaxRatePage::$buttonNew);
+		$client->verifyNotices(false, $this->checkForNotices(), TaxRatePage::$nameEditPage);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->fillField(TaxRatePage::$fieldName, $taxRate['name']);
+		$client->fillField(TaxRatePage::$fieldValue, $taxRate['amount']);
+		$client->waitForElement(TaxRatePage::$fieldCountry, 30);
+		$client->chooseOnSelect2(TaxRatePage::$fieldCountry, $taxRate['country']);
+		$client->waitForElementVisible(TaxRatePage::$stateDropdown, 30);
+
+		if (isset($taxRate['shopperGroup']))
+		{
+			$client->waitForElementVisible(TaxRatePage::$fieldShopperGroup, 30);
+
+			if($taxRate['shopperGroup'] == "All")
+			{
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Private");
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Company");
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, "Default Tax Exempt");
+			}else
+			{
+				$client->chooseOnSelect2(TaxRatePage::$fieldShopperGroup, $taxRate['shopperGroup']);
+			}
+		}
+
+		$client->chooseOnSelect2(TaxRatePage::$fieldGroup, $taxGroupName);
+		$client->waitForElementVisible(TaxRatePage::$countryEUYes, 30);
+		$client->click(TaxRatePage::$countryEUYes);
+		$client->waitForText(TaxRatePage::$buttonSave, 30);
+		$client->click(TaxRatePage::$buttonSave);
+		$client->waitForElement(TaxRatePage::$selectorSuccess,30);
+		$client->see(TaxRatePage::$messageItemSaveSuccess, TaxRatePage::$selectorSuccess);
+		$client->click(TaxRatePage::$buttonClose);
+		$client->waitForText(TaxRatePage::$namePage, 30);
+	}
 }

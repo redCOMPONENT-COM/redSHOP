@@ -559,6 +559,54 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $paymentEWAY = "//div[@id='rs_payment_eway']//label//input";
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $countryCode1 = "#s2id_rs_country_country_code";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $searchCountryCompany1 = "//input[@id='s2id_autogen9_search']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $searchCountryCompany2 = "//input[@id='s2id_autogen13_search']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $searchCountryPrivate1 = "//input[@id='s2id_autogen5_search']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $searchCountryPrivate2 = "//input[@id='s2id_autogen7_search']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $countryCode2 = "#s2id_rs_country_country_code_ST";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $searchCountryShipping1 = "//input[@id='s2id_autogen7_search']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $searchCountryShipping2 = "//input[@id='s2id_autogen11_search']";
+
+	/**
 	 * @param $name
 	 * @since 2.1.2
 	 * @return string
