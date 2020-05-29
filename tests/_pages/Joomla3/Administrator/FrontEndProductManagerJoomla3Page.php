@@ -568,49 +568,13 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $searchCountryCompany1 = "//input[@id='s2id_autogen9_search']";
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $searchCountryCompany2 = "//input[@id='s2id_autogen13_search']";
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $searchCountryCompany3 = '#s2id_autogen15_search';
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $searchCountryPrivate1 = "//input[@id='s2id_autogen5_search']";
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $searchCountryPrivate2 = "//input[@id='s2id_autogen7_search']";
+	public static $searchCountryInput = "//div[@id='select2-drop']//div[@class='select2-search']//input";
 
 	/**
 	 * @var string
 	 * @since 3.0.2
 	 */
 	public static $countryCode2 = "#s2id_rs_country_country_code_ST";
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $searchCountryShipping1 = "//input[@id='s2id_autogen7_search']";
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $searchCountryShipping2 = "//input[@id='s2id_autogen11_search']";
 
 	/**
 	 * @param $name

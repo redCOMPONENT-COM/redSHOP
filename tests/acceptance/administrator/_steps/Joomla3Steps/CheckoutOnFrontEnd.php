@@ -340,26 +340,9 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $addressDetail['eanNumber']);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$countryCode1, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$countryCode1);
-
-		try
-		{
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$searchCountryCompany1, 2);
-			$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryCompany1, $addressDetail['country']);
-			$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryCompany1, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		}catch (Exception $e)
-		{
-			try
-			{
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$searchCountryCompany2, 2);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryCompany2, $addressDetail['country']);
-				$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryCompany2, \Facebook\WebDriver\WebDriverKeys::ENTER);
-			}catch (Exception $e)
-			{
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$searchCountryCompany3, 2);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryCompany3, $addressDetail['country']);
-				$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryCompany3, \Facebook\WebDriver\WebDriverKeys::ENTER);
-			}
-		}
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$searchCountryInput, 2);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryInput, $addressDetail['country']);
+		$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryInput, \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
 
 	/**
@@ -494,10 +477,12 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
 				$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
+				$I->scrollTo($productFrontEndManagerPage->product($productName));
 				$I->seeElement($productFrontEndManagerPage->product($productName));
 				$I->waitForText($subTotal, 30);
 				$I->waitForText($vatPrice, 30);
 				$I->waitForText($total, 30);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
