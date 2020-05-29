@@ -442,6 +442,10 @@ class Helper
                             $subSubPropertyData = explode('::', $subPropertiesData[$propIndex]);
 
                             foreach ($subSubPropertyData as $supPropIndex => $subSubProperty) {
+                                if (!$subSubProperty)  {
+                                    continue;
+                                }
+
                                 $subproperty = \RedshopHelperProduct_Attribute::getAttributeSubProperties(
                                     $subSubProperty
                                 );
