@@ -119,17 +119,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$searchCountryInput, 5);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryInput, $addressDetail['country']);
 		$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryInput, \Facebook\WebDriver\WebDriverKeys::ENTER);
-
-		try
-		{
-			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 5, FrontEndProductManagerJoomla3Page::$selectorEmailInvalid);
-			$I->see(FrontEndProductManagerJoomla3Page::$messageEmailInvalid);
-			$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
-			$I->seeInField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
-		} catch (\Exception $e)
-		{
-			$I->seeInField(FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
-		}
 	}
 
 	/**
