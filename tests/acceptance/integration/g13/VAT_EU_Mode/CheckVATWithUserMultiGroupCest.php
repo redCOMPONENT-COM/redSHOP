@@ -279,6 +279,8 @@ class CheckVATWithUserMultiGroupCest
 	 */
 	public function prepareData(AcceptanceTester $I, $scenario)
 	{
+		$I->wantTo('Enabel PayPal');
+		$I->enablePlugin('PayPal');
 		$I->wantTo('Create a new vat group');
 		$I = new TaxGroupSteps($scenario);
 		$I->addVATGroupsSave($this->taxGroupName);
