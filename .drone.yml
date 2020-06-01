@@ -253,16 +253,15 @@ pipeline:
             # Regular entry point
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
-            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+            - while [ ! -f tests/.cache.setup.$te_suite$php_version.tmp ]; do sleep 1; done
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13/VAT_EU_Mode 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13/VAT 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15 0 0'
 
     08-Group8:
-        group: 01-testsa
+        group: 01-tests
         image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
