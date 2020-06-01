@@ -117,6 +117,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$searchCountryInput, 5);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryInput, $addressDetail['country']);
+		$I->wait(0.5);
 		$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryInput, \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
 

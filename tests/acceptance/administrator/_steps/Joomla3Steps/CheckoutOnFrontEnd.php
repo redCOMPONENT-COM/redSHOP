@@ -474,14 +474,14 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 					$I->addressInformationCompany($user);
 				}
 
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-				$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
 				$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
 				$I->scrollTo($productFrontEndManagerPage->product($productName));
 				$I->seeElement($productFrontEndManagerPage->product($productName));
 				$I->waitForText($subTotal, 30);
 				$I->waitForText($vatPrice, 30);
 				$I->waitForText($total, 30);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+				$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
