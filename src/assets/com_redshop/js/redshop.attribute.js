@@ -2206,7 +2206,10 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 						x: parseInt(redSHOP.RSConfig._('AJAX_DETAIL_BOX_WIDTH')),
 						y: parseInt(redSHOP.RSConfig._('AJAX_DETAIL_BOX_HEIGHT'))
 					},
-					htmldata: responce
+					htmldata: responce,
+					onOpen: function() {
+						jQuery('select[id^=property_id_ajax_prd_]').select2();
+					}
 				};
 				redBOX.initialize({});
 				document.attbox = redBOX.open(null, options);
