@@ -253,7 +253,7 @@ pipeline:
             # Regular entry point
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
-            - while [ ! -f tests/.cache.setup.$te_suite$php_version.tmp ]; do sleep 1; done
+            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
