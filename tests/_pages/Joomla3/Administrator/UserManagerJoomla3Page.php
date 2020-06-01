@@ -13,7 +13,7 @@
  *
  * @since  2.4
  */
-class UserManagerJoomla3Page
+class UserManagerJoomla3Page extends AdminJ3Page
 {
 	/**
 	 * @var string

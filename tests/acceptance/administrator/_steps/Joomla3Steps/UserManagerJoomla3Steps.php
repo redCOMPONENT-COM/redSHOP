@@ -515,7 +515,9 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->searchUser($name);
 		$I->see($name, UserManagerJoomla3Page::$firstResultRow);
-		$I->click(UserManagerJoomla3Page::$selectFirst);
+		$I->waitForElementVisible(UserManagerJoomla3Page::$checkAllXpath, 30);
+		$I->click(UserManagerJoomla3Page::$checkAllXpath);
+		$I->waitForText(UserManagerJoomla3Page::$deleteButton);
 		$I->click(UserManagerJoomla3Page::$deleteButton);
 
 		if ($deleteJoomlaUser)
