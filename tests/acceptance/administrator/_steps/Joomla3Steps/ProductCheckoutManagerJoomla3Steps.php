@@ -13,7 +13,6 @@ use GiftCardCheckoutPage;
 use FrontEndProductManagerJoomla3Page;
 use CheckoutChangeQuantityProductPage;
 
-
 /**
  * Class ProductCheckoutManagerJoomla3Steps
  *

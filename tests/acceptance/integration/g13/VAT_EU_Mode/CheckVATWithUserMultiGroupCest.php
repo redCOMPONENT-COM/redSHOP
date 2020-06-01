@@ -127,6 +127,7 @@ class CheckVATWithUserMultiGroupCest
 		$this->randomProductNumber = $this->faker->bothify('Product number ?###?');
 		$this->randomProductPrice  = 100;
 
+		// Vat group, vat rate
 		$this->taxGroupName   = $this->faker->bothify('Tax Groups Name ?###?');
 		$this->taxRateCompany = array(
 				'name'         =>  $this->faker->bothify('Tax rate company ?###?'),
@@ -164,6 +165,7 @@ class CheckVATWithUserMultiGroupCest
 			'EUCountry'    => 'yes'
 		);
 
+		// User information
 		$this->userCompany = array(
 			"userName"     => $this->faker->bothify('User name ?##?'),
 			"password"     => $this->faker->bothify('Password ?##?'),
@@ -200,34 +202,34 @@ class CheckVATWithUserMultiGroupCest
 		);
 
 		$this->userExemptVAT = array(
-			"userName"              => $this->faker->bothify('User name ?####?'),
-			"password"              =>$this->faker->bothify('Password ?##?'),
-			"email"                 => $this->faker->email,
-			"group"                 => 'Registered',
-			"shopperGroup"          => 'Default Tax Exempt',
-			"firstName"             => $this->faker->bothify('User name Exempt ?##?'),
-			"lastName"              => $this->faker->bothify('LastName ?##?'),
-			"address"               => $this->faker->address,
-			"zipcode"               => $this->faker->postcode,
-			"city"                  => 'Odense',
-			"phone"                 => $this->faker->phoneNumber,
-			"country"               => 'Denmark'
+			"userName"     => $this->faker->bothify('User name ?####?'),
+			"password"     =>$this->faker->bothify('Password ?##?'),
+			"email"        => $this->faker->email,
+			"group"        => 'Registered',
+			"shopperGroup" => 'Default Tax Exempt',
+			"firstName"    => $this->faker->bothify('User name Exempt ?##?'),
+			"lastName"     => $this->faker->bothify('LastName ?##?'),
+			"address"      => $this->faker->address,
+			"zipcode"      => $this->faker->postcode,
+			"city"         => 'Odense',
+			"phone"        => $this->faker->phoneNumber,
+			"country"      => 'Denmark'
 		);
 
 		$this->userRegion = array(
-			"userName"              => $this->faker->bothify('User Region ?####?'),
-			"password"              =>$this->faker->bothify('Password ?##?'),
-			"email"                 => $this->faker->email,
-			"group"                 => 'Registered',
-			"shopperGroup"          => 'Default Private',
-			"firstName"             => $this->faker->bothify('User name Region ?##?'),
-			"lastName"              => $this->faker->bothify('LastName ?##?'),
-			"address"               => $this->faker->address,
-			"zipcode"               => "5000",
-			"postalCode"            => "5000",
-			"city"                  => 'Odense',
-			"phone"                 => "0334110366",
-			"country"               => 'Viet Nam'
+			"userName"     => $this->faker->bothify('User Region ?####?'),
+			"password"     =>$this->faker->bothify('Password ?##?'),
+			"email"        => $this->faker->email,
+			"group"        => 'Registered',
+			"shopperGroup" => 'Default Private',
+			"firstName"    => $this->faker->bothify('User name Region ?##?'),
+			"lastName"     => $this->faker->bothify('LastName ?##?'),
+			"address"      => $this->faker->address,
+			"zipcode"      => "5000",
+			"postalCode"   => "5000",
+			"city"         => 'Odense',
+			"phone"        => "0334110366",
+			"country"      => 'Viet Nam'
 		);
 
 		// Vat setting
@@ -238,24 +240,24 @@ class CheckVATWithUserMultiGroupCest
 			'vatAfter'        => 'after',
 			'vatNumber'       => 0,
 			'calculationBase' => 'billing',
-			'requireVAT'     => 'yes'
+			'requireVAT'      => 'yes'
 		);
 
 		//configuration enable one page checkout
 		$this->cartSetting = array(
-			"addCart"           => 'product',
-			"allowPreOrder"     => 'yes',
-			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
-			"enabledAjax"       => 'no',
-			"defaultCart"       => null,
-			"buttonCartLead"    => 'Back to current view',
-			"onePage"           => 'yes',
-			"showShippingCart"  => 'no',
-			"attributeImage"    => 'no',
-			"quantityChange"    => 'no',
-			"quantityInCart"    => 0,
-			"minimumOrder"      => 0,
-			"enableQuotation"   => 'no'
+			"addCart"          => 'product',
+			"allowPreOrder"    => 'yes',
+			"cartTimeOut"      => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"      => 'no',
+			"defaultCart"      => null,
+			"buttonCartLead"   => 'Back to current view',
+			"onePage"          => 'yes',
+			"showShippingCart" => 'no',
+			"attributeImage"   => 'no',
+			"quantityChange"   => 'no',
+			"quantityInCart"   => 0,
+			"minimumOrder"     => 0,
+			"enableQuotation"  => 'no'
 		);
 	}
 
