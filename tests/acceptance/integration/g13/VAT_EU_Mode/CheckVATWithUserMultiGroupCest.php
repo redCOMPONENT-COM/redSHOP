@@ -292,6 +292,8 @@ class CheckVATWithUserMultiGroupCest
 		$I = new ConfigurationSteps($scenario);
 		$I->setupVAT($this->VATSetting['country'], null, $this->VATSetting['vatGroup'], $this->VATSetting['vatCalculation'],
 			$this->VATSetting['vatAfter'], $this->VATSetting['vatNumber'], $this->VATSetting['calculationBase'], $this->VATSetting['requireVAT']);
+
+		$I->wantTo('Setup Cart at admin');
 		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create new category');
