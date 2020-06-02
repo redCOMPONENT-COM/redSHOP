@@ -761,6 +761,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $iconSelfPickup = "//input[@onclick=\"javascript:onestepCheckoutProcess(this.name,'self_pickup');\"]";
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $iconPostDanmark= "//input[@onclick=\"javascript:onestepCheckoutProcess(this.name,'postdanmark');\"]";
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
@@ -1001,6 +1007,24 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 3.0.2
 	 */
 	public static $buttonWriteQuestion = "//a[contains(text(),'Ask Question About Product')]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $buttonShowMap = "//input[@id='showMap_input']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $firstAddress = "(//td[@class = 'radio_point_container'])[1]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $saveAddressOnMap = "//div[@id='pickupLocations']//div[1]//div[@class = 'map-button-save']";
 
 	/**
 	 * @var string
