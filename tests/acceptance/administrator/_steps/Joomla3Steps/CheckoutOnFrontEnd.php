@@ -456,7 +456,6 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 				$I->waitForText($subTotal, 30);
 				$I->waitForText($vatPrice, 30);
 				$I->waitForText($total, 30);
-
 				break;
 
 			case 'OnePage':
@@ -492,7 +491,6 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 				$I->waitForText($subTotal, 30);
 				$I->waitForText($vatPrice, 30);
 				$I->waitForText($total, 30);
-
 				break;
 		}
 	}
