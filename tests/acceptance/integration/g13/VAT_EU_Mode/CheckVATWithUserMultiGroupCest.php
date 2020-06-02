@@ -130,12 +130,12 @@ class CheckVATWithUserMultiGroupCest
 		// Vat group, vat rate
 		$this->taxGroupName   = $this->faker->bothify('Tax Groups Name ?###?');
 		$this->taxRateCompany = array(
-				'name'         =>  $this->faker->bothify('Tax rate company ?###?'),
-				'group'        => $this->taxGroupName,
-				'shopperGroup' => "Default Company",
-				'country'      => "Denmark",
-				'amount'       => 0.1,
-				'EUCountry'    => 'yes'
+			'name'         =>  $this->faker->bothify('Tax rate company ?###?'),
+			'group'        => $this->taxGroupName,
+			'shopperGroup' => "Default Company",
+			'country'      => "Denmark",
+			'amount'       => 0.1,
+			'EUCountry'    => 'yes'
 		);
 
 		$this->taxRatePrivate = array(
