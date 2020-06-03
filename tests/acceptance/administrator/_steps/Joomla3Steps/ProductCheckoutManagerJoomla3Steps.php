@@ -112,18 +112,13 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $addressDetail['postalCode']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $addressDetail['city']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $addressDetail['phone']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$countryCode1, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$countryCode1);
 
-		try
-		{
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$selectorEmailInvalid, 10);
-			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 10, FrontEndProductManagerJoomla3Page::$selectorEmailInvalid);
-			$I->see(FrontEndProductManagerJoomla3Page::$messageEmailInvalid);
-			$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
-			$I->seeInField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
-		} catch (\Exception $e)
-		{
-			$I->seeInField(FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
-		}
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$searchCountryInput, 5);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryInput, $addressDetail['country']);
+		$I->wait(0.5);
+		$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryInput, \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
 
 	/**
@@ -145,6 +140,10 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPostalCode, $shippingDetail['postalCode']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingCity, $shippingDetail['city']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPhone, $shippingDetail['phone']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$countryCode2, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$countryCode2);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$searchCountryInput, $shippingDetail['country']);
+		$I->pressKey(FrontEndProductManagerJoomla3Page::$searchCountryInput, \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
 
 	/**
@@ -748,7 +747,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 
 		try
-        {
+		{
 			$I->waitForElement($usePage->productName($productFirst), 5);
 		}catch (\Exception $e)
 		{
