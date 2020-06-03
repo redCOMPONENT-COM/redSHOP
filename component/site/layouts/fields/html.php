@@ -26,9 +26,9 @@ extract($displayData);
     <?php if ($fieldHandle->required == 1) : ?>
         <span class='required'>*</span>
     <?php endif; ?>
-    <?php if (trim($fieldHandle->desc) != '') : ?>
+    <?php if (trim($fieldHandle->description) != '') : ?>
         <?php
-        echo '&nbsp; ' . JHTML::tooltip($fieldHandle->desc, '', 'tooltip.png', '', '', false);
+        echo '&nbsp; ' . JHTML::tooltip($fieldHandle->description, '', 'tooltip.png', '', '', false);
         ?>
     <?php endif; ?>
 </div>

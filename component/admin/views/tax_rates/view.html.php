@@ -39,29 +39,43 @@ class RedshopViewTax_Rates extends RedshopViewList
      */
     public function onRenderColumn($config, $index, $row)
     {
-        $value = $row->{$config['dataCol']};
+	    $value = $row->{$config['dataCol']};
 
-        switch ($config['dataCol']) {
-            case 'tax_group_id':
-                return '<a href="index.php?option=com_redshop&task=tax_group.edit&id=' . $value . '">'
-                    . $row->tax_group_name . '</a>';
+	    $taxShopperGroup = JFactory::getApplication()->input->post->get('shopper_group', array(), 'array');
+	    $model  = $this->getModel('tax_rates');
 
-            case 'tax_country':
-                return $row->country_name;
+	    if (!empty($taxShopperGroup)) {
+		    $shoppTax = $taxShopperGroup;
+	    } else {
+		    $shoppTax = $model::getShopperTax($row->id);
+	    }
 
-            case 'tax_state':
-                return $row->state_name;
+	    $shoppTax = implode("<br/>", $shoppTax);
 
-            case 'tax_rate':
-                return number_format(
-                        $value * 100,
-                        2,
-                        Redshop::getConfig()->get('PRICE_SEPERATOR'),
-                        Redshop::getConfig()->get('THOUSAND_SEPERATOR')
-                    ) . ' %';
+	    switch ($config['dataCol']) {
+		    case 'tax_group_id':
+			    return '<a href="index.php?option=com_redshop&task=tax_group.edit&id=' . $value . '">'
+				    . $row->tax_group_name . '</a>';
 
-            default:
-                return parent::onRenderColumn($config, $index, $row);
-        }
+		    case 'shopper_group':
+			    return $shoppTax;
+
+		    case 'tax_country':
+			    return $row->country_name;
+
+		    case 'tax_state':
+			    return $row->state_name;
+
+		    case 'tax_rate':
+			    return number_format(
+					    $value * 100,
+					    2,
+					    Redshop::getConfig()->get('PRICE_SEPERATOR'),
+					    Redshop::getConfig()->get('THOUSAND_SEPERATOR')
+				    ) . ' %';
+
+		    default:
+			    return parent::onRenderColumn($config, $index, $row);
+	    }
     }
 }

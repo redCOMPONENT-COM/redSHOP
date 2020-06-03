@@ -104,7 +104,7 @@ class ProductsCheckoutFrontEndCest
 			"address"    => "Some Place in the World",
 			"postalCode" => "23456",
 			"city"       => "Bangalore",
-			"country"    => "India",
+			"country"    => "Denmark",
 			"state"      => "Karnataka",
 			"phone"      => "8787878787"
 			);
