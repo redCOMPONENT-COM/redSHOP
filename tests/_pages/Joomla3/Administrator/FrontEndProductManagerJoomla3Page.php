@@ -761,12 +761,6 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $iconSelfPickup = "//input[@onclick=\"javascript:onestepCheckoutProcess(this.name,'self_pickup');\"]";
 
 	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $iconPostDanmark= "//input[@onclick=\"javascript:onestepCheckoutProcess(this.name,'postdanmark');\"]";
-
-	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position

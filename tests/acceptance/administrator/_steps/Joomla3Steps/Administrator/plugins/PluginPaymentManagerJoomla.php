@@ -360,7 +360,6 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
 		$I->waitForElementVisible($pluginManagerPage->searchResultPluginName($pluginName), 30);
 		$I->click($pluginName);
-
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$consumerId, 30);
 		$I->fillField(PluginManagerJoomla3Page::$consumerId, $consumerId);
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$mapKey, 30);
