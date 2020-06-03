@@ -201,9 +201,10 @@ class RedshopControllerOrder_detail extends RedshopController
             $msg = JText::_('COM_REDSHOP_DISCOUNT_UPDATED');
         } else {
             $msg = JText::_('COM_REDSHOP_ERROR_UPDATING_DISCOUNT');
+            $type = 'error';
         }
 
-        $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
+        $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg, $type);
     }
 
     public function special_discount()
@@ -218,9 +219,10 @@ class RedshopControllerOrder_detail extends RedshopController
             $msg = JText::_('COM_REDSHOP_SPECIAL_DISCOUNT_APPLIED');
         } else {
             $msg = JText::_('COM_REDSHOP_ERROR_IN_SPECIAL_DISCOUNT');
+	        $type = 'error';
         }
 
-        $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
+        $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg, $type);
     }
 
     public function update_shippingrates()
