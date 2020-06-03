@@ -68,6 +68,7 @@ class Helper
     public static function isApplyVat($template = "", $userId = 0)
     {
         $userId          = !$userId ? \JFactory::getUser()->id : $userId;
+	    $userSession = \JFactory::getSession()->get('rs_user');
         $userInformation = $userId ? \RedshopHelperUser::getUserInformation($userId) : new \stdClass;
         $userInformation = ($userInformation == new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault(
         ) : $userInformation;
@@ -81,6 +82,16 @@ class Helper
         if (strpos($template, "{without_vat}") !== false) {
             return false;
         }
+
+	    if (isset($userSession['rs_user_info_id'])) {
+		    $taxRateShopperGroup = \RedshopHelperTax::getTaxRateByShopperGroup($userSession['rs_user_shopperGroup'], $userSession['vatCountry']);
+
+		    if (isset($taxRateShopperGroup) && $taxRateShopperGroup == 0) {
+			    return false;
+		    }
+
+		    return true;
+	    }
 
         return \RedshopHelperCart::taxExemptAddToCart($userId);
     }

@@ -44,6 +44,12 @@ class TaxRatePage extends AdminJ3Page
 	public static $fieldValue = "#jform_tax_rate";
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $fieldShopperGroup = "#s2id_jform_shopper_group";
+
+	/**
 	 * @var array
 	 */
 	public static $fieldState = "#s2id_jform_tax_state";
@@ -130,6 +136,12 @@ class TaxRatePage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $labelEU = "EU country";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $countryEUYes = "//input[@id='jform_is_eu_country0']";
 
 	/**
 	 * @param $nameField

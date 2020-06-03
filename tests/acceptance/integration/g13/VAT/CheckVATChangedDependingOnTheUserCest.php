@@ -186,6 +186,12 @@ class CheckVATChangedDependingOnTheUserCest
 	protected $cartSetting;
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public $shopperGroup;
+
+	/**
 	 * CheckVATChangedDependingOnTheUserCest constructor.
 	 * @since 2.1.3
 	 */
@@ -275,6 +281,8 @@ class CheckVATChangedDependingOnTheUserCest
 			"minimumOrder"       => 0,
 			"enableQuotation"    => 'no'
 		);
+
+		$this->shopperGroup         = 'All';
 	}
 
 	/**
@@ -301,8 +309,8 @@ class CheckVATChangedDependingOnTheUserCest
 		$I = new TaxGroupSteps($scenario);
 		$I->addVATGroupsSave($this->taxGroupName);
 		$I = new TaxRateSteps($scenario);
-		$I->addTAXRatesSave($this->taxRateNameVN, $this->taxGroupName, $this->taxRateValueVN, $this->countryVietNam, null);
-		$I->addTAXRatesSave($this->taxRateNameDenmark, $this->taxGroupName, $this->taxRateValueDenmark, $this->countryDenmark, null);
+		$I->addTAXRatesSave($this->taxRateNameVN, $this->taxGroupName, $this->taxRateValueVN, $this->countryVietNam, null, $this->shopperGroup);
+		$I->addTAXRatesSave($this->taxRateNameDenmark, $this->taxGroupName, $this->taxRateValueDenmark, $this->countryDenmark, null, $this->shopperGroup);
 
 		$I->wantTo('Setup VAT at admin');
 		$I = new ConfigurationSteps($scenario);
