@@ -168,7 +168,7 @@ class shippingPostDanmarkCest
 
 		// PostDanmark Shipping
 		$this->consumerId = '9caff6cc9346a9812bcc0b1ec2e1f9ad';
-		$this->mapKey = 'AIzaSyA0SvjoLNDEH561DBDXK_LzIa';
+		$this->mapKey     = 'AIzaSyA0SvjoLNDEH561DBDXK_LzIa';
 	}
 
 	/**

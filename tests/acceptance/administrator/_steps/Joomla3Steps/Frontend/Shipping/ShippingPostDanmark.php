@@ -13,7 +13,7 @@ use FrontEndProductManagerJoomla3Page;
 /**
  * Class ShippingPostDanmark
  * @package Frontend\Shipping
- * @since 2.1.3
+ * @since 3.0.2
  */
 class ShippingPostDanmark extends CheckoutMissingData
 {
@@ -24,15 +24,13 @@ class ShippingPostDanmark extends CheckoutMissingData
 	 * @param $shipping
 	 * @param $shippingName
 	 * @throws \Exception
-	 * @since 2.1.3
+	 * @since 3.0.2
 	 */
 	public function checkoutWithShippingPostDanmark($categoryName, $product, $customerInformation, $shipping, $shippingName)
 	{
 		$I = $this;
 		$currencyUnit = $I->getCurrencyValue();
-
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 60);
 		$I->addToCart($categoryName, $product['name']);
 
