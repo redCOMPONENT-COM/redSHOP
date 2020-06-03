@@ -204,7 +204,7 @@ class shippingPostDanmarkCest
 	 * @throws Exception
 	 * @since 3.0.2
 	 */
-	public function checkoutWithShippingPostDanmark(AcceptanceTester $I, $scenario)
+	public function onePageCheckoutWithShippingPostDanmark(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Setting one page checkout');
 		$I = new ConfigurationSteps($scenario);
@@ -224,7 +224,7 @@ class shippingPostDanmarkCest
 
 		$I->wantToTest('Check on Front-end');
 		$I = new ShippingPostDanmark($scenario);
-		$I->checkoutWithShippingPostDanmark($this->categoryName, $this->product, $this->customerInformation, $this->shipping, $this->pluginName);
+		$I->onePageCheckoutWithShippingPostDanmark($this->categoryName, $this->product, $this->customerInformation, $this->shipping, $this->pluginName);
 
 		$I->wantToTest('Check Order on Backend');
 		$I = new ConfigurationSteps($scenario);
@@ -239,7 +239,7 @@ class shippingPostDanmarkCest
 	 */
 	public function clearAll(ProductManagerJoomla3Steps $I, $scenario)
 	{
-		$I->wantToTest('Delete Product');
+		$I->wantToTest('Delete a Product');
 		$I->deleteProduct($this->product['name']);
 
 		$I->wantToTest('Delete Category');

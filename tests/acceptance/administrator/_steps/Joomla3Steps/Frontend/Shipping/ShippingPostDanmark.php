@@ -26,7 +26,7 @@ class ShippingPostDanmark extends CheckoutMissingData
 	 * @throws \Exception
 	 * @since 3.0.2
 	 */
-	public function checkoutWithShippingPostDanmark($categoryName, $product, $customerInformation, $shipping, $shippingName)
+	public function onePageCheckoutWithShippingPostDanmark($categoryName, $product, $customerInformation, $shipping, $shippingName)
 	{
 		$I = $this;
 		$currencyUnit = $I->getCurrencyValue();
