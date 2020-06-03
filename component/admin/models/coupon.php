@@ -103,4 +103,32 @@ class RedshopModelCoupon extends RedshopModelForm
 
         return $data;
     }
+
+    /**
+     * Method to get a single record.
+     *
+     * @param   integer  $pk  The id of the primary key.
+     *
+     * @return  JObject|boolean  Object on success, false on failure.
+     *
+     * @since   2.1.0
+     */
+    public function getItem($pk = null)
+    {
+        $item = parent::getItem();
+
+        if (false === $item) {
+            return false;
+        }
+
+        $item->coupon_users = RedshopEntityCoupon::getInstance($item->id)->getUsers()->ids();
+        $item->start_date       = $item->start_date != JFactory::getDbo()->getNullDate() ? JFactory::getDate(
+            $item->start_date
+        )->toUnix() : null;
+        $item->end_date         = $item->end_date != JFactory::getDbo()->getNullDate() ? JFactory::getDate(
+            $item->end_date
+        )->toUnix() : null;
+
+        return $item;
+    }
 }

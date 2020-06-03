@@ -215,6 +215,22 @@ class RedshopModelSearch extends RedshopModel
                 ->from($db->qn('#__redshop_product', 'p'))
                 ->where($db->qn('p.product_name') . $search)
                 ->where('(' . $subQuery . ') = 0');
+        } elseif ($jInput->getCmd('alert', '') == 'coupon') {
+            $subQuery = $db->getQuery(true)
+                ->select('COUNT(ct.userid)')
+                ->from($db->qn('#__redshop_coupons_transaction', 'ct'))
+                ->where('ct.userid = ui.user_id')
+                ->where('ct.coupon_id = ' . $jInput->getInt('coupon_id', 0));
+            $query->select(
+                array(
+                    $db->qn('ui.user_id', 'id'),
+                    'CONCAT(' . $db->qn('ui.firstname') . ', " (", ' . $db->qn('ui.user_email') . ', ")") as text'
+                )
+            )
+                ->from($db->qn('#__redshop_users_info', 'ui'))
+                ->where($db->qn('ui.user_email') . $search)
+                ->where('(' . $subQuery . ') = 0')
+                ->where($db->qn('ui.address_type') . ' =  ' . $db->q('ST'));
         } elseif ($jInput->getCmd('alert', '') == 'stoockroom') {
             $query->select(
                 array(

@@ -78,7 +78,7 @@
         </field>
         <field
                 name="userid"
-                type="redshop.users"
+                type="redshop.coupon_user"
                 label="COM_REDSHOP_COUPON_USER_SPECIFIC"
                 description="COM_REDSHOP_COUPON_USER_SPECIFIC_DESC"
                 showon="effect:1"
