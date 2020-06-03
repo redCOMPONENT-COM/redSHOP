@@ -68,12 +68,6 @@ class RedshopHelperTax
             if (empty($productInfo->product_tax_group_id)) {
                 $productInfo->product_tax_group_id = Redshop::getConfig()->get('DEFAULT_VAT_GROUP');
             }
-
-            if ($userArr['vatCountry'] == $userData->country_code
-                && $userArr['vatState'] == $userData->state_code
-                && $userArr['vatGroup'] == $productInfo->product_tax_group_id) {
-                return $userArr['taxData'];
-            }
         }
 
         if (isset($productInfo->product_tax_group_id) && $productInfo->product_tax_group_id > 0) {
@@ -103,6 +97,11 @@ class RedshopHelperTax
                         's.state_3_code'
                     )
                 )
+	            ->leftJoin(
+		            $db->qn('#__redshop_tax_shoppergroup_xref', 'tsx') . ' ON ' . $db->qn('tr.id') . ' = ' . $db->qn(
+			            'tsx.tax_rate_id'
+		            )
+	            )
                 ->where($db->qn('tg.published') . ' = 1')
                 ->where(
                     '(' . $db->qn('s.state_2_code') . ' = ' . $db->quote($userData->state_code) . ' OR '
@@ -115,6 +114,7 @@ class RedshopHelperTax
                     . ' OR ' . $db->qn('tr.tax_country') . ' IS NULL))'
                 )
                 ->where('tr.tax_group_id = ' . (int)$taxGroup)
+	            ->where($db->qn('tsx.shopper_group_id') . ' = ' . $db->q($userArr['rs_user_shopperGroup']))
                 ->order('tax_rate');
 
             if (Redshop::getConfig()->get('VAT_BASED_ON') == 2) {
@@ -137,4 +137,22 @@ class RedshopHelperTax
 
         return self::$vatRate[$key];
     }
+
+	public static function getTaxRateByShopperGroup($shopperGroupId, $vatCountry)
+	{
+		if (empty($shopperGroupId))
+		{
+			return false;
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('tax_rate')
+			->from($db->qn('#__redshop_tax_rate', 'tr'))
+			->leftJoin($db->qn('#__redshop_tax_shoppergroup_xref', 'tsx') . ' ON ' . $db->qn('tr.id') . ' = ' . $db->qn('tsx.tax_rate_id'))
+			->where($db->qn('tsx.shopper_group_id') . '=' . $db->q($shopperGroupId))
+			->where($db->qn('tr.tax_country') . '=' . $db->q($vatCountry));
+
+		return $db->setQuery($query)->loadResult();
+	}
 }
