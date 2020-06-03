@@ -2468,6 +2468,12 @@ function displayAddtocartProperty(frmCartName, product_id, attribute_id, propert
 
 function showallreviews() {
 	if (document.getElementById("showreviews")) {
+		var elements = document.getElementsByClassName('show_reviews');
+
+		for (var i = 0; i < elements.length; i ++) {
+			elements[i].style.display = 'none';
+		}
+
 		if (document.getElementById("showreviews").style.display == "none") {
 			document.getElementById("showreviews").style.display = "";
 		} else {
