@@ -322,7 +322,8 @@ class Helper
                     $emailBody = \RedshopLayoutHelper::render(
                         'email.order.payment_method_changed',
                         array(
-                            'order' => $orderStatus
+                            'order' => $orderStatus,
+	                        'encrKey' => \RedshopEntityOrder::getInstance($orderId)->getItem()->encr_key
                         )
                     );
 

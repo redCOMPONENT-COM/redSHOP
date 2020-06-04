@@ -28,6 +28,7 @@ $document->addScriptDeclaration(
 $enableAjaxsearch            = trim($params->get('enableAjaxsearch', 0));
 $defaultSearchType           = trim($params->get('defaultSearchType', 'product_name'));
 $searchProductByCategoryName = trim($params->get('searchProductByCategoryName'));
+$searchProductByFieldsData   = trim($params->get('searchProductByFieldsData'));
 $showSearchTypeField         = trim($params->get('showSearchTypeField'));
 $showSearchField             = trim($params->get('showSearchField'));
 $showCategory                = trim($params->get('showCategory'));
@@ -141,23 +142,24 @@ $lists['searchtypedata'] = JHtml::_(
 );
 
 $twigParams = array(
-    'itemid'                 => $itemId,
-    'formAction'             => JRoute::_('index.php?option=com_redshop&view=search&Itemid=' . $itemId),
-    'goodGuy'                => !defined('JEXEC'),
-    'showProductSearchTitle' => $showProductSearchTitle,
-    'showSearchTypeField'    => $showSearchTypeField,
-    'type'                   => $type,
-    'showCategory'           => $showCategory,
-    'showManufacturer'       => $showManufacturer,
-    'showCustomfield'        => $showCustomfield,
-    'showKeywordTitle'       => $showKeywordTitle,
-    'showSearchField'        => $showSearchField,
-    'templateId'             => $templateId,
-    'productPerpage'         => $productPerpage,
-    'excludeCategories'      => $excludeCategories,
-    'searchProductByCatName' => $searchProductByCategoryName,
-    'keyword'                => $keyword,
-    'data'                   => $lists
+	'itemid'                    => $itemId,
+	'formAction'                => JRoute::_('index.php?option=com_redshop&view=search&Itemid='. $itemId),
+	'goodGuy'                   => !defined('JEXEC'),
+	'showProductSearchTitle'    => $showProductSearchTitle,
+	'showSearchTypeField'       => $showSearchTypeField,
+	'type'                      => $type,
+	'showCategory'              => $showCategory,
+	'showManufacturer'          => $showManufacturer,
+	'showCustomfield'           => $showCustomfield,
+	'showKeywordTitle'          => $showKeywordTitle,
+	'showSearchField'           => $showSearchField,
+	'templateId'                => $templateId,
+	'productPerpage'            => $productPerpage,
+	'excludeCategories'         => $excludeCategories,
+	'searchProductByCatName'    => $searchProductByCategoryName,
+	'searchProductByFieldsData' => $searchProductByFieldsData,
+	'keyword'                   => $keyword,
+	'data'                      => $lists
 );
 
 $layout     = $params->get('layout', 'default');
