@@ -2206,11 +2206,14 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 						x: parseInt(redSHOP.RSConfig._('AJAX_DETAIL_BOX_WIDTH')),
 						y: parseInt(redSHOP.RSConfig._('AJAX_DETAIL_BOX_HEIGHT'))
 					},
-					htmldata: responce
+					htmldata: responce,
+					onOpen: function() {
+						jQuery('select[id^=property_id_ajax_prd_]').select2();
+						jQuery(redSHOP).trigger('onDisplayAjaxCartBoxDetail', [params])
+					}
 				};
 				redBOX.initialize({});
 				document.attbox = redBOX.open(null, options);
-
 				// preload slimbox
 				var imagehandle = {isenable: false, mainImage: false};
 				preloadSlimbox(imagehandle);
@@ -2428,6 +2431,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 						},
 						htmldata: responcebox,
 						onOpen: function () {
+							jQuery(redSHOP).trigger('onDisplayAjaxCartBox', [params, product_id])
 							if (redSHOP.RSConfig._('AJAX_CART_DISPLAY_TIME') > 0) {
 								var fn = function () {
 									this.close();
