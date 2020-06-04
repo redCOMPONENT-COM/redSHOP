@@ -1006,6 +1006,24 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
+	public static $buttonShowMap = "//input[@id='showMap_input']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $firstAddress = "(//td[@class = 'radio_point_container'])[1]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $saveAddressOnMap = "//div[@id='pickupLocations']//div[1]//div[@class = 'map-button-save']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
 	public static $nameIframe = "question-iframe";
 
 	/**
