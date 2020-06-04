@@ -340,4 +340,31 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page::$idInstallSuccess);
 	}
+
+	/**
+	 * @param $pluginName
+	 * @param $consumerId
+	 * @param $googleMapAPIKey
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function configShippingPostDanmark($pluginName, $consumerId, $googleMapAPIKey)
+	{
+		$I = $this;
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->searchForItem($pluginName);
+		$pluginManagerPage = new PluginManagerJoomla3Page;
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->checkExistenceOf($pluginName);
+		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
+		$I->waitForElementVisible($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->click($pluginName);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$consumerId, 30);
+		$I->fillField(PluginManagerJoomla3Page::$consumerId, $consumerId);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$mapKey, 30);
+		$I->fillField(PluginManagerJoomla3Page::$mapKey, $googleMapAPIKey);
+		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page::$idInstallSuccess);
+	}
 }
