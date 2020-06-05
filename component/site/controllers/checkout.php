@@ -614,6 +614,15 @@ class RedshopControllerCheckout extends RedshopController
             if (!empty($post['anonymous']['BT'])) {
                 $redShopUser['vatCountry'] = $post['anonymous']['BT']['country_code'];
                 $redShopUser['vatState']   = $post['anonymous']['BT']['state_code'];
+	            $redShopUser['shopperGroupOneStep']   = $post['anonymous']['billing_type'];
+
+	            if ($redShopUser['shopperGroupOneStep'] == 'company') {
+		            $redShopUser['rs_user_shopperGroup'] = 2;
+	            } elseif ($redShopUser['shopperGroupOneStep'] == 'private') {
+		            $redShopUser['rs_user_shopperGroup'] = 1;
+	            } else {
+		            $redShopUser['rs_user_shopperGroup'] = 3;
+	            }
             }
 
             if (Redshop::getConfig()->getInt('VAT_BASED_ON') != 0 && Redshop::getConfig()->getString(
