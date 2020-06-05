@@ -359,6 +359,35 @@ class RedshopViewSearch extends RedshopView
                     }
                 }
 
+                $productUnit = RedshopLayoutHelper::render(
+                    'tags.common.tag',
+                    [
+                        'tag'   => 'span',
+                        'class' => 'product_unit_variable',
+                        'text'  => Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT')
+                    ],
+                    '',
+                    RedshopLayoutHelper::$layoutOption
+                );
+
+                $data_add = str_replace(
+                    '{product_length}',
+                    RedshopHelperProduct::redunitDecimal($this->search[$i]->product_length) . "&nbsp;" . $productUnit,
+                    $data_add
+                );
+
+                $data_add = str_replace(
+                    '{product_width}',
+                    RedshopHelperProduct::redunitDecimal($this->search[$i]->product_width) . "&nbsp;" . $productUnit,
+                    $data_add
+                );
+
+                $data_add = str_replace(
+                    '{product_height}',
+                    RedshopHelperProduct::redunitDecimal($this->search[$i]->product_height) . "&nbsp;" . $productUnit,
+                    $data_add
+                );
+
                 $pro_s_desc = RedshopHelperUtility::maxChars(
                     $pro_s_desc,
                     Redshop::getConfig()->get(

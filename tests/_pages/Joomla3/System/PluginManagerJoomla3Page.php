@@ -246,4 +246,16 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.4
 	 */
 	public static $fieldSharedSecretKey = '#jform_params_sharedSecret';
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $consumerId = '#jform_params_consumerId';
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $mapKey = '#jform_params_mapKey';
 }
