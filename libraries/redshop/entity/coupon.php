@@ -57,8 +57,8 @@ class RedshopEntityCoupon extends RedshopEntity
 
 		$db     = JFactory::getDbo();
 		$query  = $db->getQuery(true)
-			->select($db->qn('*'))
-			->from($db->qn('#__redshop_coupons_transaction'))
+			->select($db->qn('user_id'))
+			->from($db->qn('#__redshop_coupon_user_xref'))
 			->where($db->qn('coupon_id') . ' = ' . $this->getId());
 		$result = $db->setQuery($query)->loadColumn();
 

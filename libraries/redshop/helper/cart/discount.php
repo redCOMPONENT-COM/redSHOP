@@ -59,7 +59,7 @@ class RedshopHelperCartDiscount
      * @return  array|bool           Array of cart or boolean value.
      *
      * @throws  Exception
-     * @since   2.0.7
+     * @since   3.0.2
      *
      */
     public static function applyCoupon($cartData = array(), $couponCode = '')
@@ -91,7 +91,7 @@ class RedshopHelperCartDiscount
             $discountType = $coupon->type;
             $couponId     = $coupon->id;
             $couponType   = $coupon->effect;
-            $couponUser   = $coupon->userid;
+            $couponUser   = $coupon->user_id;
             $userType     = false;
             $return       = true;
             $counter      = 0;
@@ -111,24 +111,11 @@ class RedshopHelperCartDiscount
                     return false;
                 }
 
-                $query = $db->getQuery(true)
-                    ->select('SUM(' . $db->qn('coupon_value') . ') AS usertotal')
-                    ->from($db->qn('#__redshop_coupons_transaction'))
-                    ->where($db->qn('userid') . ' = ' . (int)$user->id)
-                    ->group($db->qn('userid'));
-
-                // Set the query and load the result.
-                $userData = $db->setQuery($query)->loadResult();
-
-                if (!empty($userData)) {
-                    $userType = $couponUser != $userData->userid;
-                } else {
-                    if ($couponUser != $user->id) {
-                        return false;
-                    }
-
-                    $return = false;
+                if ($couponUser != $user->id) {
+                    return false;
                 }
+
+                $return = false;
             }
 
             if (!$userType) {

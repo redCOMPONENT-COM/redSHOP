@@ -77,12 +77,13 @@
             <option value="1">COM_REDSHOP_COUPON_EFFECT_OPTION_USER</option>
         </field>
         <field
-                name="userid"
+                name="coupon_users"
                 type="redshop.coupon_user"
                 label="COM_REDSHOP_COUPON_USER_SPECIFIC"
                 description="COM_REDSHOP_COUPON_USER_SPECIFIC_DESC"
                 showon="effect:1"
                 class="form-control"
+                multiple="true"
                 default=""
                 table-hide="1">
             <option value="">COM_REDSHOP_COUPON_USER_SPECIFIC_SELECT</option>
