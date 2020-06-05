@@ -168,7 +168,6 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
             $business      = $oneMethod->params->get('business', '');
             $isCreditCard  = (boolean)$oneMethod->params->get('is_creditcard', 0);
             $checked       = $this->data['paymentMethodId'] === $oneMethod->name || $totalPaymentMethod <= 1;
-            $checked       = 'checked="' . $checked . '"';
             $logo          = $oneMethod->params->get('logo', '');
             $showImage     = (!empty($logo) && JFile::exists(JPATH_ROOT . '/' . $logo)) ? 1 : 0;
 
