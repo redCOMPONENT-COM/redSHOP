@@ -639,7 +639,7 @@ abstract class AdminJ3Page
 	 * @var   string
 	 * @since 2.1.2
 	 */
-	public static $buttonSelect = "Select";
+	public static $buttonSelect = "//button[@data-target='#menuTypeModal']";
 
 	/**
 	 * @var string
