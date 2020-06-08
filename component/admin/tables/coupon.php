@@ -46,6 +46,10 @@ class RedshopTableCoupon extends RedshopTable
      * @var  integer
      */
     public $effect = 0;
+	/**
+	 * @var  integer
+	 */
+	public $userid;
     /**
      * @var  integer
      */
@@ -150,83 +154,5 @@ class RedshopTableCoupon extends RedshopTable
         }
 
         return true;
-    }
-
-    /**
-     * Method to bind an associative array or object to the JTable instance.This
-     * method only binds properties that are publicly accessible and optionally
-     * takes an array of properties to ignore when binding.
-     *
-     * @param   mixed  $src  An associative array or object to bind to the JTable instance.
-     * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
-     *
-     * @return  boolean  True on success.
-     *
-     * @throws  Exception
-     */
-    protected function doBind(&$src, $ignore = array())
-    {
-        if (isset($src['coupon_users']) && !empty($src['coupon_users'])) {
-            $products = is_string($src['coupon_users']) ? explode(
-                ',',
-                $src['coupon_users']
-            ) : $src['coupon_users'];
-            $this->setOption('users', $products);
-            unset($src['shopper_group']);
-        }
-
-        return parent::doBind($src, $ignore);
-    }
-
-    /**
-     * Do the database store.
-     *
-     * @param   boolean  $updateNulls  True to update null values as well.
-     *
-     * @return  boolean
-     */
-    protected function doStore($updateNulls = false)
-    {
-        if (!parent::doStore($updateNulls)) {
-            return false;
-        }
-
-        if ($this->getOption('skip.updateUsers', false) === true || $this->getOption('inlineMode', false) === true) {
-            return true;
-        }
-
-        return $this->updateUser();
-    }
-
-    /**
-     * Method for update product xref.
-     *
-     * @return  boolean
-     */
-    protected function updateUser()
-    {
-        $db = $this->getDbo();
-
-        // Clear current reference products.
-        $query = $db->getQuery(true)
-            ->delete($db->qn('#__redshop_coupon_user_xref'))
-            ->where($db->qn('coupon_id') . ' = ' . $this->id);
-        $db->setQuery($query)->execute();
-
-        $users = $this->getOption('users', null);
-
-        if (empty(array_filter($users))) {
-            return true;
-        }
-
-        $query->clear()
-            ->insert($db->qn('#__redshop_coupon_user_xref'))
-            ->columns($db->qn(array('coupon_id', 'user_id')));
-
-        foreach ($users as $userId) {
-            $query->values((int)$this->id . ',' . (int)$userId);
-        }
-
-        return $db->setQuery($query)->execute();
     }
 }

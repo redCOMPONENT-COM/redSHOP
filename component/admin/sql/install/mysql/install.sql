@@ -197,6 +197,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_coupons` (
   `start_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `end_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `effect` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '0 - Global, 1 - User Specific',
+  `userid` INT(11) NOT NULL,
   `amount_left` INT(11) NOT NULL,
   `published` TINYINT(4) NOT NULL,
   `subtotal` INT(11) NOT NULL,
@@ -2668,34 +2669,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_tax_shoppergroup_xref` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Tax Rate Shopper Group Relation';
-
--- -----------------------------------------------------
--- Table `#__redshop_coupon_user_xref`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `#__redshop_coupon_user_xref` ;
-
-CREATE TABLE IF NOT EXISTS `#__redshop_coupon_user_xref` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `coupon_id` INT(11) NOT NULL,
-  `uesr_id` INT(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `#__coupon_user_idx2` (`coupon_id` ASC, `uesr_id` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'redSHOP Tax Coupon User Relation';
-
--- -----------------------------------------------------
--- Table `#__redshop_coupon_user_xref`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `#__redshop_coupon_user_xref` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `coupon_id` INT(11) NOT NULL,
-  `uesr_id` INT(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `#__coupon_user_idx2` (`coupon_id` ASC, `uesr_id` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'redSHOP Tax Coupon User Relation';
 
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

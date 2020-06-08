@@ -1,10 +1,5 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
--- ------------------------------------------------------
--- Table `#__redshop_coupons`
--- ------------------------------------------------------
-CALL redSHOP_Index_Remove('#__redshop_coupons', 'userid');
-
 -- -----------------------------------------------------
 -- Table `#__redshop_fields`
 -- -----------------------------------------------------
@@ -22,18 +17,5 @@ CREATE TABLE IF NOT EXISTS `#__redshop_tax_shoppergroup_xref` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Tax Rate Shopper Group Relation';
-
--- -----------------------------------------------------
--- Table `#__redshop_coupon_user_xref`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `#__redshop_coupon_user_xref` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `coupon_id` INT(11) NOT NULL,
-  `uesr_id` INT(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `#__coupon_user_idx2` (`coupon_id` ASC, `uesr_id` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'redSHOP Tax Coupon User Relation';
 
 SET FOREIGN_KEY_CHECKS = 1;

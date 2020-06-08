@@ -60,7 +60,7 @@ class RedshopFormFieldCoupon_User extends JFormFieldList
             $db     = JFactory::getDbo();
 
             $query = $db->getQuery(true)
-                ->select($db->qn(array('user_id', 'user_email')))
+                ->select($db->qn(array('user_id', 'user_email', 'firstname')))
                 ->from($db->qn('#__redshop_users_info'))
                 ->where($db->qn('user_id') . ' IN (' . implode(',', $values) . ')');
 
@@ -73,7 +73,7 @@ class RedshopFormFieldCoupon_User extends JFormFieldList
 
                 $data        = new stdClass;
                 $data->value = $user->user_id;
-                $data->text  = $user->user_email;
+                $data->text  = '('. $user->firstname . ')' . ' ' . $user->user_email;
 
                 $selected[$user->user_id] = $data;
             }
@@ -86,9 +86,7 @@ class RedshopFormFieldCoupon_User extends JFormFieldList
 			array(
 				'select2.ajaxOptions' => array(
 					'typeField' => $typeField
-				),
-				'select2.options'     => array('multiple' => true),
-				'list.attr'           => array('required' => 'required')
+				)
 			)
 		);
 	}

@@ -77,7 +77,7 @@
             <option value="1">COM_REDSHOP_COUPON_EFFECT_OPTION_USER</option>
         </field>
         <field
-                name="coupon_users"
+                name="userid"
                 type="redshop.coupon_user"
                 label="COM_REDSHOP_COUPON_USER_SPECIFIC"
                 description="COM_REDSHOP_COUPON_USER_SPECIFIC_DESC"
