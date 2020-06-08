@@ -228,6 +228,35 @@ if (count($this->search) > 0) {
             Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX')
         );
 
+	    $productUnit = RedshopLayoutHelper::render(
+		    'tags.common.tag',
+		    [
+			    'tag'   => 'span',
+			    'class' => 'product_unit_variable',
+			    'text'  => Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT')
+		    ],
+		    '',
+		    RedshopLayoutHelper::$layoutOption
+	    );
+
+        $data_add = str_replace(
+            '{product_length}',
+            RedshopHelperProduct::redunitDecimal($this->search[$i]->product_length) . "&nbsp;" . $productUnit,
+            $data_add
+        );
+
+        $data_add = str_replace(
+            '{product_width}',
+            RedshopHelperProduct::redunitDecimal($this->search[$i]->product_width) . "&nbsp;" . $productUnit,
+            $data_add
+        );
+
+        $data_add = str_replace(
+            '{product_height}',
+            RedshopHelperProduct::redunitDecimal($this->search[$i]->product_height) . "&nbsp;" . $productUnit,
+            $data_add
+        );
+
         if ($search_type == 'product_number') {
             $product_number = preg_replace(
                 "/($keyword)/i",

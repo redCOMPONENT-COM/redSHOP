@@ -868,6 +868,7 @@ class RedshopModelProduct_Detail extends RedshopModel
         if ($data['task'] == 'save2copy') {
             $data['product_name']   = $this->renameToUniqueValue('product_name', $data['product_name']);
             $data['product_number'] = $this->renameToUniqueValue('product_number', $data['product_number'], 'dash');
+            $data['product_full_image'] = $this->changeCopyImageName($data['old_image']);
         }
 
         $this->handleDateTimeRange($data['discount_stratdate'], $data['discount_enddate']);
@@ -959,13 +960,6 @@ class RedshopModelProduct_Detail extends RedshopModel
             }
 
             $row->product_full_image = '';
-        }
-
-        $mediaFullImage = '';
-
-        if (empty($data['copy_product'])) {
-            // Media: Store product full image
-            $mediaFullImage = $this->storeMedia($row, 'product_full_image');
         }
 
         if (isset($data['back_thumb_image_delete'])) {
@@ -1099,8 +1093,23 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         $dispatcher->trigger('onAfterProductSave', array(&$row, $isNew));
 
+	    $mediaFullImage = '';
+
+//        if (empty($data['copy_product'])) {
+	    if (empty($data['copy_product'])) {
+		    if ($data['task'] !== 'save2copy')
+		    {
+			    // Media: Store product full image
+			    $mediaFullImage = $this->storeMedia($row, 'product_full_image');
+		    }
+		    else
+		    {
+			    $this->storeMediaSave2Copy($data, $row);
+		    }
+	    }
+
         // Upgrade media reference Id if needed
-        if ($isNew && !empty($mediaFullImage) !== false && !$data['copy_product']) {
+        if ($isNew && !empty($mediaFullImage) !== false && (!$data['copy_product'] || $data['task'] === ' save2copy')) {
             /** @var Tablemedia_detail $mediaTable */
             $mediaTable = $this->getTable('media_detail');
 
@@ -1547,6 +1556,75 @@ class RedshopModelProduct_Detail extends RedshopModel
         $tagsHelper->postStoreProcess($row, $jtags);
 
         return $row;
+    }
+
+    public function storeMediaSave2Copy($data, $row)
+    {
+	    $oldProductId = $data['cid']['0'];
+    	$db = JFactory::getDbo();
+
+	    $newProduct_thumb_image        = $this->changeCopyImageName($data['old_thumb_image']);
+	    $newProduct_back_full_image    = $this->changeCopyImageName($data['product_back_full_image']);
+	    $newProduct_back_thumb_image   = $this->changeCopyImageName($data['product_back_thumb_image']);
+	    $newProduct_preview_image      = $this->changeCopyImageName($data['product_preview_image']);
+	    $newProduct_preview_back_image = $this->changeCopyImageName($data['product_preview_back_image']);
+	    $newProduct_full_image         = $data['product_full_image'];
+
+	    $path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/';
+	    copy($path . $data['old_image'], $path . $newProduct_full_image);
+	    copy($path . $data['old_thumb_image'], $path . $newProduct_thumb_image);
+	    copy($path . $data['product_preview_image'], $path . $newProduct_preview_image);
+	    copy($path . $data['product_preview_back_image'], $path . $newProduct_preview_back_image);
+	    copy($path . $data['product_back_full_image'], $path . $newProduct_back_full_image);
+	    copy($path . $data['product_back_thumb_image'], $path . $newProduct_back_thumb_image);
+
+	    $query = $db->getQuery(true)->clear()
+		    ->select('*')
+		    ->from($db->qn('#__redshop_media'))
+		    ->where($db->qn('media_section') . ' = "product"')
+		    ->where($db->qn('section_id') . ' = ' . $db->q($oldProductId))
+		    ->order($db->qn('media_id') . ' ASC ');
+
+	    $mediadata = $db->setQuery($query)->loadObjectList();
+
+	    for ($j = 0, $jn = count($mediadata); $j < $jn; $j++) {
+		    $old_img   = $mediadata[$j]->media_name;
+		    $new_img   = strstr($old_img, '_') ? strstr($old_img, '_') : $old_img;
+		    $old_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediadata[$j]->media_name;
+		    $mediaName = RedshopHelperMedia::cleanFileName($new_img);
+
+		    if (strstr($data['product_full_image']) == $new_img) {
+			    $mediaName = $newProduct_full_image;
+		    }
+
+		    $new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediaName;
+		    copy($old_media, $new_media);
+
+		    $rowmedia                     = $this->getTable('media_detail');
+		    $data['media_id ']            = 0;
+		    $data['media_name']           = $mediaName;
+		    $data['media_alternate_text'] = $mediadata[$j]->media_alternate_text;
+		    $data['media_section']        = $mediadata[$j]->media_section;
+		    $data['section_id']           = $row->product_id;
+		    $data['media_type']           = $mediadata[$j]->media_type;
+		    $data['media_mimetype']       = $mediadata[$j]->media_mimetype;
+		    $data['published']            = $mediadata[$j]->published;
+		    $data['ordering']             = $mediadata[$j]->ordering;
+
+		    if (!$rowmedia->bind($data)) {
+			    /** @scrutinizer ignore-deprecated */
+			    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+
+			    return false;
+		    }
+
+		    if (!$rowmedia->store()) {
+			    /** @scrutinizer ignore-deprecated */
+			    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+
+			    return false;
+		    }
+	    }
     }
 
     /**
