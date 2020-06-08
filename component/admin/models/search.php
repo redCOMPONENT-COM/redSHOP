@@ -217,10 +217,10 @@ class RedshopModelSearch extends RedshopModel
                 ->where('(' . $subQuery . ') = 0');
         } elseif ($jInput->getCmd('alert', '') == 'coupon') {
             $subQuery = $db->getQuery(true)
-                ->select('COUNT(cu.user_id)')
-                ->from($db->qn('#__redshop_coupon_user_xref', 'cu'))
-                ->where('cu.user_id = ui.user_id')
-                ->where('cu.coupon_id = ' . $jInput->getInt('coupon_id', 0));
+                ->select('COUNT(c.userid)')
+                ->from($db->qn('#__redshop_coupons', 'c'))
+                ->where('c.userid = ui.user_id')
+                ->where('c.id = ' . $jInput->getInt('coupon_id', 0));
             $query->select(
                 array(
                     $db->qn('ui.user_id', 'id'),

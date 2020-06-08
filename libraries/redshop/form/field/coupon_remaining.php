@@ -36,18 +36,18 @@ class RedshopFormFieldCoupon_Remaining extends JFormFieldList
      */
     protected function getInput()
     {
-        $couponId = isset($this->element['coupon_id']) ? (int)$this->element['coupon_id'] : false;
+	    $couponId = isset($this->element['coupon_id']) ? (int)$this->element['coupon_id'] : false;
 
-        if ($couponId !== false) {
-            $db    = JFactory::getDbo();
-            $query = $db->getQuery(true)
-                ->select($db->qn('coupon_value'))
-                ->from($db->qn('#__redshop_coupons_transaction'))
-                ->where($db->qn('coupon_id') . ' = ' . $couponId);
+	    if ($couponId !== false) {
+		    $db    = JFactory::getDbo();
+		    $query = $db->getQuery(true)
+			    ->select('SUM(' . $db->qn('coupon_value') .')')
+			    ->from($db->qn('#__redshop_coupons_transaction'))
+			    ->where($db->qn('coupon_id') . ' = ' . $couponId);
 
-            return '<label>' . $db->setQuery($query)->loadResult() . '</label>';
-        }
+		    return '<label>' . $db->setQuery($query)->loadResult() . '</label>';
+	    }
 
-        return '<label></label>';
+	    return '<label></label>';
     }
 }

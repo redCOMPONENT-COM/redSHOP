@@ -214,15 +214,19 @@ class Voucher
             $userQuery = clone($query);
             $userQuery->select(
                 array(
-                    $db->qn('cu.user_id'),
-                    $db->qn('cu.coupon_id')
+                    $db->qn('ct.coupon_value', 'coupon_value'),
+                    $db->qn('ct.userid'),
+                    $db->qn('ct.transaction_coupon_id')
                 )
             )
                 ->leftjoin(
-                    $db->qn('#__redshop_coupon_user_xref', 'cu')
-                    . ' ON ' . $db->qn('cu.coupon_id') . ' = ' . $db->qn('c.id')
+                    $db->qn('#__redshop_coupons_transaction', 'ct')
+                    . ' ON ' . $db->qn('ct.coupon_id') . ' = ' . $db->qn('c.id')
                 )
-                ->where($db->qn('cu.user_id') . ' = ' . (int)$user->id);
+                ->where($db->qn('ct.coupon_value') . ' > 0')
+                ->where($db->qn('ct.coupon_code') . ' = ' . $db->quote($couponCode))
+                ->where($db->qn('ct.userid') . ' = ' . (int)$user->id)
+                ->order($db->qn('ct.transaction_coupon_id') . ' DESC');
 
             $db->setQuery($userQuery, 0, 1);
             $coupon = $db->loadObject();

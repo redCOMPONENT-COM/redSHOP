@@ -62,7 +62,8 @@ class RedshopFormFieldCoupon_User extends JFormFieldList
             $query = $db->getQuery(true)
                 ->select($db->qn(array('user_id', 'user_email', 'firstname')))
                 ->from($db->qn('#__redshop_users_info'))
-                ->where($db->qn('user_id') . ' IN (' . implode(',', $values) . ')');
+                ->where($db->qn('user_id') . ' = ' . $db->q($values[0]))
+                ->where($db->qn('address_type') . ' = ' . $db->q('ST'));
 
             $users = $db->setQuery($query)->loadObjectList();
 
@@ -75,7 +76,7 @@ class RedshopFormFieldCoupon_User extends JFormFieldList
                 $data->value = $user->user_id;
                 $data->text  = '('. $user->firstname . ')' . ' ' . $user->user_email;
 
-                $selected[$user->user_id] = $data;
+                $selected = $data;
             }
         }
 

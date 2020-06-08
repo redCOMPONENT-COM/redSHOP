@@ -46,10 +46,14 @@ class RedshopTableCoupon extends RedshopTable
      * @var  integer
      */
     public $effect = 0;
-	/**
-	 * @var  integer
-	 */
-	public $userid;
+    /**
+     * @var  integer
+     */
+    public $userid;
+    /**
+     * @var  integer
+     */
+    public $sumcoupon;
     /**
      * @var  integer
      */
