@@ -190,6 +190,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
     public function update_discount()
     {
+        $type = '';
         $post = $this->input->post->getArray();
 
         $cid = $this->input->post->get('cid', array(0), 'array');
@@ -209,6 +210,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
     public function special_discount()
     {
+	    $type = '';
         $post = $this->input->post->getArray();
         $cid  = $this->input->post->get('cid', array(0), 'array');
 
