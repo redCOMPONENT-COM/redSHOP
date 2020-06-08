@@ -389,6 +389,10 @@ class RedshopModelSearch extends RedshopModel
                 $columnsCondition[] = 'c.name';
             }
 
+	        if ($input->getString('searchProductByFieldsData') == 'yes') {
+		        $columnsCondition[] = 'fds.data_txt';
+	        }
+
             $query->where($this->getSearchCondition($columnsCondition, $keyword));
 
             if ($manufacture_id == 0) {
@@ -544,12 +548,6 @@ class RedshopModelSearch extends RedshopModel
         $where      = array();
         $db         = JFactory::getDbo();
         $conditions = explode(' ', trim($condition));
-
-        if (!is_array($fields)) {
-            $fields = array($fields, 'fds.data_txt');
-        } else {
-            $fields[] = 'fds.data_txt';
-        }
 
         foreach ((array)$fields as $field) {
             $glueOneField = array();
@@ -990,6 +988,7 @@ class RedshopModelSearch extends RedshopModel
         $keyword                         = $app->input->getString('keyword', '');
         $search_type                     = $app->input->getCmd('search_type', '');
         $search_product_by_category_name = $params->get('searchProductByCategoryName');
+	    $search_product_by_fields_data   = $params->get('searchProductByFieldsData');
         $category_id                     = $app->input->getInt('category_id', 0);
         $manufacture_id                  = $app->input->getInt('manufacture_id', 0);
 
@@ -1047,6 +1046,10 @@ class RedshopModelSearch extends RedshopModel
         if ($search_product_by_category_name == 'yes') {
             $columnsCondition[] = 'c.name';
         }
+
+	    if ($search_product_by_fields_data == 'yes') {
+		    $columnsCondition[] = 'fds.data_txt';
+	    }
 
         $query->where($this->getSearchCondition($columnsCondition, $keyword));
 
