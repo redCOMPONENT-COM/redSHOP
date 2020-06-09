@@ -18310,15 +18310,15 @@ i.tools {
 
 #adminForm .filterTool {
     background-color: #f7f7f7;
-    padding: 10px;
+    padding: 20px;
     border-bottom: 1px solid #e6e5e5;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 #adminForm .filterTool .filterItem {
     display: inline-block;
-    margin-right: 10px;
-    margin-top: 4px;
-    margin-bottom: 4px;
+    margin: 10px 4px 4px;
 }
 
 #adminForm .filterTool .filterItem .btn-wrapper {
@@ -29373,4 +29373,19 @@ body.modal-open {
 .images-rating .item-image-rating {
     width: 150px;
     padding-bottom: 10px;
+}
+/* #adminForm .filterTool .filterItem:nth-child(2){
+    position: relative;
+    top:15px;
+}
+#adminForm .filterTool .filterItem:nth-child(n+5){
+    position: relative;
+    top:15px;
+} */
+input.btn.reset{
+    height: 48px !important;
+}
+.ordersearch #s2id_filter_status,.ordersearch #s2id_filter_user{
+    position: relative;
+    top : 17px;
 }
