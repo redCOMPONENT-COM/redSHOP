@@ -8,6 +8,7 @@
 
 namespace Configuration;
 use AcceptanceTester\AdminManagerJoomla3Steps;
+use AdminJ3Page;
 use ConfigurationPage;
 use OrderManagerPage;
 
@@ -115,7 +116,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(ConfigurationPage::$URL);
 		$I->click(ConfigurationPage::$featureSetting);
 		$I->waitForElement(ConfigurationPage::$comparisonTab, 60);
+		$I->waitForElementVisible(ConfigurationPage::$comparisonYes, 60);
 		$I->click(ConfigurationPage::$comparisonYes);
+		$I->executeJS('window.scrollTo(0,0);');
 		$I->click(ConfigurationPage::$buttonSave);
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
@@ -937,5 +940,64 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(OrderManagerPage::$close, 30);
 		$I->waitForText(OrderManagerPage::$buttonClose, 10, OrderManagerPage::$close);
 		$I->click(OrderManagerPage::$close);
+	}
+
+	/**
+	 * @param $configRating
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function configRating($configRating)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$featureSetting);
+		$I->waitForElement(ConfigurationPage::$ratingTab, 60);
+
+		if (isset($configRating['message']))
+		{
+			$I->waitForElementVisible(ConfigurationPage::$inputRatingMsg, 30);
+			$I->fillField(ConfigurationPage::$inputRatingMsg, $configRating['message']);
+		}
+
+		if (isset($configRating['numberRating']))
+		{
+			$I->waitForElementVisible(ConfigurationPage::$inputFavouredReviews, 30);
+			$I->fillField(ConfigurationPage::$inputFavouredReviews, $configRating['numberRating']);
+		}
+
+		if (isset($configRating['thumbImageWidth']))
+		{
+			$I->waitForElementVisible(ConfigurationPage::$inputThumbWidth, 30);
+			$I->fillField(ConfigurationPage::$inputThumbWidth, $configRating['thumbImageWidth']);
+		}
+
+		$I->scrollTo(ConfigurationPage::$inputThumbWidth);
+
+		if (isset($configRating['thumbImageHeight']))
+		{
+			$I->waitForElementVisible(ConfigurationPage::$inputThumbHeight, 30);
+			$I->fillField(ConfigurationPage::$inputThumbHeight, $configRating['thumbImageWidth']);
+		}
+
+		if (isset($configRating['loginRequired']))
+		{
+			switch ($configRating['loginRequired'])
+			{
+				case 'yes':
+					$I->waitForElementVisible(ConfigurationPage::ratingLoginRequired(1), 30);
+					$I->click(ConfigurationPage::ratingLoginRequired(1));
+					break;
+
+				case 'no':
+					$I->waitForElementVisible(ConfigurationPage::ratingLoginRequired(0), 30);
+					$I->click(ConfigurationPage::ratingLoginRequired(0));
+					break;
+			}
+		}
+
+		$I->waitForText(ConfigurationPage::$buttonSaveClose);
+		$I->click(ConfigurationPage::$buttonSaveClose);
+		$I->waitForText(ConfigurationPage::$messageSaveSuccess, 30, ConfigurationPage::$idInstallSuccess);
 	}
 }

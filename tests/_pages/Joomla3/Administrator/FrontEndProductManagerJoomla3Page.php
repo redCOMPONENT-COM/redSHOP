@@ -559,6 +559,24 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $paymentEWAY = "//div[@id='rs_payment_eway']//label//input";
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $countryCode1 = "#s2id_rs_country_country_code";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $searchCountryInput = "//div[@id='select2-drop']//div[@class='select2-search']//input";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $countryCode2 = "#s2id_rs_country_country_code_ST";
+
+	/**
 	 * @param $name
 	 * @since 2.1.2
 	 * @return string
@@ -971,4 +989,49 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 3.0.2
 	 */
 	public static $productSecond = "(//div[@class='category_box_inside'])[2]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $buttonWriteReview = "//a[contains(text(),'Write review')]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $buttonWriteQuestion = "//a[contains(text(),'Ask Question About Product')]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $buttonShowMap = "//input[@id='showMap_input']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $firstAddress = "(//td[@class = 'radio_point_container'])[1]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $saveAddressOnMap = "//div[@id='pickupLocations']//div[1]//div[@class = 'map-button-save']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $nameIframe = "question-iframe";
+
+	/**
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public function jQueryIframe()
+	{
+		return 'jQuery(".iframe").attr("name", "question-iframe")';
+	}
 }

@@ -870,6 +870,8 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             );
         }
 
+        $this->dispatcher->trigger('onDisplayTabMenu', array(&$tabMenu, $selectedTabPosition));
+
         return $tabMenu;
     }
 }
