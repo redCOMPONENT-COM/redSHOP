@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Redshop\DB\Tool as RedshopDbTool;
 use Redshop\Economic\RedshopEconomic;
 use Redshop\Order\Template;
 
@@ -325,25 +326,8 @@ class RedshopHelperOrder
             $db->setQuery($query);
             $db->execute();
 
-            $query = $db->getQuery(true)
-                ->insert($db->qn('#__redshop_order_status_log'))
-                ->columns(
-                    $db->qn(array('order_status', 'order_payment_status', 'date_changed', 'order_id', 'customer_note'))
-                )
-                ->values(
-                    implode(
-                        ',',
-                        array(
-                            $db->quote($data->order_status_code),
-                            $db->quote($data->order_payment_status_code),
-                            (int)time(),
-                            (int)$orderId,
-                            $db->quote($data->log)
-                        )
-                    )
-                );
-            $db->setQuery($query);
-            $db->execute();
+            // Write order log
+            self::writeOrderLog($orderId, null, $data->order_status_code, $data->order_payment_status_code, $data->log);
 
             // Send status change email only if config is set to Before order mail or Order is not confirmed.
             if (!Redshop::getConfig()->get('ORDER_MAIL_AFTER')
@@ -1654,29 +1638,11 @@ class RedshopHelperOrder
             self::updateOrderPaymentStatus($orderId, $paymentStatus);
         }
 
-        JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
-        $orderLog = JTable::getInstance('order_status_log', 'Table');
-
         if (!$isProduct) {
-            $data['order_id']             = $orderId;
-            $data['order_status']         = $newStatus;
-            $data['order_payment_status'] = $paymentStatus;
-            $data['date_changed']         = time();
-            $data['customer_note']        = $customerNote;
+            // Write Order Log
+            self::writeOrderLog($orderId, null, $newStatus, $paymentStatus, $customerNote);
 
-            if (!$orderLog->bind($data)) {
-                JFactory::getApplication()->enqueueMessage(
-                /** @scrutinizer ignore-deprecated */ $orderLog->getError(),
-                                                      'error'
-                );
-
-                return;
-            }
-
-            if (!$orderLog->store()) {
-                throw new Exception(/** @scrutinizer ignore-deprecated */ $orderLog->getError());
-            }
-
+            // Update customer's note
             self::updateOrderComment($orderId, $customerNote);
 
             $requisitionNumber = $app->input->getString('requisition_number', '');
@@ -1989,14 +1955,7 @@ class RedshopHelperOrder
             $results = $data[0];
 
             if (!empty($data)) {
-                $message = $results->message;
-
-                $orderStatusLog                = JTable::getInstance('order_status_log', 'Table');
-                $orderStatusLog->order_id      = $orderId;
-                $orderStatusLog->order_status  = $orderStatusCode;
-                $orderStatusLog->date_changed  = time();
-                $orderStatusLog->customer_note = $message;
-                $orderStatusLog->store();
+                self::writeOrderLog($orderId, null, $orderStatusCode, '', $results->message);
             }
         }
 
@@ -2018,13 +1977,8 @@ class RedshopHelperOrder
             $results = $data[0];
 
             if (!empty($data)) {
-                $message                       = $results->message;
-                $orderStatusLog                = JTable::getInstance('order_status_log', 'Table');
-                $orderStatusLog->order_id      = $orderId;
-                $orderStatusLog->order_status  = $newStatus;
-                $orderStatusLog->date_changed  = time();
-                $orderStatusLog->customer_note = $message;
-                $orderStatusLog->store();
+                // Write Order Log
+                self::writeOrderLog($orderId, null, $newStatus, 'Unpaid', $results->message);
             }
         }
     }
@@ -2759,22 +2713,8 @@ class RedshopHelperOrder
         $productId     = (isset($post['product_id'])) ? $post['product_id'] : 0;
         $paymentStatus = $post['mass_change_payment_status'];
 
-        JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
-
-        // Add status log...
-        $orderLog                = JTable::getInstance('order_status_log', 'Table');
-        $orderLog->order_id      = $customerNote;
-        $orderLog->customer_note = $customerNote;
-        $orderLog->order_status  = $newStatus;
-        $orderLog->date_changed  = time();
-
-        if (!$orderLog->store()) {
-            return /** @scrutinizer ignore-deprecated */ JError::raiseWarning(
-                '',
-                /** @scrutinizer ignore-deprecated */
-                $orderLog->getError()
-            );
-        }
+        // Write order log
+        self::writeOrderLog($orderId, null, $newStatus, $paymentStatus, $customerNote);
 
         // Changing the status of the order
         self::updateOrderStatus($orderId, $newStatus);
@@ -2869,5 +2809,62 @@ class RedshopHelperOrder
     public static function getOrderPaymentDetail($orderPaymentId = 0)
     {
         return RedshopEntityOrder_Payment::getInstance($orderPaymentId)->getItem();
+    }
+
+    /**
+     * Insert log record to database
+     *
+     * @param   int     $orderId   Payment order id
+     * @param   int     $byUserId  The ID of user who make changes to an order
+     * @param   string  $orderStatusCode
+     * @param   string  $orderPaymentStatus
+     * @param   string  $customerNote
+     *
+     * return void
+     *
+     * @since   3.0.2
+     */
+    public static function writeOrderLog($orderId, $byUserId, $orderStatusCode, $orderPaymentStatus, $customerNote)
+    {
+        $userId = 0;
+
+        if ($byUserId !== null) {
+            $userId = $byUserId;
+        } elseif (JFactory::getApplication()->isClient('administrator')) {
+            $userId = JFactory::getUser()->id;
+        }
+
+        $orderPaymentStatus = !empty($orderPaymentStatus) ? $orderPaymentStatus : 'Unpaid';
+
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true)
+            ->insert($db->qn('#__redshop_order_status_log'))
+            ->columns(
+                $db->qn(
+                    array(
+                        'order_id',
+                        'by_user_id',
+                        'order_status',
+                        'order_payment_status',
+                        'date_changed',
+                        'customer_note'
+                    )
+                )
+            )
+            ->values(
+                implode(
+                    ',',
+                    array(
+                        (int)$orderId,
+                        $userId,
+                        $db->quote($orderStatusCode),
+                        $db->quote($orderPaymentStatus),
+                        time(),
+                        $db->quote($customerNote)
+                    )
+                )
+            );
+
+        RedshopDbTool::safeExecute($db, $query);
     }
 }
