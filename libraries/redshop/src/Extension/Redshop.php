@@ -63,6 +63,11 @@ final class Redshop extends AbstractExtension
 
     public function redshopFunction($className, $method, $args)
     {
+    	if (empty($className))
+	    {
+		    return call_user_func_array("$method", $args);
+	    }
+
         return call_user_func_array("$className::$method", $args);
     }
 
