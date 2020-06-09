@@ -47,10 +47,10 @@ $showbuttons    = JFactory::getApplication()->input->get('showbuttons', ''); ?>
                             'COM_REDSHOP_RESET'
                         ); ?></button>
                 </div>
-                <div class="filterItem">
+                <div class="filterItem ordersearch">
                     <?php echo $this->lists['filter_status']; ?>
                 </div>
-                <div class="filterItem">
+                <div class="filterItem ordersearch">
                     <?php echo $this->lists['filter_user']; ?>
                 </div>
             </div>
