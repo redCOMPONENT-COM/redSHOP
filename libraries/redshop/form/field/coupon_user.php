@@ -36,24 +36,8 @@ class RedshopFormFieldCoupon_User extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-        $couponId = isset($this->element['coupon_id']) ? (int)$this->element['coupon_id'] : false;
         $selected  = array();
         $typeField = ', alert:"coupon"';
-
-        if (isset($couponId) && $couponId !== false) {
-            $users  = RedshopEntityCoupon::getInstance($couponId)->getUsers();
-            $typeField .= ', voucher_id:' . $couponId;
-
-            if (!$users->isEmpty()) {
-                foreach ($users->getAll() as $user) {
-                    $data        = new stdClass;
-                    $data->value = $user->get('user_id');
-                    $data->text  = $user->get('user_email');
-
-                    $selected[$user->get('user_id')] = $data;
-                }
-            }
-        }
 
         if (!empty($this->value)) {
             $values = !$this->multiple || !is_array($this->value) ? array($this->value) : $this->value;
