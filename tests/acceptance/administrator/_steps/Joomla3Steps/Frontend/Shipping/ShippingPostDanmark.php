@@ -59,6 +59,7 @@ class ShippingPostDanmark extends CheckoutMissingData
 		$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 
 		try
