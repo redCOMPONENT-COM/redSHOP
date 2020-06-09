@@ -40,7 +40,7 @@ class RedshopFormFieldCoupon_User extends JFormFieldList
         $selected  = array();
         $typeField = ', alert:"coupon"';
 
-        if ($couponId) {
+        if (isset($couponId) && $couponId !== false) {
             $users  = RedshopEntityCoupon::getInstance($couponId)->getUsers();
             $typeField .= ', voucher_id:' . $couponId;
 
