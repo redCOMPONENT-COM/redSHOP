@@ -557,7 +557,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields` (
   `title` VARCHAR(250) NOT NULL,
   `name` VARCHAR(250) NOT NULL,
   `type` VARCHAR(20) NOT NULL,
-  `desc` LONGTEXT NOT NULL,
+  `description` LONGTEXT NOT NULL,
   `class` VARCHAR(20) NOT NULL,
   `section` VARCHAR(20) NOT NULL,
   `groupId` INT NULL DEFAULT NULL,
