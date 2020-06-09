@@ -488,12 +488,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
 
                         if (strpos($ajaxExtraFieldCenter, "{") === false)
                         {
-                            $countNoUserField = 0;
                         }
-                    }
-                    else
-                    {
-                        $countNoUserField = 0;
                     }
                 }
             }
@@ -658,7 +653,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                     'preSelectedAttrImage'    => $preSelectedAttrImage,
                     'giftcardId'              => $giftCardId,
                     'subscriptionId'          => $subscriptionId ?? '',
-                    'productHiddenUserFields' => $productHiddenUserFields,
+                    'productHiddenUserFields' => $productHiddenUserFields ?? '',
                     'stockStyle'              => $stockStyle,
                     'preOrderImage'           => $preOrderImage,
                     'preOrderStyle'           => $preOrderStyle,
