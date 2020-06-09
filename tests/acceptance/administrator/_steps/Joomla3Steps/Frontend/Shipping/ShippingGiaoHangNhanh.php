@@ -49,6 +49,7 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioShippingRate, 30);
+		$I->wait(0.5);
 		$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
 
 		try
