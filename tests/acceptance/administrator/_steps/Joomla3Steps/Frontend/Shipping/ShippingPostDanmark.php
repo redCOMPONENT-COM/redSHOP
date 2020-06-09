@@ -46,7 +46,9 @@ class ShippingPostDanmark extends CheckoutMissingData
 		$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonShowMap, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonShowMap);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$firstAddress, 30);
+		$I->waitForElementVisible("//input[@id='mapSeachBox']", 30);
+		$I->fillField("//input[@id='mapSeachBox']", $customerInformation['postalCode']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$firstAddress, 60);
 		$I->click(FrontEndProductManagerJoomla3Page::$firstAddress);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$saveAddressOnMap, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$saveAddressOnMap);
