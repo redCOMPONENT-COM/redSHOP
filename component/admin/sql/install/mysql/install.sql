@@ -198,6 +198,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_coupons` (
   `end_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `effect` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '0 - Global, 1 - User Specific',
   `userid` INT(11) NOT NULL,
+  `sumcoupon` INT(11) NOT NULL,
   `amount_left` INT(11) NOT NULL,
   `published` TINYINT(4) NOT NULL,
   `subtotal` INT(11) NOT NULL,
