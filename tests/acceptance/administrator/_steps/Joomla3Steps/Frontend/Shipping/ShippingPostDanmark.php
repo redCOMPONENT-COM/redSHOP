@@ -42,8 +42,6 @@ class ShippingPostDanmark extends CheckoutMissingData
 
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
-		$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioShippingRate, 30);
 		$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonShowMap, 30);
