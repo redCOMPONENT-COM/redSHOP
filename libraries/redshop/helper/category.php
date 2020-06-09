@@ -566,7 +566,7 @@ class RedshopHelperCategory
             }
 
             foreach ($fieldValues as $value) {
-                $subQuery[] = 'FIND_IN_SET("' . $value . '", ' . $db->qn('fd' . $key . '.data_txt') . ')';
+                $subQuery[] = 'FIND_IN_SET("' . urldecode($value) . '", ' . $db->qn('fd' . $key . '.data_txt') . ')';
             }
 
             $query->leftJoin(
