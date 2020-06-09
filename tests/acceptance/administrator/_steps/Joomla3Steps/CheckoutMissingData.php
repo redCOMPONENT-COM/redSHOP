@@ -34,14 +34,23 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 			$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
 		}
 
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idBusinessNumber, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyFirstName, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyLastName, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, $customerInformation['address']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, $customerInformation['postalCode']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, $customerInformation['city']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idEanNumber, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
 	}
 
@@ -55,12 +64,29 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$I = $this;
 		$I->comment('checkout with private');
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
+
+		try
+		{
+			$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
+		}catch (\Exception $e)
+		{
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioPrivate, 30);
+			$I->click(FrontEndProductManagerJoomla3Page::$radioPrivate);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
+			$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
+		}
+
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressFirstName, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressLastName, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $customerInformation['lastName']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressAddress, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, $customerInformation['address']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressPostalCode, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressCity, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressPhone, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
 	}
 
