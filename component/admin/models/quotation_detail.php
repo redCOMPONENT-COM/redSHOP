@@ -803,7 +803,7 @@ class RedshopModelQuotation_detail extends RedshopModel
         $orderId = $row->order_id;
 
         // Write Order Log
-        \RedshopHelperOrder::writeOrderLog($orderId, null, 'P', 'Unpaid', $row->customer_note);
+        \RedshopHelperOrder::writeOrderLog($orderId, 0, 'P', 'Unpaid', $row->customer_note);
 
         foreach ($data['quotation_item'] as $key => $item) {
             $rowItem = $this->getTable('order_item_detail');

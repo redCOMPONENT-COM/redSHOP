@@ -229,7 +229,7 @@ class RedshopModelAddorder_detail extends RedshopModel
         }
 
         // Write Order Log
-        \RedshopHelperOrder::writeOrderLog($row->order_id, null, $row->order_status, $row->order_payment_status, $row->customer_note);
+        \RedshopHelperOrder::writeOrderLog($row->order_id, 0, $row->order_status, $row->order_payment_status, $row->customer_note);
 
         $billingAddresses = RedshopHelperOrder::getBillingAddress($row->user_id);
 

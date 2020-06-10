@@ -327,7 +327,7 @@ class RedshopHelperOrder
             $db->execute();
 
             // Write order log
-            self::writeOrderLog($orderId, null, $data->order_status_code, $data->order_payment_status_code, $data->log);
+            self::writeOrderLog($orderId, 0, $data->order_status_code, $data->order_payment_status_code, $data->log);
 
             // Send status change email only if config is set to Before order mail or Order is not confirmed.
             if (!Redshop::getConfig()->get('ORDER_MAIL_AFTER')
@@ -1640,7 +1640,7 @@ class RedshopHelperOrder
 
         if (!$isProduct) {
             // Write Order Log
-            self::writeOrderLog($orderId, null, $newStatus, $paymentStatus, $customerNote);
+            self::writeOrderLog($orderId, 0, $newStatus, $paymentStatus, $customerNote);
 
             // Update customer's note
             self::updateOrderComment($orderId, $customerNote);
@@ -1955,7 +1955,7 @@ class RedshopHelperOrder
             $results = $data[0];
 
             if (!empty($data)) {
-                self::writeOrderLog($orderId, null, $orderStatusCode, '', $results->message);
+                self::writeOrderLog($orderId, 0, $orderStatusCode, '', $results->message);
             }
         }
 
@@ -1978,7 +1978,7 @@ class RedshopHelperOrder
 
             if (!empty($data)) {
                 // Write Order Log
-                self::writeOrderLog($orderId, null, $newStatus, 'Unpaid', $results->message);
+                self::writeOrderLog($orderId, 0, $newStatus, 'Unpaid', $results->message);
             }
         }
     }
@@ -2714,7 +2714,7 @@ class RedshopHelperOrder
         $paymentStatus = $post['mass_change_payment_status'];
 
         // Write order log
-        self::writeOrderLog($orderId, null, $newStatus, $paymentStatus, $customerNote);
+        self::writeOrderLog($orderId, 0, $newStatus, $paymentStatus, $customerNote);
 
         // Changing the status of the order
         self::updateOrderStatus($orderId, $newStatus);
@@ -2822,17 +2822,17 @@ class RedshopHelperOrder
      *
      * return void
      *
+     * @throws Exception
      * @since   3.0.2
      */
     public static function writeOrderLog($orderId, $byUserId, $orderStatusCode, $orderPaymentStatus, $customerNote)
     {
-        $userId = 0;
-
-        if ($byUserId !== null) {
-            $userId = $byUserId;
-        } elseif (JFactory::getApplication()->isClient('administrator')) {
-            $userId = JFactory::getUser()->id;
+        if (empty($byUserId))
+        {
+            $byUserId = JFactory::getUser()->id;
         }
+
+        $userId = $byUserId ?: 0;
 
         $orderPaymentStatus = !empty($orderPaymentStatus) ? $orderPaymentStatus : 'Unpaid';
 
