@@ -1,11 +1,6 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- -----------------------------------------------------
--- Table `#__redshop_fields`
--- -----------------------------------------------------
-CALL redSHOP_Column_Update('#__redshop_fields', 'desc', 'description', 'VARCHAR(20) NOT NULL');
-
--- -----------------------------------------------------
 -- Table `#__redshop_coupons`
 -- -----------------------------------------------------
 CALL redSHOP_Column_Update('#__redshop_coupons', 'sumcoupon', 'sumcoupon', 'INT(11) NOT NULL');
