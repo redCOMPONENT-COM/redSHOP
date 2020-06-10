@@ -287,58 +287,58 @@ class RedshopHelperOrder
      *
      * @since   2.0.3
      */
-    public static function changeorderstatus($data)
+    public static function changeOrderStatus($data)
     {
-        $db                              = jfactory::getdbo();
-        $orderid                         = $data->order_id;
+        $db                              = JFactory::getDbo();
+        $orderId                         = $data->order_id;
         $data->order_status_code         = trim($data->order_status_code);
         $data->order_payment_status_code = trim($data->order_payment_status_code);
-        $checkupdateorders               = self::checkupdateorders($data);
-        if ($checkupdateorders == 0 && $data->order_status_code != "" && $data->order_payment_status_code != "") {
-            // order status valid and change the status
-            $order = redshopentityorder::getinstance($orderid);
-            if ($order->isvalid()) {
+        $checkUpdateOrders               = self::checkUpdateOrders($data);
+        if ($checkUpdateOrders == 0 && $data->order_status_code != "" && $data->order_payment_status_code != "") {
+            // Order status valid and change the status
+            $order = RedshopEntityOrder::getInstance($orderId);
+            if ($order->isValid()) {
                 $order->set('order_status', $data->order_status_code)
                     ->set('order_payment_status', $data->order_payment_status_code)
                     ->set('mdate', (int)time())
                     ->save();
             }
-            // trigger function on order status change
-            jpluginhelper::importplugin('redshop_order');
-            redshophelperutility::getdispatcher()->trigger(
-                'onafterorderstatusupdate',
+            // Trigger function on Order Status change
+            JPluginHelper::importPlugin('redshop_order');
+            RedshopHelperUtility::getDispatcher()->trigger(
+                'onAfterOrderStatusUpdate',
                 array(
-                    self::getorderdetails($orderid),
+                    self::getOrderDetails($orderId),
                     $data->order_status_code
                 )
             );
-            jpluginhelper::importplugin('redshop_shipping');
-            redshophelperutility::getdispatcher()->trigger(
-                'sendordershipping'
+            JPluginHelper::importPlugin('redshop_shipping');
+            RedshopHelperUtility::getDispatcher()->trigger(
+                'sendOrderShipping'
                 ,
                 array(
-                    $orderid,
+                    $orderId,
                     $data->order_payment_status_code,
                     $data->order_status_code
                 )
             );
-            // generate invoice number
-            if ("c" == $data->order_status_code
-                && "paid" == $data->order_payment_status_code) {
-                self::senddownload($orderid);
-                self::generateinvoicenumber($orderid);
+            // Generate Invoice Number
+            if ("C" == $data->order_status_code
+                && "Paid" == $data->order_payment_status_code) {
+                self::sendDownload($orderId);
+                self::generateInvoiceNumber($orderId);
             }
             if (!isset($data->transfee)) {
                 $data->transfee = null;
             }
-            $query = $db->getquery(true)
+            $query = $db->getQuery(true)
                 ->update($db->qn('#__redshop_order_payment'))
                 ->set($db->qn('order_transfee') . ' = ' . $db->quote($data->transfee))
                 ->set($db->qn('order_payment_trans_id') . ' = ' . $db->quote($data->transaction_id))
-                ->where($db->qn('order_id') . ' = ' . (int)$orderid);
-            $db->setquery($query);
+                ->where($db->qn('order_id') . ' = ' . (int)$orderId);
+            $db->setQuery($query);
             $db->execute();
-            $query = $db->getquery(true)
+            $query = $db->getQuery(true)
                 ->insert($db->qn('#__redshop_order_status_log'))
                 ->columns(
                     $db->qn(array('order_status', 'order_payment_status', 'date_changed', 'order_id', 'customer_note'))
@@ -350,34 +350,34 @@ class RedshopHelperOrder
                             $db->quote($data->order_status_code),
                             $db->quote($data->order_payment_status_code),
                             (int)time(),
-                            (int)$orderid,
+                            (int)$orderId,
                             $db->quote($data->log)
                         )
                     )
                 );
-            $db->setquery($query);
+            $db->setQuery($query);
             $db->execute();
-            // send status change email only if config is set to before order mail or order is not confirmed.
-            if (!redshop::getconfig()->get('order_mail_after')
-                || (redshop::getconfig()->get('order_mail_after') && $data->order_status_code != "c")) {
-                self::changeorderstatusmail($orderid, $data->order_status_code);
+            // Send status change email only if config is set to Before order mail or Order is not confirmed.
+            if (!Redshop::getConfig()->get('ORDER_MAIL_AFTER')
+                || (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $data->order_status_code != "C")) {
+                self::changeOrderStatusMail($orderId, $data->order_status_code);
             }
-            if ($data->order_payment_status_code == "paid") {
-                jmodellegacy::addincludepath(jpath_site . '/components/com_redshop/models');
-                $checkoutmodelcheckout = jmodellegacy::getinstance('checkout', 'redshopmodel');
-                $checkoutmodelcheckout->sendgiftcard($orderid);
-                // send the order mail
-                // send order mail after payment
-                if (redshop::getconfig()->get('order_mail_after') && $data->order_status_code == "c") {
-                    redshop\mail\order::sendmail($orderid);
-                } // send invoice mail only if order mail is set to before payment.
-                elseif (redshop::getconfig()->get('invoice_mail_enable')) {
-                    redshop\mail\invoice::sendmail($orderid);
+            if ($data->order_payment_status_code == "Paid") {
+                JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+                $checkoutModelCheckout = JModelLegacy::getInstance('Checkout', 'RedshopModel');
+                $checkoutModelCheckout->sendGiftCard($orderId);
+                // Send the Order mail
+                // Send Order Mail After Payment
+                if (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $data->order_status_code == "C") {
+                    Redshop\Mail\Order::sendMail($orderId);
+                } // Send Invoice mail only if order mail is set to before payment.
+                elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE')) {
+                    Redshop\Mail\Invoice::sendMail($orderId);
                 }
             }
-            // for webpack postdk label generation
-            self::createwebpacklabel($orderid, $data->order_status_code, $data->order_payment_status_code);
-            self::createbookinvoice($orderid, $data->order_status_code);
+            // For Webpack Postdk Label Generation
+            self::createWebPackLabel($orderId, $data->order_status_code, $data->order_payment_status_code);
+            self::createBookInvoice($orderId, $data->order_status_code);
         }
     }
 
