@@ -227,7 +227,7 @@ class shippingPostDanmarkCest
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->customerInformation['userName'], $this->customerInformation['password'], $this->customerInformation['email'],
 			$this->customerInformation['group'], $this->customerInformation['shopperGroup'], $this->customerInformation['firstName'],
-			$this->customerInformation['lastName'], 'save');
+			$this->customerInformation['lastName'], 'saveclose');
 
 		$I->wantToTest('Check on Front-end');
 		$I = new ShippingPostDanmark($scenario);
