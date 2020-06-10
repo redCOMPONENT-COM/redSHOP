@@ -47,11 +47,12 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
         $verify_status   = $this->params->get('verify_status', '');
         $invalid_status  = $this->params->get('invalid_status', '');
         $order_id        = $request["orderid"];
+	    $orderDetail     = RedshopEntityOrder::getInstance($order_id)->getItem();
         $status          = $request['payment_status'];
         $tid             = $request['txn_id'];
         $pending_reason  = $request['pending_reason'];
         $paymentCurrency = $this->params->get("currency", Redshop::getConfig()->get('CURRENCY_CODE'));
-        $orderTotal      = RedshopHelperCurrency::convert($request['mc_gross'], '', $paymentCurrency);
+	    $orderTotal      = RedshopHelperCurrency::convert($orderDetail->order_total, '', $paymentCurrency);
         $values          = new stdClass;
         $key             = array(
             $order_id,
