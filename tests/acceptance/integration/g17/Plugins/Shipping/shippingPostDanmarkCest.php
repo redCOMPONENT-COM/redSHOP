@@ -223,7 +223,7 @@ class shippingPostDanmarkCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->product['name'], $this->categoryName, $this->product['number'], $this->product['price']);
 
-		$I->wantToTest("Create Product");
+		$I->wantToTest("Create user");
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->customerInformation['userName'], $this->customerInformation['password'], $this->customerInformation['email'],
 			$this->customerInformation['group'], $this->customerInformation['shopperGroup'], $this->customerInformation['firstName'],
