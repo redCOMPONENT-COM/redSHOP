@@ -709,8 +709,8 @@ redSHOP.updateStockStatusMessage = function (stockStatus, commonstockid) {
 	}
 
 	// Out Of Stock enable / disable
-	if (document.getElementById('stockaddtocart' + commonstockid)) {
-		document.getElementById('stockaddtocart' + commonstockid).style.display = showOutOfStock;
+	if (jQuery('[data-id=stockaddtocart'+ commonstockid +']')) {
+		jQuery('[data-id=stockaddtocart'+ commonstockid +']').attr('style', 'display:' + showOutOfStock)
 	}
 
 	// Out Of Stock text handle
