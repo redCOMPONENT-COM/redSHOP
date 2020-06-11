@@ -211,6 +211,17 @@ if (typeof(window['jQuery']) != "undefined") {
                     console.log(i, ":", validator.errorMap[i]);
                 }
             },*/
+
+            focusInvalid: false,
+            invalidHandler: function (form, validator) {
+                if (!validator.numberOfInvalids())
+                    return;
+
+                rs('html, body').animate({
+                    scrollTop: 0
+                }, 200);
+
+            }
         });
 
         // propose username by combining first- and lastname
