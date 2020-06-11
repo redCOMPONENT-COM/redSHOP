@@ -123,7 +123,6 @@ class shippingPostDanmarkCest
 
 		$this->customerInformation = array(
 			"userName"     => $this->faker->userName,
-			"password"     =>$this->faker->bothify('Password ?##?'),
 			"email"        => $this->faker->email,
 			"firstName"    => $this->faker->firstName,
 			"lastName"     => $this->faker->lastName,
@@ -222,12 +221,6 @@ class shippingPostDanmarkCest
 		$I->wantToTest("Create Product");
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->product['name'], $this->categoryName, $this->product['number'], $this->product['price']);
-
-		$I->wantToTest("Create user");
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->addUser($this->customerInformation['userName'], $this->customerInformation['password'], $this->customerInformation['email'],
-			$this->customerInformation['group'], $this->customerInformation['shopperGroup'], $this->customerInformation['firstName'],
-			$this->customerInformation['lastName'], 'saveclose');
 
 		$I->wantToTest('Check on Front-end');
 		$I = new ShippingPostDanmark($scenario);
