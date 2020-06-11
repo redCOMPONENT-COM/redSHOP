@@ -130,7 +130,9 @@ if (version_compare(JVERSION, '3.0', '<')) {
 $controller->execute($task);
 
 // End component DIV here
-echo "</div>";
+if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format) {
+	echo "</div>";
+}
 
 echo JLayoutHelper::render('assets');
 

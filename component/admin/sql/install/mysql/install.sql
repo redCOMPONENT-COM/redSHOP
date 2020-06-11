@@ -1150,6 +1150,7 @@ DROP TABLE IF EXISTS `#__redshop_order_status_log` ;
 CREATE TABLE IF NOT EXISTS `#__redshop_order_status_log` (
   `order_status_log_id` INT(11) NOT NULL AUTO_INCREMENT,
   `order_id` INT(11) NOT NULL,
+  `by_user_id` INT(11) NOT NULL,
   `order_status` VARCHAR(5) NOT NULL,
   `order_payment_status` VARCHAR(25) NOT NULL,
   `date_changed` INT(11) NOT NULL,

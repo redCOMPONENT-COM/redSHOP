@@ -243,7 +243,7 @@ class UserManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $saveButton = "Save";
+	public static $saveButton = "//button[@onclick=\"Joomla.submitbutton('apply');\"]";
 
 	/**
 	 * @var string
