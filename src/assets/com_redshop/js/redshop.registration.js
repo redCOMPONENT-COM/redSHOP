@@ -220,7 +220,6 @@ if (typeof(window['jQuery']) != "undefined") {
                 rs('html').animate({
                     scrollTop: rs(validator.errorList[0].element).offset().top
                 }, 200);
-
             }
         });
 
