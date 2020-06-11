@@ -59,7 +59,7 @@ class RedshopHelperCartDiscount
      * @return  array|bool           Array of cart or boolean value.
      *
      * @throws  Exception
-     * @since   3.0.2
+     * @since   2.0.7
      *
      */
     public static function applyCoupon($cartData = array(), $couponCode = '')
@@ -121,7 +121,7 @@ class RedshopHelperCartDiscount
                 $userData = $db->setQuery($query)->loadResult();
 
                 if (!empty($userData)) {
-                    $userType = $couponUser;
+	                $userType = $couponUser != $userData->userid;
                 } else {
                     if ($couponUser != $user->id) {
                         return false;
@@ -129,7 +129,6 @@ class RedshopHelperCartDiscount
 
                     $return = false;
                 }
-
             }
 
             if (!$userType) {
@@ -191,7 +190,7 @@ class RedshopHelperCartDiscount
 
             $couponRemaining = 0;
 
-            if ($couponValue > $subTotal) {
+            if ($couponValue > $subTotal && $couponIndex === 1) {
                 $couponRemaining = $couponValue - $subTotal;
                 $couponValue     = $subTotal;
             }
