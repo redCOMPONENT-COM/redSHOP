@@ -186,7 +186,7 @@ class Voucher
      * @param   integer  $subtotal    Subtotal
      *
      * @return   array|mixed
-     * @since 2.0.7
+     * @since 3.0
      */
     public static function getCouponData($couponCode, $subtotal = 0)
     {
