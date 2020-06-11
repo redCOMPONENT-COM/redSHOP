@@ -318,8 +318,20 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 		$I->comment('Business');
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$radioCompany);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $addressDetail['email']);
+
+		try
+		{
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
+			$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $addressDetail['email']);
+		}catch (\Exception $e)
+		{
+			$I->reloadPage();
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
+			$I->click(FrontEndProductManagerJoomla3Page::$radioCompany);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
+			$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $addressDetail['email']);
+		}
+
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $addressDetail['companyName']);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idBusinessNumber, 30);
