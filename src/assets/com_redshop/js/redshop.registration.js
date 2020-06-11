@@ -218,7 +218,7 @@ if (typeof(window['jQuery']) != "undefined") {
                     return;
 
                 rs('html, body').animate({
-                    scrollTop: 0
+                    scrollTop: rs(validator.errorList[0].element).offset().top
                 }, 200);
 
             }
