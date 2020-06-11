@@ -1446,9 +1446,13 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                         <?php foreach ($orderStatusLogs as $index => $log): ?>
                             <?php $nextLog = (isset($orderStatusLogs[$index + 1])) ? $orderStatusLogs[$index + 1] : false; ?>
                             <li class="time-label">
-                                <span class="bg-green"><?php echo RedshopHelperDatetime::convertDateFormat(
-                                        $log->date_changed
-                                    ) ?></span>
+                                <span class="bg-green">
+									<?php
+                                    $timezone = new \DateTimeZone(\JFactory::getConfig()->get('offset', 'UTC'));
+                                    $dt = new \DateTime('now', $timezone);
+                                    echo $dt->setTimestamp($log->date_changed)->format('d-m-Y H:i');
+                                    ?>
+								</span>
                             </li>
                             <?php if (!$nextLog): ?>
                                 <li>
@@ -1458,16 +1462,24 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                                 'COM_REDSHOP_ORDER_PLACED'
                                             ) ?></h3>
                                         <div class="timeline-body">
-                                            <p><?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?>: <span
-                                                        class="label order_status_<?php echo strtolower(
-                                                            $log->order_status
-                                                        ) ?>"><?php echo $log->order_status_name ?></span>
+                                            <?php if ($log->by_user_id > 0): ?>
+                                                <p>
+                                                    <?php echo JText::_('JGLOBAL_USERNAME') ?>:
+                                                    <span class="label order_placed_by_username">
+														<?php echo JFactory::getUser($log->by_user_id)->username ?>
+													</span>
+                                                </p>
+                                            <?php endif; ?>
+                                            <p><?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?>:
+                                                <span class="label order_status_<?php echo strtolower($log->order_status) ?>">
+                                                    <?php echo $log->order_status_name ?>
+                                                </span>
                                             </p>
                                             <?php if (empty($log->order_payment_status)): ?>
-                                                <p><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?>: <span
-                                                            class="label order_payment_status_unpaid"><?php echo JText::_(
-                                                            'COM_REDSHOP_PAYMENT_STA_UNPAID'
-                                                        ) ?></span>
+                                                <p><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?>:
+                                                    <span class="label order_payment_status_unpaid">
+                                                        <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID') ?>
+                                                    </span>
                                                 </p>
                                             <?php else: ?>
                                                 <?php $paymentName = JText::_(
@@ -1486,6 +1498,19 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                     </div>
                                 </li>
                             <?php else: ?>
+                                <?php if (!empty($log->by_user_id)): ?>
+                                    <li>
+                                        <i class="fa fa-user bg-navy"></i>
+                                        <div class="timeline-item">
+                                            <div class="timeline-body">
+                                                <?php echo JText::_('JGLOBAL_USERNAME') ?>&nbsp;
+                                                <span class="label order_status_<?php echo strtolower($log->by_user_id) ?>">
+													<?php echo JFactory::getUser($log->by_user_id)->username ?>
+												</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                <?php endif; ?>
                                 <?php if ($log->order_status != $nextLog->order_status): ?>
                                     <li>
                                         <i class="fa fa-book bg-blue"></i>
