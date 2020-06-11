@@ -31,7 +31,6 @@ trait TermsConditions
             $session = \JFactory::getSession();
             $auth    = $session->get('auth');
             $db      = \JFactory::getDbo();
-            $query   = $db->getQuery(true);
 	        $userId = $user->id ?: ($auth['users_info_id'] < 0 ? $auth['users_info_id'] : 0);
 
             $list = \RedshopHelperUser::getUserInformation($userId);
