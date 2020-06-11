@@ -1343,11 +1343,13 @@ class RedshopModelCheckout extends RedshopModel
                 $transaction_coupon_id = 0;
                 $couponType[]          = 'c:' . $coupon['coupon_code'];
 
-                if ($coupon['remaining_coupon_discount_old'] <= 0 || $coupon['remaining_coupon_discount_old'] < $cart['coupon_discount']) {
-                    $sql = "UPDATE " . $this->_table_prefix . "coupons SET amount_left = amount_left - " . (int)$coupon_volume . " "
-                        . "WHERE id = " . (int)$coupon_id;
-                    $db->setQuery($sql)->execute();
-                }
+	            $sql = "UPDATE " . $this->_table_prefix . "coupons SET amount_left = amount_left - " . (int)$coupon_volume . " "
+		            . "WHERE id = " . (int)$coupon_id;
+	            $db->setQuery($sql)->execute();
+
+	            if ($coupon['remaining_coupon_discount'] <= 0) {
+		            continue;
+	            }
 
                 $rowcoupon = $this->getTable('transaction_coupon_detail');
 

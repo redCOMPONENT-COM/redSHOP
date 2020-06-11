@@ -53,10 +53,6 @@ class RedshopTableCoupon extends RedshopTable
     /**
      * @var  integer
      */
-    public $sumcoupon;
-    /**
-     * @var  integer
-     */
     public $amount_left;
     /**
      * @var  integer

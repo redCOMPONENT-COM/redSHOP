@@ -81,11 +81,9 @@ class RedshopHelperCartDiscount
 
         $coupon = \Redshop\Promotion\Voucher::getCouponData($couponCode, $cart['product_subtotal_excl_vat']);
 
-        if (isset($cart['coupon'])) {
-            foreach ($cart['coupon'] as $cartCoupon) {
-                if ($coupon->id == $cartCoupon['coupon_id']) {
-                    return false;
-                }
+        foreach ($cart['coupon'] as $cartCoupon) {
+            if ($coupon->id == $cartCoupon['coupon_id']) {
+                return false;
             }
         }
 
@@ -98,11 +96,9 @@ class RedshopHelperCartDiscount
             $return       = true;
             $counter      = 0;
 
-            if (isset($cart['coupon'])) {
-                foreach ($cart['coupon'] as $key => $val) {
-                    if ($val['coupon_code'] == $couponCode) {
-                        $counter++;
-                    }
+            foreach ($cart['coupon'] as $key => $val) {
+                if ($val['coupon_code'] == $couponCode) {
+                    $counter++;
                 }
             }
 
@@ -167,24 +163,8 @@ class RedshopHelperCartDiscount
                 }
 
                 $couponValue = $avgVAT * $coupon->value;
-
-                if ($userType && $coupon->coupon_value != 0) {
-                    $couponValue = $avgVAT * $coupon->coupon_value;
-
-                    if ($coupon->sumcoupon == 1 && $coupon->coupon_value < $subTotal) {
-                        $couponValue = $avgVAT * ($coupon->coupon_value + $coupon->value);
-                    }
-                }
             } else {
                 $couponValue = ($subTotal * $coupon->value) / (100);
-
-                if ($userType) {
-                    $couponValue = ($subTotal * $coupon->coupon_value) / (100);
-
-                    if ($coupon->sumcoupon == 1 && $coupon->coupon_value < $subTotal) {
-                        $couponValue = ($subTotal * ($coupon->coupon_value + $coupon->value)) / (100);
-                    }
-                }
             }
 
             $key = \Redshop\Helper\Utility::rsMultiArrayKeyExists('coupon', $cart);
@@ -274,7 +254,6 @@ class RedshopHelperCartDiscount
                 $coupons['coupon'][$couponIndex]['coupon_id']                 = $couponId;
                 $coupons['coupon'][$couponIndex]['used_coupon']               = 1;
                 $coupons['coupon'][$couponIndex]['coupon_value']              = $couponValue;
-                $coupons['coupon'][$couponIndex]['remaining_coupon_discount_old'] = $coupon->coupon_value;
                 $coupons['coupon'][$couponIndex]['remaining_coupon_discount'] = $couponRemaining;
                 $coupons['coupon'][$couponIndex]['transaction_coupon_id']     = $transactionCouponId;
 

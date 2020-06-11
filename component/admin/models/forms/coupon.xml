@@ -89,18 +89,6 @@
             <option value="">COM_REDSHOP_COUPON_USER_SPECIFIC_SELECT</option>
         </field>
         <field
-                name="sumcoupon"
-                type="redshop.radio"
-                label="COM_REDSHOP_CONFIG_SUM_COUPON_SPECIFIC"
-                description="COM_REDSHOP_CONFIG_SUM_COUPON_SPECIFIC_DESC"
-                showon="effect:1"
-                label-class="radio-inline"
-                default="0"
-                table-hide="1">
-            <option value="1">JYES</option>
-            <option value="0">JNO</option>
-        </field>
-        <field
                 name="subtotal"
                 type="redshop.text"
                 label="COM_REDSHOP_COUPON_SUBTOTAL"
