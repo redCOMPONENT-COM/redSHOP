@@ -218,14 +218,14 @@ class RedshopModelCategory extends RedshopModel
             $query->where($finderCondition);
         }
 
+        RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query, &$categories, &$endlimit));
+
         // First steep get product ids
         if ($minmax != 0 || $isSlider) {
             $db->setQuery($query);
         } else {
             $db->setQuery($query, $limitstart, $endlimit);
         }
-
-	    RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query, &$categories));
 
 	    $productFilters = JFactory::getApplication()->input->get->get('filterform', array(), 'array');
 
