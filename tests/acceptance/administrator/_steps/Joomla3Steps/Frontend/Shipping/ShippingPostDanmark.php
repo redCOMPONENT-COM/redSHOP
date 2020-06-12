@@ -30,6 +30,7 @@ class ShippingPostDanmark extends CheckoutMissingData
 	{
 		$I = $this;
 		$currencyUnit = $I->getCurrencyValue();
+		$I->doFrontEndLogin($customerInformation['userName'], $customerInformation['password']);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 60);
 		$I->addToCart($categoryName, $product['name']);
@@ -41,16 +42,13 @@ class ShippingPostDanmark extends CheckoutMissingData
 
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioPrivate, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$radioPrivate);
-		$I->fillInformationPrivate($customerInformation);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
-		$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioShippingRate, 30);
 		$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonShowMap, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonShowMap);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$firstAddress, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$inputMap, 30);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$inputMap, $customerInformation['postalCode']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$firstAddress, 60);
 		$I->click(FrontEndProductManagerJoomla3Page::$firstAddress);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$saveAddressOnMap, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$saveAddressOnMap);
@@ -58,6 +56,8 @@ class ShippingPostDanmark extends CheckoutMissingData
 		$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+		$I->wait(0.5);
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 
 		try
@@ -70,6 +70,7 @@ class ShippingPostDanmark extends CheckoutMissingData
 		}
 
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->wait(0.5);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
