@@ -881,7 +881,10 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 			} else {
 				$I->comment('checkout with private');
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioPrivate, 30);
+				$I->wait(2);
+				$I->click(FrontEndProductManagerJoomla3Page::$radioPrivate);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $customerInformation['lastName']);
@@ -889,6 +892,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
+				$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 				$I->waitForText($total, 30, FrontEndProductManagerJoomla3Page::$priceEnd);
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
