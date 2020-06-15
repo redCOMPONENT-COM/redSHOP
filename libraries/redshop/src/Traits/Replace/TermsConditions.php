@@ -31,9 +31,7 @@ trait TermsConditions
             $session = \JFactory::getSession();
             $auth    = $session->get('auth');
 	        $userId = $user->id ?: ($auth['users_info_id'] < 0 ? $auth['users_info_id'] : 0);
-
-            $list = \RedshopHelperUser::getUserInformation($userId);
-
+            $userInfo = \RedshopHelperUser::getUserInformation($userId);
             $termsLeftFinal = "";
 
             if (strpos($templateDesc, "{terms_and_conditions:") !== false && strpos($templateDesc, "}") !== false) {
@@ -48,7 +46,7 @@ trait TermsConditions
 
             if (\Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 0 || (\Redshop::getConfig()->get(
                         'SHOW_TERMS_AND_CONDITIONS'
-                    ) == 1 && ((is_object($list) && $list->accept_terms_conditions == 0) || count((array)$list) == 0))) {
+                    ) == 1 && ((is_object($userInfo) && $userInfo->accept_terms_conditions == 0) || count((array) $userInfo) == 0))) {
                 $finalWidth  = "500";
                 $finalHeight = "450";
 
