@@ -1012,6 +1012,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
+	public static $inputMap = "//input[@id='mapSeachBox']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
 	public static $firstAddress = "(//td[@class = 'radio_point_container'])[1]";
 
 	/**
