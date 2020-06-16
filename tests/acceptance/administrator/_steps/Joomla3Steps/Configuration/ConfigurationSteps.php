@@ -1034,5 +1034,4 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(ConfigurationPage::$buttonSaveClose);
 		$I->waitForText(ConfigurationPage::$messageSaveSuccess, 30, ConfigurationPage::$idInstallSuccess);
 	}
-
 }
