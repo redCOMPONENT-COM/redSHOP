@@ -882,9 +882,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			}else
 			{
 				$I->comment('checkout with private');
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioPrivate, 30);
-				$I->wait(2);
-				$I->click(FrontEndProductManagerJoomla3Page::$radioPrivate);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressEmail, 60);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
