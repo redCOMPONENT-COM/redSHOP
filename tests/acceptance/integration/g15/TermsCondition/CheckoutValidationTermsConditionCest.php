@@ -257,5 +257,13 @@ class CheckoutValidationTermsConditionCest
 		$I->wantToTest('Delete all users');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->customerInformation['firstName']);
+
+		$I->wantToTest('Delete a Product');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->deleteProduct($this->productName);
+
+		$I->wantToTest('Delete Category');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->categoryName);
 	}
 }
