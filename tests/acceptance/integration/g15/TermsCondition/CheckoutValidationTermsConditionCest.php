@@ -149,28 +149,10 @@ class CheckoutValidationTermsConditionCest
 	 * @var array
 	 * @since 3.0.2
 	 */
-	protected $customerInformationSecond;
-
-	/**
-	 * @var array
-	 * @since 3.0.2
-	 */
-	protected $customerBussinesInformation;
-
-	/**
-	 * @var array
-	 * @since 3.0.2
-	 */
-	protected $customerBussinesInformationSecond;
-
-	/**
-	 * @var array
-	 * @since 3.0.2
-	 */
 	protected $cartSetting;
 
 	/**
-	 * OnePageCheckoutCest constructor.
+	 * CheckoutValidationTermsConditionCest constructor.
 	 * @since 3.0.2
 	 */
 	public function __construct()
@@ -188,16 +170,8 @@ class CheckoutValidationTermsConditionCest
 		$this->subtotal            = "DKK 100,00";
 		$this->total               = "DKK 100,00";
 
-		$this->userName     = $this->faker->bothify('OnePageCest ?####?');
-		$this->password     = $this->faker->bothify('Password ?##?');
-		$this->email        = $this->faker->email;
-		$this->shopperGroup = 'Default Private';
-		$this->group        = 'Registered';
-		$this->firstName    = $this->faker->bothify('OnePageCest FN ?#####?');
-		$this->lastName     = 'Last';
-
 		$this->customerInformation = array(
-			"email"      => "test@test" . rand() . ".com",
+			"email"      => $this->faker->email,
 			"firstName"  => $this->faker->bothify('firstNameCustomer ?####?'),
 			"lastName"   => $this->faker->bothify('lastNameCustomer ?####?'),
 			"address"    => "Some Place in the World",
@@ -232,7 +206,7 @@ class CheckoutValidationTermsConditionCest
 	 * @throws Exception
 	 * @since 3.0.2
 	 */
-	public function onePageCheckout(AcceptanceTester $I, $scenario)
+	public function CheckoutValidationTermsConditionCest(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
 
@@ -262,7 +236,6 @@ class CheckoutValidationTermsConditionCest
 		$I->checkOutWithoutAcceptTermsConditions($this->productName, $this->categoryName, $this->randomProductPrice);
 	}
 
-
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
@@ -280,9 +253,6 @@ class CheckoutValidationTermsConditionCest
 		$I->wantTo('Test Order delete by user  in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->deleteOrder($this->customerInformation['firstName']);
-		$I->deleteOrder($this->customerBussinesInformation['firstName']);
-		$I->deleteOrder($this->customerBussinesInformationSecond['firstName']);
-		$I->deleteOrder($this->customerInformationSecond['firstName']);
 
 		$I->wantToTest('Delete all users');
 		$I = new UserManagerJoomla3Steps($scenario);
