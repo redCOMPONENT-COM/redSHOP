@@ -175,7 +175,7 @@ abstract class AdminJ3Page
 	 * @var array
 	 * @since 2.1.2
 	 */
-	public static $checkAllXpath = "//thead//input[@name='checkall-toggle' or @name='toggle']";
+	public static $checkAllXpath = "//input[@name='checkall-toggle' or @name='toggle']";
 
 	/**
 	 * @var string
