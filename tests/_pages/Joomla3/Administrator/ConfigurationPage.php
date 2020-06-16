@@ -811,6 +811,24 @@ class ConfigurationPage extends AdminJ3Page
 	public static $inputThumbHeight = "#rating_thumb_image_height";
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $userSetting = "//a[contains(text(),'User')]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $showTermsAndConditionsOrder = "#show_terms_and_conditions_0-lbl";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $showTermsAndConditionsUser = "#show_terms_and_conditions_1-lbl";
+
+	/**
 	 * @param $option
 	 * @return string
 	 * @since 2.1.3
