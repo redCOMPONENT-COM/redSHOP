@@ -1161,9 +1161,13 @@ function validation(cartTotal, flagOneStep)
 		return false;
 	}
 
-	if (!document.getElementById('termscondition').checked && flagOneStep != 1) {
-		alert(Joomla.JText._('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS'));
-		return false;
+	var element =  document.getElementById('termscondition');
+
+	if (typeof(element) != 'undefined' && element != null) {
+		if (!document.getElementById('termscondition').checked && flagOneStep != 1) {
+			alert(Joomla.JText._('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS'));
+			return false;
+		}
 	}
 
 	return true;
