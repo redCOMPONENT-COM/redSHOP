@@ -1000,4 +1000,38 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(ConfigurationPage::$buttonSaveClose);
 		$I->waitForText(ConfigurationPage::$messageSaveSuccess, 30, ConfigurationPage::$idInstallSuccess);
 	}
+
+	/**
+	 * @param $option
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function configAcceptTermsConditions($option)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$userSetting, 30);
+		$I->click(ConfigurationPage::$userSetting);
+		$I->waitForElement(ConfigurationPage::$ratingTab, 60);
+
+		if (isset($option))
+		{
+			switch ($option)
+			{
+				case 'user':
+					$I->waitForElementVisible(ConfigurationPage::$showTermsAndConditionsUser, 30);
+					$I->click(ConfigurationPage::$showTermsAndConditionsUser);
+					break;
+
+				case 'order':
+					$I->waitForElementVisible(ConfigurationPage::$showTermsAndConditionsOrder, 30);
+					$I->click(ConfigurationPage::$showTermsAndConditionsOrder);
+					break;
+			}
+		}
+
+		$I->waitForText(ConfigurationPage::$buttonSaveClose);
+		$I->click(ConfigurationPage::$buttonSaveClose);
+		$I->waitForText(ConfigurationPage::$messageSaveSuccess, 30, ConfigurationPage::$idInstallSuccess);
+	}
 }
