@@ -644,11 +644,11 @@ function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
 	}
 
 	if (accessoryId != 0) {
-		jQuery('#acc_attribute_data').val(attributeIds.join("##"));
-		jQuery('#acc_property_data').val(allProperties.join("##"));
-		jQuery('#acc_subproperty_data').val(totalSubProperties.join("##"));
-		jQuery('#accessory_price').val(mainprice);
-		jQuery('#accessory_price_withoutvat').val(price_without_vat);
+		jQuery('[data-id=acc_attribute_data]').val(attributeIds.join("##"));
+		jQuery('[data-id=acc_property_data]').val(allProperties.join("##"));
+		jQuery('[data-id=acc_subproperty_data]').val(totalSubProperties.join("##"));
+		jQuery('[data-id=accessory_price]').val(mainprice);
+		jQuery('[data-id=accessory_price_withoutvat]').val(price_without_vat);
 	} else {
 		jQuery('[data-id=attribute_data]').val(attributeIds.join("##"));
 		jQuery('[data-id=property_data]').val(allProperties.join("##"));
