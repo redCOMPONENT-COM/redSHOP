@@ -21,7 +21,7 @@ class RedshopViewOrder_Statuses extends RedshopViewList
     /**
      * @var  boolean
      *
-     * @since  2.0.6
+     * @since  __DEPLOY_VERSION__
      */
     public $hasOrdering = true;
 
