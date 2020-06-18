@@ -1532,7 +1532,8 @@ class RedshopHelperOrder
                 )
             )
             ->from($db->qn('#__redshop_order_status'))
-            ->where($db->qn('published') . ' = ' . $db->q('1'));
+            ->where($db->qn('published') . ' = ' . $db->q('1'))
+            ->order($db->qn('ordering') . ' ASC');
 
         // Set the query and load the result.
         $db->setQuery($query);
