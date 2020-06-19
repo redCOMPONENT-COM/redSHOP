@@ -444,7 +444,23 @@ class RedshopModelProduct_Detail extends RedshopModel
         }
 
         // Remove fields_data relation
-        $query = 'DELETE FROM ' . $this->table_prefix . 'fields_data  WHERE itemid IN ( ' . $productIds . ' ) ';
+        $fieldModel = RedshopModel::getInstance('fields', 'RedshopModel');
+        $section = explode(',', RedshopHelperExtrafields::SECTION_PRODUCT
+                              . ', ' . RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD
+                              . ', ' . RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER);
+        $fields  = $fieldModel->getFieldsBySection($section);
+        $productFields = array();
+
+        if (!empty($field)) {
+            foreach ($fields as $field) {
+                $productFields[] = $field->id;
+            };
+        }
+
+        $query = $this->_db->getQuery(true)
+            ->delete($this->_db->qn('#__fields_data'))
+            ->where($this->_db->qn('itemid') . 'IN ( ' . $productIds . ' )')
+            ->where($this->_db->qn('fieldid') . 'IN ( ' . implode(',', $productFields) . ')');
         $this->_db->setQuery($query);
 
         if (!$this->_db->execute()) {
