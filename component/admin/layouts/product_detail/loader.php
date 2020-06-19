@@ -19,5 +19,5 @@ extract($displayData);
 ?>
 
 <div id='loader'>
-    <img src='<?php echo \JUri::root() ?>/media/com_redshop/images/reload.gif' width='32px' height='32px' />
+    <img src='<?php echo \JUri::root() ?>/media/com_redshop/images/reloading.gif' width='32px' height='32px' />
 </div>

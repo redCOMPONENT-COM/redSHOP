@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" client="site" type="plugin" group="redshop_product" method="upgrade">
+    <name>PLG_REDSHOP_ATTRIBUTE_DEPENDENCIES</name>
+    <version>1.0</version>
+    <redshop>3.0</redshop>
+    <creationDate>May 2020</creationDate>
+    <author>redCOMPONENT.com</author>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>PLG_REDSHOP_ATTRIBUTE_DEPENDENCIES</description>
+    <files>
+        <filename plugin="attribute_dependencies">attribute_dependencies.php</filename>
+        <filename>index.html</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_attribute_dependencies.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_attribute_dependencies.sys.ini</language>
+    </languages>
+    <config addfieldpath="/libraries/redshop/form/fields">
+        <fields name="params">
+            <fieldset name="basic">
+            </fieldset>
+        </fields>
+    </config>
+</extension>

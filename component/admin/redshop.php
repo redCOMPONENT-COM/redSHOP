@@ -22,6 +22,8 @@ $app = \JFactory::getApplication();
 // Load redSHOP Library
 \JLoader::import('redshop.library');
 
+\RedshopHelperJs::init();
+
 $config = \Redshop::getConfig();
 
 // Don't redirect view if current view is "install"

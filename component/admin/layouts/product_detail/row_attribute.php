@@ -40,11 +40,11 @@ extract($displayData);
         <?php echo $a['display_type'] ?>
     </div>
     <div class="td span1" data-content="hide">
-        <?php $color = $a['hide'] == 1 ? 'checked' : 'unchecked'; ?>
+        <?php $color = (isset($a['hide']) && ($a['hide'] == 1)) ? 'checked' : 'unchecked'; ?>
         <span class="icon-checkbox-<?php echo $color ?>"></span>
     </div>
     <div class="td span1">
-        <button class="btn btn-collapse" target-id="attribute_id_<?php echo $a['attribute_id'] ?>" style="background-color: darkred; color: white;">
+        <button class="btn btn-collapse" target-id="attribute_id_<?php echo $a['attribute_id'] ?? '' ?>" style="background-color: darkred; color: white;">
             <?php echo count($a['property']); ?>
         </button>
     </div>

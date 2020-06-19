@@ -23,7 +23,7 @@ extract($displayData);
         <b><?php echo $p->property_id ?: '' ?></b>
     </div>
     <div class="td span1" data-content="property_image">
-        <?php if ($p->property_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $p->property_image)) : ?>
+        <?php if (isset($p->property_image) && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $p->property_image)) : ?>
             <?php
             $thumbUrl = RedshopHelperMedia::getImagePath(
                 $p->property_image,
@@ -61,38 +61,38 @@ extract($displayData);
         <?php endif ?>
     </div>
     <div class="td span1" data-content="setdefault_selected">
-        <?php $checked = $p->setdefault_selected == 1 ? 'checked' : 'unchecked' ?>
+        <?php $checked = (isset($p->setdefault_selected) && ($p->setdefault_selected == 1)) ? 'checked' : 'unchecked' ?>
         <span class="icon-checkbox-<?php echo $checked ?>"></span>
     </div>
     <div class="td span1" data-content="oprand">
         <?php echo $p->oprand ?? "<i>n/a</i>" ?>
     </div>
     <div class="td span1" data-content="property_price">
-        <?php echo $p->property_price ?>
+        <?php echo $p->property_price ?? '' ?>
     </div>
     <div class="td span1" data-content="setrequire_selected">
-        <?php $checked = $p->setrequire_selected == 1 ? 'checked' : 'unchecked' ?>
+        <?php $checked = isset($p->setrequire_selected) && ($p->setrequire_selected == 1) ? 'checked' : 'unchecked' ?>
         <span class="icon-checkbox-<?php echo $checked ?>"></span>
     </div>
     <div class="td span1" data-content="property_published">
-        <?php $checked = $p->property_published == 1 ? 'checked' : 'unchecked' ?>
+        <?php $checked = isset($p->property_published) && $p->property_published == 1 ? 'checked' : 'unchecked' ?>
         <span class="icon-checkbox-<?php echo $checked ?>"></span>
     </div>
     <div class="td span1" data-content="setdisplay_type">
         <?php echo $p->setdisplay_type ?? "<i>n/a</i>" ?>
     </div>
     <div class="td span1" data-content="hide">
-        <?php $checked = $p->hide == 1 ? 'checked' : 'unchecked' ?>
+        <?php $checked = isset($p->hide) && $p->hide == 1 ? 'checked' : 'unchecked' ?>
         <span class="icon-checkbox-<?php echo $checked ?>"></span>
     </div>
     <div class="td span1">
         <button class="btn btn-collapse" target-id="property_id_<?php echo $p->property_id ?>" style="background-color: darkgreen; color: white;">
-            <?php echo count($p->subvalue); ?>
+            <?php echo isset($p->subvalue) && is_array($p->subvalue)? count($p->subvalue): 0; ?>
         </button>
     </div>
     <div class="td span2">
         <div class="btn-edit-inrow">
-            <span class="icon-expand btn-collapse zoom" target-id="property_id_<?php echo $p->property_id ?>"></span>
+            <span class="icon-expand btn-collapse zoom" target-id="property_id_<?php echo $p->property_id ?? '' ?>"></span>
             <span class="icon-edit btn-functionality zoom"></span>
             <span class="icon-minus btn-functionality zoom"></span>
         </div>

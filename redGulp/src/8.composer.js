@@ -45,7 +45,7 @@ gulp.task('scripts:components.redshop', function (cb) {
         .pipe(gulp.dest(mediaPath + '/js'))
         .pipe(uglify())
         .on('error', function (err) {
-            log(color.styles.red('[Error]'), err.toString());
+            log(color.red('[Error]'), err.toString());
         })
         .pipe(rename(function (path) {
             path.basename += '.min';

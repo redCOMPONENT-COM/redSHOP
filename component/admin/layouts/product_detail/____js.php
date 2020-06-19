@@ -55,19 +55,19 @@ extract($displayData);
             e.preventDefault();
             let dataAjax;
             let target;
-            let confirmResult = confirm('<?php echo \JText::_('COM_REDSHOP_CONFIRM_DELETE'); ?>');
+            let confirmResult = confirm(Joomla.JText._('COM_REDSHOP_CONFIRM_DELETE'));``
 
             if ((confirmResult == true) && (jQuery(this).attr('class') == 'icon-minus btn-functionality zoom')) {
                 target = jQuery(this).parent().parent().parent();
                 dataAjax = {
-                    "<?php echo JSession::getFormToken() ?>": 1,
+                    "": 1,
                     type: target.attr('type'),
                     id: target.attr('data-id')
                 };
 
                 jQuery.ajax({
                     method: 'POST',
-                    url: '<?php echo JUri::root() ?>administrator/index.php?option=com_ajax&plugin=DeleteElement&group=redshop_product&format=raw',
+                    url: redSHOP.RSConfig._('SITE_URL') + 'administrator/index.php?option=com_ajax&plugin=DeleteElement&group=redshop_product&format=raw',
                     data: dataAjax,
                     beforeSend: function() {
                         jQuery('#loader').show();
@@ -97,7 +97,7 @@ extract($displayData);
             jQuery('body').find('#new_property').find('.rs-media-cropper-btn').parent().remove();
 
             if (targetType == 'attribute') {
-                jQuery(target).find('small').html('[ <?php echo \JText::_('COM_REDSHOP_NEW') ?> ]');
+                jQuery(target).find('small').html('[ ' + Joomla.JText._('COM_REDSHOP_NEW') + ' ]');
                 jQuery(target).find('input[name=attribute_id]').val(0);
                 jQuery(target).find('input[name=attribute_name]').val('');
                 jQuery(target).find('textarea[name=attribute_description]').val('');
@@ -116,7 +116,7 @@ extract($displayData);
             } else if (targetType == 'property') {
                 jQuery(target).find('input[name=attribute_id]').val(jQuery(this).attr('attribute-id'));
                 jQuery(target).find('input[name=property_id]').val(0);
-                jQuery(target).find('small').html('[ <?php echo \JText::_('COM_REDSHOP_NEW') ?> ]');
+                jQuery(target).find('small').html('[ ' + Joomla.JText._('COM_REDSHOP_NEW') + ' ]');
                 jQuery(target).find('input[name=property_name]').val('');
                 jQuery(target).find('input[name=property_number]').val('');
                 jQuery(target).find('textarea[name=extra_field]').val('');
@@ -134,7 +134,7 @@ extract($displayData);
                 jQuery(target).find('label[id=hide_0-lbl]').click();
 
                 dz = jQuery(target).find('div[data-content=propduct-image-lbl]');
-                dz.html('<?php echo \JText::_("COM_REDSHOP_IMAGE") ?>');
+                dz.html(Joomla.JText._('COM_REDSHOP_IMAGE'));
                 jQuery(target).find('.rs-media-cropper-btn').parent().remove();
                 jQuery(target).find('.rs-media-remove-btn').click();
 
@@ -143,7 +143,7 @@ extract($displayData);
                 setDependencySelector(ele, attributeData);
 
             } else if (targetType == 'subproperty') {
-                jQuery(target).find('small').html('[ <?php echo \JText::_('COM_REDSHOP_NEW') ?> ]');
+                jQuery(target).find('small').html('[ ' + Joomla.JText._('COM_REDSHOP_NEW') + ' ]');
                 jQuery(target).find('input[name=subattribute_color_id]').val(0);
 
                 property_id = jQuery(this).attr('property-id');
@@ -158,7 +158,7 @@ extract($displayData);
                 jQuery(target).find('input[name=subattribute_color_title]').val('');
 
                 dz = jQuery(target).find('div[data-content=subproperty-image-lbl]');
-                dz.html('<?php echo \JText::_("COM_REDSHOP_IMAGE") ?>');
+                dz.html(Joomla.JText._('COM_REDSHOP_IMAGE'));
                 jQuery(target).find('.rs-media-cropper-btn').parent().remove();
                 jQuery(target).find('.rs-media-remove-btn').click();
 
@@ -260,6 +260,10 @@ extract($displayData);
 
     });
 
+    const getProductId = () => {
+        return jQuery('body').find('div#divAttribute').attr('product-id');
+    }
+
     const updateCommonData = (t, res) => {
         if (res.queryType == 'insert') {
             let divAttribte = getAllElements();
@@ -323,7 +327,12 @@ extract($displayData);
 
         }
     }
+
     const loadExistDependency = (target, dependency) => {
+        if (dependency == undefined) {
+            return;
+        }
+
         let data = decodeDependency(atob(dependency));
 
         if ((data != null) && (data != undefined)) {
@@ -423,7 +432,7 @@ extract($displayData);
 
         let aKeys = Object.keys(data);
         let aValues = Object.values(data);
-        let aHtml = '<option value=""><?php echo \JText::_('COM_REDSHOP_SELECT'); ?></option>';
+        let aHtml = '<option value="">' + Joomla.JText._('COM_REDSHOP_SELECT') + '</option>';
         let aSelectedId;
         let nextTarget = '';
 
@@ -507,7 +516,7 @@ extract($displayData);
 
         switch (t) {
             case 'subproperty':
-                jQuery(target).find('small').html('[ ' + sourceData.subattribute_color_id + '- <?php echo \JText::_('COM_REDSHOP_EDIT') ?> ]');
+                jQuery(target).find('small').html('[ ' + sourceData.subattribute_color_id + '- ' + Joomla.JText._('COM_REDSHOP_EDIT') + ' ]');
                 jQuery(target).find('input[name=subattribute_id]').val(sourceData.subattribute_id);
                 jQuery(target).find('input[name=subattribute_color_id]').val(sourceData.subattribute_color_id);
                 jQuery(target).find('input[name=subattribute_color_name]').val(sourceData.subattribute_color_name);
@@ -531,9 +540,9 @@ extract($displayData);
                 jQuery(target).find('label[id=subattribute_published_' + sourceData.subattribute_published + '-lbl]').click();
                 jQuery(target).find('label[id=subattribute_color_hide_' + sourceData.hide + '-lbl]').click();
 
-                imgSrc = '<?php echo REDSHOP_FRONT_IMAGES_ABSPATH ?>subcolor/' + sourceData.subattribute_color_image;
+                imgSrc = redSHOP.RSConfig._('REDSHOP_FRONT_IMAGES_ABSPATH') + 'subcolor/' + sourceData.subattribute_color_image;
                 dz = jQuery(target).find('div[data-content=subproperty-image-lbl]');
-                dz.html('<?php echo \JText::_("COM_REDSHOP_IMAGE") ?><div style="padding: 10px"><img src="' + imgSrc + '" style="width: 100px" /></div>');
+                dz.html(Joomla.JText._('COM_REDSHOP_IMAGE') + '<div style="padding: 10px"><img src="' + imgSrc + '" style="width: 100px" /></div>');
                 jQuery(target).find('.rs-media-cropper-btn').parent().remove();
                 jQuery(target).find('.rs-media-remove-btn').click();
 
@@ -545,7 +554,7 @@ extract($displayData);
             case 'property':
                 jQuery(target).find('input[name=attribute_id]').val(sourceData.attribute_id);
                 jQuery(target).find('input[name=property_id]').val(sourceData.property_id);
-                jQuery(target).find('small').html('[ ' + sourceData.property_id + '- <?php echo \JText::_('COM_REDSHOP_EDIT') ?> ]');
+                jQuery(target).find('small').html('[ ' + sourceData.property_id + '- ' + Joomla.JText._('COM_REDSHOP_EDIT') + ' ]');
                 jQuery(target).find('input[name=property_name]').val(sourceData.property_name);
                 jQuery(target).find('input[name=property_number]').val(sourceData.property_number);
                 jQuery(target).find('textarea[name=extra_field]').val(sourceData.extra_field);
@@ -563,9 +572,9 @@ extract($displayData);
                 jQuery(target).find('label[id=property_published' + sourceData.property_published + '-lbl]').click();
                 jQuery(target).find('label[id=property_hide_' + sourceData.hide + '-lbl]').click();
 
-                imgSrc = '<?php echo REDSHOP_FRONT_IMAGES_ABSPATH ?>product_attributes/' + sourceData.property_image;
+                imgSrc = redSHOP.RSConfig._('REDSHOP_FRONT_IMAGES_ABSPATH') + 'product_attributes/' + sourceData.property_image;
                 dz = jQuery(target).find('div[data-content=propduct-image-lbl]');
-                dz.html('<?php echo \JText::_("COM_REDSHOP_IMAGE") ?><div style="padding: 10px"><img src="' + imgSrc + '" style="width: 100px" /></div>');
+                dz.html(Joomla.JText._('COM_REDSHOP_IMAGE') + '<div style="padding: 10px"><img src="' + imgSrc + '" style="width: 100px" /></div>');
                 jQuery(target).find('.rs-media-cropper-btn').parent().remove();
                 jQuery(target).find('.rs-media-remove-btn').click();
 
@@ -577,7 +586,7 @@ extract($displayData);
                 break;
             case 'attribute':
             default:
-                jQuery(target).find('small').html('[ ' + sourceData.attribute_id + '- <?php echo \JText::_('COM_REDSHOP_EDIT') ?> ]');
+                jQuery(target).find('small').html('[ ' + sourceData.attribute_id + '- ' + Joomla.JText._('COM_REDSHOP_EDIT') + ' ]');
                 jQuery(target).find('input[name=attribute_id]').val(sourceData.attribute_id);
                 jQuery(target).find('input[name=attribute_name]').val(sourceData.attribute_name);
                 jQuery(target).find('textarea[name=attribute_description]').val(sourceData.attribute_description);
@@ -607,7 +616,7 @@ extract($displayData);
 
         dataAjax = {
             encodeValues: encodeValues,
-            productId: '<?php echo $productId ?? null ?>',
+            productId: getProductId(),
             type: t,
             "<?php echo JSession::getFormToken() ?>": 1
         };
@@ -627,7 +636,7 @@ extract($displayData);
 
             if (res.result == true) {
                 mess.show()
-                    .html('<i class="fa fa-check-circle"></i> <?php echo \JText::_('COM_REDSHOP_SAVE_SUCCESSFUL') ?>');
+                    .html('<i class="fa fa-check-circle"></i> ' + Joomla.JText._('COM_REDSHOP_SAVE_SUCCESSFUL'));
 
                 element = prepareElementForUpdateList(t, res);
 
@@ -636,7 +645,7 @@ extract($displayData);
                 updateCommonData(t, res);
             } else {
                 mess.show()
-                    .html('<i class="fa fa-check-circle"></i> <?php echo \JText::_('COM_REDSHOP_SAVE_FAIL') ?>');
+                    .html('<i class="fa fa-check-circle"></i> ' + Joomla.JText._('COM_REDSHOP_SAVE_FAIL') + '');
             }
 
             jQuery('#loader').hide();
@@ -1063,7 +1072,7 @@ extract($displayData);
                 if (res.subattribute_color_image != undefined) {
                     element.find('div[data-content=subattribute_color_image]')
                         .find('img').show()
-                        .attr('src', '<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' ?>' + res.subattribute_color_image);
+                        .attr('src', redSHOP.RSConfig._('REDSHOP_FRONT_IMAGES_ABSPATH') + 'subcolor/' + res.subattribute_color_image);
                 }
 
                 let attribute_id = element.find('span.icon-edit').attr('attribute-id');
@@ -1088,7 +1097,7 @@ extract($displayData);
                 element.css('background-color', '#ffcd9e');
 
                 target = jQuery('#new_' + t);
-                imgSrc = '<?php echo REDSHOP_FRONT_IMAGES_ABSPATH ?>subcolor/' + res.subattribute_color_image;
+                imgSrc = redSHOP.RSConfig._('REDSHOP_FRONT_IMAGES_ABSPATH') + 'subcolor/' + res.subattribute_color_image;
                 jQuery(target).find('.rs-media-cropper-btn').parent().remove();
                 jQuery(target).find('.rs-media-remove-btn').click();
                 jQuery(target).find('div[data-content=propduct-image-lbl]').find('img').attr('src', imgSrc);
@@ -1096,7 +1105,7 @@ extract($displayData);
                 mediaBox = element.find('a.joom-box').first();
                 priceBox = element.find('a.joom-box').last();
                 mediaBox.attr('href', '<?php echo \JUri::root() ?>administrator/index.php?tmpl=component&option=com_redshop&view=media&section_id=' + res.subattribute_color_id + '&showbuttons=1&media_section=subproperty');
-                priceBox.attr('href', '<?php echo \JUri::root() ?>administrator/index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' + res.subattribute_color_id + '&cid=<?php echo $productId ?>&section=subproperty');
+                priceBox.attr('href', '<?php echo \JUri::root() ?>administrator/index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' + res.subattribute_color_id + '&cid=' + getProductId() + '&section=subproperty');
                 mediaBox.click(function(e) {
                     e.preventDefault();
                     SqueezeBox.assign(this, {
@@ -1123,13 +1132,13 @@ extract($displayData);
                 if (res.property_image != undefined) {
                     element.find('div[data-content=property_image]')
                         .find('img').show()
-                        .attr('src', '<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product_attributes/' ?>' + res.property_image);
+                        .attr('src', redSHOP.RSConfig._('REDSHOP_FRONT_IMAGES_ABSPATH') + 'product_attributes/' + res.property_image);
                 }
 
                 element.attr('data-id', res.property_id);
                 element.find('div[data-content=property_id]').html('<b>' + res.property_id + '</b>');
                 element.find('div[data-content=property_name]').html(res.property_name);
-                element.find('div[data-content=property_number]').html("<?php echo \JText::_('COM_REDSHOP_PROPERTY_NUMBER') ?>:" + res.property_number);
+                element.find('div[data-content=property_number]').html(Joomla.JText._('COM_REDSHOP_PROPERTY_NUMBER') + ':' + res.property_number);
 
                 element.find('div[data-content=setdisplay_type]').html(res.setdisplay_type);
                 element.find('div[data-content=oprand]').html(res.oprand);
@@ -1144,7 +1153,7 @@ extract($displayData);
                 element.css('background-color', '#ffcd9e');
 
                 target = jQuery('#new_' + t);
-                imgSrc = '<?php echo REDSHOP_FRONT_IMAGES_ABSPATH ?>product_attributes/' + res.property_image;
+                imgSrc = redSHOP.RSConfig._('REDSHOP_FRONT_IMAGES_ABSPATH') + 'product_attributes/' + res.property_image;
                 jQuery(target).find('.rs-media-cropper-btn').parent().remove();
                 jQuery(target).find('.rs-media-remove-btn').click();
                 jQuery(target).find('div[data-content=propduct-image-lbl]').find('img').attr('src', imgSrc);
@@ -1152,7 +1161,7 @@ extract($displayData);
                 mediaBox = element.find('a.joom-box').first();
                 priceBox = element.find('a.joom-box').last();
                 mediaBox.attr('href', '<?php echo \JUri::root() ?>administrator/index.php?tmpl=component&option=com_redshop&view=media&section_id=' + res.property_id + '&showbuttons=1&media_section=property');
-                priceBox.attr('href', '<?php echo \JUri::root() ?>administrator/index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' + res.property_id + '&cid=<?php echo $productId ?>&section=property');
+                priceBox.attr('href', '<?php echo \JUri::root() ?>administrator/index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' + res.property_id + '&cid=' + getProductId() + '&section=property');
                 mediaBox.click(function(e) {
                     e.preventDefault();
                     SqueezeBox.assign(this, {

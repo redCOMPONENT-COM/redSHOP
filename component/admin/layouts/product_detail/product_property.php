@@ -14,25 +14,25 @@ JHtml::_('behavior.framework', true);
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-if (count($displayData['divAttribute']) > 0) {
+if (isset($displayData['divAttribute']) && count($displayData['divAttribute']) > 0) {
     $d = &$displayData['divAttribute'];
 }
 
 extract($displayData);
 
-if (count($d) > 0) {
+if (isset($d) && count($d) > 0) {
     $divAttribute = &$d;
 }
 
 ?>
 
-<?php echo RedshopLayoutHelper::render('product_detail.row_property', ['a' => $a, 'p' => $p, 'pr' => $pr]); ?>
+<?php echo RedshopLayoutHelper::render('product_detail.row_property', ['a' => ($a ?? null), 'p' => ($p ?? null), 'pr' => ($pr ?? null)]); ?>
 
 <!-- Sub-property Bar -->
-<?php echo RedshopLayoutHelper::render('product_detail.bar_subproperty', ['a' => $a, 'p' =>  $p, 'dataId' => 'new-subproperty-bar']) ?>
+<?php echo RedshopLayoutHelper::render('product_detail.bar_subproperty', ['a' => ($a ?? null), 'p' =>  ($p ?? null), 'dataId' => 'new-subproperty-bar']) ?>
 
 <!-- Sub Properties -->
-<div class="div_subproperties" style="display:none;" child-of="property_id_<?php echo $p->property_id ?>">
+<div class="div_subproperties" style="display:none;" child-of="property_id_<?php echo $p->property_id ?? '' ?>">
     <?php $subProperties = $p->subvalue; ?>
     <?php $spr = true; ?>
 

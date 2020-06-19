@@ -21,7 +21,7 @@ extract($displayData);
     <div class="td span1" style="color: darkgreen" data-content="subattribute_color_id"><i><?php echo $sp->subattribute_color_id ?></i></div>
     <div class="td span1" data-content="subattribute_color_image">
         <?php
-        if ($sp->subattribute_color_image != '' && JFile::exists(
+        if (isset($sp->subattribute_color_image) && $sp->subattribute_color_image != '' && JFile::exists(
             REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $sp->subattribute_color_image
         )) {
             $thumbUrl = RedshopHelperMedia::getImagePath(
@@ -68,25 +68,25 @@ extract($displayData);
         <?php endif; ?>
     </div>
     <div class="td span2" data-content="subattribute_color_name">
-        <?php echo $sp->subattribute_color_name ?>
-        <?php if ($sp->subattribute_color_number) : ?>
+        <?php echo $sp->subattribute_color_name ?? '' ?>
+        <?php if (isset($sp->subattribute_color_number) && $sp->subattribute_color_number != '') : ?>
             <div style="font-weight: lighter; text-decoration: darkgreen;">
                 <?php echo \JText::_('COM_REDSHOP_PROPERTY_NUMBER') ?>:<?php echo $sp->subattribute_color_number ?>
             </div>
         <?php endif ?>
     </div>
     <div class="td span1" data-content="oprand"><?php echo $sp->oprand ?? "<i>n/a</i>" ?></div>
-    <div class="td span1" data-content="subattribute_color_price"><?php echo $sp->subattribute_color_price ?></div>
+    <div class="td span1" data-content="subattribute_color_price"><?php echo $sp->subattribute_color_price ?? '' ?></div>
     <div class="td span1" data-content="setdefault_selected">
-        <?php $checked = $sp->setdefault_selected == 1 ? 'checked' : 'unchecked' ?>
+        <?php $checked = isset($sp->setdefault_selected) && $sp->setdefault_selected == 1 ? 'checked' : 'unchecked' ?>
         <span class="icon-checkbox-<?php echo $checked ?>"></span>
     </div>
     <div class="td span1" data-content="subattribute_published">
-        <?php $checked = $sp->subattribute_published == 1 ? 'checked' : 'unchecked' ?>
+        <?php $checked = isset($sp->subattribute_published) && $sp->subattribute_published == 1 ? 'checked' : 'unchecked' ?>
         <span class="icon-checkbox-<?php echo $checked ?>"></span>
     </div>
     <div class="td span1" data-content="hide">
-        <?php $checked = $sp->hide == 1 ? 'checked' : 'unchecked' ?>
+        <?php $checked = isset($sp->hide) && $sp->hide == 1 ? 'checked' : 'unchecked' ?>
         <span class="icon-checkbox-<?php echo $checked ?>"></span>
     </div>
     <div class="td span2">

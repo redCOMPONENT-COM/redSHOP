@@ -33,9 +33,6 @@ if (isset($data->lists['attributes'])) {
 $divAttribute = [];
 
 ?>
-<!-- CSS -->
-<?php echo RedshopLayoutHelper::render('product_detail.css', []) ?>
-
 <!-- Modal area -->
 <?php echo RedshopLayoutHelper::render('product_detail.modal', ['productId' => $productId]) ?>
 <!-- END modal area -->
@@ -49,13 +46,14 @@ $divAttribute = [];
 
     <!-- List out attributes -->
     <?php $rowLevel = true; ?>
+    <?php if (count($attributes) > 0): ?>
     <?php foreach ($attributes as $a) : ?>
         <?php $divAttribute[$a['attribute_id']] = ['name' => $a['attribute_name']]; ?>
         <?php $rowLevel = !$rowLevel; ?>
 
         <?php echo RedshopLayoutHelper::render('product_detail.row_attribute', ['rowLevel' => $rowLevel, 'a' => $a, 'productId' => $productId]) ?>
         <!-- Property Sample Bar -->
-        <?php echo RedshopLayoutHelper::render('product_detail.bar_property', ['a' => $a, 'p' =>  $p, 'dataId' => 'new-property-bar']) ?>
+        <?php echo RedshopLayoutHelper::render('product_detail.bar_property', ['a' => $a, 'p' =>  ($p ?? null), 'dataId' => 'new-property-bar']) ?>
 
         <?php echo RedshopLayoutHelper::render('product_detail.product_property', []) ?>
 
@@ -77,13 +75,11 @@ $divAttribute = [];
             <?php endforeach ?>
         </div>
     <?php endforeach ?>
+    <?php endif ?>
 </div>
 
 <!-- init Data for JS -->
-<?php echo RedshopLayoutHelper::render('product_detail.init_data', ['divAttribute' => $divAttribute]) ?>
+<?php echo RedshopLayoutHelper::render('product_detail.init_data', ['divAttribute' => $divAttribute, 'productId' => $productId]) ?>
 
 <!-- loader for waiting AJAX complete -->
 <?php echo RedshopLayoutHelper::render('product_detail.loader', []) ?>
-
-<!-- Load JS -->
-<?php echo RedshopLayoutHelper::render('product_detail.js', []) ?>
