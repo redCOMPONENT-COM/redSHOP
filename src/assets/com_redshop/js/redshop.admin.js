@@ -14565,7 +14565,7 @@ function _init($) {
                 })
             }
         }(), c.ninja = function() {
-            return B.was ? A.win.Raphael = B.is : delete Raphael, c
+            return B.was ? A.win.Raphael = B.is : Raphael = null, c
         }, c.st = nc, b.on("raphael.DOMload", function() {
             u = !0
         }),

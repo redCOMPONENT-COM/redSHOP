@@ -419,7 +419,7 @@ const setDependencySelector = (ele, data) => {
 
     ele.select2('destroy');
 
-    for (i = 0; i < aKeys.length; i++) {
+    for (let i = 0; i < aKeys.length; i++) {
         if (aValues[i].name != undefined) {
             aHtml += '<option value="' + aKeys[i] + '">' + aValues[i].name + '</option>';
         }
@@ -1197,7 +1197,7 @@ const changeStickState = (o, e, v) => {
     } else {
         o.find('div[data-content=' + e + ']').first().find('span').attr('class', 'icon-checkbox-unchecked');
     }
-};
+}
 
 /**
  * Help for JSON.stringify return map objects
@@ -1214,4 +1214,4 @@ const getCircularReplacer = () => {
         }
         return value;
     };
-};
+}
