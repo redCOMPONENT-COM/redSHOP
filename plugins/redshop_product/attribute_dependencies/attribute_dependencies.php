@@ -402,6 +402,7 @@ class plgRedshop_productAttribute_dependencies extends JPlugin
 
     /**
      * @throws Exception
+     * @since 1.0
      */
     public function onAjaxGetLayoutAttribute()
     {
@@ -417,6 +418,7 @@ class plgRedshop_productAttribute_dependencies extends JPlugin
 
     /**
      * @throws Exception
+     * @since 1.0
      */
     public function onAjaxSaveElement()
     {
@@ -441,6 +443,12 @@ class plgRedshop_productAttribute_dependencies extends JPlugin
         }
     }
 
+    /**
+     * @param $post
+     * @param $decode
+     * @throws Exception
+     * @since 1.0
+     */
     public function saveSubProperty($post, $decode)
     {
         $aid = 0;
@@ -592,7 +600,12 @@ class plgRedshop_productAttribute_dependencies extends JPlugin
     {
         $aid = 0;
         $attribute = new stdClass();
-        $attribute->product_id = $post['productId'];
+        if (isset($post['view']) && $post['view'] == 'attribute_set_detail') {
+            $attribute->attribute_set_id = $post['productId'];
+        } else {
+            $attribute->product_id = $post['productId'];
+        }
+
         $dependencies = [];
 
         for ($i = 0; $i < $decode['length']; $i++) {

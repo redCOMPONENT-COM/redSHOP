@@ -24,6 +24,8 @@ if (isset($data->detail->product_id)) {
     $productId = \JFactory::getApplication()->input->get('cid')[0];
 }
 
+$view = \JFactory::getApplication()->input->get('view');
+
 $attributes = [];
 
 if (isset($data->lists['attributes'])) {
@@ -71,7 +73,7 @@ $divAttribute = [];
             <?php foreach ($properties as $p) : ?>
                 <?php $divAttribute[$a['attribute_id']][$p->property_id] = ['name' => $p->property_name]; ?>
                 <?php $pr = !$pr; ?>
-                <?php echo RedshopLayoutHelper::render('product_detail.product_property', ['a' => $a, 'p' => $p, 'pr' => $pr, 'divAttribute' => &$divAttribute]) ?>
+                <?php echo RedshopLayoutHelper::render('product_detail.product_property', ['a' => $a, 'p' => $p, 'pr' => $pr, 'divAttribute' => &$divAttribute, 'productId' => $productId]) ?>
             <?php endforeach ?>
         </div>
     <?php endforeach ?>
@@ -79,7 +81,7 @@ $divAttribute = [];
 </div>
 
 <!-- init Data for JS -->
-<?php echo RedshopLayoutHelper::render('product_detail.init_data', ['divAttribute' => $divAttribute, 'productId' => $productId]) ?>
+<?php echo RedshopLayoutHelper::render('product_detail.init_data', ['divAttribute' => $divAttribute, 'productId' => $productId, 'view' => $view]) ?>
 
 <!-- loader for waiting AJAX complete -->
 <?php echo RedshopLayoutHelper::render('product_detail.loader', []) ?>

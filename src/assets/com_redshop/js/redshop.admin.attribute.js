@@ -71,6 +71,7 @@ jQuery(document).ready(function() {
         let property_id;
         let attribute_id;
         let ele;
+        let dz;
 
         jQuery(target).show();
         jQuery(target + " #modal").modal('show');
@@ -245,6 +246,10 @@ const getProductId = () => {
     return jQuery('body').find('div#divAttribute').attr('product-id');
 }
 
+const getView = () => {
+    return jQuery('body').find('div#divAttribute').attr('view');
+}
+
 const updateCommonData = (t, res) => {
     if (res.queryType == 'insert') {
         let divAttribte = getAllElements();
@@ -275,11 +280,10 @@ const updateCommonData = (t, res) => {
 }
 
 const calculateRemainingChild = (target, operand) => {
-
-    parent = jQuery(target).parent().attr('child-of');
+    let parent = jQuery(target).parent().attr('child-of');
     parent = jQuery('#' + parent);
-    btn = parent.find('button.btn-collapse');
-    no = btn.html();
+    let btn = parent.find('button.btn-collapse');
+    let no = btn.html();
 
     switch (operand) {
         case '-':
@@ -598,6 +602,7 @@ const ajaxSaveElement = (t) => {
     dataAjax = {
         encodeValues: encodeValues,
         productId: getProductId(),
+        view: getView(),
         type: t
     };
 
@@ -696,6 +701,7 @@ const prepareElementForUpdateList = (type, res) => {
     let e1;
     let divProperties;
     let divSubProperties;
+    let divSample;
     let cols;
 
     switch (type) {
@@ -1044,6 +1050,8 @@ const createSampleColumns = (papa, t, res) => {
 const assignRowAttributeData = (element, t, rpData, res) => {
     let target;
     let imgSrc;
+    let mediaBox;
+    let priceBox;
 
     element.attr('data', rpData);
     element.attr('dependency', res.dependency);

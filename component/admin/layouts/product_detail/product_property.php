@@ -26,7 +26,7 @@ if (isset($d) && count($d) > 0) {
 
 ?>
 
-<?php echo RedshopLayoutHelper::render('product_detail.row_property', ['a' => ($a ?? null), 'p' => ($p ?? null), 'pr' => ($pr ?? null)]); ?>
+<?php echo RedshopLayoutHelper::render('product_detail.row_property', ['a' => ($a ?? null), 'p' => ($p ?? null), 'pr' => ($pr ?? null), 'productId' => ($productId ?? null)]); ?>
 
 <!-- Sub-property Bar -->
 <?php echo RedshopLayoutHelper::render('product_detail.bar_subproperty', ['a' => ($a ?? null), 'p' =>  ($p ?? null), 'dataId' => 'new-subproperty-bar']) ?>

@@ -16552,7 +16552,7 @@ function _init($) {
     });
 })(jQuery);
 
-checkSubmit = function (pressbutton, viewForm) {
+function checkSubmit (pressbutton, viewForm){
     var form = document.adminForm;
 
     if (pressbutton) {

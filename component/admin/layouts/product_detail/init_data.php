@@ -18,4 +18,8 @@ extract($displayData);
 
 ?>
 
-<div id="divAttribute" data='<?php echo base64_encode(json_encode($divAttribute)) ?>' product-id="<?php echo $productId ?>" style="display: none;"></div>
+<div id="divAttribute"
+     data='<?php echo base64_encode(json_encode($divAttribute)) ?>'
+     product-id="<?php echo $productId ?>"
+     view="<?php echo $view ?>"
+     style="display: none;"></div>

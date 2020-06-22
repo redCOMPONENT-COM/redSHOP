@@ -33,7 +33,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
         $this->_table_prefix = '#__redshop_';
         $array               = JFactory::getApplication()->input->get('cid', 0, 'array');
-        $this->setId((int)$array[0]);
+        $input = 0;
+
+        if (is_array($array))
+        {
+            $input = (int) $array[0];
+        }
+
+        $this->setId($input);
     }
 
     public function setId($id)
