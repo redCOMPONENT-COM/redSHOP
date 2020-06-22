@@ -17,14 +17,17 @@ JHtml::_('formbehavior.chosen', 'select');
 $data = $displayData['this'];
 
 $productId = 0;
+$attributeSetId = 0;
+$view = \JFactory::getApplication()->input->get('view');
+
 
 if (isset($data->detail->product_id)) {
     $productId = $data->detail->product_id;
-} else {
+} elseif ($view == 'attribute_set_detail') {
+    $attributeSetId = \JFactory::getApplication()->input->get('cid')[0];
+} elseif ($view == 'product_detail') {
     $productId = \JFactory::getApplication()->input->get('cid')[0];
 }
-
-$view = \JFactory::getApplication()->input->get('view');
 
 $attributes = [];
 
@@ -81,7 +84,7 @@ $divAttribute = [];
 </div>
 
 <!-- init Data for JS -->
-<?php echo RedshopLayoutHelper::render('product_detail.init_data', ['divAttribute' => $divAttribute, 'productId' => $productId, 'view' => $view]) ?>
+<?php echo RedshopLayoutHelper::render('product_detail.init_data', ['divAttribute' => $divAttribute, 'productId' => $productId, 'view' => $view, 'attributeSetId' => $attributeSetId]) ?>
 
 <!-- loader for waiting AJAX complete -->
 <?php echo RedshopLayoutHelper::render('product_detail.loader', []) ?>

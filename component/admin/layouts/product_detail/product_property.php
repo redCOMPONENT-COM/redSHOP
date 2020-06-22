@@ -38,13 +38,15 @@ if (isset($d) && count($d) > 0) {
 
     <?php echo RedshopLayoutHelper::render('product_detail.bar_subproperty',  [
         'a' => $a,
-        'p' => $p
+        'p' => $p,
+        'productId' => $productId
     ]) ?>
 
     <!-- subproperty sample -->
     <?php echo RedshopLayoutHelper::render('product_detail.product_subproperty', [
         'a' => $a,
-        'p' => $p
+        'p' => $p,
+        'productId' => $productId
     ]) ?>
     <!-- end subproperty sample -->
 
@@ -59,7 +61,8 @@ if (isset($d) && count($d) > 0) {
             'a' => $a,
             'p' => $p,
             'sp' => $sp,
-            'spr' => $spr
+            'spr' => $spr,
+            'productId' => $productId
         ]) ?>
     <?php endforeach; ?>
 </div>

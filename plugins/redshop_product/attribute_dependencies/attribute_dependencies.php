@@ -600,11 +600,8 @@ class plgRedshop_productAttribute_dependencies extends JPlugin
     {
         $aid = 0;
         $attribute = new stdClass();
-        if (isset($post['view']) && $post['view'] == 'attribute_set_detail') {
-            $attribute->attribute_set_id = $post['productId'];
-        } else {
-            $attribute->product_id = $post['productId'];
-        }
+        $attribute->product_id = (int) $post['productId'];
+        $attribute->attribute_set_id = (int) $post['attributeSetId'];
 
         $dependencies = [];
 

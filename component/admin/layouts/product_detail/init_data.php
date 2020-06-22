@@ -22,4 +22,5 @@ extract($displayData);
      data='<?php echo base64_encode(json_encode($divAttribute)) ?>'
      product-id="<?php echo $productId ?>"
      view="<?php echo $view ?>"
+     attribute-set-id="<?php echo $attributeSetId ?>"
      style="display: none;"></div>

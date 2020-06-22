@@ -250,6 +250,10 @@ const getView = () => {
     return jQuery('body').find('div#divAttribute').attr('view');
 }
 
+const getAttributeSetId = () => {
+    return jQuery('body').find('div#divAttribute').attr('attribute-set-id');
+}
+
 const updateCommonData = (t, res) => {
     if (res.queryType == 'insert') {
         let divAttribte = getAllElements();
@@ -598,11 +602,11 @@ const ajaxSaveElement = (t) => {
 
     inputValues = getMapInputs('#new_' + t);
     encodeValues = JSON.stringify(inputValues, getCircularReplacer());
-    let token = redSHOP.RSConfig._('AJAX_TOKEN');
     dataAjax = {
         encodeValues: encodeValues,
         productId: getProductId(),
         view: getView(),
+        attributeSetId: getAttributeSetId(),
         type: t
     };
 
