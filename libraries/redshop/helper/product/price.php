@@ -140,11 +140,11 @@ class RedshopHelperProductPrice
                     . '%</span>';
             }
 
-            if ($productPrices['product_price_novat'] != "") {
+            if ($productPrices['product_price_novat'] !== "") {
                 $displayPriceNoVAT = '<span id="display_product_price_no_vat' . $productId . '">' . $priceNoVAT . '</span>';
             }
 
-            if ($productPrices['product_price_incl_vat'] != "") {
+            if ($productPrices['product_price_incl_vat'] !== "") {
                 $displayPriceWithVAT = '<span id="product_price_incl_vat' . $productId . '">' . $priceWithVAT . '</span>';
             }
         }
