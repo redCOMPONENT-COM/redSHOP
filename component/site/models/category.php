@@ -218,7 +218,7 @@ class RedshopModelCategory extends RedshopModel
             $query->where($finderCondition);
         }
 
-        RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query, &$categories));
+        RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query, &$categories, &$endlimit));
 
         // First steep get product ids
         if ($minmax != 0 || $isSlider) {

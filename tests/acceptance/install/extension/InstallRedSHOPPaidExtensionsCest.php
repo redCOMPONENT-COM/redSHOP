@@ -343,9 +343,6 @@ class InstallRedSHOPPaidExtensionsCest
 				'package'  => 'plg_redshop_product_gift.zip',
 			),
 			array(
-				'package'  => 'plg_redshop_product_gls.zip',
-			),
-			array(
 				'package'  => 'plg_redshop_product_google_microdata.zip',
 			),
 			array(

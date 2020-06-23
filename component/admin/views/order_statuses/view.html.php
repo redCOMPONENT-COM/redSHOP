@@ -19,6 +19,13 @@ defined('_JEXEC') or die;
 class RedshopViewOrder_Statuses extends RedshopViewList
 {
     /**
+     * @var  boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public $hasOrdering = true;
+
+    /**
      * Method for get page title.
      *
      * @return  string

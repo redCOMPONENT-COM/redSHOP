@@ -121,7 +121,7 @@ class RedshopHelperCartDiscount
                 $userData = $db->setQuery($query)->loadResult();
 
                 if (!empty($userData)) {
-                    $userType = $couponUser != $userData->userid;
+	                $userType = $couponUser != $userData->userid;
                 } else {
                     if ($couponUser != $user->id) {
                         return false;
