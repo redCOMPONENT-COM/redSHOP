@@ -431,7 +431,7 @@ class RedshopControllerOrder_Detail extends RedshopController
                     </form>
                     <?php
                 } else {
-	                $link = 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $orderId . '&encr='. $encr .'&Itemid=' . $itemId;
+	                $link = JRoute::_('index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $orderId . '&encr='. $encr .'&Itemid=' . $itemId);
                     $this->setRedirect($link);
                 }
             }
