@@ -1510,10 +1510,16 @@ class RedshopHelperOrder
      *
      * @return  array  Order Status info
      */
-    public static function getOrderStatusList()
+    public static function getOrderStatusList($ordering = 'ASC')
     {
         if (!empty(self::$allStatus)) {
             return self::$allStatus;
+        }
+
+        $ordering = strtoupper($ordering);
+
+        if (!in_array($ordering,['ASC', 'DESC'])) {
+            $ordering = 'ASC';
         }
 
         // Initialiase variables.
@@ -1526,7 +1532,8 @@ class RedshopHelperOrder
                 )
             )
             ->from($db->qn('#__redshop_order_status'))
-            ->where($db->qn('published') . ' = ' . $db->q('1'));
+            ->where($db->qn('published') . ' = ' . $db->q('1'))
+            ->order($db->qn('ordering') . ' ' . $ordering);
 
         // Set the query and load the result.
         $db->setQuery($query);
