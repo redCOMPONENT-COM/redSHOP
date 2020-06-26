@@ -290,23 +290,39 @@ class RedshopHelperOrder
      */
     public static function changeOrderStatus($data)
     {
-        $db      = JFactory::getDbo();
-        $orderId = $data->order_id;
-
+        $db                              = JFactory::getDbo();
+        $orderId                         = $data->order_id;
         $data->order_status_code         = trim($data->order_status_code);
         $data->order_payment_status_code = trim($data->order_payment_status_code);
         $checkUpdateOrders               = self::checkUpdateOrders($data);
-
         if ($checkUpdateOrders == 0 && $data->order_status_code != "" && $data->order_payment_status_code != "") {
             // Order status valid and change the status
-            $query = $db->getQuery(true)
-                ->update($db->qn('#__redshop_orders'))
-                ->set($db->qn('order_status') . ' = ' . $db->quote($data->order_status_code))
-                ->set($db->qn('order_payment_status') . ' = ' . $db->quote($data->order_payment_status_code))
-                ->where($db->qn('order_id') . ' = ' . (int)$orderId);
-            $db->setQuery($query);
-            $db->execute();
-
+            $order = RedshopEntityOrder::getInstance($orderId);
+            if ($order->isValid()) {
+                $order->set('order_status', $data->order_status_code)
+                    ->set('order_payment_status', $data->order_payment_status_code)
+                    ->set('mdate', (int)time())
+                    ->save();
+            }
+            // Trigger function on Order Status change
+            JPluginHelper::importPlugin('redshop_order');
+            RedshopHelperUtility::getDispatcher()->trigger(
+                'onAfterOrderStatusUpdate',
+                array(
+                    self::getOrderDetails($orderId),
+                    $data->order_status_code
+                )
+            );
+            JPluginHelper::importPlugin('redshop_shipping');
+            RedshopHelperUtility::getDispatcher()->trigger(
+                'sendOrderShipping'
+                ,
+                array(
+                    $orderId,
+                    $data->order_payment_status_code,
+                    $data->order_status_code
+                )
+            );
             // Generate Invoice Number
             if ("C" == $data->order_status_code
                 && "Paid" == $data->order_payment_status_code) {
@@ -350,28 +366,6 @@ class RedshopHelperOrder
                     Redshop\Mail\Invoice::sendMail($orderId);
                 }
             }
-
-            // Trigger function on Order Status change
-            JPluginHelper::importPlugin('redshop_order');
-            RedshopHelperUtility::getDispatcher()->trigger(
-                'onAfterOrderStatusUpdate',
-                array(
-                    self::getOrderDetails($orderId),
-                    $data->order_status_code
-                )
-            );
-
-            JPluginHelper::importPlugin('redshop_shipping');
-            RedshopHelperUtility::getDispatcher()->trigger(
-                'sendOrderShipping'
-                ,
-                array(
-                    $orderId,
-                    $data->order_payment_status_code,
-                    $data->order_status_code
-                )
-            );
-
             // For Webpack Postdk Label Generation
             self::createWebPackLabel($orderId, $data->order_status_code, $data->order_payment_status_code);
             self::createBookInvoice($orderId, $data->order_status_code);
