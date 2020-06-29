@@ -1128,6 +1128,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_order_status` (
   `order_status_code` VARCHAR(64) NOT NULL,
   `order_status_name` VARCHAR(64) NULL DEFAULT NULL,
   `published` TINYINT(4) NOT NULL DEFAULT 0,
+  `ordering` INT(11) NOT NULL DEFAULT 0,
   `checked_out` INT(11) NULL DEFAULT NULL,
   `checked_out_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` INT(11) NULL DEFAULT NULL,
@@ -1150,6 +1151,7 @@ DROP TABLE IF EXISTS `#__redshop_order_status_log` ;
 CREATE TABLE IF NOT EXISTS `#__redshop_order_status_log` (
   `order_status_log_id` INT(11) NOT NULL AUTO_INCREMENT,
   `order_id` INT(11) NOT NULL,
+  `by_user_id` INT(11) NOT NULL,
   `order_status` VARCHAR(5) NOT NULL,
   `order_payment_status` VARCHAR(25) NOT NULL,
   `date_changed` INT(11) NOT NULL,

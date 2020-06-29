@@ -169,7 +169,7 @@
             <option value="0">JNO</option>
         </field>
         <field
-                name="description"
+                name="desc"
                 type="textarea"
                 label="COM_REDSHOP_DESCRIPTION"
                 description="COM_REDSHOP_DESCRIPTION_DESC"
