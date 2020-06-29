@@ -150,8 +150,13 @@ class RedshopHelperAccessory
 		        )
 		        ->from($db->qn('#__redshop_product_accessory', 'a'))
 		        ->leftJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = a.child_product_id')
-		        ->where($db->qn('p.published') . ' = 1')
-	            ->where($db->qn('p.expired') . ' = 0');
+		        ->where($db->qn('p.published') . ' = 1');
+
+	            if (\Redshop::getConfig()->getInt('SHOW_DISCONTINUED_PRODUCTS')) {
+		            $query->where($db->qn('p.expired') . ' IN (0, 1)');
+	            } else {
+		            $query->where($db->qn('p.expired') . ' IN (0)');
+	            }
 
             static::$accessories[$key] = $db->setQuery($query)->loadObjectList();
         }
