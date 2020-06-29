@@ -84,6 +84,7 @@ $twigParams['cartHtml'] = RedshopLayoutHelper::render(
     )
 );
 
+$twigParams['cart']          = $cart;
 $twigParams['itemId']        = $itemId;
 $twigParams['count']         = $totalQuantity;
 $twigParams['showEmptyBtn']  = $showEmptyBtn;
