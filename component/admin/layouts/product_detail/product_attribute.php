@@ -51,35 +51,35 @@ $divAttribute = [];
 
     <!-- List out attributes -->
     <?php $rowLevel = true; ?>
-    <?php if (count($attributes) > 0): ?>
-    <?php foreach ($attributes as $a) : ?>
-        <?php $divAttribute[$a['attribute_id']] = ['name' => $a['attribute_name']]; ?>
-        <?php $rowLevel = !$rowLevel; ?>
+    <?php if (count($attributes) > 0) : ?>
+        <?php foreach ($attributes as $a) : ?>
+            <?php $divAttribute[$a['attribute_id']] = ['name' => $a['attribute_name']]; ?>
+            <?php $rowLevel = !$rowLevel; ?>
 
-        <?php echo RedshopLayoutHelper::render('product_detail.row_attribute', ['rowLevel' => $rowLevel, 'a' => $a, 'productId' => $productId]) ?>
-        <!-- Property Sample Bar -->
-        <?php echo RedshopLayoutHelper::render('product_detail.bar_property', ['a' => $a, 'p' =>  ($p ?? null), 'dataId' => 'new-property-bar']) ?>
+            <?php echo RedshopLayoutHelper::render('product_detail.row_attribute', ['rowLevel' => $rowLevel, 'a' => $a, 'productId' => $productId]) ?>
+            <!-- Property Sample Bar -->
+            <?php echo RedshopLayoutHelper::render('product_detail.bar_property', ['a' => $a, 'p' => ($p ?? null), 'dataId' => 'new-property-bar']) ?>
 
-        <?php echo RedshopLayoutHelper::render('product_detail.product_property', []) ?>
+            <?php echo RedshopLayoutHelper::render('product_detail.product_property', []) ?>
 
-        <!-- List out Properties -->
-        <div class="div_properties" data-type="properties" child-of="attribute_id_<?php echo $a['attribute_id'] ?>">
-            <?php $properties = $a['property']; ?>
+            <!-- List out Properties -->
+            <div class="div_properties" data-type="properties" child-of="attribute_id_<?php echo $a['attribute_id'] ?>">
+                <?php $properties = $a['property']; ?>
 
-            <?php echo RedshopLayoutHelper::render('product_detail.bar_property', ['a' => $a]); ?>
+                <?php echo RedshopLayoutHelper::render('product_detail.bar_property', ['a' => $a]); ?>
 
-            <!-- property bar -->
-            <?php echo RedshopLayoutHelper::render('product_detail.product_property', ['a' => $a]) ?>
+                <!-- property bar -->
+                <?php echo RedshopLayoutHelper::render('product_detail.product_property', ['a' => $a]) ?>
 
-            <!-- end property sample -->
-            <?php $pr = true; ?>
-            <?php foreach ($properties as $p) : ?>
-                <?php $divAttribute[$a['attribute_id']][$p->property_id] = ['name' => $p->property_name]; ?>
-                <?php $pr = !$pr; ?>
-                <?php echo RedshopLayoutHelper::render('product_detail.product_property', ['a' => $a, 'p' => $p, 'pr' => $pr, 'divAttribute' => &$divAttribute, 'productId' => $productId]) ?>
-            <?php endforeach ?>
-        </div>
-    <?php endforeach ?>
+                <!-- end property sample -->
+                <?php $pr = true; ?>
+                <?php foreach ($properties as $p) : ?>
+                    <?php $divAttribute[$a['attribute_id']][$p->property_id] = ['name' => $p->property_name]; ?>
+                    <?php $pr = !$pr; ?>
+                    <?php echo RedshopLayoutHelper::render('product_detail.product_property', ['a' => $a, 'p' => $p, 'pr' => $pr, 'divAttribute' => &$divAttribute, 'productId' => $productId]) ?>
+                <?php endforeach ?>
+            </div>
+        <?php endforeach ?>
     <?php endif ?>
 </div>
 
