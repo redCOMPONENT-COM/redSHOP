@@ -38,7 +38,9 @@ trait Delete
 
 		$tester->searchItem($item);
 		$tester->see($item, $pageClass::$resultRow);
-		$tester->checkAllResults();
+		$tester->waitForElementVisible($pageClass::$checkAllXpath, 30);
+		$tester->click($pageClass::$checkAllXpath);
+		$tester->waitForText($pageClass::$buttonDelete, 30);
 		$tester->click($pageClass::$buttonDelete);
 		$tester->acceptPopup();
 		$tester->waitForElement($pageClass::$searchField, 30);
