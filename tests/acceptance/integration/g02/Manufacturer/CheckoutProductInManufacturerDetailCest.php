@@ -137,7 +137,6 @@ class CheckoutProductInManufacturerDetailCest
 		$this->menuCategory = 'redSHOP';
 		$this->menu         = 'Main Menu';
 		$this->menuItem     = 'Manufacturer Details';
-
 	}
 
 	/**
