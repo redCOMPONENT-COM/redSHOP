@@ -83,8 +83,8 @@ class CheckoutProductInManufacturerDetailCest
 	 */
 	public function __construct()
 	{
-		$this->faker               = Faker\Factory::create();
-		$this->categoryName        = $this->faker->bothify('CategoryName ?###?');
+		$this->faker        = Faker\Factory::create();
+		$this->categoryName = $this->faker->bothify('CategoryName ?###?');
 
 		$this->manufacturer = array
 			(
