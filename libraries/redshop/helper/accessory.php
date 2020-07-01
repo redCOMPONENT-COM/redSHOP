@@ -145,7 +145,8 @@ class RedshopHelperAccessory
 				        $priceQuery,
 				        'p.product_s_desc',
 				        'p.product_full_image',
-				        'p.product_on_sale ' . $switchQuery
+				        'p.product_on_sale ' . $switchQuery,
+				        'p.expired'
 			        ]
 		        )
 		        ->from($db->qn('#__redshop_product_accessory', 'a'))
