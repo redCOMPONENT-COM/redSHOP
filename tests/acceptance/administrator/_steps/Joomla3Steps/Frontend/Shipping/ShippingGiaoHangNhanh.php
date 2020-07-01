@@ -47,16 +47,16 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->fillInformationPrivate($customerInformation);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioShippingRate, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$iconShippingRate, 30);
 		$I->wait(0.5);
-		$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
+		$I->click(FrontEndProductManagerJoomla3Page::$iconShippingRate);
 
 		try
 		{
 			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$iconShippingRate);
 		} catch (\Exception $e)
 		{
-			$I->click(FrontEndProductManagerJoomla3Page::$iconShippingRate);
+			$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
 			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$iconShippingRate);
 		}
 

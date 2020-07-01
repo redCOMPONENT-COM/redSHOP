@@ -559,6 +559,12 @@ class ProductManagerPage extends AdminJ3Page
 	public static $productParentID = "#s2id_product_parent_id";
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $xpathProductID = "//div[@class='table-responsive']/table/tbody/tr/td[12]";
+
+	/**
 	 * @param $position
 	 * @param $x
 	 * @param $y
