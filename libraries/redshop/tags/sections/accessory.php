@@ -381,15 +381,15 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
         $accessoryPriceWithoutVAT = \Redshop\Product\Accessory::getPrice(
             $this->data['productId'],
             $accessory->newaccessory_price,
-            $accessory->accessory_main_price,
-            1
+            $accessory->accessory_main_price
         );
 
         if ($this->isTagExists("{without_vat}")) {
             $accessoryPrices = \Redshop\Product\Accessory::getPrice(
                 $this->data['productId'],
                 $accessory->newaccessory_price,
-                $accessory->accessory_main_price
+                $accessory->accessory_main_price,
+                1
             );
         } else {
             $accessoryPrices = $accessoryPriceWithoutVAT;
@@ -401,16 +401,18 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
         $accessoryMainPrice  = $accessoryPrices[1];
         $accessorySavedPrice = $accessoryPrices[2];
 
-        // @Todo: Refactor template section attribute
-        $template = RedshopHelperAttribute::replaceAttributeData(
-            $this->data['productId'],
-            $accessory->accessory_id,
-            $this->data['relProductId'],
-            $attributes,
+        $template = RedshopTagsReplacer::_(
+            'attributes',
             $template,
-            $attributeTemplate,
-            $this->data['isChild'],
-            $this->selectAtt
+            array(
+                'productId'          => $this->data['productId'],
+                'accessoryId'        => $accessory->accessory_id,
+                'relatedProductId'   => $this->data['relProductId'],
+                'attributes'         => $attributes,
+                'attributeTemplate'  => $attributeTemplate,
+                'isChild'            => $this->data['isChild'],
+                'selectedAttributes' => $this->selectAtt
+            )
         );
 
         // @Todo: Reacfor section template stock
@@ -792,7 +794,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
             'tags.accessory.add_chkbox',
             array(
                 'productId'                => $this->data['productId'],
-                'accessoryId'              => $accessory->accessory_id,
+                'accessory'                => $accessory,
                 'commonId'                 => $commonId,
                 'attributes'               => $attributes,
                 'relProductId'             => $this->data['relProductId'],

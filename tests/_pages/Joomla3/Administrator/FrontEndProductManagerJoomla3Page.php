@@ -1012,6 +1012,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
+	public static $inputMap = "//input[@id='mapSeachBox']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
 	public static $firstAddress = "(//td[@class = 'radio_point_container'])[1]";
 
 	/**
@@ -1033,5 +1039,26 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public function jQueryIframe()
 	{
 		return 'jQuery(".iframe").attr("name", "question-iframe")';
+	}
+
+	/**
+	 * @param $idProduct
+	 * @param $position
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public function checkboxChooseProductAccessories($idProduct, $position)
+	{
+		return "(//input[@name='accessory_id_".$idProduct."[]'])[".$position."]";
+	}
+
+	/**
+	 * @param $productName
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public function xpathProductAccessorieName($productName)
+	{
+		return "//label[contains(text(),'". $productName . "')]";
 	}
 }

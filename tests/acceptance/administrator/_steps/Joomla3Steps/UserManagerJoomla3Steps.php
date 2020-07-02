@@ -100,6 +100,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->fillField(UserManagerJoomla3Page::$city, 'city');
 				$I->fillField(UserManagerJoomla3Page::$zipcode,'5000');
 				$I->fillField(UserManagerJoomla3Page::$phone, '4234324');
+				$I->executeJS('window.scrollTo(0,0)');
+				$I->waitForElementVisible(UserManagerJoomla3Page::$saveButton, 30);
 				$I->click(UserManagerJoomla3Page::$saveButton);
 				$I->waitForText(UserManagerJoomla3Page::$userSuccessMessage, 60, UserManagerJoomla3Page::$selectorSuccess);
 				$I->see(UserManagerJoomla3Page::$userSuccessMessage, UserManagerJoomla3Page::$selectorSuccess);

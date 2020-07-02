@@ -218,7 +218,7 @@ class RedshopModelCategory extends RedshopModel
             $query->where($finderCondition);
         }
 
-        RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query, &$categories));
+        RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query, &$categories, &$endlimit));
 
         // First steep get product ids
         if ($minmax != 0 || $isSlider) {
@@ -227,7 +227,7 @@ class RedshopModelCategory extends RedshopModel
             $db->setQuery($query, $limitstart, $endlimit);
         }
 
-        $productFilters = $this->getState('filterform');
+	    $productFilters = JFactory::getApplication()->input->get->get('filterform', array(), 'array');
 
         if (!empty($productFilters)) {
             $query->clear();
@@ -802,9 +802,6 @@ class RedshopModelCategory extends RedshopModel
             'int'
         );
         $this->setState('category_template', $categoryTemplate);
-
-        $filterData = $app->getUserStateFromRequest($this->context . '.filter_data', 'filterform', '', 'array');
-        $this->setState('filterform', $filterData);
 
         if ($_POST) {
             $manufacturerId = $app->input->post->getInt('manufacturer_id', 0);
