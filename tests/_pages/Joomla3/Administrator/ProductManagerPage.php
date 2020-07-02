@@ -571,6 +571,12 @@ class ProductManagerPage extends AdminJ3Page
 	public static $manufacturerSearch = "#s2id_autogen7_search";
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $xpathProductID = "//div[@class='table-responsive']/table/tbody/tr/td[12]";
+
+	/**
 	 * @param $position
 	 * @param $x
 	 * @param $y
