@@ -962,6 +962,13 @@ class RedshopModelProduct_Detail extends RedshopModel
             $row->product_full_image = '';
         }
 
+        $mediaFullImage = '';
+
+        if (empty($data['copy_product'])) {
+            // Media: Store product full image
+            $mediaFullImage = $this->storeMedia($row, 'product_full_image');
+        }
+
         if (isset($data['back_thumb_image_delete'])) {
             $row->product_back_thumb_image = "";
             $unlink_path                   = JPath::clean(
@@ -1093,20 +1100,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         $dispatcher->trigger('onAfterProductSave', array(&$row, $isNew));
 
-	    $mediaFullImage = '';
-
-//        if (empty($data['copy_product'])) {
-	    if (empty($data['copy_product'])) {
-		    if ($data['task'] !== 'save2copy')
-		    {
-			    // Media: Store product full image
-			    $mediaFullImage = $this->storeMedia($row, 'product_full_image');
-		    }
-		    else
-		    {
-			    $this->storeMediaSave2Copy($data, $row);
-		    }
-	    }
+        if ($data['task'] === 'save2copy') {
+            $this->storeMediaSave2Copy($data, $row);
+        }
 
         // Upgrade media reference Id if needed
         if ($isNew && !empty($mediaFullImage) !== false && (!$data['copy_product'] || $data['task'] === ' save2copy')) {
