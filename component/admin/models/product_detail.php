@@ -457,13 +457,19 @@ class RedshopModelProduct_Detail extends RedshopModel
             };
         }
 
-        $query = $this->_db->getQuery(true)
-            ->delete($this->_db->qn('#__fields_data'))
-            ->where($this->_db->qn('itemid') . 'IN ( ' . $productIds . ' )')
-            ->where($this->_db->qn('fieldid') . 'IN ( ' . implode(',', $productFields) . ')');
-        $this->_db->setQuery($query);
+        $db = JFactory::getDbo();
 
-        if (!$this->_db->execute()) {
+        $query = $db->getQuery(true)
+            ->delete($db->qn('#__redshop_fields_data'))
+            ->where($db->qn('itemid') . 'IN ( ' . $productIds . ' )');
+
+        if (!empty($productFields)) {
+            $query->where($db->qn('fieldid') . 'IN ( ' . implode(',', $productFields) . ')');
+        }
+
+        $db->setQuery($query);
+
+        if ($db->execute()) {
             /** @scrutinizer ignore-deprecated */
             $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
         }
