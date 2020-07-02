@@ -559,6 +559,18 @@ class ProductManagerPage extends AdminJ3Page
 	public static $productParentID = "#s2id_product_parent_id";
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $manufacturerID = "#s2id_manufacturer_id";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $manufacturerSearch = "#s2id_autogen7_search";
+
+	/**
 	 * @param $position
 	 * @param $x
 	 * @param $y

@@ -526,14 +526,16 @@ function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
 					if (property.checked && property.value != 0) {
 						properties.push(property.value);
 					}
+					if (property.required) {
+						requiredProp = [property.getAttribute('attribute_name')];
+					}
 				} else {
 					if (property.selectedIndex && property.options[property.selectedIndex].value != 0) {
 						properties.push(property.options[property.selectedIndex].value);
 					}
-				}
-
-				if (property.required) {
-					requiredProp.push(property.getAttribute('attribute_name'));
+					if (property.required) {
+						requiredProp.push(property.getAttribute('attribute_name'));
+					}
 				}
 			});
 

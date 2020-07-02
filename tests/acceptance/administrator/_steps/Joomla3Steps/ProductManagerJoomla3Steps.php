@@ -1444,4 +1444,35 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(ProductManagerPage::$buttonSaveClose);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}
+
+	/**
+	 * @param $product
+	 * @param $category
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function createProductHaveManufacturer($product, $category)
+	{
+		$I = $this;
+		$I->amOnPage(ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElementVisible(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $product['name']);
+		$I->fillField(ProductManagerPage::$productNumber, $product['number']);
+		$I->addValueForField(ProductManagerPage::$productPrice, $product['price'], 6);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElementVisible($usePage->returnChoice($category), 30);
+		$I->click($usePage->returnChoice($category));
+
+		$I->waitForElementVisible(ProductManagerPage::$manufacturerID, 30);
+		$I->click(ProductManagerPage::$manufacturerID);
+		$I->waitForElementVisible(ProductManagerPage::$manufacturerSearch, 30);
+		$I->fillField(ProductManagerPage::$manufacturerSearch, $product['manufacturer']);
+		$I->pressKey(ProductManagerPage::$manufacturerSearch, \WebDriverKeys::ENTER);
+		$I->waitForText(ProductManagerPage::$buttonSaveClose, 30);
+		$I->click(ProductManagerPage::$buttonSaveClose);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
 }
