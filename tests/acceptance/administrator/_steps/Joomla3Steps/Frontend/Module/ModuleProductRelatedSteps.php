@@ -38,6 +38,7 @@ class ModuleProductRelatedSteps extends CheckoutMissingData
 		$I->waitForElementVisible(["link" => $categoryName], 30);
 		$I->click(["link" => $categoryName]);
 		$I->waitForElementVisible(["link" => $productRelated], 30);
+		$I->waitForText($productRelated, 30);
 		$I->click(["link" => $productRelated]);
 		$I->waitForText($moduleName, 30);
 		$I->waitForElementVisible(["link" => $productName], 30,FrontEndProductManagerJoomla3Page::$productRelatedTitle);
