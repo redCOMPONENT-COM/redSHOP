@@ -685,6 +685,18 @@ abstract class AdminJ3Page
 	public static $select2Drop = "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div";
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $tabOption = "//a[contains(text(),'Options')]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $labelSelectManufacturer = "Select Manufacturer";
+
+	/**
 	 * @param $menuCategory
 	 * @return array
 	 * @since 2.1.2

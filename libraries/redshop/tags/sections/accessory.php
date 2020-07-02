@@ -794,7 +794,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
             'tags.accessory.add_chkbox',
             array(
                 'productId'                => $this->data['productId'],
-                'accessoryId'              => $accessory->accessory_id,
+                'accessory'                => $accessory,
                 'commonId'                 => $commonId,
                 'attributes'               => $attributes,
                 'relProductId'             => $this->data['relProductId'],

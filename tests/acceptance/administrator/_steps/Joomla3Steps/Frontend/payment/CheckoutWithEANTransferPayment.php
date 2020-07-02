@@ -37,8 +37,6 @@ class CheckoutWithEANTransferPayment extends CheckoutMissingData
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
 		$I->wait(1);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
-		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 
 		try
 		{
