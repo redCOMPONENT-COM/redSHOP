@@ -109,16 +109,16 @@ class RedshopViewAccount_Shipto extends RedshopView
                 RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS,
                 $shippingAddresses->users_info_id
             );
-
-            $post['firstname_ST']    = $shippingAddresses->firstname;
-            $post['lastname_ST']     = $shippingAddresses->lastname;
-            $post['address_ST']      = $shippingAddresses->address;
-            $post['city_ST']         = $shippingAddresses->city;
-            $post['zipcode_ST']      = $shippingAddresses->zipcode;
-            $post['phone_ST']        = $shippingAddresses->phone;
-            $post['country_code_ST'] = $shippingAddresses->country_code;
-            $post['state_code_ST']   = $shippingAddresses->state_code;
-            $layout                  = 'form';
+            $post                             = [];
+            $post['firstname_ST']             = $shippingAddresses->firstname;
+            $post['lastname_ST']              = $shippingAddresses->lastname;
+            $post['address_ST']               = $shippingAddresses->address;
+            $post['city_ST']                  = $shippingAddresses->city;
+            $post['zipcode_ST']               = $shippingAddresses->zipcode;
+            $post['phone_ST']                 = $shippingAddresses->phone;
+            $post['country_code_ST']          = $shippingAddresses->country_code;
+            $post['state_code_ST']            = $shippingAddresses->state_code;
+            $layout                           = 'form';
 
             $dispatcher = RedshopHelperUtility::getDispatcher();
             JPluginHelper::importPlugin('redshop_shipping');
