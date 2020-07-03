@@ -96,9 +96,10 @@ class RedshopHelperProductPrice
             $oldPriceNoVat = self::priceReplacement($productPrices['product_old_price_excl_vat'] * $defaultQuantity);
 
             $isStockExists = RedshopHelperStockroom::isStockExists($productId);
+            $isApplyTax   = \Redshop\Template\Helper::isApplyVat($templateHtml, $userId);
 
             if ($isStockExists && strpos($templateHtml, "{" . $relPrefix . "product_price_table}") !== false) {
-                $productPriceTable = RedshopHelperProduct::getProductQuantityPrice($productId, $userId);
+                $productPriceTable = RedshopHelperProduct::getProductQuantityPrice($productId, $userId, $isApplyTax);
                 $templateHtml      = str_replace(
                     "{" . $relPrefix . "product_price_table}",
                     $productPriceTable,
