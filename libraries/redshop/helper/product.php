@@ -5020,7 +5020,7 @@ class RedshopHelperProduct
             ->where($db->qn('pr.product_id') . ' = ' . (int)$productId)
             ->where($db->qn('pr.published') . ' = 1')
             ->where($db->qn('pr.email') . ' != ' . $db->q(''))
-            ->order($db->qn('pr.favoured') . ' DESC')
+            ->order($db->qn('pr.time') . ' DESC')
             ->group($db->qn('pr.rating_id'));
 
         try {
