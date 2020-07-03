@@ -78,4 +78,27 @@ class ManufacturerSteps extends AbstractStep
 		$client->waitForElement(ManufacturerPage::$fieldName, 30);
 		$client->click(ManufacturerPage::$buttonCancel);
 	}
+
+	/**
+	 * @param $manufacturer
+	 * @throws Exception
+	 * @since 3.0.2
+	 */
+	public function addManufacturer($manufacturer)
+	{
+		$client = $this;
+		$client->amOnPage(ManufacturerPage::$url);
+		$client->click(ManufacturerPage::$buttonNew);
+		$client->waitForElementVisible(ManufacturerPage::$fieldName, 30);
+		$client->fillField(ManufacturerPage::$fieldName, $manufacturer['name']);
+		$client->waitForElementVisible(ManufacturerPage::$templateID, 30);
+		$client->click(ManufacturerPage::$templateID);
+		$client->fillField(ManufacturerPage::$templateSearch, $manufacturer['template']);
+		$client->pressKey(ManufacturerPage::$templateSearch, Facebook\WebDriver\WebDriverKeys::ENTER);
+		$client->fillField(ManufacturerPage::$fieldEmail, $manufacturer['email']);
+		$client->waitForElementVisible(ManufacturerPage::$fieldProductPerPage,30);
+		$client->fillField(ManufacturerPage::$fieldProductPerPage, $manufacturer['productPerPage']);
+		$client->click(ManufacturerPage::$buttonSaveClose);
+		$client->waitForText(ManufacturerPage::$messageItemSaveSuccess, 60, ManufacturerPage::$selectorSuccess);
+	}
 }
