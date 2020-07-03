@@ -63,7 +63,13 @@ jimport('joomla.filesystem.file');
 
 // Load redSHOP factory file
 JLoader::import('redshop.redshop');
-JLoader::import('redshop.twig');
+$systemRedshop = new JRegistry(JPluginHelper::getPlugin('system', 'redshop')->params);
+
+if ($systemRedshop->get('enable_twig'))
+{
+    require_once (JPATH_PLUGINS . '/system/redshop/libraries/vendor/autoload.php');
+    JLoader::import('redshop.twig');
+}
 
 // Register library prefix
 JLoader::registerPrefix('Redshop', JPATH_REDSHOP_LIBRARY);
