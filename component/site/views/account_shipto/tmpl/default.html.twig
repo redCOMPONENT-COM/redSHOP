@@ -21,7 +21,7 @@
 		{% endif %}
 
 		{% if shippingAddresses|length != 0 %}
-			{% if isEdit is empty and return is empty %}
+			{% if isEdit == 0 and return is empty %}
 				{% for shippingAddress in shippingAddresses %}
 					<tr>
 						<td>
@@ -48,7 +48,7 @@
 				{% endfor %}
 			{% endif %}
 		{% endif %}
-		{% if isEdit is empty and return is empty %}
+		{% if isEdit == 0 and return is empty %}
 			<tr>
 				<td></td>
 			</tr>
