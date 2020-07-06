@@ -27,6 +27,7 @@ class RedshopViewPrices extends RedshopViewAdmin
         JToolbarHelper::addNew();
         JToolbarHelper::EditList();
         JToolBarHelper::deleteList();
+        JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 
         $limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
         $limit      = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');
