@@ -56,18 +56,18 @@ $calcOutput .= "<tr><td><label>" . JText::_('COM_REDSHOP_UNIT') . "</label></td>
 switch ($calcMethod)
 {
     case "volume":
-        $calc_output .= $height;
-        $calc_output .= $width;
-        $calc_output .= $depth;
+	    $calcOutput .= $height;
+	    $calcOutput .= $width;
+	    $calcOutput .= $depth;
         break;
 
     case "area":
-        $calc_output .= $depth;
-        $calc_output .= $width;
+	    $calcOutput .= $depth;
+	    $calcOutput .= $width;
         break;
 
     case "circumference":
-        $calc_output .= $radius;
+	    $calcOutput .= $radius;
         break;
 }
 

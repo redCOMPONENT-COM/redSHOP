@@ -30,7 +30,10 @@ extract($displayData);
             <?php $value->product_price = $value->discount_price; ?>
         <?php endif; ?>
         <?php
-        $tax   = RedshopHelperProduct::getProductTax($productId, $value->product_price, $userId);
+        $tax = 0;
+        if ($isApplyTax) {
+            $tax   = RedshopHelperProduct::getProductTax($productId, $value->product_price, $userId);
+        }
         $price = RedshopHelperProductPrice::formattedPrice($value->product_price + $tax);
         ?>
         <tr>

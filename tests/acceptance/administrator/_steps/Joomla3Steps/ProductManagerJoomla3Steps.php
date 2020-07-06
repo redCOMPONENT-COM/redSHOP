@@ -941,7 +941,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
-		$I->fillField(ProductManagerPage::$productPrice, $price);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
@@ -951,7 +951,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$accessoriesValue, 60);
 		$I->waitForElement(ProductManagerPage::$relatedProduct, 60);
 		$this->selectAccessories($productAccessories);
-		$I->click(ProductManagerPage::$buttonSave);
+		$I->click(ProductManagerPage::$buttonSaveClose);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}
 
@@ -1443,5 +1443,55 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($usePage->returnProductParent($productParent));
 		$I->click(ProductManagerPage::$buttonSaveClose);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
+
+	/**
+	 * @param $product
+	 * @param $category
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function createProductHaveManufacturer($product, $category)
+	{
+		$I = $this;
+		$I->amOnPage(ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElementVisible(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $product['name']);
+		$I->fillField(ProductManagerPage::$productNumber, $product['number']);
+		$I->addValueForField(ProductManagerPage::$productPrice, $product['price'], 6);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElementVisible($usePage->returnChoice($category), 30);
+		$I->click($usePage->returnChoice($category));
+
+		$I->waitForElementVisible(ProductManagerPage::$manufacturerID, 30);
+		$I->click(ProductManagerPage::$manufacturerID);
+		$I->waitForElementVisible(ProductManagerPage::$manufacturerSearch, 30);
+		$I->fillField(ProductManagerPage::$manufacturerSearch, $product['manufacturer']);
+		$I->pressKey(ProductManagerPage::$manufacturerSearch, \WebDriverKeys::ENTER);
+		$I->waitForText(ProductManagerPage::$buttonSaveClose, 30);
+		$I->click(ProductManagerPage::$buttonSaveClose);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
+
+	/**
+	 * @param $productName
+	 * @return mixed
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function getProductId($productName)
+	{
+		$I = $this;
+		$I->amOnPage(ProductManagerPage::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForText(ProductManagerPage::$namePage, 30, ProductManagerPage::$h1);
+		$this->searchProduct($productName);
+		$I->waitForElementVisible(['link' => $productName], 30);
+		$I->waitForElementVisible(ProductManagerPage::$xpathProductID, 30);
+		$idProduct = $I->grabTextFrom(ProductManagerPage::$xpathProductID);
+		return $idProduct;
 	}
 }
