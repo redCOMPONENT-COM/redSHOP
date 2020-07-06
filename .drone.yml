@@ -48,6 +48,7 @@ pipeline:
             - npm audit fix
             - composer config -g repo.packagist composer https?://packagist.jp
             - cd libraries/redshop
+            - composer install --prefer-dist
             - gulp composer
             - cd ../..
             - mv gulp-config.json.dist gulp-config.json
