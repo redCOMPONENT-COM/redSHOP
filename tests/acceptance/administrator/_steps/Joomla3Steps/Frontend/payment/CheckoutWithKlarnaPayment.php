@@ -44,8 +44,6 @@ class CheckoutwithKlarnaPayment extends CheckoutMissingData
 		$I->fillShippingAddress($otherShipping);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$proceedButtonId);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
-		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$klarnaPayment, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$klarnaPayment);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$fieldPNO, 30);
