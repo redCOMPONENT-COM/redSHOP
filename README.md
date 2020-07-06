@@ -44,10 +44,13 @@ There are an MySQL Workbench DB Model file in src/db/redshop.mwb. When need some
 - Almost tags system of redSHOP using Twig template instead of PHP inline
 - Remaining layouts, views of redSHOP is moving to Twig and PHP Inline will be deprecated soon.
 
-## Release process for redSHOP
-Please follow the next steps in order to release a new version of redSHOP.
+## How to avoid twig confliction with an other component
 
-- Execute component_packager.xml PHING file to generate the main component package (includes 1 module and 2 plugins).
+- Update redshop to version 3.0.2
+- Copy file https://github.com/redCOMPONENT-COM/redSHOP/blob/develop/libraries/redshop/composer.json to WebRoot/libraries/redshop
+- run cd `webroot/libraries/redshop`
+- run `composer update`
+- Go to plugin `System - redSHOP` and disable twig
 
 ## Using Gulp build system
 
