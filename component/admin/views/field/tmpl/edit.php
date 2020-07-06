@@ -236,7 +236,7 @@ $editor = JEditor::getInstance();
                     <?php echo $this->form->renderField('show_in_front') ?>
                     <?php echo $this->form->renderField('required') ?>
                     <?php echo $this->form->renderField('published') ?>
-                    <?php echo $this->form->renderField('description') ?>
+                    <?php echo $this->form->renderField('desc') ?>
                 </div>
             </div>
         </div>

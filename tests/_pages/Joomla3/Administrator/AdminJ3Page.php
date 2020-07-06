@@ -175,7 +175,7 @@ abstract class AdminJ3Page
 	 * @var array
 	 * @since 2.1.2
 	 */
-	public static $checkAllXpath = "//thead//input[@name='checkall-toggle' or @name='toggle']";
+	public static $checkAllXpath = "//input[@name='checkall-toggle' or @name='toggle']";
 
 	/**
 	 * @var string
@@ -683,6 +683,18 @@ abstract class AdminJ3Page
 	 * @since 3.0.2
 	 */
 	public static $select2Drop = "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $tabOption = "//a[contains(text(),'Options')]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $labelSelectManufacturer = "Select Manufacturer";
 
 	/**
 	 * @param $menuCategory

@@ -33,7 +33,7 @@ $total   = $compare->getItemsTotal();
             $ItemData  = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
             $catidmain = $product->cat_in_sefurl;
 
-            if (count($ItemData) > 0) {
+            if (isset($ItemData->id)) {
                 $pItemid = $ItemData->id;
             } else {
                 $pItemid = RedshopHelperRouter::getItemId($product->product_id, $catidmain);

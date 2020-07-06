@@ -57,8 +57,8 @@ $stockrooms = $model->StockRoomList();
                                 <?php echo $s->stockroom_name; ?>
                             </td>
                             <td>
-                                <input type="text" name="quantity[]" size="5" class="text_area"
-                                       value="<?php echo $quantity; ?>"/>
+                                <input type="number" name="quantity[]" size="5" class="text_area"
+                                       min="0" oninput="validity.valid||(value='');" value="<?php echo $quantity; ?>"/>
                                 <input type="hidden" name="stockroom_id[]" value="<?php echo $s->stockroom_id; ?>"/>
                             </td>
                             <td>
@@ -78,8 +78,8 @@ $stockrooms = $model->StockRoomList();
                                 ?>
                             </td>
                             <td>
-                                <input type="text" name="preorder_stock[]" size="5" class="text_area"
-                                       value="<?php echo $preorder_stock; ?>"/>
+                                <input type="number" name="preorder_stock[]" size="5" class="text_area"
+                                       min="0" oninput="validity.valid||(value='');" value="<?php echo $preorder_stock; ?>"/>
                                 <input type="button"
                                        name="preorder_reset"
                                        value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
