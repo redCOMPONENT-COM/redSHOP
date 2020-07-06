@@ -16264,7 +16264,7 @@ fieldset[disabled] .btn-yahoo.active {
     white-space: nowrap;
 }
 
-.chzn-container-multi .chzn-choices li.search-field input[type="text"] {
+.chzn-container-multi .chzn-choices li.search-field input[type="text"] top right bottom {
     margin: 1px 0;
     padding: 5px;
     height: 15px;
@@ -18318,7 +18318,7 @@ i.tools {
 
 #adminForm .filterTool .filterItem {
     display: inline-block;
-    margin: 4px 10px 4px 0;
+    margin: 4px 10px 4px 0px;
 
 #adminForm .filterTool .filterItem .btn-wrapper {
     position: relative;
