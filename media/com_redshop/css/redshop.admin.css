@@ -18318,10 +18318,7 @@ i.tools {
 
 #adminForm .filterTool .filterItem {
     display: inline-block;
-    margin-right: 10px;
-    margin-top: 4px;
-    margin-bottom: 4px;
-}
+    margin: 4px 10px 4px;
 
 #adminForm .filterTool .filterItem .btn-wrapper {
     position: relative;
