@@ -451,7 +451,7 @@ class RedshopModelProduct_Detail extends RedshopModel
         $fields  = $fieldModel->getFieldsBySection($section);
         $productFields = array();
 
-        if (!empty($field)) {
+        if (!empty($fields)) {
             foreach ($fields as $field) {
                 $productFields[] = $field->id;
             };
