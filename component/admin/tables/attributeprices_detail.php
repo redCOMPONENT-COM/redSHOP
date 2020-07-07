@@ -61,9 +61,9 @@ class Tableattributeprices_detail extends JTable
      */
     public function check()
     {
-        $xid = \Redshop\Attribute\Helper::getAttributePriceStartId($this);
+        $xid    = \Redshop\Attribute\Helper::getAttributePriceStartId($this);
         $xidEnd = \Redshop\Attribute\Helper::getAttributePriceStartId($this);
-        
+
 
         if (($xid || $xidEnd)
             && (($xid != intval($this->price_id)
@@ -73,7 +73,8 @@ class Tableattributeprices_detail extends JTable
         ) {
             $this->_error = \Joomla\CMS\Language\Text::sprintf(
                 'WARNNAMETRYAGAIN',
-                \Joomla\CMS\Language\Text::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));
+                \Joomla\CMS\Language\Text::_('COM_REDSHOP_PRICE_ALREADY_EXISTS')
+            );
 
             return false;
         }

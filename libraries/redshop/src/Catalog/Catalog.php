@@ -20,23 +20,23 @@ defined('_JEXEC') or die;
  */
 class Catalog
 {
-	/**
-	 * Method for get catalog list
-	 *
-	 * @return array
-	 *
-	 * @since 3.0.1
-	 */
-	public static function getCatalogList()
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('c.*')
-			->select($db->qn('c.catalog_id', 'value'))
-			->select($db->qn('c.catalog_name', 'text'))
-			->from($db->qn('#__redshop_catalog', 'c'))
-			->where($db->qn('c.published') . ' = 1');
+    /**
+     * Method for get catalog list
+     *
+     * @return array
+     *
+     * @since 3.0.1
+     */
+    public static function getCatalogList()
+    {
+        $db    = Factory::getDbo();
+        $query = $db->getQuery(true)
+            ->select('c.*')
+            ->select($db->qn('c.catalog_id', 'value'))
+            ->select($db->qn('c.catalog_name', 'text'))
+            ->from($db->qn('#__redshop_catalog', 'c'))
+            ->where($db->qn('c.published') . ' = 1');
 
-		return \Redshop\DB\Tool::safeSelect($db, $query, true);
-	}
+        return \Redshop\DB\Tool::safeSelect($db, $query, true);
+    }
 }

@@ -12,82 +12,84 @@ defined('_JEXEC') or die;
 
 class RedshopViewSample_detail extends RedshopViewAdmin
 {
-	/**
-	 * Do we have to display a sidebar ?
-	 *
-	 * @var  boolean
-	 */
-	protected $displaySidebar = false;
+    /**
+     * Do we have to display a sidebar ?
+     *
+     * @var  boolean
+     */
+    protected $displaySidebar = false;
 
-	public function display($tpl = null)
-	{
+    public function display($tpl = null)
+    {
+        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE'), 'redshop_colorsample48');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE'), 'redshop_colorsample48');
+        $document = JFactory::getDocument();
 
-		$document = JFactory::getDocument();
+        /** @scrutinizer ignore-deprecated */
+        JHtml::stylesheet('com_redshop/colorpicker.min.css', array(), true);
+        /** @scrutinizer ignore-deprecated */
+        JHtml::stylesheet('com_redshop/redshop.layout.min.css', array(), true);
+        /** @scrutinizer ignore-deprecated */
+        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+        /** @scrutinizer ignore-deprecated */
+        JHtml::script('com_redshop/colorpicker.min.js', false, true);
+        /** @scrutinizer ignore-deprecated */
+        JHtml::script('com_redshop/eye.min.js', false, true);
+        /** @scrutinizer ignore-deprecated */
+        JHtml::script('com_redshop/redshop.utils.min.js', false, true);
+        /** @scrutinizer ignore-deprecated */
+        JHtml::script('com_redshop/json.min.js', false, true);
 
-		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/colorpicker.min.css', array(), true);
-		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/redshop.layout.min.css', array(), true);
-		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.validation.min.js', false, true);
-		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/colorpicker.min.js', false, true);
-		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/eye.min.js', false, true);
-		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.utils.min.js', false, true);
-		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/json.min.js', false, true);
+        $uri = JUri::getInstance();
 
-		$uri = JUri::getInstance();
+        $this->setLayout('default');
 
-		$this->setLayout('default');
+        $lists = array();
 
-		$lists = array();
+        $detail = $this->get('data');
 
-		$detail = $this->get('data');
+        $layout = JFactory::getApplication()->input->getCmd('layout', 'default');
 
-		$layout = JFactory::getApplication()->input->getCmd('layout', 'default');
+        $this->setLayout($layout);
 
-		$this->setLayout($layout);
+        $model = $this->getModel('sample_detail');
 
-		$model = $this->getModel('sample_detail');
+        if ($layout == 'default') {
+            $isNew      = ($detail->sample_id < 1);
+            $color_data = $model->color_Data($detail->sample_id);
 
-		if ($layout == 'default')
-		{
-			$isNew      = ($detail->sample_id < 1);
-			$color_data = $model->color_Data($detail->sample_id);
+            if (!is_array($color_data)) {
+                $color_data = array();
+            }
 
-			if (!is_array($color_data))
-			{
-				$color_data = array();
-			}
+            $lists['color_data'] = $color_data;
+        } else {
+            $isNew = ($detail->catalog_id < 1);
+        }
 
-			$lists['color_data'] = $color_data;
-		}
-		else
-		{
-			$isNew = ($detail->catalog_id < 1);
-		}
+        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+        JToolBarHelper::title(
+            JText::_('COM_REDSHOP_PRODUCT_SAMPLE') . ': <small><small>[ ' . $text . ' ]</small></small>',
+            'redshop_catalogmanagement48'
+        );
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_catalogmanagement48');
+        JToolBarHelper::apply();
+        JToolBarHelper::save2new();
+        JToolBarHelper::save();
 
-        	JToolBarHelper::apply();
-        	JToolBarHelper::save2new();
-		JToolBarHelper::save();
+        if ($isNew) {
+            JToolBarHelper::cancel();
+        } else {
+            JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+        }
 
-		if ($isNew)
-		{
-			JToolBarHelper::cancel();
-		}
-		else
-		{
-			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
-		}
+        $lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+        $this->lists       = $lists;
+        $this->detail      = $detail;
+        $this->request_url = $uri->toString();
 
-		$this->lists       = $lists;
-		$this->detail      = $detail;
-		$this->request_url = $uri->toString();
-
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 }

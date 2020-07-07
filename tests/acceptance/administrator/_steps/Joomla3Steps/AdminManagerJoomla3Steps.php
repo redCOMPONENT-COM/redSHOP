@@ -1,13 +1,16 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace AcceptanceTester;
 
+use AdminJ3Page;
+use ExtensionManagerJoomla3Page;
+use FrontEndProductManagerJoomla3Page;
 use Step\Acceptance\Redshop;
 use \ConfigurationPage as ConfigurationPage;
 
@@ -20,44 +23,55 @@ use \ConfigurationPage as ConfigurationPage;
  */
 class AdminManagerJoomla3Steps extends Redshop
 {
-
+	/**
+	 * @param $name
+	 * @param $package
+	 * @throws \Exception
+	 * @since 1.4.0
+	 */
 	public function installComponent($name, $package)
 	{
 		$I = $this;
-		$I->amOnPage(\AdminJ3Page::$installURL);
-		$I->waitForElementVisible(\AdminJ3Page::$link, 30);
-		$I->click(\AdminJ3Page::$link);
+		$I->amOnPage(AdminJ3Page::$installURL);
+		$I->waitForElementVisible(AdminJ3Page::$link, 30);
+		$I->click(AdminJ3Page::$link);
 		$path = $I->getConfig($name) . $package;
 		$I->wantToTest($path);
 		$I->comment($path);
 		try
 		{
-			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+			$I->waitForElementVisible(AdminJ3Page::$urlID, 10);
 		} catch (\Exception $e)
 		{
-			$I->click(\AdminJ3Page::$link);
-			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+			$I->click(AdminJ3Page::$link);
+			$I->waitForElementVisible(AdminJ3Page::$urlID, 10);
 		}
-		$I->fillField(\AdminJ3Page::$urlID, $path);
-		$I->waitForElementVisible(\AdminJ3Page::$installButton, 30);
-		$I->click(\AdminJ3Page::$installButton);
+		$I->fillField(AdminJ3Page::$urlID, $path);
+		$I->waitForElementVisible(AdminJ3Page::$installButton, 30);
+		$I->click(AdminJ3Page::$installButton);
 	}
+
 	/**
-	 * Function to Check for Presence of Notices and Warnings on all the Modules of Extension
-	 *
-	 * @return void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
-	public function CheckAllLinks()
+	public function installRedShopExtension()
 	{
 		$I = $this;
+		$I->wantTo('Install extension');
+		$I->disableStatistics();
+		$I->wantTo('I Install redSHOP');
+		$I->installComponent('packages url', 'redshop.zip');
+		$I->waitForText(AdminJ3Page::$messageInstallSuccess, 120, AdminJ3Page::$idInstallSuccess);
 
-		foreach (\AdminManagerPage::$allExtensionPages as $page => $url)
+		$I->wantTo('install demo data');
+		$I->waitForElement(AdminJ3Page::$installDemoContent, 30);
+		$I->click(AdminJ3Page::$installDemoContent);
+		try
 		{
-			$I->amOnPage($url);
-			$I->verifyNotices(false, $this->checkForNotices(), $page);
-			$I->click('New');
-			$I->verifyNotices(false, $this->checkForNotices(), $page . ' New');
-			$I->click('Cancel');
+			$I->waitForText(AdminJ3Page::$messageDemoContentSuccess, 120, AdminJ3Page::$idInstallSuccess);
+		}catch (\Exception $e)
+		{
 		}
 	}
 
@@ -65,6 +79,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	 * Function to CheckForNotices and Warnings
 	 *
 	 * @return  bool
+	 * @since 1.4.0
 	 */
 	public function checkForNotices()
 	{
@@ -80,6 +95,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	 * @param   string $functionName Name of the function After Which search is being Called
 	 *
 	 * @return void
+	 * @since 1.4.0
 	 */
 	public function search($pageClass, $searchItem, $resultRow, $functionName = 'Search')
 	{
@@ -105,6 +121,8 @@ class AdminManagerJoomla3Steps extends Redshop
 	 * @param   string $check      Selection Box Path
 	 *
 	 * @return void
+	 * @since 1.4.0
+	 * @throws \Exception
 	 */
 	public function delete($pageClass, $deleteItem, $resultRow, $check, $filterId = "#filter_search")
 	{
@@ -123,6 +141,8 @@ class AdminManagerJoomla3Steps extends Redshop
 	 * @param   String $searchField id of field to search
 	 *
 	 * @return void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function filterListBySearching($text, $searchField = "#filter_search")
 	{
@@ -143,6 +163,8 @@ class AdminManagerJoomla3Steps extends Redshop
 	 * @param   String $itemStatePath Path to the State for the Item
 	 *
 	 * @return string  Result of state
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function getState($pageClass, $item, $resultRow, $itemStatePath)
 	{
@@ -167,16 +189,13 @@ class AdminManagerJoomla3Steps extends Redshop
 	 * Function to change State of an Item in the Backend
 	 *
 	 * @param   Object $pageClass   Page Class on which we are performing the Operation
-	 * @param   String $item        Item which we are supposed to change
 	 * @param   String $state       State for the Item
-	 * @param   String $resultRow   Result row where we need to look for the item
-	 * @param   String $check       Checkbox path for Selecting the Item
-	 * @param   String $searchField The locator for the search field
 	 *
 	 * @return void
 	 * @throws  \Exception
+	 * @since 1.4.0
 	 */
-	public function changeState($pageClass, $item, $state, $resultRow, $check, $searchField = "#filter")
+	public function changeState($pageClass, $state)
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
@@ -192,22 +211,35 @@ class AdminManagerJoomla3Steps extends Redshop
 		}
 	}
 
+	/**
+	 * @param $text
+	 * @param string $searchField
+	 * @throws \Exception
+	 * @since 1.4.0
+	 */
 	public function filterListBySearchingProduct($text, $searchField = "#keyword")
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(\FrontEndProductManagerJoomla3Page::$buttonReset);
+		$I->wait(0.5);
+		$I->click(FrontEndProductManagerJoomla3Page::$buttonReset);
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text], 30);
 	}
 
+	/**
+	 * @param $text
+	 * @param string $searchField
+	 * @throws \Exception
+	 * @since 1.4.0
+	 */
 	public function filterListBySearchDiscount($text, $searchField = "#name_filter")
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
-		$I->pressKey('#name_filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text], 30);
 	}
 
@@ -216,6 +248,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	 * @param $value
 	 * @param $lengh
 	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function addValueForField($xpath, $value, $lengh)
 	{
@@ -236,22 +269,38 @@ class AdminManagerJoomla3Steps extends Redshop
 		}
 	}
 
+	/**
+	 * @param $element
+	 * @param $text
+	 * @throws \Exception
+	 * @since 1.4.0
+	 */
 	public function chooseOnSelect2($element, $text)
 	{
 		$I = $this;
 		$elementId = is_array($element) ? $element['id'] : $element;
 		$I->executeJS('jQuery("' . $elementId . '").select2("search", "' . $text . '")');
-		$I->waitForElement("//ul[@class='select2-results']/li[1]/div", 60);
-		$I->click("//ul[@class='select2-results']/li[1]/div");
+		$I->waitForElement(AdminJ3Page::$select2Results, 60);
+		$I->click(AdminJ3Page::$select2Results);
 	}
 
+	/**
+	 * @param $text
+	 * @param string $searchField
+	 * @since 1.4.0
+	 */
 	public function filterListBySearchOrder($text, $searchField = "#filter"){
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
-		$I->pressKey('#filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
 
+	/**
+	 * @param $label
+	 * @param $option
+	 * @since 1.4.0
+	 */
 	public function selectOptionInChosenjs($label, $option)
 	{
 		$I = $this;
@@ -285,23 +334,23 @@ class AdminManagerJoomla3Steps extends Redshop
 	public function installExtensionPackageFromURL($extensionURL, $pathExtension,$package)
 	{
 		$I = $this;
-		$I->amOnPage(\AdminJ3Page::$installURL);
-		$I->waitForElement(\AdminJ3Page::$link, 30);
-		$I->waitForElementVisible(\AdminJ3Page::$link, 30);
-		$I->click(\AdminJ3Page::$link);
+		$I->amOnPage(AdminJ3Page::$installURL);
+		$I->waitForElement(AdminJ3Page::$link, 30);
+		$I->waitForElementVisible(AdminJ3Page::$link, 30);
+		$I->click(AdminJ3Page::$link);
 		$path = $I->getConfig($extensionURL) . $pathExtension. $package;
 		$I->wantToTest($path);
 		$I->comment($path);
 		try {
-			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+			$I->waitForElementVisible(AdminJ3Page::$urlID, 10);
 		} catch (\Exception $e) {
-			$I->click(\AdminJ3Page::$link);
-			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+			$I->click(AdminJ3Page::$link);
+			$I->waitForElementVisible(AdminJ3Page::$urlID, 10);
 		}
-		$I->fillField(\AdminJ3Page::$urlID, $path);
-		$I->waitForElement(\AdminJ3Page::$installButton, 30);
-		$I->waitForElementVisible(\AdminJ3Page::$installButton, 30);
-		$I->click(\AdminJ3Page::$installButton);
+		$I->fillField(AdminJ3Page::$urlID, $path);
+		$I->waitForElement(AdminJ3Page::$installButton, 30);
+		$I->waitForElementVisible(AdminJ3Page::$installButton, 30);
+		$I->click(AdminJ3Page::$installButton);
 	}
 
 	/**
@@ -331,5 +380,43 @@ class AdminManagerJoomla3Steps extends Redshop
 			'decimalSeparator'          => $decimalSeparator,
 			'numberZero'                => $NumberZero
 		);
+	}
+
+	/**
+	 * Function Uninstall redSHOP component
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function uninstallRedSHOP()
+	{
+		$I = $this;
+		$I->amOnPage(ExtensionManagerJoomla3Page::$urlManage);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForText(ExtensionManagerJoomla3Page::$buttonClear, 30);
+		$I->click(ExtensionManagerJoomla3Page::$buttonClear);
+
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$I->waitForElementVisible(ExtensionManagerJoomla3Page::$searchTools, 30);
+		$I->wait(0.5);
+		$I->click(ExtensionManagerJoomla3Page::$searchTools);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$I->waitForElement(ExtensionManagerJoomla3Page::$filterType, 30);
+		$I->selectOptionInChosen(ExtensionManagerJoomla3Page::$filterType, 'Component');
+		$I->fillField(ExtensionManagerJoomla3Page::$searchField, 'redSHOP');
+		$I->click(ExtensionManagerJoomla3Page::$searchButtonJ3);
+		$I->waitForElementVisible(ExtensionManagerJoomla3Page::$manageList);
+		$I->click(ExtensionManagerJoomla3Page::$linkLocation);
+		$I->waitForElementVisible(ExtensionManagerJoomla3Page::$manageList);
+		$I->click(ExtensionManagerJoomla3Page::$linkLocation);
+		$I->click(ExtensionManagerJoomla3Page::$firstCheck);
+		$I->click(ExtensionManagerJoomla3Page::$buttonUninstall);
+		$I->acceptPopup();
+		$I->see(ExtensionManagerJoomla3Page::$messageUninstallSuccess, ExtensionManagerJoomla3Page::$idInstallSuccess);
+
+		$I->fillField(ExtensionManagerJoomla3Page::$searchField, 'redSHOP');
+		$I->click(ExtensionManagerJoomla3Page::$searchButtonJ3);
+		$I->waitForText(ExtensionManagerJoomla3Page::$messageUninstall, 10, ExtensionManagerJoomla3Page::$selectorAlert);
+		$I->see(ExtensionManagerJoomla3Page::$messageUninstall, ExtensionManagerJoomla3Page::$selectorAlert);
+		$I->selectOptionInChosen(ExtensionManagerJoomla3Page::$filterType, '- Select Type -');
 	}
 }

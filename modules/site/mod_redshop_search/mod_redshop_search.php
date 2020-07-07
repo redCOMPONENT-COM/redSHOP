@@ -8,7 +8,6 @@
  */
 
 use Joomla\Registry\Registry;
-use Redshop\Twig;
 
 defined('_JEXEC') or die;
 
@@ -23,12 +22,13 @@ $input    = $app->input;
 $user     = JFactory::getUser();
 $document = JFactory::getDocument();
 $document->addScriptDeclaration(
-	"var base_url = '" . JUri::root() . "';"
+    "var base_url = '" . JUri::root() . "';"
 );
 
 $enableAjaxsearch            = trim($params->get('enableAjaxsearch', 0));
 $defaultSearchType           = trim($params->get('defaultSearchType', 'product_name'));
 $searchProductByCategoryName = trim($params->get('searchProductByCategoryName'));
+$searchProductByFieldsData   = trim($params->get('searchProductByFieldsData'));
 $showSearchTypeField         = trim($params->get('showSearchTypeField'));
 $showSearchField             = trim($params->get('showSearchField'));
 $showCategory                = trim($params->get('showCategory'));
@@ -49,16 +49,16 @@ $categoryData     = ModRedshopSearch::getCategories();
 $manufacturerData = ModRedshopSearch::getManufacturers();
 $fieldData        = ModRedshopSearch::getCustomFields($productFields);
 
-if ($modSearchItemid != "")
-{
-	$itemId = $modSearchItemid;
+if ($modSearchItemid != "") {
+    $itemId = $modSearchItemid;
 }
 
-if ($enableAjaxsearch)
-{
-	/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.search.min.js', false, true);
-	/** @scrutinizer ignore-deprecated */ JHtml::stylesheet('com_redshop/redshop.search.min.css', array(), true);
-	$javaFun = "makeUrl();";
+if ($enableAjaxsearch) {
+    /** @scrutinizer ignore-deprecated */
+    JHtml::script('com_redshop/redshop.search.min.js', false, true);
+    /** @scrutinizer ignore-deprecated */
+    JHtml::stylesheet('com_redshop/redshop.search.min.css', array(), true);
+    $javaFun = "makeUrl();";
 }
 
 $type    = $input->getWord('search_type', $defaultSearchType);
@@ -72,73 +72,73 @@ $category         = array();
 $category[]       = JHtml::_('select.option', '0', JText::_('MOD_REDSHOP_SEARCH_SELECT_CATEGORIES'));
 $categoryData     = array_merge($category, $categoryData);
 $lists['catdata'] = JHtml::_(
-	'select.genericlist',
-	$categoryData,
-	'category_id',
-	'class="inputbox span12" size="1" searchcategory="1" onChange="loadProducts(this.value);' . $javaFun . '" ',
-	'value',
-	'text',
-	$cid
+    'select.genericlist',
+    $categoryData,
+    'category_id',
+    'class="inputbox span12" size="1" searchcategory="1" onChange="loadProducts(this.value);' . $javaFun . '" ',
+    'value',
+    'text',
+    $cid
 );
 
 $manufacturer             = array();
 $manufacturer[]           = JHtml::_('select.option', '0', JText::_('MOD_REDSHOP_SEARCH_SELECT_MANUFACTURE'));
 $manufacturerData         = array_merge($manufacturer, $manufacturerData);
 $lists['manufacturedata'] = JHtml::_(
-	'select.genericlist',
-	$manufacturerData,
-	'manufacturer_id',
-	'class="inputbox span12" size="1" searchmanufacturer="1"  ',
-	'value',
-	'text',
-	$mid
+    'select.genericlist',
+    $manufacturerData,
+    'manufacturer_id',
+    'class="inputbox span12" size="1" searchmanufacturer="1"  ',
+    'value',
+    'text',
+    $mid
 );
 
 $searchType   = array();
 $searchType[] = JHtml::_(
-	'select.option',
-	'product_name',
-	JText::_('MOD_REDSHOP_SEARCH_PRODUCT_NAME')
+    'select.option',
+    'product_name',
+    JText::_('MOD_REDSHOP_SEARCH_PRODUCT_NAME')
 );
 $searchType[] = JHtml::_(
-	'select.option',
-	'product_number',
-	JText::_('MOD_REDSHOP_SEARCH_PRODUCT_NUMBER')
+    'select.option',
+    'product_number',
+    JText::_('MOD_REDSHOP_SEARCH_PRODUCT_NUMBER')
 );
 $searchType[] = JHtml::_(
-	'select.option',
-	'name_number',
-	JText::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_NUMBER")
+    'select.option',
+    'name_number',
+    JText::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_NUMBER")
 );
 $searchType[] = JHtml::_(
-	'select.option',
-	'product_desc',
-	JText::_("MOD_REDSHOP_SEARCH_PRODUCT_DESCRIPTION")
+    'select.option',
+    'product_desc',
+    JText::_("MOD_REDSHOP_SEARCH_PRODUCT_DESCRIPTION")
 );
 $searchType[] = JHtml::_(
-	'select.option',
-	'virtual_product_num',
-	JText::_("MOD_REDSHOP_SEARCH_VIRTUAL_PRODUCT_NUM")
+    'select.option',
+    'virtual_product_num',
+    JText::_("MOD_REDSHOP_SEARCH_VIRTUAL_PRODUCT_NUM")
 );
 $searchType[] = JHtml::_(
-	'select.option',
-	'name_desc',
-	JText::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_DESCRIPTION")
+    'select.option',
+    'name_desc',
+    JText::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_DESCRIPTION")
 );
 $searchType[] = JHtml::_(
-	'select.option',
-	'name_number_desc',
-	JText::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_NUMBER_AND_VIRTUAL_PRODUCT_NUM_AND_PRODUCT_DESCRIPTION")
+    'select.option',
+    'name_number_desc',
+    JText::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_NUMBER_AND_VIRTUAL_PRODUCT_NUM_AND_PRODUCT_DESCRIPTION")
 );
 
 $lists['searchtypedata'] = JHtml::_(
-	'select.genericlist',
-	$searchType,
-	'search_type',
-	'class="inputbox span12" size="1" onchange="' . $javaFun . '" ',
-	'value',
-	'text',
-	$type
+    'select.genericlist',
+    $searchType,
+    'search_type',
+    'class="inputbox span12" size="1" onchange="' . $javaFun . '" ',
+    'value',
+    'text',
+    $type
 );
 
 $twigParams = array(
@@ -157,20 +157,22 @@ $twigParams = array(
 	'productPerpage'            => $productPerpage,
 	'excludeCategories'         => $excludeCategories,
 	'searchProductByCatName'    => $searchProductByCategoryName,
+	'searchProductByFieldsData' => $searchProductByFieldsData,
 	'keyword'                   => $keyword,
 	'data'                      => $lists
 );
 
-$layout =$params->get('layout', 'default');
+$layout     = $params->get('layout', 'default');
 $moduleName = 'mod_redshop_search';
 
 echo RedshopLayoutHelper::render(
-	$layout,
-	$twigParams,
-	'',
-	array(
-	'component'     => 'com_redshop',
-	'layoutType'    => 'Twig',
-	'layoutOf'      => 'module',
-	'prefix'        => $moduleName
-));
+    $layout,
+    $twigParams,
+    '',
+    array(
+        'component'  => 'com_redshop',
+        'layoutType' => 'Twig',
+        'layoutOf'   => 'module',
+        'prefix'     => $moduleName
+    )
+);

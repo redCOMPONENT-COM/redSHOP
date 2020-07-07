@@ -19,17 +19,6 @@ class RedshopTagsSectionsQuotationRequest extends RedshopTagsAbstract
     use \Redshop\Traits\Replace\CartItem;
 
     /**
-     * Init
-     *
-     * @return  mixed
-     *
-     * @since   3.0.1
-     */
-    public function init()
-    {
-    }
-
-    /**
      * @var    array
      *
      * @since   3.0.1
@@ -42,6 +31,17 @@ class RedshopTagsSectionsQuotationRequest extends RedshopTagsAbstract
         '{cancel_btn}',
         '{request_quotation_btn}'
     ];
+
+    /**
+     * Init
+     *
+     * @return  mixed
+     *
+     * @since   3.0.1
+     */
+    public function init()
+    {
+    }
 
     /**
      * Execute replace

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Page Class
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,268 +9,199 @@
 /**
  * Class CategoryManagerJ3Page
  *
- * @since  2.4
+ * @since  1.4.0
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
 class CategoryManagerJ3Page extends AdminJ3Page
 {
-    // Include url of current page
+	// Include url of current page
 
-    /**
-     * @var string
-     */
-    public static $URL = '/administrator/index.php?option=com_redshop&view=categories';
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $URL = '/administrator/index.php?option=com_redshop&view=categories';
 
-    /**
-     * @var string
-     */
-    public static $URLEdit = '/administrator/index.php?option=com_redshop&view=category&layout=edit&id=';
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $URLEdit = '/administrator/index.php?option=com_redshop&view=category&layout=edit&id=';
 
-    //page name
+	//page name
 
-    /**
-     * @var string
-     */
-    public static $pageManageName = "Category Management";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $pageManageName = "Category Management";
 
-    /**
-     * @var string
-     */
-    public static $headPageName = "//h1";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $headPageName = "//h1";
 
-    /**
-     * @var string
-     */
-    public static $categoryName = "#jform_name";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $categoryName = "#jform_name";
 
-    /**
-     * @var string
-     */
-    public static $categoryFilter = "#filter_search";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $categoryFilter = "#filter_search";
 
-    /**
-     * @var string
-     */
-    public static $categoryTemplateDropDown = "//div[@id='filter_category_template']/a";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $categoryTemplateDropDown = "//div[@id='filter_category_template']/a";
 
-    /**
-     * @var string
-     */
-    public static $categoryId = "//tbody/tr/td[9]";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $categoryId = "//tbody/tr/td[9]";
 
-    /**
-     * @var string
-     */
-    public static $categoryStatePath = "//tbody/tr/td[7]/a";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $categoryStatePath = "//tbody/tr/td[7]/a";
 
-    /**
-     * @var string
-     */
-    public static $checkAll = "//input[@id='cb0']";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $checkAll = "//input[@id='cb0']";
 
-    /**
-     * @var string
-     */
-    public static $categoryTemplateIDDropDown = "//div[@id='s2id_filter_category_template']/a";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $categoryTemplateIDDropDown = "//div[@id='s2id_filter_category_template']/a";
 
-    /**
-     * @var string
-     */
-    public static $categoryNoPage = "#jform_products_per_page";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $categoryNoPage = "#jform_products_per_page";
 
-    /**
-     * @var string
-     */
-    public static $parentCategory = "//div[@id='s2id_jform_parent_id']/a";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $parentCategory = "//div[@id='s2id_jform_parent_id']/a";
 
-    /**
-     * @var string
-     */
-    public static $choiceCategoryParent = "//div[@id='select2-result-label-13']/a";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $choiceCategoryParent = "//div[@id='select2-result-label-13']/a";
 
-    /**
-     * @var string
-     */
-    public static $accessories = "//div[@id='s2id_category_accessory_search']/a";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $accessories = "//div[@id='s2id_category_accessory_search']/a";
 
-    /**
-     * @var string
-     */
-    public static $accessoriesFill = "#s2id_autogen1";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $accessoriesFill = "#s2id_autogen1";
 
-    /**
-     * @var array
-     */
-    public static $tabAccessory = ['link' => "Accessories"];
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	public static $tabAccessory = ['link' => "Accessories"];
 
-    /**
-     * @var string
-     */
-    public static $accessorySearch = "//div[@id='s2id_category_accessory_search']//a";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $accessorySearch = "//div[@id='s2id_category_accessory_search']//a";
 
-    /**
-     * @var string
-     */
-    public static $searchFirst = "#s2id_autogen1_search";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $searchFirst = "#s2id_autogen1_search";
 
-    /**
-     * @var string
-     */
-    public static $getAccessory = "//h3[text()='Accessories']";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $getAccessory = "//h3[text()='Accessories']";
 
-    //templatep
+	//template
 
-    /**
-     * @var string
-     */
-    public static $template = "//div/div/div[@id='s2id_jform_more_template']/ul";
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $template = "//div/div/div[@id='s2id_jform_more_template']/ul";
 
-    /**
-     * @var string
-     */
-    public static $choiceTemplate = '//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]';
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $choiceTemplate = '//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]';
 
-    //selector
+	//button
 
-    /**
-     * @var string
-     */
-    public static $selectorSuccess = '.alert-success';
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public static $saveCloseButton = "//button[@onclick=\"Joomla.submitbutton('category.save');\"]";
 
-    /**
-     * @var string
-     */
-    public static $selectorError = '.alert-danger';
+	/**
+	 * Function to get the Path for Template ID
+	 *
+	 * @param   String $templateIDName Name of the Template
+	 *
+	 * @return string
+	 * @since 1.4.0
+	 */
+	public function categoryTemplateID($templateIDName)
+	{
+		$path = "//div[@id='s2id_filter_category_template']/div/ul/li[contains(text(), '" . $templateIDName . "')]";
 
-    /**
-     * @var string
-     */
-    public static $selectorNamePage = '.page-title';
+		return $path;
+	}
 
-    /**
-     * @var string
-     */
-    public static $selectorHeading = '.alert-heading';
+	/**
+	 * Function to get the Path for Template
+	 *
+	 * @param   String $templateName Name of the Template
+	 *
+	 * @return string
+	 * @since 1.4.0
+	 */
+	public function categoryTemplate($templateName)
+	{
+		$path = "//div[@id='filter_category_template']/div/ul/li[contains(text(), '" . $templateName . "')]";
 
+		return $path;
+	}
 
-    //message
-
-    /**
-     * @var string
-     */
-    public static $messageSaveSuccess = "Item saved.";
-
-    /**
-     * @var string
-     */
-    public static $messageError = "Error";
-
-    /**
-     * @var string
-     */
-    public static $messageSuccess = "Message";
-
-    /**
-     * @var string
-     */
-    public static $messageDeleteSuccess = "1 item successfully deleted";
-
-    /**
-     * @var string
-     */
-    public static $messageErrorDeleteCategoryHasChildCategoriesOrProducts = "kindly remove those";
-
-    //button
-
-    /**
-     * @var string
-     */
-    public static $newButton = "New";
-
-    /**
-     * @var string
-     */
-    public static $saveButton = "Save";
-
-    /**
-     * @var string
-     */
-    public static $unpublishButton = "Unpublish";
-
-    /**
-     * @var string
-     */
-    public static $publishButton = "Publish";
-
-    /**
-     * @var string
-     */
-    public static $saveCloseButton = "//button[@onclick=\"Joomla.submitbutton('category.save');\"]";
-
-    /**
-     * @var string
-     */
-    public static $deleteButton = "Delete";
-
-    /**
-     * @var string
-     */
-    public static $editButton = "Edit";
-
-    /**
-     * @var string
-     */
-    public static $saveNewButton = "Save & New";
-
-    /**
-     * @var string
-     */
-    public static $cancelButton = "Cancel";
-
-    /**
-     * @var string
-     */
-    public static $checkInButton = "Check-in";
-
-    /**
-     * Function to get the Path for Template ID
-     *
-     * @param   String $templateIDName Name of the Template
-     *
-     * @return string
-     */
-    public function categoryTemplateID($templateIDName)
-    {
-        $path = "//div[@id='s2id_filter_category_template']/div/ul/li[contains(text(), '" . $templateIDName . "')]";
-
-        return $path;
-    }
-
-    /**
-     * Function to get the Path for Template
-     *
-     * @param   String $templateName Name of the Template
-     *
-     * @return string
-     */
-    public function categoryTemplate($templateName)
-    {
-        $path = "//div[@id='filter_category_template']/div/ul/li[contains(text(), '" . $templateName . "')]";
-
-        return $path;
-    }
-
-    /**
-     * Function to get the Path for $accessoryName
-     *
-     * @param  $accessoryName
-     *
-     * @return array
-     */
-    public function xPathAccessory($accessoryName)
-    {
-        $path = ['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"];
-        return $path;
-    }
+	/**
+	 * Function to get the Path for $accessoryName
+	 *
+	 * @param  $accessoryName
+	 *
+	 * @return array
+	 * @since 1.4.0
+	 */
+	public function xPathAccessory($accessoryName)
+	{
+		$path = ['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"];
+		return $path;
+	}
 }

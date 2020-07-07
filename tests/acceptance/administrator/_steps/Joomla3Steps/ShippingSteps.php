@@ -1,6 +1,9 @@
 <?php
 /**
- * ShippingSteps for shipping rate
+ * @package     redSHOP
+ * @subpackage  Steps
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace AcceptanceTester;
@@ -25,6 +28,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 	 *
 	 * @return  void
 	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function createShippingRateStandard($shippingMethod, $shipping = array(), $function = 'save')
 	{
@@ -202,12 +206,14 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		}
 
 	}
+
 	/**
 	 * @param $shippingName
 	 * @param $shippingNameEdit
 	 * @param $shippingRate
 	 * @param $function
 	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function editShippingRateStandard($shippingName, $shippingNameEdit, $shippingRate, $function)
 	{
@@ -248,10 +254,12 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		}
 
 	}
+
 	/**
 	 * @param $shippingMethod
 	 * @param $shippingName
 	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function deleteShippingRate($shippingMethod, $shippingName)
 	{

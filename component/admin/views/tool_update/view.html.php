@@ -18,32 +18,32 @@ defined('_JEXEC') or die;
  */
 class RedshopViewTool_Update extends RedshopViewAdmin
 {
-	/**
-	 * @var  array
-	 */
-	public $availableVersions;
+    /**
+     * @var  array
+     */
+    public $availableVersions;
 
-	/**
-	 * Display template function
-	 *
-	 * @param   string  $tpl  template variable
-	 *
-	 * @return  mixed
-	 * @throws  Exception
-	 *
-	 * @since   2.1.0
-	 */
-	public function display($tpl = null)
-	{
-		/** @var RedshopModelTool $model */
-		$model = $this->getModel();
+    /**
+     * Display template function
+     *
+     * @param   string  $tpl  template variable
+     *
+     * @return  mixed
+     * @throws  Exception
+     *
+     * @since   2.1.0
+     */
+    public function display($tpl = null)
+    {
+        /** @var RedshopModelTool $model */
+        $model = $this->getModel();
 
-		$this->availableVersions = $model->getAvailableUpdate();
+        $this->availableVersions = $model->getAvailableUpdate();
 
-		JFactory::getDocument()->setTitle(JText::_('COM_REDSHOP_TOOL'));
-		JToolbarHelper::title(JText::_('COM_REDSHOP_TOOL'));
+        JFactory::getDocument()->setTitle(JText::_('COM_REDSHOP_TOOL'));
+        JToolbarHelper::title(JText::_('COM_REDSHOP_TOOL'));
 
-		// Display the template
-		parent::display($tpl);
-	}
+        // Display the template
+        parent::display($tpl);
+    }
 }

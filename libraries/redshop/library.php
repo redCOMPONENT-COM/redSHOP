@@ -45,14 +45,12 @@ define('REDSHOP_ADDRESS_TYPE_SHIPPING', 'ST');
 // Require our Composer libraries
 $composerAutoload = __DIR__ . '/vendor/autoload.php';
 
-if (file_exists($composerAutoload))
-{
-	$loader = require_once $composerAutoload;
+if (file_exists($composerAutoload)) {
+    $loader = require_once $composerAutoload;
 
-	if (is_callable(array($loader, 'loadClass')))
-	{
-		AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
-	}
+    if (is_callable(array($loader, 'loadClass'))) {
+        AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
+    }
 }
 
 // Load library language
@@ -65,7 +63,18 @@ jimport('joomla.filesystem.file');
 
 // Load redSHOP factory file
 JLoader::import('redshop.redshop');
-JLoader::import('redshop.twig');
+$systemRedshop = JPluginHelper::getPlugin('system', 'redshop');
+
+if (!empty($systemRedshop))
+{
+    $params = new JRegistry($systemRedshop->params);
+
+    if ($params->get('enable_twig'))
+    {
+        require_once (JPATH_PLUGINS . '/system/redshop/libraries/vendor/autoload.php');
+        JLoader::import('redshop.twig');
+    }
+}
 
 // Register library prefix
 JLoader::registerPrefix('Redshop', JPATH_REDSHOP_LIBRARY);
@@ -96,15 +105,12 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 RedshopHelperUtility::defineDynamicVariables();
 
 // Load backward compatible php defined config.
-if (Redshop::getConfig()->getBool('BACKWARD_COMPATIBLE_PHP'))
-{
-	$configs = Redshop::getConfig()->toArray();
+if (Redshop::getConfig()->getBool('BACKWARD_COMPATIBLE_PHP')) {
+    $configs = Redshop::getConfig()->toArray();
 
-	foreach ($configs as $key => $value)
-	{
-		if (!defined($key))
-		{
-			define($key, $value);
-		}
-	}
+    foreach ($configs as $key => $value) {
+        if (!defined($key)) {
+            define($key, $value);
+        }
+    }
 }

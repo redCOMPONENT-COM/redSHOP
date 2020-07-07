@@ -18,15 +18,22 @@ defined('_JEXEC') or die;
  */
 class RedshopViewOrder_Statuses extends RedshopViewList
 {
-	/**
-	 * Method for get page title.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.0.7
-	 */
-	public function getTitle()
-	{
-		return JText::_('COM_REDSHOP_ORDERSTATUS_MANAGEMENT');
-	}
+    /**
+     * @var  boolean
+     *
+     * @since  3.0.2
+     */
+    public $hasOrdering = true;
+
+    /**
+     * Method for get page title.
+     *
+     * @return  string
+     *
+     * @since   2.0.7
+     */
+    public function getTitle()
+    {
+        return JText::_('COM_REDSHOP_ORDERSTATUS_MANAGEMENT');
+    }
 }

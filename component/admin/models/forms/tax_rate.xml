@@ -4,7 +4,7 @@
         <field
                 name="id"
                 type="hidden"
-                />
+        />
         <field
                 name="name"
                 type="redshop.text"
@@ -17,7 +17,7 @@
                 table-sortable="1"
                 table-inline="1"
                 table-edit-link="1"
-                />
+        />
         <field
                 name="tax_group_id"
                 type="redshop.taxgroup"
@@ -29,6 +29,19 @@
                 table-sortable="1"
                 table-width="20%">
             <option value="">COM_REDSHOP_TAX_RATE_GROUP_SELECT</option>
+        </field>
+        <field
+                name="shopper_group"
+                type="shoppergrouplist"
+                label="COM_REDSHOP_TAX_RATE_USER_SHOPPER_GROUP"
+                description="COM_REDSHOP_TAX_RATE_USER_SHOPPER_GROUP_DESC"
+                class="form-control"
+                required="true"
+                multiple="true"
+                default=""
+                table-sortable="1"
+                table-width="20%">
+            <option value="">COM_REDSHOP_TAX_RATE_USER_SHOPPER_GROUP_SELECT</option>
         </field>
         <field
                 name="tax_country"
@@ -66,7 +79,7 @@
                 filter="float"
                 table-sortable="1"
                 table-width="10%"
-                />
+        />
         <field
                 name="is_eu_country"
                 type="redshop.radio"

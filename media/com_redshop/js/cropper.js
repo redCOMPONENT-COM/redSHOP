@@ -12,7 +12,8 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
         typeof define === 'function' && define.amd ? define(['jquery'], factory) :
             (factory(global.jQuery));
-}(this, (function ($) { 'use strict';
+}(this, (function ($) {
+    'use strict';
 
     $ = $ && $.hasOwnProperty('default') ? $['default'] : $;
 
@@ -194,45 +195,6 @@
             return Constructor;
         };
     }();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     var toConsumableArray = function (arr) {

@@ -21,40 +21,40 @@ use Twig\TwigFilter;
  */
 final class JArray extends AbstractExtension
 {
-	/**
-	 *
-	 * @return array
-	 *
-	 * @since  2.1.5
-	 */
-	public function getFilters() : array
-	{
-		return [
-			new TwigFilter('to_array', [$this, 'toArray']),
-			new TwigFilter('array_values', 'array_values')
-		];
-	}
+    /**
+     *
+     * @return array
+     *
+     * @since  2.1.5
+     */
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter('to_array', [$this, 'toArray']),
+            new TwigFilter('array_values', 'array_values')
+        ];
+    }
 
-	/**
-	 * @param $var
-	 *
-	 * @return array
-	 *
-	 * @since 2.1.5
-	 */
-	public function toArray($var) : array
-	{
-		return (array) ($var);
-	}
+    /**
+     * @param $var
+     *
+     * @return array
+     *
+     * @since 2.1.5
+     */
+    public function toArray($var): array
+    {
+        return (array)($var);
+    }
 
-	/**
-	 *
-	 * @return string
-	 *
-	 * @since 2.1.5
-	 */
-	public function getName() : string
-	{
-		return 'jarray';
-	}
+    /**
+     *
+     * @return string
+     *
+     * @since 2.1.5
+     */
+    public function getName(): string
+    {
+        return 'jarray';
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -9,35 +10,35 @@
 defined('_JEXEC') or die;
 
 echo RedshopLayoutHelper::render(
-	'config.config',
-	array(
-		'title' => JText::_('COM_REDSHOP_MY_WISHLIST_LBL'),
-		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_MY_WISHLIST'),
-		'field' => $this->lists['my_wishlist']
-	)
+    'config.config',
+    array(
+        'title' => JText::_('COM_REDSHOP_MY_WISHLIST_LBL'),
+        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_MY_WISHLIST'),
+        'field' => $this->lists['my_wishlist']
+    )
 );
 
 echo RedshopLayoutHelper::render(
-	'config.config',
-	array(
-		'title' => JText::_('COM_REDSHOP_WISHLIST_LOGIN_REQUIRED_LBL'),
-		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_WISHLIST_LOGIN_REQUIRED'),
-		'field' => $this->lists['wishlist_login_required'],
-		'id'    => 'wishlist_login_required',
-		'showOn' => 'my_wishlist:1'
-	)
+    'config.config',
+    array(
+        'title'  => JText::_('COM_REDSHOP_WISHLIST_LOGIN_REQUIRED_LBL'),
+        'desc'   => JText::_('COM_REDSHOP_TOOLTIP_WISHLIST_LOGIN_REQUIRED'),
+        'field'  => $this->lists['wishlist_login_required'],
+        'id'     => 'wishlist_login_required',
+        'showOn' => 'my_wishlist:1'
+    )
 );
 
 
 echo RedshopLayoutHelper::render(
-	'config.config',
-	array(
-		'title' => JText::_('COM_REDSHOP_WISHLIST_LIST_LBL'),
-		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_WISHLIST_LIST'),
-		'field' => $this->lists['wishlist_list'],
-		'id'    => 'wishlist_list',
-		'showOn' => 'my_wishlist:1'
-	)
+    'config.config',
+    array(
+        'title'  => JText::_('COM_REDSHOP_WISHLIST_LIST_LBL'),
+        'desc'   => JText::_('COM_REDSHOP_TOOLTIP_WISHLIST_LIST'),
+        'field'  => $this->lists['wishlist_list'],
+        'id'     => 'wishlist_list',
+        'showOn' => 'my_wishlist:1'
+    )
 );
 
 

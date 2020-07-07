@@ -9,19 +9,19 @@
 
 defined('_JEXEC') or die;
 
-$template         = $this->input->getString('template', '');
-$relPTemplate     = RedshopHelperTemplate::getTemplate("related_product", 0, $template);
+$template     = $this->input->getString('template', '');
+$relPTemplate = RedshopHelperTemplate::getTemplate("related_product", 0, $template);
 
 if (isset($relPTemplate[0]->template_desc) && !empty(trim($relPTemplate[0]->template_desc))) {
-	$relatedTemplate = $relPTemplate[0]->template_desc;
+    $relatedTemplate = $relPTemplate[0]->template_desc;
 } else {
-	$relatedTemplate = RedshopHelperTemplate::getDefaultTemplateContent('related_product');
+    $relatedTemplate = RedshopHelperTemplate::getDefaultTemplateContent('related_product');
 }
 
 echo RedshopTagsReplacer::_(
-	'relatedproduct',
-	$relatedTemplate,
-	[
-		'product' => $this->data
-	]
+    'relatedproduct',
+    $relatedTemplate,
+    [
+        'product' => $this->data
+    ]
 );

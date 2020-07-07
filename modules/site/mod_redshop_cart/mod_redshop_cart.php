@@ -24,25 +24,24 @@ $document->addScript("modules/mod_redshop_cart/js/cart.js");
 
 $showEmptyBtn = 0;
 
-if ($params->get("checkout_empty") != 0)
-{
-	$showEmptyBtn = 1;
+if ($params->get("checkout_empty") != 0) {
+    $showEmptyBtn = 1;
 }
 
 \RedshopHelperUtility::databaseToCart();
 
 $outputView = $params->get('cart_output', 'simple');
-$session     = \JFactory::getSession();
-$cart        = $session->get('cart');
+$session    = \JFactory::getSession();
+$cart       = $session->get('cart');
 
-$layout =$params->get('layout', 'default');
-$cart = \Redshop\Cart\Helper::getCart();
-$totalQuantity = \Redshop\Cart\Helper::getTotalQuantity();
-$twigParams = [];
+$layout              = $params->get('layout', 'default');
+$cart                = \Redshop\Cart\Helper::getCart();
+$totalQuantity       = \Redshop\Cart\Helper::getTotalQuantity();
+$twigParams          = [];
 $twigParams['token'] = \JSession::getFormToken();
-$twigParams['app'] = \JFactory::getApplication();
-$itemId = (int)RedshopHelperRouter::getCartItemId();
-$getNewItemId = true;
+$twigParams['app']   = \JFactory::getApplication();
+$itemId              = (int)RedshopHelperRouter::getCartItemId();
+$getNewItemId        = true;
 
 if ($itemId != 0) {
     $menu = $app->getMenu();
@@ -56,7 +55,7 @@ if ($itemId != 0) {
 }
 
 if ($getNewItemId) {
-    $itemId = (int) \RedshopHelperRouter::getCategoryItemid();
+    $itemId = (int)\RedshopHelperRouter::getCategoryItemid();
 }
 
 $displayButton = \JText::_('MOD_REDSHOP_CART_CHECKOUT');
@@ -72,10 +71,10 @@ JFactory::getDocument()->addStyleDeclaration(
 $twigParams['cartHtml'] = RedshopLayoutHelper::render(
     'cart.cart',
     array(
-        'cartOutput' => $outputView,
-        'totalQuantity' => $totalQuantity,
-        'cart' => $cart,
-        'showWithVat' => $showWithVat,
+        'cartOutput'       => $outputView,
+        'totalQuantity'    => $totalQuantity,
+        'cart'             => $cart,
+        'showWithVat'      => $showWithVat,
         'showShippingLine' => $showShippingLine,
         'showWithDiscount' => $showWithDiscount
     ),
@@ -85,9 +84,10 @@ $twigParams['cartHtml'] = RedshopLayoutHelper::render(
     )
 );
 
-$twigParams['itemId'] = $itemId;
-$twigParams['count'] = $totalQuantity;
-$twigParams['showEmptyBtn'] = $showEmptyBtn;
+$twigParams['cart']          = $cart;
+$twigParams['itemId']        = $itemId;
+$twigParams['count']         = $totalQuantity;
+$twigParams['showEmptyBtn']  = $showEmptyBtn;
 $twigParams['displayButton'] = $displayButton;
 
 print RedshopLayoutHelper::render(
@@ -95,8 +95,9 @@ print RedshopLayoutHelper::render(
     $twigParams,
     '',
     array(
-        'component'     => 'com_redshop',
-        'layoutType'    => 'Twig',
-        'layoutOf'      => 'module',
-        'prefix'        => $moduleName
-    ));
+        'component'  => 'com_redshop',
+        'layoutType' => 'Twig',
+        'layoutOf'   => 'module',
+        'prefix'     => $moduleName
+    )
+);

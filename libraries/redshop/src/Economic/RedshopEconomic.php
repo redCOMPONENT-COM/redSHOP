@@ -692,12 +692,12 @@ class RedshopEconomic
 
 		if (!empty($row) && $row->accountgroup_id != 0)
 		{
-			$accountGroup = RedshopHelperUtility::getEconomicAccountGroup($row->accountgroup_id);
+			$accountGroup = \RedshopHelperUtility::getEconomicAccountGroup($row->accountgroup_id);
 		}
 
 		elseif (\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP') != 0)
 		{
-			$accountGroup = RedshopHelperUtility::getEconomicAccountGroup(\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'));
+			$accountGroup = \RedshopHelperUtility::getEconomicAccountGroup(\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'));
 		}
 
 		if (count($accountGroup) > 0)
@@ -1434,7 +1434,7 @@ class RedshopEconomic
 
 		if (\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'))
 		{
-			$accountGroup = RedshopHelperUtility::getEconomicAccountGroup(\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'), 1);
+			$accountGroup = \RedshopHelperUtility::getEconomicAccountGroup(\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'), 1);
 
 			if (count($accountGroup) > 0)
 			{

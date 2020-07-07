@@ -82,7 +82,7 @@ class CurrencyLayer
 
 		if (!$targetCurrency)
 		{
-			$targetCurrency = RedshopEntityCurrency::getInstance((int) $session->get('product_currency'))->get('code');
+			$targetCurrency = \RedshopEntityCurrency::getInstance((int) $session->get('product_currency'))->get('code');
 
 			// If both currency codes match, do nothing
 			if ($sourceCurrency == $targetCurrency)

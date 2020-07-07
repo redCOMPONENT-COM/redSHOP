@@ -84,6 +84,16 @@
                     <option value="no">JNO</option>
                 </field>
                 <field
+                        name="searchProductByFieldsData"
+                        type="radio"
+                        default="yes"
+                        label="MOD_REDSHOP_SEARCH_SEARCH_PRODUCT_BY_FIELDS_DATA_LBL"
+                        class="btn-group"
+                        description="MOD_REDSHOP_SEARCH_SEARCH_PRODUCT_BY_FIELDS_DATA_DESC">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+                <field
                         name="showSearchTypeField"
                         type="radio"
                         default="yes"

@@ -20,53 +20,51 @@ use Joomla\CMS\Factory;
  */
 final class ModuleLoader extends ExtensionLoader
 {
-	/**
-	 * @var string
-	 * @since 2.1.5
-	 */
-	protected $extensionNamespace = 'module';
+    /**
+     * @var string
+     * @since 2.1.5
+     */
+    protected $extensionNamespace = 'module';
 
-	/**
-	 *
-	 * @return array
-	 *
-	 * @throws \Exception
-	 * @since  2.1.5
-	 */
-	protected function getTemplatePaths() : array
-	{
-		$paths = [];
+    /**
+     *
+     * @return array
+     *
+     * @throws \Exception
+     * @since  2.1.5
+     */
+    protected function getTemplatePaths(): array
+    {
+        $paths = [];
 
-		$tplOverrides = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html';
+        $tplOverrides = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html';
 
-		if (is_dir($tplOverrides))
-		{
-			$paths[] = $tplOverrides;
-		}
+        if (is_dir($tplOverrides)) {
+            $paths[] = $tplOverrides;
+        }
 
-		$paths[] = $this->getBaseAppPath() . '/modules';
+        $paths[] = $this->getBaseAppPath() . '/modules';
 
-		return $paths;
-	}
+        return $paths;
+    }
 
-	/**
-	 * @param   string  $name
-	 *
-	 * @return string
-	 *
-	 * @since  2.1.5
-	 */
-	protected function parseExtensionName(string $name) : string
-	{
-		$nameParts = explode('/', $name);
+    /**
+     * @param   string  $name
+     *
+     * @return string
+     *
+     * @since  2.1.5
+     */
+    protected function parseExtensionName(string $name): string
+    {
+        $nameParts = explode('/', $name);
 
-		if (!isset($nameParts[1]))
-		{
-			return $name;
-		}
+        if (!isset($nameParts[1])) {
+            return $name;
+        }
 
-		array_splice($nameParts, 1, 1, [$nameParts[1], 'tmpl']);
+        array_splice($nameParts, 1, 1, [$nameParts[1], 'tmpl']);
 
-		return implode('/', $nameParts);
-	}
+        return implode('/', $nameParts);
+    }
 }

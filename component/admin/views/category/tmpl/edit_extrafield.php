@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -20,9 +21,9 @@ JDispatcher::getInstance()->trigger('onRenderCategoryExtraFields', array($this->
                 <table class="admintable table">
                     <tr>
                         <td colspan="2">
-							<?php if ($this->extraFields) : ?>
-								<?php echo $this->extraFields; ?>
-							<?php endif; ?>
+                            <?php if ($this->extraFields) : ?>
+                                <?php echo $this->extraFields; ?>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 </table>

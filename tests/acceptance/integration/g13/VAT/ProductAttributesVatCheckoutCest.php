@@ -2,9 +2,11 @@
 /**
  * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\TaxRateSteps;
 use AcceptanceTester\TaxGroupSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
@@ -24,11 +26,314 @@ use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
  */
 class ProductAttributesVatCheckoutCest
 {
+	/**
+	 * @var \Faker\Generator
+	 * @since  2.2.0
+	 */
+	public $faker;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $categoryName;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $shopperName;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $shopperType;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $customerType;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $shopperGroupPortal;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $taxGroupName;
+
+	/**
+	 * @var integer
+	 * @since  2.2.0
+	 */
+	public $noPage;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $productName;
+
+	/**
+	 * @var integer
+	 * @since  2.2.0
+	 */
+	public $productPrice = 70;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	public $minimumPerProduct = '1';
+
+	/**
+	 * @var int|string
+	 * @since  2.2.0
+	 */
+	public $productNumber = '1';
+
+	/**
+	 * @var integer
+	 * @since  2.2.0
+	 */
+	public $minimumQuantity = 1;
+
+	/**
+	 * @var int
+	 * @since  2.2.0
+	 */
+	protected $maximumQuantity;
+
+	/**
+	 * @var array
+	 * @since  2.2.0
+	 */
+	public $attributes;
+
+	/**
+	 * @var int
+	 * @since  2.2.0
+	 */
+	protected $shippingRate;
+
+	/**
+	 * @var int
+	 * @since  2.2.0
+	 */
+	protected $shippingCheckout;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $catalog;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $showPrice;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $enableQuotation;
+
+	/**
+	 * @var null
+	 * @since  2.2.0
+	 */
+	protected $showVat;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $userName;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $password;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $email;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $group;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $firstName;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $lastName;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $subTotal;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $vatPrice;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $total;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $shippingPrice;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $shippingMethod;
+
+	/**
+	 * @var array
+	 * @since  2.2.0
+	 */
+	protected $shipping;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $taxRateName;
+
+	/**
+	 * @var float
+	 * @since  2.2.0
+	 */
+	protected $taxRateValue;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $countryName;
+
+	/**
+	 * @var int
+	 * @since  2.2.0
+	 */
+	protected $taxRateValueNegative;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $taxRateValueString;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $vatCalculation;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $vatAfter;
+
+	/**
+	 * @var int
+	 * @since  2.2.0
+	 */
+	protected $vatNumber;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $calculationBase;
+
+	/**
+	 * @var string
+	 * @since  2.2.0
+	 */
+	protected $requiredVAT;
+
+	/**
+	 * @var string
+	 * @since 2.2.0
+	 */
+	protected $nameAttribute;
+
+	/**
+	 * @var string
+	 * @since 2.2.0
+	 */
+	protected $product1;
+
+	/**
+	 * @var string
+	 * @since 2.2.0
+	 */
+	protected $product2;
+
+	/**
+	 * @var array
+	 * @since 2.2.0
+	 */
+	protected $cartSetting;
+
+	/**
+	 * @var array
+	 * @since 2.2.0
+	 */
+	protected $customerInformation;
+
+	/**
+	 * @var array
+	 * @since 2.2.0
+	 */
+	protected $customerBussinesInformation;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public $shopperGroup;
+
+	/**
+	 * ProductAttributesVatCheckoutCest constructor
+	 * @since 2.2.0
+	 */
 	public function __construct()
 	{
 		$this->faker                = Faker\Factory::create();
 		$this->taxRateName          = $this->faker->bothify('Testing Tax Rates Groups ?###?');
-		$this->taxRateNameEdit      = $this->taxRateName . 'Edit';
 		$this->taxGroupName         = $this->faker->bothify('TaxGroupsName ?###?');
 		$this->taxRateValue         = 0.25;
 		$this->countryName          = 'Denmark';
@@ -60,7 +365,7 @@ class ProductAttributesVatCheckoutCest
 		$this->vatAfter             = 'after';
 		$this->vatNumber            = 0;
 		$this->calculationBase      = 'billing';
-		$this->requiVAT             = 'no';
+		$this->requiredVAT             = 'no';
 
 		$this->product1             = "120";
 		$this->vatPrice             = "";
@@ -84,7 +389,7 @@ class ProductAttributesVatCheckoutCest
 			"enableQuotation"   => 'no'
 		);
 
-		$this->customerInformation= array(
+		$this->customerInformation = array(
 			"userName"      => $this->faker->bothify('UserName ?####?'),
 			"password"      => $this->faker->bothify('Password ?##?'),
 			"email"         => $this->faker->email,
@@ -115,11 +420,14 @@ class ProductAttributesVatCheckoutCest
 			"eanNumber"      => 1212331331231,
 			"shopperGroup"   => "Default Company",
 		);
+
+		$this->shopperGroup         = 'All';
 	}
 
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
+	 * @since 2.2.0
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -134,6 +442,7 @@ class ProductAttributesVatCheckoutCest
 	 *
 	 * @return  void
 	 * @throws  Exception
+	 * @since 2.2.0
 	 */
 	public function createVATGroupSave(TaxGroupSteps $I, $scenario)
 	{
@@ -143,14 +452,14 @@ class ProductAttributesVatCheckoutCest
 
 		$I->wantTo('Test TAX Rates Save creation in Administrator');
 		$I = new TaxRateSteps($scenario);
-		$I->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null);
+		$I->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null, $this->shopperGroup);
 
 		$I->wantTo('Create new category ');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
 
 		$I->wantTo('Create new product');
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
 
 		$I->wantTo('Create new product with attribute');
@@ -162,7 +471,7 @@ class ProductAttributesVatCheckoutCest
 		$I = new ConfigurationSteps($scenario);
 		$I->setupVAT(
 			$this->countryName, null, $this->taxGroupName, $this->vatCalculation, $this->vatAfter, $this->vatNumber,
-			$this->calculationBase, $this->requiVAT
+			$this->calculationBase, $this->requiredVAT
 		);
 		$I->cartSetting($this->cartSetting);
 
@@ -197,6 +506,7 @@ class ProductAttributesVatCheckoutCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since 2.2.0
 	 */
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
@@ -216,11 +526,11 @@ class ProductAttributesVatCheckoutCest
 		(new OrderManagerJoomla3Steps($scenario))->deleteOrder($this->customerInformation["firstName"]);
 		(new OrderManagerJoomla3Steps($scenario))->deleteOrder($this->customerBussinesInformation["firstName"]);
 
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Product  in Administrator');
 		$I->deleteProduct($this->productName);
 
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Category in Administrator');
 		$I->deleteCategory($this->categoryName);
 	}

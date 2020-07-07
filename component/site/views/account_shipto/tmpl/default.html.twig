@@ -1,0 +1,65 @@
+{% set pageTitle = jtext('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL') %}
+{% if params.get('show_page_heading', 1) %}
+	{% if params.get('page_title') != pageTitle %}
+		<h1 class="componentheading{{ params.get('pageclass_sfx') }}">
+			{{ jtext('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL') }}
+		</h1>
+	{% else %}
+		<h1 class="componentheading{{ params.get('pageclass_sfx') }}">
+			{{ pageTitle }}
+		</h1>
+	{% endif %}
+{% endif %}
+
+<fieldset class="adminform">
+	<legend>{{ jtext('COM_REDSHOP_SHIPPING_ADDRESSES') }}</legend>
+	<table cellpadding="3" cellspacing="0" border="0" width="100%">
+		{% if 'OPTIONAL_SHIPPING_ADDRESS'|redconfig %}
+		<tr>
+			<td>- {{ jtext('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') }}</td>
+		</tr>
+		{% endif %}
+
+		{% if shippingAddresses|length != 0 %}
+			{% if isEdit == 0 and return is empty %}
+				{% for shippingAddress in shippingAddresses %}
+					<tr>
+						<td>
+							<a href="{{ jroute('index.php?option=com_redshop&view=account_shipto&task=addshipping&infoid=' ~ shippingAddress.users_info_id ~ '&Itemid=' ~ itemId, false) }}">
+								{{ shippingAddress.text }}
+							</a>
+						</td>
+						<td>
+							<a onclick="return confirm({{ jtext('COM_REDSHOP_DO_YOU_WANT_TO_DELETE') }});"
+							   href="{{ jroute("index.php?option=com_redshop&view=account_shipto&task=remove&infoid=" ~ shippingAddress.users_info_id ~ "&Itemid=" ~ itemId, false) }}">
+									{{ jtext('JGLOBAL_FIELD_REMOVE') }}
+								</a>
+						</td>
+					</tr>
+				{% endfor %}
+			{% else %}
+				{% for shippingAddress in shippingAddresses %}
+					<tr>
+						<td>
+							- {{ shippingAddress.text }}
+						</td>
+						<td></td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+		{% endif %}
+		{% if isEdit == 0 and return is empty %}
+			<tr>
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					<a href="{{ jroute("index.php?option=com_redshop&view=account_shipto&task=addshipping&Itemid=" ~ itemId, false) }}">
+						{{ jtext('COM_REDSHOP_ADD_ADDRESS') }}</a>&nbsp;
+					<a href="{{ jroute("index.php?option=com_redshop&view=account&Itemid=" ~ itemId, false) }}">
+						{{ jtext('COM_REDSHOP_BACK') }}</a>
+				</td>
+			</tr>
+		{% endif %}
+	</table>
+</fieldset>

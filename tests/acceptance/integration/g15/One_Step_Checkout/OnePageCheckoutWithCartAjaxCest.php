@@ -9,7 +9,6 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use Configuration\ConfigurationSteps as ConfigurationSteps;
-use AcceptanceTester\OrderManagerJoomla3Steps;
 
 /**
  * Class OnePageCheckoutWithCartAjaxCest

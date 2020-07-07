@@ -27,6 +27,12 @@ class RedshopViewOrder_Status extends RedshopViewForm
 	 */
 	public function getTitle()
 	{
-		return JText::_('COM_REDSHOP_ORDERSTATUS_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+		$primaryKey = $this->getPrimaryKey();
+		$title      = JText::_('COM_REDSHOP_ORDERSTATUS_MANAGEMENT');
+
+		return !empty($this->item->{$primaryKey}) ? $title . ' <small>[ ' . JText::_(
+				'COM_REDSHOP_EDIT'
+			) . ' ]</small>' :
+			$title . ' <small>[ ' . JText::_('COM_REDSHOP_NEW') . ' ]</small>';
 	}
 }

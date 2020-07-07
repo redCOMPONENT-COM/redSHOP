@@ -9,6 +9,7 @@
 namespace Configuration;
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use ConfigurationPage;
+use Facebook\WebDriver\WebDriverKeys;
 use FrontEndProductManagerJoomla3Page;
 use ProductManagerPage as ProductManagerPage;
 
@@ -156,5 +157,139 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 				$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
 				break;
 		}
+	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productName
+	 * @param $function
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function checkProductConfigDiscontinue($categoryName, $productName, $function)
+	{
+		$I = $this;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+
+		switch ($function)
+		{
+			case 'Yes':
+				$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
+				$I->click($productFrontEndManagerPage->product($productName));
+				$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
+				break;
+
+			case 'No':
+				$I->waitForElementNotVisible($productFrontEndManagerPage->product($productName), 30);
+				break;
+		}
+	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productName
+	 * @param $productAccessoriesName
+	 * @param $productID
+	 * @param $function
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function checkProductDiscontinueAccessories($categoryName, $productName, $productAccessoriesName, $productID, $function)
+	{
+		$I = $this;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$page = new FrontEndProductManagerJoomla3Page();
+		$I->waitForElement($page::$categoryDiv, 30);
+		$I->click($page->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElementVisible($page->product($productName), 30);
+		$I->click($page->product($productName));
+
+		switch ($function)
+		{
+			case 'Yes':
+				$I->waitForText($productAccessoriesName, 30);
+				$I->waitForElementVisible($page->checkboxChooseProductAccessories($productID, 1));
+				$I->click($page->checkboxChooseProductAccessories($productID, 1));
+				$I->waitForElementVisible($page::$addToCart, 30);
+				$I->click($page::$addToCart);
+				$I->waitForText($page::$alertSuccessMessage, 30, $page::$selectorSuccess);
+				$I->amOnPage($page::$cartPageUrL);
+				$I->waitForElement(['link' => $productName], 30);
+				$I->dontSee($productAccessoriesName);
+				break;
+
+			case 'No':
+				$I->waitForElementNotVisible($page->xpathProductAccessorieName($productAccessoriesName), 30);
+				break;
+		}
+	}
+
+	/**
+	 * @param $productLayout
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function configProductLayout($productLayout)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
+		$I->click(ConfigurationPage::$productTab);
+		$config = new ConfigurationPage();
+
+		if (isset($productLayout['defaultTemplate']))
+		{
+			$I->waitForElement(ConfigurationPage::$defaultProductTemplate, 30);
+			$I->selectOption(ConfigurationPage::$defaultProductTemplate, $productLayout['defaultTemplate']);
+		}
+
+		if (isset($productLayout['defaultSorting']))
+		{
+			$I->waitForElementVisible(ConfigurationPage::$defaultSort, 30);
+			$I->click(ConfigurationPage::$defaultSort);
+			$I->fillField(ConfigurationPage::$inputDefaultSort,$productLayout['defaultSorting']);
+			$I->pressKey(ConfigurationPage::$inputDefaultSort, WebDriverKeys::ENTER);
+		}
+
+		if (isset($productLayout['displayOutOfStockAfterNormal']))
+		{
+			switch ($productLayout['displayOutOfStockAfterNormal'])
+			{
+				case 'Yes':
+					$I->waitForElementVisible($config->displayOutOfStockAfterNormal(1), 30);
+					$I->click($config->displayOutOfStockAfterNormal(1));
+					break;
+
+				case 'No':
+					$I->waitForElementVisible($config->displayOutOfStockAfterNormal(0), 30);
+					$I->click($config->displayOutOfStockAfterNormal(0));
+					break;
+			}
+		}
+	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productNormal
+	 * @param $productOutOfStock
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function checkDisplayOutOfStockAfterNormal($categoryName, $productNormal, $productOutOfStock)
+	{
+		$I = $this;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForText($productNormal, 10, FrontEndProductManagerJoomla3Page::$productFirst);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30, FrontEndProductManagerJoomla3Page::$productFirst);
+		$I->waitForText($productOutOfStock, 10, FrontEndProductManagerJoomla3Page::$productSecond);
 	}
 }

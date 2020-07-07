@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -32,10 +33,10 @@ $statistic = $this->model->getStatisticDashboard();
     }
 </script>
 <?php
-    $user = JFactory::getUser();
-    $userType = array_keys($user->groups);
-    $user->usertype = $userType[0];
-    $user->gid = $user->groups[$user->usertype];
+$user           = JFactory::getUser();
+$userType       = array_keys($user->groups);
+$user->usertype = $userType[0];
+$user->gid      = $user->groups[$user->usertype];
 ?>
 
 <div class="row">
@@ -47,7 +48,9 @@ $statistic = $this->model->getStatisticDashboard();
 
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo JText::_('COM_REDSHOP_STATISTIC_TOTAL_SALES'); ?></span>
-                <span class="info-box-number"><?php echo RedshopHelperProductPrice::formattedPrice($statistic[0]); ?></span>
+                <span class="info-box-number"><?php echo RedshopHelperProductPrice::formattedPrice(
+                        $statistic[0]
+                    ); ?></span>
             </div>
         </div>
     </div>

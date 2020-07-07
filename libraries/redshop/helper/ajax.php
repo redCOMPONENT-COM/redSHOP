@@ -18,31 +18,31 @@ defined('_JEXEC') or die;
  */
 abstract class RedshopHelperAjax
 {
-	/**
-	 * Check if we have received an AJAX request for security reasons
-	 *
-	 * @deprecated  Use \Redshop\Helper\Ajax::isAjaxRequest()
-	 *
-	 * @return      boolean
-	 */
-	public static function isAjaxRequest()
-	{
-		return \Redshop\Helper\Ajax::isAjaxRequest();
-	}
+    /**
+     * Check if we have received an AJAX request for security reasons
+     *
+     * @return      boolean
+     * @deprecated  Use \Redshop\Helper\Ajax::isAjaxRequest()
+     *
+     */
+    public static function isAjaxRequest()
+    {
+        return \Redshop\Helper\Ajax::isAjaxRequest();
+    }
 
-	/**
-	 * Verify that an AJAX request has been received
-	 *
-	 * @param   string  $method  Method to validate the ajax request
-	 *
-	 * @deprecated  Use \Redshop\Helper\Ajax::validateAjaxRequest()
-	 *
-	 * @return  void
-	 *
-	 * @throws  Exception
-	 */
-	public static function validateAjaxRequest($method = 'post')
-	{
-		\Redshop\Helper\Ajax::validateAjaxRequest($method);
-	}
+    /**
+     * Verify that an AJAX request has been received
+     *
+     * @param   string  $method  Method to validate the ajax request
+     *
+     * @return  void
+     *
+     * @throws  Exception
+     * @deprecated  Use \Redshop\Helper\Ajax::validateAjaxRequest()
+     *
+     */
+    public static function validateAjaxRequest($method = 'post')
+    {
+        \Redshop\Helper\Ajax::validateAjaxRequest($method);
+    }
 }

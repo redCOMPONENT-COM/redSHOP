@@ -1,8 +1,8 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,22 +11,25 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  2.4
+ * @since  1.4.0
  */
 class TaxRatePage extends AdminJ3Page
 {
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $namePage = 'VAT Rates';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $url = '/administrator/index.php?option=com_redshop&view=tax_rates';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $nameEditPage = 'VAT Rates: [ Edit ]';
 
@@ -39,6 +42,12 @@ class TaxRatePage extends AdminJ3Page
 	 * @var array
 	 */
 	public static $fieldValue = "#jform_tax_rate";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $fieldShopperGroup = "#s2id_jform_shopper_group";
 
 	/**
 	 * @var array
@@ -127,6 +136,12 @@ class TaxRatePage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $labelEU = "EU country";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $countryEUYes = "//input[@id='jform_is_eu_country0']";
 
 	/**
 	 * @param $nameField

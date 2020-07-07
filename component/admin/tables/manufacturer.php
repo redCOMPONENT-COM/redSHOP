@@ -18,237 +18,223 @@ defined('_JEXEC') or die;
  */
 class RedshopTableManufacturer extends RedshopTable
 {
-	/**
-	 * The table name without the prefix. Ex: cursos_courses
-	 *
-	 * @var  string
-	 */
-	protected $_tableName = 'redshop_manufacturer';
+    /**
+     * @var  integer
+     */
+    public $id;
+    /**
+     * @var  string
+     */
+    public $name;
+    /**
+     * @var  integer
+     */
+    public $published = 1;
+    /**
+     * @var  integer
+     */
+    public $product_per_page;
+    /**
+     * The table name without the prefix. Ex: cursos_courses
+     *
+     * @var  string
+     */
+    protected $_tableName = 'redshop_manufacturer';
 
-	/**
-	 * @var  integer
-	 */
-	public $id;
+    /**
+     * Delete one or more registers
+     *
+     * @param   string/array  $pk  Array of ids or ids comma separated
+     *
+     * @return  boolean            Deleted successfully?
+     */
+    protected function doDelete($pk = null)
+    {
+        $manufacturerId = $this->id;
+        $media          = RedshopEntityManufacturer::getInstance($manufacturerId)->getMedia();
 
-	/**
-	 * @var  string
-	 */
-	public $name;
+        if (!parent::doDelete($pk)) {
+            return false;
+        }
 
-	/**
-	 * @var  integer
-	 */
-	public $published = 1;
+        // B/C for old plugin
+        JPluginHelper::importPlugin('redshop_product');
+        RedshopHelperUtility::getDispatcher()->trigger('onAfterManufacturerDelete', array($manufacturerId));
 
-	/**
-	 * @var  integer
-	 */
-	public $product_per_page;
+        // Delete associated media
+        if ($media->isValid()) {
+            /** @var RedshopTableMedia $mediaTable */
+            $mediaTable = RedshopTable::getInstance('Media', 'RedshopTable');
 
-	/**
-	 * Delete one or more registers
-	 *
-	 * @param   string/array  $pk  Array of ids or ids comma separated
-	 *
-	 * @return  boolean            Deleted successfully?
-	 */
-	protected function doDelete($pk = null)
-	{
-		$manufacturerId = $this->id;
-		$media          = RedshopEntityManufacturer::getInstance($manufacturerId)->getMedia();
+            if ($mediaTable->load($media->get('media_id'))) {
+                $mediaTable->delete();
+            }
+        }
 
-		if (!parent::doDelete($pk))
-		{
-			return false;
-		}
+        // Delete media folder
+        JFolder::delete(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $manufacturerId);
 
-		// B/C for old plugin
-		JPluginHelper::importPlugin('redshop_product');
-		RedshopHelperUtility::getDispatcher()->trigger('onAfterManufacturerDelete', array($manufacturerId));
+        return true;
+    }
 
-		// Delete associated media
-		if ($media->isValid())
-		{
-			/** @var RedshopTableMedia $mediaTable */
-			$mediaTable = RedshopTable::getInstance('Media', 'RedshopTable');
+    /**
+     * Do the database store.
+     *
+     * @param   boolean  $updateNulls  True to update null values as well.
+     *
+     * @return  boolean
+     * @throws  Exception
+     * @since   2.1.0
+     */
+    protected function doStore($updateNulls = false)
+    {
+        JPluginHelper::importPlugin('redshop_product');
 
-			if ($mediaTable->load($media->get('media_id')))
-			{
-				$mediaTable->delete();
-			}
-		}
+        // B/C for old plugin
+        $isNew = $this->id > 0 ? false : true;
+        RedshopHelperUtility::getDispatcher()->trigger('onBeforeManufacturerSave', array(&$this, $isNew));
 
-		// Delete media folder
-		JFolder::delete(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $manufacturerId);
+        if (!parent::doStore($updateNulls)) {
+            return false;
+        }
 
-		return true;
-	}
+        // Store fields data.
+        $this->storeFields();
 
-	/**
-	 * Do the database store.
-	 *
-	 * @param   boolean $updateNulls True to update null values as well.
-	 *
-	 * @return  boolean
-	 * @throws  Exception
-	 * @since   2.1.0
-	 */
-	protected function doStore($updateNulls = false)
-	{
-		JPluginHelper::importPlugin('redshop_product');
+        // Store media
+        $this->storeMedia();
 
-		// B/C for old plugin
-		$isNew = $this->id > 0 ? false : true;
-		RedshopHelperUtility::getDispatcher()->trigger('onBeforeManufacturerSave', array(&$this, $isNew));
+        // B/C for old plugin
+        RedshopHelperUtility::getDispatcher()->trigger('onAfterManufacturerSave', array(&$this, $isNew));
 
-		if (!parent::doStore($updateNulls))
-		{
-			return false;
-		}
+        return true;
+    }
 
-		// Store fields data.
-		$this->storeFields();
+    /**
+     * Method for store fields data.
+     *
+     * @return  void
+     * @throws  Exception
+     *
+     * @since  2.1.0
+     */
+    protected function storeFields()
+    {
+        RedshopHelperExtrafields::extraFieldSave(
+            JFactory::getApplication()->input->post->getArray(),
+            RedshopHelperExtrafields::SECTION_MANUFACTURER,
+            $this->id
+        );
+    }
 
-		// Store media
-		$this->storeMedia();
+    /**
+     * Method for store fields data.
+     *
+     * @return  void
+     * @throws  Exception
+     *
+     * @since  2.1.0
+     */
+    protected function storeMedia()
+    {
+        $mediaField = 'manufacturer_image';
 
-		// B/C for old plugin
-		RedshopHelperUtility::getDispatcher()->trigger('onAfterManufacturerSave', array(&$this, $isNew));
+        // Prepare target folder.
+        \Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $this->id);
 
-		return true;
-	}
+        // Prepare target folder.
+        \Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $this->id . '/thumb');
 
-	/**
-	 * Checks that the object is valid and able to be stored.
-	 *
-	 * This method checks that the parent_id is non-zero and exists in the database.
-	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
-	 *
-	 * @return  boolean  True if all checks pass.
-	 */
-	protected function doCheck()
-	{
-		if (!parent::doCheck())
-		{
-			return false;
-		}
+        $input = JFactory::getApplication()->input;
 
-		// Check product per page
-		if (!$this->product_per_page)
-		{
-			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_MANUFACTURER_ERROR_PRODUCT_PER_PAGE'));
+        $dropzone = $input->post->get('dropzone', array(), '');
+        $dropzone = isset($dropzone[$mediaField]) ? $dropzone[$mediaField] : null;
 
-			return false;
-		}
+        $dropzoneAlternateText = $input->post->get('dropzone_alternate_text', array(), '');
+        $dropzoneAlternateText = isset($dropzoneAlternateText[$mediaField]) ? $dropzoneAlternateText[$mediaField] : null;
 
-		return true;
-	}
+        if (null === $dropzone) {
+            return;
+        }
 
-	/**
-	 * Method for store fields data.
-	 *
-	 * @return  void
-	 * @throws  Exception
-	 *
-	 * @since  2.1.0
-	 */
-	protected function storeFields()
-	{
-		RedshopHelperExtrafields::extraFieldSave(
-			JFactory::getApplication()->input->post->getArray(), RedshopHelperExtrafields::SECTION_MANUFACTURER, $this->id
-		);
-	}
+        foreach ($dropzone as $key => $value) {
+            /** @var RedshopTableMedia $mediaTable */
+            $mediaTable = JTable::getInstance('Media', 'RedshopTable');
 
-	/**
-	 * Method for store fields data.
-	 *
-	 * @return  void
-	 * @throws  Exception
-	 *
-	 * @since  2.1.0
-	 */
-	protected function storeMedia()
-	{
-		$mediaField = 'manufacturer_image';
+            if (strpos($key, 'media-') !== false) {
+                $mediaTable->load(str_replace('media-', '', $key));
 
-		// Prepare target folder.
-		\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $this->id);
+                // Delete old image.
+                $oldMediaFile = JPath::clean(
+                    REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/'
+                    . $this->id . '/' . $mediaTable->media_name
+                );
 
-		// Prepare target folder.
-		\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $this->id . '/thumb');
+                if (JFile::exists($oldMediaFile)) {
+                    JFile::delete($oldMediaFile);
+                }
 
-		$input = JFactory::getApplication()->input;
+                if (empty($value)) {
+                    $mediaTable->delete();
 
-		$dropzone = $input->post->get('dropzone', array(), '');
-		$dropzone = isset($dropzone[$mediaField]) ? $dropzone[$mediaField] : null;
+                    continue;
+                }
+            } else {
+                $mediaTable->set('section_id', $this->id);
+                $mediaTable->set('media_section', 'manufacturer');
+            }
 
-		$dropzoneAlternateText = $input->post->get('dropzone_alternate_text', array(), '');
-		$dropzoneAlternateText = isset($dropzoneAlternateText[$mediaField]) ? $dropzoneAlternateText[$mediaField] : null;
+            if (!JFile::exists(JPATH_ROOT . '/' . $value)) {
+                continue;
+            }
 
-		if (null === $dropzone)
-		{
-			return;
-		}
+            $alternateText = isset($dropzoneAlternateText[$key]) ? $dropzoneAlternateText[$key] : $this->name;
 
-		foreach ($dropzone as $key => $value)
-		{
-			/** @var RedshopTableMedia $mediaTable */
-			$mediaTable = JTable::getInstance('Media', 'RedshopTable');
+            $mediaTable->set('media_alternate_text', $alternateText);
+            $mediaTable->set('media_type', 'images');
+            $mediaTable->set('published', 1);
 
-			if (strpos($key, 'media-') !== false)
-			{
-				$mediaTable->load(str_replace('media-', '', $key));
+            // Copy new image for this media
+            $fileName = md5($this->name) . '.' . JFile::getExt($value);
+            $file     = REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $this->id . '/' . $fileName;
 
-				// Delete old image.
-				$oldMediaFile = JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/'
-					. $this->id . '/' . $mediaTable->media_name
-				);
+            JFile::move(JPATH_ROOT . '/' . $value, $file);
 
-				if (JFile::exists($oldMediaFile))
-				{
-					JFile::delete($oldMediaFile);
-				}
+            $mediaTable->set('media_name', $fileName);
+            $mediaTable->store();
 
-				if (empty($value))
-				{
-					$mediaTable->delete();
+            // Optimize image
+            $factory   = new \ImageOptimizer\OptimizerFactory;
+            $optimizer = $factory->get();
+            $optimizer->optimize($file);
+        }
 
-					continue;
-				}
-			}
-			else
-			{
-				$mediaTable->set('section_id', $this->id);
-				$mediaTable->set('media_section', 'manufacturer');
-			}
+        // Clear thumbnail folder
+        \Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $this->id . '/thumb', true);
+    }
 
-			if (!JFile::exists(JPATH_ROOT . '/' . $value))
-			{
-				continue;
-			}
+    /**
+     * Checks that the object is valid and able to be stored.
+     *
+     * This method checks that the parent_id is non-zero and exists in the database.
+     * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+     *
+     * @return  boolean  True if all checks pass.
+     */
+    protected function doCheck()
+    {
+        if (!parent::doCheck()) {
+            return false;
+        }
 
-			$alternateText = isset($dropzoneAlternateText[$key]) ? $dropzoneAlternateText[$key] : $this->name;
+        // Check product per page
+        if (!$this->product_per_page) {
+            /** @scrutinizer ignore-deprecated */
+            $this->setError(JText::_('COM_REDSHOP_MANUFACTURER_ERROR_PRODUCT_PER_PAGE'));
 
-			$mediaTable->set('media_alternate_text', $alternateText);
-			$mediaTable->set('media_type', 'images');
-			$mediaTable->set('published', 1);
+            return false;
+        }
 
-			// Copy new image for this media
-			$fileName = md5($this->name) . '.' . JFile::getExt($value);
-			$file     = REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $this->id . '/' . $fileName;
-
-			JFile::move(JPATH_ROOT . '/' . $value, $file);
-
-			$mediaTable->set('media_name', $fileName);
-			$mediaTable->store();
-
-			// Optimize image
-			$factory   = new \ImageOptimizer\OptimizerFactory;
-			$optimizer = $factory->get();
-			$optimizer->optimize($file);
-		}
-
-		// Clear thumbnail folder
-		\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $this->id . '/thumb', true);
-	}
+        return true;
+    }
 }

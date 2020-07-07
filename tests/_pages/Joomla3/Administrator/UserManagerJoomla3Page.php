@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Page Class
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -13,7 +13,7 @@
  *
  * @since  2.4
  */
-class UserManagerJoomla3Page
+class UserManagerJoomla3Page extends AdminJ3Page
 {
 	/**
 	 * @var string
@@ -113,6 +113,18 @@ class UserManagerJoomla3Page
 
 	/**
 	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $registeredAsPrivate  = '#is_company0';
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $registeredAsCompany  = '#is_company1';
+
+	/**
+	 * @var string
 	 * @since 2.1.3
 	 */
 	public static $firstName = "//input[@id='firstname']";
@@ -146,6 +158,24 @@ class UserManagerJoomla3Page
 	 * @since 2.1.3
 	 */
 	public static $city = "//input[@id='city']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $companyName = "//input[@name='company_name']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $eanNumber = "//input[@name='ean_number']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $vatNumber = "//input[@name='vat_number']";
 
 	/**
 	 * @var string
@@ -213,7 +243,7 @@ class UserManagerJoomla3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $saveButton = "Save";
+	public static $saveButton = "//button[@onclick=\"Joomla.submitbutton('apply');\"]";
 
 	/**
 	 * @var string

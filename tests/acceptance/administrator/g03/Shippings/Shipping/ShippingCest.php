@@ -1,6 +1,9 @@
 <?php
 /**
- * Shipping rate page .
+ * @package     redSHOP
+ * @subpackage  Cest
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use AcceptanceTester\ShippingSteps;
@@ -23,39 +26,46 @@ use AcceptanceTester\OrderManagerJoomla3Steps;
 class ShippingCest
 {
 	/**
+	 * @var \Faker\Generator
+	 * @since 2.1.3
+	 */
+	public $faker;
+
+	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	public $shippingMethod;
 
 	/**
 	 * @var array
+	 * @since 2.1.3
 	 */
 	public $shipping;
 
 	/**
 	 * @var array
+	 * @since 2.1.3
 	 */
 	public $shippingSaveClose;
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	public $shippingNameEdit;
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	public $shippingNameSaveClose;
 
 	/**
-	 * @var integer
+	 * @var int
+	 * @since 2.1.3
 	 */
 	public $shippingRateEdit;
-
-	/**
-	 * @var \Faker\Generator
-	 */
-	public $faker;
 
 	/**
 	 * @var array
@@ -89,6 +99,7 @@ class ShippingCest
 
 	/**
 	 * ShippingCest constructor.
+	 * @since 2.1.3
 	 */
 	public function __construct()
 	{
@@ -137,6 +148,8 @@ class ShippingCest
 
 	/**
 	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 * @since 2.1.3
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -149,6 +162,7 @@ class ShippingCest
 	 *
 	 * @return  void
 	 * @throws  Exception
+	 * @since 2.1.3
 	 */
 	public function createShippingRate(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{

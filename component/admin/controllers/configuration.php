@@ -18,275 +18,264 @@ JLoader::import('joomla.filesystem.folder');
  */
 class RedshopControllerConfiguration extends RedshopController
 {
-	/**
-	 * Apply configuration
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public function apply()
-	{
-		$this->save(1);
-	}
+    /**
+     * Apply configuration
+     *
+     * @return  void
+     *
+     * @since   1.5
+     */
+    public function apply()
+    {
+        $this->save(1);
+    }
 
-	/**
-	 * Collect Items from array using specific prefix
-	 *
-	 * @param   array  $array  Array from which needs to collects items based ok keys.
-	 * @param   string $prefix Key prefix which needs to be filtered.
-	 *
-	 * @return  array            Array of values which is collected using prefix.
-	 */
-	protected function collectItemsUsingPrefix($array, $prefix)
-	{
-		$keys = array_keys($array);
+    /**
+     * Method for save configuration
+     *
+     * @param   integer  $apply  Apply or not
+     *
+     * @return  void
+     *
+     * @since  1.5
+     */
+    public function save($apply = 0)
+    {
+        JFactory::getApplication()->setUserState(
+            'com_redshop.configuration.selectedTabPosition',
+            $this->input->get('selectedTabPosition')
+        );
 
-		$values = array_filter(
-			$keys,
-			function ($value) use ($prefix)
-			{
-				return preg_match("/$prefix\d/", $value);
-			}
-		);
+        $post = $this->input->post->getArray();
 
-		array_walk(
-			$values,
-			function (&$value) use ($array)
-			{
-				$value = $array[$value];
-			},
-			$array
-		);
+        $post['custom_previous_link']      = $this->input->post->get('custom_previous_link', '', 'raw');
+        $post['custom_next_link']          = $this->input->post->get('custom_next_link', '', 'raw');
+        $post['default_next_suffix']       = $this->input->post->get('default_next_suffix', '', 'raw');
+        $post['default_previous_prefix']   = $this->input->post->get('default_previous_prefix', '', 'raw');
+        $post['return_to_category_prefix'] = $this->input->post->get('return_to_category_prefix', '', 'raw');
 
-		return $values;
-	}
+        // Administrator email notifications ids
+        if (is_array($post['administrator_email'])) {
+            $post['administrator_email'] = trim(implode(",", $post['administrator_email']));
+        }
 
-	/**
-	 * Method for save configuration
-	 *
-	 * @param   integer  $apply  Apply or not
-	 *
-	 * @return  void
-	 *
-	 * @since  1.5
-	 */
-	public function save($apply = 0)
-	{
-		JFactory::getApplication()->setUserState('com_redshop.configuration.selectedTabPosition', $this->input->get('selectedTabPosition'));
+        // Only check if this email is filled
+        if (!empty($post['administrator_email'])) {
+            $post['administrator_email'] = trim($post['administrator_email']);
+            $emails                      = explode(',', $post['administrator_email']);
 
-		$post = $this->input->post->getArray();
+            if (!empty($emails)) {
+                foreach ($emails as $email) {
+                    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $msg = JText::_('COM_REDSHOP_INVALID_EMAIL');
+                        $this->setRedirect('index.php?option=com_redshop&view=configuration', $msg, 'error');
 
-		$post['custom_previous_link']      = $this->input->post->get('custom_previous_link', '', 'raw');
-		$post['custom_next_link']          = $this->input->post->get('custom_next_link', '', 'raw');
-		$post['default_next_suffix']       = $this->input->post->get('default_next_suffix', '', 'raw');
-		$post['default_previous_prefix']   = $this->input->post->get('default_previous_prefix', '', 'raw');
-		$post['return_to_category_prefix'] = $this->input->post->get('return_to_category_prefix', '', 'raw');
+                        return;
+                    }
+                }
+            }
+        }
 
-		// Administrator email notifications ids
-		if (is_array($post['administrator_email']))
-		{
-			$post['administrator_email'] = trim(implode(",", $post['administrator_email']));
-		}
+        $msg = null;
+        /** @var RedshopModelConfiguration $model */
+        $model               = $this->getModel('Configuration');
+        $newsletterTestEmail = $this->input->get('newsletter_test_email', '', 'RAW');
 
-		// Only check if this email is filled
-		if (!empty($post['administrator_email']))
-		{
-			$post['administrator_email'] = trim($post['administrator_email']);
-			$emails = explode(',', $post['administrator_email']);
+        // Only check if this email is filled
+        if (!empty($newsletterTestEmail)) {
+            if (!filter_var($newsletterTestEmail, FILTER_VALIDATE_EMAIL)) {
+                $msg = JText::_('COM_REDSHOP_INVALID_EMAIL');
+                $this->setRedirect('index.php?option=com_redshop&view=configuration', $msg, 'error');
 
-			if (!empty($emails))
-			{
-				foreach ($emails as $email)
-				{
-					if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-					{
-						$msg = JText::_('COM_REDSHOP_INVALID_EMAIL');
-						$this->setRedirect('index.php?option=com_redshop&view=configuration', $msg, 'error');
+                return;
+            }
+        }
 
-						return;
-					}
-				}
-			}
-		}
+        $post['country_list'] = implode(',', $this->input->post->get('country_list', array(), 'ARRAY'));
 
-		$msg = null;
-		/** @var RedshopModelConfiguration $model */
-		$model               = $this->getModel('Configuration');
-		$newsletterTestEmail = $this->input->get('newsletter_test_email', '', 'RAW');
+        if (!isset($post['seo_page_short_description'])) {
+            $post['seo_page_short_description'] = 0;
+        }
 
-		// Only check if this email is filled
-		if (!empty($newsletterTestEmail))
-		{
-			if (!filter_var($newsletterTestEmail, FILTER_VALIDATE_EMAIL))
-			{
-				$msg = JText::_('COM_REDSHOP_INVALID_EMAIL');
-				$this->setRedirect('index.php?option=com_redshop&view=configuration', $msg, 'error');
+        if (!isset($post['seo_page_short_description_category'])) {
+            $post['seo_page_short_description_category'] = 0;
+        }
 
-				return;
-			}
-		}
+        if (!isset($post['allow_multiple_discount'])) {
+            $post['allow_multiple_discount'] = 0;
+        }
 
-		$post['country_list'] = implode(',', $this->input->post->get('country_list', array(), 'ARRAY'));
+        $post['menuhide'] = implode(',', $this->input->post->get('menuhide', array(), 'ARRAY'));
 
-		if (!isset($post['seo_page_short_description']))
-		{
-			$post['seo_page_short_description'] = 0;
-		}
+        if (isset($post['product_download_root']) && !is_dir($post['product_download_root'])) {
+            $msg = "";
+            JFactory::getApplication()->enqueueMessage(
+                JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_DIRECTORY_DOES_NO_EXIST'),
+                'error'
+            );
+        } elseif ($model->store($post)) {
+            $msg = JText::_('COM_REDSHOP_CONFIG_SAVED');
 
-		if (!isset($post['seo_page_short_description_category']))
-		{
-			$post['seo_page_short_description_category'] = 0;
-		}
+            if ($newsletterTestEmail) {
+                $model->newsletterEntry($post);
+                $msg = JText::sprintf('COM_REDSHOP_NEWSLETTER_SEND_TO_TEST_EMAIL', $newsletterTestEmail);
+            }
 
-		if (!isset($post['allow_multiple_discount']))
-		{
-			$post['allow_multiple_discount'] = 0;
-		}
+            // Thumb folder deleted and created
+            if ($post['image_quality_output'] != Redshop::getConfig()->get('IMAGE_QUALITY_OUTPUT')
+                || $post['use_image_size_swapping'] != Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+            ) {
+                $this->removeThumbImages();
+            }
+        } else {
+            $msg = JText::_('COM_REDSHOP_ERROR_IN_CONFIG_SAVE');
+        }
 
-		$post['menuhide'] = implode(',', $this->input->post->get('menuhide', array(), 'ARRAY'));
+        $redirect = $apply ? 'index.php?option=com_redshop&view=configuration' : 'index.php?option=com_redshop';
 
-		if (isset($post['product_download_root']) && !is_dir($post['product_download_root']))
-		{
-			$msg = "";
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_DIRECTORY_DOES_NO_EXIST'), 'error');
-		}
-		elseif ($model->store($post))
-		{
-			$msg = JText::_('COM_REDSHOP_CONFIG_SAVED');
+        $this->setRedirect($redirect, $msg);
+    }
 
-			if ($newsletterTestEmail)
-			{
-				$model->newsletterEntry($post);
-				$msg = JText::sprintf('COM_REDSHOP_NEWSLETTER_SEND_TO_TEST_EMAIL', $newsletterTestEmail);
-			}
+    /**
+     * Remove all thumbnail images generated by redSHOP
+     *
+     * @return  boolean
+     */
+    public function removeThumbImages()
+    {
+        $thumbFolders = array(
+            'product',
+            'category',
+            'manufacturer',
+            'product_attributes',
+            'property',
+            'subcolor',
+            'wrapper',
+            'shopperlogo'
+        );
 
-			// Thumb folder deleted and created
-			if ($post['image_quality_output'] != Redshop::getConfig()->get('IMAGE_QUALITY_OUTPUT')
-				|| $post['use_image_size_swapping'] != Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-			)
-			{
-				$this->removeThumbImages();
-			}
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_IN_CONFIG_SAVE');
-		}
+        foreach ($thumbFolders as $thumbFolder) {
+            $unlinkPath = REDSHOP_FRONT_IMAGES_RELPATH . $thumbFolder . '/thumb';
 
-		$redirect = $apply ? 'index.php?option=com_redshop&view=configuration' : 'index.php?option=com_redshop';
+            if (!JFolder::exists($unlinkPath) || !JFolder::delete($unlinkPath) || !JFolder::create($unlinkPath)) {
+                continue;
+            }
 
-		$this->setRedirect($redirect, $msg);
-	}
+            JFile::copy(REDSHOP_FRONT_IMAGES_RELPATH . 'index.html', $unlinkPath . '/index.html');
+        }
 
-	/**
-	 * Remove all thumbnail images generated by redSHOP
-	 *
-	 * @return  boolean
-	 */
-	public function removeThumbImages()
-	{
-		$thumbFolders = array('product', 'category', 'manufacturer', 'product_attributes', 'property', 'subcolor', 'wrapper', 'shopperlogo');
+        return true;
+    }
 
-		foreach ($thumbFolders as $thumbFolder)
-		{
-			$unlinkPath = REDSHOP_FRONT_IMAGES_RELPATH . $thumbFolder . '/thumb';
+    /**
+     * Remove images
+     *
+     * @return  void
+     */
+    public function removeimg()
+    {
+        ob_clean();
 
-			if (!JFolder::exists($unlinkPath) || !JFolder::delete($unlinkPath) || !JFolder::create($unlinkPath))
-			{
-				continue;
-			}
+        $imgName = $this->input->getString('imname', '');
+        $path    = $this->input->getString('spath', '');
+        $dataId  = $this->input->getInt('data_id', 0);
 
-			JFile::copy(REDSHOP_FRONT_IMAGES_RELPATH . 'index.html', $unlinkPath . '/index.html');
-		}
+        if ($dataId) {
+            RedshopHelperExtrafields::deleteExtraFieldData($dataId);
+        }
 
-		return true;
-	}
+        if (JFile::exists(JPATH_ROOT . '/' . $path . '/' . $imgName)) {
+            JFile::delete(JPATH_ROOT . '/' . $path . '/' . $imgName);
+        }
 
-	/**
-	 * Remove images
-	 *
-	 * @return  void
-	 */
-	public function removeimg()
-	{
-		ob_clean();
+        JFactory::getApplication()->close();
+    }
 
-		$imgName = $this->input->getString('imname', '');
-		$path    = $this->input->getString('spath', '');
-		$dataId  = $this->input->getInt('data_id', 0);
+    /**
+     * Cancel
+     *
+     * @return  void
+     */
+    public function cancel()
+    {
+        $this->setRedirect('index.php?option=com_redshop');
+    }
 
-		if ($dataId)
-		{
-			RedshopHelperExtrafields::deleteExtraFieldData($dataId);
-		}
+    /**
+     * Reset template
+     *
+     * @return  void
+     *
+     * @throws  Exception
+     */
+    public function resetTemplate()
+    {
+        /** @var RedshopModelConfiguration $model */
+        $model = $this->getModel('Configuration');
 
-		if (JFile::exists(JPATH_ROOT . '/' . $path . '/' . $imgName))
-		{
-			JFile::delete(JPATH_ROOT . '/' . $path . '/' . $imgName);
-		}
+        $app = JFactory::getApplication();
 
-		JFactory::getApplication()->close();
-	}
+        try {
+            $model->resetTemplate();
+            $app->enqueueMessage(JText::_('COM_REDSHOP_TEMPLATE_HAS_BEEN_RESET'), 'success');
+        } catch (Exception $exception) {
+            $app->enqueueMessage($exception->getMessage(), 'error');
+        }
 
-	/**
-	 * Cancel
-	 *
-	 * @return  void
-	 */
-	public function cancel()
-	{
-		$this->setRedirect('index.php?option=com_redshop');
-	}
+        $this->setRedirect('index.php?option=com_redshop');
+    }
 
-	/**
-	 * Reset template
-	 *
-	 * @return  void
-	 *
-	 * @throws  Exception
-	 */
-	public function resetTemplate()
-	{
-		/** @var RedshopModelConfiguration $model */
-		$model = $this->getModel('Configuration');
+    /**
+     * Reset Term & Condition
+     *
+     * @return  void
+     */
+    public function resetTermsCondition()
+    {
+        RedshopHelperUser::updateUserTermsCondition();
 
-		$app = JFactory::getApplication();
+        JFactory::getApplication()->close();
+    }
 
-		try
-		{
-			$model->resetTemplate();
-			$app->enqueueMessage(JText::_('COM_REDSHOP_TEMPLATE_HAS_BEEN_RESET'), 'success');
-		}
-		catch (Exception $exception)
-		{
-			$app->enqueueMessage($exception->getMessage(), 'error');
-		}
+    /**
+     * Reset Order ID
+     *
+     * @return  void
+     */
+    public function resetOrderId()
+    {
+        RedshopHelperOrder::resetOrderId();
 
-		$this->setRedirect('index.php?option=com_redshop');
-	}
+        JFactory::getApplication()->close();
+    }
 
-	/**
-	 * Reset Term & Condition
-	 *
-	 * @return  void
-	 */
-	public function resetTermsCondition()
-	{
-		RedshopHelperUser::updateUserTermsCondition();
+    /**
+     * Collect Items from array using specific prefix
+     *
+     * @param   array   $array   Array from which needs to collects items based ok keys.
+     * @param   string  $prefix  Key prefix which needs to be filtered.
+     *
+     * @return  array            Array of values which is collected using prefix.
+     */
+    protected function collectItemsUsingPrefix($array, $prefix)
+    {
+        $keys = array_keys($array);
 
-		JFactory::getApplication()->close();
-	}
+        $values = array_filter(
+            $keys,
+            function ($value) use ($prefix) {
+                return preg_match("/$prefix\d/", $value);
+            }
+        );
 
-	/**
-	 * Reset Order ID
-	 *
-	 * @return  void
-	 */
-	public function resetOrderId()
-	{
-		RedshopHelperOrder::resetOrderId();
+        array_walk(
+            $values,
+            function (&$value) use ($array) {
+                $value = $array[$value];
+            },
+            $array
+        );
 
-		JFactory::getApplication()->close();
-	}
+        return $values;
+    }
 }

@@ -7,7 +7,7 @@
                 label="COM_REDSHOP_FILTER_SEARCH_DESC"
                 placeholder="JSEARCH_FILTER"
                 class="js-enter-submits"
-                />
+        />
         <field
                 name="country_id"
                 type="rcountries"
@@ -28,6 +28,6 @@
                 description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
                 onchange="this.form.submit();"
                 class="form-control"
-                />
+        />
     </fields>
 </form>

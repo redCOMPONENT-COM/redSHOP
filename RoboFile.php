@@ -24,7 +24,7 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * @var   array
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.2
 	 */
 	private $defaultArgs = [
 		'--tap',
@@ -64,7 +64,7 @@ class RoboFile extends \Robo\Tasks
 			* When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
 			* Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
 			*/
-			$version = '3.9.16';
+			$version = '3.9.19';
 
 			$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
 			$this->say("Joomla CMS ($version) site created at tests/joomla-cms");
@@ -114,7 +114,7 @@ class RoboFile extends \Robo\Tasks
 	 * @param   boolean  $extraVerbose  Add extra verbosity
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.2
 	 */
 	public function testsSetup($debug = true, $steps = true, $extraVerbose = false)
 	{
@@ -166,7 +166,7 @@ class RoboFile extends \Robo\Tasks
 	 * @param   boolean  $extraVerbose  Add extra verbosity
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.2
 	 */
 	public function testsRun($folder, $debug = true, $steps = true, $extraVerbose = false)
 	{
@@ -222,7 +222,7 @@ class RoboFile extends \Robo\Tasks
 	 * @param   string  $buildURL             Build URL
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.2
 	 */
 	public function sendBuildReportErrorSlack($cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL = '')
 	{
@@ -248,7 +248,7 @@ class RoboFile extends \Robo\Tasks
 	 * @param   string  $buildURL             Build URL
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.2
 	 */
 	public function sendBuildReportErrorSlackDirectory($directory, $cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL = '')
 	{

@@ -26,8 +26,8 @@ class Helper
     /**
      * Method for check if template apply attribute VAT or not
      *
-     * @param string $template Template content
-     * @param integer $userId User ID
+     * @param   string   $template  Template content
+     * @param   integer  $userId    User ID
      *
      * @return  boolean
      *
@@ -35,9 +35,10 @@ class Helper
      */
     public static function isApplyAttributeVat($template = "", $userId = 0)
     {
-        $userId = !$userId ? \JFactory::getUser()->id : $userId;
+        $userId          = !$userId ? \JFactory::getUser()->id : $userId;
         $userInformation = $userId ? \RedshopHelperUser::getUserInformation($userId) : new \stdClass;
-        $userInformation = ($userInformation == new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault() : $userInformation;
+        $userInformation = ($userInformation == new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault(
+        ) : $userInformation;
 
         if (!empty($userInformation)
             && isset($userInformation->show_price_without_vat)
@@ -57,8 +58,8 @@ class Helper
     /**
      * Method for check if template apply VAT or not
      *
-     * @param string $template Template content
-     * @param integer $userId User ID
+     * @param   string   $template  Template content
+     * @param   integer  $userId    User ID
      *
      * @return  boolean
      *
@@ -66,9 +67,11 @@ class Helper
      */
     public static function isApplyVat($template = "", $userId = 0)
     {
-        $userId = !$userId ? \JFactory::getUser()->id : $userId;
+        $userId          = !$userId ? \JFactory::getUser()->id : $userId;
+	    $userSession = \JFactory::getSession()->get('rs_user');
         $userInformation = $userId ? \RedshopHelperUser::getUserInformation($userId) : new \stdClass;
-        $userInformation = ($userInformation == new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault() : $userInformation;
+        $userInformation = ($userInformation == new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault(
+        ) : $userInformation;
 
         if (!empty($userInformation)
             && isset($userInformation->show_price_without_vat)
@@ -80,13 +83,23 @@ class Helper
             return false;
         }
 
+	    if (isset($userSession['rs_user_info_id'])) {
+		    $taxRateShopperGroup = \RedshopHelperTax::getTaxRateByShopperGroup($userSession['rs_user_shopperGroup'], $userSession['vatCountry']);
+
+		    if (isset($taxRateShopperGroup) && $taxRateShopperGroup == 0) {
+			    return false;
+		    }
+
+		    return true;
+	    }
+
         return \RedshopHelperCart::taxExemptAddToCart($userId);
     }
 
     /**
      * Method for get accessory template
      *
-     * @param string $templateHtml Template HTML
+     * @param   string  $templateHtml  Template HTML
      *
      * @return  object
      * @throws  \Exception
@@ -128,7 +141,7 @@ class Helper
     /**
      * Method for get add-to-cart template
      *
-     * @param string $templateHtml Template HTML
+     * @param   string  $templateHtml  Template HTML
      *
      * @return  null|object
      * @throws  \Exception
@@ -163,7 +176,7 @@ class Helper
     /**
      * Method for get related-product template
      *
-     * @param string $templateHtml Template HTML
+     * @param   string  $templateHtml  Template HTML
      *
      * @return  null|object
      * @throws  \Exception
@@ -207,7 +220,7 @@ class Helper
     /**
      * Method for get ajax detail box template
      *
-     * @param object $product Product data
+     * @param   object  $product  Product data
      *
      * @return  null|object
      * @throws  \Exception
@@ -223,13 +236,16 @@ class Helper
         $productTemplate = \RedshopHelperTemplate::getTemplate('product', $product->product_template);
 
         if (!array_key_exists('ajax_cart_detail_box', self::$templates)) {
-            $ajaxDetailData = null;
+            $ajaxDetailData        = null;
             $defaultAjaxDetailData = null;
 
             $templates = \RedshopHelperTemplate::getTemplate('ajax_cart_detail_box');
 
             foreach ($templates as $template) {
-                if (strpos($productTemplate[0]->template_desc, '{ajaxdetail_template:' . $template->name . '}') !== false) {
+                if (strpos(
+                        $productTemplate[0]->template_desc,
+                        '{ajaxdetail_template:' . $template->name . '}'
+                    ) !== false) {
                     $ajaxDetailData = $template;
                     break;
                 }
@@ -260,8 +276,8 @@ class Helper
     /**
      * Method for get attribute template
      *
-     * @param string $templateHtml Template html
-     * @param boolean $display Is display?
+     * @param   string   $templateHtml  Template html
+     * @param   boolean  $display       Is display?
      *
      * @return  null|object
      * @throws  \Exception
@@ -274,11 +290,11 @@ class Helper
             return null;
         }
 
-        $displayName = 'attribute_template';
+        $displayName   = 'attribute_template';
         $noDisplayName = 'attributewithcart_template';
 
         if (\Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE')) {
-            $displayName = 'attributewithcart_template';
+            $displayName   = 'attributewithcart_template';
             $noDisplayName = 'attribute_template';
         }
 
@@ -326,7 +342,7 @@ class Helper
     /**
      * Method to get attribute template loop
      *
-     * @param string $template Attribute Template data
+     * @param   string  $template  Attribute Template data
      *
      * @return  string             Template middle data
      *
@@ -334,8 +350,8 @@ class Helper
      */
     public static function getAttributeTemplateLoop($template)
     {
-        $start = "{product_attribute_loop_start}";
-        $end = "{product_attribute_loop_end}";
+        $start   = "{product_attribute_loop_start}";
+        $end     = "{product_attribute_loop_end}";
         $matches = \Redshop\Helper\Utility::findStringBetween($start, $end, $template);
 
         return count($matches) > 0 ? (string)$matches[0] : '';

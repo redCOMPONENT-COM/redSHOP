@@ -526,14 +526,16 @@ function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
 					if (property.checked && property.value != 0) {
 						properties.push(property.value);
 					}
+					if (property.required) {
+						requiredProp = [property.getAttribute('attribute_name')];
+					}
 				} else {
 					if (property.selectedIndex && property.options[property.selectedIndex].value != 0) {
 						properties.push(property.options[property.selectedIndex].value);
 					}
-				}
-
-				if (property.required) {
-					requiredProp.push(property.getAttribute('attribute_name'));
+					if (property.required) {
+						requiredProp.push(property.getAttribute('attribute_name'));
+					}
 				}
 			});
 
@@ -635,7 +637,7 @@ function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
 	mainprice = price_without_vat;
 
 	// Apply vat here in last. Just apply in case price is not below 0.
-	if (mainprice > 0 && withoutVAT == false) {
+	if (mainprice > 0 && (withoutVAT == false || withoutVAT == undefined)) {
 		mainprice = mainprice * (1 + redSHOP.RSConfig._('BASE_TAX'));
 	}
 
@@ -644,11 +646,11 @@ function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
 	}
 
 	if (accessoryId != 0) {
-		jQuery('#acc_attribute_data').val(attributeIds.join("##"));
-		jQuery('#acc_property_data').val(allProperties.join("##"));
-		jQuery('#acc_subproperty_data').val(totalSubProperties.join("##"));
-		jQuery('#accessory_price').val(mainprice);
-		jQuery('#accessory_price_withoutvat').val(price_without_vat);
+		jQuery('[data-id=acc_attribute_data]').val(attributeIds.join("##"));
+		jQuery('[data-id=acc_property_data]').val(allProperties.join("##"));
+		jQuery('[data-id=acc_subproperty_data]').val(totalSubProperties.join("##"));
+		jQuery('[data-id=accessory_price]').val(mainprice);
+		jQuery('[data-id=accessory_price_withoutvat]').val(price_without_vat);
 	} else {
 		jQuery('[data-id=attribute_data]').val(attributeIds.join("##"));
 		jQuery('[data-id=property_data]').val(allProperties.join("##"));
@@ -709,8 +711,8 @@ redSHOP.updateStockStatusMessage = function (stockStatus, commonstockid) {
 	}
 
 	// Out Of Stock enable / disable
-	if (document.getElementById('stockaddtocart' + commonstockid)) {
-		document.getElementById('stockaddtocart' + commonstockid).style.display = showOutOfStock;
+	if (jQuery('[data-id=stockaddtocart'+ commonstockid +']')) {
+		jQuery('[data-id=stockaddtocart'+ commonstockid +']').attr('style', 'display:' + showOutOfStock)
 	}
 
 	// Out Of Stock text handle
@@ -2206,11 +2208,14 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 						x: parseInt(redSHOP.RSConfig._('AJAX_DETAIL_BOX_WIDTH')),
 						y: parseInt(redSHOP.RSConfig._('AJAX_DETAIL_BOX_HEIGHT'))
 					},
-					htmldata: responce
+					htmldata: responce,
+					onOpen: function() {
+						jQuery('select[id^=property_id_ajax_prd_]').select2();
+						jQuery(redSHOP).trigger('onDisplayAjaxCartBoxDetail', [params])
+					}
 				};
 				redBOX.initialize({});
 				document.attbox = redBOX.open(null, options);
-
 				// preload slimbox
 				var imagehandle = {isenable: false, mainImage: false};
 				preloadSlimbox(imagehandle);
@@ -2428,6 +2433,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 						},
 						htmldata: responcebox,
 						onOpen: function () {
+							jQuery(redSHOP).trigger('onDisplayAjaxCartBox', [params, product_id])
 							if (redSHOP.RSConfig._('AJAX_CART_DISPLAY_TIME') > 0) {
 								var fn = function () {
 									this.close();

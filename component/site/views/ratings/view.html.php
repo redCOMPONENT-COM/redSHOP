@@ -12,18 +12,18 @@ defined('_JEXEC') or die;
 
 class RedshopViewRatings extends RedshopView
 {
-	public function display($tpl = null)
-	{
-		$app = JFactory::getApplication();
+    public function display($tpl = null)
+    {
+        $app = JFactory::getApplication();
 
-		$params = $app->getParams('com_redshop');
+        $params = $app->getParams('com_redshop');
 
-		$detail     = $this->get('data');
-		$pagination = $this->get('pagination');
+        $detail     = $this->get('data');
+        $pagination = $this->get('pagination');
 
-		$this->detail     = $detail;
-		$this->pagination = $pagination;
-		$this->params     = $params;
-		parent::display($tpl);
-	}
+        $this->detail     = $detail;
+        $this->pagination = $pagination;
+        $this->params     = $params;
+        parent::display($tpl);
+    }
 }

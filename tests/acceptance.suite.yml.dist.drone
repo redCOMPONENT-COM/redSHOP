@@ -26,7 +26,7 @@ modules:
             port: 9515
             capabilities:
               chromeOptions:
-                args: ["--headless", "--disable-gpu", "--no-sandbox", "window-size=1920x1080"]
+                args: ["--headless", "--disable-gpu", "--no-sandbox", '--disable-dev-shm-usage', "window-size=1920x1080"]
             username: '%tests_user%'                           # UserName for the Administrator
             password: 'admin'                                  # Password for the Administrator
             database host: 'db'                                # MySQL Server host name / address

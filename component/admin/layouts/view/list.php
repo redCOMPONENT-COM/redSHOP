@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -25,26 +26,34 @@ $search     = $data->state->get('filter.search');
 $user       = JFactory::getUser();
 
 $filterOptions = array(
-	'searchField'         => 'search',
-	'searchFieldSelector' => '#filter_search',
-	'limitFieldSelector'  => '#list_' . $viewName . '_limit',
-	'activeOrder'         => $listOrder,
-	'activeDirection'     => $listDirn,
-	'filterButton'        => (count($data->filterForm->getGroup('filter')) > 1)
+    'searchField'         => 'search',
+    'searchFieldSelector' => '#filter_search',
+    'limitFieldSelector'  => '#list_' . $viewName . '_limit',
+    'activeOrder'         => $listOrder,
+    'activeDirection'     => $listDirn,
+    'filterButton'        => (count($data->filterForm->getGroup('filter')) > 1)
 );
 
 $filterOptions = array_merge($filterOptions, $data->filterFormOptions);
 
-if ($data->hasOrdering)
-{
-	$saveOrderUrl   = 'index.php?option=com_redshop&task=' . $viewName . '.saveOrderAjax&tmpl=component';
-	$orderingColumn = true === $data->isNested ? 'lft' : 'ordering';
-	$allowOrder     = ($listOrder == $orderingColumn && strtolower($listDirn) == 'asc' && $data->canEdit && empty($search));
+if ($data->hasOrdering) {
+    $saveOrderUrl   = 'index.php?option=com_redshop&task=' . $viewName . '.saveOrderAjax&tmpl=component';
+    $orderingColumn = true === $data->isNested ? 'lft' : 'ordering';
+    $allowOrder     = ($listOrder == $orderingColumn && strtolower(
+            $listDirn
+        ) == 'asc' && $data->canEdit && empty($search));
 
-	if ($allowOrder)
-	{
-		JHtml::_('sortablelist.sortable', 'table-' . $viewName, 'adminForm', strtolower($listDirn), $saveOrderUrl, false, true);
-	}
+    if ($allowOrder) {
+        JHtml::_(
+            'sortablelist.sortable',
+            'table-' . $viewName,
+            'adminForm',
+            strtolower($listDirn),
+            $saveOrderUrl,
+            false,
+            true
+        );
+    }
 }
 ?>
 <script type="text/javascript">
@@ -60,8 +69,7 @@ if ($data->hasOrdering)
 
             if (result == true) {
                 form.submit();
-            }
-            else {
+            } else {
                 form.view.value = "<?php echo $viewName ?>";
                 form.task.value = '';
                 return false;
@@ -76,138 +84,170 @@ if ($data->hasOrdering)
 <form action="index.php?option=com_redshop&view=<?php echo $viewName ?>" class="adminForm" id="adminForm" method="post"
       name="adminForm">
     <div class="filterTool">
-		<?php
-		echo RedshopLayoutHelper::render(
-			'searchtools.default',
-			array(
-				'view'    => $data,
-				'options' => $filterOptions
-			)
-		);
-		?>
+        <?php
+        echo RedshopLayoutHelper::render(
+            'searchtools.default',
+            array(
+                'view'    => $data,
+                'options' => $filterOptions
+            )
+        );
+        ?>
     </div>
-	<?php if (empty($data->items)) : ?>
+    <?php if (empty($data->items)) : ?>
         <div class="alert alert-no-items alert-info">
-			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+            <?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
         </div>
-	<?php else : ?>
-		<?php $columns = $data->getColumns(); ?>
+    <?php else : ?>
+        <?php $columns = $data->getColumns(); ?>
         <table class="adminlist table table-striped" id="table-<?php echo $viewName ?>">
             <thead>
             <tr>
                 <th width="1">#</th>
                 <th width="1">
-					<?php echo JHtml::_('redshopgrid.checkall'); ?>
+                    <?php echo JHtml::_('redshopgrid.checkall'); ?>
                 </th>
-				<?php if ($data->hasOrdering): ?>
+                <?php if ($data->hasOrdering): ?>
                     <th width="80" class="nowrap center hidden-phone">
-						<?php echo JHtml::_('grid.sort', '<i class=\'fa fa-sort-alpha-asc\'></i>', $orderingColumn, $listDirn, $listOrder) ?>
+                        <?php echo JHtml::_(
+                            'grid.sort',
+                            '<i class=\'fa fa-sort-alpha-asc\'></i>',
+                            $orderingColumn,
+                            $listDirn,
+                            $listOrder
+                        ) ?>
                     </th>
-				<?php endif; ?>
+                <?php endif; ?>
                 <th width="1">
                     &nbsp;
                 </th>
-				<?php foreach ($columns as $column): ?>
+                <?php foreach ($columns as $column): ?>
                     <th width="<?php echo $column['width'] ?>">
-						<?php if ($column['sortable']): ?>
-							<?php echo JHtml::_('grid.sort', $column['text'], $column['dataCol'], $listDirn, $listOrder) ?>
-						<?php else: ?>
-							<?php echo $column['text'] ?>
-						<?php endif; ?>
+                        <?php if ($column['sortable']): ?>
+                            <?php echo JHtml::_(
+                                'grid.sort',
+                                $column['text'],
+                                $column['dataCol'],
+                                $listDirn,
+                                $listOrder
+                            ) ?>
+                        <?php else: ?>
+                            <?php echo $column['text'] ?>
+                        <?php endif; ?>
                     </th>
-				<?php endforeach; ?>
+                <?php endforeach; ?>
                 <th width="55px">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_REDSHOP_ID'), $data->getPrimaryKey(), $listDirn, $listOrder) ?>
+                    <?php echo JHtml::_(
+                        'grid.sort',
+                        JText::_('COM_REDSHOP_ID'),
+                        $data->getPrimaryKey(),
+                        $listDirn,
+                        $listOrder
+                    ) ?>
                 </th>
             </tr>
             </thead>
             <tbody>
-			<?php foreach ($data->items as $i => $row): ?>
-				<?php $rowId = $row->{$data->getPrimaryKey()}; ?>
-				<?php $canCheckIn = $user->authorise('core.manage', 'com_checkin') || $row->checked_out == $user->id || $row->checked_out == 0; ?>
-				<?php if ($data->hasOrdering && $data->isNested && !empty($data->nestedOrdering)) : ?>
-					<?php $orderKey = array_search($row->{$data->getPrimaryKey()}, $data->nestedOrdering[$row->parent_id]); ?>
-					<?php if ($row->level > 1) : ?>
-						<?php
-						$parentsStr      = '';
-						$currentParentId = $row->parent_id;
-						$parentsStr      = ' ' . $currentParentId;
-						?>
-						<?php for ($i2 = 0; $i2 < $row->level; $i2++) : ?>
-							<?php foreach ($data->nestedOrdering as $k => $v) : ?>
-								<?php
-								$v = implode('-', $v);
-								$v = '-' . $v . '-';
-								?>
-								<?php if (strpos($v, '-' . $currentParentId . '-') !== false) : ?>
-									<?php
-									$parentsStr      .= ' ' . $k;
-									$currentParentId = $k;
-									break;
-									?>
-								<?php endif; ?>
-							<?php endforeach; ?>
-						<?php endfor; ?>
-					<?php else : ?>
-						<?php $parentsStr = 0; ?>
-					<?php endif; ?>
+            <?php foreach ($data->items as $i => $row): ?>
+                <?php $rowId = $row->{$data->getPrimaryKey()}; ?>
+                <?php $canCheckIn = $user->authorise(
+                        'core.manage',
+                        'com_checkin'
+                    ) || $row->checked_out == $user->id || $row->checked_out == 0; ?>
+                <?php if ($data->hasOrdering && $data->isNested && !empty($data->nestedOrdering)) : ?>
+                    <?php $orderKey = array_search(
+                        $row->{$data->getPrimaryKey()},
+                        $data->nestedOrdering[$row->parent_id]
+                    ); ?>
+                    <?php if ($row->level > 1) : ?>
+                        <?php
+                        $parentsStr      = '';
+                        $currentParentId = $row->parent_id;
+                        $parentsStr      = ' ' . $currentParentId;
+                        ?>
+                        <?php for ($i2 = 0; $i2 < $row->level; $i2++) : ?>
+                            <?php foreach ($data->nestedOrdering as $k => $v) : ?>
+                                <?php
+                                $v = implode('-', $v);
+                                $v = '-' . $v . '-';
+                                ?>
+                                <?php if (strpos($v, '-' . $currentParentId . '-') !== false) : ?>
+                                    <?php
+                                    $parentsStr      .= ' ' . $k;
+                                    $currentParentId = $k;
+                                    break;
+                                    ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php endfor; ?>
+                    <?php else : ?>
+                        <?php $parentsStr = 0; ?>
+                    <?php endif; ?>
                     <tr sortable-group-id="<?php echo $row->parent_id; ?>" item-id="<?php echo $rowId ?>"
                     parents="<?php echo $parentsStr; ?>" level="<?php echo $row->level; ?>">
-				<?php else: ?>
+                <?php else: ?>
                     <tr>
-				<?php endif; ?>
+                <?php endif; ?>
                 <td><?php echo $data->pagination->getRowOffset($i) ?></td>
                 <td align="center">
-					<?php echo JHtml::_('grid.id', $i, $row->{$data->getPrimaryKey()}) ?>
+                    <?php echo JHtml::_('grid.id', $i, $row->{$data->getPrimaryKey()}) ?>
                 </td>
-				<?php if ($data->hasOrdering): ?>
+                <?php if ($data->hasOrdering): ?>
                     <td class="order nowrap center">
                     <span class="sortable-handler hasTooltip <?php echo ($allowOrder) ? '' : 'inactive'; ?>">
                         <i class="icon-move"></i>
                     </span>
-						<?php if ($allowOrder): ?>
+                        <?php if ($allowOrder): ?>
                             <input type="text" style="display:none" name="order[]"
                                    value="<?php echo ($data->isNested) ? $orderKey + 1 : $row->{$orderingColumn} ?>"
                                    class="text-area-order"/>
-						<?php endif; ?>
+                        <?php endif; ?>
                     </td>
-				<?php endif; ?>
+                <?php endif; ?>
                 <td nowrap="nowrap">
-					<?php if (!empty($row->checked_out)): ?>
-						<?php echo JHtml::_('redshopgrid.checkedout', $i, $row->checked_out, $row->checked_out_time, $viewName . '.', $canCheckIn) ?>
-					<?php elseif ($data->canEdit == false): ?>
+                    <?php if (!empty($row->checked_out)): ?>
+                        <?php echo JHtml::_(
+                            'redshopgrid.checkedout',
+                            $i,
+                            $row->checked_out,
+                            $row->checked_out_time,
+                            $viewName . '.',
+                            $canCheckIn
+                        ) ?>
+                    <?php elseif ($data->canEdit == false): ?>
                         <a href="javascript:void(0)" class="btn btn-small btn-sm btn-primary btn-edit-item disabled">
                             <i class="fa fa-edit"></i>
                         </a>
-					<?php else: ?>
-                        <a href="index.php?option=com_redshop&task=<?php echo $singleName ?>.edit&<?php echo $data->getPrimaryKey() ?>=<?php echo $rowId ?>"
+                    <?php else: ?>
+                        <a href="index.php?option=com_redshop&task=<?php echo $singleName ?>.edit&<?php echo $data->getPrimaryKey(
+                        ) ?>=<?php echo $rowId ?>"
                            class="btn btn-small btn-sm btn-primary btn-edit-item">
                             <i class="fa fa-edit"></i>
                         </a>
-					<?php endif; ?>
+                    <?php endif; ?>
                 </td>
-				<?php foreach ($columns as $column): ?>
+                <?php foreach ($columns as $column): ?>
                     <td>
-						<?php echo $data->onRenderColumn($column, $i, $row) ?>
+                        <?php echo $data->onRenderColumn($column, $i, $row) ?>
                     </td>
-				<?php endforeach; ?>
+                <?php endforeach; ?>
                 <td>
-					<?php echo $rowId ?>
+                    <?php echo $rowId ?>
                 </td>
                 </tr>
-			<?php endforeach; ?>
+            <?php endforeach; ?>
             </tbody>
             <tfoot>
-                <tr>
-                    <td colspan="<?php echo count($columns) + 4 ?>"><?php echo $data->pagination->getListFooter() ?></td>
-                </tr>
+            <tr>
+                <td colspan="<?php echo count($columns) + 4 ?>"><?php echo $data->pagination->getListFooter() ?></td>
+            </tr>
             </tfoot>
         </table>
-	<?php endif; ?>
+    <?php endif; ?>
     <input type="hidden" name="view" value=" <?php echo $viewName ?>">
     <input type="hidden" name="task" value=""/>
     <input type="hidden" name="boxchecked" value="0"/>
     <input type="hidden" name="filter_order" value="<?php echo $listOrder ?>"/>
     <input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn ?>"/>
-	<?php echo JHtml::_('form.token'); ?>
+    <?php echo JHtml::_('form.token'); ?>
 </form>

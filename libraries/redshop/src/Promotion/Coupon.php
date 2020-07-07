@@ -8,6 +8,7 @@
  */
 
 namespace Redshop\Promotion;
+
 use Joomla\CMS\Factory;
 
 defined('_JEXEC') or die;
@@ -19,53 +20,52 @@ defined('_JEXEC') or die;
  */
 class Coupon
 {
-	/**
-	 * Method for get coupon price
-	 *
-	 * @return  float
-	 *
-	 * @since   3.0
-	 */
-	public static function getCouponPrice()
-	{
-		$cart  = \Redshop\Cart\Helper::getCart();
-		$db    = \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn(array('value', 'type')))
-			->from($db->qn('#__redshop_coupons'))
-			->where($db->qn('id') . ' = ' . (int) $cart['coupon_id'])
-			->where($db->qn('code') . ' = ' . $db->quote($cart['coupon_code']));
+    /**
+     * Method for get coupon price
+     *
+     * @return  float
+     *
+     * @since   3.0
+     */
+    public static function getCouponPrice()
+    {
+        $cart  = \Redshop\Cart\Helper::getCart();
+        $db    = \JFactory::getDbo();
+        $query = $db->getQuery(true)
+            ->select($db->qn(array('value', 'type')))
+            ->from($db->qn('#__redshop_coupons'))
+            ->where($db->qn('id') . ' = ' . (int)$cart['coupon_id'])
+            ->where($db->qn('code') . ' = ' . $db->quote($cart['coupon_code']));
 
-		$row = $db->setQuery($query)->loadObject();
+        $row = $db->setQuery($query)->loadObject();
 
-		if (!$row)
-		{
-			return 0;
-		}
+        if (!$row) {
+            return 0;
+        }
 
-		return $row->type == 1 ? (float) (($cart['product_subtotal'] * $row->value) / 100) : (float) $row->value;
-	}
+        return $row->type == 1 ? (float)(($cart['product_subtotal'] * $row->value) / 100) : (float)$row->value;
+    }
 
-	/**
-	 * Method for get user coupons
-	 *
-	 * @param   integer $uid User ID
-	 *
-	 * @return  mixed
-	 *
-	 * @since 3.0.1
-	 */
-	public static function getUserCoupons($uid)
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from('#__redshop_coupons')
-			->where('published = 1')
-			->where('userid = ' . (int) $uid)
-			->where('end_date >= ' . $db->q(Factory::getDate()->toSql()))
-			->where($db->qn('amount_left') . ' > 0');
+    /**
+     * Method for get user coupons
+     *
+     * @param   integer  $uid  User ID
+     *
+     * @return  mixed
+     *
+     * @since 3.0.1
+     */
+    public static function getUserCoupons($uid)
+    {
+        $db    = Factory::getDbo();
+        $query = $db->getQuery(true)
+            ->select('*')
+            ->from('#__redshop_coupons')
+            ->where('published = 1')
+            ->where('userid = ' . (int)$uid)
+            ->where('end_date >= ' . $db->q(Factory::getDate()->toSql()))
+            ->where($db->qn('amount_left') . ' > 0');
 
-		return $db->setQuery($query)->loadObjectList();
-	}
+        return $db->setQuery($query)->loadObjectList();
+    }
 }

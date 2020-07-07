@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -8,7 +9,7 @@
  */
 defined('_JEXEC') or die;
 
-$remove_format = JHtml::$formatOptions;
+$removeFormat = JHtml::$formatOptions;
 
 // Calculation UNIT.
 $options = array();
@@ -16,85 +17,92 @@ $options[] = JHtml::_('select.option', '+', JText::_('COM_REDSHOP_PLUS'));
 $options[] = JHtml::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
 $options[] = JHtml::_('select.option', '%', JText::_('COM_REDSHOP_PERCENTAGE'));
 $lists['discount_calc_oprand'] = JHtml::_('select.genericlist', $options, 'pdc_oprand[]', 'class="inputbox" size="1" ', 'value', 'text', '+');
-$lists['discount_calc_oprand'] = str_replace($remove_format['format.indent'], "", $lists['discount_calc_oprand']);
-$lists['discount_calc_oprand'] = str_replace($remove_format['format.eol'], "", $lists['discount_calc_oprand']);
+$lists['discount_calc_oprand'] = str_replace($removeFormat['format.indent'], "", $lists['discount_calc_oprand']);
+$lists['discount_calc_oprand'] = str_replace($removeFormat['format.eol'], "", $lists['discount_calc_oprand']);
+
+$app = JFactory::getApplication();
+$cId = $app->input->getInt('cid');
 
 unset($options);
 
-$model = $this->getModel('product_detail');
+$model      = $this->getModel('product_detail');
 $stockrooms = $model->StockRoomList();
 ?>
 
 <script type="text/javascript">
 
-	// create tr
-	function addDiscountElement() {
+    // create tr
+    function addDiscountElement() {
 
 
-		var getTABLE = document.getElementById('discount_calc_table');
-		var newTR = document.createElement('tr');
-		var newTD0 = document.createElement('td');
-		var newTD1 = document.createElement('td');
-		var newTD2 = document.createElement('td');
-		var newTD3 = document.createElement('td');
-		var newTD4 = document.createElement('td');
+        var getTABLE = document.getElementById('discount_calc_table');
+        var newTR = document.createElement('tr');
+        var newTD0 = document.createElement('td');
+        var newTD1 = document.createElement('td');
+        var newTD2 = document.createElement('td');
+        var newTD3 = document.createElement('td');
+        var newTD4 = document.createElement('td');
 
-		newTD0.innerHTML = '<?php echo $this->lists['discount_calc_unit'];?>';
-		newTD1.innerHTML = '<input type="text" name="area_start[]" id="area_start" value="" />';
-		newTD2.innerHTML = '<input type="text" name="area_end[]" id="area_end" value="" />';
-		newTD3.innerHTML = '<input type="text" name="area_price[]" id="area_price" value="" />';
-		newTD4.innerHTML = '<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" onclick="deleteDiscountElement(this)" class="button" type="button" /><input type="hidden" name="discount_calc_id[]" id="discount_calc_id" value="" />';
+        newTD0.innerHTML = '<?php echo $this->lists['discount_calc_unit'];?>';
+        newTD1.innerHTML = '<input type="text" name="area_start[]" id="area_start" value="" />';
+        newTD2.innerHTML = '<input type="text" name="area_end[]" id="area_end" value="" />';
+        newTD3.innerHTML = '<input type="text" name="area_price[]" id="area_price" value="" />';
+        newTD4.innerHTML = '<input value="<?php echo JText::_(
+            'COM_REDSHOP_DELETE'
+        ); ?>" onclick="deleteDiscountElement(this)" class="button" type="button" /><input type="hidden" name="discount_calc_id[]" id="discount_calc_id" value="" />';
 
-		newTR.appendChild(newTD0);
-		newTR.appendChild(newTD1);
-		newTR.appendChild(newTD2);
-		newTR.appendChild(newTD3);
-		newTR.appendChild(newTD4);
-		getTABLE.appendChild(newTR);
+        newTR.appendChild(newTD0);
+        newTR.appendChild(newTD1);
+        newTR.appendChild(newTD2);
+        newTR.appendChild(newTD3);
+        newTR.appendChild(newTD4);
+        getTABLE.appendChild(newTR);
 
-	}
+    }
 
-	function addDiscountElementExtra() {
-
-
-		var getTABLE = document.getElementById('pdc_extra_table');
-		var newTR = document.createElement('tr');
-		var newTD0 = document.createElement('td');
-		var newTD1 = document.createElement('td');
-		var newTD2 = document.createElement('td');
-		var newTD3 = document.createElement('td');
-
-		newTD0.innerHTML = '<input type="text" name="pdc_option_name[]" id="pdc_option_name" value="" />';
-		newTD1.innerHTML = '<?php echo $lists['discount_calc_oprand'];?>';
-		newTD2.innerHTML = '<input type="text" name="pdc_price[]" id="pdc_price" value="" />';
-		newTD3.innerHTML = '<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" onclick="deleteDiscountElementExtra(this)" class="button" type="button" /><input type="hidden" name="pdcextra_id[]" id="pdcextra_id" value="" />';
-
-		newTR.appendChild(newTD0);
-		newTR.appendChild(newTD1);
-		newTR.appendChild(newTD2);
-		newTR.appendChild(newTD3);
-		getTABLE.appendChild(newTR);
-
-	}
+    function addDiscountElementExtra() {
 
 
-	// delete tr
-	function deleteDiscountElement(r) {
+        var getTABLE = document.getElementById('pdc_extra_table');
+        var newTR = document.createElement('tr');
+        var newTD0 = document.createElement('td');
+        var newTD1 = document.createElement('td');
+        var newTD2 = document.createElement('td');
+        var newTD3 = document.createElement('td');
 
-		var i = r.parentNode.parentNode.rowIndex;
-		document.getElementById('discount_calc_table').deleteRow(i);
-	}
+        newTD0.innerHTML = '<input type="text" name="pdc_option_name[]" id="pdc_option_name" value="" />';
+        newTD1.innerHTML = '<?php echo $lists['discount_calc_oprand'];?>';
+        newTD2.innerHTML = '<input type="text" name="pdc_price[]" id="pdc_price" value="" />';
+        newTD3.innerHTML = '<input value="<?php echo JText::_(
+            'COM_REDSHOP_DELETE'
+        ); ?>" onclick="deleteDiscountElementExtra(this)" class="button" type="button" /><input type="hidden" name="pdcextra_id[]" id="pdcextra_id" value="" />';
 
-	function deleteDiscountElementExtra(r) {
+        newTR.appendChild(newTD0);
+        newTR.appendChild(newTD1);
+        newTR.appendChild(newTD2);
+        newTR.appendChild(newTD3);
+        getTABLE.appendChild(newTR);
 
-		var i = r.parentNode.parentNode.rowIndex;
-		if (i == -1) {
-			var g = r.parentNode.parentNode;
-			document.getElementById('pdc_extra_table').removeChild(g);
-		} else {
-			document.getElementById('pdc_extra_table').deleteRow(i);
-		}
-	}
+    }
+
+
+    // delete tr
+    function deleteDiscountElement(r) {
+
+        var i = r.parentNode.parentNode.rowIndex;
+        document.getElementById('discount_calc_table').deleteRow(i);
+    }
+
+    function deleteDiscountElementExtra(r) {
+
+        var i = r.parentNode.parentNode.rowIndex;
+        if (i == -1) {
+            var g = r.parentNode.parentNode;
+            document.getElementById('pdc_extra_table').removeChild(g);
+        } else {
+            document.getElementById('pdc_extra_table').deleteRow(i);
+        }
+    }
 
 </script>
 
@@ -108,7 +116,6 @@ $stockrooms = $model->StockRoomList();
 				<table border="0">
 					<tr>
 						<td>
-
 							<fieldset class="adminform">
 								<table class="admintable" border="0">
 									<tr>
@@ -121,7 +128,6 @@ $stockrooms = $model->StockRoomList();
 											<?php echo $this->lists['use_discount_calc'];?>
 										</td>
 									</tr>
-
 									<tr>
 										<td class="key">
 											<label for="discount_calc_method">
@@ -153,19 +159,14 @@ $stockrooms = $model->StockRoomList();
 										</td>
 									</tr>
 								</table>
-
 							</fieldset>
-
 						</td>
 					</tr>
 
 					<tr>
 						<td>
-
 							<fieldset class="adminform">
-
 								<table class="admintable" id="discount_calc_table" border="0">
-
 									<tr>
 										<td class="key">
 											<?php echo JText::_('COM_REDSHOP_UNIT');?>
@@ -187,10 +188,10 @@ $stockrooms = $model->StockRoomList();
 									</tr>
 
 									<?php
-										$calc_data = \Redshop\Promotion\Discount::getDiscountCalcData();
+										$calcData = \Redshop\Promotion\Discount::getDiscountCalcData(0, $cId[0], 0);
 
 										// ToDo: This should be in view.html.php?
-										for ($i = 0, $in = count($calc_data); $i < $in; $i++)
+										for ($i = 0, $in = count($calcData); $i < $in; $i++)
 										{
 											// Calculation UNIT.
 											$lists = array();
@@ -205,7 +206,7 @@ $stockrooms = $model->StockRoomList();
 																					'class="inputbox" size="1" ',
 																					'value',
 																					'text',
-																					$calc_data[$i]->discount_calc_unit
+																					$calcData[$i]->discount_calc_unit
 																			);
 											unset($options);
 									?>
@@ -215,13 +216,13 @@ $stockrooms = $model->StockRoomList();
 													<?php echo $lists['discount_calc_unit'];?>
 												</td>
 												<td>
-													<input type="text" name="area_start[]" value="<?php echo $calc_data[$i]->area_start; ?>"/>
+													<input type="text" name="area_start[]" value="<?php echo $calcData[$i]->area_start; ?>"/>
 												</td>
 												<td>
-													<input type="text" name="area_end[]" value="<?php echo $calc_data[$i]->area_end; ?>"/>
+													<input type="text" name="area_end[]" value="<?php echo $calcData[$i]->area_end; ?>"/>
 												</td>
 												<td>
-													<input type="text" name="area_price[]" value="<?php echo $calc_data[$i]->area_price; ?>"/>
+													<input type="text" name="area_price[]" value="<?php echo $calcData[$i]->area_price; ?>"/>
 												</td>
 												<td>
 													<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
@@ -229,27 +230,21 @@ $stockrooms = $model->StockRoomList();
 														   class="button"
 														   type="button"
 														/>
-													<input type="hidden" name="discount_calc_id[]" value="<?php echo $calc_data[$i]->id; ?>"/>
+													<input type="hidden" name="discount_calc_id[]" value="<?php echo $calcData[$i]->id; ?>"/>
 												</td>
 											</tr>
 									<?php
 										}
 									?>
-
 								</table>
-
 							</fieldset>
-
 						</td>
 					</tr>
 
 					<tr>
 						<td>
-
 							<fieldset class="adminform">
-
 								<table class="admintable" id="pdc_extra_table" border="0">
-
 									<tr>
 										<td class="key">
 											<?php echo JText::_('COM_REDSHOP_OPTION_NAME');?>
@@ -268,9 +263,9 @@ $stockrooms = $model->StockRoomList();
 									</tr>
 
 									<?php
-										$calc_data = \Redshop\Promotion\Discount::getDiscountCalcDataExtra();
+										$calcData = \Redshop\Promotion\Discount::getDiscountCalcDataExtra('', $cId[0]);
 
-										for ($i = 0, $in = count($calc_data); $i < $in; $i++)
+										for ($i = 0, $in = count($calcData); $i < $in; $i++)
 										{
 											// Calculation UNIT.
 											$options = array();
@@ -284,37 +279,33 @@ $stockrooms = $model->StockRoomList();
 																					'class="inputbox" size="1" ',
 																					'value',
 																					'text',
-																					$calc_data[$i]->oprand
+																					$calcData[$i]->oprand
 																				);
 
 											unset($options);
 									?>
 											<tr>
 												<td>
-													<input type="text" name="pdc_option_name[]" value="<?php echo $calc_data[$i]->option_name; ?>"/>
+													<input type="text" name="pdc_option_name[]" value="<?php echo $calcData[$i]->option_name; ?>"/>
 												</td>
 												<td>
 													<?php echo $lists['discount_calc_oprand'];?>
 												</td>
 												<td>
-													<input type="text" name="pdc_price[]" value="<?php echo $calc_data[$i]->price; ?>"/>
+													<input type="text" name="pdc_price[]" value="<?php echo $calcData[$i]->price; ?>"/>
 												</td>
 												<td>
 													<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" onclick="deleteDiscountElementExtra(this)" class="button" type="button"/>
-													<input type="hidden" name="pdcextra_id[]" id="pdcextra_id" value="<?php echo $calc_data[$i]->pdcextra_id; ?>"/>
+													<input type="hidden" name="pdcextra_id[]" id="pdcextra_id" value="<?php echo $calcData[$i]->pdcextra_id; ?>"/>
 												</td>
 											</tr>
 									<?php
 										}
 									?>
-
 								</table>
-
 							</fieldset>
-
 						</td>
 					</tr>
-
 				</table>
 			</div>
 		</div>

@@ -40,7 +40,7 @@ class Helper
                     if (!isset($data[$requiredFields[$i]->name])
                         || (isset($data[$requiredFields[$i]->name])
                             && $data[$requiredFields[$i]->name] == "")) {
-                        $msg .= $requiredFields[$i]->title . " " . JText::_('COM_REDSHOP_IS_REQUIRED') . "<br/>";
+                        $msg .= $requiredFields[$i]->title . " " . \JText::_('COM_REDSHOP_IS_REQUIRED') . "<br/>";
                     }
                 }
             }
@@ -50,35 +50,93 @@ class Helper
     }
 
     /**
-     * @param array $columns
-     * @param array $conditions
+     * @param $uid
+     *
+     * @return string
+     * @since 3.0
+     */
+    public static function getUserFullName($uid)
+    {
+        $uid = (int)$uid;
+
+        $user = \RedshopHelperUser::getUserInformation($uid);
+
+        if (isset($user)) {
+            return $user->firstname . " " . $user->lastname . " (" . $user->user_email . ")";
+        }
+
+        return '';
+    }
+
+    /**
+     * @return null
+     * @since 3.0.2
+     */
+    public static function getNewCustomers()
+    {
+        $db    = \JFactory::getDbo();
+        $query = $db->getQuery(true);
+
+        $query->select('*')
+            ->from($db->qn('#__redshop_users_info'))
+            ->order($db->qn('users_info_id') . ' DESC');
+
+        $db->setQuery($query, 0, 10);
+
+        return \Redshop\DB\Tool::safeSelect($db, $query, true, []);
+    }
+
+    /**
+     * @param $username
+     * @param $uid
+     *
+     * @return int
+     * @since 3.0.2
+     */
+    public static function isUserExist($username, $uid)
+    {
+        $users = self::getUsers(
+            [],
+            [
+                'username' => ['=' => $username],
+                'id'       => ['!=' => $uid]
+            ]
+        );
+
+        return count($users);
+    }
+
+    /**
+     * @param   array  $columns
+     * @param   array  $conditions
+     *
      * @return mixed
      * @since 3.0
      */
     public static function getUsers(
         $columns = []
-        , $conditions = [
+        ,
+        $conditions = [
             'ui.address_type' => ['=' => 'BT']
         ]
-    )
-    {
-        $db = \JFactory::getDbo();
+    ) {
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
         if (count($columns) < 1) {
-            $query->select('u.*');
+            $query->select('u.*, ui.*');
         } else {
-            foreach ($columns as $col => $alias)
-            {
+            foreach ($columns as $col => $alias) {
                 $query->select($db->qn($col, $alias));
             }
         }
 
-        $query->from($db->qn('#__users', 'u'));
-        $query->leftJoin($db->qn('#__redshop_users_info', 'ui')
-            . 'ON' . $db->qn('u.id') . '=' . $db->qn('ui.user_id'));
+        $query->from($db->qn('#__redshop_users_info', 'ui'));
+        $query->leftJoin(
+            $db->qn('#__users', 'u')
+            . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn('ui.user_id')
+        );
 
-        if (count($conditions) > 0)
-        {
+        if (count($conditions) > 0) {
             foreach ($conditions as $key => $con) {
                 foreach ($con as $operator => $value) {
                     $query->where($db->qn($key) . $operator . $db->q($value));
@@ -92,39 +150,22 @@ class Helper
     }
 
     /**
+     * @param $email
      * @param $uid
-     * @return string
-     * @since 3.0
+     *
+     * @return int
+     * @since 3.0.2
      */
-    public static function getUserFullName($uid)
+    public static function isUserEmailExist($email, $uid)
     {
-        $uid = (int) $uid;
+        $users = self::getUsers(
+            [],
+            [
+                'email' => ['=' => $email],
+                'id'    => ['!=' => $uid]
+            ]
+        );
 
-        $user = \RedshopHelperUser::getUserInformation($uid);
-
-        if (isset($user))
-        {
-            return $user->firstname . " " . $user->lastname . " (" . $user->user_email . ")";
-        }
-
-        return '';
-    }
-
-    /**
-     * @return null
-     * @throws \Exception
-     */
-    public static function getNewCustomers()
-    {
-        $db = \JFactory::getDbo();
-        $query = $db->getQuery(true);
-
-        $query->select('*')
-            ->from($db->qn('#__redshop_users_info'))
-            ->order($db->qn('users_info_id') . ' DESC');
-
-        $db->setQuery($query, 0, 10);
-
-        return \Redshop\DB\Tool::safeSelect($db, $query, true, []);
+        return count($users);
     }
 }

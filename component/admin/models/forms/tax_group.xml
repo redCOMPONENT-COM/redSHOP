@@ -4,7 +4,7 @@
         <field
                 name="id"
                 type="hidden"
-                />
+        />
         <field
                 name="name"
                 type="redshop.text"
@@ -17,13 +17,14 @@
                 table-sortable="1"
                 table-inline="1"
                 table-edit-link="1"
-                />
+        />
         <field
                 name="published"
                 type="redshop.radio"
                 label-class="radio-inline"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"
+                description="COM_REDSHOP_PUBLISHED"
                 required="true"
                 table-sortable="1"
                 table-width="5%">

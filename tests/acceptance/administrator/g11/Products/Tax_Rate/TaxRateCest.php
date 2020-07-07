@@ -1,8 +1,8 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,11 +23,13 @@ class TaxRateCest
 {
 	/**
 	 * @var  string
+	 * @since 1.4.0
 	 */
 	public $faker;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $taxRateName = '';
 
@@ -39,41 +41,55 @@ class TaxRateCest
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $taxRateNameEdit = '';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $taxGroupName = '';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $taxRateValue = '';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $countryName = '';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $stateName = '';
 
 	/**
 	 * @var integer
+	 * @since 1.4.0
 	 */
 	public $taxRateValueNegative;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $taxRateValueString;
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public $shopperGroup;
+
+	/**
 	 * TaxRateCest constructor.
+	 * @since 1.4.0
 	 */
 	public function __construct()
 	{
@@ -86,6 +102,7 @@ class TaxRateCest
 		$this->stateName            = 'Alabama';
 		$this->taxRateValueNegative = -1;
 		$this->taxRateValueString   = 'Test';
+		$this->shopperGroup         = 'All';
 	}
 
 	/**
@@ -95,6 +112,8 @@ class TaxRateCest
 	 * @param   Scenario          $scenario  Scenario for test.
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function createVATGroupSave(AcceptanceTester $client, $scenario)
 	{
@@ -105,7 +124,7 @@ class TaxRateCest
 
 		$client->wantTo('Test TAX Rates Save creation in Administrator');
 		$client = new TaxRateSteps($scenario);
-		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName, $this->shopperGroup);
 	}
 
 	/**
@@ -118,7 +137,7 @@ class TaxRateCest
 		$I->doAdministratorLogin();
 		$I->wantTo("Check button");
 		$I->checkEdit($this->taxRateName);
-		$I->addTAXRatesSave($this->taxRateName2, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+		$I->addTAXRatesSave($this->taxRateName2, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName, $this->shopperGroup);
 		$I->checkResetButton($this->taxRateName, $this->taxRateName2);
 		$I->deleteTAXRatesOK($this->taxRateName2);
 		$I->checkSearchToolsEUCountry();
@@ -132,8 +151,9 @@ class TaxRateCest
 	 * @param   Scenario          $scenario  Scenario for test.
 	 *
 	 * @return  void
-	 *
+	 * @throws \Exception
 	 * @depends createVATGroupSave
+	 * @since 1.4.0
 	 */
 	public function editTAXRatesName(AcceptanceTester $client, $scenario)
 	{
@@ -156,14 +176,16 @@ class TaxRateCest
 	 * @param   Scenario          $scenario  Scenario for test.
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function addTAXRatesSaveClose(AcceptanceTester $client, $scenario)
 	{
 		$client->doAdministratorLogin();
 		$client->wantTo('Test TAX Rates Save and Close creation in Administrator');
 		$client = new TaxRateSteps($scenario);
-		$client->addTAXRatesSaveClose($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
-		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
+		$client->addTAXRatesSaveClose($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->shopperGroup);
+		$client->see(TaxRatePage::$namePage, TaxRatePage::$selectorPageTitle);
 		$client->searchTAXRates($this->taxRateName);
 	}
 
@@ -174,6 +196,8 @@ class TaxRateCest
 	 * @param   Scenario          $scenario  Scenario for test.
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function checkCancel(AcceptanceTester $client, $scenario)
 	{
@@ -181,15 +205,15 @@ class TaxRateCest
 		$client->wantTo('check Cancel creation in Administrator');
 		$client = new TaxRateSteps($scenario);
 		$client->checkCancel();
-		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
+		$client->see(TaxRatePage::$namePage, TaxRatePage::$selectorPageTitle);
 
 		$client->wantTo('Test delete button in Administrator');
 		$client->deleteButton();
-		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
+		$client->see(TaxRatePage::$namePage, TaxRatePage::$selectorPageTitle);
 
 		$client->wantTo('Test delete button in Administrator');
 		$client->deleteTAXRatesOK($this->taxRateName);
-		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
+		$client->see(TaxRatePage::$namePage, TaxRatePage::$selectorPageTitle);
 	}
 
 	/**
@@ -199,6 +223,8 @@ class TaxRateCest
 	 * @param   Scenario          $scenario  Scenario for test.
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function addTAXRatesMissingNameSave(AcceptanceTester $client, $scenario)
 	{
@@ -218,7 +244,7 @@ class TaxRateCest
 
 		$client->wantTo('Test TAX Rates with amount is string  Save creation in Administrator');
 		$client->addTAXRatesValueAmountString(
-			$this->taxRateValueString, $this->taxGroupName, $this->taxRateValueString, $this->countryName, $this->stateName, 'Save'
+			$this->taxRateValueString, $this->taxGroupName, $this->taxRateValueString, $this->countryName, $this->shopperGroup, 'Save'
 		);
 	}
 
@@ -231,18 +257,18 @@ class TaxRateCest
 	{
 		$I->doAdministratorLogin();
 		$I->wantTo('Test TAX Rates missing name with Save & Close and Save & New');
-		$I->addTAXRatesMissingNameSaveCloseAndSaveNew($this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+		$I->addTAXRatesMissingNameSaveCloseAndSaveNew($this->taxGroupName, $this->taxRateValue, $this->countryName);
 
 		$I->wantTo('Test TAX Rates missing groups with Save & Close and Save & New');
 		$I->addTAXRatesMissingGroupsSaveCloseAndSaveNew($this->taxRateName, $this->taxRateValue);
 
 		$I->wantTo("Test TAX Rates value amount string with Save Close");
-		$I->addTAXRatesValueAmountString($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+		$I->addTAXRatesValueAmountString($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->shopperGroup);
 
 		$I->wantTo("Test TAX Rates value amount string with Save New");
-		$I->addTAXRatesValueAmountString($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName, 'SaveNew');
+		$I->addTAXRatesValueAmountString($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->shopperGroup, 'SaveNew');
 
 		$I->wantTo('Test TAX Rates with rates value amount less zero Save & Close and Save & New');
-		$I->addTAXRatesValueAmountLessZeroSaveCloseAndSaveNew($this->taxRateName, $this->taxGroupName, $this->taxRateValueNegative);
+		$I->addTAXRatesValueAmountLessZeroSaveCloseAndSaveNew($this->taxRateName, $this->taxGroupName, $this->taxRateValueNegative, $this->shopperGroup);
 	}
 }

@@ -34,128 +34,105 @@ $portal             = 0;
 // Add product in cart from db
 RedshopHelperUtility::databaseToCart();
 
-if (!empty($shopperGroupPortal))
-{
-	$portal = $shopperGroupPortal->shopper_group_portal;
+if (!empty($shopperGroupPortal)) {
+    $portal = $shopperGroupPortal->shopper_group_portal;
 }
 
-if (Redshop::getConfig()->get('PORTAL_SHOP') == 1)
-{
-	if ($vName == 'product' && $productId > 0)
-	{
-		$checkProductPermission = RedshopHelperAccess::checkPortalProductPermission($productId);
+if (Redshop::getConfig()->get('PORTAL_SHOP') == 1) {
+    if ($vName == 'product' && $productId > 0) {
+        $checkProductPermission = RedshopHelperAccess::checkPortalProductPermission($productId);
 
-		if (!$checkProductPermission)
-		{
-			$vName = 'login';
-			$app->input->set('view', 'login');
-			$app->input->set('layout', 'portal');
-			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
-		}
-	}
-	elseif ($vName == 'category' && $categoryId > 0)
-	{
-		$checkCategoryPermission = RedshopHelperAccess::checkPortalCategoryPermission($categoryId);
+        if (!$checkProductPermission) {
+            $vName = 'login';
+            $app->input->set('view', 'login');
+            $app->input->set('layout', 'portal');
+            $app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+        }
+    } elseif ($vName == 'category' && $categoryId > 0) {
+        $checkCategoryPermission = RedshopHelperAccess::checkPortalCategoryPermission($categoryId);
 
-		if (!$checkCategoryPermission)
-		{
-			$vName = 'login';
-			$app->input->set('view', 'login');
-			$app->input->set('layout', 'portal');
-			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
-		}
-	}
-}
-else
-{
-	if ($vName == 'product' && $productId > 0 && $portal == 1)
-	{
-		$checkProductPermission = RedshopHelperAccess::checkPortalProductPermission($productId);
+        if (!$checkCategoryPermission) {
+            $vName = 'login';
+            $app->input->set('view', 'login');
+            $app->input->set('layout', 'portal');
+            $app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+        }
+    }
+} else {
+    if ($vName == 'product' && $productId > 0 && $portal == 1) {
+        $checkProductPermission = RedshopHelperAccess::checkPortalProductPermission($productId);
 
-		if (!$checkProductPermission)
-		{
-			$vName = 'login';
-			$app->input->set('view', 'login');
-			$app->input->set('layout', 'portal');
-			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
-		}
-	}
+        if (!$checkProductPermission) {
+            $vName = 'login';
+            $app->input->set('view', 'login');
+            $app->input->set('layout', 'portal');
+            $app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+        }
+    }
 
-	if ($vName == 'category' && $categoryId > 0 && $portal == 1)
-	{
-		$checkCategoryPermission = RedshopHelperAccess::checkPortalCategoryPermission($categoryId);
+    if ($vName == 'category' && $categoryId > 0 && $portal == 1) {
+        $checkCategoryPermission = RedshopHelperAccess::checkPortalCategoryPermission($categoryId);
 
-		if (!$checkCategoryPermission)
-		{
-			$vName = 'login';
-			$app->input->set('view', 'login');
-			$app->input->set('layout', 'portal');
-			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
-		}
-	}
+        if (!$checkCategoryPermission) {
+            $vName = 'login';
+            $app->input->set('view', 'login');
+            $app->input->set('layout', 'portal');
+            $app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+        }
+    }
 
-	if ($vName == 'redshop')
-	{
-		$vName = 'category';
-		$app->input->set('view', 'category');
-	}
-	else
-	{
-		$app->input->set('view', $vName);
-	}
+    if ($vName == 'redshop') {
+        $vName = 'category';
+        $app->input->set('view', 'category');
+    } else {
+        $app->input->set('view', $vName);
+    }
 }
 
 // Don't create div for AJAX call and GA code.
-if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
-{
-	// Container CSS class definition
-	if (version_compare(JVERSION, '3.0', '<'))
-	{
-		$redSHOPCSSContainerClass = ' isJ25';
-	}
-	else
-	{
-		$redSHOPCSSContainerClass = ' isJ30';
-	}
+if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format) {
+    // Container CSS class definition
+    if (version_compare(JVERSION, '3.0', '<')) {
+        $redSHOPCSSContainerClass = ' isJ25';
+    } else {
+        $redSHOPCSSContainerClass = ' isJ30';
+    }
 
-	echo '<div id="redshopcomponent" class="redshop redSHOPSiteView' . ucfirst($vName) . $redSHOPCSSContainerClass . '">';
+    echo '<div id="redshopcomponent" class="redshop redSHOPSiteView' . ucfirst(
+            $vName
+        ) . $redSHOPCSSContainerClass . '">';
 }
 
 // Check for array format.
 $filter = JFilterInput::getInstance();
 $task   = $app->input->getCmd('task', 'display');
 
-if (is_array($task))
-{
-	$command = $filter->clean(array_pop(array_keys($task)), 'cmd');
-}
-else
-{
-	$command = $filter->clean($task, 'cmd');
+if (is_array($task)) {
+    $command = $filter->clean(array_pop(array_keys($task)), 'cmd');
+} else {
+    $command = $filter->clean($task, 'cmd');
 }
 
 // Check for a not controller.task command.
-if (strpos($command, '.') === false)
-{
-	$app->input->set('task', $vName . '.' . $command);
+if (strpos($command, '.') === false) {
+    $app->input->set('task', $vName . '.' . $command);
 }
 
 // Perform the Request task
 $controller = JControllerLegacy::getInstance('Redshop');
 
-if (version_compare(JVERSION, '3.0', '<'))
-{
-	$task = $app->input->getCmd('task');
-}
-else
-{
-	$task = $app->input->get('task', '');
+if (version_compare(JVERSION, '3.0', '<')) {
+    $task = $app->input->getCmd('task');
+} else {
+    $task = $app->input->get('task', '');
 }
 
 $controller->execute($task);
 
 // End component DIV here
-echo "</div>";
+if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format) {
+	echo "</div>";
+}
 
 echo JLayoutHelper::render('assets');
 

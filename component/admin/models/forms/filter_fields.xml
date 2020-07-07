@@ -33,7 +33,7 @@
                 default=""
                 class="form-control"
                 onchange="this.form.submit();"
-                />
+        />
     </fields>
     <fields name="list">
         <field
@@ -44,6 +44,6 @@
                 label="JGLOBAL_ORDERING_LIST_LIMIT"
                 description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
                 onchange="this.form.submit();"
-                />
+        />
     </fields>
 </form>
