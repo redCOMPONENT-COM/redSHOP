@@ -14,6 +14,7 @@ class RedshopControllerPrices extends RedshopController
 {
     public function cancel()
     {
+        /** @var RedshopModelPrices $model */
         $model = $this->getModel('prices');
         $productId = $model->getProductId();
 
