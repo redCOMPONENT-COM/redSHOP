@@ -913,6 +913,11 @@ class RedshopMenuLeft_Menu
                 self::$view === 'configuration' && self::$layout === ''
             )
             ->addItem(
+                'index.php?option=com_redshop&view=plugins',
+                'COM_REDSHOP_RESHOP_CONFIGURATION_PLUGIN',
+                self::$view === 'plugins' && self::$layout === ''
+            )
+            ->addItem(
                 'index.php?option=com_redshop&view=configuration&layout=resettemplate',
                 'COM_REDSHOP_RESET_TEMPLATE_LBL',
                 self::$view === 'configuration' && self::$layout === 'resettemplate'
