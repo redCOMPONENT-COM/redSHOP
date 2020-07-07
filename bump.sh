@@ -10,7 +10,7 @@ else
 
 	for f in $FILES
 	do
-		sed -i "s/__DEPLOY_VERSION__/$REDSHOPVERSION/g" $f
+		sed -i "s/3.0.2/$REDSHOPVERSION/g" $f
 	done
 fi
 
