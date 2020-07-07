@@ -23,6 +23,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$I = $this;
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+		$I->wait(0.5);
 
 		try
 		{
