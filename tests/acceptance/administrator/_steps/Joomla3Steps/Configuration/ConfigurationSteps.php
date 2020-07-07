@@ -591,8 +591,8 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(OrderManagerPage::$quantityp1, 30);
 		$quantity = $I->grabValueFrom(OrderManagerPage::$quantityp1);
 		$quantity = (int)$quantity;
-		$priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
-		$priceTotal = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
+		$priceProduct = $currencySymbol.$price.$decimalSeparator.$NumberZero;
+		$priceTotal = 'Total: '.$currencySymbol.$price*$quantity.$decimalSeparator.$NumberZero;
 		$firstName = 'First Name: '.$firstName;
 		$lastName = 'Last Name: '.$lastName;
 		$I->see($firstName);
