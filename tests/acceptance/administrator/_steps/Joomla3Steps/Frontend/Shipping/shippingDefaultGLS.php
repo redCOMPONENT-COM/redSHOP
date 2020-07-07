@@ -128,21 +128,8 @@ class shippingDefaultGLS extends CheckoutWithEWAYPayment
 		}
 
 		$I->fillInformationBusiness($customerInformation);
-
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
-		$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$iconShippingGLSBusiness, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$iconShippingGLSBusiness);
-		$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
-
-		try
-		{
-			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$iconShippingGLSBusiness);
-		} catch (\Exception $e)
-		{
-			$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
-			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$iconShippingGLSBusiness);
-		}
+		$I->waitForElementVisible($productFrontEndManagerPage->xpathShippingName($shipping['shippingName']), 30);
+		$I->click($productFrontEndManagerPage->xpathShippingName($shipping['shippingName']));
 
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
