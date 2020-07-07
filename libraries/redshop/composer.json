@@ -12,7 +12,6 @@
     "whichbrowser/parser": "2.0.32",
     "imagine/imagine": "^0.7.1",
     "ps/image-optimizer": "^1.1.2",
-    "twig/twig": "2.12.3",
     "facebook/graph-sdk": "^5.7",
     "guzzlehttp/guzzle": "^6.5",
     "google/apiclient": "^2.4"
