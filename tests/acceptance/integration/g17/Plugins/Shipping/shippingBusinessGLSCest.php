@@ -16,10 +16,10 @@ use Configuration\ConfigurationSteps;
 use Frontend\Shipping\shippingDefaultGLS;
 
 /**
- * Class shippingGLSBusinessCest
+ * Class shippingBusinessGLSCest
  *  @since 2.1.3
  */
-class shippingGLSBusinessCest
+class shippingBusinessGLSCest
 {
 	/**
 	 * @var \Faker\Generator
@@ -94,7 +94,7 @@ class shippingGLSBusinessCest
 	protected $cartSetting;
 
 	/**
-	 * shippingGLSBusinessCest constructor.
+	 * shippingBusinessGLSCest constructor.
 	 * @since 2.1.3
 	 */
 	public function __construct()
