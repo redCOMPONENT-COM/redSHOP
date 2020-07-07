@@ -71,7 +71,7 @@ class Helper
 
     /**
      * @return null
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.2
      */
     public static function getNewCustomers()
     {
@@ -92,7 +92,7 @@ class Helper
      * @param $uid
      *
      * @return int
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.2
      */
     public static function isUserExist($username, $uid)
     {
@@ -155,7 +155,7 @@ class Helper
      * @param $uid
      *
      * @return int
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.2
      */
     public static function isUserEmailExist($email, $uid)
     {
