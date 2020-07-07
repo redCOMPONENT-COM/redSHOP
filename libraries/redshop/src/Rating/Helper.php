@@ -62,8 +62,6 @@ class Helper
     public static function setPublish($categoryIds = [], $publish = 1)
     {
         if (is_array($categoryIds) && count($categoryIds) > 0) {
-            $categoryIds = implode(',', $categoryIds);
-
             $db    = \JFactory::getDbo();
             $query = $db->getQuery(true);
             $query->update($db->qn('#__redshop_product_rating'));
@@ -73,7 +71,7 @@ class Helper
             ];
 
             $conditions = [
-                $db->qn('rating_id') . ' IN (' . $db->q($categoryIds) . ')',
+                $db->qn('rating_id') . ' IN (' . implode(',', $categoryIds) . ')',
             ];
 
             $query->set($fields)
