@@ -24,7 +24,7 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * @var   array
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.2
 	 */
 	private $defaultArgs = [
 		'--tap',
@@ -114,7 +114,7 @@ class RoboFile extends \Robo\Tasks
 	 * @param   boolean  $extraVerbose  Add extra verbosity
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.2
 	 */
 	public function testsSetup($debug = true, $steps = true, $extraVerbose = false)
 	{
@@ -166,7 +166,7 @@ class RoboFile extends \Robo\Tasks
 	 * @param   boolean  $extraVerbose  Add extra verbosity
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.2
 	 */
 	public function testsRun($folder, $debug = true, $steps = true, $extraVerbose = false)
 	{
@@ -222,7 +222,7 @@ class RoboFile extends \Robo\Tasks
 	 * @param   string  $buildURL             Build URL
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.2
 	 */
 	public function sendBuildReportErrorSlack($cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL = '')
 	{
@@ -248,7 +248,7 @@ class RoboFile extends \Robo\Tasks
 	 * @param   string  $buildURL             Build URL
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.2
 	 */
 	public function sendBuildReportErrorSlackDirectory($directory, $cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL = '')
 	{
