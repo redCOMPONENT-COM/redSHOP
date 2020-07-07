@@ -15,6 +15,7 @@ $order_functions = order_functions::getInstance();
 $url      = JURI::base();
 $Itemid   = RedshopHelperRouter::getCheckoutItemId();
 $order_id = JFactory::getApplication()->input->getInt('oid');
+$encr     = !empty(trim($encr)) ? '&encr=' . $encr : '';
 
 $order     = RedshopEntityOrder::getInstance($order_id)->getItem();
 $orderitem = RedshopHelperOrder::getOrderItemDetail($order_id);
@@ -106,7 +107,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG')) {
                 $app = JFactory::getApplication();
                 $app->redirect(
                     JRoute::_(
-                        'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid,
+	                    'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid . $encr,
                         false
                     )
                 );
@@ -117,7 +118,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG')) {
     $app = JFactory::getApplication();
     $app->redirect(
         JRoute::_(
-            'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid,
+	        'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid . $encr,
             false
         )
     );

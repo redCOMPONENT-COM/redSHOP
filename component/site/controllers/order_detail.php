@@ -387,6 +387,7 @@ class RedshopControllerOrder_Detail extends RedshopController
     {
         $itemId  = $this->input->getInt('Itemid');
         $orderId = $this->input->getInt('order_id');
+	    $encr    = $this->input->getString('encr');
 
         $order       = RedshopEntityOrder::getInstance($orderId)->getItem();
         $paymentInfo = RedshopEntityOrder::getInstance($orderId);
@@ -430,7 +431,7 @@ class RedshopControllerOrder_Detail extends RedshopController
                     </form>
                     <?php
                 } else {
-                    $link = 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $orderId . '&Itemid=' . $itemId;
+	                $link = JRoute::_('index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $orderId . '&encr='. $encr .'&Itemid=' . $itemId);
                     $this->setRedirect($link);
                 }
             }

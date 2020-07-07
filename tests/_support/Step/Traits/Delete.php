@@ -25,8 +25,8 @@ trait Delete
 	 * Method for delete item
 	 *
 	 * @param   string  $item  Name of the item
-	 *
 	 * @return  void
+	 * @throws \Exception
 	 */
 	public function deleteItem($item = '')
 	{
@@ -38,10 +38,13 @@ trait Delete
 
 		$tester->searchItem($item);
 		$tester->see($item, $pageClass::$resultRow);
-		$tester->checkAllResults();
+		$tester->waitForElementVisible($pageClass::$checkAllXpath, 30);
+		$tester->wait(0.5);
+		$tester->click($pageClass::$checkAllXpath);
+		$tester->waitForText($pageClass::$buttonDelete, 30);
 		$tester->click($pageClass::$buttonDelete);
 		$tester->acceptPopup();
-		$tester->waitForElement($pageClass::$searchField, 30);
+		$tester->waitForText($pageClass::$namePage, 30, $pageClass::$headPage);
 		$tester->searchItem($item);
 		$tester->dontSee($item, $pageClass::$resultRow);
 	}

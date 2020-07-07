@@ -190,6 +190,46 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $categoryName
+	 * @param $productName
+	 * @param $productAccessoriesName
+	 * @param $productID
+	 * @param $function
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function checkProductDiscontinueAccessories($categoryName, $productName, $productAccessoriesName, $productID, $function)
+	{
+		$I = $this;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$page = new FrontEndProductManagerJoomla3Page();
+		$I->waitForElement($page::$categoryDiv, 30);
+		$I->click($page->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElementVisible($page->product($productName), 30);
+		$I->click($page->product($productName));
+
+		switch ($function)
+		{
+			case 'Yes':
+				$I->waitForText($productAccessoriesName, 30);
+				$I->waitForElementVisible($page->checkboxChooseProductAccessories($productID, 1));
+				$I->click($page->checkboxChooseProductAccessories($productID, 1));
+				$I->waitForElementVisible($page::$addToCart, 30);
+				$I->click($page::$addToCart);
+				$I->waitForText($page::$alertSuccessMessage, 30, $page::$selectorSuccess);
+				$I->amOnPage($page::$cartPageUrL);
+				$I->waitForElement(['link' => $productName], 30);
+				$I->dontSee($productAccessoriesName);
+				break;
+
+			case 'No':
+				$I->waitForElementNotVisible($page->xpathProductAccessorieName($productAccessoriesName), 30);
+				break;
+		}
+	}
+
+	/**
 	 * @param $productLayout
 	 * @throws \Exception
 	 * @since 3.0.2
