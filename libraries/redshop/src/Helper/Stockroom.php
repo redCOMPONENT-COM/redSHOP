@@ -139,7 +139,7 @@ class Stockroom
                     $preOrderClass = $tagConfig[3];
                 }
 
-                if ($product->not_for_sale == 1 || $product->expired == 1) {
+                if ($product->not_for_sale != 0 || $product->expired == 1) {
                     $stockStatus = '';
                 } elseif (!isset($stockStatuses['regular_stock']) || !$stockStatuses['regular_stock'] || $stockValues < 1) {
                     if (($stockStatuses['preorder'] && !$stockStatuses['preorder_stock']) || !$stockStatuses['preorder']) {
