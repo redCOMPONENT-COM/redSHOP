@@ -54,8 +54,9 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->click(AdminJ3Page::$buttonSelect);
 		$I->waitForElement(AdminJ3Page::$menuTypeModal, 5);
 		$I->executeJS(AdminJ3Page::jQueryIframeMenuType());
-		$I->wait(2);
+		$I->wait(1);
 		$I->switchToIFrame(AdminJ3Page::$menuItemType);
+		$I->wait(1);
 
 		$I->wantTo("Open the menu category: $menuCategory");
 		$I->waitForElementVisible(AdminJ3Page::getMenuCategory($menuCategory), 60);
@@ -135,5 +136,60 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
+	}
+
+	/**
+	 * @param $menuTitle
+	 * @param $menuCategory
+	 * @param $menuItem
+	 * @param $manufacturerName
+	 * @param string $menu
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function createNewMenuItemManufacturer($menuTitle, $menuCategory, $menuItem, $manufacturerName, $menu = 'Main Menu')
+	{
+		$I = $this;
+		$I->wantTo("I open the menus page");
+		$I->amOnPage(AdminJ3Page::$menuItemURL);
+		$I->waitForText(AdminJ3Page::$menuTitle, 5, AdminJ3Page::$h1);
+		$I->checkForPhpNoticesOrWarnings();
+
+		$I->wantTo("I click in the menu: $menu");
+		$I->click(array('link' => $menu));
+		$I->waitForText(AdminJ3Page::$menuItemsTitle, 5, AdminJ3Page::$h1);
+		$I->checkForPhpNoticesOrWarnings();
+
+		$I->wantTo("I click new");
+		$I->click(AdminJ3Page::$buttonNew);
+		$I->waitForText(AdminJ3Page::$menuNewItemTitle, 5, AdminJ3Page::$h1);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->fillField(AdminJ3Page::$menItemTitle, $menuTitle);
+
+		$I->wantTo("Open the menu types iframe");
+		$I->waitForElementVisible(AdminJ3Page::$buttonSelect, 30);
+		$I->click(AdminJ3Page::$buttonSelect);
+		$I->waitForElement(AdminJ3Page::$menuTypeModal, 5);
+		$I->executeJS(AdminJ3Page::jQueryIframeMenuType());
+		$I->wait(2);
+		$I->switchToIFrame(AdminJ3Page::$menuItemType);
+
+		$I->wantTo("Open the menu category: $menuCategory");
+		$I->waitForElementVisible(AdminJ3Page::getMenuCategory($menuCategory), 60);
+		$I->wait(0.5);
+		$I->click(AdminJ3Page::getMenuCategory($menuCategory));
+		$I->wantTo("Choose the menu item type: $menuItem");
+		$I->waitForElementVisible(AdminJ3Page::returnMenuItem($menuItem), 30);
+		$I->click(AdminJ3Page::returnMenuItem($menuItem));
+		$I->wantTo('I switch back to the main window');
+		$I->switchToIFrame();
+		$I->waitForElementVisible(AdminJ3Page::$tabOption, 30);
+		$I->wait(0.5);
+		$I->click(AdminJ3Page::$tabOption);
+		$I->waitForText(AdminJ3Page::$labelSelectManufacturer);
+		$I->selectOptionInChosen(AdminJ3Page::$labelSelectManufacturer, $manufacturerName);
+		$I->wantTo('I save the menu');
+		$I->click(AdminJ3Page::$buttonSave);
+		$I->waitForText(AdminJ3Page::$messageMenuItemSuccess, 10, AdminJ3Page::$idInstallSuccess);
 	}
 }

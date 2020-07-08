@@ -683,12 +683,13 @@ class RedshopHelperProduct
      *
      * @param   int  $productId  Product Id
      * @param   int  $userId     User Id
+     * @param   bool $isApplyTax Apply vat or not
      *
      * @return  mixed  Redshop Layout
      *
      * @since   2.0.5
      */
-    public static function getProductQuantityPrice($productId, $userId)
+    public static function getProductQuantityPrice($productId, $userId, $isApplyTax = true)
     {
         $db      = JFactory::getDbo();
         $userArr = JFactory::getSession()->get('rs_user');
@@ -732,7 +733,8 @@ class RedshopHelperProduct
             array(
                 'result'    => $result,
                 'productId' => $productId,
-                'userId'    => $userId
+                'userId'    => $userId,
+                'isApplyTax'=> $isApplyTax
             ),
             '',
             array(
