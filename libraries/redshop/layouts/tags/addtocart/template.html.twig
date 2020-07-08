@@ -1,4 +1,5 @@
 <form name="{{ cartFromName }}" id="{{ cartFromName }}" class="addtocart_formclass" action="" method="post">
+    {{ productHiddenUserFields }}
     <input type="hidden" name="preorder_product_stock" data-id="preorder_product_stock{{ productId }}"
            value="{{ isPreorderStockExists }}">
     <input type="hidden" name="product_stock" data-id="product_stock{{ productId }}" value="{{ isStockExist }}">
@@ -65,6 +66,11 @@
                    value="{{ cart.customer_amount ? cart.customer_amount : '' }}">
         {% endif %}
 
+    {% else %}
+        {% if product.product_type == 'subscription' %}
+            <input type="hidden" name="subscription_id" id="hidden_subscription_id" value="{{ subscriptionId }}"/>
+            <input type="hidden" name="subscription_prize" id="hidden_subscription_prize" value="0"/>
+        {% endif %}
     {% endif %}
 
     {% if checkTag == false %}
