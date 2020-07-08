@@ -51,7 +51,7 @@ class RedshopViewPlugins extends RedshopViewList
 
         switch ($config['dataCol']) {
             case 'name':
-                if ( ! $isCheckedOut && $isInline && $this->canEdit && $config['inline'] === true) {
+                if (!$isCheckedOut && $isInline && $this->canEdit && $config['inline'] === true) {
                     return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $value, $row->id, 'number');
                 }
             default:

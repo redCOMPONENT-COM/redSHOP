@@ -77,10 +77,10 @@ class RedshopModelPlugins extends RedshopModelList
                 ' a.checked_out, a.checked_out_time, a.enabled as published, a.enabled, a.access, a.ordering'
             )
         )
-            ->from($db->quoteName('#__extensions') . ' AS a')
-            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
+            ->from($db->qn('#__extensions') . ' AS a')
+            ->where($db->qn('type') . ' = ' . $db->q('plugin'));
 
-        if ($this->getState('filter.search_type') === 'redshop') {
+        if ($this->getState('filter.search_type') !== 'all') {
             $query->where($db->qn('a.manifest_cache') . 'LIKE ' . $db->q('%redCOMPONENT.com%'));
         }
 
@@ -111,12 +111,12 @@ class RedshopModelPlugins extends RedshopModelList
 
         // Filter by folder.
         if ($folder = $this->getState('filter.folder')) {
-            $query->where('a.folder = ' . $db->quote($folder));
+            $query->where('a.folder = ' . $db->q($folder));
         }
 
         // Filter by element.
         if ($element = $this->getState('filter.element')) {
-            $query->where('a.element = ' . $db->quote($element));
+            $query->where('a.element = ' . $db->q($element));
         }
 
         // Filter by search in name or id.
@@ -222,7 +222,7 @@ class RedshopModelPlugins extends RedshopModelList
                 $ordering = 'a.ordering';
             }
 
-            $query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+            $query->order($this->_db->qn($ordering) . ' ' . $this->getState('list.direction'));
 
             if ($ordering == 'folder') {
                 $query->order('a.ordering ASC');
