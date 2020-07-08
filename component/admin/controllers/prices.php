@@ -14,6 +14,10 @@ class RedshopControllerPrices extends RedshopController
 {
     public function cancel()
     {
-        $this->setRedirect('index.php');
+        /** @var RedshopModelPrices $model */
+        $model = $this->getModel('prices');
+        $productId = $model->getProductId();
+
+        $this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $productId);
     }
 }
