@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 /**
- * Controller Sample Detail
+ * Samples controller
  *
- * @package     RedSHOP.Backend
+ * @package     RedSHOP.backend
  * @subpackage  Controller
- * @since       2.0.7
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopControllerSample extends RedshopControllerForm
+class RedshopControllerSamples extends RedshopControllerAdmin
 {
     /**
      * Proxy for getModel.
@@ -29,7 +29,7 @@ class RedshopControllerSample extends RedshopControllerForm
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getModel($name = 'sample', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+    public function getModel($name = 'Samples', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
     {
         $model = parent::getModel($name, $prefix, $config);
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  View
@@ -6,44 +7,44 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
 defined('_JEXEC') or die;
 
-
-class RedshopViewSample extends RedshopViewAdmin
+/**
+ * View Sample
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopViewSample extends RedshopViewForm
 {
-    public function display($tpl = null)
+    /**
+     * Method for prepare field HTML
+     *
+     * @param   object  $field  Group object
+     *
+     * @return  boolean|string  False if keep. String for HTML content if success.
+     *
+     * @throws \Exception
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function prepareField($field)
     {
-        $context = 'sample_id';
+        $input = JFactory::getApplication()->input;
+        $id    = $input->getInt('id', '');
 
-        $uri      = JFactory::getURI();
-        $app      = JFactory::getApplication();
-        $document = JFactory::getDocument();
+        /* @var \RedshopModelSample $model*/
+        $model = $this->getModel();
 
-        $document->setTitle(JText::_('COM_REDSHOP_CATALOG'));
+        if ($id && $field->getAttribute('name') == 'catalog_color') {
+            $lists = $model->getColorData($id);
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE'), 'redshop_catalogmanagement48');
+            return RedshopLayoutHelper::render(
+                'sample.catalog_color',
+                ['lists' => $lists]
+            );
+        }
 
-        JToolbarHelper::addNew();
-        JToolbarHelper::EditList();
-        JToolBarHelper::deleteList();
-        JToolBarHelper::publishList();
-        JToolBarHelper::unpublishList();
-
-        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'sample_id');
-        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-        $lists['order']     = $filter_order;
-        $lists['order_Dir'] = $filter_order_Dir;
-
-        $catalog    = $this->get('Data');
-        $pagination = $this->get('Pagination');
-
-        $this->lists       = $lists;
-        $this->catalog     = $catalog;
-        $this->pagination  = $pagination;
-        $this->request_url = $uri->toString();
-
-        parent::display($tpl);
+        return parent::prepareField($field);
     }
 }
