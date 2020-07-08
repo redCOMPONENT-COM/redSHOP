@@ -36,7 +36,7 @@ class RedshopViewSample extends RedshopViewForm
         /* @var \RedshopModelSample $model*/
         $model = $this->getModel();
 
-        if ($id && $field->getAttribute('name') == 'catalog_color') {
+        if ($field->getAttribute('name') == 'catalog_color') {
             $lists = $model->getColorData($id);
 
             return RedshopLayoutHelper::render(

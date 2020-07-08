@@ -99,10 +99,10 @@ COMMENT = 'redSHOP Catalog Request';
 DROP TABLE IF EXISTS `#__redshop_catalog_sample` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_catalog_sample` (
-  `sample_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `sample_name` VARCHAR(100) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
   `published` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`sample_id`),
+  PRIMARY KEY (`id`),
   INDEX `idx_published` (`published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
