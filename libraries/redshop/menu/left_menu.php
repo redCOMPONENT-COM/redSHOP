@@ -710,7 +710,7 @@ class RedshopMenuLeft_Menu
                 (self::$view == 'catalogs') ? true : false
             )
             ->addItem(
-                'index.php?option=com_redshop&view=sample',
+                'index.php?option=com_redshop&view=samples',
                 'COM_REDSHOP_CATALOG_PRODUCT_SAMPLE',
                 self::$view === 'sample'
             )
