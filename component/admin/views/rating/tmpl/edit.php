@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-$uri = JURI::getInstance();
-$url = $uri->root();
 
 echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' => $this));
 

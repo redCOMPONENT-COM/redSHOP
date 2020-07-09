@@ -28,7 +28,7 @@ class RedshopViewRatings extends RedshopViewList
      * @return  string
      * @throws  Exception
      *
-     * @since   2.1.3
+     * @since   __DEPLOY_VERSION__
      */
     public function onRenderColumn($config, $index, $row)
     {
