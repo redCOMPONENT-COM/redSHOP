@@ -62,7 +62,7 @@ class RedshopModelRating extends RedshopModel
      *
      * @note    Calling getState in this method will result in recursion.
      */
-    protected function populateState($ordering = 'rating_id', $direction = 'desc')
+    protected function populateState($ordering = 'id', $direction = 'desc')
     {
         $comment_filter = $this->getUserStateFromRequest($this->context . '.comment_filter', 'comment_filter', '');
         $this->setState('comment_filter', $comment_filter);

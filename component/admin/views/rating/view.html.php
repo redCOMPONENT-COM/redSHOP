@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  View
@@ -6,43 +7,42 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
 defined('_JEXEC') or die;
 
-
-class RedshopViewRating extends RedshopViewAdmin
+/**
+ * View zipcode
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.1.0
+ */
+class RedshopViewRating extends RedshopViewForm
 {
-    public $state;
-
-    public function display($tpl = null)
+    /**
+     * Method for prepare field HTML
+     *
+     * @param object $field Group object
+     *
+     * @return  boolean|string  False if keep. String for HTML content if success.
+     *
+     * @throws \Exception
+     * @since   2.1.0
+     */
+    protected function prepareField($field)
     {
-        $uri      = JFactory::getURI();
-        $document = JFactory::getDocument();
-        $user     = JFactory::getUser();
+        $input = JFactory::getApplication()->input;
 
-        $document->setTitle(JText::_('COM_REDSHOP_RATING'));
+        if ($field->getAttribute('name') === "time") {
+            return false;
+        }
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_RATING_MANAGEMENT'), 'redshop_rating48');
+        if ($field->getAttribute('name') === "user_rating") {
+            return RedshopLayoutHelper::render(
+                'rating.star_rating',
+                ['userRating' => $field->value]
+            );
+        }
 
-        JToolbarHelper::addNew();
-        JToolbarHelper::EditList();
-        JToolBarHelper::deleteList();
-        JToolBarHelper::publishList();
-        JToolBarHelper::unpublishList();
-
-        $this->state        = $this->get('State');
-        $lists['order']     = $this->state->get('list.ordering', 'rating_id');
-        $lists['order_Dir'] = $this->state->get('list.direction', 'desc');
-
-        $ratings    = $this->get('Data');
-        $pagination = $this->get('Pagination');
-
-        $this->user        = $user;
-        $this->lists       = $lists;
-        $this->ratings     = $ratings;
-        $this->pagination  = $pagination;
-        $this->request_url = $uri->toString();
-
-        parent::display($tpl);
+        return parent::prepareField($field);
     }
 }
