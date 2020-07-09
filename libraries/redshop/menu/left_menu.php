@@ -710,7 +710,7 @@ class RedshopMenuLeft_Menu
                 (self::$view == 'catalogs') ? true : false
             )
             ->addItem(
-                'index.php?option=com_redshop&view=sample',
+                'index.php?option=com_redshop&view=samples',
                 'COM_REDSHOP_CATALOG_PRODUCT_SAMPLE',
                 self::$view === 'sample'
             )
@@ -911,6 +911,11 @@ class RedshopMenuLeft_Menu
                 'index.php?option=com_redshop&view=configuration',
                 'COM_REDSHOP_RESHOP_CONFIGURATION',
                 self::$view === 'configuration' && self::$layout === ''
+            )
+            ->addItem(
+                'index.php?option=com_redshop&view=plugins',
+                'COM_REDSHOP_RESHOP_CONFIGURATION_PLUGIN',
+                self::$view === 'plugins' && self::$layout === ''
             )
             ->addItem(
                 'index.php?option=com_redshop&view=configuration&layout=resettemplate',
