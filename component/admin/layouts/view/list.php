@@ -55,6 +55,52 @@ if ($data->hasOrdering) {
         );
     }
 }
+if ($data->showType == 'modal') {
+    JHtml::_('behavior.core');
+    JFactory::getDocument()->addScriptDeclaration('
+	jQuery(function($) {
+		var baseLink = "'. $data->getBaseLink() .'",
+			iFrameAttr = "class=\"iframe jviewport-height70\"";
+
+		$(document)
+			.on("click", ".btn-edit-item", function () {
+				var link = baseLink + $(this).data("id"),
+					iFrame = $("<iframe src=\"" + link + "\" " + iFrameAttr + "></iframe>");
+
+				$("#editModal").modal()
+					.find(".modal-body").empty().prepend(iFrame);
+					jQuery("#editModal").removeClass("hide");
+			})
+			.on("click", "#editModal .modal-footer .btn", function () {
+				var target = $(this).data("target");
+
+				if (target) {
+					$("#editModal iframe").contents().find(target).click();
+				}
+			});
+	});
+');
+
+// Set up the bootstrap modal that will be used for all module editors
+    echo JHtml::_(
+        'bootstrap.renderModal',
+        'editModal',
+        array(
+            'title'       => JText::_('COM_REDSHOP_EDIT'),
+            'backdrop'    => 'static',
+            'keyboard'    => false,
+            'closeButton' => false,
+            'bodyHeight'  => '70',
+            'modalWidth'  => '80',
+            'footer'      => '<button type="button" class="btn" data-dismiss="modal" data-target="#closeBtn">'
+                . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                . '<button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#saveBtn">'
+                . JText::_('JSAVE') . '</button>'
+                . '<button type="button" class="btn btn-success" data-target="#applyBtn">'
+                . JText::_('JAPPLY') . '</button>',
+        )
+    );
+}
 ?>
 <script type="text/javascript">
     Joomla.submitbutton = function (pressbutton) {
@@ -218,12 +264,21 @@ if ($data->hasOrdering) {
                         <a href="javascript:void(0)" class="btn btn-small btn-sm btn-primary btn-edit-item disabled">
                             <i class="fa fa-edit"></i>
                         </a>
-                    <?php else: ?>
+                    <?php elseif ($data->showType === 'normal'): ?>
                         <a href="index.php?option=com_redshop&task=<?php echo $singleName ?>.edit&<?php echo $data->getPrimaryKey(
                         ) ?>=<?php echo $rowId ?>"
                            class="btn btn-small btn-sm btn-primary btn-edit-item">
                             <i class="fa fa-edit"></i>
                         </a>
+                    <?php elseif ($data->showType === 'modal'): ?>
+	                    <a type="button"
+	                            data-target="#editModal"
+	                            class="btn btn-small btn-sm btn-primary btn-edit-item""
+	                            title="<?php echo JText::_('COM_REDSHOP_EDIT'); ?>"
+	                            id="title-<?php echo $rowId; ?>"
+	                            data-id="<?php echo $rowId; ?>">
+		                    <i class="fa fa-edit"></i>
+	                    </a>
                     <?php endif; ?>
                 </td>
                 <?php foreach ($columns as $column): ?>
