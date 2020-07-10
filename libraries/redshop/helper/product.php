@@ -913,7 +913,7 @@ class RedshopHelperProduct
         $db = JFactory::getDbo();
 
         $totalRating = $db->getQuery(true)
-            ->select('count(rating_id)')
+            ->select('count(id)')
             ->from($db->qn('#__redshop_product_rating'))
             ->where("product_id = $productId");
 
@@ -5021,7 +5021,7 @@ class RedshopHelperProduct
             ->where($db->qn('pr.published') . ' = 1')
             ->where($db->qn('pr.email') . ' != ' . $db->q(''))
             ->order($db->qn('pr.time') . ' DESC')
-            ->group($db->qn('pr.rating_id'));
+            ->group($db->qn('pr.id'));
 
         try {
             $reviews = $db->setQuery($query)->loadObjectList();
