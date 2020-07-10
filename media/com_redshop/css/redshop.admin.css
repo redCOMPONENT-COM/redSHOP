@@ -29487,3 +29487,7 @@ div.modal.jviewport-width100 {
     width: 100vw;
     margin-left: -50vw;
 }
+
+.redshop-datepicker {
+    position: static;
+}
