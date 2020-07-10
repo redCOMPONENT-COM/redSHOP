@@ -52,6 +52,7 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 			$I->click(RatingManagerPage::$selectUser);
 			$I->waitForElementVisible(RatingManagerPage::$inputSearchUser, 30);
 			$I->fillField(RatingManagerPage::$inputSearchUser, $rating['user']);
+			$I->pauseExecution();
 			$I->waitForElementVisible(RatingManagerPage::$searchUserFirst, 30);
 			$I->click(RatingManagerPage::$searchUserFirst);
 		}
@@ -125,11 +126,11 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 		$I = $this;
 		$I->searchRating($rating['product']);
 		$I->waitForText(RatingManagerPage::$titlePage, 10, RatingManagerPage::$h1);
-		$I->waitForElementVisible(RatingManagerPage::$firstItem, 20);
-		$I->click(RatingManagerPage::$firstItem);
+		$I->waitForElementVisible(RatingManagerPage::$checkAllXpath, 20);
+		$I->click(RatingManagerPage::$checkAllXpath);
 		$I->waitForText(RatingManagerPage::$buttonDelete, 10);
 		$I->click(RatingManagerPage::$buttonDelete);
-		$I->canSeeInPopup(RatingManagerPage::$messageDeleteRating);
+		$I->seeInPopup(RatingManagerPage::$messageDeleteRating);
 		$I->acceptPopup();
 		$I->waitForText(RatingManagerPage::$messageDeleteRatingSuccess, 10);
 		$I->dontSee($rating['title']);
