@@ -36,7 +36,7 @@ class RedshopControllerRatings extends RedshopControllerAdmin
         $model = $this->getModel('rating');
 
         if ( ! \Redshop\Rating\Helper::setFavoured($cid, 1)) {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+            echo "<script> alert('" . $model->getError() . "'); window.history.go(-1); </script>\n";
         }
 
         $msg = JText::_('COM_REDSHOP_RATING_DETAIL_PUBLISHED_SUCCESFULLY');
@@ -60,8 +60,8 @@ class RedshopControllerRatings extends RedshopControllerAdmin
 
         $model = $this->getModel('rating');
 
-        if ( ! \Redshop\Rating\Helper::setFavoured($cid, 0)) {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        if (!\Redshop\Rating\Helper::setFavoured($cid, 0)) {
+            echo "<script> alert('" . $model->getError() . "'); window.history.go(-1); </script>\n";
         }
 
         $msg = JText::_('COM_REDSHOP_RATING_DETAIL_UNPUBLISHED_SUCCESFULLY');

@@ -30,8 +30,6 @@ class RedshopViewRating extends RedshopViewForm
      */
     protected function prepareField($field)
     {
-        $input = JFactory::getApplication()->input;
-
         if ($field->getAttribute('name') === "time") {
             return false;
         }

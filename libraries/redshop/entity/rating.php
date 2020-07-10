@@ -27,6 +27,6 @@ class RedshopEntityRating extends RedshopEntity
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Rating_Detail', 'Table');
+        return JTable::getInstance('Rating', 'Table');
     }
 }

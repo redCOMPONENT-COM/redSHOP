@@ -55,7 +55,7 @@ class RedshopViewRatings extends RedshopViewList
 
                 return $username;
             default:
-                return parent::onRenderColumn($config, $index, $row);
+                return parent::/** @scrutinizer ignore-call */ onRenderColumn($config, $index, $row);
         }
     }
 }

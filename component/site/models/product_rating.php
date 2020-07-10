@@ -140,7 +140,7 @@ class RedshopModelProduct_Rating extends RedshopModelForm
      */
     public function store($data)
     {
-        $row = $this->getTable('rating_detail');
+        $row = $this->getTable('rating');
 
         if (!$row->bind($data)) {
             $this->setError($this->_db->getErrorMsg());
