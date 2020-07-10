@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     RedSHOP.Backend
- * @subpackage  Model
+ * @subpackage  View
  *
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -10,13 +10,12 @@
 defined('_JEXEC') or die;
 
 /**
- * Model Zipcode Detail
+ * View Samples
  *
  * @package     RedSHOP.Backend
- * @subpackage  Model
- * @since       2.1.3
+ * @subpackage  View
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopModelRating extends RedshopModelForm
+class RedshopViewSamples extends RedshopViewList
 {
-
 }
