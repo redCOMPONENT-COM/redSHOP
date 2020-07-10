@@ -1061,4 +1061,14 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	{
 		return "//label[contains(text(),'". $productName . "')]";
 	}
+
+	/**
+	 * @param $shippingName
+	 * @return string
+	 * @since 3.0.3
+	 */
+	public function xpathShippingName($shippingName)
+	{
+		return "//span[contains(text(),'". $shippingName . "')]";
+	}
 }
