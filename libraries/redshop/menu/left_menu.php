@@ -767,9 +767,9 @@ class RedshopMenuLeft_Menu
                 self::$view === 'question'
             )
             ->addItem(
-                'index.php?option=com_redshop&view=rating',
+                'index.php?option=com_redshop&view=ratings',
                 'COM_REDSHOP_RATING_REVIEW',
-                self::$view === 'rating'
+                self::$view === 'ratings'
             );
 
         self::$menu->group('CUSTOMER_INPUT');
