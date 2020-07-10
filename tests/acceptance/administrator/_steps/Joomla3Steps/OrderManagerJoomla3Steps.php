@@ -230,11 +230,12 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(OrderManagerPage::$userSearch, 30);
 		$userOrderPage = new OrderManagerPage();
 		$I->fillField(OrderManagerPage::$userSearch, $nameUser);
-		$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
+		$I->waitForElementVisible($userOrderPage->returnSearch($nameUser), 30);
+		$I->wait(0.5);
 		$I->pressKey(OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(OrderManagerPage::$fistName, 30);
+		$I->waitForElementVisible(OrderManagerPage::$fistName, 30);
 		$I->see($nameUser);
-		$I->wait(1);
+		$I->wait(0.5);
 		$I->waitForElement(OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
 

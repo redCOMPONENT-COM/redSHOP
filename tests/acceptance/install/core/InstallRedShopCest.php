@@ -21,25 +21,18 @@ class InstallRedShopCest
 	 * @param   AcceptanceTester  $I  Actor Class Object
 	 *
 	 * @return void
-     * @throws \Exception
-     * @since 1.4.0
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
-	public function testInstallJoomlaAndRedSHOP(AdminManagerJoomla3Steps $I)
+	public function testInstallJoomlaAndRedSHOP(AdminManagerJoomla3Steps $I, $scenario)
 	{
 		$I->wantTo('Execute Joomla Installation');
 		$I->installJoomlaRemovingInstallationFolder();
-        $I->doAdministratorLogin(null, null, false);
-		$I->installRedShopExtension();
-	}
-
-	/**
-	 * @param SystemSteps $I
-	 * @throws Exception
-	 * @since 2.1.6
-	 */
-	public function disableSEO(SystemSteps $I)
-	{
 		$I->doAdministratorLogin(null, null, false);
+		$I->installRedShopExtension();
+
+		$I = new SystemSteps($scenario);
+		$I->wantTo('Execute Joomla Installation');
 		$I->disableSEOSettings();
 	}
 }

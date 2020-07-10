@@ -140,7 +140,7 @@ class RedshopModelProduct_Rating extends RedshopModelForm
      */
     public function store($data)
     {
-        $row = $this->getTable('rating_detail');
+        $row = $this->getTable('rating');
 
         if (!$row->bind($data)) {
             $this->setError($this->_db->getErrorMsg());
@@ -170,7 +170,7 @@ class RedshopModelProduct_Rating extends RedshopModelForm
     {
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true)
-            ->select('COUNT(rating_id)')
+            ->select('COUNT(id)')
             ->from($db->qn('#__redshop_product_rating'))
             ->where('product_id = ' . (int)$pid)
             ->where('userid = ' . (int)$uid);

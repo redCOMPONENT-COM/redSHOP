@@ -29374,3 +29374,116 @@ body.modal-open {
     width: 150px;
     padding-bottom: 10px;
 }
+
+#editModal.modal {
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    z-index: 1050;
+    width: 80%;
+    margin-left: -40%;
+    background-color: #fff;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,0.3);
+    bottom: auto;
+    *border: 1px solid #999;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 3px 7px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0 3px 7px rgba(0,0,0,0.3);
+    box-shadow: 0 3px 7px rgba(0,0,0,0.3);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding-box;
+    background-clip: padding-box;
+    outline: none;
+}
+#editModal.modal.fade {
+    -webkit-transition: opacity .3s linear, top .3s ease-out;
+    -moz-transition: opacity .3s linear, top .3s ease-out;
+    -o-transition: opacity .3s linear, top .3s ease-out;
+    transition: opacity .3s linear, top .3s ease-out;
+    top: -25%;
+}
+#editModal.modal.fade.in {
+    top: 5%;
+}
+#editModal.modal-batch {
+    overflow-y: visible;
+}
+
+
+.modal-body[class^="jviewport-height"],
+.modal-body[class*="jviewport-height"] {
+    max-height: none;
+}
+.jviewport-height10 {
+    height: 10vh;
+}
+.jviewport-height20 {
+    height: 20vh;
+}
+.jviewport-height30 {
+    height: 30vh;
+}
+.jviewport-height40 {
+    height: 40vh;
+}
+.jviewport-height50 {
+    height: 50vh;
+}
+.jviewport-height60 {
+    height: 60vh;
+}
+.jviewport-height70 {
+    height: 70vh;
+}
+.jviewport-height80 {
+    height: 80vh;
+}
+.jviewport-height90 {
+    height: 90vh;
+}
+.jviewport-height100 {
+    height: 100vh;
+}
+div.modal.jviewport-width10 {
+    width: 10vw;
+    margin-left: -5vw;
+}
+div.modal.jviewport-width20 {
+    width: 20vw;
+    margin-left: -10vw;
+}
+div.modal.jviewport-width30 {
+    width: 30vw;
+    margin-left: -15vw;
+}
+div.modal.jviewport-width40 {
+    width: 40vw;
+    margin-left: -20vw;
+}
+div.modal.jviewport-width50 {
+    width: 50vw;
+    margin-left: -25vw;
+}
+div.modal.jviewport-width60 {
+    width: 60vw;
+    margin-left: -30vw;
+}
+div.modal.jviewport-width70 {
+    width: 70vw;
+    margin-left: -35vw;
+}
+div.modal.jviewport-width80 {
+    width: 80vw;
+    margin-left: -40vw;
+}
+div.modal.jviewport-width90 {
+    width: 90vw;
+    margin-left: -45vw;
+}
+div.modal.jviewport-width100 {
+    width: 100vw;
+    margin-left: -50vw;
+}
