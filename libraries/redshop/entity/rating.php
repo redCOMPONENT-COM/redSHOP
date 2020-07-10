@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
 class RedshopEntityRating extends RedshopEntity
 {
@@ -27,6 +27,6 @@ class RedshopEntityRating extends RedshopEntity
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Rating', 'Table');
+        return JTable::getInstance('Rating', 'RedshopTable');
     }
 }
