@@ -195,4 +195,33 @@ class RedshopControllerWrapper extends RedshopController
             $msg
         );
     }
+
+    public function enable_defaultpublish()
+    {
+        $showAll = $this->input->get('showall', '0');
+        $tmpl    = '';
+
+        if ($showAll) {
+            $tmpl = '&tmpl=component';
+        }
+
+        $productId  = $this->input->post->get('product_id');
+        $wrapperIds = $this->input->post->get('cid', array(0), 'array');
+
+        if (!is_array($wrapperIds) || count($wrapperIds) < 1) {
+            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+        }
+
+        $model = $this->getModel('wrapper_detail');
+
+        if (!$model->enableWrapperUseToAll($wrapperIds, 1)) {
+            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+        }
+
+        $msg = JText::_('COM_REDSHOP_USE_TO_ALL_ENABLE_SUCCESSFULLY');
+        $this->setRedirect(
+            'index.php?option=com_redshop&view=wrapper&showall=' . $showAll . $tmpl . '&product_id=' . $productId,
+            $msg
+        );
+    }
 }
