@@ -384,7 +384,7 @@ class RedshopModelCart extends RedshopModel
 				            $cart['voucher'][$i]['voucher_value'] = $voucherData->total * $voucherQuantity;
 
 				            if ($voucherData->type == 'Percentage') {
-					            $cart['voucher'][$i]['voucher_value'] = (product_subtotal * $voucherData->total) / (100);
+					            $cart['voucher'][$i]['voucher_value'] = ($cart['product_subtotal'] * $voucherData->total) / (100);
 				            }
 
 				            $cart['voucher'][$i]['used_voucher'] = $voucherQuantity;
