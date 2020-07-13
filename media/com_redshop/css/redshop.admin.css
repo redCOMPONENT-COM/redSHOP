@@ -29491,3 +29491,7 @@ div.modal.jviewport-width100 {
 .redshop-datepicker {
     position: static;
 }
+
+.table-striped tbody > tr > td.day.active {
+    background-color: #337ab7 !important;
+}
