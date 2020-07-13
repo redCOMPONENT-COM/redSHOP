@@ -144,7 +144,7 @@ class Helper
                     ]
                 )->where($db->qn('wrapper_id') . ' IN (' . $db->q($wrapperIds) . ')');
 
-            return \Redshop\DB\Tool::safeExecute($db, query);
+            return \Redshop\DB\Tool::safeExecute($db, $query);
         }
 
         return true;
