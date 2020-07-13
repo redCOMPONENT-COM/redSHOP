@@ -363,6 +363,29 @@ class RedshopModelCart extends RedshopModel
                     $product_old_price_excl_vat += $subscription_price;
                 }
 
+	            if (isset($cart['voucher']) && is_array($cart['voucher'])) {
+		            for ($i = 0; $i < count($cart['voucher']); $i++)
+		            {
+			            $voucherQuantity = '';
+			            for ($j = 0; $j < $cart['idx']; $j++)
+			            {
+				            $voucherProductIds = explode(",", $cart['voucher'][$i]['product_id']);
+
+				            if (!in_array($cart[$j]['product_id'], $voucherProductIds)) {
+					            continue;
+				            }
+
+				            $voucherQuantity +=  $cart[$j]['quantity'];
+			            }
+
+			            if (\Redshop::getConfig()->get('DISCOUNT_TYPE') == 4) {
+				            $voucherData = \Redshop\Promotion\Voucher::getVoucherData($cart['voucher'][$i]['voucher_code']);
+				            $cart['voucher'][$i]['voucher_value'] = (int) $voucherData->total * $voucherQuantity;
+				            $cart['voucher'][$i]['used_voucher'] += $voucherQuantity;
+			            }
+		            }
+	            }
+
                 $cart[$cartElement]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
                 $cart[$cartElement]['product_old_price']          = $product_old_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
                 $cart[$cartElement]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
