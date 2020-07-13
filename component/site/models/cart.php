@@ -364,7 +364,8 @@ class RedshopModelCart extends RedshopModel
                 }
 
 	            if (isset($cart['voucher']) && is_array($cart['voucher'])) {
-		            for ($i = 0; $i < count($cart['voucher']); $i++)
+		            $maxVoucher = count($cart['voucher']);
+		            for ($i = 0; $i < $maxVoucher; $i++)
 		            {
 			            $voucherQuantity = '';
 			            for ($j = 0; $j < $cart['idx']; $j++)
@@ -380,8 +381,13 @@ class RedshopModelCart extends RedshopModel
 
 			            if (\Redshop::getConfig()->get('DISCOUNT_TYPE') == 4) {
 				            $voucherData = \Redshop\Promotion\Voucher::getVoucherData($cart['voucher'][$i]['voucher_code']);
-				            $cart['voucher'][$i]['voucher_value'] = (int) $voucherData->total * $voucherQuantity;
-				            $cart['voucher'][$i]['used_voucher'] += $voucherQuantity;
+				            $cart['voucher'][$i]['voucher_value'] = $voucherData->total * $voucherQuantity;
+
+				            if ($voucherData->type == 'Percentage') {
+					            $cart['voucher'][$i]['voucher_value'] = (product_subtotal * $voucherData->total) / (100);
+				            }
+
+				            $cart['voucher'][$i]['used_voucher'] = $voucherQuantity;
 			            }
 		            }
 	            }

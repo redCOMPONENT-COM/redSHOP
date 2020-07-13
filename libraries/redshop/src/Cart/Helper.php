@@ -527,6 +527,7 @@ class Helper
         $quantity            = 0;
         $productIds          = explode(',', $productId);
         $productIds          = \Joomla\Utilities\ArrayHelper::toInteger($productIds);
+	    $productQuantity = 0;
 
         for ($v = 0; $v < $idx; $v++) {
             if (in_array($cart[$v]['product_id'], $productIds) || self::$globalVoucher) {
