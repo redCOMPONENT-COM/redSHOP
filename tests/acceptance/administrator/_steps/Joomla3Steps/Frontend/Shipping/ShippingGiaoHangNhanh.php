@@ -46,22 +46,11 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->fillInformationPrivate($customerInformation);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$iconShippingRate, 30);
+		$I->waitForElementVisible($productFrontEndManagerPage->xpathShippingName($shipping['shippingName']), 30);
 		$I->wait(0.5);
-		$I->click(FrontEndProductManagerJoomla3Page::$iconShippingRate);
+		$I->click($productFrontEndManagerPage->xpathShippingName($shipping['shippingName']));
 
-		try
-		{
-			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$iconShippingRate);
-		} catch (\Exception $e)
-		{
-			$I->waitForElement(FrontEndProductManagerJoomla3Page::$radioShippingRate, 30);
-			$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
-			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$iconShippingRate);
-		}
-
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$termAndConditions);
