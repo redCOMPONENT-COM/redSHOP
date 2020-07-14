@@ -9,51 +9,30 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerSample extends RedshopController
+/**
+ * Controller Sample Detail
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       2.0.7
+ */
+class RedshopControllerSample extends RedshopControllerForm
 {
-    public function cancel()
+    /**
+     * Proxy for getModel.
+     *
+     * @param   string  $name    The model name. Optional.
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  object  The model.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getModel($name = 'sample', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
     {
-        $this->setRedirect('index.php');
-    }
+        $model = parent::getModel($name, $prefix, $config);
 
-    public function publish()
-    {
-        $cid = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-        }
-
-        /** @var RedshopModelSample_detail $model */
-        $model = $this->getModel('sample_detail');
-
-        if (!$model->publish($cid, 1)) {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_PUBLISHED_SUCCESFULLY');
-
-        $this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
-    }
-
-    public function unpublish()
-    {
-        $cid = $this->input->post->get('cid', array(0), 'array');
-
-        if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-        }
-
-        /** @var RedshopModelSample_detail $model */
-        $model = $this->getModel('sample_detail');
-
-        if (!$model->publish($cid, 0)) {
-            echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-        }
-
-        $msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_UNPUBLISHED_SUCCESFULLY');
-
-        $this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
+        return $model;
     }
 }
