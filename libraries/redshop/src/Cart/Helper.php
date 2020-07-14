@@ -544,7 +544,7 @@ class Helper
         $productList['product_ids']            = implode(',', $affectedProductIds);
         $productList['product_price']          = $productPrice;
         $productList['product_price_excl_vat'] = $productPriceExclVat;
-        $productList['product_quantity']       = $productQuantity;
+        $productList['product_quantity']       = (\Redshop::getConfig()->get('DISCOUNT_TYPE') == 4) ? $quantity : $productQuantity;
 
         return $productList;
     }

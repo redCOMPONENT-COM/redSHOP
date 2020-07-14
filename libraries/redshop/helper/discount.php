@@ -242,6 +242,8 @@ class RedshopHelperDiscount
         $voucherDiscount = 0;
 
         if (array_key_exists('voucher', $cart)) {
+	        $cart = RedshopHelperDiscount::modifyDiscountUpdateQuantityProduct($cart);
+
             if (count($cart['voucher']) > 1) {
                 foreach ($cart['voucher'] as $cartVoucher) {
                     $voucherDiscount += $cartVoucher['voucher_value'];
@@ -376,4 +378,50 @@ class RedshopHelperDiscount
 
         return $discount;
     }
+
+	/**
+	 * Method for calculate discount voucher when update quantity product in cart.
+	 *
+	 * @param   array  $cart
+	 *
+	 * @return  array
+	 *
+	 * @since   3.0.3
+	 */
+	public static function modifyDiscountUpdateQuantityProduct($cart)
+	{
+		$maxVoucher = count($cart['voucher']);
+		for ($i = 0; $i < $maxVoucher; $i++)
+		{
+			$voucherQuantity = '';
+			for ($j = 0; $j < $cart['idx']; $j++)
+			{
+				$voucherProductIds = explode(",", $cart['voucher'][$i]['product_id']);
+
+				if (!in_array($cart[$j]['product_id'], $voucherProductIds)) {
+					continue;
+				}
+
+				$voucherQuantity +=  $cart[$j]['quantity'];
+			}
+
+			if (\Redshop::getConfig()->get('DISCOUNT_TYPE') == 4) {
+				$voucherData = \Redshop\Promotion\Voucher::getVoucherData($cart['voucher'][$i]['voucher_code']);
+
+				if ($voucherData->type == 'Percentage') {
+					if (\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT')) {
+						$cart['voucher'][$i]['voucher_value'] = ($cart['product_subtotal'] * (int)$voucherData->total) / (100);
+					} else {
+						$cart['voucher'][$i]['voucher_value'] = ($cart['product_subtotal_excl_vat'] * (int)$voucherData->total) / (100);
+					}
+				} else {
+					$cart['voucher'][$i]['voucher_value'] = (int) $voucherData->total * $voucherQuantity;
+				}
+
+				$cart['voucher'][$i]['used_voucher'] = $voucherQuantity;
+			}
+		}
+
+		return $cart;
+	}
 }
