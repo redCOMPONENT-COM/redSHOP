@@ -129,10 +129,11 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 		$I->waitForElementVisible(RatingManagerPage::$checkAllXpath, 20);
 		$I->click(RatingManagerPage::$checkAllXpath);
 		$I->waitForText(RatingManagerPage::$buttonDelete, 10);
+		$I->wait(0.5);
 		$I->click(RatingManagerPage::$buttonDelete);
 		$I->seeInPopup(RatingManagerPage::$messageDeleteRating);
+		$I->wait(0.5);
 		$I->acceptPopup();
-		$I->waitForText(RatingManagerPage::$messageDeleteRatingSuccess, 10);
 		$I->dontSee($rating['title']);
 	}
 
