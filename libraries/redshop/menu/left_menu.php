@@ -562,7 +562,7 @@ class RedshopMenuLeft_Menu
         self::$menu->section('shipping')
             ->title('COM_REDSHOP_SHIPPING')
             ->addItem(
-                'index.php?option=com_redshop&view=shipping',
+                'index.php?option=com_redshop&view=shipping_methods',
                 'COM_REDSHOP_SHIPPING_METHOD_LISTING',
                 self::$view === 'shipping'
             );
