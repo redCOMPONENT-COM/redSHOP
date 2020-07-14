@@ -39,7 +39,7 @@ class Helper
             ];
 
             $conditions = [
-                $db->qn('rating_id') . ' IN (' . $db->q($categoryIds) . ')',
+                $db->qn('id') . ' IN (' . $db->q($categoryIds) . ')',
             ];
 
             $query->set($fields)
@@ -71,7 +71,7 @@ class Helper
             ];
 
             $conditions = [
-                $db->qn('rating_id') . ' IN (' . implode(',', $categoryIds) . ')',
+                $db->qn('id') . ' IN (' . implode(',', $categoryIds) . ')',
             ];
 
             $query->set($fields)

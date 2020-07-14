@@ -48,6 +48,16 @@ class RedshopViewList extends AbstractView
     public $filterForm;
 
     /**
+     * @var  string
+     */
+    public $showType = 'normal';
+
+    /**
+     * @var  string
+     */
+    public $baseLink;
+
+    /**
      * @var  array
      */
     public $filterFormOptions = array();
@@ -138,6 +148,11 @@ class RedshopViewList extends AbstractView
                 $this->nestedOrdering[$item->parent_id][] = $item->id;
             }
         }
+    }
+
+    public function getBaseLink()
+    {
+        return $this->baseLink;
     }
 
     /**
