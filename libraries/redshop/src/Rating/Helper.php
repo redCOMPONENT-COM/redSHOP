@@ -104,7 +104,7 @@ class Helper
             $db    = \JFactory::getDbo();
             $query = $db->getQuery(true)
                 ->delete($db->qn('#__redshop_product_rating'))
-                ->where($db->qn('rating_id') . ' IN (' . $db->q(implode(',', $ids)) . ')');
+                ->where($db->qn('id') . ' IN (' . $db->q(implode(',', $ids)) . ')');
 
             try {
                 $db->setQuery($query)->execute();
