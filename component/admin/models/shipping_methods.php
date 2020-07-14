@@ -27,8 +27,12 @@ class RedshopModelShipping_Methods extends RedshopModelList
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = array(
-                'id',
-                'z.id'
+                'extension_id',
+                's.extension_id',
+                'name',
+                's.name',
+                'element',
+                's.element'
             );
         }
 
@@ -51,51 +55,6 @@ class RedshopModelShipping_Methods extends RedshopModelList
         return Joomla\CMS\Table\Extension::getInstance('extension');
     }
 
-    /**
-     * Method to auto-populate the model state.
-     *
-     * This method should only be called once per instantiation and is designed
-     * to be called on the first call to the getState() method unless the model
-     * configuration flag to ignore the request is set.
-     *
-     * Note. Calling getState in this method will result in recursion.
-     *
-     * @param string $ordering  An optional ordering field.
-     * @param string $direction An optional direction (asc|desc).
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function populateState($ordering = 's.extension_id', $direction = 'asc')
-    {
-        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
-        // List state information.
-        parent::populateState($ordering, $direction);
-    }
-
-    /**
-     * Method to get a store id based on model configuration state.
-     *
-     * This is necessary because the model is used by the component and
-     * different modules that might need different sets of data or different
-     * ordering requirements.
-     *
-     * @param string $id A prefix for the store id.
-     *
-     * @return  string  A store id.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function getStoreId($id = '')
-    {
-        // Compile the store id.
-        $id .= ':' . $this->getState('filter.search');
-
-        return parent::getStoreId($id);
-    }
 
     /**
      * Method to build an SQL query to load the list data.
@@ -113,6 +72,7 @@ class RedshopModelShipping_Methods extends RedshopModelList
         // Add the list ordering clause.
         $orderCol  = $this->state->get('list.ordering', 's.extension_id');
         $orderDirn = $this->state->get('list.direction', 'asc');
+
         $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
         return $query;

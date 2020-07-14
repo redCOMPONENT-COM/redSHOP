@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
  * ======================================
  *
  * @var  object $item
- * @var  object $element
  * @var  array  $displayData
  */
 extract($displayData);
