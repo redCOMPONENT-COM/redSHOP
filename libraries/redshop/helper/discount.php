@@ -408,19 +408,17 @@ class RedshopHelperDiscount
 			if (\Redshop::getConfig()->get('DISCOUNT_TYPE') == 4) {
 				$voucherData = \Redshop\Promotion\Voucher::getVoucherData($cart['voucher'][$i]['voucher_code']);
 
-				if (!empty($voucherData)) {
-					if ($voucherData->type == 'Percentage') {
-						if (\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT')) {
-							$cart['voucher'][$i]['voucher_value'] = ($cart['product_subtotal'] * (int)$voucherData->total) / (100);
-						} else {
-							$cart['voucher'][$i]['voucher_value'] = ($cart['product_subtotal_excl_vat'] * (int)$voucherData->total) / (100);
-						}
+				if ($voucherData->type == 'Percentage') {
+					if (\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT')) {
+						$cart['voucher'][$i]['voucher_value'] = ($cart['product_subtotal'] * (int)$voucherData->total ?: $voucherData->total) / (100);
 					} else {
-						$cart['voucher'][$i]['voucher_value'] = (int) $voucherData->total * $voucherQuantity;
+						$cart['voucher'][$i]['voucher_value'] = ($cart['product_subtotal_excl_vat'] * (int)$voucherData->total ?: $voucherData->total) / (100);
 					}
-
-					$cart['voucher'][$i]['used_voucher'] = $voucherQuantity;
+				} else {
+					$cart['voucher'][$i]['voucher_value'] = (int) $voucherData->total * $voucherQuantity;
 				}
+
+				$cart['voucher'][$i]['used_voucher'] = $voucherQuantity;
 			}
 		}
 
