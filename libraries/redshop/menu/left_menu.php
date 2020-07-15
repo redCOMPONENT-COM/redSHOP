@@ -180,10 +180,10 @@ class RedshopMenuLeft_Menu
             case 'newslettersubscr_detail':
                 return array('COMMUNICATION', 'newsletter');
 
-            case "shipping":
-            case "shipping_detail":
+            case "shipping_methods":
+            case "shipping_method":
             case "shipping_rate":
-                return array('SHIPPING', 'shipping_method');
+                return array('SHIPPING', 'shipping_methods');
 
             case "shipping_box":
             case "shipping_boxes":
@@ -564,7 +564,7 @@ class RedshopMenuLeft_Menu
             ->addItem(
                 'index.php?option=com_redshop&view=shipping_methods',
                 'COM_REDSHOP_SHIPPING_METHOD_LISTING',
-                self::$view === 'shipping'
+                self::$view === 'shipping_methods'
             );
 
         if (JPluginHelper::isEnabled('economic') && Redshop::getConfig()->getBool('ECONOMIC_INTEGRATION')) {
