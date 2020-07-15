@@ -232,7 +232,8 @@ class RedshopModelCategory extends RedshopModel
             && \Redshop::getConfig()->getInt('DISPLAY_OUT_OF_STOCK_AFTER')) {
             $query->clear('order');
             $subQuery = $db->getQuery(true)
-                ->select('SUM('. $db->qn('sr.quantity') .') AS stock, sr.product_id')
+                ->select('sr.product_id')
+                ->select('IF(SUM(sr.quantity) > 0, 1, 0) AS stock')
                 ->from($db->qn('#__redshop_product_stockroom_xref', 'sr'))
                 ->group('sr.product_id');
 
