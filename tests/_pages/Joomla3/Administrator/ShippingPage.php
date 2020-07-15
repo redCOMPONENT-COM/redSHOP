@@ -19,7 +19,7 @@ class ShippingPage extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $shippingManagementUrl = '/administrator/index.php?option=com_redshop&view=shipping';
+	public static $shippingManagementUrl = 'administrator/index.php?option=com_redshop&view=shipping_methods';
 
 	/**
 	 * @var string
