@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="id"
+                type="hidden"
+        />
+        <field
+                id="name"
+                name="name"
+                type="text"
+                label="COM_REDSHOP_WRAPPER_NAME"
+                description="COM_REDSHOP_WRAPPER_NAME_DESC"
+                size="30"
+                table-sortable="1"
+                required="true"
+        />
+        <field
+                id="price"
+                name="price"
+                type="text"
+                label="COM_REDSHOP_WRAPPER_PRICE"
+                description="COM_REDSHOP_WRAPPER_PRICE_DESC"
+                size="30"
+                table-sortable="1"
+        />
+        <field
+                id="product_id"
+                name="product_id"
+                type="rproducts"
+                label="COM_REDSHOP_PRODUCT_NAME"
+                description="COM_REDSHOP_PRODUCT_NAME"
+                size="30"
+                class="text_area"
+                table-sortable="1"
+        />
+        <field
+                id="category_id"
+                name="category_id"
+                type="categoryList"
+                label="COM_REDSHOP_CATEGORY_NAME"
+                description="COM_REDSHOP_CATEGORY_NAME"
+                table-sortable="1"
+        />
+        <field
+                name="image_file"
+                type="file"
+                label-class="radio-inline"
+                label="COM_REDSHOP_WRAPPER_IMAGE"
+                description="COM_REDSHOP_WRAPPER_IMAGE_DESC"
+        />
+        <field
+                id="image"
+                name="image"
+                type="hidden"
+                default=""
+                readonly="true"
+        />
+        <field
+                id="use_to_all"
+                name="use_to_all"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_USE_FOR_ALL_PRODUCT"
+                description="COM_REDSHOP_USE_FOR_ALL_PRODUCT_DESC"
+                required="true"
+                table-width="5%">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="published"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_PUBLISHED"
+                required="true"
+                table-sortable="1"
+                table-width="5%">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+    </fieldset>
+</form>

@@ -2397,17 +2397,17 @@ COMMENT = 'redSHOP Wishlist Product userfielddata';
 DROP TABLE IF EXISTS `#__redshop_wrapper` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_wrapper` (
-  `wrapper_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `product_id` VARCHAR(255) NOT NULL,
   `category_id` VARCHAR(250) NOT NULL,
-  `wrapper_name` VARCHAR(255) NOT NULL,
-  `wrapper_price` DOUBLE NOT NULL,
-  `wrapper_image` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `price` DOUBLE NOT NULL,
+  `image` VARCHAR(255) NOT NULL,
   `createdate` INT(11) NOT NULL,
-  `wrapper_use_to_all` TINYINT(4) NOT NULL,
+  `use_to_all` TINYINT(4) NOT NULL,
   `published` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`wrapper_id`),
-  INDEX `idx_wrapper_use_to_all` (`wrapper_use_to_all` ASC),
+  PRIMARY KEY (`id`),
+  INDEX `idx_use_to_all` (`use_to_all` ASC),
   INDEX `idx_published` (`published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8

@@ -23,4 +23,15 @@ CALL redSHOP_Column_Update('#__redshop_product_rating', 'created_by', 'created_b
 CALL redSHOP_Column_Update('#__redshop_product_rating', 'modified_by', 'modified_by', "INT(11) NULL DEFAULT NULL AFTER `created_by`");
 CALL redSHOP_Column_Update('#__redshop_product_rating', 'modified_date', 'modified_date', "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `modified_by`");
 
+-- -----------------------------------------------------
+-- Table `#__redshop_wrapper`
+-- -----------------------------------------------------
+CALL redSHOP_Column_Update('#__redshop_wrapper', 'wrapper_id', 'id', 'INT(11) NOT NULL AUTO_INCREMENT');
+CALL redSHOP_Column_Update('#__redshop_wrapper', 'wrapper_name', 'name', "VARCHAR(255) NOT NULL");
+CALL redSHOP_Column_Update('#__redshop_wrapper', 'wrapper_price', 'price', "DOUBLE NOT NULL");
+CALL redSHOP_Column_Update('#__redshop_wrapper', 'wrapper_image', 'image', "VARCHAR(255) NOT NULL");
+CALL redSHOP_Column_Update('#__redshop_wrapper', 'wrapper_use_to_all', 'use_to_all', "TINYINT(4) NOT NULL");
+CALL redSHOP_Index_Remove('#__redshop_wrapper', 'idx_wrapper_use_to_all');
+CALL redSHOP_Index_Add('#__redshop_wrapper', 'idx_use_to_all', "(`use_to_all` ASC)");
+
 SET FOREIGN_KEY_CHECKS = 1;

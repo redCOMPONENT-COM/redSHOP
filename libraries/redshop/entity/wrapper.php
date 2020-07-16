@@ -27,6 +27,6 @@ class RedshopEntityWrapper extends RedshopEntity
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Wrapper_Detail', 'Table');
+        return JTable::getInstance('Wrapper', 'Table');
     }
 }
