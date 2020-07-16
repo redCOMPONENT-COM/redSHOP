@@ -33,12 +33,19 @@ class RedshopUpdate303 extends RedshopInstallUpdate
             JPATH_ADMINISTRATOR . '/components/com_redshop/tables/sample_detail.php',
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/sample_detail/tmpl/default.php',
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/sample_detail/view.html.php',
-
             JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/rating_detail.php',
             JPATH_ADMINISTRATOR . '/components/com_redshop/models/rating_detail.php',
             JPATH_ADMINISTRATOR . '/components/com_redshop/tables/rating_detail.php',
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/rating_detail/tmpl/default.php',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/views/rating_detail/view.html.php'
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/rating_detail/view.html.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/shipping.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/shipping_detail.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/models/shipping.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/models/shipping_detail.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/shipping/tmpl/default.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/shipping/view.html.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/shipping_detail/tmpl/default.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/shipping_detail/view.html.php'
         );
     }
 
@@ -53,7 +60,9 @@ class RedshopUpdate303 extends RedshopInstallUpdate
     {
         return array(
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/sample_detail',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/views/rating_detail'
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/rating_detail',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/shipping',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/shipping_detail'
         );
     }
 }
