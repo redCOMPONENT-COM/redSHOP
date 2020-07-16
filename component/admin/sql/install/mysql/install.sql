@@ -819,13 +819,13 @@ COMMENT = 'redSHOP Media Additional Downloadable Files';
 DROP TABLE IF EXISTS `#__redshop_newsletter` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_newsletter` (
-  `newsletter_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `subject` VARCHAR(255) NOT NULL,
   `body` LONGTEXT NOT NULL,
   `template_id` INT(11) NOT NULL,
   `published` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`newsletter_id`),
+  PRIMARY KEY (`id`),
   INDEX `idx_published` (`published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
