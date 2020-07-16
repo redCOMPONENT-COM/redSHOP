@@ -52,21 +52,19 @@ class RedshopViewNewsletters extends RedshopViewList
      */
     public function addToolbar()
     {
-        if ($this->getLayout() == 'previewlog')
+        if ($this->getLayout() != 'previewlog')
         {
-            return false;
+            JToolBarHelper::custom(
+                'sendNewsletterPreview',
+                'send.png',
+                'send.png',
+                JText::_('COM_REDSHOP_SEND_NEWSLETTER'),
+                true
+            );
+
+            JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+
+            parent::addToolbar();
         }
-
-        JToolBarHelper::custom(
-            'sendNewsletterPreview',
-            'send.png',
-            'send.png',
-            JText::_('COM_REDSHOP_SEND_NEWSLETTER'),
-            true
-        );
-
-        JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-
-        parent::addToolbar();
     }
 }

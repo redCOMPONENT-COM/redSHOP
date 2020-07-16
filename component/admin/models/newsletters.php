@@ -454,7 +454,7 @@ class RedshopModelNewsletters extends RedshopModelList
                 continue;
             }
 
-            $newsProductBody = $this->getnewsletterproducts_content();
+            $newsProductBody = $this->getNewsletterProductsContent();
             $tmpTemplate     = $newsProductBody[0]->template_desc;
 
             $thumbImage = "";
@@ -621,4 +621,14 @@ class RedshopModelNewsletters extends RedshopModelList
         return $db->setQuery($query)->loadObjectList();
     }
 
+    public function getNewsletterProductsContent()
+    {
+        $db = $this->_db;
+        $query = $db->getQuery(true)
+            ->select('template_desc')
+            ->from($db->qn('#__redshop_template'))
+            ->where($db->qn('section') . ' = ' . $db->q('newsletter_product'));
+
+        return $db->setQuery($query)->loadObjectList();
+    }
 }

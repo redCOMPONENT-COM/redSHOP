@@ -40,8 +40,6 @@ class RedshopViewNewsletters extends RedshopViewAdmin
         JToolBarHelper::custom('sendNewsletter', 'send.png', 'send.png', 'Send Newsletter');
         JToolBarHelper::cancel('close', JText::_('JTOOLBAR_CLOSE'));
 
-        $uri = JFactory::getURI();
-
         $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
         $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
@@ -126,7 +124,7 @@ class RedshopViewNewsletters extends RedshopViewAdmin
         $this->lists       = $lists;
         $this->newsletters = $newsletters;
         $this->pagination  = $pagination;
-        $this->request_url = $uri->toString();
+        $this->request_url = JUri::getInstance()->toString();
 
         $this->setLayout('preview');
 

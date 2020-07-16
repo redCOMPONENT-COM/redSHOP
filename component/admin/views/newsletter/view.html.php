@@ -35,7 +35,7 @@ class RedshopViewNewsletter extends RedshopViewForm
                 return RedshopLayoutHelper::render(
                     'newsletter.field_template',
                     [
-                        'htmlField' => parent::prepareField($field),
+                        'htmlField' => parent::/** @scrutinizer ignore-call */ prepareField($field),
                         'item' => $this->item
                     ]
                 );
