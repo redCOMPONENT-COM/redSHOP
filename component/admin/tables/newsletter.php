@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * The zipcode table
+ * The newsletter table
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table.Catalog

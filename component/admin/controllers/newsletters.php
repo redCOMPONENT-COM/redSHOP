@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Zipcodes controller
+ * Newsletters controller
  *
  * @package     RedSHOP.backend
  * @subpackage  Controller

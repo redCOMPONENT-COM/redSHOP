@@ -36,9 +36,3 @@ echo $htmlField;
            target="_blank"><?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATE') ?></a>
     </div>
 </div>
-
-
-
-
-
-
