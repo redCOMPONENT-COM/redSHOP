@@ -76,36 +76,44 @@ abstract class JHtmlRedshopcalendar
         JFactory::getDocument()->addScriptDeclaration(
             '(function($){
 				$(document).ready(function(){
-					$("#' . $id . '_wrapper").datetimepicker({
-						timeZone: "' . $userTz . '",
-						collapse: true,
-						sideBySide: true,
-						showTodayButton: false,
-						format: "' . RedshopHelperDatetime::convertPHPToMomentFormat($format) . '",
-						showClear: ' . (!$inline ? 'true' : 'false') . ',
-						showClose: ' . (!$inline ? 'true' : 'false') . ',
-						inline: ' . (!$inline ? 'false' : 'true') . ',
-						allowInputToggle: true,
-						' . $defaultDate . '
-						icons: {
-							time: "fa fa-time",
-							date: "fa fa-calendar",
-							up: "fa fa-chevron-up",
-							down: "fa fa-chevron-down",
-							previous: "fa fa-chevron-left",
-							next: "fa fa-chevron-right",
-							today: "fa fa-calendar",
-							clear: "fa fa-trash text-danger",
-							close: "fa fa-remove"
-						}
-					});
+                    addDateTimePicker();
 				});
+				
+				$(document).on("AfterGetBillingTemplate", function(){
+                    addDateTimePicker();
+                });
+				
+				function addDateTimePicker(){
+                    $("#' . $id . '_wrapper").datetimepicker({
+                        timeZone: "' . $userTz . '",
+                        collapse: true,
+                        sideBySide: true,
+                        showTodayButton: false,
+                        format: "' . RedshopHelperDatetime::convertPHPToMomentFormat($format) . '",
+                        showClear: ' . (!$inline ? 'true' : 'false') . ',
+                        showClose: ' . (!$inline ? 'true' : 'false') . ',
+                        inline: ' . (!$inline ? 'false' : 'true') . ',
+                        allowInputToggle: true,
+                        ' . $defaultDate . '
+                        icons: {
+                            time: "fa fa-time",
+                            date: "fa fa-calendar",
+                            up: "fa fa-chevron-up",
+                            down: "fa fa-chevron-down",
+                            previous: "fa fa-chevron-left",
+                            next: "fa fa-chevron-right",
+                            today: "fa fa-calendar",
+                            clear: "fa fa-trash text-danger",
+                            close: "fa fa-remove"
+                        }
+                    });
+                }
 			})(jQuery);'
         );
 
         if (!$inline) {
             // Hide button using inline styles for readonly/disabled fields
-            return '<div class="input-group" id="' . $id . '_wrapper">'
+            return '<div class="input-group redshop-datepicker" id="' . $id . '_wrapper">'
                 . '<span class="input-group-addon" id="' . $id . '_img"><i class="fa fa-calendar"></i></span>'
                 . '<input type="text" name="' . $name . '" id="' . $id . '" ' . $attribs . ' />'
                 . '<span class="input-group-addon"><strong>' . strtolower($format) . '</strong></span>'
