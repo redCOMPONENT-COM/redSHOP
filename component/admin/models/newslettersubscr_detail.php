@@ -149,7 +149,7 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 
     public function getnewsletters()
     {
-        $query = 'SELECT newsletter_id as value,name as text FROM ' . $this->_table_prefix . 'newsletter WHERE published=1';
+        $query = 'SELECT id as value,name as text FROM ' . $this->_table_prefix . 'newsletter WHERE published=1';
         $this->_db->setQuery($query);
 
         return $this->_db->loadObjectlist();
@@ -184,7 +184,7 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 
         $query = 'SELECT ns.*,ns.name as subscribername,n.name'
             . ' FROM ' . $this->_table_prefix . 'newsletter_subscription as ns,' . $this->_table_prefix
-            . 'newsletter as n WHERE ns.newsletter_id=n.newsletter_id '
+            . 'newsletter as n WHERE ns.newsletter_id=n.id '
             . $where;
         $this->_db->setQuery($query);
 

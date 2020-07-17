@@ -192,7 +192,7 @@ class RedshopViewForm extends AbstractView
      */
     protected function prepareField($field)
     {
-        if ($field->getAttribute('type') === "spacer") {
+        if ($field->getAttribute('type') === "spacer" || $field->getAttribute('form-hide')) {
             return false;
         }
 

@@ -47,6 +47,7 @@ $fieldSetClass = 'col-md-' . (12 / $data->formFieldsetsColumn);
     <div class="hidden">
         <?php echo implode('', $data->hiddenFields) ?>
         <?php echo JHtml::_('form.token'); ?>
+	    <input type="hidden" name="view" value="<?php echo $data->getInstancesName() ?>"/>
         <input type="hidden" name="task" value=""/>
     </div>
 </form>
