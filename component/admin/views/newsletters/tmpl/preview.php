@@ -15,7 +15,7 @@ $post = $jinput->post->getArray();
 
 $filter        = $jinput->get('filter');
 $number_order  = $jinput->get('number_order', '');
-$model         = $this->getModel('newsletter');
+$model         = $this->getModel();
 $cid           = $jinput->post->get('cid', array(0), 'array');
 $newsletter_id = $jinput->get('newsletter_id');
 $oprand        = $jinput->get('oprand', 'select');
@@ -57,8 +57,8 @@ if (isset($post['checkoutshoppers'])) {
 </script>
 
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
-    <input type="hidden" name="view" value="newsletter"/>
-    <input type="hidden" name="task" value="send_newsletter_preview"/>
+    <input type="hidden" name="view" value="newsletters"/>
+    <input type="hidden" name="task" value="sendNewsletterPreview"/>
     <input type="hidden" name="newsletter_id" value="<?php if ($cid[0] != "") {
         echo $cid[0];
     } else {
@@ -91,7 +91,7 @@ if (isset($post['checkoutshoppers'])) {
 
                             $row->id = $row->subscription_id;
 
-                            $cond = $model->order_user($row->user_id);
+                            $cond = $model->orderUser($row->user_id);
 
                             $category = $model->category($row->user_id);
 
