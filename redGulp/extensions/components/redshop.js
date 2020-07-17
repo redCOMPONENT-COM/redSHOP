@@ -210,7 +210,7 @@ gulp.task('clean:components.redshop:backend:redshop.xml', function () {
 });
 
 // Copy: redSHOP.xml file
-gulp.task('copy:components.redshop:backend:redshop.xml', gulp.series('clean:components.redshop:backend:redshop.xml'), function () {
+gulp.task('copy:components.redshop:backend:redshop.xml', function () {
     return gulp.src(extPath + '/redshop.xml')
         .pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName));
 });
@@ -225,7 +225,7 @@ gulp.task('clean:components.redshop:backend:install.php', function () {
 });
 
 // Copy: install.php file
-gulp.task('copy:components.redshop:backend:install.php', gulp.series('clean:components.redshop:backend:install.php'), function () {
+gulp.task('copy:components.redshop:backend:install.php', function () {
     return gulp.src(extPath + '/install.php')
         .pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName));
 });

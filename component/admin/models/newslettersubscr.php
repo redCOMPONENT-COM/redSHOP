@@ -24,7 +24,7 @@ class RedshopModelNewslettersubscr extends RedshopModel
         $orderby = $this->_buildContentOrderBy();
         $query   = 'SELECT  distinct(ns.subscription_id),ns.*,n.name as n_name FROM #__redshop_newsletter_subscription as ns '
             . ',#__redshop_newsletter as n '
-            . 'WHERE ns.newsletter_id=n.newsletter_id '
+            . 'WHERE ns.newsletter_id=n.id '
             . $where
             . $orderby;
 
@@ -33,7 +33,7 @@ class RedshopModelNewslettersubscr extends RedshopModel
 
     public function getnewslettername($nid)
     {
-        $query = 'SELECT name FROM #__redshop_newsletter WHERE newsletter_id=' . $nid;
+        $query = 'SELECT name FROM #__redshop_newsletter WHERE id=' . $nid;
         $this->_db->setQuery($query);
 
         return $this->_db->loadResult();
@@ -41,7 +41,7 @@ class RedshopModelNewslettersubscr extends RedshopModel
 
     public function getnewsletters()
     {
-        $query = 'SELECT newsletter_id as value,name as text FROM #__redshop_newsletter WHERE published=1';
+        $query = 'SELECT id as value,name as text FROM #__redshop_newsletter WHERE published=1';
         $this->_db->setQuery($query);
 
         return $this->_db->loadObjectlist();
