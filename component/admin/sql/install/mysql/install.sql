@@ -2412,6 +2412,12 @@ CREATE TABLE IF NOT EXISTS `#__redshop_wrapper` (
   `createdate` INT(11) NOT NULL,
   `use_to_all` TINYINT(4) NOT NULL,
   `published` TINYINT(4) NOT NULL,
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   INDEX `idx_use_to_all` (`use_to_all` ASC),
   INDEX `idx_published` (`published` ASC))
