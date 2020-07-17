@@ -9,8 +9,14 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewNewsletter extends RedshopViewAdmin
+/**
+ * View newletters
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopViewNewsletters extends RedshopViewAdmin
 {
     public function display($tpl = null)
     {
@@ -22,8 +28,8 @@ class RedshopViewNewsletter extends RedshopViewAdmin
         $selected_product = $app->input->get('product', '');
         $n                = $cid[0];
 
-        /** @var RedshopModelNewsletter $model */
-        $model       = $this->getModel('newsletter');
+        /** @var RedshopModelNewsletters $model */
+        $model       = $this->getModel();
         $subscribers = $model->listallsubscribers($n);
 
         $document = JFactory::getDocument();
@@ -31,10 +37,8 @@ class RedshopViewNewsletter extends RedshopViewAdmin
 
         JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT'), 'redshop_newsletter48');
 
-        JToolBarHelper::custom('send_newsletter', 'send.png', 'send.png', 'Send Newsletter');
+        JToolBarHelper::custom('sendNewsletter', 'send.png', 'send.png', 'Send Newsletter');
         JToolBarHelper::cancel('close', JText::_('JTOOLBAR_CLOSE'));
-
-        $uri = JFactory::getURI();
 
         $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
         $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -64,7 +68,7 @@ class RedshopViewNewsletter extends RedshopViewAdmin
         $country_option   = array();
         $country_option[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT_COUNTRY'));
 
-        $country = $model->getContry();
+        $country = $model->getCountry();
 
         $country_value = $app->input->get('country', '');
 
@@ -120,7 +124,7 @@ class RedshopViewNewsletter extends RedshopViewAdmin
         $this->lists       = $lists;
         $this->newsletters = $newsletters;
         $this->pagination  = $pagination;
-        $this->request_url = $uri->toString();
+        $this->request_url = JUri::getInstance()->toString();
 
         $this->setLayout('preview');
 

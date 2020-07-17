@@ -28,7 +28,7 @@ class RedshopTableWrapper extends RedshopTable
 	/**
 	 * Delete one or more registers
 	 *
-	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 * @param   mixed $pk The string/array of id's to delete
 	 *
 	 * @return  boolean  Deleted successfuly?
 	 */
