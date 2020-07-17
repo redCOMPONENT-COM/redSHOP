@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="id"
+                type="hidden"
+        />
+        <field
+                id="name"
+                name="name"
+                type="text"
+                label="COM_REDSHOP_STOCKROOM_NAME"
+                class="form-control"
+                description="COM_REDSHOP_STOCKROOM_NAME_DESC"
+                required="true"
+                table-sortable="1"
+                table-width="10%"
+        />
+        <field
+                id="min_stock_amount"
+                name="min_stock_amount"
+                type="text"
+                label="COM_REDSHOP_MINIMUM_STOCK_AMOUNT"
+                description="COM_REDSHOP_MINIMUM_STOCK_AMOUNT_DESC"
+                class="form-control"
+                table-hide="1"
+                table-sortable="1"
+        />
+        <field
+                id="delivery_time"
+                name="delivery_time"
+                type="redshop.radio"
+                label="COM_REDSHOP_DELIVERY_TIME_IN"
+                description="COM_REDSHOP_DELIVERY_TIME_IN_DESC"
+                table-hide="1"
+                default="1">
+            <option value="1">Days</option>
+            <option value="0">Weeks</option>
+        </field>
+        <field
+                id="min_del_time"
+                name="min_del_time"
+                type="text"
+                label="COM_REDSHOP_MINIMUM_DELIVERY_TIME"
+                description="COM_REDSHOP_MINIMUM_DELIVERY_TIME_DESC"
+                default="0"
+        />
+        <field
+                id="max_del_time"
+                name="max_del_time"
+                type="text"
+                label="COM_REDSHOP_MINIMUM_DELIVERY_TIME"
+                description="COM_REDSHOP_MINIMUM_DELIVERY_TIME_DESC"
+                default="0"
+        />
+        <field
+                id="show_in_front"
+                name="show_in_front"
+                type="redshop.radio"
+                label="COM_REDSHOP_SHOW_ON_STOCKLIST"
+                description="COM_REDSHOP_SHOW_ON_STOCKLIST_DESC"
+                default="1">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                id="published"
+                name="published"
+                type="redshop.radio"
+                label="COM_REDSHOP_PUBLISHED"
+                description="COM_REDSHOP_PUBLISHED_DESC"
+                default="1">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                id="desc"
+                name="desc"
+                type="editor"
+                label="COM_REDSHOP_DESCRIPTION"
+                description="COM_REDSHOP_DESCRIPTION"
+                size="80"
+                class="text_area"
+                default=""
+                required="false"
+                table-hide="1"
+        />
+    </fieldset>
+</form>
