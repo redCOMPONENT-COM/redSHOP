@@ -25,16 +25,19 @@ $singleName = $data->getInstanceName();
 $search     = $data->state->get('filter.search');
 $user       = JFactory::getUser();
 
-$filterOptions = array(
-    'searchField'         => 'search',
-    'searchFieldSelector' => '#filter_search',
-    'limitFieldSelector'  => '#list_' . $viewName . '_limit',
-    'activeOrder'         => $listOrder,
-    'activeDirection'     => $listDirn,
-    'filterButton'        => (count($data->filterForm->getGroup('filter')) > 1)
-);
+if ($data->hasFilter)
+{
+    $filterOptions = array(
+        'searchField'         => 'search',
+        'searchFieldSelector' => '#filter_search',
+        'limitFieldSelector'  => '#list_' . $viewName . '_limit',
+        'activeOrder'         => $listOrder,
+        'activeDirection'     => $listDirn,
+        'filterButton'        => (count($data->filterForm->getGroup('filter')) > 1)
+    );
 
-$filterOptions = array_merge($filterOptions, $data->filterFormOptions);
+    $filterOptions = array_merge($filterOptions, $data->filterFormOptions);
+}
 
 if ($data->hasOrdering) {
     $saveOrderUrl   = 'index.php?option=com_redshop&task=' . $viewName . '.saveOrderAjax&tmpl=component';
@@ -129,17 +132,19 @@ if ($data->showType == 'modal') {
 
 <form action="index.php?option=com_redshop&view=<?php echo $viewName ?>" class="adminForm" id="adminForm" method="post"
       name="adminForm">
-    <div class="filterTool">
-        <?php
-        echo RedshopLayoutHelper::render(
-            'searchtools.default',
-            array(
-                'view'    => $data,
-                'options' => $filterOptions
-            )
-        );
-        ?>
-    </div>
+	<?php if ($data->hasFilter): ?>
+	    <div class="filterTool">
+	        <?php
+		        echo RedshopLayoutHelper::render(
+		            'searchtools.default',
+		            array(
+		                'view'    => $data,
+		                'options' => $filterOptions
+		            )
+		        );
+	        ?>
+	    </div>
+	<?php endif; ?>
     <?php if (empty($data->items)) : ?>
         <div class="alert alert-no-items alert-info">
             <?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>

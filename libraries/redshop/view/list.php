@@ -72,6 +72,13 @@ class RedshopViewList extends AbstractView
     /**
      * @var  boolean
      *
+     * @since  __DEPLOY_VERSION__
+     */
+    public $hasFilter = true;
+
+    /**
+     * @var  boolean
+     *
      * @since  2.0.6
      */
     public $isNested = false;
@@ -102,6 +109,14 @@ class RedshopViewList extends AbstractView
      * @since  2.0.6
      */
     protected $stateColumns = array('published', 'state');
+
+    /**
+     * Column for get value from table
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $stateColumn = 'published';
 
     /**
      * Display check-in button or not.
@@ -309,7 +324,7 @@ class RedshopViewList extends AbstractView
             return JHtml::_('redshopgrid.slidetext', $value);
         } elseif (in_array($config['dataCol'], $this->stateColumns)) {
             if ($this->canEdit) {
-                return JHtml::_('redshopgrid.published', $row->published, $index);
+                return JHtml::_('redshopgrid.published', $row->{$this->stateColumn}, $index);
             } else {
                 return '<span class="label ' . ($row->published ? 'label-success' : 'label-danger') . '">' .
                     ($row->published ? JText::_('JYES') : JText::_('JNO')) . '</span>';
