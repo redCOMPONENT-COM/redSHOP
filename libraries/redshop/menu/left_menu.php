@@ -174,7 +174,7 @@ class RedshopMenuLeft_Menu
             case "mails":
                 return array('COMMUNICATION', 'mail');
 
-            case "newsletter":
+            case "newsletters":
             case "newsletter_detail":
             case "newslettersubscr":
             case 'newslettersubscr_detail':
@@ -535,9 +535,9 @@ class RedshopMenuLeft_Menu
                 self::$view === 'mails'
             )
             ->addItem(
-                'index.php?option=com_redshop&view=newsletter',
+                'index.php?option=com_redshop&view=newsletters',
                 'COM_REDSHOP_NEWSLETTER_LISTING',
-                self::$view === 'newsletter'
+                self::$view === 'newsletters'
             )
             ->addItem(
                 'index.php?option=com_redshop&view=newslettersubscr',
