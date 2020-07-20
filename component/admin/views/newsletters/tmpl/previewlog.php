@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $jinput = JFactory::getApplication()->input;
 
-$model = $this->getModel('newsletter');
+$model = $this->getModel();
 $cid = $jinput->post->get('cid', array(0), 'array');
 $newsletter_id = $jinput->get('newsletter_id');
 ?>
@@ -49,7 +49,7 @@ $newsletter_id = $jinput->get('newsletter_id');
             extraurl = extraurl + "&newsletter_id=" + parseInt(document.getElementById('newsletter_id').value);
         }
 
-        var url = 'index.php?option=com_redshop&view=newsletter&task=sendRecursiveNewsletter&json=1';
+        var url = 'index.php?option=com_redshop&view=newsletters&task=sendRecursiveNewsletter&json=1';
         url = url + extraurl + "&sid=" + Math.random();
 
         xmlhttp = GetXmlHttpObject();
@@ -94,5 +94,5 @@ $newsletter_id = $jinput->get('newsletter_id');
     <div style="display: none;" id="tmpmailresponse"></div>
     <input type="hidden" name="newsletter_id" id="newsletter_id" value="<?php echo $newsletter_id; ?>"/>
     <input type="hidden" name="cid[]" value="<?php echo $newsletter_id; ?>"/>
-    <input type="hidden" name="view" value="newsletter"/>
+    <input type="hidden" name="view" value="newsletters"/>
 </form>
