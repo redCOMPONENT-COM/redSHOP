@@ -205,10 +205,10 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(QuestionManagerJoomla3Page::$URL);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click('Reset');
-		$I->wait(1);
+		$I->waitForElementVisible(QuestionManagerJoomla3Page::$searchField, 30);
 		$I->fillField(QuestionManagerJoomla3Page::$searchField, $questionInformation['question1']);
 		$I->pressKey(QuestionManagerJoomla3Page::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->wait(1);
+		$I->wait(0.5);
 		$I->waitForElementVisible(QuestionManagerJoomla3Page::$selectFirst, 30);
 		$I->click(QuestionManagerJoomla3Page::$selectFirst);
 		$I->waitForText(QuestionManagerJoomla3Page::$buttonEdit, 60);
