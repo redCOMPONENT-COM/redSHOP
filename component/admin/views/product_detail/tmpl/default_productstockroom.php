@@ -40,11 +40,11 @@ $stockrooms = $model->StockRoomList();
                         $preorder_stock      = "";
                         $quantity            = $model->StockRoomProductQuantity(
                             $this->detail->product_id,
-                            $s->stockroom_id
+                            $s->id
                         );
                         $preorder_stock_data = $model->StockRoomPreorderProductQuantity(
                             $this->detail->product_id,
-                            $s->stockroom_id
+                            $s->id
                         );
 
                         if ($preorder_stock_data) {
@@ -54,12 +54,12 @@ $stockrooms = $model->StockRoomList();
                         ?>
                         <tr>
                             <td>
-                                <?php echo $s->stockroom_name; ?>
+                                <?php echo $s->name; ?>
                             </td>
                             <td>
                                 <input type="number" name="quantity[]" size="5" class="text_area"
                                        min="0" oninput="validity.valid||(value='');" value="<?php echo $quantity; ?>"/>
-                                <input type="hidden" name="stockroom_id[]" value="<?php echo $s->stockroom_id; ?>"/>
+                                <input type="hidden" name="stockroom_id[]" value="<?php echo $s->id; ?>"/>
                             </td>
                             <td>
                                 <?php
@@ -83,7 +83,7 @@ $stockrooms = $model->StockRoomList();
                                 <input type="button"
                                        name="preorder_reset"
                                        value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
-                                       onclick="location.href = 'index.php?option=com_redshop&view=product_detail&task=ResetPreorderStock&stockroom_type=product&product_id=<?php echo $this->detail->product_id ?>&stockroom_id=<?php echo $s->stockroom_id ?>' ; ">
+                                       onclick="location.href = 'index.php?option=com_redshop&view=product_detail&task=ResetPreorderStock&stockroom_type=product&product_id=<?php echo $this->detail->product_id ?>&stockroom_id=<?php echo $s->id ?>' ; ">
 
                             </td>
                             <td>
