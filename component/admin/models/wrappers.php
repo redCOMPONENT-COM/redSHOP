@@ -93,26 +93,52 @@ class RedshopModelWrappers extends RedshopModelList
 	 */
 	protected function getListQuery()
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('p.product_name,c.name,w.*')
-			->from($db->qn('#__redshop_wrapper', 'w'))
-			->leftJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = w.product_id')
-			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.id = w.category_id');
+		$db       = \JFactory::getDbo();
+		$app      = \JFactory::getApplication();
+		$showAll  = $app->input->get('showall', '0');
+		$subQuery = [];
 
-		$search = $this->getState('filter.search');
+		if ($showAll && $this->_productid != 0) {
+			$subQuery[] = 'FIND_IN_SET(' . $db->q($this->_productid) . ',' . $db->qn('w.product_id') . ')';
+			$subQuery[] = $db->qn('wrapper_use_to_all') . '=' . $db->q(1);
 
-		if ($search) {
-			$query->where(
-				$db->qn('c.name') . ' LIKE ' . $db->q('%' . $search . '%') . ' OR ' .
-				$db->qn('w.name') . ' LIKE ' . $db->q('%' . $search . '%') . ' OR ' .
-				$db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $search . '%')
-			);
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_product_category_xref'))
+				->where($db->qn('product_id') . ' = ' . $db->q((int)$this->_productid));
+			$db->setQuery($query);
+			$cat = $db->loadObjectList();
+
+			for ($i = 0, $in = count($cat); $i < $in; $i++) {
+				$subQuery[] = 'FIND_IN_SET(' . $db->q($cat[$i]->category_id) . ',' . $db->qn('category_id') . ')';
+			}
 		}
 
-		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.ordering', 'w.id');
-		$orderDirn = $this->state->get('list.direction', 'asc');
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from($db->qn('#__redshop_wrapper', 'w'));
+
+		if (!empty($subQuery)) {
+			$query->where('(' . implode(' OR ', $subQuery) . ')');
+		}
+
+		$filter = $this->getState('filter');
+		$filter = $db->escape(trim($filter));
+
+		if ($filter) {
+			$query->where($db->qn('w.wrapper_name') . " LIKE '%" . $filter . "%' ");
+		}
+
+		$filterOrder    = $app->getUserStateFromRequest(
+			$this->_context . 'filter_order',
+			'filter_order',
+			'wrapper_id'
+		);
+		$filterOrderDir = $app->getUserStateFromRequest(
+			$this->_context . 'filter_order_Dir',
+			'filter_order_Dir',
+			''
+		);
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 

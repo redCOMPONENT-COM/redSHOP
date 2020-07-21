@@ -51,7 +51,6 @@ class RedshopUpdate303 extends RedshopInstallUpdate
 
 	        // Wrapper
 	        JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/wrapper_detail.php',
-	        JPATH_ADMINISTRATOR . '/components/com_redshop/models/wrapper.php',
 	        JPATH_ADMINISTRATOR . '/components/com_redshop/models/wrapper_detail.php',
 	        JPATH_ADMINISTRATOR . '/components/com_redshop/tables/wrapper_detail.php',
 	        JPATH_ADMINISTRATOR . '/components/com_redshop/views/wrapper/tmpl/default.php',
