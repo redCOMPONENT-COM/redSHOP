@@ -61,6 +61,6 @@ class PlgRedshop_PromotionPromotion extends JPlugin
     public function onRenderBackEndLayout() {
         $layoutFile = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/layouts';
         $layout = new JLayoutFile('edit', $layoutFile);
-        return $layout->render([$this]);
+        return $layout->render(['form' => $this->form]);
     }
 }
