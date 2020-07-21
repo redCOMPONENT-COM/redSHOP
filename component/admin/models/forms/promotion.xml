@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+		<field
+				name="id"
+				type="hidden"
+		/>
+		<field
+				id="name"
+				name="name"
+				type="text"
+				label="COM_REDSHOP_PROMOTION_NAME"
+				description="COM_REDSHOP_PROMOTION_NAME"
+				size="30"
+				class="text_area"
+				default=""
+				required="true"
+				table-edit-link="1"
+				table-sortable="1"
+		/>
+		<field
+				name="published"
+				type="redshop.radio"
+				label-class="radio-inline"
+				default="1"
+				label="COM_REDSHOP_PROMOTION_PUBLISHED"
+				description="COM_REDSHOP_PROMOTION_PUBLISHED_DESC"
+				required="true"
+				table-sortable="1"
+				table-width="5%">
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+		</field>
+	</fieldset>
+	<fieldset name="default_newsletter_tags">
+		<field name="tags_default" type="description"/>
+	</fieldset>
+</form>
