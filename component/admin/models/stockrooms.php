@@ -18,6 +18,8 @@ defined('_JEXEC') or die;
  */
 class RedshopModelStockrooms extends RedshopModelList
 {
+	protected $_table_prefix = '#__redshop_';
+
 	/**
 	 * Construct class
 	 *
@@ -107,5 +109,25 @@ class RedshopModelStockrooms extends RedshopModelList
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
+	}
+
+	public function frontpublish($cid = array(), $publish = 1)
+	{
+		if (count($cid)) {
+			$cids = implode(',', $cid);
+
+			$query = 'UPDATE ' . $this->_table_prefix . 'stockroom'
+				. ' SET `show_in_front` = ' . intval($publish)
+				. ' WHERE id IN ( ' . $cids . ' )';
+			$this->_db->setQuery($query);
+
+			if (!$this->_db->execute()) {
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

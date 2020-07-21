@@ -10,45 +10,40 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewStockroom extends RedshopViewAdmin
+class RedshopViewStockrooms extends RedshopViewList
 {
-    /**
-     * The request url.
-     *
-     * @var  string
-     */
-    public $request_url;
+	/**
+	 * Method for render column
+	 *
+	 * @param array  $config Row config.
+	 * @param int    $index  Row index.
+	 * @param object $row    Row data.
+	 *
+	 * @return  string
+	 * @throws  Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onRenderColumn($config, $index, $row)
+	{
+		switch ($config['dataCol']) {
+			case 'show_in_front':
+				return JHTML::_('grid.published', $row->show_in_front, $index, 'tick.png', 'publish_x.png', 'front');
+			default:
+				return parent::/** @scrutinizer ignore-call */ onRenderColumn($config, $index, $row);
+		}
+	}
 
-    public $state;
-
-    public function display($tpl = null)
-    {
-        $uri      = JFactory::getURI();
-        $document = JFactory::getDocument();
-
-        $document->setTitle(JText::_('COM_REDSHOP_STOCKROOM'));
-
-        JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKROOM_MANAGEMENT'), 'redshop_stockroom48');
-        JToolBarHelper::custom('listing', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_LISTING'), false);
-        JToolbarHelper::addNew();
-        JToolbarHelper::EditList();
-        JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-        JToolBarHelper::deleteList();
-        JToolBarHelper::publishList();
-        JToolBarHelper::unpublishList();
-
-        $this->state         = $this->get('State');
-        $lists ['order']     = $this->state->get('list.ordering', 'stockroom_id');
-        $lists ['order_Dir'] = $this->state->get('list.direction');
-
-        $stockroom  = $this->get('Data');
-        $pagination = $this->get('Pagination');
-
-        $this->lists       = $lists;
-        $this->stockroom   = $stockroom;
-        $this->pagination  = $pagination;
-        $this->request_url = $uri->toString();
-
-        parent::display($tpl);
-    }
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JToolbarHelper::custom('listing', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_LISTING'), false);
+		parent::addToolbar();
+	}
 }
