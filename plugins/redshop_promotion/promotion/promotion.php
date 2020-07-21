@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use \Joomla\CMS;
-use \Joomla\CMS\Form\Form;
-
 /**
  * Plugin Redshop_PromotionPromotion
  *
@@ -35,14 +32,14 @@ class PlgRedshop_PromotionPromotion extends JPlugin
     public function __construct(&$subject, $config)
     {
         parent::__construct($subject, $config);
-        Form::addFormPath(JPATH_PLUGINS . $this->_type . DS . $this->_name . DS . 'form');
 
         $this->loadLanguage();
-        $this->app = Factory::getApplication();
-        $this->db = Factory::getDbo();
+        $this->app = JFactory::getApplication();
+        $this->db = JFactory::getDbo();
         $this->query = $this->db->getQuery(true);
-        $this->form = Form::getInstance();
-        $this->form->loadFile('promotion', false);
+        //echo __DIR__ . "/forms/promotion.xml"; die;
+        $this->form = JForm::getInstance("promotion", __DIR__ . "/forms/promotion.xml", []);
+        //$this->form->loadFile('promotion', false);
     }
 
     public function onSavePromotion() {
@@ -57,8 +54,13 @@ class PlgRedshop_PromotionPromotion extends JPlugin
 
     }
 
+    /**
+     * @return string
+     * @since __DEPLOY_VERSION__
+     */
     public function onRenderBackEndLayout() {
-        $layoutFile = JPATH_PLUGINS . DS . $this->_type . 'DS' . $this->_name . 'layouts';
-        return RedshopLayoutHelper::render($layoutFile, [$this]);
+        $layoutFile = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/layouts';
+        $layout = new JLayoutFile('edit', $layoutFile);
+        return $layout->render([$this]);
     }
 }

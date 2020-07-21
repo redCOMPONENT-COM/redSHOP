@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="plugin" version="3.0" method="upgrade" group="redshop_product">
+<extension type="plugin" version="3.0" method="upgrade" group="redshop_promotion">
     <name>PLG_RESDSHOP_PROMOTION_PROMOTION</name>
     <creationDate>July 2020</creationDate>
     <copyright>(c) Redweb.dk</copyright>
@@ -11,7 +11,9 @@
     <redshop>3.0.3</redshop>
     <description>PLG_RESDSHOP_PROMOTION_PROMOTION_DESC</description>
     <files>
+        <folder>forms</folder>
         <folder>layouts</folder>
+        <folder>tmpl</folder>
         <filename plugin="promotion">promotion.php</filename>
         <filename>promotion.xml</filename>
     </files>
