@@ -20,15 +20,12 @@
 		<field
 				id="type"
 				name="type"
-				type="list"
+				type="redshop.DiscountPlugins"
 				label-class="radio-inline"
 				label="COM_REDSHOP_PROMOTION_TYPE"
 				description="COM_REDSHOP_PROMOTION_TYPE"
 				required="false"
-				default="1"
-		>
-			<option value="1">COM_REDSHOP_PROMOTION_PROMOTION_TYPE_BASED_ITEMS_AMOUNT</option>
-		</field>
+		/>
 		<field
 				id="desc"
 				name="desc"
@@ -54,76 +51,5 @@
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 		</field>
-	</fieldset>
-	<fieldset name="default_promotion_condition">
-		<field
-				id="promotion_type"
-				name="promotion_type"
-				type="list"
-				label-class="radio-inline"
-				label="COM_REDSHOP_PROMOTION_CONDITION_TYPE"
-				description="COM_REDSHOP_PROMOTION_CONDITION_TYPE"
-				required="false"
-		>
-			<option value="">COM_REDSHOP_PROMOTION_CONDITION_TYPE_MANUFACTURE</option>
-			<option value="">COM_REDSHOP_PROMOTION_CONDITION_TYPE_CATEGORY</option>
-			<option value="">COM_REDSHOP_PROMOTION_CONDITION_TYPE_PRODUCT</option>
-		</field>
-		<field
-				id="data"
-				name="data"
-				type="redshop.Manufacturer"
-				label="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT_MANUFACTURER"
-				description="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT_MANUFACTURER"
-				required="false"
-				multiple="true"
-		/>
-		<field
-				name="category"
-				type="redshop.category"
-				label="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT_CATEGORY"
-				description="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT_CATEGORY"
-				class="form-control"
-				multiple="true"
-		/>
-		<field
-				name="product"
-				type="redshop.product"
-				label="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT"
-				description="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT"
-				class="form-control"
-				multiple="true"
-		/>
-		<field
-			id="amount"
-			name="amount"
-			type="textarea"
-			label="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
-			description="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
-			size="5"
-			class="text_area"
-			default=""
-			required="false"
-		/>
-	</fieldset>
-	<fieldset name="default_promotion_award">
-		<field
-				name="product"
-				type="redshop.product"
-				label="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT"
-				description="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT"
-				class="form-control"
-		/>
-		<field
-				id="amount"
-				name="amount"
-				type="textarea"
-				label="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
-				description="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
-				size="5"
-				class="text_area"
-				default=""
-				required="false"
-		/>
 	</fieldset>
 </form>

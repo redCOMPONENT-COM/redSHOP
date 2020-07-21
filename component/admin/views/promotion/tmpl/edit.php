@@ -10,9 +10,50 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' => $this));
 JPluginHelper::importPlugin('redshop_promotion');
 $dispatcher = \RedshopHelperUtility::getDispatcher();
-$layout = $dispatcher->trigger('onRenderBackEndLayout', [])[0];
-echo $layout;
-
+//echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' => $this));
+$fields = $this->form->getFieldset('details');
+?>
+<form action="index.php?option=com_redshop&amp;task=promotion.edit&amp;id=" method="post" id="adminForm" name="adminForm" class="form-validate form-horizontal adminform" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box-primary box">
+                <div class="box-header with-border">
+                    <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_PROMOTION_GENERAL') ?></h3>
+                </div>
+                <div class="box-body">
+                    <?php if (count($fields) > 0): ?>
+                        <?php foreach ($fields as $field): ?>
+                            <div class="form-group row-fluid ">
+                                <?php echo $field->label ?>
+                                <div class="col-md-10">
+                                    <?php echo $field->input ?>
+                                </div>
+                            </div>
+                        <?php endforeach ?>
+                    <?php endif ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="box-primary box">
+                <div class="box-header with-border">
+                    <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_PROMOTION_CONDITIONS') ?></h3>
+                </div>
+                <div class="box-body">
+                    <?php echo $dispatcher->trigger('onRenderBackEndLayout', [])[0]; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="box-primary box">
+                <div class="box-header with-border">
+                    <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_PROMOTION_AWARDS') ?></h3>
+                </div>
+                <div class="box-body">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
