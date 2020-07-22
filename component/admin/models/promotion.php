@@ -30,10 +30,11 @@ class RedshopModelPromotion extends RedshopModelForm
     public function save($data)
     {
         $post = JFactory::getApplication()->input->post->getArray();
-        echo '<pre>';
-        var_dump($post);
-        var_dump($data);
-        die;
+
+        JPluginHelper::importPlugin('redshop_promotion', $data['type']);
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+        $data = $dispatcher->trigger('onSavePromotion', [$post])[0];
+
         parent::save($data);
     }
 }

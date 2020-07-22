@@ -42,8 +42,21 @@ class PlgRedshop_PromotionPromotion extends JPlugin
         $this->form = JForm::getInstance("promotions", __DIR__ . "/forms/promotion.xml", []);
     }
 
-    public function onSavePromotion() {
+    /**
+     * @param $data
+     * @return array
+     * @since __DEPLOY_VERSION__
+     */
+    public function onSavePromotion($data) {
+        $result = $data['jform'] ?? [];
 
+        if (!empty($result)) {
+            unset($data['jform']);
+            $data = base64_encode(json_encode($data));
+            $result['data'] = $data;
+        }
+
+        return $result;
     }
 
     public function onLoadPromotion() {

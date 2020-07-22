@@ -40,8 +40,8 @@ class RedshopFormFieldDiscountPlugins extends JFormFieldList
 
         $db      = JFactory::getDbo();
         $query   = $db->getQuery(true)
-            ->select($db->qn('extension_id', 'value'))
-            ->select($db->qn('element', 'text'))
+            ->select($db->qn('element', 'value'))
+            ->select($db->qn('name', 'text'))
             ->from($db->qn('#__extensions'))
             ->where($db->qn('type') . ' = ' . $db->q('plugin'))
             ->where($db->qn('folder') . ' = ' . $db->q('redshop_promotion'));
