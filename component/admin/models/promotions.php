@@ -92,7 +92,7 @@ class RedshopModelPromotions extends RedshopModelList
     {
         $db    = $this->_db;
         $query = $db->getQuery(true)
-            ->select('distinct(pm.id),n.*')
+            ->select('distinct(pm.id), pm.*')
             ->from($db->qn('#__redshop_promotion', 'pm'));
 
         $search = $this->getState('filter.search');

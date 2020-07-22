@@ -21,6 +21,9 @@ $fields = $form->getFieldset($fieldSet);
             <?php $value = $post[$field->getAttribute('name')];?>
             <?php $field->setValue($value, true); ?>
         <?php endif ?>
+        <?php if (($field->name == "promotion_type") && ($promotionId > 0)): ?>
+            <?php $field->disabled = true ?>
+        <?php endif ?>
         <?php echo $field->renderField() ?>
     <?php endforeach ?>
 <?php endif ?>

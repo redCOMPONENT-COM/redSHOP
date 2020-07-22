@@ -19,6 +19,7 @@ class PlgRedshop_PromotionPromotion extends JPlugin
     protected $db;
     protected $app;
     protected $query;
+    protected $table;
     protected $form;
     protected $layoutFolder;
 
@@ -38,6 +39,7 @@ class PlgRedshop_PromotionPromotion extends JPlugin
         $this->app = JFactory::getApplication();
         $this->db = JFactory::getDbo();
         $this->query = $this->db->getQuery(true);
+        $this->table = '#__redshop_promotion';
         $this->layoutFolder = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/layouts';
         $this->form = JForm::getInstance("promotions", __DIR__ . "/forms/promotion.xml", []);
     }
@@ -59,8 +61,17 @@ class PlgRedshop_PromotionPromotion extends JPlugin
         return $result;
     }
 
-    public function onLoadPromotion() {
-
+    /**
+     * @param $id
+     * @return mixed|null
+     * @since __DEPLOY_VERSION__
+     */
+    public function onLoadPromotion($id) {
+        $this->query->clear()
+            ->select('*')
+            ->from($this->db->qn($this->table))
+            ->where($this->db->qn('id') . ' = ' . $this->db->q($id));
+        return $this->db->setQuery($this->query)->loadAssoc();
     }
 
     public function onDeletePromotion() {
@@ -72,9 +83,11 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @since __DEPLOY_VERSION__
      */
     public function onRenderBackEndLayoutConditions() {
-        $post = JFactory::getApplication()->input->post->getArray();
+        $post = $this->prepareData();
+        $promotionId = JFactory::getApplication()->input->getInt('id', 0);
         $layout = new JLayoutFile('conditions', $this->layoutFolder);
-        return $layout->render(['form' => $this->form, 'post' => $post]);
+
+        return $layout->render(['form' => $this->form, 'post' => $post, 'promotionId' => $promotionId]);
     }
 
     /**
@@ -82,8 +95,32 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @since __DEPLOY_VERSION__
      */
     public function onRenderBackEndLayoutAwards() {
-        $post = JFactory::getApplication()->input->post->getArray();
+        $post = $this->prepareData();
+        $promotionId = JFactory::getApplication()->input->getInt('id', 0);
         $layout = new JLayoutFile('awards', $this->layoutFolder);
-        return $layout->render(['form' => $this->form, 'post' => $post]);
+
+        return $layout->render(['form' => $this->form, 'post' => $post, 'promotionId' => $promotionId]);
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     * @since __DEPLOY_VERSION__
+     */
+    protected function prepareData() {
+        $post = JFactory::getApplication()->input->post->getArray();
+        $promotionId = JFactory::getApplication()->input->getInt('id', 0);
+        $promotion = $this->onLoadPromotion($promotionId);
+        $data = [];
+
+        if (!empty($promotion['data'])) {
+            try {
+                $data = json_decode(base64_decode($promotion['data']), true);
+            } catch (Exception $e) {
+                $data = [];
+            }
+        }
+
+        return array_merge($post, $data);
     }
 }

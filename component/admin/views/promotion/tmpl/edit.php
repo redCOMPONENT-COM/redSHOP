@@ -25,6 +25,9 @@ $fields = $this->form->getFieldset('details');
                 <div class="box-body">
                     <?php if (count($fields) > 0): ?>
                         <?php foreach ($fields as $field): ?>
+                            <?php if (($field->id == 'jform_type') && ($this->id > 0)): ?>
+                                <?php $field->disabled = true; ?>
+                            <?php endif ?>
                             <div class="form-group row-fluid ">
                                 <?php echo $field->label ?>
                                 <div class="col-md-10">
@@ -58,7 +61,6 @@ $fields = $this->form->getFieldset('details');
         </div>
     </div>
     <div class="hidden">
-        <input type="hidden" name="jform[id]" id="jform_id" value="" />
         <?php echo JHtml::_('form.token'); ?>
         <input type="hidden" name="view" value="promotion" />
         <input type="hidden" name="task" value="" />
