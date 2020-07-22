@@ -25,6 +25,7 @@ $fields = $this->form->getFieldset('details');
                 <div class="box-body">
                     <?php if (count($fields) > 0): ?>
                         <?php foreach ($fields as $field): ?>
+                            <?php echo '<pre>'; var_dump($field->id); var_dump($field->value); echo '</pre>'; ?>
                             <?php if (($field->id == 'jform_type') && ($this->id > 0)): ?>
                                 <?php $field->disabled = true; ?>
                             <?php endif ?>

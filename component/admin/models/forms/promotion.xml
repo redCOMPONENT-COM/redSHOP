@@ -2,6 +2,7 @@
 <form>
 	<fieldset name="details">
 		<field
+				id="id"
 				name="id"
 				type="hidden"
 		/>
