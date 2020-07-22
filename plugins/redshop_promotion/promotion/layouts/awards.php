@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 extract($displayData);
-$fields = $form->getFieldset('test');
+$fields = $form->getFieldset('awards');
 ?>
 <?php if (count($fields) > 0): ?>
     <?php foreach ($fields as $field): ?>

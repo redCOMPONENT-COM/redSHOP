@@ -20,6 +20,7 @@ class PlgRedshop_PromotionPromotion extends JPlugin
     protected $app;
     protected $query;
     protected $form;
+    protected $layoutFolder;
 
     /**
      * Constructor
@@ -37,9 +38,8 @@ class PlgRedshop_PromotionPromotion extends JPlugin
         $this->app = JFactory::getApplication();
         $this->db = JFactory::getDbo();
         $this->query = $this->db->getQuery(true);
-        //echo __DIR__ . "/forms/promotion.xml"; die;
-        $this->form = JForm::getInstance("promotion", __DIR__ . "/forms/promotion.xml", []);
-        //$this->form->loadFile('promotion', false);
+        $this->layoutFolder = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/layouts';
+        $this->form = JForm::getInstance("promotions", __DIR__ . "/forms/promotion.xml", []);
     }
 
     public function onSavePromotion() {
@@ -58,9 +58,17 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @return string
      * @since __DEPLOY_VERSION__
      */
-    public function onRenderBackEndLayout() {
-        $layoutFile = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/layouts';
-        $layout = new JLayoutFile('edit', $layoutFile);
+    public function onRenderBackEndLayoutConditions() {
+        $layout = new JLayoutFile('conditions', $this->layoutFolder);
+        return $layout->render(['form' => $this->form]);
+    }
+
+    /**
+     * @return string
+     * @since __DEPLOY_VERSION__
+     */
+    public function onRenderBackEndLayoutAwards() {
+        $layout = new JLayoutFile('awards', $this->layoutFolder);
         return $layout->render(['form' => $this->form]);
     }
 }

@@ -18,4 +18,22 @@ defined('_JEXEC') or die;
  */
 class RedshopModelPromotion extends RedshopModelForm
 {
+    /**
+     * Method to save the form data.
+     *
+     * @param   array  $data  The form data.
+     *
+     * @return  boolean  True on success, False on error.
+     *
+     * @since   1.6
+     */
+    public function save($data)
+    {
+        $post = JFactory::getApplication()->input->post->getArray();
+        echo '<pre>';
+        var_dump($post);
+        var_dump($data);
+        die;
+        parent::save($data);
+    }
 }

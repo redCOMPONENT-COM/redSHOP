@@ -42,7 +42,7 @@ $fields = $this->form->getFieldset('details');
                     <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_PROMOTION_CONDITIONS') ?></h3>
                 </div>
                 <div class="box-body">
-                    <?php echo $dispatcher->trigger('onRenderBackEndLayout', [])[0]; ?>
+                    <?php echo $dispatcher->trigger('onRenderBackEndLayoutConditions', [])[0]; ?>
                 </div>
             </div>
         </div>
@@ -52,8 +52,15 @@ $fields = $this->form->getFieldset('details');
                     <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_PROMOTION_AWARDS') ?></h3>
                 </div>
                 <div class="box-body">
+                    <?php echo $dispatcher->trigger('onRenderBackEndLayoutAwards', [])[0]; ?>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="hidden">
+        <input type="hidden" name="jform[id]" id="jform_id" value="" />
+        <?php echo JHtml::_('form.token'); ?>
+        <input type="hidden" name="view" value="promotion" />
+        <input type="hidden" name="task" value="" />
     </div>
 </form>

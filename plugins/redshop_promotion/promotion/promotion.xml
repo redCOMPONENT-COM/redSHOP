@@ -13,7 +13,6 @@
     <files>
         <folder>forms</folder>
         <folder>layouts</folder>
-        <folder>tmpl</folder>
         <filename plugin="promotion">promotion.php</filename>
         <filename>promotion.xml</filename>
     </files>
