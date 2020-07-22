@@ -12,15 +12,35 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 extract($displayData);
-$fields = $form->getFieldset('conditions');
+$fieldSet = 'conditions';
+$fields = $form->getFieldset($fieldSet);
 ?>
 <?php if (count($fields) > 0): ?>
     <?php foreach ($fields as $field): ?>
-        <div class="form-group row-fluid ">
-            <?php echo $field->label ?>
-            <div class="col-md-10">
-                <?php echo $field->input ?>
-            </div>
-        </div>
+        <?php if (!empty($post[$field->getAttribute('name')])): ?>
+            <?php $value = $post[$field->getAttribute('name')];?>
+            <?php $field->setValue($value, true); ?>
+        <?php endif ?>
+        <?php echo $field->renderField() ?>
     <?php endforeach ?>
 <?php endif ?>
+
+<?php $fieldSet .= !empty($post['promotion_type']) ? '_' . $post['promotion_type']: '_amount_product' ?>
+<?php $fields = $form->getFieldset($fieldSet); ?>
+<?php foreach ($fields as $field): ?>
+    <?php if (!empty($post[$field->getAttribute('name')])): ?>
+        <?php $value = $post[$field->getAttribute('name')];?>
+        <?php $field->setValue($value, true); ?>
+    <?php endif ?>
+    <?php echo $field->renderField() ?>
+<?php endforeach ?>
+
+<?php $fieldSet = 'datetime' ?>
+<?php $fields = $form->getFieldset($fieldSet); ?>
+<?php foreach ($fields as $field): ?>
+    <?php if (!empty($post[$field->getAttribute('name')])): ?>
+        <?php $value = $post[$field->getAttribute('name')];?>
+        <?php $field->setValue($value, true); ?>
+    <?php endif ?>
+    <?php echo $field->renderField() ?>
+<?php endforeach ?>

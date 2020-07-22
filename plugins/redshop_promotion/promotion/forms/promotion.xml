@@ -10,10 +10,13 @@
                 description="COM_REDSHOP_PROMOTION_CONDITION_TYPE"
                 required="false"
                 default="amount_product"
+                onchange="this.form.submit();"
         >
             <option value="amount_product">COM_REDSHOP_PROMOTION_CONDITION_TYPE_AMOUNT_PRODUCT</option>
             <option value="volume_order">COM_REDSHOP_PROMOTION_CONDITION_TYPE_VOLUME_ORDER</option>
         </field>
+    </fieldset>
+    <fieldset name="conditions_amount_product">
         <field
                 id="manufacturer"
                 name="manufacturer"
@@ -41,7 +44,7 @@
         />
         <field
                 id="condition_amount"
-                name="amount"
+                name="condition_amount"
                 type="textarea"
                 label="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
                 description="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
@@ -50,6 +53,21 @@
                 default=""
                 required="false"
         />
+    </fieldset>
+    <fieldset name="conditions_volume_order">
+        <field
+                id="condition_order_volume"
+                name="condition_order_volume"
+                type="textarea"
+                label="COM_REDSHOP_PROMOTION_CONDITION_ORDER_VOLUME"
+                description="COM_REDSHOP_PROMOTION_CONDITION_ORDER_VOLUME"
+                size="5"
+                class="text_area"
+                default=""
+                required="false"
+        />
+    </fieldset>
+    <fieldset name="datetime">
         <field
                 id="from_date"
                 name="from_date"
@@ -57,7 +75,7 @@
                 label="COM_REDSHOP_PROMOTION_CONDITION_FROM_DATE"
                 description="COM_REDSHOP_PROMOTION_CONDITION_FROM_DATE"
                 required="false"
-            />
+        />
         <field
                 id="to_date"
                 name="to_date"

@@ -62,5 +62,6 @@ $fields = $this->form->getFieldset('details');
         <?php echo JHtml::_('form.token'); ?>
         <input type="hidden" name="view" value="promotion" />
         <input type="hidden" name="task" value="" />
+        <input type="hidden" name="layout" value="edit" />
     </div>
 </form>

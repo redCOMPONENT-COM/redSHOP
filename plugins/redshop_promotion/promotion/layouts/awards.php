@@ -16,11 +16,10 @@ $fields = $form->getFieldset('awards');
 ?>
 <?php if (count($fields) > 0): ?>
     <?php foreach ($fields as $field): ?>
-        <div class="form-group row-fluid ">
-            <?php echo $field->label ?>
-            <div class="col-md-10">
-                <?php echo $field->input ?>
-            </div>
-        </div>
+        <?php if (!empty($post[$field->getAttribute('name')])): ?>
+            <?php $value = $post[$field->getAttribute('name')];?>
+            <?php $field->setValue($value, true); ?>
+        <?php endif ?>
+        <?php echo $field->renderField() ?>
     <?php endforeach ?>
 <?php endif ?>

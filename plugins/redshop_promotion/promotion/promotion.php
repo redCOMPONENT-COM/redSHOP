@@ -59,8 +59,9 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @since __DEPLOY_VERSION__
      */
     public function onRenderBackEndLayoutConditions() {
+        $post = JFactory::getApplication()->input->post->getArray();
         $layout = new JLayoutFile('conditions', $this->layoutFolder);
-        return $layout->render(['form' => $this->form]);
+        return $layout->render(['form' => $this->form, 'post' => $post]);
     }
 
     /**
@@ -68,7 +69,8 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @since __DEPLOY_VERSION__
      */
     public function onRenderBackEndLayoutAwards() {
+        $post = JFactory::getApplication()->input->post->getArray();
         $layout = new JLayoutFile('awards', $this->layoutFolder);
-        return $layout->render(['form' => $this->form]);
+        return $layout->render(['form' => $this->form, 'post' => $post]);
     }
 }
