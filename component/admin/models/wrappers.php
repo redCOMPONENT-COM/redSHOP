@@ -100,7 +100,7 @@ class RedshopModelWrappers extends RedshopModelList
 
 		if ($showAll && $this->_productid != 0) {
 			$subQuery[] = 'FIND_IN_SET(' . $db->q($this->_productid) . ',' . $db->qn('w.product_id') . ')';
-			$subQuery[] = $db->qn('wrapper_use_to_all') . '=' . $db->q(1);
+			$subQuery[] = $db->qn('use_to_all') . '=' . $db->q(1);
 
 			$query = $db->getQuery(true)
 				->select('*')
@@ -126,13 +126,13 @@ class RedshopModelWrappers extends RedshopModelList
 		$filter = $db->escape(trim($filter));
 
 		if ($filter) {
-			$query->where($db->qn('w.wrapper_name') . " LIKE '%" . $filter . "%' ");
+			$query->where($db->qn('w.name') . " LIKE '%" . $filter . "%' ");
 		}
 
 		$filterOrder    = $app->getUserStateFromRequest(
 			$this->_context . 'filter_order',
 			'filter_order',
-			'wrapper_id'
+			'id'
 		);
 		$filterOrderDir = $app->getUserStateFromRequest(
 			$this->_context . 'filter_order_Dir',
@@ -140,7 +140,7 @@ class RedshopModelWrappers extends RedshopModelList
 			''
 		);
 
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		$query->order($db->escape($filterOrder . ' ' . $filterOrderDir));
 
 		return $query;
 	}
