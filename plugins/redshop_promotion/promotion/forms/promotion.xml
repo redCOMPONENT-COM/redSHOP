@@ -102,7 +102,7 @@
                 description="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
                 size="5"
                 class="text_area"
-                default=""
+                default="1"
                 required="false"
         />
         <field
@@ -111,9 +111,10 @@
                 type="list"
                 label="COM_REDSHOP_PROMOTION_AWARDS_FREE_SHIPPING"
                 description="COM_REDSHOP_PROMOTION_AWARDS_FREE_SHIPPING"
+                default="1"
         >
-            <option value="1">JYES</option>
-            <option value="0">JNO</option>
+            <option value="true">JYES</option>
+            <option value="false">JNO</option>
         </field>
     </fieldset>
 </form>

@@ -16,7 +16,7 @@ $fields = $form->getFieldset('awards');
 ?>
 <?php if (count($fields) > 0): ?>
     <?php foreach ($fields as $field): ?>
-        <?php if (!empty($post[$field->getAttribute('name')])): ?>
+        <?php if (isset($post[$field->getAttribute('name')])): ?>
             <?php $value = $post[$field->getAttribute('name')];?>
             <?php $field->setValue($value, true); ?>
         <?php endif ?>
