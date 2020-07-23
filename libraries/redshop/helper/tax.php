@@ -77,6 +77,7 @@ class RedshopHelperTax
         $key = $taxGroup . '.' . $userId;
 
         if (!array_key_exists($key, self::$vatRate)) {
+        	$shopperGroupId = $userData->shopper_group_id;
             $db    = JFactory::getDbo();
             $query = $db->getQuery(true)
                 ->select('tr.*')
@@ -114,7 +115,7 @@ class RedshopHelperTax
                     . ' OR ' . $db->qn('tr.tax_country') . ' IS NULL))'
                 )
                 ->where('tr.tax_group_id = ' . (int)$taxGroup)
-	            ->where($db->qn('tsx.shopper_group_id') . ' = ' . $db->q(isset($userData->shopper_group_id) ? $userData->shopper_group_id : $userArr['rs_user_shopperGroup']))
+	            ->where($db->qn('tsx.shopper_group_id') . ' = ' . $db->q(isset($shopperGroupId) ? $shopperGroupId : $userArr['rs_user_shopperGroup']))
                 ->order('tax_rate');
 
             if (Redshop::getConfig()->get('VAT_BASED_ON') == 2) {
