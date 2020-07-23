@@ -22,7 +22,7 @@ $fields = $form->getFieldset($fieldSet);
             <?php $field->setValue($value, true); ?>
         <?php endif ?>
         <?php if (($field->name == "promotion_type") && ($promotionId > 0)): ?>
-            <?php $field->disabled = true ?>
+            <?php $field->readonly = true ?>
         <?php endif ?>
         <?php echo $field->renderField() ?>
     <?php endforeach ?>

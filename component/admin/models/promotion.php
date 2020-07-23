@@ -35,6 +35,8 @@ class RedshopModelPromotion extends RedshopModelForm
         $dispatcher = RedshopHelperUtility::getDispatcher();
         $data = $dispatcher->trigger('onSavePromotion', [$post])[0];
 
-        parent::save($data);
+        //JFactory::getApplication()->enqueueMessage('OK', 'success');
+
+        return parent::save($data);
     }
 }

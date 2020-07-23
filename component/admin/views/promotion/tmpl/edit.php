@@ -15,7 +15,7 @@ $dispatcher = \RedshopHelperUtility::getDispatcher();
 //echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' => $this));
 $fields = $this->form->getFieldset('details');
 ?>
-<form action="index.php?option=com_redshop&amp;task=promotion.edit&amp;id=" method="post" id="adminForm" name="adminForm" class="form-validate form-horizontal adminform" enctype="multipart/form-data">
+<form action="index.php?option=com_redshop&task=promotion.edit&id=<?php echo $this->id ?>" method="post" id="adminForm" name="adminForm" class="form-validate form-horizontal adminform" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-4">
             <div class="box-primary box">
@@ -25,9 +25,9 @@ $fields = $this->form->getFieldset('details');
                 <div class="box-body">
                     <?php if (count($fields) > 0): ?>
                         <?php foreach ($fields as $field): ?>
-                            <?php echo '<pre>'; var_dump($field->id); var_dump($field->value); echo '</pre>'; ?>
+                            <?php /*echo '<pre>'; var_dump($field->id); var_dump($field->value); echo '</pre>';*/ ?>
                             <?php if (($field->id == 'jform_type') && ($this->id > 0)): ?>
-                                <?php $field->disabled = true; ?>
+                                <?php $field->readonly = true; ?>
                             <?php endif ?>
                             <div class="form-group row-fluid ">
                                 <?php echo $field->label ?>
