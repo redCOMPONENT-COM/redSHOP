@@ -30,7 +30,9 @@ class RedshopModelPromotions extends RedshopModelList
                 'id',
                 'pm.id',
                 'name',
-                'pm.name'
+                'pm.name',
+                'ordering',
+                'pm.ordering'
             );
         }
 

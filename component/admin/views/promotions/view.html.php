@@ -19,6 +19,13 @@ defined('_JEXEC') or die;
 class RedshopViewPromotions extends RedshopViewList
 {
     /**
+     * @var  boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public $hasOrdering = true;
+
+    /**
      * Method for render column
      *
      * @param   array   $config  Row config.
