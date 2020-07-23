@@ -272,6 +272,13 @@ class RedshopHelperUser
                     ->order($db->qn('u.users_info_id'));
 
                 $userInformation = $db->setQuery($query)->loadObject();
+
+                if (empty($userInformation)) {
+                    $userInformation->country_code = !empty($userData['vatCountry']) ? $userData['vatCountry'] : Redshop::getConfig(
+                    )->getString('DEFAULT_VAT_COUNTRY');
+                    $userInformation->state_code   = !empty($userData['vatState']) ? $userData['vatState'] : Redshop::getConfig(
+                    )->getString('DEFAULT_VAT_STATE');
+                }
             }
         }
 
