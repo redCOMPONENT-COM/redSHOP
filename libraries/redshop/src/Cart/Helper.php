@@ -419,15 +419,15 @@ class Helper
                     $property           = \RedshopHelperProduct_Attribute::getAttributeProperties(
                         $accessoriesPropertiesData[$propIndex]
                     );
-                    $priceList          = \RedshopHelperProduct_Attribute::getPropertyPrice(
+                    $prices          = \RedshopHelperProduct_Attribute::getPropertyPrice(
                     /** @scrutinizer ignore-type */ $accessoriesProperty,
                                                     $data['quantity'],
                                                     'property',
                                                     $userId
                     );
 
-                    if (!empty($priceList) && $priceList != new \stdClass) {
-                        $propertyPrice = $priceList->product_price;
+                    if (!empty($prices) && $prices != new \stdClass) {
+                        $propertyPrice = $prices->product_price;
                     } else {
                         $propertyPrice = $property[0]->property_price;
                     }
@@ -457,15 +457,15 @@ class Helper
                                 $subproperty = \RedshopHelperProduct_Attribute::getAttributeSubProperties(
                                     $subSubProperty
                                 );
-                                $priceList   = \RedshopHelperProduct_Attribute::getPropertyPrice(
+                                $prices   = \RedshopHelperProduct_Attribute::getPropertyPrice(
                                     $subSubProperty,
                                     $data['quantity'],
                                     'subproperty',
                                     $userId
                                 );
 
-                                if (!empty($priceList) && $priceList != new \stdClass) {
-                                    $subPropertyPrice = $priceList->product_price;
+                                if (!empty($prices) && $prices != new \stdClass) {
+                                    $subPropertyPrice = $prices->product_price;
                                 } else {
                                     $subPropertyPrice = $subproperty[0]->subattribute_color_price;
                                 }
@@ -682,14 +682,14 @@ class Helper
                             $property           = RedshopHelperProduct_Attribute::getAttributeProperties(
                                 $acc_property_data[$ip]
                             );
-                            $pricelist          = RedshopHelperProduct_Attribute::getPropertyPrice(
+                            $prices          = RedshopHelperProduct_Attribute::getPropertyPrice(
                                 $acc_property_data[$ip],
                                 $cart[$idx]['quantity'],
                                 'property'
                             );
 
-                            if (isset($pricelist->product_price)) {
-                                $property_price = $pricelist->product_price;
+                            if (isset($prices->product_price)) {
+                                $property_price = $prices->product_price;
                             } else {
                                 $property_price = $property[0]->property_price;
                             }
@@ -716,14 +716,14 @@ class Helper
                                         $subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties(
                                             $acc_subproperty_data[$isp]
                                         );
-                                        $pricelist         = RedshopHelperProduct_Attribute::getPropertyPrice(
+                                        $prices         = RedshopHelperProduct_Attribute::getPropertyPrice(
                                             $acc_subproperty_data[$isp],
                                             $cart[$idx]['quantity'],
                                             'subproperty'
                                         );
 
-                                        if (count($pricelist) > 0) {
-                                            $subproperty_price = $pricelist->product_price;
+                                        if (count($prices) > 0) {
+                                            $subproperty_price = $prices->product_price;
                                         } else {
                                             $subproperty_price = $subproperty[0]->subattribute_color_price;
                                         }
@@ -852,54 +852,55 @@ class Helper
                     $productPrice              = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[1];
                     $productPriceVAT          = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[2];
                     $productOldPrice          = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[5] + $returnAttributePrices[6];
-                    $productOldPrice_excl_vat = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[5];
+                    $productOldPriceExcludedVat = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[5];
 
                     // Accessory price
                     $retAccesssoryPrices             = \RedshopHelperProduct::makeAccessoryCart(
                         $cart[$i]['cart_accessory'],
                         $cart[$i]['product_id']
                     );
+                    
                     $accessoryTotalPrice = $retAccesssoryPrices[1];
-                    $accessory_vat_price   = $retAccesssoryPrices[2];
+                    $accessoryPriceVat   = $retAccesssoryPrices[2];
 
-                    $wrapper_price = 0;
-                    $wrapper_vat   = 0;
+                    $wrapperPrice = 0;
+                    $wrapperVAT   = 0;
 
                     if ($cart[$i]['wrapper_id']) {
                         $wrapperArr    = \Redshop\Wrapper\Helper::getWrapperPrice(
                             array('product_id' => $cart[$i]['product_id'], 'wrapper_id' => $cart[$i]['wrapper_id'])
                         );
-                        $wrapper_vat   = $wrapperArr['wrapper_vat'];
-                        $wrapper_price = $wrapperArr['wrapper_price'];
+                        $wrapperVAT   = $wrapperArr['wrapper_vat'];
+                        $wrapperPrice = $wrapperArr['wrapper_price'];
                     }
 
-                    $subscription_vat = 0;
+                    $subscriptionVat = 0;
 
                     if (isset($cart[$i]['subscription_id']) && $cart[$i]['subscription_id'] != "") {
                         $productId           = $cart[$i]['product_id'];
-                        $subscription_detail = \RedshopHelperProduct::getProductSubscriptionDetail(
+                        $subscriptionDetail = \RedshopHelperProduct::getProductSubscriptionDetail(
                             $productId,
                             $cart[$i]['subscription_id']
                         );
-                        $subscription_price  = $subscription_detail->subscription_price;
+                        $subscriptionPrice  = $subscriptionDetail->subscription_price;
 
-                        if ($subscription_price) {
-                            $subscription_vat = \RedshopHelperProduct::getProductTax($productId, $subscription_price);
+                        if ($subscriptionPrice) {
+                            $subscriptionVat = \RedshopHelperProduct::getProductTax($productId, $subscriptionPrice);
                         }
 
-                        $productPriceVAT += $subscription_vat;
-                        $productPrice     = $productPrice + $subscription_price;
+                        $productPriceVAT += $subscriptionVat;
+                        $productPrice     = $productPrice + $subscriptionPrice;
 
-                        $productOldPrice_excl_vat += $subscription_price;
+                        $productOldPriceExcludedVat += $subscriptionPrice;
                     }
 
-                    $cart[$i]['product_price']              = $productPrice + $productPriceVAT + $accessoryTotalPrice + $accessory_vat_price + $wrapper_price + $wrapper_vat;
-                    $cart[$i]['product_old_price']          = $productOldPrice + $accessoryTotalPrice + $accessory_vat_price + $wrapper_price + $wrapper_vat;
-                    $cart[$i]['product_old_price_excl_vat'] = $productOldPrice_excl_vat + $accessoryTotalPrice + $wrapper_price;
-                    $cart[$i]['product_price_excl_vat']     = $productPrice + $accessoryTotalPrice + $wrapper_price;
-                    $cart[$i]['product_vat']                = $productPriceVAT + $accessory_vat_price + $wrapper_vat;
+                    $cart[$i]['product_price']              = $productPrice + $productPriceVAT + $accessoryTotalPrice + $accessoryPriceVat + $wrapperPrice + $wrapperVAT;
+                    $cart[$i]['product_old_price']          = $productOldPrice + $accessoryTotalPrice + $accessoryPriceVat + $wrapperPrice + $wrapperVAT;
+                    $cart[$i]['product_old_price_excl_vat'] = $productOldPriceExcludedVat + $accessoryTotalPrice + $wrapperPrice;
+                    $cart[$i]['product_price_excl_vat']     = $productPrice + $accessoryTotalPrice + $wrapperPrice;
+                    $cart[$i]['product_vat']                = $productPriceVAT + $accessoryPriceVat + $wrapperVAT;
 
-                    $dispatcher->trigger('onAfterCartItemUpdate', array(&$cart, $i, $data));
+                    $dispatcher->trigger('onAfterCartItemUpdate', [&$cart, $i, $data]);
                 }
             }
         }
@@ -916,63 +917,63 @@ class Helper
      * @since __DEPLOY_VERSION__
      */
     public static function updateAccessoryPrices($data = [], $newQuantity = 1) {
-        $attArr = $data['cart_accessory'];
+        $accessories = $data['cart_accessory'];
 
-        for ($i = 0, $in = count($attArr); $i < $in; $i++) {
-            $attchildArr = $attArr[$i]['accessory_childs'];
+        for ($i = 0, $in = count($accessories); $i < $in; $i++) {
+            $accessoryChildren = $accessories[$i]['accessory_childs'];
 
-            $attArr[$i]['accessory_quantity'] = $newQuantity;
+            $accessories[$i]['accessory_quantity'] = $newQuantity;
 
-            for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++) {
-                $propArr = $attchildArr[$j]['attribute_childs'];
+            for ($j = 0, $jn = count($accessoryChildren); $j < $jn; $j++) {
+                $accessoryChild = $accessoryChildren[$j]['attribute_childs'];
 
-                for ($k = 0, $kn = count($propArr); $k < $kn; $k++) {
-                    $pricelist = RedshopHelperProduct_Attribute::getPropertyPrice(
-                        $propArr[$k]['property_id'],
+                for ($k = 0, $kn = count($accessoryChild); $k < $kn; $k++) {
+                    $prices = RedshopHelperProduct_Attribute::getPropertyPrice(
+                        $accessoryChild[$k]['property_id'],
                         $newQuantity,
                         'property'
                     );
 
-                    if (count($pricelist) > 0) {
-                        $propArr[$k]['property_price'] = $pricelist->product_price;
+                    if (count($prices) > 0) {
+                        $accessoryChild[$k]['property_price'] = $prices->product_price;
                     } else {
-                        $pricelist                     = RedshopHelperProduct::getProperty(
-                            $propArr[$k]['property_id'],
+                        $prices = RedshopHelperProduct::getProperty(
+                            $accessoryChild[$k]['property_id'],
                             'property'
                         );
-                        $propArr[$k]['property_price'] = $pricelist->product_price;
+                        $accessoryChild[$k]['property_price'] = $prices->product_price;
                     }
 
-                    $subpropArr = $propArr[$k]['property_childs'];
+                    $subProperties = $accessoryChild[$k]['property_childs'];
 
-                    for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++) {
-                        $pricelist = RedshopHelperProduct_Attribute::getPropertyPrice(
-                            $subpropArr[$l]['subproperty_id'],
+                    for ($l = 0, $ln = count($subProperties); $l < $ln; $l++) {
+                        $prices = RedshopHelperProduct_Attribute::getPropertyPrice(
+                            $subProperties[$l]['subproperty_id'],
                             $newQuantity,
                             'subproperty'
                         );
 
-                        if (count($pricelist) > 0) {
-                            $subpropArr[$l]['subproperty_price'] = $pricelist->product_price;
+                        if (count($prices) > 0) {
+                            $subProperties[$l]['subproperty_price'] = $prices->product_price;
                         } else {
-                            $pricelist                           = RedshopHelperProduct::getProperty(
-                                $subpropArr[$l]['subproperty_id'],
+                            $prices                           = RedshopHelperProduct::getProperty(
+                                $subProperties[$l]['subproperty_id'],
                                 'subproperty'
                             );
-                            $subpropArr[$k]['subproperty_price'] = $pricelist->product_price;
+                            $subProperties[$k]['subproperty_price'] = $prices->product_price;
                         }
                     }
 
-                    $propArr[$k]['property_childs'] = $subpropArr;
+                    $accessoryChild[$k]['property_childs'] = $subProperties;
                 }
 
-                $attchildArr[$j]['attribute_childs'] = $propArr;
+                $accessoryChildren[$j]['attribute_childs'] = $accessoryChild;
             }
 
-            $attArr[$i]['accessory_childs'] = $attchildArr;
+            $accessories[$i]['accessory_childs'] = $accessoryChildren;
         }
 
-        return $attArr;
+        return $accessories;
     }
 
     /**
@@ -983,54 +984,54 @@ class Helper
      */
     public static function updateAttributePrices($data = [], $newQuantity = 1)
     {
-        $attArr = $data['cart_attribute'];
+        $accessories = $data['cart_attribute'];
 
-        for ($i = 0, $in = count($attArr); $i < $in; $i++) {
-            $propArr = $attArr[$i]['attribute_childs'];
+        for ($i = 0, $in = count($accessories); $i < $in; $i++) {
+            $accessoryChild = $accessories[$i]['attribute_childs'];
 
-            for ($k = 0, $kn = count($propArr); $k < $kn; $k++) {
-                $pricelist = RedshopHelperProduct_Attribute::getPropertyPrice(
-                    $propArr[$k]['property_id'],
+            for ($k = 0, $kn = count($accessoryChild); $k < $kn; $k++) {
+                $prices = RedshopHelperProduct_Attribute::getPropertyPrice(
+                    $accessoryChild[$k]['property_id'],
                     $newQuantity,
                     'property'
                 );
 
-                if (count($pricelist) > 0) {
-                    $propArr[$k]['property_price'] = $pricelist->product_price;
+                if (count($prices) > 0) {
+                    $accessoryChild[$k]['property_price'] = $prices->product_price;
                 } else {
-                    $pricelist                     = RedshopHelperProduct::getProperty(
-                        $propArr[$k]['property_id'],
+                    $prices                     = RedshopHelperProduct::getProperty(
+                        $accessoryChild[$k]['property_id'],
                         'property'
                     );
-                    $propArr[$k]['property_price'] = $pricelist->product_price;
+                    $accessoryChild[$k]['property_price'] = $prices->product_price;
                 }
 
-                $subpropArr = $propArr[$k]['property_childs'];
+                $subProperties = $accessoryChild[$k]['property_childs'];
 
-                for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++) {
-                    $pricelist = RedshopHelperProduct_Attribute::getPropertyPrice(
-                        $subpropArr[$l]['subproperty_id'],
+                for ($l = 0, $ln = count($subProperties); $l < $ln; $l++) {
+                    $prices = RedshopHelperProduct_Attribute::getPropertyPrice(
+                        $subProperties[$l]['subproperty_id'],
                         $newQuantity,
                         'subproperty'
                     );
 
-                    if (count($pricelist) > 0) {
-                        $subpropArr[$l]['subproperty_price'] = $pricelist->product_price;
+                    if (count($prices) > 0) {
+                        $subProperties[$l]['subproperty_price'] = $prices->product_price;
                     } else {
-                        $pricelist                           = RedshopHelperProduct::getProperty(
-                            $subpropArr[$l]['subproperty_id'],
+                        $prices                           = RedshopHelperProduct::getProperty(
+                            $subProperties[$l]['subproperty_id'],
                             'subproperty'
                         );
-                        $subpropArr[$k]['subproperty_price'] = $pricelist->product_price;
+                        $subProperties[$k]['subproperty_price'] = $prices->product_price;
                     }
                 }
 
-                $propArr[$k]['property_childs'] = $subpropArr;
+                $accessoryChild[$k]['property_childs'] = $subProperties;
             }
 
-            $attArr[$i]['attribute_childs'] = $propArr;
+            $accessories[$i]['attribute_childs'] = $accessoryChild;
         }
 
-        return $attArr;
+        return $accessories;
     }
 }
