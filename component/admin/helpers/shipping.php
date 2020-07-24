@@ -88,21 +88,6 @@ class shipping
     }
 
     /**
-     * Return only one shipping rate on cart page... This function is called by ajax
-     *
-     * @return  string
-     *
-     * @throws  Exception
-     * @see         Redshop\Shipping\Rate::calculate
-     *
-     * @deprecated  2.1.0  Use Redshop\Shipping\Rate::calculate() instead
-     */
-    public function getShippingrate_calc()
-    {
-        return Redshop\Shipping\Rate::calculate();
-    }
-
-    /**
      * Encrypt Shipping
      *
      * @param   string  $strMessage  String to encrypt

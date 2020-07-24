@@ -236,7 +236,7 @@ function changeSubscriptionPrice(subid,subval,product_id)
 	calculateTotalPrice(product_id,0);
 }
 
-function getShippingrate()
+function getShippingRate()
 {
 	xmlhttp=GetXmlHttpObject();
 	if (xmlhttp==null)
@@ -248,7 +248,7 @@ function getShippingrate()
 	var state_code = document.getElementById('state_code').value;
 	var zip_code = document.getElementById('zip_code').value;
 	var args = "country_code="+country_code+"&state_code="+state_code+"&zip_code="+zip_code;
-	var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=cart&task=getShippingrate&'+args;
+	var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=cart&task=getShippingRate&'+args;
 	var total;
 
 	xmlhttp.onreadystatechange=function(){

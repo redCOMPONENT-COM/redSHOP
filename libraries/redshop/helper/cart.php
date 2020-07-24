@@ -858,8 +858,8 @@ abstract class RedshopHelperCart
         }
 
         $cart['coupon_discount'] = $couponDiscount;
-        $codeDsicount            = $voucherDiscount + $couponDiscount;
-        $totaldiscount           = $cart['cart_discount'] + $codeDsicount;
+        $codeDiscount            = $voucherDiscount + $couponDiscount;
+        $totalDiscount           = $cart['cart_discount'] + $codeDiscount;
 
         \Redshop\Cart\Helper::setCart($cart);
         $calArr = \Redshop\Cart\Helper::calculation();
@@ -867,9 +867,9 @@ abstract class RedshopHelperCart
 
         $tax         = $calArr[5];
         $discountVAT = 0;
-        $chktag      = \RedshopHelperCart::taxExemptAddToCart();
+        $isTaxExempted = \RedshopHelperCart::taxExemptAddToCart();
 
-        if ((float)\Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !empty($chktag)) {
+        if ((float)\Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !empty($isTaxExempted)) {
             if (\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT')) {
                 $cart['tax_after_discount'] = $tax;
             } else {
@@ -884,15 +884,15 @@ abstract class RedshopHelperCart
                         $productPriceExclVAT = $cart['product_subtotal_excl_vat'];
                         $productVAT          = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
                         $avgVAT              = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
-                        $discountVAT         = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
+                        $discountVAT         = ($avgVAT * $totalDiscount) / (1 + $avgVAT);
                     }
                 }
             }
         }
 
-        $cart['total']             = $calArr[0] - $totaldiscount;
-        $cart['subtotal']          = $calArr[1] + $calArr[3] - $totaldiscount;
-        $cart['subtotal_excl_vat'] = $calArr[2] + ($calArr[3] - $calArr[6]) - ($totaldiscount - $discountVAT);
+        $cart['total']             = $calArr[0] - $totalDiscount;
+        $cart['subtotal']          = $calArr[1] + $calArr[3] - $totalDiscount;
+        $cart['subtotal_excl_vat'] = $calArr[2] + ($calArr[3] - $calArr[6]) - ($totalDiscount - $discountVAT);
 
         if ($cart['total'] <= 0) {
             $cart['subtotal_excl_vat'] = 0;
@@ -905,7 +905,7 @@ abstract class RedshopHelperCart
         $cart['sub_total_vat']             = $tax + $calArr[6];
         $cart['discount_vat']              = $discountVAT;
         $cart['shipping_tax']              = $calArr[6];
-        $cart['discount_ex_vat']           = $totaldiscount - $discountVAT;
+        $cart['discount_ex_vat']           = $totalDiscount - $discountVAT;
         $cart['mod_cart_total']            = \Redshop\Cart\Module::calculate($cart);
 
         \Redshop\Cart\Helper::setCart($cart);
@@ -923,22 +923,21 @@ abstract class RedshopHelperCart
      *
      * @since   2.0.3
      */
-    public static function calculateTaxAfterDiscount($tax = 0.0, $discount = 0.0)
+    public static function calculateTaxAfterDiscount($tax = 0, $discount = 0)
     {
         $taxAfterDiscount = 0;
         $cart             = JFactory::getSession()->get('cart');
 
-        if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && (float)Redshop::getConfig()->get(
-                'VAT_RATE_AFTER_DISCOUNT'
-            )) {
-            if ($discount > 0.0) {
-                $applyTax         = (float)Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $discount;
-                $taxAfterDiscount = $tax - $applyTax;
+        if (\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT')
+            && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')) {
+            if ($discount > 0) {
+                $applyTax         = (float) \Redshop::getConfig()->getFloat('VAT_RATE_AFTER_DISCOUNT') * $discount;
+                $taxAfterDiscount = (float) ($tax - $applyTax);
             }
         }
 
         $cart['tax_after_discount'] = $taxAfterDiscount;
-        JFactory::getSession()->set('cart', $cart);
+        \JFactory::getSession()->set('cart', $cart);
 
         return $taxAfterDiscount;
     }
@@ -961,7 +960,7 @@ abstract class RedshopHelperCart
             return true;
         }
 
-        $userInformation = RedshopHelperUser::getUserInformation($userId);
+        $userInformation = \RedshopHelperUser::getUserInformation($userId);
 
         if (empty($userInformation->user_id)) {
             return true;

@@ -441,17 +441,14 @@ class RedshopControllerCart extends RedshopController
     {
         $post = JFactory::getApplication()->input->post->getArray();
 
-        /** @var RedshopModelCart $model */
-        $model = $this->getModel('cart');
-
         // Call update_all method of model to update all products info of cart
-        $model->update_all($post);
+        \Redshop\Cart\Helper::updateAll($post);
 
-        RedshopHelperCart::ajaxRenderModuleCartHtml();
-        RedshopHelperCart::addCartToDatabase();
+        \RedshopHelperCart::ajaxRenderModuleCartHtml();
+        \RedshopHelperCart::addCartToDatabase();
 
-        $link = JRoute::_(
-            'index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(),
+        $link = \JRoute::_(
+            'index.php?option=com_redshop&view=cart&Itemid=' . \RedshopHelperRouter::getCartItemId(),
             false
         );
         $this->setRedirect($link);
@@ -471,7 +468,7 @@ class RedshopControllerCart extends RedshopController
         $model = $this->getModel('cart');
 
         // Call empty_cart method of model to remove all products from cart
-        $model->emptyCart();
+        \RedshopHelperCart::emptyCart();;
         $user = JFactory::getUser();
 
         if ($user->id) {
@@ -480,9 +477,7 @@ class RedshopControllerCart extends RedshopController
 
         if ($ajax) {
             $carts = RedshopHelperCart::renderModuleCartHtml(\Redshop\Cart\Helper::getCart());
-
             echo $carts[0];
-
             $app->close();
         } else {
             $link = JRoute::_(
@@ -578,19 +573,17 @@ class RedshopControllerCart extends RedshopController
         // Check for request forgeries.
         if (!JSession::checkToken()) {
             $msg  = JText::_('COM_REDSHOP_TOKEN_VARIFICATION');
-            $rurl = base64_decode($post["rurl"]);
-            $app->redirect($rurl, $msg);;
+            $redMassCartLink = base64_decode($post["rurl"]);
+            $app->redirect($redMassCartLink, $msg);;
         }
 
         if ($post["numbercart"] == "") {
             $msg  = JText::_('COM_REDSHOP_PLEASE_ENTER_PRODUCT_NUMBER');
-            $rurl = base64_decode($post["rurl"]);
-            $app->redirect($rurl, $msg);
+            $redMassCartLink = base64_decode($post["rurl"]);
+            $app->redirect($redMassCartLink, $msg);
         }
 
-        /** @var RedshopModelCart $model */
-        $model = $this->getModel('cart');
-        $model->redmasscart($post);
+        \Redshop\Cart\Helper::redMassCart($post);
 
         $link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $app->input->getInt('Itemid'), false);
         $this->setRedirect($link);
@@ -602,9 +595,9 @@ class RedshopControllerCart extends RedshopController
      * @return  void
      * @throws  Exception
      */
-    public function getShippingrate()
+    public function getShippingRate()
     {
-        echo Redshop\Shipping\Rate::calculate();
+        echo \Redshop\Shipping\Rate::calculate();
 
         JFactory::getApplication()->close();
     }
