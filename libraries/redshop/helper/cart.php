@@ -633,7 +633,7 @@ abstract class RedshopHelperCart
 
         JFactory::getSession()->set('cart', $cart);
 
-        self::cartFinalCalculation();
+        self::ajaxRenderModuleCartHtml();
     }
 
     /**
@@ -752,28 +752,15 @@ abstract class RedshopHelperCart
      * @since   2.0.3
      *
      */
-    public static function cartFinalCalculation($isModify = true)
+    public static function ajaxRenderModuleCartHtml($isModify = true)
     {
-        $ajax = JFactory::getApplication()->input->getInt('ajax_cart_box');
         $cart = \Redshop\Cart\Helper::getCart();
 
         if ($isModify === true) {
             $cart = RedshopHelperDiscount::modifyDiscount($cart);
         }
 
-        $cartOutput = array();
-        $carts      = self::generateCartOutput($cart);
-
-        $cartOutput['cart_output']    = $carts[0];
-        $cartOutput['total_quantity'] = $carts[1];
-        $text                         = Redshop\Shipping\Rate::getFreeShippingRate();
-
-        if ($ajax === 1 && Redshop::getConfig()->getBool('AJAX_CART_BOX')) {
-            echo '`' . $carts[0] . '`' . $text;
-            JFactory::getApplication()->close();
-        }
-
-        return $cartOutput;
+        self::renderModuleCartHtml();
     }
 
     /**
@@ -785,8 +772,9 @@ abstract class RedshopHelperCart
      *
      * @since  2.0.3
      */
-    public static function generateCartOutput($cart = array())
+    public static function renderModuleCartHtml($cart = array())
     {
+        $cart             = empty($cart) ? \Redshop\Cart\Helper::getCart() : $cart;
         $return           = array();
         $totalQuantity    = 0;
         $idx              = $cart['idx'];
@@ -794,6 +782,7 @@ abstract class RedshopHelperCart
         $html             = (string)$cartParams->get('cart_output', 'simple');
         $showShippingLine = (int)$cartParams->get('show_shipping_line', 0);
         $showWithVAT      = (int)$cartParams->get('show_with_vat', 0);
+        $ajax             = JFactory::getApplication()->input->getInt('ajax_cart_box');
 
         for ($i = 0; $i < $idx; $i++) {
             $totalQuantity += $cart[$i]['quantity'];
@@ -818,7 +807,110 @@ abstract class RedshopHelperCart
 
         $return[] = $totalQuantity;
 
+        $shippingRateHtml = Redshop\Shipping\Rate::getFreeShippingRate();
+
+        if ($ajax === 1 && Redshop::getConfig()->getBool('AJAX_CART_BOX')) {
+            echo '`' . $return[0] . '`' . $shippingRateHtml;
+            JFactory::getApplication()->close();
+        }
+
         return $return;
+    }
+
+
+    /**
+     * @return array|int[]|mixed
+     * @throws Exception
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function modifyCalculation() {
+        $cart                     = \Redshop\Cart\Helper::getCart();
+        $calArr                   = \Redshop\Cart\Helper::calculation();
+        $cart['product_subtotal'] = $calArr[1];
+        $discountAmount           = 0;
+        $voucherDiscount          = 0;
+        $couponDiscount           = 0;
+
+        if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 1) {
+            $discountAmount = \Redshop\Cart\Helper::getDiscountAmount($cart);
+
+            if ($discountAmount > 0) {
+                $cart = \Redshop\Cart\Helper::getCart();
+            }
+        }
+
+        $cart['cart_discount'] = $discountAmount;
+
+        if (array_key_exists('voucher', $cart)) {
+            $voucherDiscount = \RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
+            if (\Redshop::getConfig()->get('DISCOUNT_TYPE') == 2) {
+                $voucherDiscount = $voucherDiscount - $cart['voucher'][1]['voucher_value'];
+            }
+        }
+
+        $cart['voucher_discount'] = $voucherDiscount;
+
+        if (array_key_exists('coupon', $cart)) {
+            $couponDiscount = \RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
+            if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2) {
+                $couponDiscount = $couponDiscount - $cart['coupon'][1]['coupon_value'];
+            }
+        }
+
+        $cart['coupon_discount'] = $couponDiscount;
+        $codeDsicount            = $voucherDiscount + $couponDiscount;
+        $totaldiscount           = $cart['cart_discount'] + $codeDsicount;
+
+        \Redshop\Cart\Helper::setCart($cart);
+        $calArr = \Redshop\Cart\Helper::calculation();
+        $cart   = \Redshop\Cart\Helper::getCart();
+
+        $tax         = $calArr[5];
+        $discountVAT = 0;
+        $chktag      = \RedshopHelperCart::taxExemptAddToCart();
+
+        if ((float)\Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !empty($chktag)) {
+            if (\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT')) {
+                $cart['tax_after_discount'] = $tax;
+            } else {
+                if (isset($cart['discount_tax']) && !empty($cart['discount_tax'])) {
+                    $discountVAT = $cart['discount_tax'];
+                    $calArr[1]   = $calArr[1] - $cart['discount_tax'];
+                    $tax         = $tax - $discountVAT;
+                } else {
+                    $vatData = \RedshopHelperTax::getVatRates();
+
+                    if (isset($vatData->tax_rate) && !empty($vatData->tax_rate)) {
+                        $productPriceExclVAT = $cart['product_subtotal_excl_vat'];
+                        $productVAT          = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
+                        $avgVAT              = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
+                        $discountVAT         = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
+                    }
+                }
+            }
+        }
+
+        $cart['total']             = $calArr[0] - $totaldiscount;
+        $cart['subtotal']          = $calArr[1] + $calArr[3] - $totaldiscount;
+        $cart['subtotal_excl_vat'] = $calArr[2] + ($calArr[3] - $calArr[6]) - ($totaldiscount - $discountVAT);
+
+        if ($cart['total'] <= 0) {
+            $cart['subtotal_excl_vat'] = 0;
+        }
+
+        $cart['product_subtotal']          = $calArr[1];
+        $cart['product_subtotal_excl_vat'] = $calArr[2];
+        $cart['shipping']                  = $calArr[3];
+        $cart['tax']                       = $tax;
+        $cart['sub_total_vat']             = $tax + $calArr[6];
+        $cart['discount_vat']              = $discountVAT;
+        $cart['shipping_tax']              = $calArr[6];
+        $cart['discount_ex_vat']           = $totaldiscount - $discountVAT;
+        $cart['mod_cart_total']            = \Redshop\Cart\Module::calculate($cart);
+
+        \Redshop\Cart\Helper::setCart($cart);
+
+        return $cart;
     }
 
     /**

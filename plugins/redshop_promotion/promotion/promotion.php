@@ -79,6 +79,16 @@ class PlgRedshop_PromotionPromotion extends JPlugin
     }
 
     /**
+     * @param $cart
+     * @param bool $saveSession
+     * @return mixed
+     * @since __DEPLOY_VERSION__
+     */
+    public function onProcessPromotion($cart, $saveSession = false) {
+        return $cart;
+    }
+
+    /**
      * @return string
      * @since __DEPLOY_VERSION__
      */

@@ -250,7 +250,7 @@ class RedshopControllerOrder_Detail extends RedshopController
                 $this->copyOrderItemToCart($row, false);
             }
 
-            RedshopHelperCart::cartFinalCalculation();
+            RedshopHelperCart::ajaxRenderModuleCartHtml();
         }
 
         $app->redirect(
@@ -341,7 +341,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
             if ($redirect) {
                 // Do final cart calculations
-                RedshopHelperCart::cartFinalCalculation();
+                RedshopHelperCart::ajaxRenderModuleCartHtml();
 
                 $app->redirect(
                     JRoute::_(

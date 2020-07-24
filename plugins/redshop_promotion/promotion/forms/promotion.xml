@@ -45,24 +45,24 @@
         <field
                 id="condition_amount"
                 name="condition_amount"
-                type="textarea"
+                type="number"
                 label="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
                 description="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
-                size="5"
-                class="text_area"
+                class="validate-numeric"
                 default=""
                 required="false"
         />
     </fieldset>
     <fieldset name="conditions_volume_order">
         <field
-                id="condition_order_volume"
-                name="condition_order_volume"
-                type="textarea"
+                id="order_volume"
+                name="order_volume"
+                type="text"
                 label="COM_REDSHOP_PROMOTION_CONDITION_ORDER_VOLUME"
                 description="COM_REDSHOP_PROMOTION_CONDITION_ORDER_VOLUME"
                 size="5"
-                class="text_area"
+                filter="float"
+                class="validate-numeric"
                 default=""
                 required="false"
         />
@@ -97,11 +97,11 @@
         <field
                 id="award_amount"
                 name="award_amount"
-                type="textarea"
+                type="number"
                 label="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
                 description="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
                 size="5"
-                class="text_area"
+                class="validate-numeric"
                 default="1"
                 required="false"
         />

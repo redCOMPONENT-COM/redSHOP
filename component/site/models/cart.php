@@ -698,7 +698,7 @@ class RedshopModelCart extends RedshopModel
             }
 
             Redshop\Cart\Cart::addProduct($data);
-            RedshopHelperCart::cartFinalCalculation();
+            RedshopHelperCart::ajaxRenderModuleCartHtml();
         }
     }
 

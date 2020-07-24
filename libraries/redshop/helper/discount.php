@@ -115,9 +115,11 @@ class RedshopHelperDiscount
         if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0) {
             $productData->discount_price = 0;
         } else {
-            if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
+            $condition = ($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
                 || ((int)$productData->discount_enddate >= $today && (int)$productData->discount_stratdate <= $today)
-                || ($productData->discount_enddate == '0' && (int)$productData->discount_stratdate <= $today)) {
+                || ($productData->discount_enddate == '0' && (int)$productData->discount_stratdate <= $today) ;
+
+            if ($condition == true) {
                 return (float)$productData->discount_price;
             }
         }

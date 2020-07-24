@@ -203,6 +203,9 @@ class RedshopHelperCartDiscount
                 \Redshop\Helper\Utility::rsRecursiveArraySearch($cart['coupon'], $couponCode)
                 : 0;
 
+            $coupons    = array();
+            $oldCoupons = array();
+
             switch (Redshop::getConfig()->getInt('DISCOUNT_TYPE')) {
                 case 4:
                     if ($valueExist) {
@@ -212,16 +215,13 @@ class RedshopHelperCartDiscount
                     break;
 
                 case 3:
-                    $coupons    = array();
-                    $oldCoupons = array();
                     unset($cart['coupon']);
                     $return = true;
 
                     break;
 
                 case 2:
-                    $coupons    = array();
-                    $oldCoupons = array();
+
                     unset($cart['voucher']);
                     unset($cart['coupon']);
                     $cart['voucher_discount'] = 0;
@@ -231,8 +231,6 @@ class RedshopHelperCartDiscount
 
                 case 1:
                 default:
-                    $coupons    = array();
-                    $oldCoupons = array();
                     unset($cart['voucher']);
                     unset($cart['coupon']);
                     $cart['voucher_discount'] = 0;

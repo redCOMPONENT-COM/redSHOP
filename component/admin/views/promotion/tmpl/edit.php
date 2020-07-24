@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JPluginHelper::importPlugin('redshop_promotion');
 $dispatcher = \RedshopHelperUtility::getDispatcher();
-//echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' => $this));
 $fields = $this->form->getFieldset('details');
 ?>
 <form action="index.php?option=com_redshop&task=promotion.edit&id=<?php echo $this->id ?>" method="post" id="adminForm" name="adminForm" class="form-validate form-horizontal adminform" enctype="multipart/form-data">
@@ -25,7 +24,6 @@ $fields = $this->form->getFieldset('details');
                 <div class="box-body">
                     <?php if (count($fields) > 0): ?>
                         <?php foreach ($fields as $field): ?>
-                            <?php /*echo '<pre>'; var_dump($field->id); var_dump($field->value); echo '</pre>';*/ ?>
                             <?php if (($field->id == 'jform_type') && ($this->id > 0)): ?>
                                 <?php $field->readonly = true; ?>
                             <?php endif ?>
