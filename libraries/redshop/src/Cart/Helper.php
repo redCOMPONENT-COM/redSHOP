@@ -783,8 +783,8 @@ class Helper
         }
 
         $idx           = (int)($cart['idx']);
-        $quantity_all  = $data['quantity_all'];
-        $quantity      = explode(",", $quantity_all);
+        $totalQuantity  = $data['quantity_all'];
+        $quantity      = explode(",", $totalQuantity);
         $totalQuantity = array_sum($quantity);
 
         for ($i = 0; $i < $idx; $i++) {
@@ -802,17 +802,17 @@ class Helper
                     $productPriceInit = 0;
 
                     // Accessory price fix during update
-                    $accessoryAsProdut           = \RedshopHelperAccessory::getAccessoryAsProduct(
+                    $accessoryAsProduct           = \RedshopHelperAccessory::getAccessoryAsProduct(
                         $cart['AccessoryAsProduct']
                     );
-                    $accessoryAsProdutWithoutVat = false;
+                    $accessoryAsProductWithoutVat = false;
 
-                    if (isset($accessoryAsProdut->accessory)
-                        && isset($accessoryAsProdut->accessory[$cart[$i]['product_id']])
+                    if (isset($accessoryAsProduct->accessory)
+                        && isset($accessoryAsProduct->accessory[$cart[$i]['product_id']])
                         && isset($cart[$i]['accessoryAsProductEligible'])
                     ) {
-                        $accessoryAsProdutWithoutVat = '{without_vat}';
-                        $accessoryPrice              = (float)$accessoryAsProdut->accessory[$cart[$i]['product_id']]->newaccessory_price;
+                        $accessoryAsProductWithoutVat = '{without_vat}';
+                        $accessoryPrice              = (float)$accessoryAsProduct->accessory[$cart[$i]['product_id']]->newaccessory_price;
 
                         $productPriceInit                   = \RedshopHelperProductPrice::priceRound($accessoryPrice);
                         $cart[$i]['product_vat']            = 0;
@@ -829,38 +829,38 @@ class Helper
                         $calcdata               = $cart[$i]['discount_calc'];
                         $calcdata['product_id'] = $cart[$i]['product_id'];
 
-                        $discount_cal = \Redshop\Promotion\Discount::discountCalculator($calcdata);
+                        $discount = \Redshop\Promotion\Discount::discountCalculator($calcdata);
 
-                        $calculator_price = $discount_cal['product_price'];
+                        $calculationPrice = $discountl['product_price'];
                     }
 
-                    $dispatcher->trigger('onBeforeCartItemUpdate', array(&$cart, $i, &$calculator_price));
+                    $dispatcher->trigger('onBeforeCartItemUpdate', array(&$cart, $i, &$calculationPrice));
 
                     // Attribute price
-                    $retAttArr = \RedshopHelperProduct::makeAttributeCart(
+                    $returnAttributePrices = \RedshopHelperProduct::makeAttributeCart(
                         $cart[$i]['cart_attribute'],
                         $cart[$i]['product_id'],
                         $user->id,
                         $productPriceInit,
                         $totalQuantity,    // Total Quantity based discount applied here
-                        $accessoryAsProdutWithoutVat
+                        $accessoryAsProductWithoutVat
                     );
 
                     $accessoryAsProductZero     = (count(
-                            $retAttArr[8]
-                        ) == 0 && $productPriceInit == 0 && ($accessoryAsProdutWithoutVat !== false));
-                    $product_price              = ($accessoryAsProductZero) ? 0 : $retAttArr[1];
-                    $product_vat_price          = ($accessoryAsProductZero) ? 0 : $retAttArr[2];
-                    $product_old_price          = ($accessoryAsProductZero) ? 0 : $retAttArr[5] + $retAttArr[6];
-                    $product_old_price_excl_vat = ($accessoryAsProductZero) ? 0 : $retAttArr[5];
+                            $returnAttributePrices[8]
+                        ) == 0 && $productPriceInit == 0 && ($accessoryAsProductWithoutVat !== false));
+                    $productPrice              = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[1];
+                    $productPriceVAT          = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[2];
+                    $productOldPrice          = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[5] + $returnAttributePrices[6];
+                    $productOldPrice_excl_vat = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[5];
 
                     // Accessory price
-                    $retAccArr             = \RedshopHelperProduct::makeAccessoryCart(
+                    $retAccesssoryPrices             = \RedshopHelperProduct::makeAccessoryCart(
                         $cart[$i]['cart_accessory'],
                         $cart[$i]['product_id']
                     );
-                    $accessory_total_price = $retAccArr[1];
-                    $accessory_vat_price   = $retAccArr[2];
+                    $accessoryTotalPrice = $retAccesssoryPrices[1];
+                    $accessory_vat_price   = $retAccesssoryPrices[2];
 
                     $wrapper_price = 0;
                     $wrapper_vat   = 0;
@@ -887,17 +887,17 @@ class Helper
                             $subscription_vat = \RedshopHelperProduct::getProductTax($productId, $subscription_price);
                         }
 
-                        $product_vat_price += $subscription_vat;
-                        $product_price     = $product_price + $subscription_price;
+                        $productPriceVAT += $subscription_vat;
+                        $productPrice     = $productPrice + $subscription_price;
 
-                        $product_old_price_excl_vat += $subscription_price;
+                        $productOldPrice_excl_vat += $subscription_price;
                     }
 
-                    $cart[$i]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
-                    $cart[$i]['product_old_price']          = $product_old_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
-                    $cart[$i]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
-                    $cart[$i]['product_price_excl_vat']     = $product_price + $accessory_total_price + $wrapper_price;
-                    $cart[$i]['product_vat']                = $product_vat_price + $accessory_vat_price + $wrapper_vat;
+                    $cart[$i]['product_price']              = $productPrice + $productPriceVAT + $accessoryTotalPrice + $accessory_vat_price + $wrapper_price + $wrapper_vat;
+                    $cart[$i]['product_old_price']          = $productOldPrice + $accessoryTotalPrice + $accessory_vat_price + $wrapper_price + $wrapper_vat;
+                    $cart[$i]['product_old_price_excl_vat'] = $productOldPrice_excl_vat + $accessoryTotalPrice + $wrapper_price;
+                    $cart[$i]['product_price_excl_vat']     = $productPrice + $accessoryTotalPrice + $wrapper_price;
+                    $cart[$i]['product_vat']                = $productPriceVAT + $accessory_vat_price + $wrapper_vat;
 
                     $dispatcher->trigger('onAfterCartItemUpdate', array(&$cart, $i, $data));
                 }
