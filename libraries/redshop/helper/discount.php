@@ -346,7 +346,7 @@ class RedshopHelperDiscount
         $cart['discount_ex_vat']           = $totalDiscount - $discountVAT;
         $cart['mod_cart_total']            = Redshop\Cart\Module::calculate((array)$cart);
 
-        \JFactory::getSession()->set('cart', $cart);
+        \Redshop\Cart\Helper::setCart($cart);
 
         return $cart;
     }

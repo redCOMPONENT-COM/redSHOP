@@ -12,7 +12,7 @@ namespace Redshop\Workflow;
 defined('_JEXEC') or die;
 
 /**
- * Quotation Helper
+ * Quotation Workflow
  *
  * @since __DEPLOY_VERSION__
  */
@@ -23,7 +23,7 @@ class Quotation
      * @return bool
      * @since  __DEPLOY_VERSION__
      */
-    public static function checkCondition($action) {
+    protected static function checkCondition($action) {
         $condition = false;
 
         switch ($action) {

@@ -19,6 +19,16 @@ defined('_JEXEC') or die;
 class Helper
 {
     /**
+     * @param $question
+     * @param null $default
+     * @return mixed|null
+     * @since __DEPLOY_VERSION__
+     */
+    public static function is($question, $default = null) {
+        return \Redshop::getConfig()->get($question, $default);
+    }
+
+    /**
      * @param   int  $cartItemId
      * @param   int  $productId
      * @param   int  $quantity
