@@ -694,7 +694,7 @@ class Helper
                                 $property_price = $property[0]->property_price;
                             }
 
-                            if (count($property) > 0 && JFile::exists(
+                            if (count($property) > 0 && \JFile::exists(
                                     REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[0]->property_image
                                 )) {
                                 $type      = 'product_attributes';
@@ -773,7 +773,7 @@ class Helper
         $dispatcher = \RedshopHelperUtility::getDispatcher();
 
         $cart = \Redshop\Cart\Helper::getCart();
-        $user = JFactory::getUser();
+        $user = \Joomla\CMS\Factory::getUser();
 
         if (empty($cart)) {
             $cart        = array();
