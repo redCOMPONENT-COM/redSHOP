@@ -19,7 +19,7 @@ class StockRoomManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $URL = '/administrator/index.php?option=com_redshop&view=stockroom';
+	public static $URL = 'administrator/index.php?option=com_redshop&view=stockrooms';
 
 	/**
 	 * @var string
