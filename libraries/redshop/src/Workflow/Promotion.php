@@ -68,6 +68,8 @@ class Promotion
                     $message     = \JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
                     $messageType = 'success';
                 }
+
+                $app->enqueueMessage($message, $messageType);
             }
 
             if (\Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1) {

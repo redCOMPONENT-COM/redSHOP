@@ -80,13 +80,12 @@ class Cart
 
         $session              = \JFactory::getSession();
         $cart                 = \Redshop\Cart\Helper::getCart();
-        $isQuotationMode      = \Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE');
-        $isShowQuotationPrice = \Redshop::getConfig()->getBool('SHOW_QUOTATION_PRICE');
+
 
         if (isset($cart['AccessoryAsProduct']) && !empty($post['accessory_data'])) {
             $attributes = $cart['AccessoryAsProduct'];
 
-            if (Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE')) {
+            if (\Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE')) {
                 $data['accessory_data']       = $attributes[0];
                 $data['acc_quantity_data']    = $attributes[1];
                 $data['acc_attribute_data']   = $attributes[2];
@@ -151,7 +150,8 @@ class Cart
 
                             $app->redirect(
                                 \JRoute::_(
-                                    'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&Itemid=' . $productItemId,
+                                    'index.php?option=com_redshop&view=product&pid='
+                                    . $post['product_id'] . '&Itemid=' . $productItemId,
                                     false
                                 )
                             );
@@ -160,18 +160,12 @@ class Cart
                 }
             }
 
-            if (!$isQuotationMode || ($isQuotationMode && $isShowQuotationPrice)) {
-                \RedshopHelperCart::addCartToDatabase();
-            }
-
-            \RedshopHelperCart::ajaxRenderModuleCartHtml();
+            \Redshop\Workflow\Quotation::saveCartToDB();
+            \Redshop\Cart\Ajax::renderModuleCartHtml();
             unset($cart['AccessoryAsProduct']);
         } else {
-            if (!$isQuotationMode || ($isQuotationMode && $isShowQuotationPrice)) {
-                \RedshopHelperCart::addCartToDatabase();
-            }
-
-            \RedshopHelperCart::ajaxRenderModuleCartHtml();
+            \Redshop\Workflow\Quotation::saveCartToDB();
+            \Redshop\Cart\Ajax::renderModuleCartHtml();
         }
 
         $link = \JRoute::_(
