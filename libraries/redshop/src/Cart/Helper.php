@@ -679,10 +679,10 @@ class Helper
                         if ($acc_property_data[$ip] != 0) {
                             $accSubpropertyCart = array();
                             $property_price     = 0;
-                            $property           = RedshopHelperProduct_Attribute::getAttributeProperties(
+                            $property           = \RedshopHelperProduct_Attribute::getAttributeProperties(
                                 $acc_property_data[$ip]
                             );
-                            $prices          = RedshopHelperProduct_Attribute::getPropertyPrice(
+                            $prices          = \RedshopHelperProduct_Attribute::getPropertyPrice(
                                 $acc_property_data[$ip],
                                 $cart[$idx]['quantity'],
                                 'property'
@@ -713,10 +713,10 @@ class Helper
                                 for ($isp = 0; $isp < $countSubProperty; $isp++) {
                                     if ($acc_subproperty_data[$isp] != 0) {
                                         $subproperty_price = 0;
-                                        $subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties(
+                                        $subproperty       = \RedshopHelperProduct_Attribute::getAttributeSubProperties(
                                             $acc_subproperty_data[$isp]
                                         );
-                                        $prices         = RedshopHelperProduct_Attribute::getPropertyPrice(
+                                        $prices         = \RedshopHelperProduct_Attribute::getPropertyPrice(
                                             $acc_subproperty_data[$isp],
                                             $cart[$idx]['quantity'],
                                             'subproperty'
@@ -928,7 +928,7 @@ class Helper
                 $accessoryChild = $accessoryChildren[$j]['attribute_childs'];
 
                 for ($k = 0, $kn = count($accessoryChild); $k < $kn; $k++) {
-                    $prices = RedshopHelperProduct_Attribute::getPropertyPrice(
+                    $prices = \RedshopHelperProduct_Attribute::getPropertyPrice(
                         $accessoryChild[$k]['property_id'],
                         $newQuantity,
                         'property'
@@ -937,7 +937,7 @@ class Helper
                     if (count($prices) > 0) {
                         $accessoryChild[$k]['property_price'] = $prices->product_price;
                     } else {
-                        $prices = RedshopHelperProduct::getProperty(
+                        $prices = \RedshopHelperProduct::getProperty(
                             $accessoryChild[$k]['property_id'],
                             'property'
                         );
@@ -947,7 +947,7 @@ class Helper
                     $subProperties = $accessoryChild[$k]['property_childs'];
 
                     for ($l = 0, $ln = count($subProperties); $l < $ln; $l++) {
-                        $prices = RedshopHelperProduct_Attribute::getPropertyPrice(
+                        $prices = \RedshopHelperProduct_Attribute::getPropertyPrice(
                             $subProperties[$l]['subproperty_id'],
                             $newQuantity,
                             'subproperty'
@@ -956,7 +956,7 @@ class Helper
                         if (count($prices) > 0) {
                             $subProperties[$l]['subproperty_price'] = $prices->product_price;
                         } else {
-                            $prices                           = RedshopHelperProduct::getProperty(
+                            $prices                           = \RedshopHelperProduct::getProperty(
                                 $subProperties[$l]['subproperty_id'],
                                 'subproperty'
                             );
@@ -990,7 +990,7 @@ class Helper
             $accessoryChild = $accessories[$i]['attribute_childs'];
 
             for ($k = 0, $kn = count($accessoryChild); $k < $kn; $k++) {
-                $prices = RedshopHelperProduct_Attribute::getPropertyPrice(
+                $prices = \RedshopHelperProduct_Attribute::getPropertyPrice(
                     $accessoryChild[$k]['property_id'],
                     $newQuantity,
                     'property'
@@ -999,7 +999,7 @@ class Helper
                 if (count($prices) > 0) {
                     $accessoryChild[$k]['property_price'] = $prices->product_price;
                 } else {
-                    $prices                     = RedshopHelperProduct::getProperty(
+                    $prices = \RedshopHelperProduct::getProperty(
                         $accessoryChild[$k]['property_id'],
                         'property'
                     );
@@ -1009,7 +1009,7 @@ class Helper
                 $subProperties = $accessoryChild[$k]['property_childs'];
 
                 for ($l = 0, $ln = count($subProperties); $l < $ln; $l++) {
-                    $prices = RedshopHelperProduct_Attribute::getPropertyPrice(
+                    $prices = \RedshopHelperProduct_Attribute::getPropertyPrice(
                         $subProperties[$l]['subproperty_id'],
                         $newQuantity,
                         'subproperty'
@@ -1018,7 +1018,7 @@ class Helper
                     if (count($prices) > 0) {
                         $subProperties[$l]['subproperty_price'] = $prices->product_price;
                     } else {
-                        $prices                           = RedshopHelperProduct::getProperty(
+                        $prices = \RedshopHelperProduct::getProperty(
                             $subProperties[$l]['subproperty_id'],
                             'subproperty'
                         );
