@@ -184,7 +184,7 @@ class Render
     public static function moduleCart($cart = array())
     {
         $cart             = empty($cart) ? \Redshop\Cart\Helper::getCart() : $cart;
-        $return           = new stdClass();
+        $return           = new \stdClass;
         $totalQuantity    = 0;
         $idx              = $cart['idx'];
         $cartParams       = \Redshop\Cart\Module::getParams();
