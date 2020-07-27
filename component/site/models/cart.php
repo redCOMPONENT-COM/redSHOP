@@ -94,47 +94,12 @@ class RedshopModelCart extends RedshopModel
      * @return  void
      *
      * @since   1.0
+     * @deprecated
+     * @see \Redshop\Cart\Helper::emptyExpiredCartProducts();
      */
     public function emptyExpiredCartProducts()
     {
-        if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && Redshop::getConfig()->get('USE_STOCKROOM')) {
-            $session     = JFactory::getSession();
-            $db          = JFactory::getDbo();
-            $query       = $db->getQuery(true);
-            $sessionId   = session_id();
-            $carttimeout = (int)Redshop::getConfig()->get('CART_TIMEOUT');
-            $time        = time() - ($carttimeout * 60);
-
-            $query->select($db->quoteName('product_id'))
-                ->from($db->quoteName('#__redshop_cart'))
-                ->where($db->quoteName('session_id') . ' = ' . $db->quote($sessionId))
-                ->where($db->quoteName('section') . ' = ' . $db->quote('product'));
-            $db->setQuery($query);
-            $includedrs = $db->loadColumn();
-
-            $query->where($db->quoteName('time') . ' < ' . $db->quote($time));
-
-            $db->setQuery($query);
-            $deletedrs = $db->loadColumn();
-
-            $cart = $session->get('cart');
-
-            if ($cart) {
-                $idx = (int)(isset($cart['idx']) ? $cart['idx'] : 0);
-
-                for ($j = 0; $j < $idx; $j++) {
-                    if (count($deletedrs) > 0 && in_array($cart[$j]['product_id'], $deletedrs)) {
-                        $this->delete($j);
-                    }
-
-                    if (count($includedrs) > 0 && !in_array($cart[$j]['product_id'], $includedrs)) {
-                        $this->delete($j);
-                    }
-                }
-            }
-
-            RedshopHelperStockroom::deleteExpiredCartProduct();
-        }
+        \Redshop\Cart\Helper::emptyExpiredCartProducts();
     }
 
     /**
