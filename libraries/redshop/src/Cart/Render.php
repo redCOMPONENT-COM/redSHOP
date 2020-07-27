@@ -174,4 +174,55 @@ class Render
 
         return $template;
     }
+
+    /**
+     * @param array $cart
+     * @return stdClass
+     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function moduleCart($cart = array())
+    {
+        $cart             = empty($cart) ? \Redshop\Cart\Helper::getCart() : $cart;
+        $return           = new stdClass();
+        $totalQuantity    = 0;
+        $idx              = $cart['idx'];
+        $cartParams       = \Redshop\Cart\Module::getParams();
+        $html             = (string)$cartParams->get('cart_output', 'simple');
+        $showShippingLine = (int)$cartParams->get('show_shipping_line', 0);
+        $showWithVAT      = (int)$cartParams->get('show_with_vat', 0);
+        $ajax             = \JFactory::getApplication()->input->getInt('ajax_cart_box');
+
+        for ($i = 0; $i < $idx; $i++) {
+            $totalQuantity += $cart[$i]['quantity'];
+        }
+
+        // Load cart module language
+        $lang = \JFactory::getLanguage();
+        $lang->load('mod_redshop_cart', JPATH_SITE);
+
+        $return->cartHtml = \RedshopLayoutHelper::render(
+            'cart.cart',
+            array(
+                'cartOutput'       => $html,
+                'totalQuantity'    => $totalQuantity,
+                'cart'             => $cart,
+                'showWithVat'      => $showWithVAT,
+                'showShippingLine' => $showShippingLine
+            ),
+            '',
+            array('option' => 'com_redshop')
+        );
+
+        $return->totalQuantity = $totalQuantity;
+
+        $shippingRateHtml = \Redshop\Shipping\Rate::getFreeShippingRate();
+
+        if ($ajax === 1 && \Redshop::getConfig()->getBool('AJAX_CART_BOX')) {
+            echo '`' . $return->cartHtml . '`' . $shippingRateHtml;
+            \JFactory::getApplication()->close();
+        }
+
+        return $return;
+    }
 }

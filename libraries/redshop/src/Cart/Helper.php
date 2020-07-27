@@ -587,7 +587,7 @@ class Helper
     {
         $data            = array();
         $products_number = explode("\n", $post["numbercart"]);
-        $db              = JFactory::getDbo();
+        $db              = \JFactory::getDbo();
 
         foreach ($products_number as $productNumber) {
             $productNumber = trim($productNumber);
@@ -609,23 +609,23 @@ class Helper
             $productId = $product->product_id;
 
             if ($product->published == 0) {
-                $msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $product->product_name, $productId);
+                $msg = sprintf(\JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $product->product_name, $productId);
                 /** @scrutinizer ignore-deprecated */
-                JError::raiseWarning(20, $msg);
+                \JError::raiseWarning(20, $msg);
                 continue;
             }
 
             if ($product->not_for_sale > 0) {
-                $msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_FOR_SALE'), $product->product_name, $productId);
+                $msg = sprintf(\JText::_('COM_REDSHOP_PRODUCT_IS_NOT_FOR_SALE'), $product->product_name, $productId);
                 /** @scrutinizer ignore-deprecated */
-                JError::raiseWarning(20, $msg);
+                \JError::raiseWarning(20, $msg);
                 continue;
             }
 
             if ($product->expired == 1) {
-                $msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'), $product->product_name, $productId);
+                $msg = sprintf(\JText::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'), $product->product_name, $productId);
                 /** @scrutinizer ignore-deprecated */
-                JError::raiseWarning(20, $msg);
+                \JError::raiseWarning(20, $msg);
                 continue;
             }
 

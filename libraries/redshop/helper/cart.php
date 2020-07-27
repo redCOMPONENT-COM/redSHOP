@@ -683,10 +683,10 @@ abstract class RedshopHelperCart
 
             foreach ($cartProperties as $p => $cartProperty) {
                 $generateSubProperties = array();
-                $property              = RedshopHelperProduct_Attribute::getAttributeProperties(
+                $property = \RedshopHelperProduct_Attribute::getAttributeProperties(
                     $cartProperty->section_id
                 );
-                $priceList             = RedshopHelperProduct_Attribute::getPropertyPrice(
+                $priceList = \RedshopHelperProduct_Attribute::getPropertyPrice(
                     $cartProperty->section_id,
                     $quantity,
                     'property'
@@ -711,10 +711,10 @@ abstract class RedshopHelperCart
                 );
 
                 foreach ($cartSubProperties as $index => $cartSubProperty) {
-                    $subProperty      = RedshopHelperProduct_Attribute::getAttributeSubProperties(
+                    $subProperty = \RedshopHelperProduct_Attribute::getAttributeSubProperties(
                         $cartSubProperty->section_id
                     );
-                    $price            = RedshopHelperProduct_Attribute::getPropertyPrice(
+                    $price = \RedshopHelperProduct_Attribute::getPropertyPrice(
                         $cartSubProperty->section_id,
                         $quantity,
                         'subproperty'
@@ -742,78 +742,29 @@ abstract class RedshopHelperCart
 
     /**
      * Method for calculate final price of cart.
-     *
      * @param   bool  $isModify  Is modify cart?
-     *
      * @return  array
-     *
      * @throws  Exception
      * @since   2.0.3
-     *
+     * @deprecated
+     * @see \Redshop\Cart\Ajax::renderModuleCartHtml($isModify);
      */
     public static function ajaxRenderModuleCartHtml($isModify = true)
     {
-        $cart = \Redshop\Cart\Helper::getCart();
-
-        if ($isModify === true) {
-            $cart = RedshopHelperDiscount::modifyDiscount($cart);
-        }
-
-        self::renderModuleCartHtml();
+        \Redshop\Cart\Ajax::renderModuleCartHtml($isModify);
     }
 
     /**
      * Method for render cart.
-     *
      * @param   array  $cart  Cart data
-     *
      * @return  array
-     *
      * @since  2.0.3
+     * @deprecated
+     * @see \Redshop\Cart\Render::moduleCart($cart);
      */
     public static function renderModuleCartHtml($cart = array())
     {
-        $cart             = empty($cart) ? \Redshop\Cart\Helper::getCart() : $cart;
-        $return           = new stdClass();
-        $totalQuantity    = 0;
-        $idx              = $cart['idx'];
-        $cartParams       = \Redshop\Cart\Module::getParams();
-        $html             = (string)$cartParams->get('cart_output', 'simple');
-        $showShippingLine = (int)$cartParams->get('show_shipping_line', 0);
-        $showWithVAT      = (int)$cartParams->get('show_with_vat', 0);
-        $ajax             = JFactory::getApplication()->input->getInt('ajax_cart_box');
-
-        for ($i = 0; $i < $idx; $i++) {
-            $totalQuantity += $cart[$i]['quantity'];
-        }
-
-        // Load cart module language
-        $lang = JFactory::getLanguage();
-        $lang->load('mod_redshop_cart', JPATH_SITE);
-
-        $return->cartHtml = RedshopLayoutHelper::render(
-            'cart.cart',
-            array(
-                'cartOutput'       => $html,
-                'totalQuantity'    => $totalQuantity,
-                'cart'             => $cart,
-                'showWithVat'      => $showWithVAT,
-                'showShippingLine' => $showShippingLine
-            ),
-            '',
-            array('option' => 'com_redshop')
-        );
-
-        $return->totalQuantity = $totalQuantity;
-
-        $shippingRateHtml = Redshop\Shipping\Rate::getFreeShippingRate();
-
-        if ($ajax === 1 && Redshop::getConfig()->getBool('AJAX_CART_BOX')) {
-            echo '`' . $return->cartHtml . '`' . $shippingRateHtml;
-            JFactory::getApplication()->close();
-        }
-
-        return $return;
+        return \Redshop\Cart\Render::moduleCart($cart);
     }
 
 

@@ -516,6 +516,7 @@ class RedshopControllerCart extends RedshopController
      * @return void
      *
      * @throws Exception
+     * @since  __DEPLOY_VERSION__
      */
     public function ajaxDeleteCartItem()
     {
@@ -525,11 +526,8 @@ class RedshopControllerCart extends RedshopController
         $input       = $app->input;
         $cartElement = $input->post->getInt('idx');
 
-        /** @var RedshopModelCart $model */
-        $model = $this->getModel('cart');
-
         $input->set('ajax_cart_box', 1);
-        $model->delete($cartElement);
+        \Redshop\Cart\Helper::removeItemCart($cartElement);
 
         \RedshopHelperCart::addCartToDatabase();
         \RedshopHelperCart::ajaxRenderModuleCartHtml();
@@ -546,6 +544,7 @@ class RedshopControllerCart extends RedshopController
      *
      * @return  void
      * @throws  Exception
+     * @since   __DEPLOY_VERSION__
      */
     public function discountCalculator()
     {
@@ -564,12 +563,12 @@ class RedshopControllerCart extends RedshopController
      */
     public function redmasscart()
     {
-        $app  = JFactory::getApplication();
+        $app  = \JFactory::getApplication();
         $post = $app->input->post->getArray();
 
         // Check for request forgeries.
-        if (!JSession::checkToken()) {
-            $msg  = JText::_('COM_REDSHOP_TOKEN_VARIFICATION');
+        if (!\JSession::checkToken()) {
+            $msg  = \JText::_('COM_REDSHOP_TOKEN_VARIFICATION');
             $redMassCartLink = base64_decode($post["rurl"]);
             $app->redirect($redMassCartLink, $msg);;
         }
@@ -582,7 +581,8 @@ class RedshopControllerCart extends RedshopController
 
         \Redshop\Cart\Helper::redMassCart($post);
 
-        $link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $app->input->getInt('Itemid'), false);
+        $link = \JRoute::_('index.php?option=com_redshop&view=cart&Itemid='
+            . $app->input->getInt('Itemid'), false);
         $this->setRedirect($link);
     }
 
@@ -591,6 +591,7 @@ class RedshopControllerCart extends RedshopController
      *
      * @return  void
      * @throws  Exception
+     * @since   __DEPLOY_VERSION__
      */
     public function getShippingRate()
     {
@@ -604,10 +605,11 @@ class RedshopControllerCart extends RedshopController
      *
      * @return  void
      * @throws  Exception
+     * @since   __DEPLOY_VERSION__
      */
     public function changeAttribute()
     {
-        $post = JFactory::getApplication()->input->post->getArray();
+        $post = \JFactory::getApplication()->input->post->getArray();
 
         /** @var RedshopModelCart $model */
         $model = $this->getModel('cart');
@@ -615,7 +617,7 @@ class RedshopControllerCart extends RedshopController
         $cart = \Redshop\Cart\Cart::modify($model->changeAttribute($post), JFactory::getUser()->id);
 
         \Redshop\Cart\Helper::setCart($cart);
-        RedshopHelperCart::ajaxRenderModuleCartHtml();
+        \RedshopHelperCart::ajaxRenderModuleCartHtml();
 
         ?>
         <script type="text/javascript">
@@ -629,11 +631,12 @@ class RedshopControllerCart extends RedshopController
      *
      * @return void
      * @throws Exception
+     * @since  __DEPLOY_VERSION__
      */
     public function cancel()
     {
-        $link = JRoute::_(
-            'index.php?option=com_redshop&view=cart&Itemid=' . JFactory::getApplication()->input->getInt('Itemid'),
+        $link = \JRoute::_(
+            'index.php?option=com_redshop&view=cart&Itemid=' . \JFactory::getApplication()->input->getInt('Itemid'),
             false
         ); ?>
         <script language="javascript">
@@ -648,32 +651,12 @@ class RedshopControllerCart extends RedshopController
      *
      * @return  void
      * @throws  Exception
+     * @since   __DEPLOY_VERSION__
+     * @deprecated
+     * @see  \Redshop\Cart\Ajax::getProductTax();
      */
     public function ajaxGetProductTax()
     {
-        \Redshop\Helper\Ajax::validateAjaxRequest('get');
-
-        $app = JFactory::getApplication();
-
-        $productId    = $app->input->getInt('id', 0);
-        $productPrice = $app->input->getFloat('price', 0);
-        $userId       = $app->input->getInt('userId', 0);
-        $taxExempt    = $app->input->getBool('taxExempt', false);
-
-        $product = new Registry;
-        $product->set(
-            'tax',
-            RedshopHelperProduct::getProductTax(
-                $productId,
-                $productPrice,
-                $userId,
-                $taxExempt
-            )
-        );
-
-        ob_clean();
-        echo $product;
-
-        $app->close();
+        \Redshop\Cart\Ajax::getProductTax();
     }
 }
