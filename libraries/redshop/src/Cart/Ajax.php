@@ -99,4 +99,45 @@ class Ajax
 
         \JFactory::getApplication()->close();
     }
+
+    /**
+     * Change Attribute
+     *
+     * @return  void
+     * @throws  Exception
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function changeAttribute()
+    {
+        $post = \JFactory::getApplication()->input->post->getArray();
+        $cart = \Redshop\Cart\Cart::modify(
+            \Redshop\Cart\Helper::changeAttribute($post),
+            \JFactory::getUser()->id
+        );
+
+        \Redshop\Cart\Helper::setCart($cart);
+        \Redshop\Cart\Ajax::renderModuleCartHtml();
+
+        ?>
+        <script type="text/javascript">
+            window.parent.location.reload();
+        </script>
+        <?php
+    }
+
+    /**
+     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function cancel() {
+        $link = \JRoute::_(
+            'index.php?option=com_redshop&view=cart&Itemid=' . \JFactory::getApplication()->input->getInt('Itemid'),
+            false
+        ); ?>
+        <script language="javascript">
+            window.parent.location.href = "<?php echo $link ?>";
+        </script>
+        <?php
+        \JFactory::getApplication()->close();
+    }
 }

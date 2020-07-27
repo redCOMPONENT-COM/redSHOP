@@ -353,4 +353,16 @@ class Cart
             . $app->input->getInt('Itemid'), false);
         $app->redirect($link);
     }
+
+    /**
+     * Method called when user pressed cancel button
+     *
+     * @return void
+     * @throws Exception
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function cancel()
+    {
+        \Redshop\Cart\Ajax::cancel();
+    }
 }

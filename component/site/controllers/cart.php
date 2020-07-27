@@ -61,6 +61,7 @@ class RedshopControllerCart extends RedshopController
      * @param   array  $cart  Cart data.
      * @return  mixed
      * @throws  Exception
+     * @since   __DEPLOY_VERSION__
      */
     public function modifyCalculation()
     {
@@ -145,11 +146,7 @@ class RedshopControllerCart extends RedshopController
      */
     public function discountCalculator()
     {
-        ob_clean();
-        $get = \JFactory::getApplication()->input->get->getArray();
-        \Redshop\Promotion\Discount::discountCalculator($get);
-
-        \JFactory::getApplication()->close();
+        \Redshop\Promotion\Ajax::discountCalculator();
     }
 
     /**
@@ -185,16 +182,7 @@ class RedshopControllerCart extends RedshopController
      */
     public function changeAttribute()
     {
-        $post = \JFactory::getApplication()->input->post->getArray();
-        $cart = \Redshop\Cart\Cart::modify(\Redshop\Cart\Helper::changeAttribute($post), JFactory::getUser()->id);
-        \Redshop\Cart\Helper::setCart($cart);
-        \RedshopHelperCart::ajaxRenderModuleCartHtml();
-
-        ?>
-        <script type="text/javascript">
-            window.parent.location.reload();
-        </script>
-        <?php
+        \Redshop\Cart\Ajax::changeAttribute();
     }
 
     /**
@@ -206,15 +194,7 @@ class RedshopControllerCart extends RedshopController
      */
     public function cancel()
     {
-        $link = \JRoute::_(
-            'index.php?option=com_redshop&view=cart&Itemid=' . \JFactory::getApplication()->input->getInt('Itemid'),
-            false
-        ); ?>
-        <script language="javascript">
-            window.parent.location.href = "<?php echo $link ?>";
-        </script>
-        <?php
-        JFactory::getApplication()->close();
+        \Redshop\Workflow\Cart::cancel();
     }
 
     /**
