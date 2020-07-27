@@ -133,23 +133,7 @@ class RedshopControllerCart extends RedshopController
      */
     public function ajaxDeleteCartItem()
     {
-        \Redshop\Helper\Ajax::validateAjaxRequest();
-
-        $app         = JFactory::getApplication();
-        $input       = $app->input;
-        $cartElement = $input->post->getInt('idx');
-
-        $input->set('ajax_cart_box', 1);
-        \Redshop\Cart\Helper::removeItemCart($cartElement);
-
-        \RedshopHelperCart::addCartToDatabase();
-        \RedshopHelperCart::ajaxRenderModuleCartHtml();
-
-        $cartObject = \RedshopHelperCart::renderModuleCartHtml(\Redshop\Cart\Helper::getCart());
-
-        echo $cartObject->cartHtml? $cartObject->cartHtml: '' ;
-
-        $app->close();
+        \Redshop\Cart\Ajax::deleteCartItem();
     }
 
     /**
@@ -177,27 +161,7 @@ class RedshopControllerCart extends RedshopController
      */
     public function redmasscart()
     {
-        $app  = \JFactory::getApplication();
-        $post = $app->input->post->getArray();
-
-        // Check for request forgeries.
-        if (!\JSession::checkToken()) {
-            $msg  = \JText::_('COM_REDSHOP_TOKEN_VARIFICATION');
-            $redMassCartLink = base64_decode($post["rurl"]);
-            $app->redirect($redMassCartLink, $msg);;
-        }
-
-        if ($post["numbercart"] == "") {
-            $msg  = JText::_('COM_REDSHOP_PLEASE_ENTER_PRODUCT_NUMBER');
-            $redMassCartLink = base64_decode($post["rurl"]);
-            $app->redirect($redMassCartLink, $msg);
-        }
-
-        \Redshop\Cart\Helper::redMassCart($post);
-
-        $link = \JRoute::_('index.php?option=com_redshop&view=cart&Itemid='
-            . $app->input->getInt('Itemid'), false);
-        $this->setRedirect($link);
+        \Redshop\Workflow\Cart::redMassCart();
     }
 
     /**
@@ -209,9 +173,7 @@ class RedshopControllerCart extends RedshopController
      */
     public function getShippingRate()
     {
-        echo \Redshop\Shipping\Rate::calculate();
-
-        \JFactory::getApplication()->close();
+        \Redshop\Cart\Ajax::getShippingRate();
     }
 
     /**

@@ -288,6 +288,10 @@ class Cart
         $app->redirect($link);
     }
 
+    /**
+     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
+     */
     public static function removeAll() {
         $app  = \Joomla\CMS\Factory::getApplication();
         $ajax = $app->input->getInt('ajax', 0);
@@ -314,7 +318,39 @@ class Cart
         }
     }
 
+    /**
+     * Alias of function removeAll()
+     * @since __DEPLOY_VERSION__
+     */
     public static function emptyCart() {
         self:: removeAll();
+    }
+
+    /**
+     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function redMassCart() {
+        $app  = \JFactory::getApplication();
+        $post = $app->input->post->getArray();
+
+        // Check for request forgeries.
+        if (!\JSession::checkToken()) {
+            $msg  = \JText::_('COM_REDSHOP_TOKEN_VARIFICATION');
+            $redMassCartLink = base64_decode($post["rurl"]);
+            $app->redirect($redMassCartLink, $msg);;
+        }
+
+        if ($post["numbercart"] == "") {
+            $msg  = \JText::_('COM_REDSHOP_PLEASE_ENTER_PRODUCT_NUMBER');
+            $redMassCartLink = base64_decode($post["rurl"]);
+            $app->redirect($redMassCartLink, $msg);
+        }
+
+        \Redshop\Cart\Helper::redMassCart($post);
+
+        $link = \JRoute::_('index.php?option=com_redshop&view=cart&Itemid='
+            . $app->input->getInt('Itemid'), false);
+        $app->redirect($link);
     }
 }

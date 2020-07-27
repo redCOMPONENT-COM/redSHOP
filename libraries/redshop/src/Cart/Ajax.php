@@ -64,4 +64,39 @@ class Ajax
 
         \Redshop\Cart\Render::moduleCart($cart);
     }
+
+    /**
+     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function deleteCartItem() {
+        \Redshop\Helper\Ajax::validateAjaxRequest();
+
+        $app         = JFactory::getApplication();
+        $input       = $app->input;
+        $cartElement = $input->post->getInt('idx');
+
+        $input->set('ajax_cart_box', 1);
+        \Redshop\Cart\Helper::removeItemCart($cartElement);
+
+        \RedshopHelperCart::addCartToDatabase();
+        \RedshopHelperCart::ajaxRenderModuleCartHtml();
+
+        $cartObject = \RedshopHelperCart::renderModuleCartHtml(\Redshop\Cart\Helper::getCart());
+
+        echo $cartObject->cartHtml? $cartObject->cartHtml: '' ;
+
+        $app->close();
+    }
+
+    /**
+     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getShippingRate()
+    {
+        echo \Redshop\Shipping\Rate::calculate();
+
+        \JFactory::getApplication()->close();
+    }
 }
