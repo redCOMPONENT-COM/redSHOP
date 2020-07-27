@@ -153,4 +153,25 @@ class Render
 
         return $content;
     }
+
+
+    /**
+     * @return mixed
+     * @since __DEPLOY_VERSION__
+     */
+    public static function getTemplateCart() {
+        $template = '';
+
+        if (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) {
+            $template = \RedshopHelperTemplate::getTemplate("quotation_cart");
+        } else {
+            if (!\Redshop::getConfig()->get('USE_AS_CATALOG')) {
+                $template = \RedshopHelperTemplate::getTemplate("cart");
+            } else {
+                $template = \RedshopHelperTemplate::getTemplate("catalogue_cart");
+            }
+        }
+
+        return $template;
+    }
 }

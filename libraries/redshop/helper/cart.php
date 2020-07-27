@@ -367,13 +367,12 @@ abstract class RedshopHelperCart
                         'ci.attribs'
                     )
                 )
+            )->from($db->qn('#__redshop_usercart_item', 'ci'))
+            ->leftJoin(
+                $db->qn('#__redshop_usercart', 'c') . ' ON ' . $db->qn('c.cart_id') . ' = ' . $db->qn('ci.cart_id')
             )
-                ->from($db->qn('#__redshop_usercart_item', 'ci'))
-                ->leftJoin(
-                    $db->qn('#__redshop_usercart', 'c') . ' ON ' . $db->qn('c.cart_id') . ' = ' . $db->qn('ci.cart_id')
-                )
-                ->where($db->qn('c.user_id') . ' = ' . $userId)
-                ->order($db->qn('ci.cart_idx'));
+            ->where($db->qn('c.user_id') . ' = ' . $userId)
+            ->order($db->qn('ci.cart_idx'));
 
             self::$cart[$userId] = $db->setQuery($query)->loadObjectList();
         }
@@ -775,7 +774,7 @@ abstract class RedshopHelperCart
     public static function renderModuleCartHtml($cart = array())
     {
         $cart             = empty($cart) ? \Redshop\Cart\Helper::getCart() : $cart;
-        $return           = array();
+        $return           = new stdClass();
         $totalQuantity    = 0;
         $idx              = $cart['idx'];
         $cartParams       = \Redshop\Cart\Module::getParams();
@@ -792,7 +791,7 @@ abstract class RedshopHelperCart
         $lang = JFactory::getLanguage();
         $lang->load('mod_redshop_cart', JPATH_SITE);
 
-        $return[] = RedshopLayoutHelper::render(
+        $return->cartHtml = RedshopLayoutHelper::render(
             'cart.cart',
             array(
                 'cartOutput'       => $html,
@@ -805,12 +804,12 @@ abstract class RedshopHelperCart
             array('option' => 'com_redshop')
         );
 
-        $return[] = $totalQuantity;
+        $return->totalQuantity = $totalQuantity;
 
         $shippingRateHtml = Redshop\Shipping\Rate::getFreeShippingRate();
 
         if ($ajax === 1 && Redshop::getConfig()->getBool('AJAX_CART_BOX')) {
-            echo '`' . $return[0] . '`' . $shippingRateHtml;
+            echo '`' . $return->cartHtml . '`' . $shippingRateHtml;
             JFactory::getApplication()->close();
         }
 

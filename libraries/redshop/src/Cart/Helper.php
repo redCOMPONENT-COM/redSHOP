@@ -826,10 +826,10 @@ class Helper
 
                     // Discount calculator
                     if (!empty($cart[$i]['discount_calc'])) {
-                        $calcdata               = $cart[$i]['discount_calc'];
-                        $calcdata['product_id'] = $cart[$i]['product_id'];
+                        $calculateData               = $cart[$i]['discount_calc'];
+                        $calculateData['product_id'] = $cart[$i]['product_id'];
 
-                        $discount = \Redshop\Promotion\Discount::discountCalculator($calcdata);
+                        $discount = \Redshop\Promotion\Discount::discountCalculator($calculateData);
 
                         $calculationPrice = $discountl['product_price'];
                     }
@@ -1033,5 +1033,241 @@ class Helper
         }
 
         return $accessories;
+    }
+
+    /**
+     * @param $data
+     * @throws \Exception
+     * @since __DEPLOY_VERSION__
+     */
+    public static function updateCart($data) {
+        $cart = \Redshop\Cart\Helper::getCart();
+        $user = \JFactory::getUser();
+
+        $cartElement = $data['cart_index'];
+        $newQuantity = intval(abs($data['quantity']) > 0 ? $data['quantity'] : 1);
+        $oldQuantity = intval($cart[$cartElement]['quantity']);
+
+        $calculatorPrice = 0;
+        $wrapperPrice    = 0;
+        $wrapperVAT      = 0;
+
+        if ($newQuantity <= 0) {
+            $newQuantity = 1;
+        }
+
+        if ($newQuantity != $oldQuantity) {
+            if (isset($cart[$cartElement]['giftcard_id']) && $cart[$cartElement]['giftcard_id']) {
+                $cart[$cartElement]['quantity'] = $newQuantity;
+            } else {
+                if (array_key_exists('checkQuantity', $data)) {
+                    $cart[$cartElement]['quantity'] = $data['checkQuantity'];
+                } else {
+                    $cart[$cartElement]['quantity'] = \Redshop\Stock\Helper::checkQuantityInStock(
+                        $cart[$cartElement],
+                        $newQuantity
+                    );
+                }
+
+                if ($newQuantity > $cart[$cartElement]['quantity']) {
+                    $cart['notice_message'] = $cart[$cartElement]['quantity'] . " " . JTEXT::_(
+                            'COM_REDSHOP_AVAILABLE_STOCK_MESSAGE'
+                        );
+                } else {
+                    $cart['notice_message'] = "";
+                }
+
+                $cart[$cartElement]['cart_accessory'] = \Redshop\Cart\Helper::updateAccessoryPrices(
+                    $cart[$cartElement],
+                    $cart[$cartElement]['quantity']
+                );
+                $cart[$cartElement]['cart_attribute'] = \Redshop\Cart\Helper::updateAccessoryPrices(
+                    $cart[$cartElement],
+                    $cart[$cartElement]['quantity']
+                );
+
+                // Discount calculator
+                if (!empty($cart[$cartElement]['discount_calc'])) {
+                    $calculateData               = $cart[$cartElement]['discount_calc'];
+                    $calculateData['product_id'] = $cart[$cartElement]['product_id'];
+
+                    $discountCalculation = \Redshop\Promotion\Discount::discountCalculator($calculateData);
+
+                    $calculatorPrice  = $discountCalculation['product_price'];
+                    $productPriceTax = $discountCalculation['product_price_tax'];
+                }
+
+                // Attribute price
+                $cartAttributes                  = \RedshopHelperProduct::makeAttributeCart(
+                    $cart[$cartElement]['cart_attribute'],
+                    $cart[$cartElement]['product_id'],
+                    $user->id,
+                    $calculatorPrice,
+                    $cart[$cartElement]['quantity']
+                );
+                $productPrice             = $cartAttributes[1];
+                $productPriceVAT          = $cartAttributes[2];
+                $productOldPrice          = $cartAttributes[5] + $cartAttributes[6];
+                $productOldPriceNoVAT = $cartAttributes[5];
+
+                // Accessory price
+                $cartAccessories             = RedshopHelperProduct::makeAccessoryCart(
+                    $cart[$cartElement]['cart_accessory'],
+                    $cart[$cartElement]['product_id']
+                );
+                $accessoryTotalPrice = $cartAccessories[1];
+                $accessoryPriceVAT   = $cartAccessories[2];
+
+                if ($cart[$cartElement]['wrapper_id']) {
+                    $wrapperArr    = \Redshop\Wrapper\Helper::getWrapperPrice(
+                        array(
+                            'product_id' => $cart[$cartElement]['product_id'],
+                            'wrapper_id' => $cart[$cartElement]['wrapper_id']
+                        )
+                    );
+                    $wrapperVAT   = $wrapperArr['wrapper_vat'];
+                    $wrapperPrice = $wrapperArr['wrapper_price'];
+                }
+
+                if (isset($cart[$cartElement]['subscription_id']) && $cart[$cartElement]['subscription_id'] != "") {
+                    $subscriptionVAT    = 0;
+                    $subscriptionDetail = \RedshopHelperProduct::getProductSubscriptionDetail(
+                        $cart[$cartElement]['product_id'],
+                        $cart[$cartElement]['subscription_id']
+                    );
+                    $subscriptionPrice  = $subscriptionDetail->subscription_price;
+
+                    if ($subscriptionPrice) {
+                        $subscriptionVAT = \RedshopHelperProduct::getProductTax(
+                            $cart[$cartElement]['product_id'],
+                            $subscriptionPrice
+                        );
+                    }
+
+                    $productPriceVAT += $subscriptionVAT;
+                    $productPrice     = $productPrice + $subscriptionPrice;
+
+                    $productOldPriceNoVAT += $subscriptionPrice;
+                }
+
+                if (isset($cart['voucher']) && is_array($cart['voucher'])) {
+                    $maxVoucher = count($cart['voucher']);
+                    for ($i = 0; $i < $maxVoucher; $i++)
+                    {
+                        $voucherQuantity = '';
+                        for ($j = 0; $j < $cart['idx']; $j++)
+                        {
+                            $voucherProductIds = explode(",", $cart['voucher'][$i]['product_id']);
+
+                            if (!in_array($cart[$j]['product_id'], $voucherProductIds)) {
+                                continue;
+                            }
+
+                            $voucherQuantity +=  $cart[$j]['quantity'];
+                        }
+
+                        if (\Redshop::getConfig()->get('DISCOUNT_TYPE') == 4) {
+                            $voucherData = \Redshop\Promotion\Voucher::getVoucherData($cart['voucher'][$i]['voucher_code']);
+                            $cart['voucher'][$i]['voucher_value'] = $voucherData->total * $voucherQuantity;
+
+                            if ($voucherData->type == 'Percentage') {
+                                $cart['voucher'][$i]['voucher_value'] = ($cart['product_subtotal'] * $voucherData->total) / (100);
+                            }
+
+                            $cart['voucher'][$i]['used_voucher'] = $voucherQuantity;
+                        }
+                    }
+                }
+
+                $cart[$cartElement]['product_price']              = $productPrice + $productPriceVAT + $accessoryTotalPrice + $accessoryPriceVAT + $wrapperPrice + $wrapperVAT;
+                $cart[$cartElement]['product_old_price']          = $productOldPrice + $accessoryTotalPrice + $accessoryPriceVAT + $wrapperPrice + $wrapperVAT;
+                $cart[$cartElement]['product_old_price_excl_vat'] = $productOldPriceNoVAT + $accessoryTotalPrice + $wrapperPrice;
+                $cart[$cartElement]['product_price_excl_vat']     = $productPrice + $accessoryTotalPrice + $wrapperPrice;
+                $cart[$cartElement]['product_vat']                = $productPriceVAT + $accessoryPriceVAT + $wrapperVAT;
+                \JPluginHelper::importPlugin('redshop_product');
+                $dispatcher = \RedshopHelperUtility::getDispatcher();
+                $dispatcher->trigger('onAfterCartUpdate', array(&$cart, $cartElement, $data));
+            }
+        }
+
+        \Redshop\Cart\Helper::setCart($cart);
+    }
+
+    /**
+     * @param $cartEleement
+     * @since __DEPLOY_VERSION__
+     */
+    public static function removeItemCart($cartElement) {
+        $cart = \Redshop\Cart\Helper::getCart();
+
+        if (array_key_exists($cartElement, $cart)) {
+            if (array_key_exists('cart_attribute', $cart[$cartElement])) {
+                foreach ($cart[$cartElement]['cart_attribute'] as $cartAttribute) {
+                    if (array_key_exists('attribute_childs', $cartAttribute)) {
+                        foreach ($cartAttribute['attribute_childs'] as $attributeChilds) {
+                            if (array_key_exists('property_childs', $attributeChilds)) {
+                                foreach ($attributeChilds['property_childs'] as $propertyChilds) {
+                                    \RedshopHelperStockroom::deleteCartAfterEmpty(
+                                        $propertyChilds['subproperty_id'],
+                                        'subproperty',
+                                        $cart[$cartElement]['quantity']
+                                    );
+                                }
+                            }
+
+                            \RedshopHelperStockroom::deleteCartAfterEmpty(
+                                $attributeChilds['property_id'],
+                                'property',
+                                $cart[$cartElement]['quantity']
+                            );
+                        }
+                    }
+                }
+            }
+
+            $db        = \JFactory::getDbo();
+            $query     = $db->getQuery(true)
+                ->select('voucher_id')
+                ->from($db->qn('#__redshop_product_voucher_xref'))
+                ->where($db->qn('product_id') . ' = ' . $db->q((int)$cart[$cartElement]['product_id']));
+            $voucherId = $db->setQuery($query)->loadResult();
+
+            if (!empty($voucherId)) {
+                $countVoucher = count($cart['voucher']);
+                if ($countVoucher > 1) {
+                    for ($i = 0; $i < $countVoucher; $i++) {
+                        if ($cart['voucher'][$i]['voucher_id'] == $voucherId) {
+                            unset($cart['voucher'][$i]);
+                        }
+                    }
+                } else {
+                    for ($i = 0; $i < $countVoucher; $i++) {
+                        if ($cart['voucher'][$i]['voucher_id'] == $voucherId) {
+                            unset($cart['voucher']);
+                        }
+                    }
+                }
+            }
+
+            \RedshopHelperStockroom::deleteCartAfterEmpty(
+                $cart[$cartElement]['product_id'],
+                'product',
+                $cart[$cartElement]['quantity']
+            );
+
+            unset($cart[$cartElement]);
+            $cart = array_merge(array(), $cart);
+
+            $index = $cart['idx'] - 1;
+
+            if ($index > 0) {
+                $cart['idx'] = $index;
+            } else {
+                $cart        = array();
+                $cart['idx'] = 0;
+            }
+        }
+
+        \Redshop\Cart\Helper::setCart($cart);
     }
 }
