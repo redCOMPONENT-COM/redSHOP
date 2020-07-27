@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Table.Catalog
  * @since       __DEPLOY_VERSION__
  */
-class RedshopTableStockroom extends JTable
+class RedshopTableStockroom extends RedshopTable
 {
 	/**
 	 * The table name without prefix.

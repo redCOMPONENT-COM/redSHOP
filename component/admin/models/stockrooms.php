@@ -18,8 +18,6 @@ defined('_JEXEC') or die;
  */
 class RedshopModelStockrooms extends RedshopModelList
 {
-	protected $_table_prefix = '#__redshop_';
-
 	/**
 	 * Construct class
 	 *
@@ -55,7 +53,7 @@ class RedshopModelStockrooms extends RedshopModelList
 	 */
 	protected function populateState($ordering = 'id', $direction = 'asc')
 	{
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest('id' . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		// List state information.
@@ -111,15 +109,15 @@ class RedshopModelStockrooms extends RedshopModelList
 		return $query;
 	}
 
-	public function frontpublish($cid = array(), $publish = 1)
+	public function frontpublish($cids = array(), $publish = 1)
 	{
-		if (count($cid)) {
-			$cids = implode(',', $cid);
+		if (count($cids)) {
+			$cid = implode(',', $cids);
 
 			$query = $this->_db->getQuery(true)
 				->update($this->_db->qn('#__redshop_stockroom'))
-				->set($this->_db->qn('show_in_front') . ' = ' . $this->_db->q(intval($publish))
-				->where($this->_db->qn('id') . ' IN ' . $this->_db->q((int) $cids)));
+				->set($this->_db->qn('show_in_front') . ' = ' . $this->_db->q(intval($publish)))
+				->where($this->_db->qn('id') . ' = ' . $this->_db->q((int) $cid));
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute()) {
