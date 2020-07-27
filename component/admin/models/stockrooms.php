@@ -116,14 +116,14 @@ class RedshopModelStockrooms extends RedshopModelList
 		if (count($cid)) {
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'stockroom'
-				. ' SET `show_in_front` = ' . intval($publish)
-				. ' WHERE id IN ( ' . $cids . ' )';
+			$query = $this->_db->getQuery(true)
+				->update($this->_db->qn('#__redshop_stockroom'))
+				->set($this->_db->qn('show_in_front') . ' = ' . $this->_db->q(intval($publish))
+				->where($this->_db->qn('id') . ' IN ' . $this->_db->q((int) $cids)));
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
-
 				return false;
 			}
 		}
