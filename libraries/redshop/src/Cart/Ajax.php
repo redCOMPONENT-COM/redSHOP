@@ -62,6 +62,7 @@ class Ajax
             $cart = \RedshopHelperDiscount::modifyDiscount($cart);
         }
 
+        \Redshop\Cart\Helper::setCart($cart);
         \Redshop\Cart\Render::moduleCart($cart);
     }
 

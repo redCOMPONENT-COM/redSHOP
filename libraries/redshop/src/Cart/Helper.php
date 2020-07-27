@@ -1317,4 +1317,103 @@ class Helper
             \RedshopHelperStockroom::deleteExpiredCartProduct();
         }
     }
+
+    /**
+     * @since __DEPLOY_VERSION__
+     */
+    public static function setUserDocumentToSession() {
+        $session = \Joomla\CMS\Factory::getSession();
+        $post = \Joomla\CMS\Factory::getApplication()->input->post->getArray();
+        $userDocuments = $session->get('userDocument', []);
+        $condition = isset($userDocuments[$post['product_id']]);
+
+        if ($condition) {
+            unset($userDocuments[$post['product_id']]);
+            $session->set('userDocument', $userDocuments);
+        }
+    }
+
+    /**
+     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function routingAfterAddToCart() {
+        $app = \Joomla\CMS\Factory::getApplication();
+        $cart = \Redshop\Cart\Helper::getCart();
+        $post = $app->input->post->getArray();
+        $itemId = \RedshopHelperRouter::getCartItemId();
+
+        $link = \JRoute::_(
+            'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&Itemid=' . $itemId,
+            false
+        );
+
+        // Call add method of modal to store product in cart session
+        $userField = $app->input->get('userfield');
+
+        if (!$userField) {
+            if ($isAjaxCartBox && isset($post['ajax_cart_box'])) {
+                $link = \JRoute::_(
+                    'index.php?option=com_redshop&view=cart&ajax_cart_box='
+                    . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $itemId,
+                    false
+                );
+            } else {
+                if (\Redshop::getConfig()->getInt('ADDTOCART_BEHAVIOUR') === 1) {
+                    $link = \JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
+                } else {
+                    if (isset($cart['notice_message']) && !empty($cart['notice_message'])) {
+                        $app->enqueueMessage($cart['notice_message'], 'warning');
+                    }
+
+                    $app->enqueueMessage(\JText::_('COM_REDSHOP_PRODUCT_ADDED_TO_CART'), 'message');
+                    $link = \JRoute::_($_SERVER['HTTP_REFERER'], false);
+                }
+            }
+        }
+
+        $app->redirect($link);
+    }
+
+    /**
+     * @param $result
+     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function addToCartErrorHandler($result) {
+        $app = \Joomla\CMS\Factory::getApplication();
+        $post = $app->input->post->getArray();
+
+        if (!is_bool($result) || (is_bool($result) && !$result)) {
+            $errorMessage = $result ? $result : \JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
+
+            // Set Error Message
+            $app->enqueueMessage($errorMessage, 'error');
+
+            if (\Redshop::getConfig()->getBool('AJAX_CART_BOX')) {
+                echo '`0`' . $errorMessage;
+                $app->close();
+            } else {
+                $itemData = \RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
+
+                if (count($itemData) > 0) {
+                    $productItemId = $itemData->id;
+                } else {
+                    $productItemId = \RedshopHelperRouter::getItemId(
+                        $post['product_id'],
+                        \RedshopProduct::getInstance($post['product_id'])->cat_in_sefurl
+                    );
+                }
+
+                // Directly redirect if error found
+                $app->redirect(
+                    \JRoute::_(
+                        'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&cid='
+                        . $post['category_id'] . '&Itemid=' . $productItemId,
+                        false
+                    )
+                );
+            }
+        }
+    }
 }

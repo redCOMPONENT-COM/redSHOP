@@ -9,6 +9,8 @@
 
 namespace Redshop\Workflow;
 
+use Redshop\Cart\Helper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -19,101 +21,50 @@ defined('_JEXEC') or die;
 class Cart
 {
     /**
+     * @param $action
+     * @return bool
+     * @since  __DEPLOY_VERSION__
+     */
+    protected static function checkCondition($action) {
+        $condition = false;
+
+        switch ($action) {
+            case 'add':
+                $app = \Joomla\CMS\Factory::getApplication();
+                return !(empty($app->input->post->getInt('product_id')) || empty($app->input->post->getInt('quantity')));
+            default:
+                break;
+        }
+
+        return $condition;
+    }
+
+    /**
      * @throws \Exception
      * @since  __DEPLOY_VERSION__
      */
     public static function add()
     {
-        $app                      = \JFactory::getApplication();
-        $post                     = $app->input->post->getArray();
-        $parentAccessoryProductId = $post['product_id'];
+        $condition = self::checkCondition(__FUNCTION__);
+        $app       = \JFactory::getApplication();
+        $post      = $app->input->post->getArray();
 
         // Invalid request then redirect to dashboard
-        if (empty($app->input->post->getInt('product_id')) || empty($app->input->post->getInt('quantity'))) {
+        if (!$condition) {
             $app->enqueueMessage(\JText::_('COM_REDSHOP_CART_INVALID_REQUEST'), 'error');
             $app->redirect(\JRoute::_('index.php?option=com_redshop'));
         }
 
-        $itemId = \RedshopHelperRouter::getCartItemId();
+        \Redshop\Plugin\Helper::invoke('redshop_product',
+            '',
+            'onBeforeAddProductToCart',
+            [&$post]);
 
-        // Call add method of modal to store product in cart session
-        $userField = $app->input->get('userfield');
-
-        \JPluginHelper::importPlugin('redshop_product');
-        $dispatcher = \RedshopHelperUtility::getDispatcher();
-        $dispatcher->trigger('onBeforeAddProductToCart', array(&$post));
-
-        $isAjaxCartBox = \Redshop::getConfig()->getBool('AJAX_CART_BOX');
-        $result        = \Redshop\Cart\Cart::addProduct($post);
-
-        if (!is_bool($result) || (is_bool($result) && !$result)) {
-            $errorMessage = $result ? $result : \JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
-
-            // Set Error Message
-            $app->enqueueMessage($errorMessage, 'error');
-
-            if ($isAjaxCartBox) {
-                echo '`0`' . $errorMessage;
-                $app->close();
-            } else {
-                $itemData = \RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
-
-                if (count($itemData) > 0) {
-                    $productItemId = $itemData->id;
-                } else {
-                    $productItemId = \RedshopHelperRouter::getItemId(
-                        $post['product_id'],
-                        \RedshopProduct::getInstance($post['product_id'])->cat_in_sefurl
-                    );
-                }
-
-                // Directly redirect if error found
-                $app->redirect(
-                    \JRoute::_(
-                        'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&cid='
-                        . $post['category_id'] . '&Itemid=' . $productItemId,
-                        false
-                    )
-                );
-            }
-        }
-        $session              = \JFactory::getSession();
-        \Redshop\Workflow\Accessory::prepareAccessoryCart($post);
-        $cart = \Redshop\Cart\Helper::getCart();
-
-        $link = \JRoute::_(
-            'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&Itemid=' . $itemId,
-            false
-        );
-
-        if (!$userField) {
-            if ($isAjaxCartBox && isset($post['ajax_cart_box'])) {
-                $link = \JRoute::_(
-                    'index.php?option=com_redshop&view=cart&ajax_cart_box=' . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $itemId,
-                    false
-                );
-            } else {
-                if (\Redshop::getConfig()->getInt('ADDTOCART_BEHAVIOUR') === 1) {
-                    $link = \JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
-                } else {
-                    if (isset($cart['notice_message']) && !empty($cart['notice_message'])) {
-                        $app->enqueueMessage($cart['notice_message'], 'warning');
-                    }
-
-                    $app->enqueueMessage(\JText::_('COM_REDSHOP_PRODUCT_ADDED_TO_CART'), 'message');
-                    $link = \JRoute::_($_SERVER['HTTP_REFERER'], false);
-                }
-            }
-        }
-
-        $userDocuments = $session->get('userDocument', array());
-
-        if (isset($userDocuments[$post['product_id']])) {
-            unset($userDocuments[$post['product_id']]);
-            $session->set('userDocument', $userDocuments);
-        }
-
-        $app->redirect($link);
+        $result = \Redshop\Cart\Cart::addProduct($post);
+        \Redshop\Cart\Helper::addToCartErrorHandler($result);
+        \Redshop\Workflow\Accessory::prepareAccessoryCart();
+        \Redshop\Cart\Helper::setUserDocumentToSession();
+        \Redshop\Cart\Helper::routingAfterAddToCart();
     }
 
     /**

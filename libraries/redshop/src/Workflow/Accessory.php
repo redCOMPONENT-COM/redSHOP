@@ -44,16 +44,16 @@ class Accessory
      * @throws \Exception
      * @since  __DEPLOY_VERSION__
      */
-    public static function prepareAccessoryCart($post) {
+    public static function prepareAccessoryCart() {
         $app = \Joomla\CMS\Factory::getApplication();
         $cart = empty($cart)? \Redshop\Cart\Helper::getCart(): $cart;
+        $post = $app->input->post->getArray();
         $condition = self::checkCondition(__FUNCTION__);
-
 
         if ($condition) {
             $attributes = $cart['AccessoryAsProduct'];
 
-            if (\Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE')) {
+            if (\Redshop\Accessory\Helper::is('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE', false)) {
                 $data['accessory_data']       = $attributes[0];
                 $data['acc_quantity_data']    = $attributes[1];
                 $data['acc_attribute_data']   = $attributes[2];
