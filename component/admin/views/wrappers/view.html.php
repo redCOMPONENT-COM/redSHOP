@@ -32,24 +32,37 @@ class RedshopViewWrappers extends RedshopViewList
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
+        $productName = '';
+        $categoryName = '';
+        $model  = $this->getModel('wrappers');
+
+	    if ($row->product_id) {
+	        $productName = $model->getProductNameById($row->product_id);
+        }
+
+        if ($row->category_id) {
+            $categoryName = $model->getCategoryNameById($row->category_id);
+        }
+
 		switch ($config['dataCol']) {
-			case 'image' :
+			case 'image_file' :
 				$wimage_path = 'wrapper/' . $row->image;
-				return '<a class="joom-box" href="'. REDSHOP_FRONT_IMAGES_RELPATH . $wimage_path .'">'. $row->image .'</a>';
-			case 'favoured':
+
+				return '<a class="joom-box" href="'. REDSHOP_FRONT_IMAGES_ABSPATH . $wimage_path .'" rel="{handler: \'image\', size: {}}">'. $row->image .'</a>';
+			case 'use_to_all':
 				return JHTML::_('grid.published', $row->use_to_all, $index, 'tick.png', 'publish_x.png', 'FV');
 			case 'product_id':
 				$prodlink = JRoute::_(
 					'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id
 				);
 
-				return '<a href="'. $prodlink .'">'. $row->product_name .'</a>';
+				return '<a href="'. $prodlink .'">'. $productName .'</a>';
 			case 'category_id':
 				$catelink = JRoute::_(
-					'index.php?option=com_redshop&view=category_detail&task=edit&cid[]=' . $row->category_id
+					'index.php?option=com_redshop&view=category&layout=edit&id=' . $row->category_id
 				);
 
-				return '<a href="'. $catelink .'">'. $row->category_id .'</a>';
+				return '<a href="'. $catelink .'">'. $categoryName .'</a>';
 			default:
 				return parent::/** @scrutinizer ignore-call */ onRenderColumn($config, $index, $row);
 		}

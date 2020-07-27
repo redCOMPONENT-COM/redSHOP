@@ -130,12 +130,12 @@ class RedshopModelWrappers extends RedshopModelList
 		}
 
 		$filterOrder    = $app->getUserStateFromRequest(
-			$this->_context . 'filter_order',
+			'id' . 'filter_order',
 			'filter_order',
 			'id'
 		);
 		$filterOrderDir = $app->getUserStateFromRequest(
-			$this->_context . 'filter_order_Dir',
+			'id' . 'filter_order_Dir',
 			'filter_order_Dir',
 			''
 		);
@@ -144,4 +144,42 @@ class RedshopModelWrappers extends RedshopModelList
 
 		return $query;
 	}
+
+    /**
+     * @param   string  $id
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getProductNameById($id)
+    {
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true);
+
+        $query->select('product_name')
+            ->from($db->qn('#__redshop_product'))
+            ->where($db->qn('product_id') . ' = ' . $db->q($id));
+
+        return $db->setQuery($query)->loadResult();
+    }
+
+    /**
+     * @param   string  $id
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getCategoryNameById($id)
+    {
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true);
+
+        $query->select('name')
+            ->from($db->qn('#__redshop_category'))
+            ->where($db->qn('id') . ' = ' . $db->q($id));
+
+        return $db->setQuery($query)->loadResult();
+    }
 }
