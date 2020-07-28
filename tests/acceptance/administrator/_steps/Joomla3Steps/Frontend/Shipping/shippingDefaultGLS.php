@@ -118,45 +118,15 @@ class shippingDefaultGLS extends CheckoutWithEWAYPayment
 		$I->wait(1);
 		$I->click(FrontEndProductManagerJoomla3Page::$radioCompany);
 
-		try
-		{
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
-		}catch (\Exception $e)
-		{
-			$I->click(FrontEndProductManagerJoomla3Page::$radioIDCompany);
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
-		}
-
 		$I->fillInformationBusiness($customerInformation);
+		$I->waitForElementVisible($productFrontEndManagerPage->xpathShippingName($shipping['shippingName']), 30);
+		$I->click($productFrontEndManagerPage->xpathShippingName($shipping['shippingName']));
 
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
-		$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$iconShippingGLSBusiness, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$iconShippingGLSBusiness);
-		$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
-
-		try
-		{
-			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$iconShippingGLSBusiness);
-		} catch (\Exception $e)
-		{
-			$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
-			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$iconShippingGLSBusiness);
-		}
-
+		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
-
-		try
-		{
-			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
-		}catch (\Exception $e)
-		{
-			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
-			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
-		}
 
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);

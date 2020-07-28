@@ -174,16 +174,16 @@ class RedshopMenuLeft_Menu
             case "mails":
                 return array('COMMUNICATION', 'mail');
 
-            case "newsletter":
+            case "newsletters":
             case "newsletter_detail":
             case "newslettersubscr":
             case 'newslettersubscr_detail':
                 return array('COMMUNICATION', 'newsletter');
 
-            case "shipping":
-            case "shipping_detail":
+            case "shipping_methods":
+            case "shipping_method":
             case "shipping_rate":
-                return array('SHIPPING', 'shipping_method');
+                return array('SHIPPING', 'shipping_methods');
 
             case "shipping_box":
             case "shipping_boxes":
@@ -535,9 +535,9 @@ class RedshopMenuLeft_Menu
                 self::$view === 'mails'
             )
             ->addItem(
-                'index.php?option=com_redshop&view=newsletter',
+                'index.php?option=com_redshop&view=newsletters',
                 'COM_REDSHOP_NEWSLETTER_LISTING',
-                self::$view === 'newsletter'
+                self::$view === 'newsletters'
             )
             ->addItem(
                 'index.php?option=com_redshop&view=newslettersubscr',
@@ -562,9 +562,9 @@ class RedshopMenuLeft_Menu
         self::$menu->section('shipping')
             ->title('COM_REDSHOP_SHIPPING')
             ->addItem(
-                'index.php?option=com_redshop&view=shipping',
+                'index.php?option=com_redshop&view=shipping_methods',
                 'COM_REDSHOP_SHIPPING_METHOD_LISTING',
-                self::$view === 'shipping'
+                self::$view === 'shipping_methods'
             );
 
         if (JPluginHelper::isEnabled('economic') && Redshop::getConfig()->getBool('ECONOMIC_INTEGRATION')) {
@@ -710,7 +710,7 @@ class RedshopMenuLeft_Menu
                 (self::$view == 'catalogs') ? true : false
             )
             ->addItem(
-                'index.php?option=com_redshop&view=sample',
+                'index.php?option=com_redshop&view=samples',
                 'COM_REDSHOP_CATALOG_PRODUCT_SAMPLE',
                 self::$view === 'sample'
             )
@@ -767,9 +767,9 @@ class RedshopMenuLeft_Menu
                 self::$view === 'question'
             )
             ->addItem(
-                'index.php?option=com_redshop&view=rating',
+                'index.php?option=com_redshop&view=ratings',
                 'COM_REDSHOP_RATING_REVIEW',
-                self::$view === 'rating'
+                self::$view === 'ratings'
             );
 
         self::$menu->group('CUSTOMER_INPUT');
@@ -911,6 +911,11 @@ class RedshopMenuLeft_Menu
                 'index.php?option=com_redshop&view=configuration',
                 'COM_REDSHOP_RESHOP_CONFIGURATION',
                 self::$view === 'configuration' && self::$layout === ''
+            )
+            ->addItem(
+                'index.php?option=com_redshop&view=plugins',
+                'COM_REDSHOP_RESHOP_CONFIGURATION_PLUGIN',
+                self::$view === 'plugins' && self::$layout === ''
             )
             ->addItem(
                 'index.php?option=com_redshop&view=configuration&layout=resettemplate',

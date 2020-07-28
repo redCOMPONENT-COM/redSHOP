@@ -99,10 +99,16 @@ COMMENT = 'redSHOP Catalog Request';
 DROP TABLE IF EXISTS `#__redshop_catalog_sample` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_catalog_sample` (
-  `sample_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `sample_name` VARCHAR(100) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
   `published` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`sample_id`),
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
   INDEX `idx_published` (`published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
@@ -813,13 +819,19 @@ COMMENT = 'redSHOP Media Additional Downloadable Files';
 DROP TABLE IF EXISTS `#__redshop_newsletter` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_newsletter` (
-  `newsletter_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `subject` VARCHAR(255) NOT NULL,
   `body` LONGTEXT NOT NULL,
   `template_id` INT(11) NOT NULL,
   `published` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`newsletter_id`),
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
   INDEX `idx_published` (`published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
@@ -1495,7 +1507,7 @@ COMMENT = 'redSHOP Product Price';
 DROP TABLE IF EXISTS `#__redshop_product_rating` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_product_rating` (
-  `rating_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `product_id` INT(11) NOT NULL DEFAULT '0',
   `title` VARCHAR(255) NOT NULL,
   `comment` TEXT NOT NULL,
@@ -1508,7 +1520,13 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_rating` (
   `username` VARCHAR(255) NOT NULL,
   `company_name` VARCHAR(255) NOT NULL,
   `images` TEXT NULL,
-  PRIMARY KEY (`rating_id`),
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
   UNIQUE INDEX `product_id` (`product_id` ASC, `userid` ASC, `email` ASC),
   INDEX `idx_published` (`published` ASC),
   INDEX `idx_email` (`email` ASC))

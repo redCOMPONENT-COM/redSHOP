@@ -14,19 +14,8 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
 class RedshopEntityRating extends RedshopEntity
 {
-    /**
-     * Get the associated table
-     *
-     * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-     *
-     * @return  RedshopTable
-     */
-    public function getTable($name = null)
-    {
-        return JTable::getInstance('Rating_Detail', 'Table');
-    }
 }

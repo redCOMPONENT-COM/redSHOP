@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+		<field
+				name="id"
+				type="hidden"
+		/>
+		<field
+				id="name"
+				name="name"
+				type="text"
+				label="COM_REDSHOP_NEWSLETTER_NAME"
+				description="COM_REDSHOP_NEWSLETTER_NAME"
+				size="30"
+				class="text_area"
+				default=""
+				required="true"
+				table-edit-link="1"
+				table-sortable="1"
+		/>
+		<field
+				id="subject"
+				name="subject"
+				type="text"
+				label="COM_REDSHOP_NEWSLETTER_SUB"
+				description="COM_REDSHOP_NEWSLETTER_SUB"
+		/>
+		<field
+				id="no_of_subscribers"
+				name="no_of_subscribers"
+				form-hide="1"
+				type="text"
+				label="COM_REDSHOP_NO_SUBSCRIBERS"
+				description="COM_REDSHOP_NO_SUBSCRIBERS"
+		/>
+		<field
+				id="body"
+				name="body"
+				type="editor"
+				table-hide="1"
+				label="COM_REDSHOP_NEWSLETTER_BODY"
+				description="COM_REDSHOP_NEWSLETTER_BODY"
+		/>
+		<field
+				id="template_id"
+				name="template_id"
+				type="redshop.template"
+				section="newsletter"
+				table-hide="1"
+				label="COM_REDSHOP_TEMPLATE"
+				description="COM_REDSHOP_TEMPLATE"
+		/>
+		<field
+				name="published"
+				type="redshop.radio"
+				label-class="radio-inline"
+				default="1"
+				label="COM_REDSHOP_ORDER_STATUS_PUBLISHED"
+				description="COM_REDSHOP_ORDER_STATUS_PUBLISHED_DESC"
+				required="true"
+				table-sortable="1"
+				table-width="5%">
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+		</field>
+	</fieldset>
+	<fieldset name="default_newsletter_tags">
+		<field name="tags_default" type="description"/>
+	</fieldset>
+</form>
