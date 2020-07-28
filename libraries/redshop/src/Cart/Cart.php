@@ -195,10 +195,11 @@ class Cart
      *
      * @since   2.1.0
      */
-    public static function addProduct($data = array())
+    public static function add($data = array())
     {
         $user             = \JFactory::getUser();
         $cart             = \Redshop\Cart\Helper::getCart();
+        $data             = empty($data)? \Joomla\CMS\Factory::getApplication()->input->post->getArray(): $data;
         $data['quantity'] = round($data['quantity']);
 
         if (empty($cart) || !array_key_exists("idx", $cart) || array_key_exists("quotation_id", $cart)) {
@@ -209,10 +210,10 @@ class Cart
 
         // Set session for giftcard
         if (!empty($data['giftcard_id'])) {
-            self::addGiftCardProduct($cart, $idx, $data);
+            self::addGiftCard($cart, $idx, $data);
         } // Set session for product
         else {
-            $result = self::addNormalProduct($cart, $idx, $data);
+            $result = self::addProduct($cart, $idx, $data);
 
             if (true !== $result) {
                 return $result;
@@ -253,7 +254,7 @@ class Cart
      *
      * @since   2.1.0
      */
-    public static function addGiftCardProduct(&$cart, $idx, $data = array())
+    public static function addGiftCard(&$cart, $idx, $data = array())
     {
         $sameGiftCard = false;
         $section      = \RedshopHelperExtrafields::SECTION_GIFT_CARD_USER_FIELD;
@@ -308,7 +309,7 @@ class Cart
      *
      * @since   2.1.0
      */
-    public static function addNormalProduct(&$cart, $idx, $data = array())
+    public static function addProduct(&$cart, $idx, $data = array())
     {
         $section = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
         $rows    = \RedshopHelperExtrafields::getSectionFieldList($section);

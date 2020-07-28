@@ -82,7 +82,7 @@ class Accessory
                         $cartData['subproperty_data']            = $accessoriesSubProperty[$i];
                         $cartData['accessory_id']                = $accessories[$i];
 
-                        $result = \Redshop\Cart\Cart::addProduct($cartData);
+                        $result = \Redshop\Cart\Cart::add($cartData);
                         $cart   = \Redshop\Cart\Helper::getCart();
 
                         if (!is_bool($result) || !$result) {

@@ -637,7 +637,7 @@ class Helper
                 $data["quantity"] = 1;
             }
 
-            \Redshop\Cart\Cart::addProduct($data);
+            \Redshop\Cart\Cart::add($data);
             \RedshopHelperCart::ajaxRenderModuleCartHtml();
         }
     }
@@ -1415,5 +1415,14 @@ class Helper
                 );
             }
         }
+    }
+
+    /**
+     * @param $action
+     * @return bool
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function checkCondition($action) {
+        return \Redshop\Cart\Check::checkCondition($action);
     }
 }

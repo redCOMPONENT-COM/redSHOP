@@ -333,7 +333,7 @@ class RedshopControllerOrder_Detail extends RedshopController
             }
         }
 
-        $result = Redshop\Cart\Cart::addProduct($row);
+        $result = Redshop\Cart\Cart::add($row);
 
         if (is_bool($result) && $result) {
             // Set success message for product line

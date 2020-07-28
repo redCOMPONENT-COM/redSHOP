@@ -9,6 +9,7 @@
 
 namespace Redshop\Workflow;
 
+use Joomla\CMS\Factory;
 use Redshop\Cart\Helper;
 
 defined('_JEXEC') or die;
@@ -21,46 +22,19 @@ defined('_JEXEC') or die;
 class Cart
 {
     /**
-     * @param $action
-     * @return bool
-     * @since  __DEPLOY_VERSION__
-     */
-    protected static function checkCondition($action) {
-        $condition = false;
-
-        switch ($action) {
-            case 'add':
-                $app = \Joomla\CMS\Factory::getApplication();
-                return !(empty($app->input->post->getInt('product_id')) || empty($app->input->post->getInt('quantity')));
-            default:
-                break;
-        }
-
-        return $condition;
-    }
-
-    /**
      * @throws \Exception
      * @since  __DEPLOY_VERSION__
      */
     public static function add()
     {
-        $condition = self::checkCondition(__FUNCTION__);
-        $app       = \JFactory::getApplication();
-        $post      = $app->input->post->getArray();
-
-        // Invalid request then redirect to dashboard
-        if (!$condition) {
-            $app->enqueueMessage(\JText::_('COM_REDSHOP_CART_INVALID_REQUEST'), 'error');
-            $app->redirect(\JRoute::_('index.php?option=com_redshop'));
-        }
-
+        $post = \Joomla\CMS\Factory::getApplication()->input->post->getArray();
+        \Redshop\Cart\Helper::checkCondition(__FUNCTION__);
         \Redshop\Plugin\Helper::invoke('redshop_product',
             '',
             'onBeforeAddProductToCart',
             [&$post]);
 
-        $result = \Redshop\Cart\Cart::addProduct($post);
+        $result = \Redshop\Cart\Cart::add($post);
         \Redshop\Cart\Helper::addToCartErrorHandler($result);
         \Redshop\Workflow\Accessory::prepareAccessoryCart();
         \Redshop\Cart\Helper::setUserDocumentToSession();
@@ -90,7 +64,7 @@ class Cart
         \RedshopHelperCart::addCartToDatabase();
 
         if ($ajax) {
-            $cartObject = \RedshopHelperCart::renderModuleCartHtml(\Redshop\Cart\Helper::getCart());
+            $cartObject = \Redshop\Cart\Render::moduleCart(\Redshop\Cart\Helper::getCart());
 
             echo $cartObject->cartHtml? $cartObject->cartHtml: '';
 

@@ -593,7 +593,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
 
             $result = \RedshopHelperUtility::getDispatcher()->trigger(
                 'onDisplayText',
-                array($product->product_id, $cart)
+                array($product->product_id ?? 0, $cart)
             );
 
             if (!empty($result)) {
