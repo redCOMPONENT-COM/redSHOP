@@ -9,9 +9,9 @@
                 id="name"
                 name="name"
                 type="text"
-                label="COM_REDSHOP_STOCKROOM_NAME"
+                label="COM_REDSHOP_NAME"
                 class="form-control"
-                description="COM_REDSHOP_STOCKROOM_NAME_DESC"
+                description="COM_REDSHOP_NAME"
                 required="true"
                 table-sortable="1"
                 table-width="10%"
@@ -21,7 +21,7 @@
                 name="min_stock_amount"
                 type="text"
                 label="COM_REDSHOP_MINIMUM_STOCK_AMOUNT"
-                description="COM_REDSHOP_MINIMUM_STOCK_AMOUNT_DESC"
+                description="COM_REDSHOP_MINIMUM_STOCK_AMOUNT"
                 class="form-control"
                 table-hide="1"
                 table-sortable="1"
@@ -31,26 +31,26 @@
                 name="delivery_time"
                 type="redshop.radio"
                 label="COM_REDSHOP_DELIVERY_TIME_IN"
-                description="COM_REDSHOP_DELIVERY_TIME_IN_DESC"
+                description="COM_REDSHOP_DELIVERY_TIME_IN"
                 table-hide="1"
                 default="1">
-            <option value="1">Days</option>
-            <option value="0">Weeks</option>
+            <option value="Days">Days</option>
+            <option value="Weeks">Weeks</option>
         </field>
         <field
                 id="min_del_time"
                 name="min_del_time"
                 type="text"
                 label="COM_REDSHOP_MINIMUM_DELIVERY_TIME"
-                description="COM_REDSHOP_MINIMUM_DELIVERY_TIME_DESC"
+                description="COM_REDSHOP_MINIMUM_DELIVERY_TIME"
                 default="0"
         />
         <field
                 id="max_del_time"
                 name="max_del_time"
                 type="text"
-                label="COM_REDSHOP_MINIMUM_DELIVERY_TIME"
-                description="COM_REDSHOP_MINIMUM_DELIVERY_TIME_DESC"
+                label="COM_REDSHOP_MAXIMUM_DELIVERY_TIME"
+                description="COM_REDSHOP_MAXIMUM_DELIVERY_TIME"
                 default="0"
         />
         <field
@@ -58,7 +58,8 @@
                 name="show_in_front"
                 type="redshop.radio"
                 label="COM_REDSHOP_SHOW_ON_STOCKLIST"
-                description="COM_REDSHOP_SHOW_ON_STOCKLIST_DESC"
+                description="COM_REDSHOP_SHOW_ON_STOCKLIST"
+                table-hide="1"
                 default="1">
             <option value="1">JYES</option>
             <option value="0">JNO</option>

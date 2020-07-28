@@ -27,6 +27,12 @@ class RedshopViewStockrooms extends RedshopViewList
 	public function onRenderColumn($config, $index, $row)
 	{
 		switch ($config['dataCol']) {
+			case 'name':
+				$sotcklink = JRoute::_(
+					'index.php?option=com_redshop&view=stockroom&layout=edit&id[]=' . $row->id
+				);
+
+				return '<a href="'. $sotcklink .'">'. $row->name .'</a>';
 			case 'show_in_front':
 				return JHTML::_('grid.published', $row->show_in_front, $index, 'tick.png', 'publish_x.png', 'front');
 			default:
