@@ -129,18 +129,11 @@ class RedshopModelWrappers extends RedshopModelList
 			$query->where($db->qn('w.name') . " LIKE '%" . $filter . "%' ");
 		}
 
-		$filterOrder    = $app->getUserStateFromRequest(
-			'id' . 'filter_order',
-			'filter_order',
-			'id'
-		);
-		$filterOrderDir = $app->getUserStateFromRequest(
-			'id' . 'filter_order_Dir',
-			'filter_order_Dir',
-			''
-		);
+		// Add the list ordering clause.
+		$orderCol  = $this->state->get('list.ordering', 'w.id');
+		$orderDirn = $this->state->get('list.direction', 'asc');
 
-		$query->order($db->escape($filterOrder . ' ' . $filterOrderDir));
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
 	}
