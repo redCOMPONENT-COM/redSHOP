@@ -24,47 +24,46 @@ class Add
     /**
      * Method for add normal product to cart
      *
-     * @param array $cart Cart data
-     * @param integer $idx Index of cart
-     * @param array $data Data of product
+     * @param   array    $cart  Cart data
+     * @param   integer  $idx   Index of cart
+     * @param   array    $data  Data of product
      *
      * @return  mixed
      * @throws  \Exception
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   2.1.0
      */
-    public static function product(&$cart, $idx = 0, $data = [])
+    public static function product(&$cart, $idx, $data = array())
     {
-        $cart = empty($cart) ? \Redshop\Cart\Helper::getCart() : $cart;
-        $idx = empty($idx) ? $cart['idx'] : 0;
         $section = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
-        $rows = \RedshopHelperExtrafields::getSectionFieldList($section);
+        $rows    = \RedshopHelperExtrafields::getSectionFieldList($section);
 
         if (isset($data['hidden_attribute_cartimage'])) {
             $cart[$idx]['hidden_attribute_cartimage'] = $data['hidden_attribute_cartimage'];
         }
 
         $productId = $data['product_id'];
-        $quantity = $data['quantity'];
-        $product = \Redshop\Product\Product::getProductById($productId);
-        $condition = \Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE')
-            && isset($data['parent_accessory_product_id'])
-            && $data['parent_accessory_product_id'] != 0
-            && isset($data['accessory_id']);
+        $quantity  = $data['quantity'];
+        $product   = \Redshop\Product\Product::getProductById($productId);
 
         // Handle individual accessory add to cart price
-        if ($condition) {
+        if (\Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE')
+            && isset($data['parent_accessory_product_id'])
+            && $data['parent_accessory_product_id'] != 0
+            && isset($data['accessory_id'])) {
             $cart[$idx]['accessoryAsProductEligible'] = $data['accessory_id'];
-            $accessoryInfo = \RedshopHelperAccessory::getProductAccessories($data['accessory_id']);
-            $product->product_price = $accessoryInfo[0]->newaccessory_price;
+            $accessoryInfo                            = \RedshopHelperAccessory::getProductAccessories(
+                $data['accessory_id']
+            );
+            $product->product_price                   = $accessoryInfo[0]->newaccessory_price;
 
-            $tempData = \Redshop\Product\Product::getProductById($data['parent_accessory_product_id']);
-            $productTemplate = \RedshopHelperTemplate::getTemplate("product", $tempData->product_template);
+            $tempData          = \Redshop\Product\Product::getProductById($data['parent_accessory_product_id']);
+            $productTemplate   = \RedshopHelperTemplate::getTemplate("product", $tempData->product_template);
             $accessoryTemplate = \Redshop\Template\Helper::getAccessory($productTemplate[0]->template_desc);
-            $dataAdd = null !== $accessoryTemplate ? $accessoryTemplate->template_desc : '';
+            $dataAdd           = null !== $accessoryTemplate ? $accessoryTemplate->template_desc : '';
         } else {
             $productTemplate = \RedshopHelperTemplate::getTemplate("product", $product->product_template);
-            $dataAdd = $productTemplate[0]->template_desc;
+            $dataAdd         = $productTemplate[0]->template_desc;
         }
 
         /*
@@ -85,20 +84,20 @@ class Add
         // Discount calculator procedure start
         $discounts = \Redshop\Promotion\Discount::discountCalculatorData($product, $data);
 
-        $calculationOutput = "";
-        $calculationOutputs = [];
-        $productPriceVAT = 0;
+        $calcOutput      = "";
+        $calcOutputs     = array();
+        $productVatPrice = 0;
 
         if (!empty($discounts)) {
-            $calculationOutput = $discounts[0];
-            $calculationOutputs = $discounts[1];
+            $calcOutput  = $discounts[0];
+            $calcOutputs = $discounts[1];
 
             // Calculate price without VAT
-            $data['product_price'] = $discounts[2];
+            $data['product_price']                = $discounts[2];
             $cart[$idx]['product_price_excl_vat'] = $discounts[2];
-            $cart[$idx]['discount_calc_price'] = $discounts[2];
+            $cart[$idx]['discount_calc_price']    = $discounts[2];
 
-            $productPriceVAT += $discounts[3];
+            $productVatPrice += $discounts[3];
         }
 
         // Attribute price added
@@ -115,7 +114,7 @@ class Add
             }
         }
 
-        $attributes = \RedshopHelperProduct::makeAttributeCart(
+        $retAttArr = \RedshopHelperProduct::makeAttributeCart(
             $generateAttributeCart,
             $product->product_id,
             0,
@@ -126,39 +125,38 @@ class Add
 
         $selectProp = \RedshopHelperProduct::getSelectedAttributeArray($data);
 
-        if (\Joomla\CMS\Factory::getApplication()->input->getString('task') == 'reorder'
-            && !empty($generateAttributeCart)) {
-            $propertyReOrderItems = [];
-            $subPropertyReOrderItems = [];
+        if (\JFactory::getApplication()->input->getString('task') == 'reorder' && !empty($generateAttributeCart)) {
+            $propertyReOrderItemArr    = array();
+            $subPropertyReOrderItemArr = array();
 
-            foreach ($generateAttributeCart as $k => $v) {
-                if (!empty($v['attribute_childs'])) {
-                    $propertyReOrderItems[] = $v['attribute_childs'][0]['property_id'];
+            foreach ($generateAttributeCart as $idxRe => $itemRe) {
+                if (!empty($itemRe['attribute_childs'])) {
+                    $propertyReOrderItemArr[] = $itemRe['attribute_childs'][0]['property_id'];
 
-                    if (!empty($v['attribute_childs'][0]['property_childs'])) {
-                        $subPropertyReOrderItems[] = $v['attribute_childs'][0]['property_childs'][0]['subproperty_id'];
+                    if (!empty($itemRe['attribute_childs'][0]['property_childs'])) {
+                        $subPropertyReOrderItemArr[] = $itemRe['attribute_childs'][0]['property_childs'][0]['subproperty_id'];
                     } else {
-                        $subPropertyReOrderItems[] = '';
+                        $subPropertyReOrderItemArr[] = '';
                     }
                 }
             }
 
-            $propertyReOrderItemStr = implode('##', $propertyReOrderItems);
-            $subPropertyReOrderItemStr = implode('##', $subPropertyReOrderItems);
+            $propertyReOrderItemStr    = implode('##', $propertyReOrderItemArr);
+            $subPropertyReOrderItemStr = implode('##', $subPropertyReOrderItemArr);
 
-            $dataReOrder = [];
-            $dataReOrder['property_data'] = $propertyReOrderItemStr;
+            $dataReOrder                     = array();
+            $dataReOrder['property_data']    = $propertyReOrderItemStr;
             $dataReOrder['subproperty_data'] = $subPropertyReOrderItemStr;
-            $selectProp = \RedshopHelperProduct::getSelectedAttributeArray($dataReOrder);
+            $selectProp                      = \RedshopHelperProduct::getSelectedAttributeArray($dataReOrder);
         }
 
-        $data['product_old_price'] = $attributes[5] + $attributes[6];
-        $data['product_old_price_excl_vat'] = $attributes[5];
-        $data['product_price'] = $attributes[1];
-        $productPriceVAT = $attributes[2];
-        $cart[$idx]['product_price_excl_vat'] = $attributes[1];
+        $data['product_old_price']            = $retAttArr[5] + $retAttArr[6];
+        $data['product_old_price_excl_vat']   = $retAttArr[5];
+        $data['product_price']                = $retAttArr[1];
+        $productVatPrice                      = $retAttArr[2];
+        $cart[$idx]['product_price_excl_vat'] = $retAttArr[1];
 
-        $data['product_price'] += $productPriceVAT;
+        $data['product_price'] += $productVatPrice;
 
         if (!empty($selectProp[0])) {
             $attributeImage = $productId;
@@ -167,7 +165,7 @@ class Add
                 $attributeImage .= '_p' . $selectProp[0][0];
             } else {
                 $productAttrImage = implode('_p', $selectProp[0]);
-                $attributeImage .= '_p' . $productAttrImage;
+                $attributeImage   .= '_p' . $productAttrImage;
             }
 
             if (count($selectProp[1]) == 1) {
@@ -187,11 +185,11 @@ class Add
             $cart[$idx]['attributeImage'] = $data['attributeImage'];
         }
 
-        $selectedAttrId = $attributes[3];
-        $isStock = $attributes[4];
-        $selectedPropId = $selectProp[0];
-        $notSelectedSubPropId = $attributes[8];
-        $productPreOrder = $product->preorder;
+        $selectedAttrId       = $retAttArr[3];
+        $isStock              = $retAttArr[4];
+        $selectedPropId       = $selectProp[0];
+        $notSelectedSubPropId = $retAttArr[8];
+        $productPreOrder      = $product->preorder;
 
         // Check for the required attributes if selected
         $handleMessage = \Redshop\Attribute\Helper::handleRequiredSelectedAttributeCartMessage(
@@ -209,8 +207,9 @@ class Add
         // Check for product or attribute in stock
         if (!$isStock) {
             if (($productPreOrder == "global" && !\Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
-                || ($productPreOrder == "no")
-                || ($productPreOrder == "" && !\Redshop::getConfig()->get('ALLOW_PRE_ORDER'))) {
+                || ($productPreOrder == "no") || ($productPreOrder == "" && !\Redshop::getConfig()->get(
+                        'ALLOW_PRE_ORDER'
+                    ))) {
                 return urldecode(\JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
             }
         }
@@ -219,23 +218,23 @@ class Add
 
         if ($product->product_type === 'subscription') {
             if (isset($data['subscription_id']) && $data['subscription_id'] != "") {
-                $subscription = \RedshopHelperProduct::getProductSubscriptionDetail(
+                $subscription      = \RedshopHelperProduct::getProductSubscriptionDetail(
                     $data['product_id'],
                     $data['subscription_id']
                 );
                 $subscriptionPrice = $subscription->subscription_price;
-                $subscriptionVat = 0;
+                $subscriptionVat   = 0;
 
                 if ($subscriptionPrice) {
                     $subscriptionVat = \RedshopHelperProduct::getProductTax($data['product_id'], $subscriptionPrice);
                 }
 
-                $productPriceVAT += $subscriptionVat;
-                $data['product_price'] = $data['product_price'] + $subscriptionPrice + $subscriptionVat;
-                $data['product_old_price'] = $data['product_old_price'] + $subscriptionPrice + $subscriptionVat;
-                $data['product_old_price_excl_vat'] += $subscriptionPrice;
+                $productVatPrice                      += $subscriptionVat;
+                $data['product_price']                = $data['product_price'] + $subscriptionPrice + $subscriptionVat;
+                $data['product_old_price']            = $data['product_old_price'] + $subscriptionPrice + $subscriptionVat;
+                $data['product_old_price_excl_vat']   += $subscriptionPrice;
                 $cart[$idx]['product_price_excl_vat'] += $subscriptionPrice;
-                $cart[$idx]['subscription_id'] = $data['subscription_id'];
+                $cart[$idx]['subscription_id']        = $data['subscription_id'];
             } else {
                 return urldecode(\JText::_('COM_REDSHOP_PLEASE_SELECT_YOUR_SUBSCRIPTION_PLAN'));
             }
@@ -246,10 +245,10 @@ class Add
             if (isset($data['accessory_data'])) {
                 // Append previously added accessories as products
                 if (!empty($cart['AccessoryAsProduct'][0])) {
-                    $data['accessory_data'] = $cart['AccessoryAsProduct'][0] . '@@' . $data['accessory_data'];
-                    $data['acc_quantity_data'] = $cart['AccessoryAsProduct'][1] . '@@' . $data['acc_quantity_data'];
-                    $data['acc_attribute_data'] = $cart['AccessoryAsProduct'][2] . '@@' . $data['acc_attribute_data'];
-                    $data['acc_property_data'] = $cart['AccessoryAsProduct'][3] . '@@' . $data['acc_property_data'];
+                    $data['accessory_data']       = $cart['AccessoryAsProduct'][0] . '@@' . $data['accessory_data'];
+                    $data['acc_quantity_data']    = $cart['AccessoryAsProduct'][1] . '@@' . $data['acc_quantity_data'];
+                    $data['acc_attribute_data']   = $cart['AccessoryAsProduct'][2] . '@@' . $data['acc_attribute_data'];
+                    $data['acc_property_data']    = $cart['AccessoryAsProduct'][3] . '@@' . $data['acc_property_data'];
                     $data['acc_subproperty_data'] = $cart['AccessoryAsProduct'][4] . '@@' . $data['acc_subproperty_data'];
                 }
 
@@ -262,11 +261,11 @@ class Add
                 );
             }
 
-            $generateAccessoryCart = array();
-            $data['accessory_data'] = "";
-            $data['acc_quantity_data'] = "";
-            $data['acc_attribute_data'] = "";
-            $data['acc_property_data'] = "";
+            $generateAccessoryCart        = array();
+            $data['accessory_data']       = "";
+            $data['acc_quantity_data']    = "";
+            $data['acc_attribute_data']   = "";
+            $data['acc_property_data']    = "";
             $data['acc_subproperty_data'] = "";
         } else {
             $result = \Redshop\Stock\Helper::checkStockAccessory($data);
@@ -285,34 +284,34 @@ class Add
             }
         }
 
-        $resultAccessories = \RedshopHelperProduct::makeAccessoryCart($generateAccessoryCart, $product->product_id);
+        $resultAccessories   = \RedshopHelperProduct::makeAccessoryCart($generateAccessoryCart, $product->product_id);
         $accessoryTotalPrice = $resultAccessories[1];
-        $accessoryVatPrice = $resultAccessories[2];
+        $accessoryVatPrice   = $resultAccessories[2];
 
         $cart[$idx]['product_price_excl_vat'] += $accessoryTotalPrice;
-        $data['product_price'] += $accessoryTotalPrice + $accessoryVatPrice;
-        $data['product_old_price'] += $accessoryTotalPrice + $accessoryVatPrice;
-        $data['product_old_price_excl_vat'] += $accessoryTotalPrice;
+        $data['product_price']                += $accessoryTotalPrice + $accessoryVatPrice;
+        $data['product_old_price']            += $accessoryTotalPrice + $accessoryVatPrice;
+        $data['product_old_price_excl_vat']   += $accessoryTotalPrice;
 
-        $cart[$idx]['product_vat'] = $productPriceVAT + $accessoryVatPrice;
+        $cart[$idx]['product_vat'] = $productVatPrice + $accessoryVatPrice;
 
         // ADD WRAPPER PRICE
         $wrapperPrice = 0;
-        $wrapperVat = 0;
+        $wrapperVat   = 0;
 
         if (isset($data['sel_wrapper_id']) && $data['sel_wrapper_id']) {
             $wrapperArr = \Redshop\Wrapper\Helper::getWrapperPrice(
                 array('product_id' => $data['product_id'], 'wrapper_id' => $data['sel_wrapper_id'])
             );
 
-            $wrapperVat = $wrapperArr['wrapper_vat'];
+            $wrapperVat   = $wrapperArr['wrapper_vat'];
             $wrapperPrice = $wrapperArr['wrapper_price'];
         }
 
-        $cart[$idx]['product_vat'] += $wrapperVat;
-        $data['product_price'] += $wrapperPrice + $wrapperVat;
-        $data['product_old_price'] += $wrapperPrice + $wrapperVat;
-        $data['product_old_price_excl_vat'] += $wrapperPrice;
+        $cart[$idx]['product_vat']            += $wrapperVat;
+        $data['product_price']                += $wrapperPrice + $wrapperVat;
+        $data['product_old_price']            += $wrapperPrice + $wrapperVat;
+        $data['product_old_price_excl_vat']   += $wrapperPrice;
         $cart[$idx]['product_price_excl_vat'] += $wrapperPrice;
 
         // Checking For same Product and update Quantity
@@ -382,7 +381,7 @@ class Add
                 }
 
                 // Discount calculator
-                $arrayDiffCalc = array_diff_assoc($cart[$i]['discount_calc'], $calculationOutputs);
+                $arrayDiffCalc = array_diff_assoc($cart[$i]['discount_calc'], $calcOutputs);
 
                 if (count($arrayDiffCalc) > 0) {
                     $sameProduct = false;
@@ -403,7 +402,7 @@ class Add
 
                     foreach ($rows as $row) {
                         $productUserField = $row->name;
-                        $addedUserField = isset($data[$productUserField]) ? $data[$productUserField] : '';
+                        $addedUserField   = isset($data[$productUserField]) ? $data[$productUserField] : '';
 
                         if (isset($cart[$i][$productUserField]) && $addedUserField !== $cart[$i][$productUserField]) {
                             $puf = 0;
@@ -416,7 +415,7 @@ class Add
                 }
 
                 if ($sameProduct) {
-                    $newQuantity = $cart[$i]['quantity'] + $data['quantity'];
+                    $newQuantity     = $cart[$i]['quantity'] + $data['quantity'];
                     $newCartQuantity = \Redshop\Stock\Helper::checkQuantityInStock($cart[$i], $newQuantity);
 
                     if ($newQuantity > $newCartQuantity) {
@@ -438,8 +437,8 @@ class Add
                         \RedshopHelperUtility::getDispatcher()->trigger('onSameCartProduct', array(&$cart, $data, $i));
 
                         \Redshop\Cart\Helper::setCart($cart);
-                        $data['cart_index'] = $i;
-                        $data['quantity'] = $newCartQuantity;
+                        $data['cart_index']    = $i;
+                        $data['quantity']      = $newCartQuantity;
                         $data['checkQuantity'] = $newCartQuantity;
 
                         /** @var \RedshopModelCart $cartModel */
@@ -449,7 +448,8 @@ class Add
                         return true;
                     }
 
-                    return \Redshop::getConfig()->getString('CART_RESERVATION_MESSAGE') !== '' && \Redshop::getConfig()->getBool('IS_PRODUCT_RESERVE')
+                    return \Redshop::getConfig()->getString('CART_RESERVATION_MESSAGE') !== '' && \Redshop::getConfig(
+                    )->getBool('IS_PRODUCT_RESERVE')
                         ? \Redshop::getConfig()->get('CART_RESERVATION_MESSAGE')
                         : urldecode(\JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
                 }
@@ -467,14 +467,14 @@ class Add
 
         if (!$sameProduct) {
             // SET VALVUES INTO SESSION CART
-            $cart[$idx]['giftcard_id'] = '';
-            $cart[$idx]['product_id'] = $data['product_id'];
-            $cart[$idx]['discount_calc_output'] = $calculationOutput;
-            $cart[$idx]['discount_calc'] = $calculationOutputs;
-            $cart[$idx]['product_price'] = $data['product_price'];
-            $cart[$idx]['product_old_price'] = $data['product_old_price'];
+            $cart[$idx]['giftcard_id']                = '';
+            $cart[$idx]['product_id']                 = $data['product_id'];
+            $cart[$idx]['discount_calc_output']       = $calcOutput;
+            $cart[$idx]['discount_calc']              = $calcOutputs;
+            $cart[$idx]['product_price']              = $data['product_price'];
+            $cart[$idx]['product_old_price']          = $data['product_old_price'];
             $cart[$idx]['product_old_price_excl_vat'] = $data['product_old_price_excl_vat'];
-            $cart[$idx]['cart_attribute'] = $generateAttributeCart;
+            $cart[$idx]['cart_attribute']             = $generateAttributeCart;
 
             $cart[$idx]['cart_accessory'] = $generateAccessoryCart;
 
@@ -484,7 +484,7 @@ class Add
 
             $cart[$idx]['quantity'] = 0;
 
-            $newQuantity = $data['quantity'];
+            $newQuantity            = $data['quantity'];
             $cart[$idx]['quantity'] = \Redshop\Stock\Helper::checkQuantityInStock($cart[$idx], $newQuantity);
 
             if ($newQuantity > $cart[$idx]['quantity']) {
@@ -515,8 +515,8 @@ class Add
                 return $msg;
             }
 
-            $cart[$idx]['category_id'] = $data['category_id'];
-            $cart[$idx]['wrapper_id'] = !empty($data['sel_wrapper_id']) ? $data['sel_wrapper_id'] : 0;
+            $cart[$idx]['category_id']   = $data['category_id'];
+            $cart[$idx]['wrapper_id']    = !empty($data['sel_wrapper_id']) ? $data['sel_wrapper_id'] : 0;
             $cart[$idx]['wrapper_price'] = $wrapperPrice + $wrapperVat;
 
             /**
@@ -529,8 +529,8 @@ class Add
 
             foreach ($rows as $row) {
                 $fieldName = $row->name;
-                $dataTxt = (isset($data[$fieldName])) ? $data[$fieldName] : '';
-                $tmpTxt = strpbrk($dataTxt, '`');
+                $dataTxt   = (isset($data[$fieldName])) ? $data[$fieldName] : '';
+                $tmpTxt    = strpbrk($dataTxt, '`');
 
                 if ($tmpTxt) {
                     $dataTxt = str_replace('`', ',', $dataTxt);

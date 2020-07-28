@@ -412,12 +412,12 @@ class Discount
     /**
      * @param   int  $area
      * @param   int  $pid
-     * @param   int  $areabetween
+     * @param   int  $areaBetween
      *
      * @return mixed
      * @since 3.0
      */
-    public static function getDiscountCalcData($area = 0, $pid = 0, $areabetween = 0)
+    public static function getDiscountCalcData($area = 0, $pid = 0, $areaBetween = 0)
     {
         $area = floatval($area);
 
@@ -428,7 +428,7 @@ class Discount
             ->where($db->quoteName("product_id") . "=" . $db->quote((int)$pid))
             ->order("id ASC");
 
-        if ($areabetween) {
+        if ($areaBetween) {
             $query->where($db->q($area) . " BETWEEN " . $db->qn('area_start') . " AND " . $db->qn('area_end'));
         }
 
