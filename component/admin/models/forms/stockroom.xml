@@ -11,7 +11,6 @@
                 type="text"
                 label="COM_REDSHOP_NAME"
                 class="form-control"
-                description="COM_REDSHOP_NAME"
                 required="true"
                 table-sortable="1"
                 table-width="10%"
@@ -21,7 +20,6 @@
                 name="min_stock_amount"
                 type="text"
                 label="COM_REDSHOP_MINIMUM_STOCK_AMOUNT"
-                description="COM_REDSHOP_MINIMUM_STOCK_AMOUNT"
                 class="form-control"
                 table-hide="1"
                 table-sortable="1"
@@ -31,7 +29,6 @@
                 name="delivery_time"
                 type="redshop.radio"
                 label="COM_REDSHOP_DELIVERY_TIME_IN"
-                description="COM_REDSHOP_DELIVERY_TIME_IN"
                 table-hide="1"
                 default="1">
             <option value="Days">Days</option>
@@ -42,7 +39,7 @@
                 name="min_del_time"
                 type="text"
                 label="COM_REDSHOP_MINIMUM_DELIVERY_TIME"
-                description="COM_REDSHOP_MINIMUM_DELIVERY_TIME"
+                description="COM_REDSHOP_TOOLTIP_MINIMUM_DELIVERY_TIME"
                 default="0"
         />
         <field
@@ -50,7 +47,7 @@
                 name="max_del_time"
                 type="text"
                 label="COM_REDSHOP_MAXIMUM_DELIVERY_TIME"
-                description="COM_REDSHOP_MAXIMUM_DELIVERY_TIME"
+                description="COM_REDSHOP_TOOLTIP_MAXIMUM_DELIVERY_TIME"
                 default="0"
         />
         <field
@@ -58,7 +55,6 @@
                 name="show_in_front"
                 type="redshop.radio"
                 label="COM_REDSHOP_SHOW_ON_STOCKLIST"
-                description="COM_REDSHOP_SHOW_ON_STOCKLIST"
                 table-hide="1"
                 default="1">
             <option value="1">JYES</option>
@@ -69,7 +65,6 @@
                 name="published"
                 type="redshop.radio"
                 label="COM_REDSHOP_PUBLISHED"
-                description="COM_REDSHOP_PUBLISHED_DESC"
                 default="1">
             <option value="1">JYES</option>
             <option value="0">JNO</option>
@@ -79,7 +74,6 @@
                 name="desc"
                 type="editor"
                 label="COM_REDSHOP_DESCRIPTION"
-                description="COM_REDSHOP_DESCRIPTION"
                 size="80"
                 class="text_area"
                 default=""

@@ -38,7 +38,7 @@ CALL redSHOP_Column_Update('#__redshop_newsletter', 'modified_date', 'modified_d
 -- Table `#__redshop_stockroom`
 -- -----------------------------------------------------
 CALL redSHOP_Column_Update('#__redshop_stockroom', 'stockroom_id', 'id', 'INT(11) NOT NULL AUTO_INCREMENT');
-CALL redSHOP_Column_Update('#__redshop_stockroom', 'stockroom_name', 'name', 'INT(11) NOT NULL AUTO_INCREMENT');
+CALL redSHOP_Column_Update('#__redshop_stockroom', 'stockroom_name', 'name', 'VARCHAR(250) NOT NULL');
 CALL redSHOP_Column_Update('#__redshop_stockroom', 'checked_out', 'checked_out', "INT(11) NULL DEFAULT NULL");
 CALL redSHOP_Column_Update('#__redshop_stockroom', 'checked_out_time', 'checked_out_time', "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `checked_out`");
 CALL redSHOP_Column_Update('#__redshop_stockroom', 'created_date', 'created_date', "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `checked_out_time`");

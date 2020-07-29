@@ -29,7 +29,7 @@ class RedshopViewStockrooms extends RedshopViewList
 		switch ($config['dataCol']) {
 			case 'name':
 				$sotcklink = JRoute::_(
-					'index.php?option=com_redshop&view=stockroom&layout=edit&id[]=' . $row->id
+					'index.php?option=com_redshop&task=stockroom.edit&id=' . $row->id
 				);
 
 				return '<a href="'. $sotcklink .'">'. $row->name .'</a>';
