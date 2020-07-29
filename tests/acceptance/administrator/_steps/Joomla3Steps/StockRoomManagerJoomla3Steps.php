@@ -52,7 +52,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(StockRoomManagerJoomla3Page::$URL);
-		$I->filterListBySearching($name, $searchField = ['id' => 'filter']);
+		$I->filterListBySearching($name, StockRoomManagerJoomla3Page::$searchField);
 		$I->wait(0.1);
 		$I->click(['link' => $name]);
 		$I->waitForElement(StockRoomManagerJoomla3Page::$stockRoomName, 30);
@@ -109,7 +109,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteStockRoom($name)
 	{
-		$this->delete(new StockRoomManagerJoomla3Page, $name, StockRoomManagerJoomla3Page::$firstResultRow, StockRoomManagerJoomla3Page::$selectFirst, $filterId = ['id' => 'filter']);
+		$this->delete(new StockRoomManagerJoomla3Page, $name, StockRoomManagerJoomla3Page::$firstResultRow, StockRoomManagerJoomla3Page::$selectFirst, StockRoomManagerJoomla3Page::$searchField);
 	}
 
 	/**

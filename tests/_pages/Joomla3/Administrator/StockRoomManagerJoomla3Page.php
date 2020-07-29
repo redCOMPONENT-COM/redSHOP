@@ -25,25 +25,25 @@ class StockRoomManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $stockRoomName = "//input[@id='stockroom_name']";
+	public static $stockRoomName = "//input[@id='jform_name']";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $minimumStockAmount = "//input[@id='min_stock_amount']";
+	public static $minimumStockAmount = "//input[@id='jform_min_stock_amount']";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $stockRoomSuccessMessage = 'Stockroom Detail Saved';
+	public static $stockRoomSuccessMessage = 'Item saved.';
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
+	public static $firstResultRow = "//table[@id='table-stockrooms']/tbody/tr[1]";
 
 	/**
 	 * @var string
@@ -55,7 +55,7 @@ class StockRoomManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $stockRoomStatePath = "//div[@id='editcell']//table//tbody/tr[1]/td[6]/a";
+	public static $stockRoomStatePath = "//table[@id='table-stockrooms']//tbody/tr[1]/td[8]/a";
 
 	//button
 
@@ -69,7 +69,7 @@ class StockRoomManagerJoomla3Page extends AdminJ3Page
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $saveButton = "//button[@onclick=\"Joomla.submitbutton('apply');\"]";
+	public static $saveButton = "//button[@onclick=\"Joomla.submitbutton('stockroom.apply');\"]";
 
 	//selector
 
@@ -95,5 +95,5 @@ class StockRoomManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $deleteMessage = "Stockroom Detail Deleted Successfully";
+	public static $deleteMessage = "successfully deleted";
 }
