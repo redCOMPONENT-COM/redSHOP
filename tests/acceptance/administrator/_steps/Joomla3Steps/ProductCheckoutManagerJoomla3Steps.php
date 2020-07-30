@@ -1169,7 +1169,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, $char);
 		}
 
-		$I->waitForText($total, 60, FrontEndProductManagerJoomla3Page::$priceEnd);
+		$I->waitForText($total, 120, FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		try {
