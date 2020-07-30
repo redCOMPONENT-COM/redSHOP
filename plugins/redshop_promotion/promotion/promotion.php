@@ -133,4 +133,12 @@ class PlgRedshop_PromotionPromotion extends JPlugin
 
         return array_merge($post, $data);
     }
+
+    public function onApply() {
+        $cart = \Redshop\Cart\Helper::getCart();
+
+        echo '<pre>';
+        var_dump($cart);
+        die;
+    }
 }

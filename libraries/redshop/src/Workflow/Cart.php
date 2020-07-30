@@ -29,14 +29,11 @@ class Cart
     {
         $post = \Joomla\CMS\Factory::getApplication()->input->post->getArray();
         \Redshop\Cart\Helper::checkCondition(__FUNCTION__);
-        \Redshop\Plugin\Helper::invoke('redshop_product',
-            '',
-            'onBeforeAddProductToCart',
-            [&$post]);
-
+        \Redshop\Plugin\Helper::invoke('redshop_product', '', 'onBeforeAddProductToCart', [&$post]);
         $result = \Redshop\Cart\Cart::add($post);
         \Redshop\Cart\Helper::addToCartErrorHandler($result);
         \Redshop\Workflow\Accessory::prepareAccessoryCart();
+        \Redshop\Workflow\Promotion::apply();
         \Redshop\Cart\Helper::setUserDocumentToSession();
         \Redshop\Cart\Helper::routingAfterAddToCart();
     }

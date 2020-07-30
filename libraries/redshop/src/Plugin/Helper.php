@@ -26,6 +26,15 @@ class Helper
      * @since __DEPLOY_VERSION__
      */
     public static function invoke($pluginGroup, $pluginName, $function, $params = []) {
+        if ($pluginGroup == 'redshop_promotion') {
+            echo '<pre>';
+            var_dump($pluginName);
+            var_dump($pluginGroup);
+            var_dump($function);
+            var_dump($params);
+            die;
+        }
+
         if (empty($pluginName)) {
             \JPluginHelper::importPlugin($pluginGroup);
         } else {

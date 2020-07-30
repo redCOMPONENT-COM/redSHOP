@@ -82,11 +82,11 @@ class Add
         $data['product_price'] = 0;
 
         // Discount calculator procedure start
-        $discounts = \Redshop\Promotion\Discount::discountCalculatorData($product, $data);
+        $discounts = \Redshop\Promotion\Discount\Calculation::productMeasurement($product, $data);
 
         $calcOutput      = "";
-        $calcOutputs     = array();
-        $productVatPrice = 0;
+        $calcOutputs     = [];
+        $productPriceVAT = 0;
 
         if (!empty($discounts)) {
             $calcOutput  = $discounts[0];
@@ -97,7 +97,7 @@ class Add
             $cart[$idx]['product_price_excl_vat'] = $discounts[2];
             $cart[$idx]['discount_calc_price']    = $discounts[2];
 
-            $productVatPrice += $discounts[3];
+            $productPriceVAT += $discounts[3];
         }
 
         // Attribute price added
@@ -153,10 +153,10 @@ class Add
         $data['product_old_price']            = $retAttArr[5] + $retAttArr[6];
         $data['product_old_price_excl_vat']   = $retAttArr[5];
         $data['product_price']                = $retAttArr[1];
-        $productVatPrice                      = $retAttArr[2];
+        $productPriceVAT                      = $retAttArr[2];
         $cart[$idx]['product_price_excl_vat'] = $retAttArr[1];
 
-        $data['product_price'] += $productVatPrice;
+        $data['product_price'] += $productPriceVAT;
 
         if (!empty($selectProp[0])) {
             $attributeImage = $productId;
@@ -229,7 +229,7 @@ class Add
                     $subscriptionVat = \RedshopHelperProduct::getProductTax($data['product_id'], $subscriptionPrice);
                 }
 
-                $productVatPrice                      += $subscriptionVat;
+                $productPriceVAT                      += $subscriptionVat;
                 $data['product_price']                = $data['product_price'] + $subscriptionPrice + $subscriptionVat;
                 $data['product_old_price']            = $data['product_old_price'] + $subscriptionPrice + $subscriptionVat;
                 $data['product_old_price_excl_vat']   += $subscriptionPrice;
@@ -293,7 +293,7 @@ class Add
         $data['product_old_price']            += $accessoryTotalPrice + $accessoryVatPrice;
         $data['product_old_price_excl_vat']   += $accessoryTotalPrice;
 
-        $cart[$idx]['product_vat'] = $productVatPrice + $accessoryVatPrice;
+        $cart[$idx]['product_vat'] = $productPriceVAT + $accessoryVatPrice;
 
         // ADD WRAPPER PRICE
         $wrapperPrice = 0;

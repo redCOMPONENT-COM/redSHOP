@@ -193,7 +193,7 @@ class Cart
      * @return  mixed         True on success. Error message string if fail.
      * @throws  \Exception
      *
-     * @since   2.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public static function add($data = [])
     {
@@ -208,7 +208,7 @@ class Cart
 
         $idx = (int)$cart['idx'];
 
-        // Set session for giftcard
+        // Set session for gift card
         if (!empty($data['giftcard_id'])) {
             \Redshop\Workflow\Cart\Add::giftCard($cart, $idx, $data);
         } // Set session for product
