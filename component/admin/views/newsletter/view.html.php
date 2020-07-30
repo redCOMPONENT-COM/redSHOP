@@ -3,73 +3,47 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
 defined('_JEXEC') or die;
 
-
-class RedshopViewNewsletter extends RedshopViewAdmin
+/**
+ * View newsletter
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopViewNewsletter extends RedshopViewForm
 {
-    /**
-     * The current user.
-     *
-     * @var  JUser
-     */
-    public $user;
+	/**
+	 * Method for prepare field HTML
+	 *
+	 * @param   object  $field  Group object
+	 *
+	 * @return  boolean|string  False if keep. String for HTML content if success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws \Exception
+	 */
+	protected function prepareField($field)
+	{
+		switch ($field->getAttribute('name'))
+        {
+            case 'template_id':
+                return RedshopLayoutHelper::render(
+                    'newsletter.field_template',
+                    [
+                        'htmlField' => parent::/** @scrutinizer ignore-call */ prepareField($field),
+                        'item' => $this->item
+                    ]
+                );
+            case 'tags_default':
+                return RedshopLayoutHelper::render('newsletter.tags_default');
+            default:
+                return parent::prepareField($field);
 
-    /**
-     * The request url.
-     *
-     * @var  string
-     */
-    public $request_url;
-
-    public $state;
-
-    public function display($tpl = null)
-    {
-        $uri      = JFactory::getURI();
-        $document = JFactory::getDocument();
-
-        $document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER'));
-
-        JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT'), 'envelope redshop_newsletter48');
-        $layout = JFactory::getApplication()->input->getCmd('layout', '');
-
-        if ($layout == 'previewlog') {
-            $this->setLayout($layout);
-        } else {
-            JToolBarHelper::custom(
-                'send_newsletter_preview',
-                'send.png',
-                'send.png',
-                JText::_('COM_REDSHOP_SEND_NEWSLETTER'),
-                true,
-                false
-            );
-            JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-            JToolbarHelper::addNew();
-            JToolbarHelper::EditList();
-            JToolBarHelper::deleteList();
-            JToolBarHelper::publishList();
-            JToolBarHelper::unpublishList();
         }
-
-        $this->state        = $this->get('State');
-        $lists['order']     = $this->state->get('list.ordering', 'newsletter_id');
-        $lists['order_Dir'] = $this->state->get('list.direction');
-
-        $newsletters = $this->get('Data');
-        $pagination  = $this->get('Pagination');
-
-        $this->user        = JFactory::getUser();
-        $this->lists       = $lists;
-        $this->newsletters = $newsletters;
-        $this->pagination  = $pagination;
-        $this->request_url = $uri->toString();
-
-        parent::display($tpl);
-    }
+	}
 }
