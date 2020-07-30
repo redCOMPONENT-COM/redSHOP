@@ -79,32 +79,6 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
             $maxQuantity       = 0;
             $minQuantity       = 0;
         } else {
-            // IF PRODUCT CHILD IS EXISTS THEN DONT SHOW PRODUCT ATTRIBUTES
-            if ($isChild) {
-                return str_replace("{form_addtocart:$cartTemplate->name}", "", $content);
-            } elseif (\RedshopHelperProduct::isProductDateRange($userFields, $productId)) {
-                // New type custom field - Selection based on selected conditions
-                return str_replace(
-                    "{form_addtocart:$cartTemplate->name}",
-                    \JText::_('COM_REDSHOP_PRODUCT_DATE_FIELD_EXPIRED'),
-                    $content
-                );
-            } elseif ($product->not_for_sale) {
-                return str_replace("{form_addtocart:$cartTemplate->name}", '', $content);
-            } elseif (!$taxExemptAddToCart) {
-                $content = str_replace("{form_addtocart:$cartTemplate->name}", '', $content);
-
-                return $content;
-            } elseif (!\Redshop::getConfig()->get('SHOW_PRICE')) {
-                return str_replace("{form_addtocart:$cartTemplate->name}", '', $content);
-            } elseif ($product->expired == 1) {
-                return str_replace(
-                    "{form_addtocart:$cartTemplate->name}",
-                    \Redshop::getConfig()->get('PRODUCT_EXPIRE_TEXT'),
-                    $content
-                );
-            }
-
             // Get stock for Product
             $isStockExist = \RedshopHelperStockroom::isStockExists($productId);
 
