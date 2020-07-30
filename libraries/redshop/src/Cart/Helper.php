@@ -163,7 +163,7 @@ class Helper
     public static function getCart()
     {
         $cart = self::getCartBeforePlugin();
-        \Redshop\Workflow\Promotion::apply($cart);
+        //\Redshop\Workflow\Promotion::apply($cart);
 
         return $cart;
     }

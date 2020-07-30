@@ -32,7 +32,7 @@ class Ajax
         $userId       = $app->input->getInt('userId', 0);
         $taxExempt    = $app->input->getBool('taxExempt', false);
 
-        $product = new \Registry;
+        $product = new \JRegistry;
         $product->set(
             'tax',
             \RedshopHelperProduct::getProductTax(

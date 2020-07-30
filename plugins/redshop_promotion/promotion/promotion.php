@@ -138,10 +138,12 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @param $cart
      * @since __DEPLOY_VESION__
      */
-    public function onApply(&$cart) {
+    public function onApply(&$cart = null) {
         $promotions = $this->loadPromotions($cart);
         $cart['promotions'] = $cart['promotions']?? [];
         $cart['promotions'] = array_merge($cart['promotions'], $promotions);
+
+        \Redshop\Cart\Helper::setCart($cart);
     }
 
     /**
@@ -178,12 +180,13 @@ class PlgRedshop_PromotionPromotion extends JPlugin
     protected function checkAndApplyPromotion(&$promotion, &$cart){
         $result = false;
 
-        /*if (empty($promotion)
+        if (empty($promotion)
+            || ($promotion->isApplied == true)
             || empty($cart)
             || empty($cart['idx'])
-            || $cart['idx'] == 0) {
+            || ($cart['idx'] == 0)) {
             return $result;
-        }*/
+        }
 
         $data = $promotion->data ?? new \stdClass();
         $data->promotion_type = $data->promotion_type ?? '';
@@ -201,7 +204,8 @@ class PlgRedshop_PromotionPromotion extends JPlugin
                         default:
                             if ($conditionOrderVolume <= $this->getCartSubTotalExcludeVAT($cart)) {
                                 $promotion->isApplied = true;
-                                $idx = $cart['idx'] = $cart['idx']++;
+                                $idx = $cart['idx'];
+                                $cart['idx'] = $cart['idx'] + 1;
                                 $productAwardId = $data->product_award ?? 0;
                                 $productAwardAmount = $data->award_amount ?? 0;
                                 $productAwardEntity = \RedshopEntityProduct::getInstance($productAwardId);
@@ -248,7 +252,7 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @since  __DEPLOY_VERSION__
      */
     protected function getConditionOrderVolume(&$promotion) {
-        return $promotion->condition_order_volume ?? null;
+        return $promotion->order_volume ?? null;
     }
 
 
