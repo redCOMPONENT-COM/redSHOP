@@ -29,7 +29,7 @@ class ShopperGroupJ3Page extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $URL = '/administrator/index.php?option=com_redshop&view=shopper_group';
+	public static $URL = 'administrator/index.php?option=com_redshop&view=shoppergroups';
 
 	/**
 	 * @var string
