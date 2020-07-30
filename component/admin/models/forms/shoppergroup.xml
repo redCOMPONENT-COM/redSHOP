@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+		<field
+				name="id"
+				type="hidden"
+		/>
+		<field
+				id="name"
+				name="name"
+				type="text"
+				label="COM_REDSHOP_SHOPPER_GROUP_NAME"
+				description="COM_REDSHOP_SHOPPER_GROUP_NAME"
+				required="true"
+				table-edit-link="1"
+				table-sortable="1"
+		/>
+		<field
+				id="add_discount"
+				name="add_discount"
+				type="text"
+				label="COM_REDSHOP_DISCOUNT"
+				description="COM_REDSHOP_DISCOUNT"
+				form-hide="true"
+		/>
+		<field
+				id="parent_id"
+				name="parent_id"
+				type="shoppergroupparent"
+				label="COM_REDSHOP_SHOPPER_GROUP_TYPE"
+				description="COM_REDSHOP_SHOPPER_GROUP_TYPE"
+				table-hide="true"
+		/>
+		<field
+				id="customer_type"
+				name="customer_type"
+				type="list"
+				label="COM_REDSHOP_SHOPPER_GROUP_CUSTOMER_TYPE"
+				description="COM_REDSHOP_SHOPPER_GROUP_CUSTOMER_TYPE"
+				table-hide="true">
+			<option value="-1">COM_REDSHOP_SELECT</option>
+			<option value="0">COM_REDSHOP_COMPANY</option>
+			<option value="1">COM_REDSHOP_PRIVATE</option>
+		</field>
+		<field
+				id="portal"
+				name="portal"
+				type="radio"
+				label="COM_REDSHOP_SHOPPER_GROUP_PORTAL"
+				description="COM_REDSHOP_SHOPPER_GROUP_PORTAL"
+				table-hide="true">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field
+				id="categories"
+				name="categories"
+				type="categorylist"
+				default=""
+				multiple="true"
+				label="COM_REDSHOP_SHOPPER_GROUP_CATEGORY"
+				description="COM_REDSHOP_SHOPPER_GROUP_CATEGORY"
+				show_root="true"
+				table-hide="true"
+		/>
+		<field
+				id="manufactures"
+				name="manufactures"
+				type="redshop.manufacturer"
+				multiple="true"
+				label="COM_REDSHOP_SHOPPER_GROUP_MANUFACTURE"
+				description="COM_REDSHOP_SHOPPER_GROUP_MANUFACTURE"
+				table-hide="true"
+		/>
+		<field
+				id="url"
+				name="url"
+				type="custom"
+				label="COM_REDSHOP_SHOPPER_GROUP_URL"
+				description="COM_REDSHOP_SHOPPER_GROUP_URL"
+				table-hide="true"
+		/>
+		<field
+				id="cart_itemid"
+				name="cart_itemid"
+				type="text"
+				label="COM_REDSHOP_SHOPPER_GROUP_CART_ITEMID_LBL"
+				description="COM_REDSHOP_SHOPPER_GROUP_CART_ITEMID_LBL"
+				table-hide="true"
+		/>
+		<field
+				name="default_shipping"
+				type="redshop.radio"
+				label-class="radio-inline"
+				default="1"
+				label="COM_REDSHOP_USE_DEFAULT_SHIPPING"
+				table-hide="true">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field
+				id="default_shipping_rate"
+				name="default_shipping_rate"
+				type="text"
+				label="COM_REDSHOP_CHOOSE_DEFAULT_SHIPPING_RATE"
+				description="COM_REDSHOP_CHOOSE_DEFAULT_SHIPPING_RATE"
+				table-hide="true"
+		/>
+		<field
+				id="cart_checkout_itemid"
+				name="cart_checkout_itemid"
+				type="text"
+				label="COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CART_CHECKOUT_ITEMID"
+				description="COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CART_CHECKOUT_ITEMID"
+				table-hide="true"
+		/>
+		<field
+				name="show_price_without_vat"
+				type="redshop.radio"
+				label-class="radio-inline"
+				default="1"
+				label="COM_REDSHOP_SHOW_PRICE_WITHOUT_VAT"
+				table-hide="true">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field
+				name="show_price_without_vat"
+				type="redshop.radio"
+				label-class="radio-inline"
+				default="1"
+				label="COM_REDSHOP_SHOW_PRICE_LBL"
+				table-hide="true">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field
+				id="show_price"
+				name="show_price"
+				type="list"
+				label="COM_REDSHOP_SHOW_PRICE_LBL"
+				table-hide="true">
+			<option value="global">COM_REDSHOP_GLOBAL</option>
+			<option value="yes">COM_REDSHOP_YES</option>
+			<option value="no">COM_REDSHOP_NO</option>
+		</field>
+		<field
+				id="use_as_catalog"
+				name="use_as_catalog"
+				type="list"
+				label="COM_REDSHOP_USE_AS_CATALOG_LBL"
+				table-hide="true">
+			<option value="global">COM_REDSHOP_GLOBAL</option>
+			<option value="yes">COM_REDSHOP_YES</option>
+			<option value="no">COM_REDSHOP_NO</option>
+		</field>
+		<field
+				id="quotation_mode"
+				name="quotation_mode"
+				type="radio"
+				label="COM_REDSHOP_QUOTATION_MODE_LBL"
+				table-hide="true">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field
+				name="published"
+				type="redshop.radio"
+				label-class="radio-inline"
+				default="1"
+				label="COM_REDSHOP_PUBLISHED"
+				table-sortable="1"
+				table-width="5%">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
+	<fieldset name="shopper_group_logo">
+		<field
+				id="logo"
+				name="logo"
+				type="file"
+				label="COM_REDSHOP_SHOPPER_GROUP_NAME"
+				description="COM_REDSHOP_SHOPPER_GROUP_NAME"
+				table-hide="true"
+		/>
+	</fieldset>
+	<fieldset name="shopper_group_intro_text">
+		<field
+				id="introtext"
+				name="introtext"
+				type="editor"
+				table-hide="true"
+				hiddenLabel="true"
+		/>
+	</fieldset>
+	<fieldset name="shopper_group_description">
+		<field
+				id="desc"
+				name="desc"
+				type="editor"
+				table-hide="true"
+				hiddenLabel="true"
+		/>
+	</fieldset>
+</form>

@@ -51,9 +51,9 @@ class RedshopModelLogin extends RedshopModel
 
         if ($sid == 0) {
             $query = "SELECT sg.* FROM #__redshop_shopper_group as sg "
-                . " LEFT JOIN #__redshop_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id WHERE ui.user_id = " . (int)$user->id;
+                . " LEFT JOIN #__redshop_users_info as ui on sg.`id`= ui.shopper_group_id WHERE ui.user_id = " . (int)$user->id;
         } else {
-            $query = "SELECT sg.* FROM #__redshop_shopper_group as sg WHERE sg.`shopper_group_id`= " . (int)$sid;
+            $query = "SELECT sg.* FROM #__redshop_shopper_group as sg WHERE sg.`id`= " . (int)$sid;
         }
 
         $this->_db->setQuery($query);
@@ -64,11 +64,11 @@ class RedshopModelLogin extends RedshopModel
     public function CheckShopperGroup($username, $shoppergroupid)
     {
         $db    = JFactory::getDbo();
-        $query = "SELECT sg.`shopper_group_id` FROM (`#__redshop_shopper_group` as sg "
-            . " LEFT JOIN #__redshop_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id) LEFT JOIN #__users as u on ui.user_id = u.id WHERE u.username = "
+        $query = "SELECT sg.`id` FROM (`#__redshop_shopper_group` as sg "
+            . " LEFT JOIN #__redshop_users_info as ui on sg.`id,`= ui.shopper_group_id) LEFT JOIN #__users as u on ui.user_id = u.id WHERE u.username = "
             . $db->quote(
                 $username
-            ) . " AND ui.shopper_group_id =" . (int)$shoppergroupid . " AND sg.shopper_group_portal = 1";
+            ) . " AND ui.shopper_group_id =" . (int)$shoppergroupid . " AND sg.portal = 1";
         $db->setQuery($query);
 
         return $db->loadResult();

@@ -149,7 +149,7 @@ class RedshopModelImport_Vm extends RedshopModel
     /**
      * Method for sync category
      *
-     * @param   int  $index  Index
+     * @param int $index Index
      *
      * @return  bool
      *
@@ -215,7 +215,7 @@ class RedshopModelImport_Vm extends RedshopModel
 
         $table->name                = addslashes($categoryVM->category_name);
         $table->description         = $categoryVM->category_description;
-        $table->category_full_image = !empty($categoryVM->file_name) ? basename($categoryVM->file_name) : null;
+        $table->category_full_image = ! empty($categoryVM->file_name) ? basename($categoryVM->file_name) : null;
         $table->published           = $categoryVM->published;
         $table->category_pdate      = $categoryVM->created_on;
         $table->products_per_page   = $categoryVM->products_per_row;
@@ -228,12 +228,12 @@ class RedshopModelImport_Vm extends RedshopModel
 
         $table->setLocation((int)$parentId, 'last-child');
 
-        if (!$table->store()) {
+        if ( ! $table->store()) {
             return false;
         }
 
         // Copy image
-        if (!empty($categoryVM->file_name)) {
+        if ( ! empty($categoryVM->file_name)) {
             JFile::copy(
                 JPATH_ROOT . '/' . $categoryVM->file_name,
                 REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . basename($categoryVM->file_name)
@@ -246,7 +246,7 @@ class RedshopModelImport_Vm extends RedshopModel
     /**
      * Method for get category id of given virtuemart category id
      *
-     * @param   int  $vmCategoryId  Virtuemart category ID
+     * @param int $vmCategoryId Virtuemart category ID
      *
      * @return  int                 Redshop category id
      *
@@ -254,7 +254,7 @@ class RedshopModelImport_Vm extends RedshopModel
      */
     protected function getCategoryIdSynced($vmCategoryId)
     {
-        if (!$vmCategoryId) {
+        if ( ! $vmCategoryId) {
             return 0;
         }
 
@@ -275,7 +275,7 @@ class RedshopModelImport_Vm extends RedshopModel
     /**
      * Method for sync shopper group
      *
-     * @param   int  $index  Index
+     * @param int $index Index
      *
      * @return  boolean
      *
@@ -320,21 +320,21 @@ class RedshopModelImport_Vm extends RedshopModel
 
         // Load redshop manufacturer
         $query->clear()
-            ->select($db->qn('shopper_group_id'))
+            ->select($db->qn('id'))
             ->from($db->qn('#__redshop_shopper_group'))
-            ->where($db->qn('shopper_group_name') . ' = ' . $db->quote($shopperGroupName));
+            ->where($db->qn('name') . ' = ' . $db->quote($shopperGroupName));
         $rsShopperGroupId = $db->setQuery($query)->loadResult();
 
-        /** @var \TableShopper_Group_Detail $table */
-        $table = JTable::getInstance('Shopper_Group_Detail', 'Table');
+        /** @var \RedshopTableShopperGroup $table */
+        $table = JTable::getInstance('ShopperGroup', 'RedshopTable');
 
         if ($rsShopperGroupId) {
             $table->load($rsShopperGroupId);
         }
 
-        $table->shopper_group_name = $shopperGroupName;
-        $table->shopper_group_desc = $shopperGroupDescription;
-        $table->published          = $shopperGroupVM->published;
+        $table->name      = $shopperGroupName;
+        $table->desc      = $shopperGroupDescription;
+        $table->published = $shopperGroupVM->published;
 
         return $table->store();
     }
@@ -342,7 +342,7 @@ class RedshopModelImport_Vm extends RedshopModel
     /**
      * Method for sync shopper group
      *
-     * @param   int  $index  Index
+     * @param int $index Index
      *
      * @return  boolean
      *
@@ -442,10 +442,10 @@ class RedshopModelImport_Vm extends RedshopModel
 
         $useDefault = true;
 
-        if (!empty($userVM->virtuemart_shoppergroup_id)) {
+        if ( ! empty($userVM->virtuemart_shoppergroup_id)) {
             $groupName = RedshopHelperVirtuemart::getVirtuemartShopperGroups($userVM->virtuemart_shoppergroup_id);
 
-            if (!empty($groupName)) {
+            if ( ! empty($groupName)) {
                 $userTable->shopper_group_id = RedshopHelperVirtuemart::getRedshopShopperGroups($groupName);
 
                 $useDefault = false;
@@ -465,7 +465,7 @@ class RedshopModelImport_Vm extends RedshopModel
     /**
      * Method for sync shopper group
      *
-     * @param   int  $index  Index
+     * @param int $index Index
      *
      * @return  boolean
      *
@@ -496,7 +496,7 @@ class RedshopModelImport_Vm extends RedshopModel
         /** @var \RedshopTableOrder_Status $table */
         $table = JTable::getInstance('Order_Status', 'RedshopTable');
 
-        if (!$table->load(array('order_status_code' => $orderStatusVM->order_status_code))) {
+        if ( ! $table->load(array('order_status_code' => $orderStatusVM->order_status_code))) {
             $table->order_status_id = 0;
         }
 
@@ -510,7 +510,7 @@ class RedshopModelImport_Vm extends RedshopModel
     /**
      * Method for sync manufacturer
      *
-     * @param   int  $index  Index
+     * @param int $index Index
      *
      * @return  boolean
      *
@@ -583,22 +583,22 @@ class RedshopModelImport_Vm extends RedshopModel
         $table->manufacturer_url   = $manufacturerVM->mf_url;
         $table->template_id        = Redshop::getConfig()->get('MANUFACTURER_TEMPLATE');
 
-        if (!$table->store()) {
+        if ( ! $table->store()) {
             return false;
         }
 
         // Copy image
-        if (!empty($manufacturerVM->file_name)) {
+        if ( ! empty($manufacturerVM->file_name)) {
             $mediaFile = REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer/' . basename($manufacturerVM->file_name);
 
-            if (!JFile::exists($mediaFile)) {
+            if ( ! JFile::exists($mediaFile)) {
                 JFile::copy(JPATH_ROOT . '/' . $manufacturerVM->file_name, $mediaFile);
             }
 
             /** @var Tablemedia_detail $mediaTable */
             $mediaTable = JTable::getInstance('Media_Detail', 'Table');
 
-            if (!$mediaTable->load(
+            if ( ! $mediaTable->load(
                 array(
                     'media_section' => 'manufacturer',
                     'media_type'    => 'images',
@@ -639,7 +639,7 @@ class RedshopModelImport_Vm extends RedshopModel
     /**
      * Get Extra Field Names
      *
-     * @param   array  $keyProducts  Array key products
+     * @param array $keyProducts Array key products
      *
      * @return  array
      */
@@ -663,7 +663,7 @@ class RedshopModelImport_Vm extends RedshopModel
     /**
      * Method for sync product
      *
-     * @param   int  $index  Index
+     * @param int $index Index
      *
      * @return  boolean
      *
@@ -867,7 +867,7 @@ class RedshopModelImport_Vm extends RedshopModel
                 ->where($db->qn('vm.virtuemart_product_id') . ' = ' . $productVM->product_parent_id);
             $table->product_parent_id = $db->setQuery($query)->loadResult();
 
-            if (!$table->product_parent_id) {
+            if ( ! $table->product_parent_id) {
                 $query->clear()
                     ->select($db->qn('product_id'))
                     ->from($db->qn('#__redshop_product', 'p'))
@@ -880,7 +880,7 @@ class RedshopModelImport_Vm extends RedshopModel
             }
         }
 
-        if (!$table->store()) {
+        if ( ! $table->store()) {
             $this->setError($table->getError());
 
             return false;
@@ -898,7 +898,7 @@ class RedshopModelImport_Vm extends RedshopModel
             ->where($db->qn('virtuemart_product_id') . ' = ' . $db->quote((string)$productVM->virtuemart_product_id));
         $prices = $db->setQuery($query)->loadObjectList();
 
-        if (!empty($prices)) {
+        if ( ! empty($prices)) {
             $defaultShopperGroup = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE');
 
             foreach ($prices as $price) {
@@ -909,7 +909,7 @@ class RedshopModelImport_Vm extends RedshopModel
                     $shopperGroupId   = RedshopHelperVirtuemart::getRedshopShopperGroups($shopperGroupName);
                 }
 
-                $shopperGroupId = !$shopperGroupId ? $defaultShopperGroup : $shopperGroupId;
+                $shopperGroupId = ! $shopperGroupId ? $defaultShopperGroup : $shopperGroupId;
                 $createdDate    = JFactory::getDate($price->created_on);
                 $priceQuery     = 'INSERT IGNORE ' . $db->qn('#__redshop_product_price')
                     . '(' . $db->qn('product_id') . ',' . $db->qn('product_price') . ',' . $db->qn('cdate')
@@ -935,7 +935,7 @@ class RedshopModelImport_Vm extends RedshopModel
                 ) . ',' . $productInStock . ')';
             $db->setQuery($stockQuery);
 
-            if (!$db->execute()) {
+            if ( ! $db->execute()) {
                 $this->setError($db->getErrorMsg());
             }
         }
@@ -965,7 +965,7 @@ class RedshopModelImport_Vm extends RedshopModel
             ->where($db->qn('ref.virtuemart_product_id') . ' = ' . $productVM->virtuemart_product_id);
         $categoryIds = $db->setQuery($query)->loadColumn();
 
-        if (!empty($categoryIds)) {
+        if ( ! empty($categoryIds)) {
             // Insert new categories
             $query->clear()
                 ->insert($db->qn('#__redshop_product_category_xref'))
@@ -984,8 +984,8 @@ class RedshopModelImport_Vm extends RedshopModel
     /**
      * Method for sync media
      *
-     * @param   integer  $productId    Product ID
-     * @param   integer  $vmProductId  Virtuemart ID
+     * @param integer $productId   Product ID
+     * @param integer $vmProductId Virtuemart ID
      *
      * @return  void
      */
@@ -1012,7 +1012,7 @@ class RedshopModelImport_Vm extends RedshopModel
 
         foreach ($medias as $media) {
             // Skip migrate image file if not exist.
-            if (empty($media->file_url) || !JFile::exists(JPATH_ROOT . '/' . $media->file_url)) {
+            if (empty($media->file_url) || ! JFile::exists(JPATH_ROOT . '/' . $media->file_url)) {
                 continue;
             }
 
@@ -1029,7 +1029,7 @@ class RedshopModelImport_Vm extends RedshopModel
             $mediaTable->published            = $media->published;
 
             // Skip migrate image file if fail in insert media.
-            if (!$mediaTable->store()) {
+            if ( ! $mediaTable->store()) {
                 continue;
             }
 
@@ -1040,7 +1040,7 @@ class RedshopModelImport_Vm extends RedshopModel
     /**
      * Method for sync order
      *
-     * @param   int  $index  Index
+     * @param int $index Index
      *
      * @return  boolean
      * @throws  Exception
@@ -1084,7 +1084,7 @@ class RedshopModelImport_Vm extends RedshopModel
 
         $this->setState($this->logName, $orderVM->order_number);
 
-        if (!empty($orderVM->redshop_order_number_ref)) {
+        if ( ! empty($orderVM->redshop_order_number_ref)) {
             return true;
         }
 
@@ -1115,7 +1115,7 @@ class RedshopModelImport_Vm extends RedshopModel
         $orderTable->set('ip_address', $orderVM->ip_address);
         $orderTable->set('vm_order_number', $orderVM->order_number);
 
-        if (!$orderTable->store()) {
+        if ( ! $orderTable->store()) {
             return false;
         }
 
@@ -1139,7 +1139,7 @@ class RedshopModelImport_Vm extends RedshopModel
 
         $orderItems = $db->setQuery($query)->loadObjectList();
 
-        if (!empty($orderItems)) {
+        if ( ! empty($orderItems)) {
             /** @var Tableorder_item_detail $orderItemTable */
             $orderItemTable = $this->getTable('order_item_detail');
 
@@ -1219,12 +1219,12 @@ class RedshopModelImport_Vm extends RedshopModel
             $orderUserTable->thirdparty_email      = '';
 
             // State
-            if (!empty($vmOrderUser->virtuemart_state_id)) {
+            if ( ! empty($vmOrderUser->virtuemart_state_id)) {
                 $orderUserTable->state_code = $vmOrderUser->state_3_code;
             }
 
             // Country
-            if (!empty($vmOrderUser->virtuemart_country_id)) {
+            if ( ! empty($vmOrderUser->virtuemart_country_id)) {
                 $orderUserTable->country_code = $vmOrderUser->country_3_code;
             }
 
