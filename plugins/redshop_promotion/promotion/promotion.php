@@ -231,11 +231,15 @@ class PlgRedshop_PromotionPromotion extends JPlugin
                                     'category_id' => $category[0],
                                     'wrapper_id' => 0,
                                     'wrapper_price' => 0.0,
-                                    'isPromotionAward' => true
+                                    'isPromotionAward' => true,
+                                    'promotion_id' => $promotion->id
                                 ];
 
                                 $cart[$idx] = $award;
+                            } else {
+                                //TODO: remove promotion items out of cart if not satisfy promotion condition
                             }
+
                             break;
                     }
                 }
