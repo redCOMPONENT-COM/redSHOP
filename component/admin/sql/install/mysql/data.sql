@@ -949,7 +949,7 @@ VALUES (1, 'Default','1');
 INSERT IGNORE INTO `#__redshop_economic_accountgroup` (`accountgroup_id`, `accountgroup_name`, `economic_vat_account`, `economic_nonvat_account`, `economic_discount_nonvat_account`, `economic_shipping_vat_account`, `economic_shipping_nonvat_account`, `economic_discount_product_number`, `published`, `economic_service_nonvat_account`, `economic_discount_vat_account`) VALUES
 	(1, 'default account group', '4001', '4000', '4000', '4001', '4000', '191919', 1, '', '4001');
 
-INSERT IGNORE INTO `#__redshop_newsletter` (`newsletter_id` , `name` , `subject` , `body` , `template_id` , `published`)
+INSERT IGNORE INTO `#__redshop_newsletter` (`id` , `name` , `subject` , `body` , `template_id` , `published`)
 VALUES ('1', 'News Letter Demo', 'News Letter Demo', 'User Name : {username} Email : {email}', '29', '1');
 
 INSERT IGNORE INTO `#__redshop_shipping_rate` (`shipping_rate_id`, `shipping_rate_name`, `shipping_class`, `shipping_rate_country`, `shipping_rate_zip_start`, `shipping_rate_zip_end`, `shipping_rate_weight_start`, `company_only`, `apply_vat`, `shipping_rate_weight_end`, `shipping_rate_volume_start`, `shipping_rate_volume_end`, `shipping_rate_ordertotal_start`, `shipping_rate_ordertotal_end`, `shipping_rate_priority`, `shipping_rate_value`, `shipping_rate_package_fee`, `shipping_location_info`, `shipping_rate_length_start`, `shipping_rate_length_end`, `shipping_rate_width_start`, `shipping_rate_width_end`, `shipping_rate_height_start`, `shipping_rate_height_end`, `shipping_rate_on_product`, `shipping_rate_on_category`, `shipping_tax_group_id`, `shipping_rate_state`) VALUES
