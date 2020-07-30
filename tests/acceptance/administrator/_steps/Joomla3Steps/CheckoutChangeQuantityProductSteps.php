@@ -49,8 +49,6 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 			$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, $char);
 		}
 
-		$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$updateCartButton, 30);
-		$I->click(CheckoutChangeQuantityProductPage::$updateCartButton);
 		$I->waitForText($total, 30, FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$checkoutButton, 30);
 		$I->click(CheckoutChangeQuantityProductPage::$checkoutButton);
