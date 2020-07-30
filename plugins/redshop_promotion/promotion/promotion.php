@@ -134,11 +134,130 @@ class PlgRedshop_PromotionPromotion extends JPlugin
         return array_merge($post, $data);
     }
 
-    public function onApply() {
-        $cart = \Redshop\Cart\Helper::getCart();
+    /**
+     * @param $cart
+     * @since __DEPLOY_VESION__
+     */
+    public function onApply(&$cart) {
+        $promotions = $this->loadPromotions($cart);
+        $cart['promotions'] = $cart['promotions']?? [];
+        $cart['promotions'] = array_merge($cart['promotions'], $promotions);
+    }
 
-        echo '<pre>';
-        var_dump($cart);
-        die;
+    /**
+     * @param $cart
+     * @return array|mixed
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function loadPromotions(&$cart){
+        $this->query->clear()
+            ->select('*')
+            ->from($this->db->qn($this->table))
+            ->where($this->db->qn('published') . ' = ' . $this->db->q('1'))
+            ->where($this->db->qn('type') . ' = ' . $this->db->q('promotion'));
+
+        $result =  $this->db->setQuery($this->query)->loadObjectList();
+
+        for($i = 0; $i < count($result); $i++) {
+            $result[$i]->data = base64_decode($result[$i]->data);
+            $result[$i]->data = json_decode($result[$i]->data);
+            $result[$i]->isApplied = false;
+
+            //TODO: check apply Promotion here
+            $this->checkAndApplyPromotion($result[$i], $cart);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $promotion
+     * @param $cart
+     * @since __DEPLOY_VERSION__
+     */
+    protected function checkAndApplyPromotion(&$promotion, &$cart){
+        $result = false;
+
+        /*if (empty($promotion)
+            || empty($cart)
+            || empty($cart['idx'])
+            || $cart['idx'] == 0) {
+            return $result;
+        }*/
+
+        $data = $promotion->data ?? new \stdClass();
+        $data->promotion_type = $data->promotion_type ?? '';
+
+        switch($data->promotion_type) {
+            case 'amount_product':
+                break;
+            case 'volume_order':
+                $conditionOrderVolume = $this->getConditionOrderVolume($data);
+                if ($conditionOrderVolume > 0) {
+                    $operand = '<=';
+
+                    switch (trim($operand)) {
+                        case '>=':
+                        default:
+                            if ($conditionOrderVolume <= $this->getCartSubTotalExcludeVAT($cart)) {
+                                $promotion->isApplied = true;
+                                $idx = $cart['idx'] = $cart['idx']++;
+                                $productAwardId = $data->product_award ?? 0;
+                                $productAwardAmount = $data->award_amount ?? 0;
+                                $productAwardEntity = \RedshopEntityProduct::getInstance($productAwardId);
+                                $productCategory = $productAwardEntity->getCategories();
+                                $categoryEntity = $productCategory->getAll();
+                                $category = array_keys($categoryEntity);
+
+                                $award = [
+                                    'hidden_attribute_cartimage' => '',
+                                    'product_price_excl_vat' => 0.0,
+                                    'subscription_id' => 0,
+                                    'product_vat' => 0,
+                                    'giftcard_id' => '',
+                                    'product_id' => $productAwardId,
+                                    'discount_calc_output' => '',
+                                    'discount_calc' => [],
+                                    'product_price' => 0.0,
+                                    'product_old_price' => 0.0,
+                                    'product_old_price_excl_vat' => 0.0,
+                                    'cart_attribute' => [],
+                                    'cart_accessory' => [],
+                                    'quantity' => $productAwardAmount,
+                                    'category_id' => $category[0],
+                                    'wrapper_id' => 0,
+                                    'wrapper_price' => 0.0,
+                                    'isPromotionAward' => true
+                                ];
+
+                                $cart[$idx] = $award;
+                            }
+                            break;
+                    }
+                }
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * @param $promotion
+     * @return |null
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function getConditionOrderVolume(&$promotion) {
+        return $promotion->condition_order_volume ?? null;
+    }
+
+
+    /**
+     * @param $cart
+     * @return float
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function getCartSubTotalExcludeVAT(&$cart) {
+        return $cart['product_subtotal_excl_vat'] ?? 0.0;
     }
 }

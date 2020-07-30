@@ -33,7 +33,6 @@ class Cart
         $result = \Redshop\Cart\Cart::add($post);
         \Redshop\Cart\Helper::addToCartErrorHandler($result);
         \Redshop\Workflow\Accessory::prepareAccessoryCart();
-        \Redshop\Workflow\Promotion::apply();
         \Redshop\Cart\Helper::setUserDocumentToSession();
         \Redshop\Cart\Helper::routingAfterAddToCart();
     }

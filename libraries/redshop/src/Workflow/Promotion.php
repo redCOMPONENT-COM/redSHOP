@@ -167,9 +167,7 @@ class Promotion
      * @return array
      * @since  __DEPLOY_VERSION__
      */
-    public static function apply() {
-        $result = false;
-        $result = \Redshop\Plugin\Helper::invoke('redshop_promtion', 'promotion', 'onApply', []);
-        return $result;
+    public static function apply(&$cart) {
+        return \Redshop\Plugin\Helper::invoke('redshop_promotion', null, 'onApply', [&$cart]);
     }
 }

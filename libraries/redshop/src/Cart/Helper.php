@@ -141,11 +141,10 @@ class Helper
     }
 
     /**
-     * @return array|mixed
-     * @since 3.0
+     * @return int[]|mixed|null
+     * @since  __DEPLOY_VERSION__
      */
-    public static function getCart()
-    {
+    protected static function getCartBeforePlugin() {
         $cart = \JFactory::getSession()->get('cart', null);
 
         if (empty($cart)) {
@@ -153,6 +152,18 @@ class Helper
                 'idx' => 0
             ];
         }
+
+        return $cart;
+    }
+
+    /**
+     * @return array|mixed
+     * @since 3.0
+     */
+    public static function getCart()
+    {
+        $cart = self::getCartBeforePlugin();
+        \Redshop\Workflow\Promotion::apply($cart);
 
         return $cart;
     }
