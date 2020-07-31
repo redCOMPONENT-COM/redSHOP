@@ -234,7 +234,8 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(ShopperGroupJ3Page::$URL);
 		$I->click(ShopperGroupJ3Page::$buttonNew);
 		$I->click(ShopperGroupJ3Page::$buttonSaveClose);
-		$I->acceptPopup();
+		$I->waitForText(ShopperGroupJ3Page::$messageMissingName, 30);
+		$I->see(ShopperGroupJ3Page::$messageMissingName);
 	}
 
 	/**
