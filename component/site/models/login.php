@@ -65,7 +65,7 @@ class RedshopModelLogin extends RedshopModel
     {
         $db    = JFactory::getDbo();
         $query = "SELECT sg.`id` FROM (`#__redshop_shopper_group` as sg "
-            . " LEFT JOIN #__redshop_users_info as ui on sg.`id,`= ui.shopper_group_id) LEFT JOIN #__users as u on ui.user_id = u.id WHERE u.username = "
+            . " LEFT JOIN #__redshop_users_info as ui on sg.`id`= ui.shopper_group_id) LEFT JOIN #__users as u on ui.user_id = u.id WHERE u.username = "
             . $db->quote(
                 $username
             ) . " AND ui.shopper_group_id =" . (int)$shoppergroupid . " AND sg.portal = 1";

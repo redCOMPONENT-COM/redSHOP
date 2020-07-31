@@ -10,7 +10,6 @@
 				name="name"
 				type="text"
 				label="COM_REDSHOP_SHOPPER_GROUP_NAME"
-				description="COM_REDSHOP_SHOPPER_GROUP_NAME"
 				required="true"
 				table-edit-link="1"
 				table-sortable="1"
@@ -20,7 +19,6 @@
 				name="add_discount"
 				type="text"
 				label="COM_REDSHOP_DISCOUNT"
-				description="COM_REDSHOP_DISCOUNT"
 				form-hide="true"
 		/>
 		<field
@@ -28,7 +26,6 @@
 				name="parent_id"
 				type="shoppergroupparent"
 				label="COM_REDSHOP_SHOPPER_GROUP_TYPE"
-				description="COM_REDSHOP_SHOPPER_GROUP_TYPE"
 				table-hide="true"
 		/>
 		<field
@@ -36,7 +33,6 @@
 				name="customer_type"
 				type="list"
 				label="COM_REDSHOP_SHOPPER_GROUP_CUSTOMER_TYPE"
-				description="COM_REDSHOP_SHOPPER_GROUP_CUSTOMER_TYPE"
 				table-hide="true">
 			<option value="-1">COM_REDSHOP_SELECT</option>
 			<option value="0">COM_REDSHOP_COMPANY</option>
@@ -47,7 +43,7 @@
 				name="portal"
 				type="radio"
 				label="COM_REDSHOP_SHOPPER_GROUP_PORTAL"
-				description="COM_REDSHOP_SHOPPER_GROUP_PORTAL"
+				default="0"
 				table-hide="true">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -59,7 +55,6 @@
 				default=""
 				multiple="true"
 				label="COM_REDSHOP_SHOPPER_GROUP_CATEGORY"
-				description="COM_REDSHOP_SHOPPER_GROUP_CATEGORY"
 				show_root="true"
 				table-hide="true"
 		/>
@@ -69,7 +64,6 @@
 				type="redshop.manufacturer"
 				multiple="true"
 				label="COM_REDSHOP_SHOPPER_GROUP_MANUFACTURE"
-				description="COM_REDSHOP_SHOPPER_GROUP_MANUFACTURE"
 				table-hide="true"
 		/>
 		<field
@@ -77,7 +71,6 @@
 				name="url"
 				type="custom"
 				label="COM_REDSHOP_SHOPPER_GROUP_URL"
-				description="COM_REDSHOP_SHOPPER_GROUP_URL"
 				table-hide="true"
 		/>
 		<field
@@ -85,14 +78,13 @@
 				name="cart_itemid"
 				type="text"
 				label="COM_REDSHOP_SHOPPER_GROUP_CART_ITEMID_LBL"
-				description="COM_REDSHOP_SHOPPER_GROUP_CART_ITEMID_LBL"
 				table-hide="true"
 		/>
 		<field
 				name="default_shipping"
 				type="redshop.radio"
 				label-class="radio-inline"
-				default="1"
+				default="0"
 				label="COM_REDSHOP_USE_DEFAULT_SHIPPING"
 				table-hide="true">
 			<option value="1">JYES</option>
@@ -103,22 +95,21 @@
 				name="default_shipping_rate"
 				type="text"
 				label="COM_REDSHOP_CHOOSE_DEFAULT_SHIPPING_RATE"
-				description="COM_REDSHOP_CHOOSE_DEFAULT_SHIPPING_RATE"
 				table-hide="true"
 		/>
 		<field
 				id="cart_checkout_itemid"
 				name="cart_checkout_itemid"
 				type="text"
+				default="0"
 				label="COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CART_CHECKOUT_ITEMID"
-				description="COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CART_CHECKOUT_ITEMID"
 				table-hide="true"
 		/>
 		<field
 				name="show_price_without_vat"
 				type="redshop.radio"
 				label-class="radio-inline"
-				default="1"
+				default="0"
 				label="COM_REDSHOP_SHOW_PRICE_WITHOUT_VAT"
 				table-hide="true">
 			<option value="1">JYES</option>
@@ -128,7 +119,7 @@
 				name="show_price_without_vat"
 				type="redshop.radio"
 				label-class="radio-inline"
-				default="1"
+				default="0"
 				label="COM_REDSHOP_SHOW_PRICE_LBL"
 				table-hide="true">
 			<option value="1">JYES</option>
@@ -159,6 +150,7 @@
 				name="quotation_mode"
 				type="radio"
 				label="COM_REDSHOP_QUOTATION_MODE_LBL"
+				default="0"
 				table-hide="true">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -181,7 +173,6 @@
 				name="logo"
 				type="file"
 				label="COM_REDSHOP_SHOPPER_GROUP_NAME"
-				description="COM_REDSHOP_SHOPPER_GROUP_NAME"
 				table-hide="true"
 		/>
 	</fieldset>
