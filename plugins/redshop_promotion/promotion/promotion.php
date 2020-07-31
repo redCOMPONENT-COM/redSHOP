@@ -169,9 +169,8 @@ class PlgRedshop_PromotionPromotion extends JPlugin
 
         $promotions = $result;
         $cart['promotions'] = $cart['promotions']?? [];
-        $cart['promotions'] = array_merge($cart['promotions'], $promotions);
-
-        \Redshop\Cart\Helper::setCart($cart);
+        //$cart['promotions'] = array_merge($cart['promotions'], $promotions);
+        // TODO: fix duplicated promotions
     }
 
     /**
@@ -199,6 +198,6 @@ class PlgRedshop_PromotionPromotion extends JPlugin
         }
 
         # Step: Store cart back to session
-        \Redshop\Cart\Helper::setCart($cart);
+        //\Redshop\Cart\Helper::setCart($cart);
     }
 }

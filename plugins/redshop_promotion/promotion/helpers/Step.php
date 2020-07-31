@@ -45,6 +45,7 @@ class Step
 
                     if ($condition) {
                         $promotion->isApplied = true;
+                        //var_dump($promotion->isApplied);
                         $idx = $cart['idx']++;
                         $productAwardId = $data->product_award ?? 0;
                         $productAwardAmount = $data->award_amount ?? 0;

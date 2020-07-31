@@ -389,6 +389,8 @@ class Helper
      */
     public static function setCart($cart)
     {
+        \Redshop\Workflow\Promotion::apply($cart);
+
         return \JFactory::getSession()->set('cart', $cart);
     }
 
