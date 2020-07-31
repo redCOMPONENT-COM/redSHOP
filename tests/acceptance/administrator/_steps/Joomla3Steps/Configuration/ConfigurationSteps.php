@@ -325,7 +325,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['addCart'])
 		{
 			case 'product':
-				$I->waitForElementVisible(ConfigurationPage::$addCartProduct, 60);
+				$I->waitForElementVisible(ConfigurationPage::$addCartProduct, 30);
 				$I->click(ConfigurationPage::$addCartProduct);
 				break;
 			case 'attribute':
