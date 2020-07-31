@@ -115,7 +115,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 		else
 		{
-			$tester->click(ShopperGroupJ3Page::$quoationNo);
+			$tester->click(ShopperGroupJ3Page::$quotationNo);
 		}
 
 		$tester->click(ShopperGroupJ3Page::$publishYes);
@@ -203,6 +203,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$URLEdit = ShopperGroupJ3Page::$URLEdit . $idShopperGroups;
 		$I->amOnPage($URLEdit);
 		$I->checkForPhpNoticesOrWarnings($URLEdit);
+		$I->waitForElementVisible(ShopperGroupJ3Page::$shopperName, 30);
 		$I->fillField(ShopperGroupJ3Page::$shopperName, $nameEdit);
 		$I->click(ShopperGroupJ3Page::$buttonSave);
 		$I->see(ShopperGroupJ3Page::$saveSuccess, ShopperGroupJ3Page::$selectorSuccess);
@@ -269,10 +270,6 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(ShopperGroupJ3Page::$URL);
 		switch ($buttonName)
 		{
-			case 'edit':
-				$I->click(ShopperGroupJ3Page::$buttonEdit);
-				$I->acceptPopup();
-				break;
 			case 'delete':
 				$I->click(ShopperGroupJ3Page::$buttonDelete);
 				$I->acceptPopup();
