@@ -22,6 +22,13 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
         Replace\NewsletterSubscription, Replace\CartItem;
 
     /**
+     * @var string
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public $subscription_period = '';
+
+    /**
      * @var    array
      *
      * @since   3.0
