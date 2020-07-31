@@ -96,7 +96,7 @@ class RedshopModelStockrooms extends RedshopModelList
 
 		if ($search) {
 			$query->where(
-				$db->qn('name') . ' LIKE ' . $db->q('%' . $search . '%') . ' OR '
+				$db->qn('name') . ' LIKE ' . $db->q('%' . $search . '%')
 			);
 		}
 
