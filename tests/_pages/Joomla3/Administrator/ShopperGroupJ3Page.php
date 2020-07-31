@@ -243,13 +243,13 @@ class ShopperGroupJ3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $searchField = '#filter';
+	public static $searchField = '#filter_search';
 
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $searchButton = '//button[@onclick="document.adminForm.submit();"]';
+	public static $searchButton = '//input[@value="Search"]';
 
 	/**
 	 * @var string
