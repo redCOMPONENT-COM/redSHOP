@@ -59,7 +59,7 @@ class RedshopModelWrappers extends RedshopModelList
 	 */
 	protected function populateState($ordering = 'w.id', $direction = 'asc')
 	{
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest('id' . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		// List state information.
@@ -122,11 +122,10 @@ class RedshopModelWrappers extends RedshopModelList
 			$query->where('(' . implode(' OR ', $subQuery) . ')');
 		}
 
-		$filter = $this->getState('filter');
-		$filter = $db->escape(trim($filter));
+		$search = $this->getState('filter.search');
 
-		if ($filter) {
-			$query->where($db->qn('w.name') . " LIKE '%" . $filter . "%' ");
+		if ($search) {
+			$query->where($db->qn('w.name') . " LIKE '%" . $search . "%' ");
 		}
 
 		// Add the list ordering clause.
@@ -174,5 +173,33 @@ class RedshopModelWrappers extends RedshopModelList
             ->where($db->qn('id') . ' = ' . $db->q($id));
 
         return $db->setQuery($query)->loadResult();
+    }
+
+	/**
+	 * @param   string  $publish
+	 * @param   array  $cids
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+    public function useToAllpublish($cids = array(), $publish = 1)
+    {
+        if (count($cids)) {
+            $cid = implode(',', $cids);
+
+            $query = $this->_db->getQuery(true)
+                ->update($this->_db->qn('#__redshop_wrapper'))
+                ->set($this->_db->qn('use_to_all') . ' = ' . $this->_db->q(intval($publish)))
+                ->where($this->_db->qn('id') . ' = ' . $this->_db->q((int) $cid));
+            $this->_db->setQuery($query);
+
+            if (!$this->_db->execute()) {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+        }
+
+        return true;
     }
 }

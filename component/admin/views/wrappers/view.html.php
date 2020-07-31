@@ -45,12 +45,18 @@ class RedshopViewWrappers extends RedshopViewList
         }
 
 		switch ($config['dataCol']) {
+            case 'name':
+                $nameLink = JRoute::_(
+                    'index.php?option=com_redshop&task=wrapper.edit&id=' . $row->id
+                );
+
+                return '<a href="'. $nameLink .'">'. $row->name .'</a>';
 			case 'image_file' :
 				$wimage_path = 'wrapper/' . $row->image;
 
 				return '<a class="joom-box" href="'. REDSHOP_FRONT_IMAGES_ABSPATH . $wimage_path .'" rel="{handler: \'image\', size: {}}">'. $row->image .'</a>';
 			case 'use_to_all':
-				return JHTML::_('grid.published', $row->use_to_all, $index, 'tick.png', 'publish_x.png', 'FV');
+				return JHTML::_('grid.published', $row->use_to_all, $index, 'tick.png', 'publish_x.png', 'useToAll');
 			case 'product_id':
 				$prodlink = JRoute::_(
 					'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id

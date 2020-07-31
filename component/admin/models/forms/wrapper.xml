@@ -31,6 +31,7 @@
                 label="COM_REDSHOP_PRODUCT_NAME"
                 description="COM_REDSHOP_PRODUCT_NAME"
                 size="30"
+                table-hide="1"
                 class="text_area"
                 table-sortable="1"
         />
@@ -39,6 +40,7 @@
                 name="category_id"
                 type="categoryList"
                 label="COM_REDSHOP_CATEGORY_NAME"
+                table-hide="1"
                 description="COM_REDSHOP_CATEGORY_NAME"
                 table-sortable="1"
         />
