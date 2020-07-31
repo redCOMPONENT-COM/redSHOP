@@ -204,14 +204,18 @@ class Tag
             $extraSection = $shippingAddress->is_company == 1 ?
                 \RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS : \RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS;
 
+            $conditionCompanyName = '';
+
             if ($shippingAddress->is_company == 1) {
-                self::replaceTag(
-                    $shippingData,
-                    $shippingAddress->company_name,
-                    array('{companyname}', '{companyname_lbl}'),
-                    array($shippingAddress->company_name, \JText::_('COM_REDSHOP_COMPANY_NAME'))
-                );
+                $conditionCompanyName = $shippingAddress->company_name;
             }
+
+            self::replaceTag(
+                $shippingData,
+                $conditionCompanyName,
+                array('{companyname}', '{companyname_lbl}'),
+                array($shippingAddress->company_name, \JText::_('COM_REDSHOP_COMPANY_NAME'))
+            );
 
             self::replaceTag(
                 $shippingData,
