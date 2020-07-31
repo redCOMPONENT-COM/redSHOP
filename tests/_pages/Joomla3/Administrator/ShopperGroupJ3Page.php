@@ -258,6 +258,12 @@ class ShopperGroupJ3Page extends AdminJ3Page
 	public static $deleteShopperSuccess = 'successfully deleted';
 
 	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $messageMissingName = "Field required: Shopper Group Name";
+
+	/**
 	 * Function to get the path for Search Shopper Group
 	 *
 	 * @param String $typeSearch in Shopper Group Name
