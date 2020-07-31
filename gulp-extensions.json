@@ -57,6 +57,9 @@
       "rs_payment_banktransfer",
       "rs_payment_paypal"
     ],
+    "redshop_promotion": [
+      "promotion"
+    ],
     "redshop_pdf": [
       "tcpdf"
     ],

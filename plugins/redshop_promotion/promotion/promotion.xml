@@ -11,6 +11,7 @@
     <redshop>3.0.3</redshop>
     <description>PLG_RESDSHOP_PROMOTION_PROMOTION_DESC</description>
     <files>
+        <folder>helpers</folder>
         <folder>forms</folder>
         <folder>layouts</folder>
         <filename plugin="promotion">promotion.php</filename>

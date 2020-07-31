@@ -145,8 +145,6 @@ class PlgRedshop_PromotionPromotion extends JPlugin
 
         # Step2: Apply promotions
         $this->checkAndApplyPromotion($cart);
-
-        \Redshop\Cart\Helper::setCart($cart);
     }
 
     /**
@@ -167,9 +165,6 @@ class PlgRedshop_PromotionPromotion extends JPlugin
             $result[$i]->data = base64_decode($result[$i]->data);
             $result[$i]->data = json_decode($result[$i]->data);
             $result[$i]->isApplied = false;
-
-            //TODO: check apply Promotion here
-            //$this->checkAndApplyPromotion($result[$i], $cart);
         }
 
         $promotions = $result;
@@ -188,121 +183,22 @@ class PlgRedshop_PromotionPromotion extends JPlugin
         $result = false;
 
         # Step 1: get prepared promotions objects loaded into Cart.
-        $promotions = [];
+        $promotions = Step::getPromotionsFromCart($cart);
 
-        if (!empty($cart['promotions'])) {
-            $promotions =& $cart['promotions'];
-        }
-
+        # Step 2: Validate is it pass or fail condition to continue
         $isFail = empty($cart) || empty($cart['idx']) || ($cart['idx'] == 0) || !count($promotions);
 
         if ($isFail) {
             return $result;
         }
 
-        foreach ($promotions as $promotion) {
-            $data = new \stdClass();
-
-            if (isset($promotion->data)) {
-                $data =& $promotion->data;
-            }
-
-            $data->promotion_type = $data->promotion_type ?? '';
-
-            /*
-             * Step 1: check is promotion applied or not
-             * Step 2:  if Yes, check is satisfied condition, if NO, remove and mark it's not applied
-             *          else No, check is satisfied condition, if YES, add up and mark it's applied
-             */
-
-            switch($data->promotion_type) {
-                case 'amount_product':
-                    break;
-                case 'volume_order':
-                    $conditionOrderVolume = $this->getConditionOrderVolume($data);
-                    if ($conditionOrderVolume > 0) {
-                        $operand = '<=';
-
-                        switch (trim($operand)) {
-                            case '>=':
-                            default:
-                                if ($conditionOrderVolume <= $this->getCartSubTotalExcludeVAT($cart)) {
-                                    $promotion->isApplied = true;
-                                    $idx = $cart['idx'];
-                                    $cart['idx'] = $cart['idx'] + 1;
-                                    $productAwardId = $data->product_award ?? 0;
-                                    $productAwardAmount = $data->award_amount ?? 0;
-                                    $productAwardEntity = \RedshopEntityProduct::getInstance($productAwardId);
-                                    $productCategory = $productAwardEntity->getCategories();
-                                    $categoryEntity = $productCategory->getAll();
-                                    $category = array_keys($categoryEntity);
-
-                                    $award = [
-                                        'hidden_attribute_cartimage' => '',
-                                        'product_price_excl_vat' => 0.0,
-                                        'subscription_id' => 0,
-                                        'product_vat' => 0,
-                                        'giftcard_id' => '',
-                                        'product_id' => $productAwardId,
-                                        'discount_calc_output' => '',
-                                        'discount_calc' => [],
-                                        'product_price' => 0.0,
-                                        'product_old_price' => 0.0,
-                                        'product_old_price_excl_vat' => 0.0,
-                                        'cart_attribute' => [],
-                                        'cart_accessory' => [],
-                                        'quantity' => $productAwardAmount,
-                                        'category_id' => $category[0],
-                                        'wrapper_id' => 0,
-                                        'wrapper_price' => 0.0,
-                                        'isPromotionAward' => true,
-                                        'promotion_id' => $promotion->id
-                                    ];
-
-                                    $cart[$idx] = $award;
-                                } else {
-                                    //TODO: remove promotion items out of cart if not satisfy promotion condition
-                                }
-
-                                break;
-                        }
-                    }
-
-                    break;
-                default:
-                    break;
-            }
+        # Step 3: Each promotion is try to apply
+        //foreach ($promotions as &$promotion) {
+        for($i = 0; $i < count($promotions); $i++) {
+            Step::applyPromotion($promotions[$i], $cart);
         }
 
         # Step: Store cart back to session
         \Redshop\Cart\Helper::setCart($cart);
-    }
-
-    /**
-     * @param $promotion
-     * @return |null
-     * @since  __DEPLOY_VERSION__
-     */
-    protected function getConditionOrderVolume(&$promotion) {
-        return $promotion->order_volume ?? null;
-    }
-
-
-    /**
-     * @param $cart
-     * @return float
-     * @since  __DEPLOY_VERSION__
-     */
-    protected function getCartSubTotalExcludeVAT(&$cart) {
-        return $cart['product_subtotal_excl_vat'] ?? 0.0;
-    }
-
-    /**
-     * @param $promotion
-     * @return bool
-     * @since  __DEPLOY_VERSION__
-     */
-    protected function isPromotionApplied(&$promotion) {
-        return $promotion->isApplied ?? false;
     }
 }
