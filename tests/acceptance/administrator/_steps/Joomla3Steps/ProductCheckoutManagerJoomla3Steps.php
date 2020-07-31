@@ -1167,9 +1167,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$quantity = str_split($quantity);
 		foreach ($quantity as $char) {
 			$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, $char);
-			$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		}
 
+		$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForText($total, 120, FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
