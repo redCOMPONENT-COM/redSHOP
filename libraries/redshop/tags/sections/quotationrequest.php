@@ -65,7 +65,7 @@ class RedshopTagsSectionsQuotationRequest extends RedshopTagsAbstract
         $subTemplate = $this->getTemplateBetweenLoop('{product_loop_start}', '{product_loop_end}');
 
         if (!empty($subTemplate)) {
-            $templateMiddle = $this->replaceCartItem(
+            $templateMiddle = \RedshopTagsSectionsCart::replaceCartItem(
                 $subTemplate['template'],
                 $cart,
                 0,
