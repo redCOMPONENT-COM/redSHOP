@@ -47,11 +47,11 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		foreach ($quantity as $char)
 		{
 			$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, $char);
-            $I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+			$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		}
 
 		$I->waitForText($total, 120, FrontEndProductManagerJoomla3Page::$priceTotal);
-        $I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$checkoutButton, 30);
 		$I->click(CheckoutChangeQuantityProductPage::$checkoutButton);
 		$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$bankTransfer, 30);
