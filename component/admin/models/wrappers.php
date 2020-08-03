@@ -99,7 +99,7 @@ class RedshopModelWrappers extends RedshopModelList
 		$showAll  = $app->input->get('showall', '0');
 		$subQuery = [];
 
-		if ($showAll && $productId != 0) {
+		if ($showAll && $productId) {
 			$subQuery[] = 'FIND_IN_SET(' . $db->q($productId) . ',' . $db->qn('w.product_id') . ')';
 			$subQuery[] = $db->qn('use_to_all') . '=' . $db->q(1);
 

@@ -59,10 +59,11 @@ class RedshopTableWrapper extends RedshopTable
 
 		if ($image['name'] != '' && $this->image != '') {
 			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper/' . $this->image);
+			$this->image = '';
 		}
 
 		if ($image['name'] != '') {
-			$image['name']        = RedshopHelperMedia::cleanFileName($image['name']);
+			$image['name'] = RedshopHelperMedia::cleanFileName($image['name']);
 			$this->image = $image['name'];
 			JFile::upload($image['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper/' . $image['name']);
 		}
