@@ -125,6 +125,6 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->click(StockRoomManagerJoomla3Page::$buttonDelete);
 		$I->acceptPopup();
-		$I->see(StockRoomManagerJoomla3Page::$deleteMessage, StockRoomManagerJoomla3Page::$selectorSuccess);
+		$I->waitForText(StockRoomManagerJoomla3Page::$deleteMessage, 30, StockRoomManagerJoomla3Page::$selectorSuccess);
 	}
 }
