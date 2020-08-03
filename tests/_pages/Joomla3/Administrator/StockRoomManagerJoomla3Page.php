@@ -55,7 +55,7 @@ class StockRoomManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $stockRoomStatePath = "//table[@id='table-stockrooms']//tbody/tr[1]/td[8]/a";
+	public static $stockRoomStatePath = "//table[@id='table-stockrooms']//tbody/tr[1]/td[7]/a";
 
 	//button
 
