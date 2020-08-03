@@ -29,7 +29,6 @@
                 name="delivery_time"
                 type="redshop.radio"
                 label="COM_REDSHOP_DELIVERY_TIME_IN"
-                table-hide="1"
                 default="1">
             <option value="Days">Days</option>
             <option value="Weeks">Weeks</option>
@@ -55,7 +54,6 @@
                 name="show_in_front"
                 type="redshop.radio"
                 label="COM_REDSHOP_SHOW_ON_STOCKLIST"
-                table-hide="1"
                 default="1">
             <option value="1">JYES</option>
             <option value="0">JNO</option>

@@ -71,8 +71,7 @@ $stockrooms = $model->StockRoomList();
                                     if ($s->delivery_time == 'Days') {
                                         echo $del_time . "  " . JText::_('COM_REDSHOP_DAYS');
                                     } elseif ($s->delivery_time == 'Weeks') {
-                                        $del_time = $s->min_del_time / 7;
-                                        echo (int)$del_time . "  " . JText::_('COM_REDSHOP_WEEKS');
+                                        echo $del_time . "  " . JText::_('COM_REDSHOP_WEEKS');
                                     }
                                 }
                                 ?>
