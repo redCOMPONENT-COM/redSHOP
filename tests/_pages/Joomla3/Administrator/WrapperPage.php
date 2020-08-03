@@ -95,7 +95,7 @@ class WrapperPage extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * @since 2.1.2.2
+	 * @since 3.0.3
 	 */
-	public static $messageCheckInvalidPrice = 'Wrapping Price not valid';
+	public static $messageMissingName = 'Field required: Wrapping Name';
 }
