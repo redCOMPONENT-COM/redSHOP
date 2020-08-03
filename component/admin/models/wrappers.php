@@ -95,17 +95,18 @@ class RedshopModelWrappers extends RedshopModelList
 	{
 		$db       = \JFactory::getDbo();
 		$app      = \JFactory::getApplication();
+		$productId = JFactory::getApplication()->input->get('product_id');
 		$showAll  = $app->input->get('showall', '0');
 		$subQuery = [];
 
-		if ($showAll && $this->_productid != 0) {
-			$subQuery[] = 'FIND_IN_SET(' . $db->q($this->_productid) . ',' . $db->qn('w.product_id') . ')';
+		if ($showAll && $productId != 0) {
+			$subQuery[] = 'FIND_IN_SET(' . $db->q($productId) . ',' . $db->qn('w.product_id') . ')';
 			$subQuery[] = $db->qn('use_to_all') . '=' . $db->q(1);
 
 			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->qn('#__redshop_product_category_xref'))
-				->where($db->qn('product_id') . ' = ' . $db->q((int)$this->_productid));
+				->where($db->qn('product_id') . ' = ' . $db->q((int)$productId));
 			$db->setQuery($query);
 			$cat = $db->loadObjectList();
 
@@ -195,7 +196,6 @@ class RedshopModelWrappers extends RedshopModelList
             $this->_db->setQuery($query);
 
             if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
                 return false;
             }
         }
