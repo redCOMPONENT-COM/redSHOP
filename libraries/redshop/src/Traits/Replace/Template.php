@@ -36,7 +36,7 @@ trait Template
 
         if ($this->isTagExists('{product_loop_start}') && $this->isTagExists('{product_loop_end}')) {
             $templateData   = $this->getTemplateBetweenLoop('{product_loop_start}', '{product_loop_end}', $cartData);
-            $templateMiddle = \RedshopTagsSectionsCart::replaceCartItem(
+            $templateMiddle = $this->replaceCartItem(
                 $templateData['template'],
                 $cart,
                 1,
