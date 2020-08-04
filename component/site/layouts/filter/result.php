@@ -145,7 +145,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos(
         $portal   = 0;
 
         if (count($sgportal) > 0) {
-            $portal = $sgportal->shopper_group_portal;
+            $portal = $sgportal->portal;
         }
 
         if (!$checkCid && (Redshop::getConfig()->get('PORTAL_SHOP') == 1 || $portal == 1)) {
