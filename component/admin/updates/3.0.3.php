@@ -54,6 +54,16 @@ class RedshopUpdate303 extends RedshopInstallUpdate
             JPATH_ADMINISTRATOR . '/components/com_redshop/tables/newsletter_detail.php',
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/newsletter_detail/tmpl/default.php',
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/newsletter_detail/view.html.php',
+            // Shopper Group
+            JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/shopper_group.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/shopper_group_detail.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/models/shopper_group.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/models/shopper_group_detail.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/tables/shopper_group_detail.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/shopper_group/tmpl/default.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/shopper_group/view.html.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/shopper_group_detail/tmpl/default.php',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/shopper_group_detail/view.html.php',
         );
     }
 
@@ -71,7 +81,9 @@ class RedshopUpdate303 extends RedshopInstallUpdate
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/rating_detail',
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/shipping',
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/shipping_detail',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/views/newsletter_detail'
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/newsletter_detail',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/shopper_group',
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/shopper_group_detail',
         );
     }
 }
