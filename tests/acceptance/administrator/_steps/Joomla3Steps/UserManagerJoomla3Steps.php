@@ -520,6 +520,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(UserManagerJoomla3Page::$checkAllXpath, 30);
 		$I->click(UserManagerJoomla3Page::$checkAllXpath);
 		$I->waitForText(UserManagerJoomla3Page::$deleteButton);
+		$I->wait(0.2);
 		$I->click(UserManagerJoomla3Page::$deleteButton);
 
 		if ($deleteJoomlaUser)

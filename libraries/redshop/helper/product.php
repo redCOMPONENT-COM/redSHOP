@@ -3883,20 +3883,20 @@ class RedshopHelperProduct
         $catquery       = $db->getQuery(true);
 
         if ($user->id > 0) {
-            $catquery->select($db->qn('sg.shopper_group_categories'))
+            $catquery->select($db->qn('sg.categories'))
                 ->from($db->qn('#__redshop_shopper_group', 'sg'))
                 ->leftJoin(
-                    $db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('sg.shopper_group_id') . ' = ' . $db->qn(
+                    $db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('sg.id') . ' = ' . $db->qn(
                         'uf.shopper_group_id'
                     )
                 )
                 ->where($db->qn('uf.user_id') . ' = ' . (int)$user->id)
-                ->where($db->qn('sg.shopper_group_portal') . ' = 1');
+                ->where($db->qn('sg.portal') . ' = 1');
         } else {
-            $catquery->select($db->qn('sg.shopper_group_categories'))
+            $catquery->select($db->qn('sg.categories'))
                 ->from($db->qn('#__redshop_shopper_group', 'sg'))
-                ->where($db->qn('sg.shopper_group_id') . ' = ' . (int)$shopperGroupId)
-                ->where($db->qn('sg.shopper_group_portal') . ' = 1');
+                ->where($db->qn('sg.id') . ' = ' . (int)$shopperGroupId)
+                ->where($db->qn('sg.portal') . ' = 1');
         }
 
         $db->setQuery($catquery);
@@ -3904,7 +3904,7 @@ class RedshopHelperProduct
         if (empty($category_ids_obj)) {
             return "";
         } else {
-            $category_ids = $category_ids_obj[0]->shopper_group_categories;
+            $category_ids = $category_ids_obj[0]->categories;
         }
 
         // Sanitize ids
