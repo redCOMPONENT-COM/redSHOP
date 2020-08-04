@@ -460,7 +460,7 @@ trait CartItem
 
                     if (!$quotationMode || ($quotationMode && \Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))) {
                         $wrapperName .= "(" . \RedshopHelperProductPrice::formattedPrice(
-                                $cart[$i]['wrapper_price'],
+                                $wrapper[0]->wrapper_price,
                                 true
                             ) . ")";
                     }
