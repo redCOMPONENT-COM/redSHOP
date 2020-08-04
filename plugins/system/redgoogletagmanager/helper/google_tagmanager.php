@@ -17,6 +17,11 @@ defined('_JEXEC') or die;
 class RedSHOPGoogle_TagmanagerHelper
 {
     /**
+     * @var  string
+     */
+    public $trackerKey;
+
+    /**
      * Code settings for Google tag manager
      *
      * @param   array  $tagmanagerData  Tag manager data in associative array which needs to be send on GA.

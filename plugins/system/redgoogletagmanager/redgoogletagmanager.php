@@ -39,7 +39,7 @@ class PlgSystemRedGoogleTagmanager extends JPlugin
     {
         $app = JFactory::getApplication();
 
-        if (!$app->isSite()) {
+        if (!$app->isClient('site')) {
             return;
         }
 
@@ -68,7 +68,7 @@ class PlgSystemRedGoogleTagmanager extends JPlugin
     {
         $app = JFactory::getApplication();
 
-        if (!$app->isSite()) {
+        if (!$app->isClient('site')) {
             return;
         }
 
