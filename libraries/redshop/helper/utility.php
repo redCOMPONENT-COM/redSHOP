@@ -225,12 +225,12 @@ class RedshopHelperUtility
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_shopper_group'))
-            ->where($db->qn('shopper_group_id') . ' = ' . $shopperGroupId);
+            ->where($db->qn('id') . ' = ' . $shopperGroupId);
 
         $shopperGroupData = $db->setQuery($query)->loadObject();
 
         if ($shopperGroupData) {
-            if ($shopperGroupData->shopper_group_quotation_mode) {
+            if ($shopperGroupData->quotation_mode) {
                 return true;
             }
 
