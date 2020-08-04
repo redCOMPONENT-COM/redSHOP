@@ -351,7 +351,7 @@ function calculateOfflineTotalPrice(unique_id) {
 		document.getElementById("taxprice" + unique_id).value = (final_price_f - excl_price) * quantity;
 	}
 	if (document.getElementById('subprice' + unique_id)) {
-        document.getElementById('subprice' + unique_id).value = excl_price;
+        document.getElementById('subprice' + unique_id).value = excl_price * quantity;
 	}
 	if (document.getElementById('tdtotalprd' + unique_id)) {
 		document.getElementById('tdtotalprd' + unique_id).innerHTML = number_format(quantity * final_price_f, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
