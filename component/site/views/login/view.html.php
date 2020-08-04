@@ -28,7 +28,7 @@ class RedshopViewLogin extends RedshopView
         $check = $model->CheckShopperGroup($user->username, $shoppergroupid);
 
         if ($layout == 'portal' || Redshop::getConfig()->get('PORTAL_SHOP') == 1) {
-            isset($ShopperGroupDetail[0]->shopper_group_portal) ? $portal = $ShopperGroupDetail[0]->shopper_group_portal : $portal = 0;
+            isset($ShopperGroupDetail[0]->portal) ? $portal = $ShopperGroupDetail[0]->portal : $portal = 0;
 
             if ($portal == 1 || Redshop::getConfig()->get('PORTAL_SHOP') == 1) {
                 if ($user->id != "") {
