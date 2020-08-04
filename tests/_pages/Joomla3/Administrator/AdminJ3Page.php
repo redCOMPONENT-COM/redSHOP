@@ -697,6 +697,12 @@ abstract class AdminJ3Page
 	public static $labelSelectManufacturer = "Select Manufacturer";
 
 	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $messageDeleteInPopup = "Are you sure want to delete these items?";
+
+	/**
 	 * @param $menuCategory
 	 * @return array
 	 * @since 2.1.2
