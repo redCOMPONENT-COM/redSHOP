@@ -53,9 +53,15 @@ class RedshopTableWrapper extends RedshopTable
 		// Get input
 		$app   = JFactory::getApplication();
 		$input = $app->input;
+        $data = $input->post->get('jform', [], 'array()');
 
 		$wrapperFile = $input->files->get('jform');
 		$image        = $wrapperFile['image_file'];
+		$productIds = $data['product_id'];
+
+		if (is_array($productIds)) {
+		    $this->product_id = implode(',', $productIds);
+        }
 
 		if ($image['name'] != '' && $this->image != '') {
 			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper/' . $this->image);
