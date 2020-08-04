@@ -52,7 +52,6 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 			$I->click(RatingManagerPage::$selectUser);
 			$I->waitForElementVisible(RatingManagerPage::$inputSearchUser, 30);
 			$I->fillField(RatingManagerPage::$inputSearchUser, $rating['user']);
-			$I->pauseExecution();
 			$I->waitForElementVisible(RatingManagerPage::$searchUserFirst, 30);
 			$I->click(RatingManagerPage::$searchUserFirst);
 		}
