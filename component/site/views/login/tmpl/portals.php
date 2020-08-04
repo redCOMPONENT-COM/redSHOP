@@ -38,12 +38,12 @@ if ($module = JModuleHelper::getModule('redshop_login')) {
         <?php if (isset($this->ShopperGroupDetail[0])) : ?>
             <tr>
                 <td>
-                    <h1><?php echo $this->ShopperGroupDetail[0]->shopper_group_name; ?></h1>
+                    <h1><?php echo $this->ShopperGroupDetail[0]->name; ?></h1>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <strong><?php echo $this->ShopperGroupDetail[0]->shopper_group_introtext; ?></strong>
+                    <strong><?php echo $this->ShopperGroupDetail[0]->introtext; ?></strong>
                 </td>
             </tr>
         <?php endif; ?>
