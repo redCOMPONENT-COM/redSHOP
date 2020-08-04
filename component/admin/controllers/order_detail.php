@@ -348,9 +348,11 @@ class RedshopControllerOrder_detail extends RedshopController
         $cid  = $this->input->get->get('cid', array(0), 'array');
         $tmpl = $this->input->getCmd('tmpl', '');
         $msg  = JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL');
+        $type = 'error';
 
         if (RedshopHelperOrder::sendDownload($cid[0])) {
             $msg = JText::_('COM_REDSHOP_DOWNLOAD_MAIL_HAS_BEEN_SENT');
+            $type = 'message';
         }
 
         if ($tmpl) {
@@ -359,7 +361,7 @@ class RedshopControllerOrder_detail extends RedshopController
                 $msg
             );
         } else {
-            $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
+            $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg, $type);
         }
     }
 
