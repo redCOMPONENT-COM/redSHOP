@@ -77,8 +77,8 @@ class RedshopModelAttributeprices extends RedshopModel
             $q     = 'LEFT JOIN ' . $this->_table_prefix . 'product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
         }
 
-        $query = 'SELECT p.*, g.shopper_group_name, ' . $field . ' FROM ' . $this->_table_prefix . 'product_attribute_price AS p '
-            . 'LEFT JOIN ' . $this->_table_prefix . 'shopper_group AS g ON p.shopper_group_id = g.shopper_group_id '
+        $query = 'SELECT p.*, g.name, ' . $field . ' FROM ' . $this->_table_prefix . 'product_attribute_price AS p '
+            . 'LEFT JOIN ' . $this->_table_prefix . 'shopper_group AS g ON p.shopper_group_id = g.id '
             . $q
             . 'WHERE p.section_id="' . $this->_sectionid . '" '
             . 'AND p.section = "' . $this->_section . '" ';
