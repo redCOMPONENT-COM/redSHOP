@@ -34,8 +34,8 @@ abstract class ModRedshopSearch
             ->where($db->qn('parent_id') . ' != 0')
             ->order($db->qn('name'));
 
-        if (!empty($shopperGroupData) && isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories) {
-            $query->where($db->qn('id') . ' IN(' . $shopperGroupData[0]->shopper_group_categories . ')');
+        if (!empty($shopperGroupData) && isset($shopperGroupData[0]) && $shopperGroupData[0]->categories) {
+            $query->where($db->qn('id') . ' IN(' . $shopperGroupData[0]->categories . ')');
         }
 
         return $db->setQuery($query)->loadObjectList();
@@ -57,8 +57,8 @@ abstract class ModRedshopSearch
             ->from($db->qn('#__redshop_manufacturer'))
             ->where($db->qn('published') . ' = 1');
 
-        if (!empty($shopperGroupData) && isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_manufactures) {
-            $query->where($db->qn('id') . ' IN(' . $shopperGroupData[0]->shopper_group_manufactures . ')');
+        if (!empty($shopperGroupData) && isset($shopperGroupData[0]) && $shopperGroupData[0]->manufactures) {
+            $query->where($db->qn('id') . ' IN(' . $shopperGroupData[0]->manufactures . ')');
         }
 
         return $db->setQuery($query)->loadObjectList();
