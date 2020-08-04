@@ -55,13 +55,13 @@ class ShopperGroup
             $db = \JFactory::getDbo();
             $query = $db->getQuery(true)
                 ->select(
-                    array('sh.*', $db->qn('sh.shopper_group_id', 'value'), $db->qn('sh.shopper_group_name', 'text'))
+                    array('sh.*', $db->qn('sh.id', 'value'), $db->qn('sh.name', 'text'))
                 )
                 ->from($db->qn('#__redshop_shopper_group', 'sh'))
                 ->where('sh.published = 1');
 
             if ($shopperGroupId) {
-                $query->where('sh.shopper_group_id = ' . (int)$shopperGroupId);
+                $query->where('sh.id = ' . (int)$shopperGroupId);
             }
 
             $db->setQuery($query);
