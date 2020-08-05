@@ -121,10 +121,12 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(StockRoomManagerJoomla3Page::$URL);
+		$I->waitForElementVisible(StockRoomManagerJoomla3Page::$resetButton, 30);
 		$I->click(StockRoomManagerJoomla3Page::$resetButton);
+		$I->waitForElementVisible(StockRoomManagerJoomla3Page::$resetButton, 30);
 		$I->checkAllResults();
 		$I->click(StockRoomManagerJoomla3Page::$buttonDelete);
 		$I->acceptPopup();
-		$I->waitForText(StockRoomManagerJoomla3Page::$deleteMessage, 30, StockRoomManagerJoomla3Page::$selectorSuccess);
+		$I->waitForText(StockRoomManagerJoomla3Page::$messageNoItemOnTable, 30);
 	}
 }
