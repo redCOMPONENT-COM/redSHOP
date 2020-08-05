@@ -1102,17 +1102,23 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
-		try{
+
+		try
+		{
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$selectorSuccess, 60, FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		}catch (\Exception $e)
 		{
 		}
+
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productname]);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForText($total, 30 ,FrontEndProductManagerJoomla3Page::$priceEnd);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-		try {
+
+		try
+		{
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
@@ -1122,6 +1128,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
 		}
+
 		$I->waitForElement($productFrontEndManagerPage->product($productname), 30);
 		$I->seeElement($productFrontEndManagerPage->product($productname));
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -1168,10 +1175,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		foreach ($quantity as $char) {
 			$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, $char);
 		}
-		$I->waitForElement(CheckoutChangeQuantityProductPage::$updateCartButton, 30);
-		$I->click(CheckoutChangeQuantityProductPage::$updateCartButton);
-		$I->waitForText($total, 30, FrontEndProductManagerJoomla3Page::$priceEnd);
+
+		$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForText($total, 120, FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$priceEnd);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		try {
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$billingFinal, 30);

@@ -30,7 +30,7 @@ class RedshopViewProduct_attribute_price extends RedshopViewAdmin
         $db->setQuery($sql);
         $product = $db->loadObject();
 
-        $sql = "SELECT g.*,p.product_price,p.price_id,p.price_quantity_end,p.price_quantity_start FROM #__redshop_shopper_group g LEFT JOIN #__redshop_product_attribute_price p ON g.shopper_group_id = p.shopper_group_id   AND section_id = '$section_id'";
+        $sql = "SELECT g.*,p.product_price,p.price_id,p.price_quantity_end,p.price_quantity_start FROM #__redshop_shopper_group g LEFT JOIN #__redshop_product_attribute_price p ON g.id = p.shopper_group_id   AND section_id = '$section_id'";
         $db->setQuery($sql);
         $prices = $db->loadObjectList();
         $uri    = JFactory::getURI();

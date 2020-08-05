@@ -195,8 +195,8 @@ class RedshopMenuLeft_Menu
 
             case "user":
             case 'user_detail':
-            case "shopper_group":
-            case "shopper_group_detail":
+            case "shoppergroups":
+            case "shoppergroup":
                 return array('USER', 'user');
 
             case "tax_groups":
@@ -616,9 +616,9 @@ class RedshopMenuLeft_Menu
                 'COM_REDSHOP_USER_SYNC'
             )
             ->addItem(
-                'index.php?option=com_redshop&view=shopper_group',
+                'index.php?option=com_redshop&view=shoppergroups',
                 'COM_REDSHOP_SHOPPER_GROUP_LISTING',
-                self::$view === 'shopper_group'
+                self::$view === 'shoppergroups'
             );
 
         JFactory::getDocument()->addScriptDeclaration(
