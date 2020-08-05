@@ -53,7 +53,7 @@ class RedshopModelStockrooms extends RedshopModelList
 	 */
 	protected function populateState($ordering = 'id', $direction = 'asc')
 	{
-		$search = $this->getUserStateFromRequest('id' . '.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		// List state information.
