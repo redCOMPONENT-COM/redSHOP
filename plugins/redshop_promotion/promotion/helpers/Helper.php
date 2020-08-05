@@ -21,6 +21,59 @@ class Helper
     /**
      * @param $promotion
      * @param $cart
+     * @return bool
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getConditionProductAmount(&$promotion, &$cart) {
+        $conditionAmount = false;
+        $conditionManufacturer = true;
+        $conditionCategory = true;
+        $conditionProduct = true;
+        $conditionTime = true;
+
+        if (isset($promotion->product)) {
+            $conditionProduct = false;
+        }
+
+        if (isset($promotion->manufacturer)) {
+            $conditionManufacturer = false;
+        }
+
+        if (isset($promotion->category)) {
+            $conditionCategory = false;
+        }
+
+        $count = 0;
+
+        for ($i = 0; $i < $cart['idx']; $i++) {
+            $product = \Redshop\Product\Product::getProductById($cart[$i]['product_id']);
+
+            if (isset($promotion->product) && in_array($product->product_id, $promotion->product)) {
+                $conditionProduct = true;
+                $count += $cart[$i]['quantity'];
+            }
+
+            if (isset($promotion->category) && in_array($product->category_id, $promotion->category)) {
+                $conditionCategory = true;
+                $count += $cart[$i]['quantity'];
+            }
+
+            if (isset($promotion->manufacturer) && in_array($product->manufacturer_id, $promotion->manufacturer)) {
+                $conditionManufacturer = true;
+                $count += $cart[$i]['quantity'];
+            }
+        }
+
+        if ($count >= $promotion->condition_amount) {
+            $conditionAmount = true;
+        }
+
+        return $conditionAmount && $conditionProduct && $conditionManufacturer && $conditionCategory && $conditionTime;
+    }
+
+    /**
+     * @param $promotion
+     * @param $cart
      * @return |null
      * @since  __DEPLOY_VERSION__
      */
