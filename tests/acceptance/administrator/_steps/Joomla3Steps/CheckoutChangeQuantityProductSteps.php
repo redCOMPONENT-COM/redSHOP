@@ -49,9 +49,10 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 			$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, $char);
 		}
 
-		$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$updateCartButton, 30);
-		$I->click(CheckoutChangeQuantityProductPage::$updateCartButton);
-		$I->waitForText($total, 30, FrontEndProductManagerJoomla3Page::$priceTotal);
+		$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForText($total, 120, FrontEndProductManagerJoomla3Page::$priceTotal);
+		$I->see($total, FrontEndProductManagerJoomla3Page::$priceTotal);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$checkoutButton, 30);
 		$I->click(CheckoutChangeQuantityProductPage::$checkoutButton);
 		$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$bankTransfer, 30);
