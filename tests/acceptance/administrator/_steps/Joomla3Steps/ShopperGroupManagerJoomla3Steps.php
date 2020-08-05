@@ -353,6 +353,6 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 		$I->canSeeInPopup(ShopperGroupJ3Page::$messageDeleteInPopup);
 		$I->acceptPopup();
-		$I->waitForText(ShopperGroupJ3Page::$deleteShopperSuccess, 30, AdminJ3Page::$selectorSuccess);
+		$I->waitForElementNotVisible($shoppergroup->xPathShoppergroupName($shoppergroupname), 30);
 	}
 }
