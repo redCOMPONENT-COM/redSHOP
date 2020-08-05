@@ -109,6 +109,7 @@ class Cart
 
         \Redshop\Cart\Helper::removeItemCart($cartElement);
         \Redshop\Cart\Ajax::renderModuleCartHtml();
+        \Redshop\Workflow\Promotion::apply();
         \RedshopHelperCart::addCartToDatabase();
 
         $link = \JRoute::_(

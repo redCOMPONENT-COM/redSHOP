@@ -948,8 +948,6 @@ abstract class RedshopHelperCart
      */
     public static function emptyCart()
     {
-        //$cart = \Redshop\Cart\Helper::getCart();
-        //unset($cart);
         $cart = [];
 
         setcookie('redSHOPcart', '', time() - 3600, '/');
