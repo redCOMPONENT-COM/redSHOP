@@ -91,12 +91,8 @@ class Step
      * @since  __DEPLOY_VERSION__
      */
     public static function getPromotionsFromCart(&$cart) {
-        $promotions = [];
+        $cart['promotions'] = $cart['promotions'] ?? [];
 
-        if (!empty($cart['promotions'])) {
-            $promotions =& $cart['promotions'];
-        }
-
-        return $promotions;
+        return $cart['promotions'];
     }
 }

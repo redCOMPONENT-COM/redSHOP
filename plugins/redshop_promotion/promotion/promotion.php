@@ -139,12 +139,12 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @param $cart
      * @since __DEPLOY_VESION__
      */
-    public function onApply(&$cart = null) {
+    public function onApply() {
         # Step1: load Promotion into $cart['promotion']
-        $this->loadPromotions($cart);
+        $this->loadPromotions();
 
         # Step2: Apply promotions
-        $this->checkAndApplyPromotion($cart);
+        $this->checkAndApplyPromotion();
     }
 
     /**
@@ -152,25 +152,40 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @return array|mixed
      * @since  __DEPLOY_VERSION__
      */
-    protected function loadPromotions(&$cart){
-        $this->query->clear()
-            ->select('*')
-            ->from($this->db->qn($this->table))
-            ->where($this->db->qn('published') . ' = ' . $this->db->q('1'))
-            ->where($this->db->qn('type') . ' = ' . $this->db->q('promotion'));
+    protected function loadPromotions(){
+        $cart = \Redshop\Cart\Helper::getCart();
+        $cart['promotions'] = $cart['promotions']?? [];
+        $db = \Joomla\CMS\Factory::getDbo();
 
-        $result =  $this->db->setQuery($this->query)->loadObjectList();
+        if (!count($cart['promotions'])) {
+            $query = $db->getQuery(true)
+                ->select('*')
+                ->from($db->qn($this->table))
+                ->where($db->qn('published') . ' = ' . $db->q('1'))
+                ->where($db->qn('type') . ' = ' . $db->q('promotion'));
 
-        for($i = 0; $i < count($result); $i++) {
-            $result[$i]->data = base64_decode($result[$i]->data);
-            $result[$i]->data = json_decode($result[$i]->data);
-            $result[$i]->isApplied = false;
+            $promotions =  $db->setQuery($query)->loadObjectList();
+
+            for ($i = 0; $i < count($promotions); $i++) {
+                $promotions[$i]->data = base64_decode($promotions[$i]->data);
+                $promotions[$i]->data = json_decode($promotions[$i]->data);
+                $promotions[$i]->isApplied = false;
+
+                $flag = true;
+
+                for ($n = 0; $n < count($cart['promotions']); $n++) {
+                    if ($promotions[$i]->id == $cart['promotions'][$n]->id) {
+                        $flag = false;
+                    }
+                }
+
+                if ($flag == true) {
+                    $cart['promotions'][] = $promotions[$i];
+                }
+            }
         }
 
-        $promotions = $result;
-        $cart['promotions'] = $cart['promotions']?? [];
-        //$cart['promotions'] = array_merge($cart['promotions'], $promotions);
-        // TODO: fix duplicated promotions
+        \Redshop\Cart\Helper::setCart($cart);
     }
 
     /**
@@ -178,11 +193,14 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @param $cart
      * @since __DEPLOY_VERSION__
      */
-    protected function checkAndApplyPromotion(&$cart){
+    protected function checkAndApplyPromotion(){
         $result = false;
 
         # Step 1: get prepared promotions objects loaded into Cart.
-        $promotions = Step::getPromotionsFromCart($cart);
+        $cart = \Redshop\Cart\Helper::getCart();
+
+        $cart['promotions'] = $cart['promotions'] ?? [];
+        $promotions =& $cart['promotions'];
 
         # Step 2: Validate is it pass or fail condition to continue
         $isFail = empty($cart) || empty($cart['idx']) || ($cart['idx'] == 0) || !count($promotions);
@@ -198,6 +216,6 @@ class PlgRedshop_PromotionPromotion extends JPlugin
         }
 
         # Step: Store cart back to session
-        //\Redshop\Cart\Helper::setCart($cart);
+        \Redshop\Cart\Helper::setCart($cart);
     }
 }

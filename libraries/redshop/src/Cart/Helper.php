@@ -141,29 +141,18 @@ class Helper
     }
 
     /**
-     * @return int[]|mixed|null
-     * @since  __DEPLOY_VERSION__
+     * @return array|mixed
+     * @since 3.0
      */
-    protected static function getCartBeforePlugin() {
-        $cart = \JFactory::getSession()->get('cart', null);
+    public static function getCart()
+    {
+        $cart = \Joomla\CMS\Factory::getSession()->get('cart', null);
 
         if (empty($cart)) {
             $cart = [
                 'idx' => 0
             ];
         }
-
-        return $cart;
-    }
-
-    /**
-     * @return array|mixed
-     * @since 3.0
-     */
-    public static function getCart()
-    {
-        $cart = self::getCartBeforePlugin();
-        //\Redshop\Workflow\Promotion::apply($cart);
 
         return $cart;
     }
@@ -389,8 +378,6 @@ class Helper
      */
     public static function setCart($cart)
     {
-        \Redshop\Workflow\Promotion::apply($cart);
-
         return \JFactory::getSession()->set('cart', $cart);
     }
 
