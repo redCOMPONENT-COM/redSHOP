@@ -46,18 +46,11 @@
                 table-sortable="1"
         />
         <field
-                name="image_file"
+                name="image"
                 type="file"
                 label-class="radio-inline"
                 label="COM_REDSHOP_WRAPPER_IMAGE"
                 description="COM_REDSHOP_WRAPPER_IMAGE"
-        />
-        <field
-                id="image"
-                name="image"
-                type="hidden"
-                default=""
-                readonly="true"
         />
         <field
                 id="use_to_all"

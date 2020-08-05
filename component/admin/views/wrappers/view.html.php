@@ -39,7 +39,7 @@ class RedshopViewWrappers extends RedshopViewList
                 );
 
                 return '<a href="'. $nameLink .'">'. $row->name .'</a>';
-			case 'image_file' :
+			case 'image' :
 				$wimage_path = 'wrapper/' . $row->image;
 
 				return '<a class="joom-box" href="'. REDSHOP_FRONT_IMAGES_ABSPATH . $wimage_path .'" rel="{handler: \'image\', size: {}}">'. $row->image .'</a>';
