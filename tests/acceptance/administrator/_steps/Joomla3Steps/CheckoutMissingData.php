@@ -66,6 +66,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 	{
 		$I = $this;
 		$I->comment('checkout with private');
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressEmail, 60);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressFirstName, 30);

@@ -44,7 +44,6 @@
         <div class="discount_text">{discount_rule}</div>
 
         <div class="cart_button pull-right">
-            <span class="inline">{update}</span>
             <span class="inline">{empty_cart}</span>
         </div>
     </div>
