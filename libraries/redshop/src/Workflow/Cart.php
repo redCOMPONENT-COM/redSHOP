@@ -58,6 +58,7 @@ class Cart
         // Call update method of model to update product info of cart
         \Redshop\Cart\Helper::updateCart($post);
         \Redshop\Cart\Ajax::renderModuleCartHtml();
+        \Redshop\Workflow\Promotion::apply();
         \RedshopHelperCart::addCartToDatabase();
 
         if ($ajax) {

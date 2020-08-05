@@ -39,43 +39,56 @@ class Step
             case 'amount_product':
                 break;
             case 'volume_order':
-                if (!$isApplied) {
-                    # Step1: Check is pass condition
-                    $condition = Helper::getConditionOrderVolume($data, $cart);
+                if (!$isApplied && Helper::getConditionOrderVolume($data, $cart)) {
+                    $promotion->isApplied = true;
+                    //var_dump($promotion->isApplied);
+                    $idx = $cart['idx']++;
+                    $productAwardId = $data->product_award ?? 0;
+                    $productAwardAmount = $data->award_amount ?? 0;
+                    $product = \Redshop\Product\Product::getProductById($productAwardId);
 
-                    if ($condition) {
-                        $promotion->isApplied = true;
-                        //var_dump($promotion->isApplied);
-                        $idx = $cart['idx']++;
-                        $productAwardId = $data->product_award ?? 0;
-                        $productAwardAmount = $data->award_amount ?? 0;
-                        $product = \Redshop\Product\Product::getProductById($productAwardId);
+                    $award = [
+                        'hidden_attribute_cartimage' => '',
+                        'product_price_excl_vat' => 0.0,
+                        'subscription_id' => 0,
+                        'product_vat' => 0,
+                        'giftcard_id' => '',
+                        'product_id' => $productAwardId,
+                        'discount_calc_output' => '',
+                        'discount_calc' => [],
+                        'product_price' => 0.0,
+                        'product_old_price' => 0.0,
+                        'product_old_price_excl_vat' => 0.0,
+                        'cart_attribute' => [],
+                        'cart_accessory' => [],
+                        'quantity' => $productAwardAmount ?? 1,
+                        'category_id' => $product->category_id ?? 0,
+                        'wrapper_id' => 0,
+                        'wrapper_price' => 0.0,
+                        'isPromotionAward' => true,
+                        'promotion_id' => $promotion->id
+                    ];
 
-                        $award = [
-                            'hidden_attribute_cartimage' => '',
-                            'product_price_excl_vat' => 0.0,
-                            'subscription_id' => 0,
-                            'product_vat' => 0,
-                            'giftcard_id' => '',
-                            'product_id' => $productAwardId,
-                            'discount_calc_output' => '',
-                            'discount_calc' => [],
-                            'product_price' => 0.0,
-                            'product_old_price' => 0.0,
-                            'product_old_price_excl_vat' => 0.0,
-                            'cart_attribute' => [],
-                            'cart_accessory' => [],
-                            'quantity' => $productAwardAmount ?? 1,
-                            'category_id' => $product->category_id ?? 0,
-                            'wrapper_id' => 0,
-                            'wrapper_price' => 0.0,
-                            'isPromotionAward' => true,
-                            'promotion_id' => $promotion->id
-                        ];
+                    $cart[$idx] = $award;
+                } else {
+                    $unCount = 0;
+                    for ($i = 0; $i < $cart['idx']; $i++) {
 
-                        $cart[$idx] = $award;
-                    } else {
-                        //TODO: remove promotion items out of cart if not satisfy promotion condition
+                        while (isset($cart[$i]) &&
+                            ($cart[$i]['promotion_id'] == $promotion->id)) {
+                            $unCount++;
+                            $promotion->isApplied = false;
+
+                            if (isset($cart[$i + 1])) {
+                                $cart[$i] = $cart[$i + 1];
+                            } else {
+                                unset($cart[$i]);
+                            }
+                        }
+                    }
+
+                    if ($unCount > 0) {
+                        $cart['idx'] = $cart['idx'] - $unCount;
                     }
                 }
 
