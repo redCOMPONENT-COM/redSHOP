@@ -332,6 +332,6 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 		$I->canSeeInPopup(ShopperGroupJ3Page::$messageDeleteInPopup);
 		$I->acceptPopup();
-		$I->waitForText(StockRoomManagerJoomla3Page::$messageNoItemOnTable, 30);
+		$I->waitForText(ShopperGroupJ3Page::$messageNoItemOnTable, 30);
 	}
 }
