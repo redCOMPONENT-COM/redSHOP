@@ -37,18 +37,17 @@ class Step
 
         switch($data->promotion_type) {
             case 'amount_product':
-                //echo 'here'; die;
                 if (!$promotion->isApplied && Helper::getConditionProductAmount($data, $cart)) {
                     self::applyPromotionProductAmount($promotion, $cart);
                 } else {
-                    self::removePromotion($promotion, $cart);
+                    self::removeAppliedPromotion($promotion, $cart);
                 }
                 break;
             case 'volume_order':
                 if (!$promotion->isApplied && Helper::getConditionOrderVolume($data, $cart)) {
                     self::applyPromotionVolumeOrder($promotion, $cart);
                 } else {
-                    self::removePromotion($promotion, $cart);
+                    self::removeAppliedPromotion($promotion, $cart);
                 }
 
                 break;
@@ -108,7 +107,7 @@ class Step
      * @param $cart
      * @since __DEPLOY_VERSION__
      */
-    public static function removePromotion(&$promotion, &$cart) {
+    public static function removeAppliedPromotion(&$promotion, &$cart) {
         $unCount = 0;
         for ($i = 0; $i < $cart['idx']; $i++) {
 
