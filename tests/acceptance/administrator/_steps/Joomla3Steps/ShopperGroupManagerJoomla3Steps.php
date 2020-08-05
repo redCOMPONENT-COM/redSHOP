@@ -345,7 +345,8 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$shoppergroup = new ShopperGroupJ3Page();
 		$I->waitForElementVisible($shoppergroup->xPathShoppergroupName($shoppergroupname), 30);
 		$I->waitForElementVisible(ShopperGroupJ3Page::$checkAllXpath, 30);
-		$I->checkAllResults();
+		$I->click(ShopperGroupJ3Page::$checkAllXpath);
+		$I->waitForText(ShopperGroupJ3Page::$buttonDelete, 30);
 		$I->click(ShopperGroupJ3Page::$buttonDelete);
 		$I->acceptPopup();
 		$I->waitForText(ShopperGroupJ3Page::$deleteShopperSuccess, 30, AdminJ3Page::$selectorSuccess);
