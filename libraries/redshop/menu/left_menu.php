@@ -141,10 +141,10 @@ class RedshopMenuLeft_Menu
             case "addquotation_detail":
                 return array('ORDER', 'quotation');
 
-            case "stockroom":
+            case "stockrooms":
             case "stockroom_listing":
             case "stockimage":
-                return array('STOCKROOM', 'stockroom');
+                return array('STOCKROOM', 'stockrooms');
 
             case "suppliers":
             case "supplier":
@@ -452,9 +452,9 @@ class RedshopMenuLeft_Menu
         self::$menu->section('stockroom')
             ->title('COM_REDSHOP_STOCKROOM')
             ->addItem(
-                'index.php?option=com_redshop&view=stockroom',
+                'index.php?option=com_redshop&view=stockrooms',
                 'COM_REDSHOP_STOCKROOM_LISTING',
-                self::$view === 'stockroom'
+                self::$view === 'stockrooms'
             )
             ->addItem(
                 'index.php?option=com_redshop&view=stockroom_listing',
