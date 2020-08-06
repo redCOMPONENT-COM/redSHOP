@@ -193,7 +193,7 @@ abstract class AdminJ3Page
 	 * @var array
 	 * @since 2.1.2
 	 */
-	public static $resetButton = "//input[@id='reset']";
+	public static $resetButton = "//input[@value='Reset']";
 
 	/**
 	 * @var array

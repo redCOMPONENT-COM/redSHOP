@@ -2051,17 +2051,23 @@ COMMENT = 'States that are assigned to a country';
 DROP TABLE IF EXISTS `#__redshop_stockroom` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_stockroom` (
-  `stockroom_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `stockroom_name` VARCHAR(250) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(250) NOT NULL,
   `min_stock_amount` INT(11) NOT NULL,
-  `stockroom_desc` LONGTEXT NOT NULL,
+  `desc` LONGTEXT NOT NULL,
   `creation_date` DOUBLE NOT NULL,
   `min_del_time` INT(11) NOT NULL,
   `max_del_time` INT(11) NOT NULL,
   `show_in_front` TINYINT(1) NOT NULL,
   `delivery_time` VARCHAR(255) NOT NULL,
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `published` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`stockroom_id`),
+  PRIMARY KEY (`id`),
   INDEX `idx_published` (`published` ASC),
   INDEX `idx_min_del_time` (`min_del_time` ASC))
 ENGINE = InnoDB
