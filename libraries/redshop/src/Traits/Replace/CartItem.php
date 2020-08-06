@@ -456,11 +456,11 @@ trait CartItem
                 $wrapper = \RedshopHelperProduct::getWrapper($productId, $cart[$i]['wrapper_id']);
 
                 if (count($wrapper) > 0) {
-                    $wrapperName = \JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper[0]->wrapper_name;
+                    $wrapperName = \JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper[0]->name;
 
                     if (!$quotationMode || ($quotationMode && \Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))) {
                         $wrapperName .= "(" . \RedshopHelperProductPrice::formattedPrice(
-                                $wrapper[0]->wrapper_price,
+                                $wrapper[0]->price,
                                 true
                             ) . ")";
                     }
