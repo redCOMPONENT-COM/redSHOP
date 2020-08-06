@@ -273,11 +273,11 @@ class RedshopModelStockroom_Listing extends RedshopModelList
             }
         }
 
-        $query->leftJoin($db->qn('#__redshop_stockroom', 's') . ' ON s.stockroom_id = sx.stockroom_id')
+        $query->leftJoin($db->qn('#__redshop_stockroom', 's') . ' ON s.id = sx.stockroom_id')
             ->where('s.published = 1');
 
         if ($sid) {
-            $query->where('s.stockroom_id = ' . $db->q($sid));
+            $query->where('s.id = ' . $db->q($sid));
         }
 
         return $db->setQuery($query)->loadObjectlist('concat_id');
