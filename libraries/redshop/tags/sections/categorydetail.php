@@ -457,7 +457,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                     $portal   = 0;
 
                     if (!empty($sgPortal)) {
-                        $portal = $sgPortal->shopper_group_portal;
+                        $portal = $sgPortal->portal;
                     }
 
                     if (!$checkCid && (Redshop::getConfig()->get('PORTAL_SHOP') == 1 || $portal == 1)) {
