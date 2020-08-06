@@ -44,7 +44,7 @@ class RedshopViewWrappers extends RedshopViewList
 
 				return '<a class="joom-box" href="'. REDSHOP_FRONT_IMAGES_ABSPATH . $wimage_path .'" rel="{handler: \'image\', size: {}}">'. $row->image .'</a>';
 			case 'use_to_all':
-				return JHTML::_('grid.published', $row->use_to_all, $index, 'tick.png', 'publish_x.png', 'useToAll');
+				return JHtml::_('redshopgrid.published', $row->use_to_all, $index, 'useToAll');
 			default:
 				return parent::/** @scrutinizer ignore-call */ onRenderColumn($config, $index, $row);
 		}
