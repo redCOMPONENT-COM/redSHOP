@@ -1178,11 +1178,13 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForText($total, 120, FrontEndProductManagerJoomla3Page::$priceEnd);
-		$I->see($total, FrontEndProductManagerJoomla3Page::$priceEnd);
+		$I->see($total);
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-		try {
+
+		try
+		{
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
@@ -1192,6 +1194,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
 		}
+
 		$I->waitForElement($productFrontEndManagerPage->product($productname), 30);
 		$I->seeElement($productFrontEndManagerPage->product($productname));
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
