@@ -341,31 +341,31 @@ class RedshopHelperProduct
 
         $wArray                  = array();
         $wArray[0]               = new stdClass;
-        $wArray[0]->wrapper_id   = 0;
-        $wArray[0]->wrapper_name = JText::_('COM_REDSHOP_SELECT');
+        $wArray[0]->id   = 0;
+        $wArray[0]->name = JText::_('COM_REDSHOP_SELECT');
         $commonId                = $productId . $uniqueId;
 
         for ($i = 0, $in = count($wrapper); $i < $in; $i++) {
             $wrapperVat = 0;
 
-            if ($wrapper[$i]->wrapper_price > 0) {
-                $wrapperVat = self::getProductTax($productId, $wrapper[$i]->wrapper_price, $userId);
+            if ($wrapper[$i]->price > 0) {
+                $wrapperVat = self::getProductTax($productId, $wrapper[$i]->price, $userId);
             }
 
-            $wrapper[$i]->wrapper_price += $wrapperVat;
+            $wrapper[$i]->price += $wrapperVat;
 
-            $wrapperPrice = RedshopHelperProductPrice::formattedPrice($wrapper[$i]->wrapper_price);
+            $wrapperPrice = RedshopHelperProductPrice::formattedPrice($wrapper[$i]->price);
 
             if ($isTripTags) {
                 $wrapperPrice = strip_tags($wrapperPrice);
             }
 
-            $wrapper[$i]->wrapper_name = $wrapper [$i]->wrapper_name . " (" . $wrapperPrice . ")";
+            $wrapper[$i]->name = $wrapper[$i]->name . " (" . $wrapperPrice . ")";
 
             $wrapperList .= "<input type='hidden' id='wprice_" . $commonId . "_"
-                . $wrapper [$i]->wrapper_id . "' value='" . $wrapper[$i]->wrapper_price . "' />";
+                . $wrapper[$i]->id . "' value='" . $wrapper[$i]->price . "' />";
             $wrapperList .= "<input type='hidden' id='wprice_tax_" . $commonId . "_"
-                . $wrapper [$i]->wrapper_id . "' value='" . $wrapperVat . "' />";
+                . $wrapper[$i]->id . "' value='" . $wrapperVat . "' />";
         }
 
         $wrapper = array_merge($wArray, $wrapper);
@@ -375,8 +375,8 @@ class RedshopHelperProduct
             $wrapper,
             'wrapper_id_' . $commonId . '[]',
             'id="wrapper_id_' . $commonId . '" class="inputbox" onchange="calculateOfflineTotalPrice(\'' . $uniqueId . '\');" ',
-            'wrapper_id',
-            'wrapper_name',
+            'id',
+            'name',
             0
         );
 
@@ -403,13 +403,13 @@ class RedshopHelperProduct
         }
 
         if ($default != 0) {
-            $subQuery[] = $db->qn('wrapper_use_to_all') . ' = 1 ';
+            $subQuery[] = $db->qn('use_to_all') . ' = 1 ';
         }
 
         $query = $db->getQuery(true);
 
         if ($wrapper_id != 0) {
-            $query->where($db->qn('wrapper_id') . ' = ' . (int)$wrapper_id);
+            $query->where($db->qn('id') . ' = ' . (int)$wrapper_id);
         }
 
         $query->select('*')
