@@ -336,9 +336,9 @@ class RedshopModelConfiguration extends RedshopModel
 
     public function getShopperGroupPrivate()
     {
-        $query = "SELECT shopper_group_id as value , shopper_group_name as text "
+        $query = "SELECT id as value , name as text "
             . " FROM #__redshop_shopper_group "
-            . " WHERE `shopper_group_customer_type` = '1'";
+            . " WHERE `customer_type` = '1'";
         $this->_db->setQuery($query);
 
         return $this->_db->loadObjectList();
@@ -346,9 +346,9 @@ class RedshopModelConfiguration extends RedshopModel
 
     public function getShopperGroupCompany()
     {
-        $query = "SELECT shopper_group_id as value , shopper_group_name as text "
+        $query = "SELECT id as value , name as text "
             . " FROM #__redshop_shopper_group "
-            . " WHERE `shopper_group_customer_type` = '0'";
+            . " WHERE `customer_type` = '0'";
         $this->_db->setQuery($query);
 
         return $this->_db->loadObjectList();

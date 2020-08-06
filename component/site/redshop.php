@@ -35,7 +35,7 @@ $portal             = 0;
 RedshopHelperUtility::databaseToCart();
 
 if (!empty($shopperGroupPortal)) {
-    $portal = $shopperGroupPortal->shopper_group_portal;
+    $portal = $shopperGroupPortal->portal;
 }
 
 if (Redshop::getConfig()->get('PORTAL_SHOP') == 1) {

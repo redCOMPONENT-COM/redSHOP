@@ -31,11 +31,11 @@ class Helper
         $wrappers   = array();
 
         if (count($wrapper) > 0) {
-            if ($wrapper[0]->wrapper_price > 0) {
-                $wrapperVat = \RedshopHelperProduct::getProductTax($cart['product_id'], $wrapper[0]->wrapper_price);
+            if ($wrapper[0]->price > 0) {
+                $wrapperVat = \RedshopHelperProduct::getProductTax($cart['product_id'], $wrapper[0]->price);
             }
 
-            $wrapperPrice = $wrapper[0]->wrapper_price;
+            $wrapperPrice = $wrapper[0]->price;
 
             $wrappers['wrapper_vat']   = $wrapperVat;
             $wrappers['wrapper_price'] = $wrapperPrice;
@@ -62,7 +62,7 @@ class Helper
                     $db->qn('#__redshop_product', 'p')
                     . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('w.product_id')
                 )
-                ->where($db->qn('w.wrapper_id') . ' = ' . $db->q((int)$id));
+                ->where($db->qn('w.id') . ' = ' . $db->q((int)$id));
 
             $db->setQuery($query);
 
@@ -88,7 +88,7 @@ class Helper
             $query = $db->getQuery(true);
 
             $query->delete($db->qn('#__redshop_wrapper'))
-                ->where($db->qn('wrapper_id') . ' IN (' . $db->q(implode(',', $wrapperIds)) . ')');
+                ->where($db->qn('id') . ' IN (' . $db->q(implode(',', $wrapperIds)) . ')');
 
             return \Redshop\DB\Tool::safeExecute($db, $query);
         }
@@ -114,7 +114,7 @@ class Helper
                     [
                         $db->qn('published') . ' = ' . $db->q($publish)
                     ]
-                )->where($db->qn('wrapper_id') . ' IN (' . $db->q(implode(',', $wrapperIds)) . ')');
+                )->where($db->qn('id') . ' IN (' . $db->q(implode(',', $wrapperIds)) . ')');
 
             return \Redshop\DB\Tool::safeExecute($db, $query);
         }
@@ -140,9 +140,9 @@ class Helper
             $query->update($db->qn('#__redshop_wrapper'))
                 ->set(
                     [
-                        $db->qn('wrapper_use_to_all') . ' = ' . $db->q((int)$status)
+                        $db->qn('use_to_all') . ' = ' . $db->q((int)$status)
                     ]
-                )->where($db->qn('wrapper_id') . ' IN (' . $db->q($wrapperIds) . ')');
+                )->where($db->qn('id') . ' IN (' . $db->q($wrapperIds) . ')');
 
             return \Redshop\DB\Tool::safeExecute($db, $query);
         }
