@@ -114,7 +114,8 @@ class shippingDefaultGLS extends CheckoutWithEWAYPayment
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 
 		$I->comment('Business');
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$radioCompany, 60);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioCompany, 60);
 		$I->wait(1);
 		$I->click(FrontEndProductManagerJoomla3Page::$radioCompany);
 

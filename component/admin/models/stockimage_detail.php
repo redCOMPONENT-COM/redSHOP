@@ -161,7 +161,7 @@ class RedshopModelStockimage_detail extends RedshopModel
 
     public function getStockRoomList()
     {
-        $query = 'SELECT s.stockroom_id AS value, s.stockroom_name AS text,s.* FROM ' . $this->_table_prefix . 'stockroom AS s ';
+        $query = 'SELECT s.id AS value, s.name AS text,s.* FROM ' . $this->_table_prefix . 'stockroom AS s ';
         $this->_db->setQuery($query);
         $list = $this->_db->loadObjectlist();
 
