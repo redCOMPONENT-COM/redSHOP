@@ -889,7 +889,7 @@ INSERT IGNORE INTO `#__redshop_state` (`id`, `country_id`, `state_name`, `state_
 	(463, 170, 'Wielkopolskie', 'WIE', 'WI'),
 	(464, 170, 'Zachodniopomorskie', 'ZAC', 'ZA');
 
-INSERT IGNORE INTO `#__redshop_stockroom` (`stockroom_id`, `stockroom_name`, `stockroom_desc`, `published`) VALUES
+INSERT IGNORE INTO `#__redshop_stockroom` (`id`, `name`, `desc`, `published`) VALUES
 	(1, 'default', 'This is redshop default stockroom', '1');
 
 INSERT IGNORE INTO `#__redshop_mail` (`mail_id`, `mail_name`, `mail_subject`, `mail_section`, `mail_order_status`, `mail_body`, `published`, `mail_bcc`) VALUES
