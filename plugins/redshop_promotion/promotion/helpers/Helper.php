@@ -68,7 +68,30 @@ class Helper
             $conditionAmount = true;
         }
 
+        $conditionTime = self::checkValidTimePromotion($promotion);
+
         return $conditionAmount && $conditionProduct && $conditionManufacturer && $conditionCategory && $conditionTime;
+    }
+
+    /**
+     * @param $promotion
+     * @return bool
+     * @since  __DEPLOY_VERSION__
+     */
+    protected static function checkValidTimePromotion($promotion) {
+        $today = date('yy-m-d');
+
+        $isGreaterThanOrEqualFromDate = true;
+        $isLessThanOrEqualToDate = true;
+
+        if (!empty($promotion->from_date)) {
+            $isGreaterThanOrEqualFromDate = $today >= $promotion->from_date;
+        }
+        if (!empty($promotion->to_date)) {
+            $isLessThanOrEqualToDate = $today <= $promotion->to_date;
+        }
+
+        return $isGreaterThanOrEqualFromDate && $isLessThanOrEqualToDate;
     }
 
     /**
