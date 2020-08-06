@@ -102,21 +102,23 @@ class Helper
      */
     public static function getConditionOrderVolume(&$promotion, &$cart) {
         $orderVolume = $promotion->order_volume ?? 0;
-        $condition = false;
+        $conditionOrderVolume = false;
 
         if ($orderVolume > 0) {
             $operand = '<=';
 
             switch (trim($operand)) {
                 case '<=':
-                    $condition = $orderVolume <= Helper::getCartSubTotalExcludeVAT($cart);
+                    $conditionOrderVolume = $orderVolume <= Helper::getCartSubTotalExcludeVAT($cart);
                     break;
                 default:
                     break;
             }
         }
 
-        return $condition;
+        $conditionTime = self::checkValidTimePromotion($promotion);
+
+        return $conditionOrderVolume && $conditionTime;
     }
 
     /**
