@@ -1651,7 +1651,7 @@ class RedshopHelperProduct
             )
         )
             ->join('', $db->qn('#__redshop_stockroom') . ' AS s')
-            ->where($db->qn('ps.stockroom_id') . ' = ' . $db->qn('s.stockroom_id'))
+            ->where($db->qn('ps.stockroom_id') . ' = ' . $db->qn('s.id'))
             ->where($db->qn('ps.quantity') . ' > 0 ')
             ->order($db->qn('min_del_time') . ' ASC');
 
