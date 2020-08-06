@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" client="site" type="plugin" group="system" method="upgrade">
+    <name>PLG_SYS_REDGOOGLETAGMANAGER</name>
+    <version>1.0</version>
+    <redshop>3.0</redshop>
+    <creationDate>August 2020</creationDate>
+    <author>redCOMPONENT.com</author>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>PLG_SYS_REDGOOGLETAGMANAGER_DESCRIPTION</description>
+    <files>
+        <folder>helper</folder>
+        <filename plugin="redgoogletagmanager">redgoogletagmanager.php</filename>
+        <filename>index.html</filename>
+    </files>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_system_redgoogletagmanager.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_system_redgoogletagmanager.sys.ini</language>
+    </languages>
+</extension>

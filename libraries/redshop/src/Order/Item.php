@@ -214,7 +214,7 @@ class Item
                 $wrapper = \RedshopHelperProduct::getWrapper($productId, $items[$i]->wrapper_id);
 
                 if (count($wrapper) > 0) {
-                    $wrapperName = $wrapper [0]->wrapper_name;
+                    $wrapperName = $wrapper[0]->name;
                 }
 
                 $wrapperPrice = \RedshopHelperProductPrice::formattedPrice($items[$i]->wrapper_price);
