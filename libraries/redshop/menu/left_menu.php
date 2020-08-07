@@ -189,9 +189,9 @@ class RedshopMenuLeft_Menu
             case "shipping_boxes":
                 return array('SHIPPING', 'shipping_boxes');
 
+            case "wrappers":
             case "wrapper":
-            case "wrapper_detail":
-                return array('SHIPPING', 'wrapper');
+                return array('SHIPPING', 'wrappers');
 
             case "user":
             case 'user_detail':
@@ -580,9 +580,9 @@ class RedshopMenuLeft_Menu
             self::$view === 'shipping_boxes'
         )
             ->addItem(
-                'index.php?option=com_redshop&view=wrapper',
+                'index.php?option=com_redshop&view=wrappers',
                 'COM_REDSHOP_WRAPPER_LISTING',
-                self::$view === 'wrapper'
+                self::$view === 'wrappers'
             )
             ->group('SHIPPING');
     }
