@@ -119,15 +119,13 @@ class WrapperSteps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.2.2
 	 */
-	public function checkWrapperInvalidField($name, $price)
+	public function checkWrapperInvalidField()
 	{
 		$I = $this;
 		$I->amOnPage(WrapperPage::$URL);
 		$I->click(WrapperPage::$buttonNew);
-		$I->fillField(WrapperPage::$wrapperName, $name);
-		$I->fillField(WrapperPage::$wrapperPrice, $price);
+		$I->waitForText(WrapperPage::$buttonSaveClose, 30);
 		$I->click(WrapperPage::$buttonSaveClose);
-		$I->seeInPopup(WrapperPage::$messageCheckInvalidPrice);
-		$I->acceptPopup();
+		$I->waitForText(WrapperPage::$messageMissingName, 30);
 	}
 }

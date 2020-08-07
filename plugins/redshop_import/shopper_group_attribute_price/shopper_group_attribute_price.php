@@ -172,9 +172,9 @@ class PlgRedshop_ImportShopper_group_attribute_price extends AbstractImportPlugi
         // Initialiase variables.
         $db    = $this->db;
         $query = $db->getQuery(true)
-            ->select('shopper_group_id')
+            ->select('id')
             ->from($db->qn('#__redshop_shopper_group'))
-            ->where($db->qn('shopper_group_id') . ' = ' . $db->q((int)trim($shopperGroupInputId)));
+            ->where($db->qn('id') . ' = ' . $db->q((int)trim($shopperGroupInputId)));
 
         // Set the query and load the result.
         $db->setQuery($query);
