@@ -150,6 +150,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g08 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/TermsCondition 0 0'
 
     03-Group3:
         group: 01-tests
@@ -256,7 +257,7 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/OneStepCheckout 0 0'
 
     08-Group8:
         group: 01-tests
@@ -383,6 +384,7 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins/payment 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/Ajax 0 0'
 
 services:
     db:
