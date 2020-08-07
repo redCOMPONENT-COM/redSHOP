@@ -144,6 +144,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/Missing 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g02 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g03 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05 0 0'
@@ -258,6 +259,7 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Products/Category 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g16 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
 
     08-Group8:
         group: 01-tests
@@ -299,7 +301,6 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17 0 0'
 
     10-Group10:

@@ -1010,7 +1010,6 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(ConfigurationPage::$URL);
-		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForElementVisible(ConfigurationPage::$userSetting, 30);
 		$I->click(ConfigurationPage::$userSetting);
 		$I->waitForElement(ConfigurationPage::$ratingTab, 60);
