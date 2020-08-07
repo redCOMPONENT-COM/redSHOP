@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Form.Field
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Redshop Newsletter field.
  *
- * @since  1.0
+ * @since  __DEPLOY_VERSION__
  */
 class RedshopFormFieldNewsletter extends JFormFieldList
 {
@@ -22,7 +22,6 @@ class RedshopFormFieldNewsletter extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  1.0
 	 */
 	public $type = 'Newsletter';
 
