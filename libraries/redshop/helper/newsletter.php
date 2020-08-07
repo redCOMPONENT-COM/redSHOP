@@ -85,14 +85,14 @@ class RedshopHelperNewsletter
         JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
         /** @var Tablenewslettersubscr_detail $row */
-        $row = JTable::getInstance('newslettersubscr_detail', 'Table');
+        $row = JTable::getInstance('newsletter_subscriber', 'Table');
 
         if (!$row->bind($data) || !$row->store()) {
             JFactory::getApplication()->enqueueMessage($row->getError(), 'error');
         }
 
         if ($needSendMail) {
-            Redshop\Mail\Newsletter::sendConfirmationMail($row->subscription_id);
+            Redshop\Mail\Newsletter::sendConfirmationMail($row->id);
         }
 
         return true;
