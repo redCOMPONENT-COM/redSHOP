@@ -29,7 +29,6 @@ class Catalog
      */
     public static function sendRequest($catalog)
     {
-        $catalog     = is_array($catalog) ? (object)$catalog : $catalog;
         $db          = \JFactory::getDbo();
         $mailSection = "catalog";
         $mailInfo    = Helper::getTemplate(0, $mailSection);
@@ -54,25 +53,24 @@ class Catalog
             ->select('*')
             ->from($db->qn('#__redshop_media'))
             ->where($db->qn('media_section') . ' = ' . $db->quote('catalog'))
-            ->where($db->qn('media_type') . ' = ' . $db->quote('document'))
-            ->where($db->qn('section_id') . ' = ' . (int)$catalog->catalog_id)
+            ->where($db->qn('section_id') . ' = ' . $db->quote($catalog['catalog_id']))
             ->where($db->qn('published') . ' = 1');
 
         $catalogMedias = $db->setQuery($query)->loadObjectList();
         $attachment    = array();
 
         foreach ($catalogMedias as $catalogMedia) {
-            $attachment[] = REDSHOP_FRONT_DOCUMENT_RELPATH . 'catalog/' . $catalogMedia->media_name;
+            $attachment[] = JPATH_SITE . '/components/com_redshop/assets/catalog/' . $catalogMedia->media_name;
         }
 
-        $dataAdd = str_replace("{name}", $catalog->name, $dataAdd);
+        $dataAdd = str_replace("{name}", $catalog['name'], $dataAdd);
 
         Helper::imgInMail($dataAdd);
 
         return Helper::sendEmail(
             $from,
             $fromName,
-            $catalog->email,
+            $catalog['email'],
             $subject,
             $dataAdd,
             1,
