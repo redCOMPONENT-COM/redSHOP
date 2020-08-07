@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::import('redshop.library');
 
 /**
- * Renders a Newsletter Subscriber Uesr by Fields
+ * Renders a Newsletter Subscription Uesr by Fields
  *
  * @package  RedSHOP
  * @since    1.5
@@ -35,7 +35,7 @@ class JFormFieldNewslettersubscriberuser extends JFormField
 	protected function getInput()
 	{
 		$selected  = array();
-		$typeField = ', alert:"newsletter_subscriber"';
+		$typeField = ', alert:"newsletter_subscription"';
 
 		if (!empty($this->value)) {
 			$values = !$this->multiple || !is_array($this->value) ? array($this->value) : $this->value;

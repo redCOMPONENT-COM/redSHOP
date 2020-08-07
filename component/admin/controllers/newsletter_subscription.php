@@ -1,21 +1,21 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 /**
- * Newsletter Subscribers controller
+ * Controller Newsletter Subscription
  *
- * @package     RedSHOP.backend
+ * @package     RedSHOP.Backend
  * @subpackage  Controller
  * @since       __DEPLOY_VERSION__
  */
-class RedshopControllerNewsletter_Subscribers extends RedshopControllerAdmin
+class RedshopControllerNewsletter_Subscription extends RedshopControllerForm
 {
 }

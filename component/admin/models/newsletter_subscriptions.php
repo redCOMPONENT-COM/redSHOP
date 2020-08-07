@@ -3,19 +3,19 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
 /**
- * Newsletter Subscribers model
+ * Newsletter Subscriptions model
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
  * @since       __DEPLOY_VERSION__
  */
-class RedshopModelNewsletter_Subscribers extends RedshopModelList
+class RedshopModelNewsletter_Subscriptions extends RedshopModelList
 {
 	/**
 	 * Construct class

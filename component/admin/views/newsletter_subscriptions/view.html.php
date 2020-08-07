@@ -3,20 +3,20 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 /**
- * View Newsletter Subscribers
+ * View Newsletter Subscriptions
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
  * @since       __DEPLOY_VERSION__
  */
-class RedshopViewNewsletter_Subscribers extends RedshopViewList
+class RedshopViewNewsletter_Subscriptions extends RedshopViewList
 {
 	/**
 	 * Method for render column
@@ -32,14 +32,14 @@ class RedshopViewNewsletter_Subscribers extends RedshopViewList
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
-		$model = $this->getModel('newsletter_subscribers');
+		$model = $this->getModel('newsletter_subscriptions');
 		$newsletterName = $model::getNewsletterNameById($row->id);
-		$userName = \RedshopEntityNewsletter_Subscriber::getUserFullName($row->user_id);
+		$userName = \RedshopEntityNewsletter_Subscription::getUserFullName($row->user_id);
 
 		switch ($config['dataCol']) {
 			case 'user_id':
 				$link = JRoute::_(
-					'index.php?option=com_redshop&task=newsletter_subscriber.edit&id=' . $row->id
+					'index.php?option=com_redshop&task=newsletter_subscription.edit&id=' . $row->id
 				);
 
 				return '<a href="'. $link .'">'. $userName .'</a>';

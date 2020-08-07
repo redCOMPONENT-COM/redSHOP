@@ -3,20 +3,20 @@
  * @package     Redshop.Library
  * @subpackage  Entity
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Newsletter Subscriber Entity
+ * Newsletter Subscription Entity
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityNewsletter_Subscriber extends RedshopEntity
+class RedshopEntityNewsletter_Subscription extends RedshopEntity
 {
 	/**
 	 * Get the associated table
@@ -27,7 +27,7 @@ class RedshopEntityNewsletter_Subscriber extends RedshopEntity
 	 */
 	public function getTable($name = null)
 	{
-		return JTable::getInstance('Newsletter_Subscriber', 'Table');
+		return JTable::getInstance('Newsletter_Subscription', 'Table');
 	}
 
 	public static function getUserFullName($id)
