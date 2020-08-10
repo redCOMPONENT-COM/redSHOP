@@ -110,7 +110,10 @@ class RedshopHelperDiscount
         $today = time();
 
         // Convert discount_enddate to middle night
-        $productData->discount_enddate = RedshopHelperDatetime::generateTimestamp($productData->discount_enddate);
+        if ($productData->discount_endate != '0')
+        {
+            $productData->discount_enddate = RedshopHelperDatetime::generateTimestamp($productData->discount_enddate);
+        }
 
         if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0) {
             $productData->discount_price = 0;
