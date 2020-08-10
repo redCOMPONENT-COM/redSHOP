@@ -148,7 +148,6 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g02 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g03 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g08 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10 0 0'
 
@@ -321,6 +320,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins/Shipping 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/OneStepCheckout 0 0'
 
