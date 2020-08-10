@@ -120,7 +120,7 @@ class RedshopTableTax_Rate extends RedshopTable
 				->where($db->qn('tax_rate_id') . ' = ' . $db->q($taxRateId));
 
 			if (!$db->setQuery($queryProduct)->execute()) {
-				$this->setError(JText::_('COM_REDSHOP_TAX_RATE_DELETE_UNSUCCESSFULY'));
+				/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_TAX_RATE_DELETE_UNSUCCESSFULY'));
 				return false;
 			}
 		}
