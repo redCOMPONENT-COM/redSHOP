@@ -238,7 +238,7 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/OneStepCheckout 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Wishlist 0 0'
 
     07-Group7:
         group: 01-tests
@@ -322,7 +322,7 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins/Shipping 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Wishlist 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/OneStepCheckout 0 0'
 
     11-Group11:
         group: 01-tests
@@ -364,7 +364,6 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins/payment 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/Ajax 0 0'
 
     13-Group13:
         group: 01-tests
@@ -384,6 +383,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/Ajax 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/TermsCondition 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/install/extension 0 0'
 
