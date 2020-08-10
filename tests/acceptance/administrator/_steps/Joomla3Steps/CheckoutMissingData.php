@@ -54,7 +54,6 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idEanNumber, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
-
 	}
 
 	/**
