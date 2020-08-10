@@ -130,7 +130,7 @@ class QuestionManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $sendButton = "//input[@class='btn']";
+	public static $sendButton = '//input[@value="Send"]';
 
 	/**
 	 * @var string
