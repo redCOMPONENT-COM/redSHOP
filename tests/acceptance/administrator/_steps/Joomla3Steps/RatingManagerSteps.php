@@ -186,10 +186,6 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($rating['product']));
-
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
-		$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
-
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
 		$I->executeJS(RatingManagerPage::jQueryIframe());
