@@ -131,4 +131,10 @@ class QuestionManagerJoomla3Page extends AdminJ3Page
 	 * @since 3.0.2
 	 */
 	public static $sendButton = "//input[@class='btn']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $messageSendQuestionSuccess = "Email has been sent successfully";
 }
