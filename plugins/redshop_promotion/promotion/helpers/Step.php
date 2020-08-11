@@ -37,16 +37,24 @@ class Step
 
         switch($data->promotion_type) {
             case 'amount_product':
-                if (!$promotion->isApplied && Helper::getConditionProductAmount($data, $cart)) {
+                $condition = Helper::getConditionProductAmount($data, $cart);
+
+                if (!$promotion->isApplied && $condition) {
                     self::applyPromotionProductAmount($promotion, $cart);
-                } else {
+                }
+
+                if ($promotion->isApplied && !$condition) {
                     self::removeAppliedPromotion($promotion, $cart);
                 }
+
                 break;
             case 'volume_order':
-                if (!$promotion->isApplied && Helper::getConditionOrderVolume($data, $cart)) {
+                $condition = Helper::getConditionOrderVolume($data, $cart);
+
+                if (!$promotion->isApplied && $condition) {
                     self::applyPromotionVolumeOrder($promotion, $cart);
-                } else {
+                }
+                if ($promotion->isApplied && !$condition) {
                     self::removeAppliedPromotion($promotion, $cart);
                 }
 
@@ -100,6 +108,38 @@ class Step
             ];
 
             $cart[$idx] = $award;
+
+            self::applyPromotionFreeShipping($promotion->data, $cart);
+
+            \Redshop\Cart\Helper::setCart($cart);
+    }
+
+    /**
+     * @param $promotion
+     * @param $cart
+     * @return bool
+     * @since  __DEPLOY_VERSION__
+     */
+    protected static function applyPromotionFreeShipping(&$promotion, &$cart) {
+        if (!empty($promotion->free_shipping) && ($promotion->free_shipping == true)) {
+            # Save current value of shipping & tax
+            $cart['free_shipping_before_promotion'] = $cart['free_shipping'];
+            $cart['shipping_before_promotion'] = $cart['shipping'];
+            $cart['shipping_tax_before_promotion'] = $cart['shipping_tax'];
+
+            # Set free shipping
+            $cart['free_shipping'] = 1;
+            $cart['shipping'] = 0;
+            $cart['shipping_tax'] = 0;
+
+            # Recalculation for sub & total
+            $cart['subtotal'] -= $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
+            $cart['total'] -= $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -127,6 +167,31 @@ class Step
         if ($unCount > 0) {
             $cart['idx'] = $cart['idx'] - $unCount;
         }
+
+        self::removePromotionFreeShipping($promotion, $cart);
+        \Redshop\Cart\Helper::setCart($cart);
+    }
+
+    /**
+     * @param $promotion
+     * @param $cart
+     * @return bool
+     * @since  __DEPLOY_VERSION__
+     */
+    protected static function removePromotionFreeShipping(&$promotion, &$cart) {
+
+        if (!empty($promotion->free_shipping) && ($promotion->free_shipping == true)) {
+            $cart['free_shipping'] = $cart['free_shipping_before_promotion'];
+            $cart['shipping'] = $cart['shipping_before_promotion'];
+            $cart['shipping_tax'] = $cart['shipping_tax_before_promotion'];
+
+            $cart['subtotal'] += $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
+            $cart['total'] += $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
