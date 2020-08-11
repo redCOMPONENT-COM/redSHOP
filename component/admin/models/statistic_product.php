@@ -83,15 +83,17 @@ class RedshopModelStatistic_Product extends RedshopModelList
             $startDate = (isset($filterDateRange[0])) ? (int)$filterDateRange[0] : '';
 
             if ($startDate) {
-                $subQuery->having($db->qn('oi.cdate') . ' >= ' . $db->quote(JFactory::getDate($startDate)->toUnix()));
+                $subQuery->where($db->qn('oi.cdate') . ' >= ' . $db->quote(JFactory::getDate($startDate)->toUnix()));
             }
 
             $endDate = (isset($filterDateRange[1])) ? (int)$filterDateRange[1] : '';
 
             if ($endDate) {
-                $subQuery->having($db->qn('oi.cdate') . ' <= ' . $db->quote(JFactory::getDate($endDate)->toUnix()));
+                $subQuery->where($db->qn('oi.cdate') . ' <= ' . $db->quote(JFactory::getDate($endDate)->toUnix()));
             }
         }
+
+	    $subQuery->where($db->qn('oi.product_final_price') . ' > 0');
 
         $query = $db->getQuery(true)
             ->select(
@@ -125,7 +127,7 @@ class RedshopModelStatistic_Product extends RedshopModelList
         $orderDirn = $this->state->get('list.direction', 'asc');
 
         $query->order($db->escape($orderCol . ' ' . $orderDirn));
-        $query->having($db->qn('oi.total_sale') . ' > 0');
+        $query->having($db->qn('oi.order_create_date') . ' is not null');
 
         return $query;
     }
