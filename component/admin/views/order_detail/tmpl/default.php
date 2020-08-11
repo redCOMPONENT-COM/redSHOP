@@ -827,7 +827,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                                                     );
                                                                     echo "<br>" . JText::_(
                                                                             'COM_REDSHOP_WRAPPER'
-                                                                        ) . ": " . $wrapper[0]->wrapper_name . "(" . $products[$i]->wrapper_price . ")";
+                                                                        ) . ": " . $wrapper[0]->name . "(" . $products[$i]->wrapper_price . ")";
                                                                 }
 
                                                                 if ($subscribe_detail) {

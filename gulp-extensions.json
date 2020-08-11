@@ -75,7 +75,8 @@
     ],
     "system": [
       "redgoogleanalytics",
-      "redshop"
+      "redshop",
+      "redgoogletagmanager"
     ],
     "redshop_product": [
       "sh404urls"

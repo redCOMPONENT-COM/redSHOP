@@ -41,7 +41,7 @@ class RedshopControllerCatalog extends RedshopController
         $row = $model->catalogStore($post);
 
         if ($row) {
-            Redshop\Mail\Catalog::sendRequest($row);
+            Redshop\Mail\Catalog::sendRequest($post);
             $msg = JText::_('COM_REDSHOP_CATALOG_SEND_SUCCSEEFULLY');
         } else {
             $msg = JText::_('COM_REDSHOP_ERROR_CATALOG_SEND_SUCCSEEFULLY');
