@@ -151,7 +151,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->waitForElementVisible($searchField, 30);
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(['link' => $text]);
+		$I->waitForElement(['link' => $text], 30);
 	}
 
 	/**

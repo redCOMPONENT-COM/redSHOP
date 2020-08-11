@@ -105,6 +105,6 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->click(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
 		$I->click(CheckoutChangeQuantityProductPage::$checkoutFinalStep);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 60);
 	}
 }
