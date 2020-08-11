@@ -501,8 +501,11 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 10, FrontEndProductManagerJoomla3Page::$orderReceiptTitle);
 				$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
 				$I->waitForText($subTotal, 30);
+				$I->see($subTotal);
 				$I->waitForText($vatPrice, 30);
+				$I->see($vatPrice);
 				$I->waitForText($total, 30);
+				$I->see($total);
 				break;
 		}
 	}
