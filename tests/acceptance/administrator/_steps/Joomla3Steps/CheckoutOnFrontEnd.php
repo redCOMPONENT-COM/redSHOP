@@ -640,16 +640,16 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 		$decimalSeparator = $I->grabValueFrom(ConfigurationPage::$decimalSeparator);
 		$numberOfPriceDecimals = $I->grabValueFrom(ConfigurationPage::$numberOfPriceDecimals);
 		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
-		$NumberZero = null;
+		$numberZero = null;
 
 		for($b = 1; $b <= $numberOfPriceDecimals; $b++)
 		{
-			$NumberZero = $NumberZero."0";
+			$numberZero = $numberZero."0";
 		}
 
-		$total = $currencySymbol.$price.$decimalSeparator.$NumberZero;
-		$subTotal = $currencySymbol.($price + $wrappingPrice).$decimalSeparator.$NumberZero;
-		$wrappingPrice = $currencySymbol.$wrappingPrice.$decimalSeparator.$NumberZero;
+		$total = $currencySymbol.$price.$decimalSeparator.$numberZero;
+		$subTotal = $currencySymbol.($price + $wrappingPrice).$decimalSeparator.$numberZero;
+		$wrappingPrice = $currencySymbol.$wrappingPrice.$decimalSeparator.$numberZero;
 
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
