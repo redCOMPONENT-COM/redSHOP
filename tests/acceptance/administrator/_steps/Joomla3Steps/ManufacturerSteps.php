@@ -101,4 +101,24 @@ class ManufacturerSteps extends AbstractStep
 		$client->click(ManufacturerPage::$buttonSaveClose);
 		$client->waitForText(ManufacturerPage::$messageItemSaveSuccess, 60, ManufacturerPage::$selectorSuccess);
 	}
+
+	/**
+	 * @param $manufacturerName
+	 * @throws \Exception
+	 * @since 3.0.3
+	 */
+	public function deleteManufacturer($manufacturerName)
+	{
+		$I = $this;
+		$I->amOnPage(ManufacturerPage::$url);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForText(ManufacturerPage::$namePage, 30, ManufacturerPage::$h1);
+		$I->filterListBySearchingProduct($manufacturerName);
+		$I->waitForElementVisible(ManufacturerPage::$checkAllXpath, 30);
+		$I->checkAllResults();
+		$I->click(ManufacturerPage::$buttonDelete);
+		$I->acceptPopup();
+		$I->waitForText(ManufacturerPage::$messageNoItemOnTable, 60, ManufacturerPage::$selectorSuccess);
+		$I->dontSee($manufacturerName);
+	}
 }
