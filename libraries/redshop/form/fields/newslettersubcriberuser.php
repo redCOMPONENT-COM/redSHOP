@@ -17,7 +17,7 @@ JLoader::import('redshop.library');
  * @package  RedSHOP
  * @since    1.5
  */
-class JFormFieldNewslettersubscriberuser extends JFormField
+class JFormFieldNewslettersubcriberuser extends JFormField
 {
 	/**
 	 * Element name
@@ -25,7 +25,7 @@ class JFormFieldNewslettersubscriberuser extends JFormField
 	 * @access    protected
 	 * @var        string
 	 */
-	public $type = 'newslettersubscriberuser';
+	public $type = 'newslettersubcriberuser';
 
 	/**
 	 * Method to get the field input markup.
@@ -35,7 +35,6 @@ class JFormFieldNewslettersubscriberuser extends JFormField
 	protected function getInput()
 	{
 		$selected  = array();
-		$typeField = ', alert:"newsletter_subscription"';
 
 		if (!empty($this->value)) {
 			$values = !$this->multiple || !is_array($this->value) ? array($this->value) : $this->value;
