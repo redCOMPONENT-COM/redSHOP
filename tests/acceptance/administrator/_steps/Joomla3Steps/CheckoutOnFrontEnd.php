@@ -581,15 +581,15 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 		$decimalSeparator = $I->grabValueFrom(ConfigurationPage::$decimalSeparator);
 		$numberOfPriceDecimals = $I->grabValueFrom(ConfigurationPage::$numberOfPriceDecimals);
 		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
-		$NumberZero = null;
+		$numberZero = null;
 
 		for($b = 1; $b <= $numberOfPriceDecimals; $b++)
 		{
-			$NumberZero = $NumberZero."0";
+			$numberZero = $numberZero."0";
 		}
 
-		$total = $currencySymbol.$price.$decimalSeparator.$NumberZero;
-		$subTotal = $currencySymbol.$price.$decimalSeparator.$NumberZero;
+		$total = $currencySymbol.$price.$decimalSeparator.$numberZero;
+		$subTotal = $currencySymbol.$price.$decimalSeparator.$numberZero;
 
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->checkForPhpNoticesOrWarnings();
