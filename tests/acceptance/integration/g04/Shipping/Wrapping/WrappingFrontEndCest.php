@@ -109,46 +109,10 @@ class WrappingFrontEndCest
 	protected $lastName;
 
 	/**
-	 * @var integer
-	 * @since 3.0.3
-	 */
-	public $minimumPerProduct;
-
-	/**
-	 * @var integer
-	 * @since 3.0.3
-	 */
-	public $minimumQuantity;
-
-	/**
-	 * @var integer
-	 * @since 3.0.3
-	 */
-	public $maximumQuantity;
-
-	/**
-	 * @var string
-	 * @since 3.0.3
-	 */
-	public $discountStart;
-
-	/**
-	 * @var string
-	 * @since 3.0.3
-	 */
-	public $discountEnd;
-
-	/**
 	 * @var array
 	 * @since 3.0.3
 	 */
 	protected $customerInformation;
-
-	/**
-	 * @var string
-	 * @since 3.0.3
-	 */
-	protected $shippingWithVat;
 
 	/**
 	 * @var array
@@ -174,16 +138,11 @@ class WrappingFrontEndCest
 	 */
 	public function __construct()
 	{
-		$this->faker                  = Faker\Factory::create();
-		$this->productName            = $this->faker->bothify('product name ?####?');
-		$this->categoryName           = $this->faker->bothify('category name ?####?');
-		$this->minimumPerProduct      = 1;
-		$this->minimumQuantity        = 1;
-		$this->maximumQuantity        = $this->faker->numberBetween(100, 1000);
-		$this->discountStart          = "12-12-2016";
-		$this->discountEnd            = "23-05-2017";
-		$this->randomProductNumber    = $this->faker->numberBetween(999, 9999);
-		$this->randomProductPrice     = $this->faker->numberBetween(100, 900);;
+		$this->faker               = Faker\Factory::create();
+		$this->productName         = $this->faker->bothify('product name ?####?');
+		$this->categoryName        = $this->faker->bothify('category name ?####?');
+		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
+		$this->randomProductPrice  = $this->faker->numberBetween(100, 900);;
 
 		$this->wrappingName  = $this->faker->bothify('wrapping name ?####?');
 		$this->wrappingPrice = $this->faker->numberBetween(10, 20);
