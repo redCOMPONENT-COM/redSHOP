@@ -666,7 +666,7 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 		$I->waitForText($wrappingPrice, 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$headBilling, 30);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$headBilling, 60);
 		$I->addressInformation($addressDetail);
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
 		$I->scrollTo($productFrontEndManagerPage->product($productName));
