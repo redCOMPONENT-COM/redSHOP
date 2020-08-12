@@ -113,7 +113,7 @@ class ManufacturerSteps extends AbstractStep
 		$I->amOnPage(ManufacturerPage::$url);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForText(ManufacturerPage::$namePage, 30, ManufacturerPage::$h1);
-		$I->filterListBySearchingProduct($manufacturerName);
+		$I->filterListBySearchingProduct($manufacturerName, ManufacturerPage::$searchField);
 		$I->waitForElementVisible(ManufacturerPage::$checkAllXpath, 30);
 		$I->checkAllResults();
 		$I->click(ManufacturerPage::$buttonDelete);
