@@ -265,7 +265,7 @@ class RedshopModelNewsletters extends RedshopModelList
     {
         $db    = $this->_db;
         $query = $db->getQuery(true)
-            ->select('shopper_group_id as value,shopper_group_name as text')
+            ->select('id as value,name as text')
             ->from($db->qn('#__redshop_shopper_group'));
 
         return $db->setQuery($query)->loadObjectList();

@@ -193,7 +193,7 @@ abstract class AdminJ3Page
 	 * @var array
 	 * @since 2.1.2
 	 */
-	public static $resetButton = "//input[@id='reset']";
+	public static $resetButton = "//input[@value='Reset']";
 
 	/**
 	 * @var array
@@ -695,6 +695,12 @@ abstract class AdminJ3Page
 	 * @since 3.0.2
 	 */
 	public static $labelSelectManufacturer = "Select Manufacturer";
+
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $messageDeleteInPopup = "Are you sure want to delete these items?";
 
 	/**
 	 * @param $menuCategory

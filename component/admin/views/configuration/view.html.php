@@ -121,15 +121,25 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $this->config->get('WEBPACK_ENABLE_EMAIL_TRACK')
         );
 
-        $q = "SELECT  country_3_code AS value,country_name AS text,country_jtext FROM #__redshop_country ORDER BY country_name ASC";
+        $q = $db->getQuery(true)
+            ->select($db->qn('country_3_code', 'value'))
+            ->select($db->qn('country_name', 'text'))
+            ->select($db->qn('country_jtext'))
+            ->from($db->qn('#__redshop_country'))
+            ->order($db->qn('country_name') . ' ASC');
         $db->setQuery($q);
+
         $countries = $db->loadObjectList();
         $countries = RedshopHelperUtility::convertLanguageString($countries);
 
-        $q = "SELECT  stockroom_id AS value,stockroom_name AS text FROM #__redshop_stockroom ORDER BY stockroom_name ASC";
+        $q = $db->getQuery(true)
+            ->select($db->qn('id', 'value'))
+            ->select($db->qn('name', 'text'))
+            ->from($db->qn('#__redshop_stockroom'))
+            ->order($db->qn('name') . ' ASC');
         $db->setQuery($q);
-        $stockroom = $db->loadObjectList();
 
+        $stockroom = $db->loadObjectList();
         $country_list = explode(',', $this->config->get('COUNTRY_LIST'));
 
         $tmp                                       = array();

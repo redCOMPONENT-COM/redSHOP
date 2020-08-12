@@ -394,7 +394,7 @@ switch ($name) {
         <br/>
         {product_delivery_time} {manufacturer_link} {form_rating} {form_rating_without_lightbox} {product_id_lbl} {product_id}
         <br/>
-        {product_number_lbl} {product_number} {product_price_table} {products_in_stock} {if product_userfield} {product_userfield end if}
+        {product_number_lbl} {product_number} {product_price_table} {products_in_stock} {stockroom_detail} {if product_userfield} {product_userfield end if}
         <br/>
         {delivery_time_lbl} {with_vat} {without_vat} {discount_calculator} {facebook_like_button} {googleplus1} <br/>
         {returntocategory_name} {returntocategory_link} {product_size} <br/>

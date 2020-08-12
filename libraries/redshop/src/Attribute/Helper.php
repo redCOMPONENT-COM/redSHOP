@@ -295,7 +295,7 @@ class Helper
         $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select($db->qn('price_id'))
-            ->from($db->qn('product_attribute_price'))
+            ->from($db->qn('#__redshop_product_attribute_price'))
             ->where($db->qn('shopper_group_id') . ' = ' . $db->q($params->shopper_group_id))
             ->where($db->qn('section_id') . ' = ' . $db->q((int)$params->section_id))
             ->where($db->qn('price_quantity_start') . ' <= ' . $db->q((int)$params->price_quantity_start))
@@ -327,7 +327,7 @@ class Helper
         $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select($db->qn('price_id'))
-            ->from($db->qn('product_attribute_price'))
+            ->from($db->qn('#__redshop_product_attribute_price'))
             ->where($db->qn('shopper_group_id') . ' = ' . $db->q($params->shopper_group_id))
             ->where($db->qn('section_id') . ' = ' . $db->q((int)$params->section_id))
             ->where($db->qn('price_quantity_start') . ' <= ' . $db->q((int)$params->price_quantity_end))
