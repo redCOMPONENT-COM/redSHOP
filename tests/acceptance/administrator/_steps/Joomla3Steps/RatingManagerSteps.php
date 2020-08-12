@@ -186,27 +186,12 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($rating['product']));
-
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
-
-		try
-		{
-			$I->executeJS(RatingManagerPage::jQueryIframe());
-			$I->wait(0.5);
-			$I->switchToIFrame(RatingManagerPage::$nameIframe);
-			$I->waitForElementVisible(RatingManagerPage::$inputTitleFrontEnd, 30);
-		}catch (\Exception $exception)
-		{
-			$I->reloadPage();
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
-			$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
-			$I->executeJS(RatingManagerPage::jQueryIframe());
-			$I->wait(0.5);
-			$I->switchToIFrame(RatingManagerPage::$nameIframe);
-			$I->waitForElementVisible(RatingManagerPage::$inputTitleFrontEnd, 30);
-		}
-
+		$I->executeJS(RatingManagerPage::jQueryIframe());
+		$I->wait(1);
+		$I->switchToIFrame(RatingManagerPage::$nameIframe);
+		$I->waitForElementVisible(RatingManagerPage::$inputTitleFrontEnd, 60);
 		$I->fillField(RatingManagerPage::$inputTitleFrontEnd, $rating['title']);
 		$ratingPage = new RatingManagerPage();
 

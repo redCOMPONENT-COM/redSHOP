@@ -54,7 +54,6 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idEanNumber, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
-
 	}
 
 	/**
@@ -121,16 +120,10 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
 		$I->wait(1);
 		$I->click(FrontEndProductManagerJoomla3Page::$radioCompany);
-		try
-		{
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
-		}catch (\Exception $e)
-		{
-			$I->click(FrontEndProductManagerJoomla3Page::$radioIDCompany);
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
-		}
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
+
 		switch ($missing)
 		{
 			case 'user':
@@ -140,14 +133,14 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("email1"));
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterCompanyName, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("company_name"));
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("firstname"));
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterLastName, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("lastname"));
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterAddress, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("address"));
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterCity, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("city"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, $productFrontEndManagerPage->locatorMessageCompany("email1"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterCompanyName, 30, $productFrontEndManagerPage->locatorMessageCompany("company_name"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, $productFrontEndManagerPage->locatorMessageCompany("firstname"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterLastName, 30, $productFrontEndManagerPage->locatorMessageCompany("lastname"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterAddress, 30, $productFrontEndManagerPage->locatorMessageCompany("address"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterCity, 30, $productFrontEndManagerPage->locatorMessageCompany("city"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageFieldRequired, 30, FrontEndProductManagerJoomla3Page::$locatorMessageEAN);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("phone"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, $productFrontEndManagerPage->locatorMessageCompany("phone"));
 				break;
 
 			case 'acceptTerms':
@@ -203,12 +196,11 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 30, FrontEndProductManagerJoomla3Page:: locatorMessageCompany("email1"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 30, $productFrontEndManagerPage->locatorMessageCompany("email1"));
 				break;
 
 			case 'wrongPhone':
 				$I->fillInformationBusiness($customerInformation);
-
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 
@@ -226,12 +218,11 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, FrontEndProductManagerJoomla3Page:: locatorMessageCompany("phone"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, $productFrontEndManagerPage->locatorMessageCompany("phone"));
 				break;
 
 			case 'wrongEAN':
 				$I->fillInformationBusiness($customerInformation);
-
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 
@@ -277,12 +268,12 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("email1"));
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("firstname"));
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterLastName, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("lastname"));
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterAddress, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("address"));
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterCity, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("city"));
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("phone"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, $productFrontEndManagerPage->locatorMessagePrivate("email1"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, $productFrontEndManagerPage->locatorMessagePrivate("firstname"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterLastName, 30, $productFrontEndManagerPage->locatorMessagePrivate("lastname"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterAddress, 30, $productFrontEndManagerPage->locatorMessagePrivate("address"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterCity, 30, $productFrontEndManagerPage->locatorMessagePrivate("city"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, $productFrontEndManagerPage->locatorMessagePrivate("phone"));
 				break;
 
 			case 'acceptTerms':
@@ -349,7 +340,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 30, FrontEndProductManagerJoomla3Page:: locatorMessagePrivate("email1"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 30, $productFrontEndManagerPage->locatorMessagePrivate("email1"));
 				break;
 
 			case 'wrongPhone':
@@ -371,7 +362,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, FrontEndProductManagerJoomla3Page:: locatorMessagePrivate("phone"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, $productFrontEndManagerPage->locatorMessagePrivate("phone"));
 				break;
 		}
 	}
