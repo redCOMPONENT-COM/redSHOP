@@ -53,4 +53,27 @@ class RedshopTableNewsletter_Subscription extends RedshopTable
 
 		return parent::doStore($updateNulls);
 	}
+
+	/**
+	 * Checks that the object is valid and able to be stored.
+	 *
+	 * This method checks that the parent_id is non-zero and exists in the database.
+	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+	 *
+	 * @return  boolean  True if all checks pass.
+	 */
+	protected function doCheck()
+	{
+		$app        = JFactory::getApplication();
+		$data       = $app->input->post->get('jform', array(), 'array');
+
+		if (($data['email'] == '') || !JMailHelper::isEmailAddress($data['email']))
+		{
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+
+			return false;
+		}
+
+		return parent::doCheck();
+	}
 }
