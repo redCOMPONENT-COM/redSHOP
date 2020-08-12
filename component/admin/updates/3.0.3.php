@@ -64,7 +64,6 @@ class RedshopUpdate303 extends RedshopInstallUpdate
             JPATH_ADMINISTRATOR . '/components/com_redshop/tables/newsletter_detail.php',
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/newsletter_detail/tmpl/default.php',
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/newsletter_detail/view.html.php',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/views/newsletter_detail/view.html.php',
 
 	        // Newsletter Subscription
 	        JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/newslettersubscr.php',
