@@ -6,7 +6,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 
 /**
