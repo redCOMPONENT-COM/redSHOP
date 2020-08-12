@@ -649,6 +649,7 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 
 		$total = $currencySymbol.$price.$decimalSeparator.$NumberZero;
 		$subTotal = $currencySymbol.($price + $wrappingPrice).$decimalSeparator.$NumberZero;
+		$wrappingPrice = $currencySymbol.$wrappingPrice.$decimalSeparator.$NumberZero;
 
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
@@ -662,6 +663,7 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$I->waitForText($wrappingName, 30);
+		$I->waitForText($wrappingPrice, 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$headBilling, 30);
@@ -670,6 +672,7 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 		$I->scrollTo($productFrontEndManagerPage->product($productName));
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->waitForText($subTotal, 30);
+		$I->waitForText($wrappingPrice, 30);
 		$I->waitForText($total, 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
