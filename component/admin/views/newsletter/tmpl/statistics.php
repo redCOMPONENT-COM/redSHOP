@@ -90,4 +90,13 @@ $data    .= "[$rowData]";
         <div style="float:left;" id="newsletter_statistics_pie"></div>
         <div id="newsletter_statistics_column"></div>
     </fieldset>
+    <?php echo JHtml::_('form.token'); ?>
+	<input type="hidden" name="task" value=""/>
 </form>
+<script type="text/javascript">
+	Joomla.submitbutton = function (task) {
+		if (task == "newsletter.cancel") {
+			Joomla.submitform(task);
+		}
+	};
+</script>
