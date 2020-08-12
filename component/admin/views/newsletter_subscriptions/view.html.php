@@ -33,7 +33,7 @@ class RedshopViewNewsletter_Subscriptions extends RedshopViewList
 	public function onRenderColumn($config, $index, $row)
 	{
 		$model = $this->getModel('newsletter_subscriptions');
-		$newsletterName = $model::getNewsletterNameById($row->id);
+		$newsletterName = $model::getNewsletterNameById($row->newsletter_id);
 		$userName = \RedshopEntityNewsletter_Subscription::getUserFullName($row->user_id);
 
 		switch ($config['dataCol']) {

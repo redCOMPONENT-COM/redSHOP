@@ -13,9 +13,10 @@
                 name="user_id"
                 type="newslettersubscriberuser"
                 label="COM_REDSHOP_NEWSLETTER_SELECT_USER"
-                description="COM_REDSHOP_NEWSLETTER_SELECT_USER"
+                description="COM_REDSHOP_TOOLTIP_NEWSLETTER_SELECT_USER"
                 table-sortable="1"
                 class="form-control"
+                required="true"
                 default="">
             <option value="">COM_REDSHOP_NEWSLETTER_SELECT_USER</option>
         </field>
@@ -23,7 +24,7 @@
                 name="newsletter_id"
                 type="redshop.newsletter"
                 label="COM_REDSHOP_NEWSLETTER_SELECT_NEWSLETTER"
-                description="COM_REDSHOP_NEWSLETTER_SELECT_NEWSLETTER"
+                description="COM_REDSHOP_TOOLTIP_NEWSLETTER_SELECT_NEWSLETTER"
                 table-sortable="1"
         />
         <field
@@ -39,7 +40,7 @@
                 name="email"
                 type="text"
                 label="COM_REDSHOP_NEWSLETTER_SUBSCR_EMAIL"
-                description="COM_REDSHOP_NEWSLETTER_SUBSCR_EMAIL"
+                description="COM_REDSHOP_TOOLTIP_NEWSLETTER_SUBSCR_EMAIL"
                 table-hide="1"
         />
         <field

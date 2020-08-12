@@ -17,7 +17,7 @@ JLoader::import('redshop.library');
  * @package  RedSHOP
  * @since    1.5
  */
-class JFormFieldNewslettersubcriberuser extends JFormField
+class JFormFieldNewslettersubscriberuser extends JFormField
 {
 	/**
 	 * Element name
@@ -25,7 +25,7 @@ class JFormFieldNewslettersubcriberuser extends JFormField
 	 * @access    protected
 	 * @var        string
 	 */
-	public $type = 'newslettersubcriberuser';
+	public $type = 'newslettersubscriberuser';
 
 	/**
 	 * Method to get the field input markup.
