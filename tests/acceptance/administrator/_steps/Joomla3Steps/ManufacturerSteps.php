@@ -118,7 +118,7 @@ class ManufacturerSteps extends AbstractStep
 		$I->checkAllResults();
 		$I->click(ManufacturerPage::$buttonDelete);
 		$I->acceptPopup();
-		$I->waitForText(ManufacturerPage::$messageNoItemOnTable, 60, ManufacturerPage::$selectorSuccess);
+		$I->waitForText(ManufacturerPage::$messageNoItemOnTable, 60);
 		$I->dontSee($manufacturerName);
 	}
 }

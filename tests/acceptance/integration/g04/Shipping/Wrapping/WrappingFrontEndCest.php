@@ -216,7 +216,7 @@ class WrappingFrontEndCest
 	/**
 	 * @param CheckoutOnFrontEnd $I
 	 * @throws Exception
-	 * @since 3.0.2
+	 * @since 3.0.3
 	 */
 	public function checkoutProductHaveWrapping(CheckoutOnFrontEnd $I)
 	{
