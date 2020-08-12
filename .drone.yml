@@ -29,13 +29,6 @@ pipeline:
         group: 00-setup
         image: redwebaps/testbox-chromedriver:79.0-n12
         pull: true
-        environment:
-            - tests_user=admin
-            - tests_suite=00-setup
-            - tests_db=setup
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-setup
-            - php_version=73
         commands:
             # Composer setup
             - while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done                        # Comment if not using composer cache
@@ -74,6 +67,26 @@ pipeline:
             - vendor/bin/robo tests:site-preparation 0 0
             # Ownership for uid 82
             - chown -R www-data:www-data .
+            # Touching temp file to start the setup of each installation (in each PHP version - via services)
+            - touch tests/.setup.tmp
+
+    00-setup-73:
+        group: 00-setup
+        image: redwebaps/testbox-chromedriver:79.0-n12
+        pull: true
+        environment:
+            - tests_user=admin
+            - tests_suite=00-setup
+            - tests_db=setup
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-00-setup
+            - php_version=73
+        commands:
+            # Regular entry point
+            - /entrypoint.sh &
+
+            # Waiting for setup to be done
+            - while [ ! -f tests/.setup.tmp ]; do sleep 1; done
 
             # Creating first clone for tests setup
             - mkdir -p tests/$tests_suite$php_version/joomla-cms
