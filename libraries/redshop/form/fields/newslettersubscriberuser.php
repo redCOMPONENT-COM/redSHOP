@@ -48,6 +48,16 @@ class JFormFieldNewslettersubscriberuser extends JFormField
 
 			$users = $db->setQuery($query)->loadObjectList();
 
+			if (!count($users) > 0) {
+                $query = $db->getQuery(true)
+                    ->select($db->qn(array('user_id', 'user_email', 'firstname', 'lastname')))
+                    ->from($db->qn('#__redshop_users_info'))
+                    ->where($db->qn('users_info_id') . ' = ' . $db->q($values[0]))
+                    ->where($db->qn('address_type') . ' = ' . $db->q('BT'));
+
+                $users = $db->setQuery($query)->loadObjectList();
+            }
+
 			$subQuery = $db->getQuery(true)
 				->select($db->qn('username'))
 				->from($db->qn('#__users'))
@@ -60,9 +70,11 @@ class JFormFieldNewslettersubscriberuser extends JFormField
 					continue;
 				}
 
+				$userName ? ' ( ' . $userName . ' ) ' : '';
+
 				$data        = new stdClass;
 				$data->value = $user->user_id;
-				$data->text  = $user->firstname . $user->lastname . ' ( ' . $userName . ' ) ';
+				$data->text  = $user->firstname . ' ' . $user->lastname . $userName;
 				$selected = $data;
 			}
 		}
