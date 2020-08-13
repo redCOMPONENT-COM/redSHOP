@@ -704,12 +704,12 @@ abstract class AdminJ3Page
 
 	/**
 	 * @param $menuCategory
-	 * @return array
+	 * @return string
 	 * @since 2.1.2
 	 */
 	public static function getMenuCategory($menuCategory)
 	{
-		$menuCate = ["link" => $menuCategory];
+		$menuCate = "//a[contains(text(), '" . $menuCategory . "')]";;
 
 		return $menuCate;
 	}
