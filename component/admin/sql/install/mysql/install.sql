@@ -850,7 +850,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_newsletter_subscription` (
   `newsletter_id` INT(11) NOT NULL,
   `name` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
-  `checkout` INT(11) NULL DEFAULT NULL,
+  `checked_out` INT(11) NULL DEFAULT NULL,
   `checked_out_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` INT(11) NULL DEFAULT NULL,
   `created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

@@ -102,7 +102,7 @@ class RedshopModelNewsletter_Subscriptions extends RedshopModelList
 
 		if (!empty($search)) {
 			$query->where($db->qn('name') . ' LIKE ' . $db->q('%' . $search . '%'));
-			$query->where($db->qn('email') . ' LIKE ' . $db->q('%' . $search . '%'));
+			$query->orwhere($db->qn('email') . ' LIKE ' . $db->q('%' . $search . '%'));
 		}
 
 		// Add the list ordering clause.
