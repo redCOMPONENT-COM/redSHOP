@@ -139,8 +139,9 @@ class WrappingFrontEndCest
 	public function __construct()
 	{
 		$this->faker               = Faker\Factory::create();
-		$this->productName         = $this->faker->bothify('product name ?####?');
 		$this->categoryName        = $this->faker->bothify('category name ?####?');
+
+		$this->productName         = $this->faker->bothify('product name ?####?');
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice  = $this->faker->numberBetween(100, 900);;
 
@@ -159,19 +160,19 @@ class WrappingFrontEndCest
 		);
 
 		$this->cartSetting = array(
-			"addCart"           => 'product',
-			"allowPreOrder"     => 'yes',
-			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
-			"enabledAjax"       => 'no',
-			"defaultCart"       => null,
-			"buttonCartLead"    => 'Back to current view',
-			"onePage"           => 'yes',
-			"showShippingCart"  => 'no',
-			"attributeImage"    => 'no',
-			"quantityChange"    => 'no',
-			"quantityInCart"    => 0,
-			"minimumOrder"      => 0,
-			"enableQuotation"   => 'no'
+			"addCart"          => 'product',
+			"allowPreOrder"    => 'yes',
+			"cartTimeOut"      => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"      => 'no',
+			"defaultCart"      => null,
+			"buttonCartLead"   => 'Back to current view',
+			"onePage"          => 'yes',
+			"showShippingCart" => 'no',
+			"attributeImage"   => 'no',
+			"quantityChange"   => 'no',
+			"quantityInCart"   => 0,
+			"minimumOrder"     => 0,
+			"enableQuotation"  => 'no'
 		);
 	}
 
@@ -196,11 +197,11 @@ class WrappingFrontEndCest
 		$I->wantTo('Disable paypal plugin');
 		$I->disablePlugin('PayPal');
 
-		$I->wantTo('setup up one page checkout at admin');
+		$I->wantTo('setup up one page checkout at config');
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->cartSetting);
 
-		$I->wantTo('Create Category in Administrator');
+		$I->wantTo('Create Category in administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
 
@@ -235,12 +236,16 @@ class WrappingFrontEndCest
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
-		$I->wantTo('Delete Category');
+
+		$I->wantTo('Delete category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
+
+		$I->wantTo('Delete wrapper');
 		$I = new WrapperSteps($scenario);
 		$I->deleteWrapper($this->wrappingName);
-		$I->wantTo('Test Order delete by user  in Administrator');
+
+		$I->wantTo('Test order delete by user in administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->deleteOrder($this->customerInformation['firstName']);
 	}

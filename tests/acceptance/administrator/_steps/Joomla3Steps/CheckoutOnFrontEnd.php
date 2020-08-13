@@ -654,10 +654,10 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList,30);
-		$I->waitForElementVisible($productFrontEndManagerPage->product($productName),30);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 		$I->click($productFrontEndManagerPage->product($productName));
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart,30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, AdminJ3Page::$selectorSuccess);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
