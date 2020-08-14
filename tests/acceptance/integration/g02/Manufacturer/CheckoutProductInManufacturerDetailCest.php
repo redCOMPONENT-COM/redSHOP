@@ -191,6 +191,6 @@ class CheckoutProductInManufacturerDetailCest
 
 		$I = new ManufacturerSteps($scenario);
 		$I->wantTo('Delete a manufacturer');
-		$I->deleteItem($this->manufacturer['name']);
+		$I->deleteManufacturer($this->manufacturer['name']);
 	}
 }
