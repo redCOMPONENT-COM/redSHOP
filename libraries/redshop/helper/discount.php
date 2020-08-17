@@ -115,11 +115,9 @@ class RedshopHelperDiscount
         if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0) {
             $productData->discount_price = 0;
         } else {
-            $condition = ($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
+            if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
                 || ((int)$productData->discount_enddate >= $today && (int)$productData->discount_stratdate <= $today)
-                || ($productData->discount_enddate == '0' && (int)$productData->discount_stratdate <= $today) ;
-
-            if ($condition == true) {
+                || ($productData->discount_enddate == '0' && (int)$productData->discount_stratdate <= $today)) {
                 return (float)$productData->discount_price;
             }
         }
@@ -346,7 +344,7 @@ class RedshopHelperDiscount
         $cart['discount_ex_vat']           = $totalDiscount - $discountVAT;
         $cart['mod_cart_total']            = Redshop\Cart\Module::calculate((array)$cart);
 
-        \Redshop\Cart\Helper::setCart($cart);
+        \JFactory::getSession()->set('cart', $cart);
 
         return $cart;
     }

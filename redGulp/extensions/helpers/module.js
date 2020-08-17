@@ -18,13 +18,15 @@ function releaseModule(modName, modFolder, modBase) {
     var wwwPath = config.wwwDir + '/modules/' + modFolder
 
     // Clean: Module
-    gulp.task('clean:' + baseTask + ':module', function () {
-        return del(wwwPath, {force: true});
+    gulp.task('clean:' + baseTask + ':module', function (cb) {
+        del(wwwPath, {force: true});
+        cb();
     });
 
     // Clean: Language
-    gulp.task('clean:' + baseTask + ':language', function () {
-        return del(config.wwwDir + '/language/**/*.mod_' + modName + '.*', {force: true});
+    gulp.task('clean:' + baseTask + ':language', function (cb) {
+        del(config.wwwDir + '/language/**/*.mod_' + modName + '.*', {force: true});
+        cb();
     });
 
     // Clean
@@ -37,19 +39,21 @@ function releaseModule(modName, modFolder, modBase) {
         });
 
     // Copy: Module
-    gulp.task('copy:' + baseTask + ':module', gulp.series('clean:' + baseTask + ':module'), function () {
-        return gulp.src([
-            extPath + '/**',
+    gulp.task('copy:' + baseTask + ':module', function (cb) {
+        gulp.src([
+            extPath + '/*.*',
+            extPath + '/**/*.*',
             '!' + extPath + '/language',
             '!' + extPath + '/language/**'
-        ])
-            .pipe(gulp.dest(wwwPath));
+        ]).pipe(gulp.dest(wwwPath));
+        cb();
     });
 
     // Copy: Language
-    gulp.task('copy:' + baseTask + ':language', gulp.series('clean:' + baseTask + ':language'), function () {
-        return gulp.src(extPath + '/language/**')
+    gulp.task('copy:' + baseTask + ':language', function (cb) {
+        gulp.src(extPath + '/language/**')
             .pipe(gulp.dest(config.wwwDir + '/language'));
+        cb();
     });
 
     // Copy: Module
@@ -58,11 +62,12 @@ function releaseModule(modName, modFolder, modBase) {
             'copy:' + baseTask + ':module',
             'copy:' + baseTask + ':language'
         ),
-        function () {
+        function (cb) {
+            cb();
         });
 
     // Watch: Module
-    gulp.task('watch:' + baseTask + ':module', function () {
+    gulp.task('watch:' + baseTask + ':module', function (cb) {
         gulp.watch([
                 extPath + '/**/*',
                 '!' + extPath + 'language',
@@ -72,7 +77,7 @@ function releaseModule(modName, modFolder, modBase) {
     });
 
     // Watch: Language
-    gulp.task('watch:' + baseTask + ':language', function () {
+    gulp.task('watch:' + baseTask + ':language', function (cb) {
         gulp.watch([
                 extPath + '/language/**'
             ],
