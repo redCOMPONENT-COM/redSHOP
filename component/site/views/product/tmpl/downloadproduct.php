@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHTMLBehavior::modal();
+JHtml::_('behavior.modal');
 JLoader::import('joomla.filesystem.file');
 
 $tid   = $this->input->get('tid', null);

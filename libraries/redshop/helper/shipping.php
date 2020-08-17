@@ -70,7 +70,7 @@ class RedshopHelperShipping
         $shopperGroup = RedshopHelperUser::getShopperGroupData($userId);
 
         if (count($shopperGroup) > 0) {
-            $shopperGroupId = $shopperGroup->shopper_group_id;
+            $shopperGroupId = $shopperGroup->id;
             $whereShopper   = ' AND (FIND_IN_SET(' . $db->quote((int)$shopperGroupId) . ', '
                 . $db->qn('shipping_rate_on_shopper_group') . ') OR '
                 . $db->qn('shipping_rate_on_shopper_group') . ' = "") ';
@@ -382,7 +382,7 @@ class RedshopHelperShipping
                     ->from($db->qn('#__redshop_users_info', 'u'))
                     ->leftJoin(
                         $db->qn('#__redshop_shopper_group', 'sh')
-                        . ' ON ' . $db->qn('sh.shopper_group_id') . ' = ' . $db->qn('u.shopper_group_id')
+                        . ' ON ' . $db->qn('sh.id') . ' = ' . $db->qn('u.shopper_group_id')
                     )
                     ->where($db->qn('u.users_info_id') . ' = ' . $db->quote((int)$usersInfoId))
                     ->order($db->qn('u.users_info_id') . ' ASC');
@@ -638,7 +638,7 @@ class RedshopHelperShipping
             $shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 
             if (!empty($shopperGroup)) {
-                $shopperGroupId = $shopperGroup->shopper_group_id;
+                $shopperGroupId = $shopperGroup->id;
                 $whereShopper   = " AND (FIND_IN_SET(" . (int)$shopperGroupId . ", " . $db->qn(
                         'shipping_rate_on_shopper_group'
                     ) . ")
@@ -1376,7 +1376,7 @@ class RedshopHelperShipping
         $shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 
         if (count($shopperGroup) > 0) {
-            $shopperGroupId = $shopperGroup->shopper_group_id;
+            $shopperGroupId = $shopperGroup->id;
             $whereShopper   = " AND (FIND_IN_SET(" . $db->quote((int)$shopperGroupId) . ", "
                 . $db->qn('shipping_rate_on_shopper_group') . " ) OR "
                 . $db->qn('shipping_rate_on_shopper_group') . " = '') ";

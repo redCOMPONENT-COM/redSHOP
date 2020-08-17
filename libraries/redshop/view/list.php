@@ -48,6 +48,16 @@ class RedshopViewList extends AbstractView
     public $filterForm;
 
     /**
+     * @var  string
+     */
+    public $showType = 'normal';
+
+    /**
+     * @var  string
+     */
+    public $baseLink;
+
+    /**
      * @var  array
      */
     public $filterFormOptions = array();
@@ -58,6 +68,13 @@ class RedshopViewList extends AbstractView
      * @since  2.0.6
      */
     public $hasOrdering = false;
+
+    /**
+     * @var  boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public $hasFilter = true;
 
     /**
      * @var  boolean
@@ -92,6 +109,14 @@ class RedshopViewList extends AbstractView
      * @since  2.0.6
      */
     protected $stateColumns = array('published', 'state');
+
+    /**
+     * Column for get value from table
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $stateColumn = 'published';
 
     /**
      * Display check-in button or not.
@@ -138,6 +163,11 @@ class RedshopViewList extends AbstractView
                 $this->nestedOrdering[$item->parent_id][] = $item->id;
             }
         }
+    }
+
+    public function getBaseLink()
+    {
+        return $this->baseLink;
     }
 
     /**
@@ -294,7 +324,7 @@ class RedshopViewList extends AbstractView
             return JHtml::_('redshopgrid.slidetext', $value);
         } elseif (in_array($config['dataCol'], $this->stateColumns)) {
             if ($this->canEdit) {
-                return JHtml::_('redshopgrid.published', $row->published, $index);
+                return JHtml::_('redshopgrid.published', $row->{$this->stateColumn}, $index);
             } else {
                 return '<span class="label ' . ($row->published ? 'label-success' : 'label-danger') . '">' .
                     ($row->published ? JText::_('JYES') : JText::_('JNO')) . '</span>';

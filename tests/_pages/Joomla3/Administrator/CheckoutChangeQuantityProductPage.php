@@ -31,10 +31,4 @@ class CheckoutChangeQuantityProductPage extends AdminJ3Page
 	 * @since 2.1.0
 	 */
 	public static $bankTransfer = "#rs_payment_banktransfer";
-
-	/**
-	 * @var array
-	 * @since 2.1.0
-	 */
-	public static $updateCartButton = "//img[@class='update_cart']";
 }

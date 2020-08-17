@@ -169,7 +169,7 @@ class SiteHelper
                         $date,
                         $field->name,
                         $field->name,
-                        $format = '%d-%m-%Y',
+                        $format = 'd-m-Y',
                         array('class' => 'inputbox', 'size' => $size, 'maxlength' => '15')
                     );
                     break;

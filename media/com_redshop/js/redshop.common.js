@@ -1254,3 +1254,9 @@ function getCatalogSampleValidation() {
 		return false;
 	}
 }
+
+function keyCodeEnterTriggerClick(e, tagerClick) {
+	if (e.keyCode == 13) {
+		document.getElementById(tagerClick).click();
+	}
+}

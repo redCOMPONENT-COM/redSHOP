@@ -193,7 +193,7 @@ abstract class AdminJ3Page
 	 * @var array
 	 * @since 2.1.2
 	 */
-	public static $resetButton = "//input[@id='reset']";
+	public static $resetButton = "//input[@value='Reset']";
 
 	/**
 	 * @var array
@@ -697,13 +697,19 @@ abstract class AdminJ3Page
 	public static $labelSelectManufacturer = "Select Manufacturer";
 
 	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $messageDeleteInPopup = "Are you sure want to delete these items?";
+
+	/**
 	 * @param $menuCategory
-	 * @return array
+	 * @return string
 	 * @since 2.1.2
 	 */
 	public static function getMenuCategory($menuCategory)
 	{
-		$menuCate = ["link" => $menuCategory];
+		$menuCate = "//a[contains(text(), '" . $menuCategory . "')]";;
 
 		return $menuCate;
 	}
