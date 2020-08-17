@@ -62,7 +62,7 @@ class Tableattributeprices_detail extends JTable
     public function check()
     {
         $xid    = \Redshop\Attribute\Helper::getAttributePriceStartId($this);
-        $xidEnd = \Redshop\Attribute\Helper::getAttributePriceStartId($this);
+        $xidEnd = \Redshop\Attribute\Helper::getAttributePriceEndId($this);
 
 
         if (($xid || $xidEnd)

@@ -669,7 +669,7 @@ class RedshopControllerProduct extends RedshopController
 
         if ($end_date != 0 && ($limit == 0 || $today > $end_date)) {
             $msg = JText::_("COM_REDSHOP_DOWNLOAD_LIMIT_OVER");
-            $this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct", $msg);
+            $this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct", $msg, 'error');
         } elseif (isset($post['mainindex']) && isset($post['additional'])) {
             $task = $post['mainindex'];
 
@@ -686,7 +686,7 @@ class RedshopControllerProduct extends RedshopController
             }
         } else {
             $msg = JText::_('COM_REDSHOP_NO_FILE_SELECTED');
-            $this->setRedirect('index.php?option=com_redshop&view=product&layout=downloadproduct&tid=' . $tid, $msg);
+            $this->setRedirect('index.php?option=com_redshop&view=product&layout=downloadproduct&tid=' . $tid, $msg, 'error');
 
             return;
         }

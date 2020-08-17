@@ -265,13 +265,20 @@ class RedshopHelperUser
                     ->from($db->qn('#__redshop_users_info', 'u'))
                     ->leftJoin(
                         $db->qn('#__redshop_shopper_group', 'sh') . ' ON ' . $db->qn(
-                            'sh.shopper_group_id'
+                            'sh.id'
                         ) . ' = ' . $db->qn('u.shopper_group_id')
                     )
                     ->where($db->qn('u.users_info_id') . ' = ' . $userInforId)
                     ->order($db->qn('u.users_info_id'));
 
                 $userInformation = $db->setQuery($query)->loadObject();
+
+                if (empty($userInformation)) {
+                    $userInformation->country_code = !empty($userData['vatCountry']) ? $userData['vatCountry'] : Redshop::getConfig(
+                    )->getString('DEFAULT_VAT_COUNTRY');
+                    $userInformation->state_code   = !empty($userData['vatState']) ? $userData['vatState'] : Redshop::getConfig(
+                    )->getString('DEFAULT_VAT_STATE');
+                }
             }
         }
 
@@ -369,7 +376,7 @@ class RedshopHelperUser
             $query = $db->getQuery(true)
                 ->select(array('sh.*', 'u.*'))
                 ->from($db->qn('#__redshop_users_info', 'u'))
-                ->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id');
+                ->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.id = u.shopper_group_id');
 
             // Not necessary that all user is registered with joomla id. We have silent user creation too.
             if ($userId) {
@@ -402,7 +409,7 @@ class RedshopHelperUser
         $shopperGroupData = self::getShopperGroupData($userId);
 
         if (!is_null($shopperGroupData)) {
-            return $shopperGroupData->shopper_group_id;
+            return $shopperGroupData->id;
         }
 
         return Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
@@ -441,7 +448,7 @@ class RedshopHelperUser
             $query = $db->getQuery(true)
                 ->select('sg.*')
                 ->from($db->qn('#__redshop_shopper_group', 'sg'))
-                ->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = sg.shopper_group_id')
+                ->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = sg.id')
                 ->where('ui.user_id = ' . (int)$userId)
                 ->where('ui.address_type = ' . $db->q('BT'));
 
