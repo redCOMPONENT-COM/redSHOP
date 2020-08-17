@@ -54,6 +54,7 @@ class Step
                 if (!$promotion->isApplied && $condition) {
                     self::applyPromotionVolumeOrder($promotion, $cart);
                 }
+
                 if ($promotion->isApplied && !$condition) {
                     self::removeAppliedPromotion($promotion, $cart);
                 }
@@ -79,39 +80,39 @@ class Step
      * @since  __DEPLOY_VERSION__
      */
     protected static function applyPromotionVolumeOrder(&$promotion, &$cart) {
-            $promotion->isApplied = true;
-            $idx = $cart['idx']++;
-            $productAwardId = $promotion->data->product_award ?? 0;
-            $productAwardAmount = $promotion->data->award_amount ?? 0;
-            $product = \Redshop\Product\Product::getProductById($productAwardId);
+        $promotion->isApplied = true;
+        $idx = $cart['idx']++;
+        $productAwardId = $promotion->data->product_award ?? 0;
+        $productAwardAmount = $promotion->data->award_amount ?? 0;
+        $product = \Redshop\Product\Product::getProductById($productAwardId);
 
-            $award = [
-                'hidden_attribute_cartimage' => '',
-                'product_price_excl_vat' => 0.0,
-                'subscription_id' => 0,
-                'product_vat' => 0,
-                'giftcard_id' => '',
-                'product_id' => $productAwardId,
-                'discount_calc_output' => '',
-                'discount_calc' => [],
-                'product_price' => 0.0,
-                'product_old_price' => 0.0,
-                'product_old_price_excl_vat' => 0.0,
-                'cart_attribute' => [],
-                'cart_accessory' => [],
-                'quantity' => $productAwardAmount ?? 1,
-                'category_id' => $product->category_id ?? 0,
-                'wrapper_id' => 0,
-                'wrapper_price' => 0.0,
-                'isPromotionAward' => true,
-                'promotion_id' => $promotion->id
-            ];
+        $award = [
+            'hidden_attribute_cartimage' => '',
+            'product_price_excl_vat' => 0.0,
+            'subscription_id' => 0,
+            'product_vat' => 0,
+            'giftcard_id' => '',
+            'product_id' => $productAwardId,
+            'discount_calc_output' => '',
+            'discount_calc' => [],
+            'product_price' => 0.0,
+            'product_old_price' => 0.0,
+            'product_old_price_excl_vat' => 0.0,
+            'cart_attribute' => [],
+            'cart_accessory' => [],
+            'quantity' => $productAwardAmount ?? 1,
+            'category_id' => $product->category_id ?? 0,
+            'wrapper_id' => 0,
+            'wrapper_price' => 0.0,
+            'isPromotionAward' => true,
+            'promotion_id' => $promotion->id
+        ];
 
-            $cart[$idx] = $award;
+        $cart[$idx] = $award;
 
-            self::applyPromotionFreeShipping($promotion->data, $cart);
+        self::applyPromotionFreeShipping($promotion->data, $cart);
 
-            \Redshop\Cart\Helper::setCart($cart);
+        \Redshop\Cart\Helper::setCart($cart);
     }
 
     /**
@@ -148,6 +149,7 @@ class Step
      * @since __DEPLOY_VERSION__
      */
     public static function removeAppliedPromotion(&$promotion, &$cart) {
+        $promotion->isApplied = false;
         $unCount = 0;
         for ($i = 0; $i < $cart['idx']; $i++) {
 

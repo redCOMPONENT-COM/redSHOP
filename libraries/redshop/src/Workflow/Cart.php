@@ -28,6 +28,11 @@ class Cart
     public static function add()
     {
         $post = \Joomla\CMS\Factory::getApplication()->input->post->getArray();
+
+        echo '<pre>';
+        var_dump($post);
+        die;
+
         \Redshop\Cart\Helper::checkCondition(__FUNCTION__);
         \Redshop\Plugin\Helper::invoke('redshop_product', '', 'onBeforeAddProductToCart', [&$post]);
         $result = \Redshop\Cart\Cart::add($post);

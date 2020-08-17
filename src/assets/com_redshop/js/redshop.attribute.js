@@ -656,7 +656,7 @@ function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
 		jQuery('[data-id=property_data]').val(allProperties.join("##"));
 		jQuery('[data-id=subproperty_data]').val(totalSubProperties.join("##"));
 		jQuery('[data-id=tmp_product_price]').val(mainprice);
-		jQuery('[data-id=productprice_notvat]').val(price_without_vat);
+		jQuery('[data-id=total_price_no_vat_per_product]').val(price_without_vat);
 		jQuery('[data-id=tmp_product_old_price]').val(old_price);
 	}
 
@@ -849,8 +849,8 @@ function calculateTotalPrice(productId, relatedProductId, withoutVAT) {
 		mainprice += parseFloat(jQuery('#hidden_subscription_prize').val());
 	}
 
-	if (jQuery('[data-id=productprice_notvat]').length) {
-		price_without_vat = parseFloat(jQuery('[data-id=productprice_notvat]').val());
+	if (jQuery('[data-id=total_price_no_vat_per_product]').length) {
+		price_without_vat = parseFloat(jQuery('[data-id=total_price_no_vat_per_product]').val());
 	}
 
 	if (jQuery('[data-id=tmp_product_old_price]').length) {
