@@ -40,7 +40,6 @@ class Helper
      */
     public static function calculation($userId = 0)
     {
-        \Redshop\Workflow\Promotion::apply();
         $cart = \Redshop\Cart\Helper::getCart();
 	    $rsUser = \JFactory::getSession()->get('rs_user');
 

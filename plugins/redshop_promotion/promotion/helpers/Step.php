@@ -181,19 +181,12 @@ class Step
      * @since  __DEPLOY_VERSION__
      */
     protected static function removePromotionFreeShipping(&$promotion, &$cart) {
+        $cart['free_shipping'] = $cart['free_shipping_before_promotion'];
+        $cart['shipping'] = $cart['shipping_before_promotion'];
+        $cart['shipping_tax'] = $cart['shipping_tax_before_promotion'];
 
-        if (!empty($promotion->free_shipping) && ($promotion->free_shipping == true)) {
-            $cart['free_shipping'] = $cart['free_shipping_before_promotion'];
-            $cart['shipping'] = $cart['shipping_before_promotion'];
-            $cart['shipping_tax'] = $cart['shipping_tax_before_promotion'];
-
-            $cart['subtotal'] += $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
-            $cart['total'] += $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
-
-            return true;
-        }
-
-        return false;
+        $cart['subtotal'] += $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
+        $cart['total'] += $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
     }
 
     /**

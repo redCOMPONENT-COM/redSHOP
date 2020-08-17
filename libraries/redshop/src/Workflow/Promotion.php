@@ -168,6 +168,6 @@ class Promotion
      * @since  __DEPLOY_VERSION__
      */
     public static function apply() {
-        return \Redshop\Plugin\Helper::invoke('redshop_promotion', null, 'onApply', []);
+        \Redshop\Plugin\Helper::invoke('redshop_promotion', null, 'onApply', []);
     }
 }
