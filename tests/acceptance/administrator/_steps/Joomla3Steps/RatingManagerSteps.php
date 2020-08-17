@@ -223,6 +223,7 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 		}
 
 		$I->waitForElementVisible(RatingManagerPage::$buttonSendReview, 10);
+		$I->seeElement(RatingManagerPage::$buttonSendReview);
 		$I->click(RatingManagerPage::$buttonSendReview);
 		$I->waitForText(RatingManagerPage::$messageSaveRatingSuccessFrontEnd, 30);
 	}
