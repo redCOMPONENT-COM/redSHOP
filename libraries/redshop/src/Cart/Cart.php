@@ -48,6 +48,22 @@ class Cart
                 continue;
             }
 
+            # REDSHOP-6083
+            $isPromotionAward = false;
+            $checks = \Redshop\Plugin\Helper::invoke('redshop_promotion',
+                null, 'isProductAwardByPromotion', [$cart[$i]]);
+
+            if (count($checks) > 0) {
+                foreach ($checks as $c) {
+                    $isPromotionAward = $isPromotionAward || $c;
+                }
+            }
+
+            if ($isPromotionAward == true) {
+                continue;
+            }
+            # END REDSHOP-6083
+
             $productId    = $cart[$i]['product_id'] ?? 0;
             $quantity     = $cart[$i]['quantity'] ?? 0;
             $product      = \Redshop\Product\Product::getProductById($productId);

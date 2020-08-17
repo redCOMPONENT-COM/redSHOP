@@ -1,3 +1,6 @@
+{% if isPromotionAward == true %}
+    <label id="quantitybox{{ i }}">{{ quantity }}</label>
+{% else %}
 <form name="update_cart{{ i }}" method="POST">
     <input type="text" id="quantitybox{{ i }}" name="quantity" size="1" value="{{ quantity }}"/>
     <input type="button" id="minus" value="-"
@@ -14,3 +17,4 @@
          alt="{{ jtext('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') }}"
          onclick="document.update_cart{{ i }}.task.value='update';document.update_cart{{ i }}.submit();">
 </form>
+{% endif %}

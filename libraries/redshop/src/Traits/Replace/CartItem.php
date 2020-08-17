@@ -82,6 +82,24 @@ trait CartItem
         return $cartResponse;
     }
 
+    /**
+     * @param $data
+     * @param $cart
+     * @param $i
+     * @param $dispatcher
+     * @param $quotationMode
+     * @param $fieldArray
+     * @param $isReplaceButton
+     * @param $view
+     * @param $token
+     * @param $itemId
+     * @param $deleteImg
+     *
+     * @return mixed
+     *
+     * @throws \Exception
+     * @since __DEPLOY_VERSION__
+     */
     public function replaceLoopCart(
         $data,
         $cart,
@@ -296,7 +314,8 @@ trait CartItem
                     'tags.product.name',
                     [
                         'link' => $link,
-                        'text' => $product->product_name
+                        'text' => $product->product_name,
+                        'isPromotionAward' => $cart[$i]['isPromotionAward'] ?? false
                     ],
                     '',
                     $optionLayout
@@ -698,7 +717,8 @@ trait CartItem
                         'cartItem'    => $cartItem,
                         'productId'   => ${$cartItem},
                         'itemId'      => $itemId,
-                        'updateImage' => $updateImage
+                        'updateImage' => $updateImage,
+                        'isPromotionAward' => $cart[$i]['isPromotionAward'] ?? false
                     ],
                     '',
                     $optionLayout
@@ -713,7 +733,8 @@ trait CartItem
                     'cartItem'    => $cartItem,
                     'productId'   => ${$cartItem},
                     'itemId'      => $itemId,
-                    'updateImage' => $updateImage
+                    'updateImage' => $updateImage,
+                    'isPromotionAward' => $cart[$i]['isPromotionAward'] ?? false
                 ],
                 '',
                 $optionLayout
@@ -725,7 +746,7 @@ trait CartItem
                 $deleteImg = "defaultcross.png";
             }
 
-            if ($view == 'checkout') {
+            if ($view == 'checkout' || ($cart[$i]['isPromotionAward'] ?? false)) {
                 $removeProduct = '';
             } else {
                 $removeProduct = \RedshopLayoutHelper::render(

@@ -46,6 +46,17 @@ class PlgRedshop_PromotionPromotion extends JPlugin
     }
 
     /**
+     * @param $cartItem
+     *
+     * @return false|mixed
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function isProductAwardByPromotion($cartItem) {
+        return $cartItem['isPromotionAward'] ?? false;
+    }
+
+    /**
      * @param $data
      * @return array
      * @since __DEPLOY_VERSION__

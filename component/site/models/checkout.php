@@ -176,7 +176,7 @@ class RedshopModelCheckout extends RedshopModel
      *
      * @throws Exception
      */
-    public function orderplace()
+    public function orderPlace()
     {
         $app              = JFactory::getApplication();
         $input            = $app->input;
