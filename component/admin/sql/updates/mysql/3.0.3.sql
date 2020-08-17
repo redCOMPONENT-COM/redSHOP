@@ -1,5 +1,18 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
+CREATE TABLE NOT EXISTS  `#__redshop_promotion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `data` text,
+  `desc` varchar(255) DEFAULT NULL,
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'redSHOP Promotion';
+
  -- -----------------------------------------------------
 -- Table `#__redshop_catalog_sample`
 -- -----------------------------------------------------
