@@ -41,7 +41,7 @@
                 <tr class="<?php echo "row$k"; ?>">
 
 
-                    <td align="center"><?php echo $row->shopper_group_name; ?></td>
+                    <td align="center"><?php echo $row->name; ?></td>
                     <td align="center"><input type="text" name="price_quantity_start[]" id="price_quantity_start"
                                               value=" <?php echo $row->price_quantity_start; ?>"/></td>
                     <td align="center"><input type="text" name="price_quantity_end[]" id="price_quantity_end"
@@ -49,7 +49,7 @@
                     <td align="center" width="5%"><input type="hidden" name="price_id[]"
                                                          value="<?php echo $row->id; ?>"><input type="hidden"
                                                                                                 name="shopper_group_id[]"
-                                                                                                value="<?php echo $row->shopper_group_id; ?>"><input
+                                                                                                value="<?php echo $row->id; ?>"><input
                                 type="text" name="price[]" value="<?php echo $row->product_price; ?>"></td>
                 </tr>
                 <?php $k = 1 - $k;

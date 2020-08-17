@@ -245,8 +245,8 @@ class ModuleProductRelatedCest
 		$I->publishModule($this->moduleName);
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configurationModuleProductRelated($this->moduleName, $this->configModule);
-		$I->setModulePosition($this->moduleName);
 		$I->displayModuleOnAllPages($this->moduleName);
+		$I->setModulePosition($this->moduleName);
 		$I->comment('disable Plugin');
 		$I->disablePlugin('PayPal');
 	}

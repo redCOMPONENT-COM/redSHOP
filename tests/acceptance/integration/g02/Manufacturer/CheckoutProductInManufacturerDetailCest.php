@@ -104,14 +104,14 @@ class CheckoutProductInManufacturerDetailCest
 
 		$this->customerInformation = array
 		(
-			"email"      => "test@test" . rand() . ".com",
+			"email"      => $this->faker->email,
 			"firstName"  => "Tester",
 			"lastName"   => "User",
 			"address"    => "Some Place in the World",
 			"postalCode" => "23456",
-			"city"       => "Bangalore",
-			"country"    => "Denmark",
-			"state"      => "Karnataka",
+			"city"       => "Ho chi Minh",
+			"country"    => "Viet Nam",
+			"state"      => "Ho chi Minh",
 			"phone"      => "8787878787"
 		);
 
@@ -191,6 +191,6 @@ class CheckoutProductInManufacturerDetailCest
 
 		$I = new ManufacturerSteps($scenario);
 		$I->wantTo('Delete a manufacturer');
-		$I->deleteItem($this->manufacturer['name']);
+		$I->deleteManufacturer($this->manufacturer['name']);
 	}
 }

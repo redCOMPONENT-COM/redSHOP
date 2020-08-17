@@ -84,8 +84,8 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
 
         $this->template     .= $hidden;
         $wObj               = new stdClass;
-        $wObj->wrapper_id   = 0;
-        $wObj->wrapper_name = JText::_('COM_REDSHOP_SELECT_WRAPPER');
+        $wObj->id   = 0;
+        $wObj->name = JText::_('COM_REDSHOP_SELECT_WRAPPER');
         $warray[]           = $wObj;
         $wrapperimageDiv    = "";
         $wrapperimageDiv    .= "<table><tr>";
@@ -93,29 +93,29 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
         for ($i = 0, $in = count($wrapper); $i < $in; $i++) {
             $wrapperVat = 0;
 
-            if ($wrapper[$i]->wrapper_price > 0 && !strstr($this->template, "{without_vat}")) {
-                $wrapperVat = RedshopHelperProduct::getProductTax($data->product_id, $wrapper[$i]->wrapper_price);
+            if ($wrapper[$i]->price > 0 && !strstr($this->template, "{without_vat}")) {
+                $wrapperVat = RedshopHelperProduct::getProductTax($data->product_id, $wrapper[$i]->price);
             }
 
-            $wp           = $wrapper[$i]->wrapper_price + $wrapperVat;
-            $wpWithoutvat = $wrapper[$i]->wrapper_price;
-            $wid          = $wrapper[$i]->wrapper_id;
-            $title        = $wrapper[$i]->wrapper_name;
-            $alt          = $wrapper[$i]->wrapper_name;
+            $wp           = $wrapper[$i]->price + $wrapperVat;
+            $wpWithoutvat = $wrapper[$i]->price;
+            $wid          = $wrapper[$i]->id;
+            $title        = $wrapper[$i]->name;
+            $alt          = $wrapper[$i]->name;
 
             if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get(
                         'DEFAULT_QUOTATION_MODE'
                     ) || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE))) {
-                $wrapper[$i]->wrapper_name = $wrapper[$i]->wrapper_name . " (" . strip_tags(
+                $wrapper[$i]->name = $wrapper[$i]->name . " (" . strip_tags(
                         RedshopHelperProductPrice::formattedPrice($wp)
                     ) . ")";
             }
 
             $wrapperimageDiv .= "<td id='wrappertd" . $wid . "'>";
 
-            if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->wrapper_image)) {
+            if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->image)) {
                 $thumbUrl = RedshopHelperMedia::getImagePath(
-                    $wrapper[$i]->wrapper_image,
+                    $wrapper[$i]->image,
                     '',
                     'thumb',
                     'wrapper',
@@ -236,8 +236,8 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
                 $wrapper,
                 'wrapper_id',
                 'class="inputbox" onchange="calculateTotalPrice(' . $data->product_id . ',0);" ',
-                'wrapper_id',
-                'wrapper_name',
+                'id',
+                'name',
                 0
             );
 

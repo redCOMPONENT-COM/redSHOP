@@ -4,15 +4,15 @@
   "description": "Release script for redSHOP",
   "main": "gulpfile.js",
   "dependencies": {
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "lodash": "^4.17.15",
     "lodash.template": "^4.5.0",
     "node-sass": "^4.13.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.3",
-    "@babel/preset-env": "^7.10.3",
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
     "browser-sync": "^2.26.7",
     "colors": "^1.4.0",
     "del": "^5.1.0",

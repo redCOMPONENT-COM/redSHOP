@@ -49,11 +49,11 @@ class RedshopHelperShopper_Group
         $html  = '';
 
         $query->select($db->qn('parent_id'))
-            ->select($db->qn('shopper_group_id'))
+            ->select($db->qn('id'))
             ->from($db->qn('#__redshop_shopper_group'));
 
         if ($shopperGroupId) {
-            $query->where($db->qn('shopper_group_id') . ' = ' . (int)$shopperGroupId);
+            $query->where($db->qn('id') . ' = ' . (int)$shopperGroupId);
         }
 
         $db->setQuery($query);
@@ -103,17 +103,17 @@ class RedshopHelperShopper_Group
         $query = $db->getQuery(true);
         $level++;
 
-        $query->select($db->qn(array('shopper_group_id', 'shopper_group_name', 'parent_id')))
+        $query->select($db->qn(array('id', 'name', 'parent_id')))
             ->from($db->qn('#__redshop_shopper_group'))
             ->where($db->qn('parent_id') . ' = ' . (int)$cid)
-            ->where($db->qn('shopper_group_id') . ' != ' . (int)$shopperGroupId);
+            ->where($db->qn('id') . ' != ' . (int)$shopperGroupId);
 
         $db->setQuery($query);
         $groups = $db->loadObjectList();
 
         for ($x = 0, $xn = count($groups); $x < $xn; $x++) {
             $group   = $groups[$x];
-            $childId = $group->shopper_group_id;
+            $childId = $group->id;
 
             $selected = "";
 
@@ -135,7 +135,7 @@ class RedshopHelperShopper_Group
                 }
 
                 $html .= "|$level|";
-                $html .= "&nbsp;" . $group->shopper_group_name . "</option>";
+                $html .= "&nbsp;" . $group->name . "</option>";
             }
 
             $html .= self::listTree($shopperGroupId, $childId, $level, $selectedGroups, $disabledFields);
@@ -165,7 +165,7 @@ class RedshopHelperShopper_Group
 
         $app = JFactory::getApplication();
 
-        $filterOrder    = $app->getUserStateFromRequest('filter_order', 'filter_order', 'shopper_group_id');
+        $filterOrder    = $app->getUserStateFromRequest('filter_order', 'filter_order', 'id');
         $filterOrderDir = $app->getUserStateFromRequest('filter_order_Dir', 'filter_order_Dir', '');
 
         $query->select('*')
@@ -179,17 +179,17 @@ class RedshopHelperShopper_Group
         for ($x = 0, $xn = count($groups); $x < $xn; $x++) {
             $html    = '';
             $group   = $groups[$x];
-            $childId = $group->shopper_group_id;
+            $childId = $group->id;
 
             if ($childId != $cid) {
                 for ($i = 0; $i < $level; $i++) {
                     $html .= "|&nbsp;—&nbsp;";
                 }
 
-                $html .= $group->shopper_group_name;
+                $html .= $group->name;
             }
 
-            $group->shopper_group_name = $html;
+            $group->name = $html;
             $GLOBALS['grouplist'][]    = $group;
             self::getShopperGroupListArray($shopperGroupId, $childId, $level);
         }
@@ -216,15 +216,15 @@ class RedshopHelperShopper_Group
         $query = $db->getQuery(true);
 
         $query->select(
-            $db->qn(array('c.shopper_group_id', 'cx.shopper_group_categories', 'cx.shopper_group_id', 'cx.parent_id'))
+            $db->qn(array('c.shopper_group_id', 'cx.categories', 'cx.id', 'cx.parent_id'))
         )
             ->from($db->qn('#__redshop_shopper_group', 'cx'))
             ->leftJoin(
                 $db->qn('#__redshop_shopper_group', 'c')
                 . ' ON ' .
-                $db->qn('c.shopper_group_id') . ' = ' . $db->qn('cx.parent_id')
+                $db->qn('c.id') . ' = ' . $db->qn('cx.parent_id')
             )
-            ->where($db->qn('cx.shopper_group_id') . ' = ' . (int)$cid);
+            ->where($db->qn('cx.id') . ' = ' . (int)$cid);
 
         $db->setQuery($query);
         $groups = $db->loadObjectList();
@@ -315,8 +315,8 @@ class RedshopHelperShopper_Group
         $shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
         if (!empty($shopperGroupData)) {
-            if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories) {
-                $categories = explode(',', $shopperGroupData[0]->shopper_group_categories);
+            if (isset($shopperGroupData[0]) && $shopperGroupData[0]->categories) {
+                $categories = explode(',', $shopperGroupData[0]->categories);
 
                 if (array_search((int)$cid, $categories) !== false) {
                     return $shopperGroupData[0];
@@ -349,6 +349,6 @@ class RedshopHelperShopper_Group
             return '';
         }
 
-        return $shopperGroups[0]->shopper_group_manufactures;
+        return $shopperGroups[0]->manufactures;
     }
 }

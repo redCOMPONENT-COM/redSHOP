@@ -141,10 +141,10 @@ class RedshopMenuLeft_Menu
             case "addquotation_detail":
                 return array('ORDER', 'quotation');
 
-            case "stockroom":
+            case "stockrooms":
             case "stockroom_listing":
             case "stockimage":
-                return array('STOCKROOM', 'stockroom');
+                return array('STOCKROOM', 'stockrooms');
 
             case "suppliers":
             case "supplier":
@@ -174,29 +174,29 @@ class RedshopMenuLeft_Menu
             case "mails":
                 return array('COMMUNICATION', 'mail');
 
-            case "newsletter":
+            case "newsletters":
             case "newsletter_detail":
             case "newslettersubscr":
             case 'newslettersubscr_detail':
                 return array('COMMUNICATION', 'newsletter');
 
-            case "shipping":
-            case "shipping_detail":
+            case "shipping_methods":
+            case "shipping_method":
             case "shipping_rate":
-                return array('SHIPPING', 'shipping_method');
+                return array('SHIPPING', 'shipping_methods');
 
             case "shipping_box":
             case "shipping_boxes":
                 return array('SHIPPING', 'shipping_boxes');
 
+            case "wrappers":
             case "wrapper":
-            case "wrapper_detail":
-                return array('SHIPPING', 'wrapper');
+                return array('SHIPPING', 'wrappers');
 
             case "user":
             case 'user_detail':
-            case "shopper_group":
-            case "shopper_group_detail":
+            case "shoppergroups":
+            case "shoppergroup":
                 return array('USER', 'user');
 
             case "tax_groups":
@@ -452,9 +452,9 @@ class RedshopMenuLeft_Menu
         self::$menu->section('stockroom')
             ->title('COM_REDSHOP_STOCKROOM')
             ->addItem(
-                'index.php?option=com_redshop&view=stockroom',
+                'index.php?option=com_redshop&view=stockrooms',
                 'COM_REDSHOP_STOCKROOM_LISTING',
-                self::$view === 'stockroom'
+                self::$view === 'stockrooms'
             )
             ->addItem(
                 'index.php?option=com_redshop&view=stockroom_listing',
@@ -535,9 +535,9 @@ class RedshopMenuLeft_Menu
                 self::$view === 'mails'
             )
             ->addItem(
-                'index.php?option=com_redshop&view=newsletter',
+                'index.php?option=com_redshop&view=newsletters',
                 'COM_REDSHOP_NEWSLETTER_LISTING',
-                self::$view === 'newsletter'
+                self::$view === 'newsletters'
             )
             ->addItem(
                 'index.php?option=com_redshop&view=newslettersubscr',
@@ -545,9 +545,9 @@ class RedshopMenuLeft_Menu
                 self::$view === 'newslettersubscr'
             )
             ->addItem(
-                'index.php?option=com_redshop&view=newsletter_detail&layout=statistics',
+                'index.php?option=com_redshop&view=newsletter&layout=statistics',
                 'COM_REDSHOP_NEWSLETTER_STATISTICS',
-                self::$view === 'newsletter_detail' && self::$layout === 'statistics'
+                self::$view === 'newsletter' && self::$layout === 'statistics'
             )
             ->group('COMMUNICATION');
     }
@@ -562,9 +562,9 @@ class RedshopMenuLeft_Menu
         self::$menu->section('shipping')
             ->title('COM_REDSHOP_SHIPPING')
             ->addItem(
-                'index.php?option=com_redshop&view=shipping',
+                'index.php?option=com_redshop&view=shipping_methods',
                 'COM_REDSHOP_SHIPPING_METHOD_LISTING',
-                self::$view === 'shipping'
+                self::$view === 'shipping_methods'
             );
 
         if (JPluginHelper::isEnabled('economic') && Redshop::getConfig()->getBool('ECONOMIC_INTEGRATION')) {
@@ -580,9 +580,9 @@ class RedshopMenuLeft_Menu
             self::$view === 'shipping_boxes'
         )
             ->addItem(
-                'index.php?option=com_redshop&view=wrapper',
+                'index.php?option=com_redshop&view=wrappers',
                 'COM_REDSHOP_WRAPPER_LISTING',
-                self::$view === 'wrapper'
+                self::$view === 'wrappers'
             )
             ->group('SHIPPING');
     }
@@ -611,9 +611,9 @@ class RedshopMenuLeft_Menu
                 'COM_REDSHOP_USER_SYNC'
             )
             ->addItem(
-                'index.php?option=com_redshop&view=shopper_group',
+                'index.php?option=com_redshop&view=shoppergroups',
                 'COM_REDSHOP_SHOPPER_GROUP_LISTING',
-                self::$view === 'shopper_group'
+                self::$view === 'shoppergroups'
             );
 
         JFactory::getDocument()->addScriptDeclaration(
@@ -710,7 +710,7 @@ class RedshopMenuLeft_Menu
                 (self::$view == 'catalogs') ? true : false
             )
             ->addItem(
-                'index.php?option=com_redshop&view=sample',
+                'index.php?option=com_redshop&view=samples',
                 'COM_REDSHOP_CATALOG_PRODUCT_SAMPLE',
                 self::$view === 'sample'
             )
@@ -767,9 +767,9 @@ class RedshopMenuLeft_Menu
                 self::$view === 'question'
             )
             ->addItem(
-                'index.php?option=com_redshop&view=rating',
+                'index.php?option=com_redshop&view=ratings',
                 'COM_REDSHOP_RATING_REVIEW',
-                self::$view === 'rating'
+                self::$view === 'ratings'
             );
 
         self::$menu->group('CUSTOMER_INPUT');
@@ -911,6 +911,11 @@ class RedshopMenuLeft_Menu
                 'index.php?option=com_redshop&view=configuration',
                 'COM_REDSHOP_RESHOP_CONFIGURATION',
                 self::$view === 'configuration' && self::$layout === ''
+            )
+            ->addItem(
+                'index.php?option=com_redshop&view=plugins',
+                'COM_REDSHOP_RESHOP_CONFIGURATION_PLUGIN',
+                self::$view === 'plugins' && self::$layout === ''
             )
             ->addItem(
                 'index.php?option=com_redshop&view=configuration&layout=resettemplate',

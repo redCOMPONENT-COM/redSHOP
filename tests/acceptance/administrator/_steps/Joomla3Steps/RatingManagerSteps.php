@@ -125,13 +125,14 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 		$I = $this;
 		$I->searchRating($rating['product']);
 		$I->waitForText(RatingManagerPage::$titlePage, 10, RatingManagerPage::$h1);
-		$I->waitForElementVisible(RatingManagerPage::$firstItem, 20);
-		$I->click(RatingManagerPage::$firstItem);
+		$I->waitForElementVisible(RatingManagerPage::$checkAllXpath, 20);
+		$I->click(RatingManagerPage::$checkAllXpath);
 		$I->waitForText(RatingManagerPage::$buttonDelete, 10);
+		$I->wait(0.5);
 		$I->click(RatingManagerPage::$buttonDelete);
-		$I->canSeeInPopup(RatingManagerPage::$messageDeleteRating);
+		$I->seeInPopup(RatingManagerPage::$messageDeleteRating);
+		$I->wait(0.5);
 		$I->acceptPopup();
-		$I->waitForText(RatingManagerPage::$messageDeleteRatingSuccess, 10);
 		$I->dontSee($rating['title']);
 	}
 
@@ -185,27 +186,12 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($rating['product']));
-
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
-
-		try
-		{
-			$I->executeJS(RatingManagerPage::jQueryIframe());
-			$I->wait(0.5);
-			$I->switchToIFrame(RatingManagerPage::$nameIframe);
-			$I->waitForElementVisible(RatingManagerPage::$inputTitleFrontEnd, 30);
-		}catch (\Exception $exception)
-		{
-			$I->reloadPage();
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
-			$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
-			$I->executeJS(RatingManagerPage::jQueryIframe());
-			$I->wait(0.5);
-			$I->switchToIFrame(RatingManagerPage::$nameIframe);
-			$I->waitForElementVisible(RatingManagerPage::$inputTitleFrontEnd, 30);
-		}
-
+		$I->executeJS(RatingManagerPage::jQueryIframe());
+		$I->wait(1);
+		$I->switchToIFrame(RatingManagerPage::$nameIframe);
+		$I->waitForElementVisible(RatingManagerPage::$inputTitleFrontEnd, 60);
 		$I->fillField(RatingManagerPage::$inputTitleFrontEnd, $rating['title']);
 		$ratingPage = new RatingManagerPage();
 
@@ -237,6 +223,7 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 		}
 
 		$I->waitForElementVisible(RatingManagerPage::$buttonSendReview, 10);
+		$I->seeElement(RatingManagerPage::$buttonSendReview);
 		$I->click(RatingManagerPage::$buttonSendReview);
 		$I->waitForText(RatingManagerPage::$messageSaveRatingSuccessFrontEnd, 30);
 	}
