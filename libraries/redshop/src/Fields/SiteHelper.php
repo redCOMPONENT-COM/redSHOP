@@ -563,9 +563,9 @@ class SiteHelper
                 }
             }
 
-            if (trim($data->description) != '' && $fieldType != 'hidden') {
+            if (trim($data->desc) != '' && $fieldType != 'hidden') {
                 $exField .= '<div class="userfield_tooltip">&nbsp; ' . \JHtml::tooltip(
-                        $data->description,
+                        $data->desc,
                         $data->name,
                         'tooltip.png',
                         '',
