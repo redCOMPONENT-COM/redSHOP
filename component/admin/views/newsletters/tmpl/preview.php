@@ -89,7 +89,7 @@ if (isset($post['checkoutshoppers'])) {
                         for ($i = 0, $n = count($this->subscribers); $i < $n; $i++) {
                             $row = $this->subscribers[$i];
 
-                            $row->id = $row->subscription_id;
+                            $row->id = $row->id;
 
                             $cond = $model->orderUser($row->user_id);
 

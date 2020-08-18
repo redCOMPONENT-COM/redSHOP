@@ -176,8 +176,8 @@ class RedshopMenuLeft_Menu
 
             case "newsletters":
             case "newsletter_detail":
-            case "newslettersubscr":
-            case 'newslettersubscr_detail':
+            case "newsletter_subscriptions":
+            case 'newsletter_subscription':
                 return array('COMMUNICATION', 'newsletter');
 
             case "shipping_methods":
@@ -540,14 +540,14 @@ class RedshopMenuLeft_Menu
                 self::$view === 'newsletters'
             )
             ->addItem(
-                'index.php?option=com_redshop&view=newslettersubscr',
+                'index.php?option=com_redshop&view=newsletter_subscriptions',
                 'COM_REDSHOP_NEWSLETTER_SUBSCR_LISTING',
-                self::$view === 'newslettersubscr'
+                self::$view === 'newsletter_subscriptions'
             )
             ->addItem(
-                'index.php?option=com_redshop&view=newsletter_detail&layout=statistics',
+                'index.php?option=com_redshop&view=newsletter&layout=statistics',
                 'COM_REDSHOP_NEWSLETTER_STATISTICS',
-                self::$view === 'newsletter_detail' && self::$layout === 'statistics'
+                self::$view === 'newsletter' && self::$layout === 'statistics'
             )
             ->group('COMMUNICATION');
     }

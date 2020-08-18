@@ -34,6 +34,7 @@ class RedshopHelperNewsletter
      */
     public static function subscribe($userId = 0, $data = array(), $sendMail = false, $isNew = null)
     {
+	    $db   = JFactory::getDbo();
         $newsletter = 1;
         $userId     = (int)$userId;
         $user       = JFactory::getUser();
@@ -82,17 +83,36 @@ class RedshopHelperNewsletter
             $data['published'] = 0;
         }
 
-        JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
+	    $query = $db->getQuery(true)
+		    ->insert($db->qn('#__redshop_newsletter_subscription'))
+		    ->columns(
+			    array(
+				    $db->quoteName('user_id'), $db->quoteName('date'),
+				    $db->quoteName('newsletter_id'), $db->quoteName('name'),
+				    $db->quoteName('email'), $db->quoteName('published')
+			    )
+		    )
+		    ->values($db->quote(abs($data['user_id'])) . ','
+		             . $db->quote(date('Y-m-d H:i:s',$data['date']))
+		             . ',' . $db->quote($data['newsletter_id'])
+		             . ',' . $db->quote($data['name'])
+		             . ',' . $db->quote($data['email'])
+		             . ',' . $db->quote(1)
+		    );
 
-        /** @var Tablenewslettersubscr_detail $row */
-        $row = JTable::getInstance('newslettersubscr_detail', 'Table');
+	    $result = $db->setQuery($query)->execute();
 
-        if (!$row->bind($data) || !$row->store()) {
-            JFactory::getApplication()->enqueueMessage($row->getError(), 'error');
-        }
+	    if ($result) {
+		    $query = $db->getQuery(true)
+			    ->select('id')
+			    ->from($db->qn('#__redshop_newsletter_subscription'))
+			    ->where($db->qn('user_id') . ' = ' . $db->q(abs($data['user_id'])));
+
+		    $subId = $db->setQuery($query)->loadResult();
+	    }
 
         if ($needSendMail) {
-            Redshop\Mail\Newsletter::sendConfirmationMail($row->subscription_id);
+            Redshop\Mail\Newsletter::sendConfirmationMail($subId);
         }
 
         return true;
