@@ -88,7 +88,8 @@ class RedshopModelPromotions extends RedshopModelList
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return      string  An SQL query
+     * @return string  An SQL query
+     * @since  __DEPLOY_VERSION__
      */
     protected function getListQuery()
     {
