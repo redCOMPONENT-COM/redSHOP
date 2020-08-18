@@ -595,7 +595,7 @@ class RedshopModelNewsletters extends RedshopModelList
             ->select('IFNULL(u.email,s.email) AS email,IFNULL(u.username,s.name) AS username')
             ->from($db->qn('#__redshop_newsletter_subscription', 's'))
             ->leftJoin($db->qn('#__users', 'u') . ' ON  u.id=s.user_id')
-            ->where($db->qn('s.subscription_id') . ' = ' . $db->q($subscriberId))
+            ->where($db->qn('s.id') . ' = ' . $db->q($subscriberId))
             ->where($db->qn('published') . ' = 1');
 
         return $db->setQuery($query)->loadObjectList();
@@ -616,7 +616,7 @@ class RedshopModelNewsletters extends RedshopModelList
             ->select('*')
             ->from($db->qn('#__redshop_newsletter_subscription'))
             ->where($db->qn('newsletter_id') . ' = ' . $db->q($newsletterId))
-            ->where($db->qn('subscription_id') . ' = ' . $db->q($subscriptionId));
+            ->where($db->qn('id') . ' = ' . $db->q($subscriptionId));
 
         return $db->setQuery($query)->loadObjectList();
     }
