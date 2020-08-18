@@ -65,6 +65,17 @@ CALL redSHOP_Column_Update('#__redshop_newsletter', 'modified_by', 'modified_by'
 CALL redSHOP_Column_Update('#__redshop_newsletter', 'modified_date', 'modified_date', "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `modified_by`");
 
 -- -----------------------------------------------------
+-- Table `#__redshop_newsletter_subscription`
+-- -----------------------------------------------------
+CALL redSHOP_Column_Update('#__redshop_newsletter_subscription', 'subscription_id', 'id', 'INT(11) NOT NULL AUTO_INCREMENT');
+CALL redSHOP_Column_Update('#__redshop_newsletter_subscription', 'checkout', 'checked_out', "INT(11) NULL DEFAULT NULL");
+CALL redSHOP_Column_Update('#__redshop_newsletter_subscription', 'checked_out_time', 'checked_out_time', "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `checked_out`");
+CALL redSHOP_Column_Update('#__redshop_newsletter_subscription', 'created_date', 'created_date', "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `checked_out_time`");
+CALL redSHOP_Column_Update('#__redshop_newsletter_subscription', 'created_by', 'created_by', "INT(11) NULL DEFAULT NULL AFTER `created_date`");
+CALL redSHOP_Column_Update('#__redshop_newsletter_subscription', 'modified_by', 'modified_by', "INT(11) NULL DEFAULT NULL AFTER `created_by`");
+CALL redSHOP_Column_Update('#__redshop_newsletter_subscription', 'modified_date', 'modified_date', "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `modified_by`");
+
+-- -----------------------------------------------------
 -- Table `#__redshop_stockroom`
 -- -----------------------------------------------------
 CALL redSHOP_Column_Update('#__redshop_stockroom', 'stockroom_id', 'id', 'INT(11) NOT NULL AUTO_INCREMENT');
