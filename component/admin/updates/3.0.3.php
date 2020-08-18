@@ -63,8 +63,22 @@ class RedshopUpdate303 extends RedshopInstallUpdate
             JPATH_ADMINISTRATOR . '/components/com_redshop/models/newsletter_detail.php',
             JPATH_ADMINISTRATOR . '/components/com_redshop/tables/newsletter_detail.php',
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/newsletter_detail/tmpl/default.php',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/views/newsletter_detail/view.html.php'
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/newsletter_detail/view.html.php',
+
+	        // Newsletter Subscription
+	        JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/newslettersubscr.php',
+	        JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/newslettersubscr_detail.php',
+	        JPATH_ADMINISTRATOR . '/components/com_redshop/models/newslettersubscr.php',
+	        JPATH_ADMINISTRATOR . '/components/com_redshop/models/newslettersubscr_detail.php',
+	        JPATH_ADMINISTRATOR . '/components/com_redshop/tables/newslettersubscr_detail.php',
+	        JPATH_ADMINISTRATOR . '/components/com_redshop/views/newslettersubscr/index.html',
+	        JPATH_ADMINISTRATOR . '/components/com_redshop/views/newslettersubscr/view.html.php',
+	        JPATH_ADMINISTRATOR . '/components/com_redshop/views/newslettersubscr/tmpl/index.html',
+	        JPATH_ADMINISTRATOR . '/components/com_redshop/views/newslettersubscr/tmpl/default.php',
+	        JPATH_ADMINISTRATOR . '/components/com_redshop/views/newslettersubscr_detail/index.html',
+	        JPATH_ADMINISTRATOR . '/components/com_redshop/views/newslettersubscr_detail/view.html.php',
+	        JPATH_ADMINISTRATOR . '/components/com_redshop/views/newslettersubscr_detail/tmpl/edit.php',
+	        JPATH_ADMINISTRATOR . '/components/com_redshop/views/newslettersubscr_detail/tmpl/index.html',
 
 	        // Stockroom
 	        JPATH_ADMINISTRATOR . '/component/admin/controllers/stockroom_detail.php',
@@ -103,9 +117,9 @@ class RedshopUpdate303 extends RedshopInstallUpdate
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/shipping',
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/shipping_detail',
 	        JPATH_ADMINISTRATOR . '/components/com_redshop/views/wrapper_detail',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/views/newsletter_detail'
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/newsletter_detail',
-	        JPATH_ADMINISTRATOR . '/components/com_redshop/views/stockroom_detail'
+            JPATH_ADMINISTRATOR . '/components/com_redshop/views/newsletter_detail',
+	        JPATH_ADMINISTRATOR . '/components/com_redshop/views/stockroom_detail',
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/shopper_group',
             JPATH_ADMINISTRATOR . '/components/com_redshop/views/shopper_group_detail',
         );
