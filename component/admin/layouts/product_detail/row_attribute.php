@@ -18,7 +18,7 @@ extract($displayData);
 
 ?>
 
-<div class="row-fluid row<?php echo (int) $rowLevel ?>" id="attribute_id_<?php echo $a['attribute_id'] ?>" product-id="<?php echo $productId ?>" data-id="<?php echo $a['attribute_id'] ?>" type="attribute" data="<?php echo base64_encode(json_encode($a)); ?>" dependency="<?php echo $a['dependency'] ?>">
+<div class="row-fluid row<?php echo (int) $rowLevel ?>" id="attribute_id_<?php echo $a['attribute_id'] ?>" product-id="<?php echo $productId ?>" data-id="<?php echo $a['attribute_id'] ?>" type="attribute" data="<?php echo base64_encode(json_encode($a)); ?>" dependency="<?php echo $a['dependency'] ?? '' ?>">
     <div class="td span1" data-content="attribute_id"><b><?php echo $a['attribute_id'] ?></b>
     </div>
     <div class="td span2" data-content="attribute_name">

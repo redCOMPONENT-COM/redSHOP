@@ -18,7 +18,7 @@ extract($displayData);
 
 ?>
 
-<div class="row-fluid row<?php echo (int) $pr; ?>" <?php if (empty($p)) : ?> id="property_id_new_<?php echo $a['attribute_id'] ?>" style="display: none;" <?php else : ?> id="property_id_<?php echo $p->property_id ?>" <?php endif ?> type="property" data-id="<?php echo $p->property_id ?: '' ?>" data="<?php echo base64_encode(json_encode($p)); ?>" dependency="<?php echo $p->dependency ?: '' ?>">
+<div class="row-fluid row<?php echo (int) $pr ?? 0; ?>" <?php if (empty($p)) : ?> id="property_id_new_<?php echo $a['attribute_id'] ?? 0 ?>" style="display: none;" <?php else : ?> id="property_id_<?php echo $p->property_id ?? 0 ?>" <?php endif ?> type="property" data-id="<?php echo $p->property_id ?: '' ?>" data="<?php echo base64_encode(json_encode($p)); ?>" dependency="<?php echo $p->dependency ?: '' ?>">
     <div class="td span1" style="color: darkred" data-content="property_id">
         <b><?php echo $p->property_id ?: '' ?></b>
     </div>
