@@ -175,6 +175,9 @@
         <plugin group="twig" name="juser" published="published"/>
         <plugin group="twig" name="unserialize" published="published"/>
         <plugin group="twig" name="redshop" published="published"/>
+
+        <!-- redSHOP Promotion plugins -->
+        <plugin group="redshop_promotion" name="promotion" published="published"/>
     </plugins>
 
     <updateservers>
