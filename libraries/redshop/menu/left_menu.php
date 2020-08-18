@@ -545,9 +545,9 @@ class RedshopMenuLeft_Menu
                 self::$view === 'newsletter_subscriptions'
             )
             ->addItem(
-                'index.php?option=com_redshop&view=newsletter_detail&layout=statistics',
+                'index.php?option=com_redshop&view=newsletter&layout=statistics',
                 'COM_REDSHOP_NEWSLETTER_STATISTICS',
-                self::$view === 'newsletter_detail' && self::$layout === 'statistics'
+                self::$view === 'newsletter' && self::$layout === 'statistics'
             )
             ->group('COMMUNICATION');
     }

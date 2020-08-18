@@ -1102,18 +1102,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
-
-		try
-		{
-			$I->waitForElement(FrontEndProductManagerJoomla3Page::$selectorSuccess, 60, FrontEndProductManagerJoomla3Page::$selectorSuccess);
-		}catch (\Exception $e)
-		{
-		}
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$selectorSuccess, 60, FrontEndProductManagerJoomla3Page::$selectorSuccess);
 
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productname]);
+		$I->waitForText($total, 30 , FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$priceEnd);
-		$I->waitForText($total, 30 ,FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 
