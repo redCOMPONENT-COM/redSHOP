@@ -84,34 +84,8 @@ class Step
         $idx = $cart['idx']++;
         $productAwardId = $promotion->data->product_award ?? 0;
         $productAwardAmount = $promotion->data->award_amount ?? 0;
-        $product = \Redshop\Product\Product::getProductById($productAwardId);
-
-        $award = [
-            'hidden_attribute_cartimage' => '',
-            'product_price_excl_vat' => 0.0,
-            'subscription_id' => 0,
-            'product_vat' => 0,
-            'giftcard_id' => '',
-            'product_id' => $productAwardId,
-            'discount_calc_output' => '',
-            'discount_calc' => [],
-            'product_price' => 0.0,
-            'product_old_price' => 0.0,
-            'product_old_price_excl_vat' => 0.0,
-            'cart_attribute' => [],
-            'cart_accessory' => [],
-            'quantity' => $productAwardAmount ?? 1,
-            'category_id' => $product->category_id ?? 0,
-            'wrapper_id' => 0,
-            'wrapper_price' => 0.0,
-            'isPromotionAward' => true,
-            'promotion_id' => $promotion->id
-        ];
-
-        $cart[$idx] = $award;
-
+        $cart[$idx] = Helper::prepareProductAward($promotion->id, $productAwardId, $productAwardAmount);
         self::applyPromotionFreeShipping($promotion->data, $cart);
-
         \Redshop\Cart\Helper::setCart($cart);
     }
 
@@ -122,20 +96,12 @@ class Step
      * @since  __DEPLOY_VERSION__
      */
     protected static function applyPromotionFreeShipping(&$promotion, &$cart) {
-        if (!empty($promotion->free_shipping) && ($promotion->free_shipping == true)) {
+        if (!empty($promotion->free_shipping) && ($promotion->free_shipping == 'true')) {
             # Save current value of shipping & tax
-            $cart['free_shipping_before_promotion'] = $cart['free_shipping'];
-            $cart['shipping_before_promotion'] = $cart['shipping'];
-            $cart['shipping_tax_before_promotion'] = $cart['shipping_tax'];
+            Helper::backupShippingCartInfo($cart);
 
             # Set free shipping
-            $cart['free_shipping'] = 1;
-            $cart['shipping'] = 0;
-            $cart['shipping_tax'] = 0;
-
-            # Recalculation for sub & total
-            $cart['subtotal'] -= $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
-            $cart['total'] -= $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
+            Helper::setCartFreeShipping($cart);
 
             return true;
         }
@@ -181,12 +147,15 @@ class Step
      * @since  __DEPLOY_VERSION__
      */
     protected static function removePromotionFreeShipping(&$promotion, &$cart) {
-        $cart['free_shipping'] = $cart['free_shipping_before_promotion'];
-        $cart['shipping'] = $cart['shipping_before_promotion'];
-        $cart['shipping_tax'] = $cart['shipping_tax_before_promotion'];
+        $cart['free_shipping'] = $cart['free_shipping_before_promotion'] ?? $cart['free_shipping'];
+        $cart['shipping'] = $cart['shipping_before_promotion'] ?? $cart['shipping'];
+        $cart['shipping_tax'] = $cart['shipping_tax_before_promotion'] ?? $cart['shipping_tax'];
 
-        $cart['subtotal'] += $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
-        $cart['total'] += $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
+        if (!empty($cart['shipping_before_promotion']) && !empty($cart['shipping_tax_before_promotion']))
+        {
+            $cart['subtotal'] += $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
+            $cart['total'] += $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
+        }
     }
 
     /**

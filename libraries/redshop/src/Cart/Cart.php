@@ -216,6 +216,9 @@ class Cart
         $user             = \JFactory::getUser();
         $cart             = \Redshop\Cart\Helper::getCart();
         $data             = empty($data)? \Joomla\CMS\Factory::getApplication()->input->post->getArray(): $data;
+
+        \Redshop\Plugin\Helper::invoke('redshop_product', '', 'onBeforeAddProductToCart', [&$data]);
+
         $data['quantity'] = round($data['quantity']);
 
         if (empty($cart) || !array_key_exists("idx", $cart) || array_key_exists("quotation_id", $cart)) {

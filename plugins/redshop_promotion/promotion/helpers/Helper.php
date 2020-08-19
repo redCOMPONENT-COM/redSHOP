@@ -26,23 +26,9 @@ class Helper
      */
     public static function getConditionProductAmount(&$promotion, &$cart) {
         $conditionAmount = false;
-        $conditionManufacturer = true;
-        $conditionCategory = true;
-        $conditionProduct = true;
-        $conditionTime = true;
-
-        if (isset($promotion->product)) {
-            $conditionProduct = false;
-        }
-
-        if (isset($promotion->manufacturer)) {
-            $conditionManufacturer = false;
-        }
-
-        if (isset($promotion->category)) {
-            $conditionCategory = false;
-        }
-
+        $conditionManufacturer = isset($promotion->manufacturer)? false: true;
+        $conditionCategory = isset($promotion->category)? false: true;
+        $conditionProduct = isset($promotion->product)? false: true;
         $count = 0;
 
         for ($i = 0; $i < $cart['idx']; $i++) {
@@ -137,5 +123,66 @@ class Helper
      */
     public static function isPromotionApplied(&$promotion) {
         return $promotion->isApplied ?? false;
+    }
+
+    /**
+     * @param $cart
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public static function backupShippingCartInfo(&$cart) {
+        $cart['free_shipping_before_promotion'] = $cart['free_shipping'];
+        $cart['shipping_before_promotion'] = $cart['shipping'];
+        $cart['shipping_tax_before_promotion'] = $cart['shipping_tax'];
+    }
+
+    /**
+     * @param $cart
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public static function setCartFreeShipping(&$cart) {
+        $cart['free_shipping'] = 1;
+        $cart['shipping'] = 0;
+        $cart['shipping_tax'] = 0;
+
+        # Recalculation for sub & total
+        $cart['subtotal'] -= $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
+        $cart['total'] -= $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
+    }
+
+    /**
+     * @param $promotion_id
+     * @param $award_id
+     * @param $amount
+     *
+     * @return array
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public static function prepareProductAward($promotion_id, $award_id, $amount) {
+        $product = \Redshop\Product\Product::getProductById($promotion_id, $id, $amount);
+
+        return [
+            'hidden_attribute_cartimage' => '',
+            'product_price_excl_vat' => 0.0,
+            'subscription_id' => 0,
+            'product_vat' => 0,
+            'giftcard_id' => '',
+            'product_id' => $id,
+            'discount_calc_output' => '',
+            'discount_calc' => [],
+            'product_price' => 0.0,
+            'product_old_price' => 0.0,
+            'product_old_price_excl_vat' => 0.0,
+            'cart_attribute' => [],
+            'cart_accessory' => [],
+            'quantity' => $amount ?? 1,
+            'category_id' => $product->category_id ?? 0,
+            'wrapper_id' => 0,
+            'wrapper_price' => 0.0,
+            'isPromotionAward' => true,
+            'promotion_id' => $promotion_id
+        ];
     }
 }
