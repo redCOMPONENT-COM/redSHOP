@@ -112,7 +112,7 @@ class Newsletter
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_newsletter_subscription'))
-            ->where($db->qn('subscription_id') . ' = ' . (int)$subscriptionId);
+            ->where($db->qn('id') . ' = ' . (int)$subscriptionId);
 
         $list      = $db->setQuery($query)->loadObject();
         $link      = '<a href="' . $url . 'index.php?option=com_redshop&view=newsletter&sid=' . $subscriptionId . '">' .
