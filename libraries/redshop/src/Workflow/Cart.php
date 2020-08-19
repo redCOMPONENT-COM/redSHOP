@@ -9,8 +9,7 @@
 
 namespace Redshop\Workflow;
 
-use Joomla\CMS\Factory;
-use Redshop\Cart\Helper;
+use Redshop\Workflow\Base as BaseWorkflow;
 
 defined('_JEXEC') or die;
 
@@ -19,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERION__
  */
-class Cart
+class Cart extends BaseWorkflow
 {
     /**
      * @throws \Exception
@@ -43,12 +42,12 @@ class Cart
      */
     public static function update()
     {
-        $app   = \JFactory::getApplication();
+        $app   = \Joomla\CMS\Factory::getApplication();
         $input = $app->input;
         $post  = $input->post->getArray();
         $ajax  = $input->getInt('ajax', 0);
 
-        \JSession::checkToken('get') or die(\JText::_('JINVALID_TOKEN'));
+        \Joomla\CMS\Session\Session::checkToken('get') or die(\Joomla\CMS\Language\Text::_('JINVALID_TOKEN'));
 
         if (isset($post['checkQuantity'])) {
             unset($post['checkQuantity']);

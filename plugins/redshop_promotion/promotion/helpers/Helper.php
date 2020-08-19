@@ -161,7 +161,7 @@ class Helper
      * @since __DEPLOY_VERSION__
      */
     public static function prepareProductAward($promotion_id, $award_id, $amount) {
-        $product = \Redshop\Product\Product::getProductById($promotion_id, $id, $amount);
+        $product = \Redshop\Product\Product::getProductById($promotion_id, $award_id, $amount);
 
         return [
             'hidden_attribute_cartimage' => '',
@@ -169,7 +169,7 @@ class Helper
             'subscription_id' => 0,
             'product_vat' => 0,
             'giftcard_id' => '',
-            'product_id' => $id,
+            'product_id' => $award_id,
             'discount_calc_output' => '',
             'discount_calc' => [],
             'product_price' => 0.0,
