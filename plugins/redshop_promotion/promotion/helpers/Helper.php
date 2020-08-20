@@ -241,11 +241,21 @@ class Helper
 
     /**
      * @param $data
+     * @param $assoc
      * @return false|string
      * @since  __DEPLOY_VERSION__
      */
-    public static function decrypt($data) {
-        return json_decode(base64_decode($data));
+    public static function decrypt($data, $assoc = false) {
+        return json_decode(base64_decode($data), $assoc);
+    }
+
+    /**
+     * @param $data
+     * @return string
+     * @since __DEPLOY_VERSION__
+     */
+    public static function encrypt($data) {
+        return base64_encode(json_encode($data));
     }
 
     /**

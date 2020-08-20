@@ -167,6 +167,7 @@ class Step
      * @since __DEPLOY_VERSION__
      */
     public static function checkAndApplyPromotion(){
+        # init value for result
         $result = false;
 
         # Step 1: get prepared promotions objects loaded into Cart.
@@ -183,7 +184,6 @@ class Step
         }
 
         # Step 3: Each promotion is try to apply
-        //foreach ($promotions as &$promotion) {
         for($i = 0; $i < count($promotions); $i++) {
             self::applyPromotion($promotions[$i], $cart);
         }
@@ -201,7 +201,7 @@ class Step
         $cart['promotions'] = $cart['promotions']?? [];
 
         if (!count($cart['promotions'])) {
-            $promotions =  \Redshop\DB\Tool::getPromotionsFromDB();
+            $promotions =  Helper::getPromotionsFromDB();
 
             for ($i = 0; $i < count($promotions); $i++) {
                 $promotions[$i]->data = Helper::decrypt($promotions[$i]->data);

@@ -66,7 +66,7 @@ class PlgRedshop_PromotionPromotion extends JPlugin
 
         if (!empty($result)) {
             unset($data['jform']);
-            $data = base64_encode(json_encode($data));
+            $data = Helper::encrypt($data);
             $result['data'] = $data;
         }
 
@@ -87,7 +87,6 @@ class PlgRedshop_PromotionPromotion extends JPlugin
     }
 
     public function onDeletePromotion() {
-
     }
 
     /**
@@ -137,7 +136,7 @@ class PlgRedshop_PromotionPromotion extends JPlugin
 
         if (!empty($promotion['data'])) {
             try {
-                $data = json_decode(base64_decode($promotion['data']), true);
+                $data = Helper::decrypt($promotion['data'], true);
             } catch (Exception $e) {
                 $data = [];
             }
@@ -147,7 +146,6 @@ class PlgRedshop_PromotionPromotion extends JPlugin
     }
 
     /**
-     * @param $cart
      * @since __DEPLOY_VESION__
      */
     public function onApply() {
