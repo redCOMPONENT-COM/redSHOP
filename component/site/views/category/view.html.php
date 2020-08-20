@@ -453,8 +453,8 @@ class RedshopViewCategory extends RedshopView
             }
         }
 
-        if ((!count($product) && !$model->getState('include_sub_categories_products', false)) ||
-            ($model->getState('include_sub_categories_products', false) && !$categories->count())) {
+        if (!count($product))
+        {
             if (isset($loadCategorytemplate[0]->template_desc)) {
                 $loadCategorytemplate[0]->template_desc = str_replace(
                     "{order_by_lbl}",
@@ -467,17 +467,20 @@ class RedshopViewCategory extends RedshopView
                     $loadCategorytemplate[0]->template_desc
                 );
 
-                if (!$manufacturerId) {
-                    $loadCategorytemplate[0]->template_desc = str_replace(
-                        "{filter_by_lbl}",
-                        "",
-                        $loadCategorytemplate[0]->template_desc
-                    );
-                    $loadCategorytemplate[0]->template_desc = str_replace(
-                        "{filter_by}",
-                        "",
-                        $loadCategorytemplate[0]->template_desc
-                    );
+                if ((!$model->getState('include_sub_categories_products', false)) ||
+                    ($model->getState('include_sub_categories_products', false) && !$categories->count())) {
+                    if (!$manufacturerId) {
+                        $loadCategorytemplate[0]->template_desc = str_replace(
+                            "{filter_by_lbl}",
+                            "",
+                            $loadCategorytemplate[0]->template_desc
+                        );
+                        $loadCategorytemplate[0]->template_desc = str_replace(
+                            "{filter_by}",
+                            "",
+                            $loadCategorytemplate[0]->template_desc
+                        );
+                    }
                 }
             }
         }
