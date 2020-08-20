@@ -39,7 +39,7 @@ trait NewsletterSubscription
                 //@TODO: move query code into function for common use
                 $user  = \JFactory::getUser();
                 $query = $db->getQuery(true);
-                $query->select($db->qn('subscription_id'))
+                $query->select($db->qn('id'))
                     ->from($db->qn('#__redshop_newsletter_subscription'))
                     ->where($db->qn('user_id') . '=' . $db->q($user->id))
                     ->where($db->qn('email') . '=' . $db->q($user->email));

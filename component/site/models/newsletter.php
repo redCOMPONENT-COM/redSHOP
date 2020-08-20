@@ -62,7 +62,7 @@ class RedshopModelNewsletter extends RedshopModel
         $query = $db->getQuery(true)
             ->update($db->qn('#__redshop_newsletter_subscription'))
             ->set($db->qn('published') . ' = 1')
-            ->where($db->qn('subscription_id') . ' = ' . (int)$subscriptionId);
+            ->where($db->qn('id') . ' = ' . (int)$subscriptionId);
         $db->setQuery($query)->execute();
 
         $app->redirect(
@@ -102,7 +102,7 @@ class RedshopModelNewsletter extends RedshopModel
         }
 
         $query->clear()
-            ->select($db->qn('subscription_id'))
+            ->select($db->qn('id'))
             ->from($db->qn('#__redshop_newsletter_subscription'))
             ->where($db->qn('email') . ' = ' . $db->quote($email))
             ->where($db->qn('newsletter_id') . ' = ' . Redshop::getConfig()->getInt('DEFAULT_NEWSLETTER'))
