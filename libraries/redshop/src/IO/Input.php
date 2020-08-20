@@ -19,11 +19,25 @@ defined('_JEXEC') or die;
 
 class Input
 {
+    /**
+     * @param $name
+     * @param null $default
+     * @param string $filter
+     * @return mixed|null
+     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
+     */
     public static function get($name, $default = null, $filter = 'unknown') {
         return \Joomla\CMS\Factory::getApplication()->input->get($name, $default, $filter);
     }
 
-    public static function getArray($type) {
+    /**
+     * @param string $type
+     * @return array|mixed
+     * @throws \Exception
+     * @since __DEPLOY_VERSION__
+     */
+    public static function getArray($type = '') {
         switch (strtolower($type)) {
             case 'post':
                 return \Joomla\CMS\Factory::getApplication()->input->post->getArray();

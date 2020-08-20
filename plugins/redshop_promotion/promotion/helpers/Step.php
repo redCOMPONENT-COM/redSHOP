@@ -117,18 +117,11 @@ class Step
     public static function removeAppliedPromotion(&$promotion, &$cart) {
         $promotion->isApplied = false;
         $unCount = 0;
+
         for ($i = 0; $i < $cart['idx']; $i++) {
-
-            while (isset($cart[$i]['promotion_id']) &&
-                ($cart[$i]['promotion_id'] == $promotion->id)) {
+            while (Helper::isApplyingPromotion($cart[$i], $promotion)) {
                 $unCount++;
-                $promotion->isApplied = false;
-
-                if (isset($cart[$i + 1])) {
-                    $cart[$i] = $cart[$i + 1];
-                } else {
-                    unset($cart[$i]);
-                }
+                Helper::removingPromotion($cart, $i, $promotion);
             }
         }
 
@@ -137,13 +130,14 @@ class Step
         }
 
         self::removePromotionFreeShipping($promotion, $cart);
+
         \Redshop\Cart\Helper::setCart($cart);
     }
 
     /**
      * @param $promotion
      * @param $cart
-     * @return bool
+     * @return void
      * @since  __DEPLOY_VERSION__
      */
     protected static function removePromotionFreeShipping(&$promotion, &$cart) {
@@ -167,5 +161,55 @@ class Step
         $cart['promotions'] = $cart['promotions'] ?? [];
 
         return $cart['promotions'];
+    }
+
+    /**
+     * @since __DEPLOY_VERSION__
+     */
+    public static function checkAndApplyPromotion(){
+        $result = false;
+
+        # Step 1: get prepared promotions objects loaded into Cart.
+        $cart = \Redshop\Cart\Helper::getCart();
+
+        $cart['promotions'] = $cart['promotions'] ?? [];
+        $promotions =& $cart['promotions'];
+
+        # Step 2: Validate is it pass or fail condition to continue
+        $isFail = empty($cart) || empty($cart['idx']) || ($cart['idx'] == 0) || !count($promotions);
+
+        if ($isFail) {
+            return $result;
+        }
+
+        # Step 3: Each promotion is try to apply
+        //foreach ($promotions as &$promotion) {
+        for($i = 0; $i < count($promotions); $i++) {
+            self::applyPromotion($promotions[$i], $cart);
+        }
+
+        # Step: Store cart back to session
+        \Redshop\Cart\Helper::setCart($cart);
+    }
+
+    /**
+     * @return array|mixed
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function loadPromotions(){
+        $cart = \Redshop\Cart\Helper::getCart();
+        $cart['promotions'] = $cart['promotions']?? [];
+
+        if (!count($cart['promotions'])) {
+            $promotions =  \Redshop\DB\Tool::getPromotionsFromDB();
+
+            for ($i = 0; $i < count($promotions); $i++) {
+                $promotions[$i]->data = Helper::decrypt($promotions[$i]->data);
+                $promotions[$i]->isApplied = false;
+                Helper::mergingPromotionDistanceIntoCart($promotions, $i, $cart);
+            }
+        }
+
+        \Redshop\Cart\Helper::setCart($cart);
     }
 }

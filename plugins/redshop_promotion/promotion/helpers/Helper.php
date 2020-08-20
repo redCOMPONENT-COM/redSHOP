@@ -185,4 +185,86 @@ class Helper
             'promotion_id' => $promotion_id
         ];
     }
+
+    /**
+     * @param $cartItem
+     * @param $promotion
+     * @return bool
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function isApplyingPromotion($cartItem, $promotion) {
+        return isset($cartItem['promotion_id'])
+            && isset($promotion->id)
+            && ($cartItem['promotion_id'] == $promotion->id);
+    }
+
+    /**
+     * @param $cart
+     * @param $i
+     * @param $promotion
+     * @since __DEPLOY_VERSION__
+     */
+    public static function removingPromotion(&$cart, $i, &$promotion) {
+        $promotion->isApplied = false;
+
+        if (isset($cart[$i + 1])) {
+            $cart[$i] = $cart[$i + 1];
+        } else {
+            unset($cart[$i]);
+        }
+    }
+
+    /**
+     * @return JDatabaseQuery|string
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function buildQueryList() {
+        $db = \Joomla\CMS\Factory::getDbo();
+
+        return $db->getQuery(true)
+            ->select('*')
+            ->from($db->qn('#__redshop_promotion'))
+            ->where($db->qn('published') . ' = ' . $db->q('1'))
+            ->where($db->qn('type') . ' = ' . $db->q('promotion'));
+    }
+
+    /**
+     * @return null
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getPromotionsFromDB() {
+        return \Redshop\DB\Tool::safeSelect(
+            \Joomla\CMS\Factory::getDbo(),
+            self::buildQueryList(),
+            true);
+    }
+
+    /**
+     * @param $data
+     * @return false|string
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function decrypt($data) {
+        return json_decode(base64_decode($data));
+    }
+
+    /**
+     * @param $promotions
+     * @param $i
+     * @param $cart
+     * @since __DEPLOY_VERSION__
+     */
+    public static function mergingPromotionDistanceIntoCart(&$promotions, $i, &$cart) {
+        $flag = true;
+
+        for ($n = 0; $n < count($cart['promotions']); $n++) {
+            if ($promotions[$i]->id == $cart['promotions'][$n]->id) {
+                $flag = false;
+            }
+        }
+
+        if ($flag == true) {
+            $cart['promotions'][] = $promotions[$i];
+        }
+    }
 }
