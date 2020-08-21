@@ -181,14 +181,16 @@ class Calculation
      */
     public static function discountCalculator($get)
     {
-        $productId = (int) $get['product_id'];
-
+        $productHeight = 0;
+        $productWidth = 0;
+        $productLength = 0;
+        $productDiameter = 0;
+        $productArea = 0;
+        $totalSheet = 0;
+        $productId = (int) $get['product_id'] ?? 0;
         $discountCalc = [];
-
         $productNetPrices = RedshopHelperProductPrice::getNetPrice($productId);
-
         $productPriceNoVat = $productNetPrices['product_price_novat'];
-
         $data = Product::getProductById($productId);
 
         // Default calculation method
@@ -209,8 +211,8 @@ class Calculation
         $calcHeight = str_replace(",", ".", $calcHeight);
         $calcWidth = str_replace(",", ".", $calcWidth);
         $calcLength = str_replace(",", ".", $calcLength);
-        $calcRadius = $cartMiddleData = str_replace(",", ".", $calcRadius);
-        $calcUnit = $cartMiddleData = str_replace(",", ".", $calcUnit);
+        $calcRadius = str_replace(",", ".", $calcRadius);
+        $calcUnit = str_replace(",", ".", $calcUnit);
 
         // Convert unit using helper function
         $unit = Utility::getUnitConversation($globalUnit, $calcUnit);
@@ -258,10 +260,10 @@ class Calculation
 
             case "circumference":
 
-                $area = 2 * PI * $calcRadius;
+                $area = 2 * pi() * $calcRadius;
 
                 if (!$useRange) {
-                    $productArea = PI * $productDiameter;
+                    $productArea = pi() * $productDiameter;
                 }
                 break;
         }
@@ -272,7 +274,7 @@ class Calculation
             $finalArea = number_format($finalArea, 8, '.', '');
 
             // Calculation prices as per various area
-            $discountCalcData = \Redshop\Promotion\Discount::getDiscountCalcData($finalArea, $productId);
+            $discountCalcData = \Redshop\Promotion\Discount::getDiscountCalcData((int) $finalArea, $productId);
         } else {
             // Shandard size of product
             $finalProductArea = $productArea;

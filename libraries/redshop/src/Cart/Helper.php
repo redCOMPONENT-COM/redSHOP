@@ -786,6 +786,7 @@ class Helper
         $totalQuantity  = $data['quantity_all'];
         $quantity      = explode(",", $totalQuantity);
         $totalQuantity = array_sum($quantity);
+        $calculationPrice = 0.0;
 
         for ($i = 0; $i < $idx; $i++) {
             if ($quantity[$i] < 0) {
@@ -819,7 +820,7 @@ class Helper
                         $cart[$i]['product_price_excl_vat'] = \RedshopHelperProductPrice::priceRound($accessoryPrice);
                     }
 
-                    $cart[$i]['quantity'] = \Redshop\Stock\Helper::checkQuantityInStock($cart[$i], $quantity[$i]);
+                    $cart[$i]['quantity'] = \Redshop\Stock\Helper::checkQuantityInStock($cart[$i], (int) $quantity[$i]);
 
                     $cart[$i]['cart_accessory'] = self::updateAccessoryPrices($cart[$i], $cart[$i]['quantity']);
                     $cart[$i]['cart_attribute'] = self::updateAccessoryPrices($cart[$i], $cart[$i]['quantity']);
@@ -829,9 +830,8 @@ class Helper
                         $calculateData               = $cart[$i]['discount_calc'];
                         $calculateData['product_id'] = $cart[$i]['product_id'];
 
-                        $discount = \Redshop\Promotion\Discount::discountCalculator($calculateData);
-
-                        $calculationPrice = $discountl['product_price'];
+                        $discount = \Redshop\Promotion\Discount\Calculation::discountCalculator($calculateData);
+                        $calculationPrice = $discount['product_price'];
                     }
 
                     $dispatcher->trigger('onBeforeCartItemUpdate', array(&$cart, $i, &$calculationPrice));
