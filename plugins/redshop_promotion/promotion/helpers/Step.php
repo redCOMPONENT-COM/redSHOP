@@ -18,14 +18,13 @@ require_once ('Helper.php');
  */
 class Step
 {
+    /**
+     * @param $promotion
+     * @param $cart
+     * @since __DEPLOY_VERSION__
+     */
     public static function applyPromotion(&$promotion, &$cart) {
-        $data = new \stdClass();
-
-        if (isset($promotion->data)) {
-            $data =& $promotion->data;
-        }
-
-        $data->promotion_type = $data->promotion_type ?? '';
+        $data = Helper::prepareDataForPromotion($promotion);
 
         /*
          * Step 1: check is promotion applied or not
@@ -201,7 +200,7 @@ class Step
         $cart['promotions'] = $cart['promotions']?? [];
 
         if (!count($cart['promotions'])) {
-            $promotions =  Helper::getPromotionsFromDB();
+            $promotions = DB::getPromotionsFromDB();
 
             for ($i = 0; $i < count($promotions); $i++) {
                 $promotions[$i]->data = Helper::decrypt($promotions[$i]->data);

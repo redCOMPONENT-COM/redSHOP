@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-require_once ('Helper.php');
-
 /**
  * Plugin Promotion Helper
  *
@@ -215,31 +213,6 @@ class Helper
     }
 
     /**
-     * @return JDatabaseQuery|string
-     * @since  __DEPLOY_VERSION__
-     */
-    public static function buildQueryList() {
-        $db = \Joomla\CMS\Factory::getDbo();
-
-        return $db->getQuery(true)
-            ->select('*')
-            ->from($db->qn('#__redshop_promotion'))
-            ->where($db->qn('published') . ' = ' . $db->q('1'))
-            ->where($db->qn('type') . ' = ' . $db->q('promotion'));
-    }
-
-    /**
-     * @return null
-     * @since  __DEPLOY_VERSION__
-     */
-    public static function getPromotionsFromDB() {
-        return \Redshop\DB\Tool::safeSelect(
-            \Joomla\CMS\Factory::getDbo(),
-            self::buildQueryList(),
-            true);
-    }
-
-    /**
      * @param $data
      * @param $assoc
      * @return false|string
@@ -276,5 +249,22 @@ class Helper
         if ($flag == true) {
             $cart['promotions'][] = $promotions[$i];
         }
+    }
+
+    /**
+     * @param $promotion
+     * @return stdClass
+     * @since __DEPLOY_VERSION__
+     */
+    public static function prepareDataForPromotion(&$promotion) {
+        $data = new \stdClass();
+
+        if (isset($promotion->data)) {
+            $data =& $promotion->data;
+        }
+
+        $data->promotion_type = $data->promotion_type ?? '';
+
+        return $data;
     }
 }
