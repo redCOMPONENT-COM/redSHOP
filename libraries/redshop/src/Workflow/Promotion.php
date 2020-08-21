@@ -79,7 +79,7 @@ class Promotion
                 $message = \JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
                 $messageType = 'success';
 
-                $app->enqueueMessage($messageType, $messageType);
+                $app->enqueueMessage($message, $messageType);
                 $app->redirect($link);
             }
         } else {

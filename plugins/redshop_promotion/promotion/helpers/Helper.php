@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+require_once ( __DIR__ .'/DB.php');
+
 /**
  * Plugin Promotion Helper
  *
