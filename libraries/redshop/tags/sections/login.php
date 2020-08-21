@@ -111,10 +111,12 @@ class RedshopTagsSectionsLogin extends RedshopTagsAbstract
 
         $this->addReplace('{forget_password_link}', $forgotPwd);
 
-        $this->template = RedshopLayoutHelper::render(
+        $thirdPartyLogin = Redshop\Helper\Login::getThirdPartyLogin();
+        $this->template  = RedshopLayoutHelper::render(
             'tags.login.form',
             array(
-                'content' => $this->template
+                'content' => $this->template,
+                'thirdPartyLogin' => $thirdPartyLogin
             ),
             '',
             $layoutOption
