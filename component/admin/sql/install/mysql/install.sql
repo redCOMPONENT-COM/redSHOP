@@ -1720,7 +1720,7 @@ COMMENT = 'redSHOP Product Voucher Transaction';
 -- -----------------------------------------------------
 -- Table `#__redshop_promotion`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `#__redshop_product_voucher_transaction` ;
+DROP TABLE IF EXISTS `#__redshop_promotion` ;
 
 CREATE TABLE IF NOT EXISTS  `#__redshop_promotion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
