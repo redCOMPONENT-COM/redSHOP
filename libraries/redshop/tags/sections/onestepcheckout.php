@@ -83,6 +83,8 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
             $usersInfoId = $billingAddresses->users_info_id;
         }
 
+        $thirdPartyLogin = Redshop\Helper\Login::getThirdPartyLogin();
+
         $loginTemplate = "";
 
         if (!$usersInfoId && Redshop::getConfig()->getInt('REGISTER_METHOD') != 1
@@ -91,7 +93,8 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
                 'tags.checkout.onestep.login',
                 array(
                     'itemId'    => $itemId,
-                    'returnUrl' => base64_encode(JRoute::_('index.php?option=com_redshop&view=checkout', false))
+                    'returnUrl' => base64_encode(JRoute::_('index.php?option=com_redshop&view=checkout', false)),
+                    'thirdPartyLogin' => $thirdPartyLogin
                 ),
                 '',
                 RedshopLayoutHelper::$layoutOption

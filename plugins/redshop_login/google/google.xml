@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="redshop_login" method="upgrade">
+	<name>PLG_REDSHOP_LOGIN_GOOGLE</name>
+	<author>redCOMPONENT.com</author>
+	<version>1.0.0</version>
+	<redshop>3.0.3</redshop>
+	<creationDate>june 2020</creationDate>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU/GPL</license>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redweb.dk</authorUrl>
+	<description>PLG_REDSHOP_LOGIN_GOOGLE_DESC</description>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_login_google.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_login_google.sys.ini</language>
+	</languages>
+	<files>
+		<filename plugin="google">google.php</filename>
+		<filename plugin="google">index.html</filename>
+		<folder>library</folder>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+						name="client_id"
+						type="text"
+						label="PLG_REDSHOP_LOGIN_GOOGLE_CLIENT_ID"
+				/>
+				<field
+						name="secret"
+						type="text"
+						label="PLG_REDSHOP_LOGIN_GOOGLE_SECRET"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
