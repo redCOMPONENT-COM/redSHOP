@@ -595,5 +595,7 @@ class Add
         }
 
         $cart['idx'] = $idx + 1;
+
+        return true;
     }
 }

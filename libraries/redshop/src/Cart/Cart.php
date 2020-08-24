@@ -204,35 +204,30 @@ class Cart
     /**
      * Method for add product to cart
      *
-     * @param array $data Product data
+     * @param array $post Product data
      *
      * @return  mixed         True on success. Error message string if fail.
      * @throws  \Exception
      *
      * @since   __DEPLOY_VERSION__
      */
-    public static function add($data = [])
+    public static function add($post = [])
     {
         $cart = \Redshop\Cart\Helper::getCart();
-        \Redshop\Workflow\Cart\Init::on($cart);
+        \Redshop\Workflow\Cart\Init::cart($cart);
+        \Redshop\Workflow\Cart\Init::post($post);
+        \Redshop\Plugin\Helper::invoke('redshop_product',
+            '', 'onBeforeAddProductToCart', [&$post]);
 
-        $data = empty($data) ? \Joomla\CMS\Factory::getApplication()->input->post->getArray() : $data;
+        $result = !empty($post['giftcard_id'])
+            ? \Redshop\Workflow\Cart\Add::giftCard($cart, (int)$cart['idx'], $post)
+            : \Redshop\Workflow\Cart\Add::product($cart, (int)$cart['idx'], $post);
 
-        \Redshop\Plugin\Helper::invoke('redshop_product', '', 'onBeforeAddProductToCart', [&$data]);
-        $data['quantity'] = round($data['quantity']);
-
-        if (!empty($data['giftcard_id'])) {
-            \Redshop\Workflow\Cart\Add::giftCard($cart, (int) $cart['idx'], $data);
-        } else {
-            $result =  \Redshop\Workflow\Cart\Add::product($cart, (int) $cart['idx'], $data);
-
-            if (true !== $result) {
-                return $result;
-            }
+        if (true !== $result) {
+            return $result;
         }
 
         \Redshop\Cart\Helper::setCart($cart);
-
         return true;
     }
 
