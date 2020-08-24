@@ -33,38 +33,17 @@ class Add
      *
      * @since   2.1.0
      */
-    public static function product(&$cart, $idx, $data = array())
+    public static function product(&$cart, $idx, $data = [])
     {
-        $section = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
-        $rows    = \RedshopHelperExtrafields::getSectionFieldList($section);
-
-        if (isset($data['hidden_attribute_cartimage'])) {
-            $cart[$idx]['hidden_attribute_cartimage'] = $data['hidden_attribute_cartimage'];
-        }
-
+        \Redshop\Attribute\Helper::initAttributeForCart($cart, $idx, $data);
         $productId = $data['product_id'];
         $quantity  = $data['quantity'];
         $product   = \Redshop\Product\Product::getProductById($productId);
+        $section = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
+        $rows    = \RedshopHelperExtrafields::getSectionFieldList($section);
 
         // Handle individual accessory add to cart price
-        if (\Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE')
-            && isset($data['parent_accessory_product_id'])
-            && $data['parent_accessory_product_id'] != 0
-            && isset($data['accessory_id'])) {
-            $cart[$idx]['accessoryAsProductEligible'] = $data['accessory_id'];
-            $accessoryInfo                            = \RedshopHelperAccessory::getProductAccessories(
-                $data['accessory_id']
-            );
-            $product->product_price                   = $accessoryInfo[0]->newaccessory_price;
-
-            $tempData          = \Redshop\Product\Product::getProductById($data['parent_accessory_product_id']);
-            $productTemplate   = \RedshopHelperTemplate::getTemplate("product", $tempData->product_template);
-            $accessoryTemplate = \Redshop\Template\Helper::getAccessory($productTemplate[0]->template_desc);
-            $dataAdd           = null !== $accessoryTemplate ? $accessoryTemplate->template_desc : '';
-        } else {
-            $productTemplate = \RedshopHelperTemplate::getTemplate("product", $product->product_template);
-            $dataAdd         = $productTemplate[0]->template_desc;
-        }
+        $dataAdd = \Redshop\Accessory\Helper::applyConfigAccessoryAsProduct($product, $cart, $idx, $data);
 
         /*
          * Check if required userfield are filled or not if not than redirect to product detail page...
