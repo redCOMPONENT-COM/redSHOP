@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="id"
+                type="hidden"
+        />
+        <field
+                name="name"
+                type="hidden"
+        />
+        <field
+                name="user_id"
+                type="newslettersubscriberuser"
+                label="COM_REDSHOP_NEWSLETTER_SELECT_USER"
+                description="COM_REDSHOP_TOOLTIP_NEWSLETTER_SELECT_USER"
+                table-sortable="1"
+                class="form-control"
+                required="true"
+                default="">
+            <option value="">COM_REDSHOP_NEWSLETTER_SELECT_USER</option>
+        </field>
+        <field
+                name="newsletter_id"
+                type="redshop.newsletter"
+                label="COM_REDSHOP_NEWSLETTER_SELECT_NEWSLETTER"
+                description="COM_REDSHOP_TOOLTIP_NEWSLETTER_SELECT_NEWSLETTER"
+                table-sortable="1"
+        />
+        <field
+                name="date"
+                type="redshop.calendar"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                label="COM_REDSHOP_NEWSLETTER_SUBSCR_DATE"
+                description="COM_REDSHOP_NEWSLETTER_SUBSCR_DATE"
+        />
+        <field
+                name="email"
+                type="text"
+                label="COM_REDSHOP_NEWSLETTER_SUBSCR_EMAIL"
+                description="COM_REDSHOP_TOOLTIP_NEWSLETTER_SUBSCR_EMAIL"
+                table-hide="1"
+        />
+        <field
+                name="published"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_PUBLISHED"
+                description="COM_REDSHOP_PUBLISHED"
+                table-sortable="1">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+        </field>
+    </fieldset>
+</form>

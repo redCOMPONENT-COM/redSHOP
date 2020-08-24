@@ -1,1 +1,14 @@
 <form action="{{ jroute('index.php') }}" method="post">{{ content }}</form>
+{% if thirdPartyLogin|length > 0 %}
+	<div class="third-party-login">
+		{% for login in thirdPartyLogin %}
+			{% if login['plugin'] != '' %}
+				<div class="row login-{{ login['plugin'] }}">
+					<a href="{{ login['linkLogin'] }}" class="btn btn-primary login-button">
+						{{ login['plugin']|title }}
+					</a>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+{% endif %}
