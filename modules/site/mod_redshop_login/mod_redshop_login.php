@@ -13,14 +13,12 @@ defined('_JEXEC') or die;
 require_once 'helper.php';
 
 $params->def('greeting', 1);
-$moduleName = 'mod_redshop_login';
 
 $type             = \ModRedshopLoginHelper::getType();
 $return           = \ModRedshopLoginHelper::getReturnUrl($params, $type);
 $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 $user             = JFactory::getUser();
-$loginFbUrl       = \ModRedshopLoginHelper::loginFb();
-$loginGgUrl       = \ModRedshopLoginHelper::loginGoogle();
+$thirdPartyLogin = Redshop\Helper\Login::getThirdPartyLogin();
 $layout           = $params->get('layout', 'default');
 
 // Logged users must load the logout sub layout
