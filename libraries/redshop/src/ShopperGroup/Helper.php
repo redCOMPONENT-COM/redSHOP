@@ -23,6 +23,8 @@ class Helper
      * @since __DEPLOY_VERSION__
      */
     public static function initShopperGroupForCart(&$cart) {
+        $user = \Joomla\CMS\Factory::getUser();
+
         if (!isset($cart['user_shopper_group_id']) || (isset($cart['user_shopper_group_id']) && $cart['user_shopper_group_id'] == 0)) {
             $cart['user_shopper_group_id'] = \RedshopHelperUser::getShopperGroup($user->id);
         }

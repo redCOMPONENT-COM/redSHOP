@@ -36,11 +36,11 @@ class Add
     public static function product(&$cart, $idx, $data = [])
     {
         \Redshop\Attribute\Helper::initAttributeForCart($cart, $idx, $data);
-        $productId = $data['product_id'];
-        $quantity  = $data['quantity'];
-        $product   = \Redshop\Product\Product::getProductById($productId);
-        $section = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
-        $rows    = \RedshopHelperExtrafields::getSectionFieldList($section);
+        $productId  = $data['product_id'];
+        $quantity   = $data['quantity'];
+        $product    = \Redshop\Product\Product::getProductById($productId);
+        $section    = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
+        $rows       = \RedshopHelperExtrafields::getSectionFieldList($section);
 
         // Handle individual accessory add to cart price
         $dataAdd = \Redshop\Accessory\Helper::applyConfigAccessoryAsProduct($product, $cart, $idx, $data);
@@ -80,35 +80,31 @@ class Add
         }
 
         // Attribute price added
-        $generateAttributeCart = isset($data['cart_attribute']) ?
+        $attributes =  $data['cart_attribute'] = isset($data['cart_attribute']) ?
             $data['cart_attribute'] : \Redshop\Cart\Helper::generateAttribute($data);
 
-        if (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) {
-            $templateCart = \RedshopHelperTemplate::getTemplate("quotation_cart");
-        } else {
-            if (!\Redshop::getConfig()->get('USE_AS_CATALOG')) {
-                $templateCart = \RedshopHelperTemplate::getTemplate("cart");
-            } else {
-                $templateCart = \RedshopHelperTemplate::getTemplate("catalogue_cart");
-            }
-        }
-
-        $retAttArr = \RedshopHelperProduct::makeAttributeCart(
-            $generateAttributeCart,
-            $product->product_id,
+        $attributeCart = \RedshopHelperProduct::makeAttributeCart(
+            $data['cart_attribute'],
+            $data['product_id'],
             0,
             $data['product_price'],
-            $quantity,
-            $templateCart[0]->template_desc
+            $data['quantity'],
+            \Redshop\Cart\Render::getTemplate()[0]->template_desc
         );
 
-        $selectProp = \RedshopHelperProduct::getSelectedAttributeArray($data);
+        $data['product_old_price']            = $attributeCart[5] + $attributeCart[6];
+        $data['product_old_price_excl_vat']   = $attributeCart[5];
+        $data['product_price']                = $attributeCart[1];
+        $productPriceVAT                      = $attributeCart[2];
+        $cart[$idx]['product_price_excl_vat'] = $attributeCart[1];
 
-        if (\JFactory::getApplication()->input->getString('task') == 'reorder' && !empty($generateAttributeCart)) {
+        $selectedProperty = \RedshopHelperProduct::getSelectedAttributeArray($data);
+
+        if (\JFactory::getApplication()->input->getString('task') == 'reorder' && !empty($attributes)) {
             $propertyReOrderItemArr    = array();
             $subPropertyReOrderItemArr = array();
 
-            foreach ($generateAttributeCart as $idxRe => $itemRe) {
+            foreach ($attributes as $idxRe => $itemRe) {
                 if (!empty($itemRe['attribute_childs'])) {
                     $propertyReOrderItemArr[] = $itemRe['attribute_childs'][0]['property_id'];
 
@@ -126,31 +122,25 @@ class Add
             $dataReOrder                     = array();
             $dataReOrder['property_data']    = $propertyReOrderItemStr;
             $dataReOrder['subproperty_data'] = $subPropertyReOrderItemStr;
-            $selectProp                      = \RedshopHelperProduct::getSelectedAttributeArray($dataReOrder);
+            $selectedProperty                      = \RedshopHelperProduct::getSelectedAttributeArray($dataReOrder);
         }
-
-        $data['product_old_price']            = $retAttArr[5] + $retAttArr[6];
-        $data['product_old_price_excl_vat']   = $retAttArr[5];
-        $data['product_price']                = $retAttArr[1];
-        $productPriceVAT                      = $retAttArr[2];
-        $cart[$idx]['product_price_excl_vat'] = $retAttArr[1];
 
         $data['product_price'] += $productPriceVAT;
 
-        if (!empty($selectProp[0])) {
+        if (!empty($selectedProperty[0])) {
             $attributeImage = $productId;
 
-            if (count($selectProp[0]) == 1) {
-                $attributeImage .= '_p' . $selectProp[0][0];
+            if (count($selectedProperty[0]) == 1) {
+                $attributeImage .= '_p' . $selectedProperty[0][0];
             } else {
-                $productAttrImage = implode('_p', $selectProp[0]);
+                $productAttrImage = implode('_p', $selectedProperty[0]);
                 $attributeImage   .= '_p' . $productAttrImage;
             }
 
-            if (count($selectProp[1]) == 1) {
-                $attributeImage .= '_sp' . $selectProp[1][0];
+            if (count($selectedProperty[1]) == 1) {
+                $attributeImage .= '_sp' . $selectedProperty[1][0];
             } else {
-                $subAttrImage = implode('_sp', $selectProp[1]);
+                $subAttrImage = implode('_sp', $selectedProperty[1]);
 
                 if ($subAttrImage) {
                     $attributeImage .= '_sp' . $subAttrImage;
@@ -164,10 +154,10 @@ class Add
             $cart[$idx]['attributeImage'] = $data['attributeImage'];
         }
 
-        $selectedAttrId       = $retAttArr[3];
-        $isStock              = $retAttArr[4];
-        $selectedPropId       = $selectProp[0];
-        $notSelectedSubPropId = $retAttArr[8];
+        $selectedAttrId       = $attributeCart[3];
+        $isStock              = $attributeCart[4];
+        $selectedPropId       = $selectedProperty[0];
+        $notSelectedSubPropId = $attributeCart[8];
         $productPreOrder      = $product->preorder;
 
         // Check for the required attributes if selected
@@ -453,7 +443,7 @@ class Add
             $cart[$idx]['product_price']              = $data['product_price'];
             $cart[$idx]['product_old_price']          = $data['product_old_price'];
             $cart[$idx]['product_old_price_excl_vat'] = $data['product_old_price_excl_vat'];
-            $cart[$idx]['cart_attribute']             = $generateAttributeCart;
+            $cart[$idx]['cart_attribute']             = $attributes;
 
             $cart[$idx]['cart_accessory'] = $generateAccessoryCart;
 
