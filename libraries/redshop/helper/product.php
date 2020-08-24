@@ -2947,9 +2947,11 @@ class RedshopHelperProduct
      * @param   int     $newProductPrice
      * @param   int     $quantity
      * @param   string  $data
+     * @param   bool    $isReturnObject
      *
-     * @return array|string
+     * @return array|string|object
      * @throws Exception
+     * @since  __DEPLOY_VERSION__
      */
     public static function makeAttributeCart(
         $attributes = array(),
@@ -2957,7 +2959,8 @@ class RedshopHelperProduct
         $userId = 0,
         $newProductPrice = 0,
         $quantity = 1,
-        $data = ''
+        $data = '',
+        $isReturnObject = false
     ) {
         $user = JFactory::getUser();
 
@@ -3151,19 +3154,34 @@ class RedshopHelperProduct
 		}*/
 
         $data = array(
-            $isDisplayAttribute,
-            $productPrice,
-            $productVatPrice,
-            $selectedAttributs,
-            $isStock,
-            $productOldprice,
-            $productVatOldPrice,
-            $isPreorderStock,
-            $selectedProperty
+            $isDisplayAttribute, #0
+            $productPrice, #1
+            $productVatPrice, #2
+            $selectedAttributs, #3
+            $isStock, #4
+            $productOldprice, #5
+            $productVatOldPrice, #6
+            $isPreorderStock, #7
+            $selectedProperty #8
         );
 
         JPluginHelper::importPlugin('redshop_product');
         RedshopHelperUtility::getDispatcher()->trigger('onMakeAttributeCart', array(&$data, $attributes, $productId));
+
+        if ($isReturnObject) {
+            $o = new stdClass();
+            $o->html = $data[0];
+            $o->productPrice = $data[1];
+            $o->productVatPrice = $data[2];
+            $o->selectedAttributs = $data[3];
+            $o->isStock = $data[4];
+            $o->productOldprice = $data[5];
+            $o->productVatOldPrice = $data[6];
+            $o->isPreorderStock = $data[7];
+            $o->selectedProperty = $data[8];
+
+            return $o;
+        }
 
         return $data;
     }

@@ -84,14 +84,15 @@ class Add
             \Joomla\CMS\Factory::getUser()->id ?? 0,
             $data['product_price'],
             $data['quantity'],
-            \Redshop\Cart\Render::getTemplate()[0]->template_desc
+            \Redshop\Cart\Render::getTemplate()[0]->template_desc,
+            true
         );
 
-        $data['product_old_price']            = $attributeCart[5] + $attributeCart[6];
-        $data['product_old_price_excl_vat']   = $attributeCart[5];
-        $data['product_price']                = $attributeCart[1];
-        $productPriceVAT                      = $attributeCart[2];
-        $cart[$idx]['product_price_excl_vat'] = $attributeCart[1];
+        $data['product_old_price']            = $attributeCart->productOldprice + $attributeCart->productVatOldPrice;
+        $data['product_old_price_excl_vat']   = $attributeCart->productOldprice;
+        $data['product_price']                = $attributeCart->productPrice;
+        $productPriceVAT                      = $attributeCart->productVatPrice;
+        $cart[$idx]['product_price_excl_vat'] = $attributeCart->productPrice;
 
         $selectedProperty = \RedshopHelperProduct::getSelectedAttributeArray($data);
 
@@ -149,10 +150,10 @@ class Add
             $cart[$idx]['attributeImage'] = $data['attributeImage'];
         }
 
-        $selectedAttrId       = $attributeCart[3];
-        $isStock              = $attributeCart[4];
+        $selectedAttrId       = $attributeCart->selectedAttributs;
+        $isStock              = $attributeCart->isStock;
         $selectedPropId       = $selectedProperty[0];
-        $notSelectedSubPropId = $attributeCart[8];
+        $notSelectedSubPropId = $attributeCart->selectedProperty;
         $productPreOrder      = $product->preorder;
 
         // Check for the required attributes if selected
