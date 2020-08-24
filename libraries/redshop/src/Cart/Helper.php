@@ -775,25 +775,12 @@ class Helper
         $cart = \Redshop\Cart\Helper::getCart();
         $user = \Joomla\CMS\Factory::getUser();
 
-        if (empty($cart)) {
-            $cart        = array();
-            $cart['idx'] = 0;
-            \Redshop\Cart\Helper::setCart($cart);
-            $cart = \Redshop\Cart\Helper::getCart();
-        }
-
-        $idx           = (int)($cart['idx']);
-        $totalQuantity  = $data['quantity_all'];
-        $quantity      = explode(",", $totalQuantity);
-        $totalQuantity = array_sum($quantity);
+        $idx            = (int)($cart['idx']);
+        $totalQuantity  = \Redshop\Cart\Quantity::getTotalQuantityFromCart($data);
         $calculationPrice = 0.0;
 
         for ($i = 0; $i < $idx; $i++) {
-            if ($quantity[$i] < 0) {
-                $quantity[$i] = $cart[$i]['quantity'];
-            }
-
-            $quantity[$i] = intval(abs($quantity[$i]) > 0 ? $quantity[$i] : 1);
+            $quantity[$i] = \Redshop\Cart\Quantity::makeQuantityValid($quantity[$i], $cart[$i]);
 
             if ($quantity[$i] != $cart[$i]['quantity']) {
                 if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id']) {
@@ -803,7 +790,7 @@ class Helper
                     $productPriceInit = 0;
 
                     // Accessory price fix during update
-                    $accessoryAsProduct           = \RedshopHelperAccessory::getAccessoryAsProduct(
+                    $accessoryAsProduct = \RedshopHelperAccessory::getAccessoryAsProduct(
                         $cart['AccessoryAsProduct']
                     );
                     $accessoryAsProductWithoutVat = false;
@@ -813,21 +800,21 @@ class Helper
                         && isset($cart[$i]['accessoryAsProductEligible'])
                     ) {
                         $accessoryAsProductWithoutVat = '{without_vat}';
-                        $accessoryPrice              = (float)$accessoryAsProduct->accessory[$cart[$i]['product_id']]->newaccessory_price;
+                        $accessoryPrice = (float)$accessoryAsProduct->accessory[$cart[$i]['product_id']]->newaccessory_price;
 
-                        $productPriceInit                   = \RedshopHelperProductPrice::priceRound($accessoryPrice);
-                        $cart[$i]['product_vat']            = 0;
+                        $productPriceInit = \RedshopHelperProductPrice::priceRound($accessoryPrice);
+                        $cart[$i]['product_vat'] = 0;
                         $cart[$i]['product_price_excl_vat'] = \RedshopHelperProductPrice::priceRound($accessoryPrice);
                     }
 
-                    $cart[$i]['quantity'] = \Redshop\Stock\Helper::checkQuantityInStock($cart[$i], (int) $quantity[$i]);
+                    $cart[$i]['quantity'] = \Redshop\Stock\Helper::checkQuantityInStock($cart[$i], (int)$quantity[$i]);
 
                     $cart[$i]['cart_accessory'] = self::updateAccessoryPrices($cart[$i], $cart[$i]['quantity']);
                     $cart[$i]['cart_attribute'] = self::updateAccessoryPrices($cart[$i], $cart[$i]['quantity']);
 
                     // Discount calculator
                     if (!empty($cart[$i]['discount_calc'])) {
-                        $calculateData               = $cart[$i]['discount_calc'];
+                        $calculateData = $cart[$i]['discount_calc'];
                         $calculateData['product_id'] = $cart[$i]['product_id'];
 
                         $discount = \Redshop\Promotion\Discount\Calculation::discountCalculator($calculateData);
@@ -846,59 +833,59 @@ class Helper
                         $accessoryAsProductWithoutVat
                     );
 
-                    $accessoryAsProductZero     = (count(
+                    $accessoryAsProductZero = (count(
                             $returnAttributePrices[8]
                         ) == 0 && $productPriceInit == 0 && ($accessoryAsProductWithoutVat !== false));
-                    $productPrice              = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[1];
-                    $productPriceVAT          = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[2];
-                    $productOldPrice          = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[5] + $returnAttributePrices[6];
+                    $productPrice = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[1];
+                    $productPriceVAT = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[2];
+                    $productOldPrice = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[5] + $returnAttributePrices[6];
                     $productOldPriceExcludedVat = ($accessoryAsProductZero) ? 0 : $returnAttributePrices[5];
 
                     // Accessory price
-                    $retAccesssoryPrices             = \RedshopHelperProduct::makeAccessoryCart(
+                    $retAccesssoryPrices = \RedshopHelperProduct::makeAccessoryCart(
                         $cart[$i]['cart_accessory'],
                         $cart[$i]['product_id']
                     );
-                    
+
                     $accessoryTotalPrice = $retAccesssoryPrices[1];
-                    $accessoryPriceVat   = $retAccesssoryPrices[2];
+                    $accessoryPriceVat = $retAccesssoryPrices[2];
 
                     $wrapperPrice = 0;
-                    $wrapperVAT   = 0;
+                    $wrapperVAT = 0;
 
                     if ($cart[$i]['wrapper_id']) {
-                        $wrapperArr    = \Redshop\Wrapper\Helper::getWrapperPrice(
+                        $wrapperArr = \Redshop\Wrapper\Helper::getWrapperPrice(
                             array('product_id' => $cart[$i]['product_id'], 'wrapper_id' => $cart[$i]['wrapper_id'])
                         );
-                        $wrapperVAT   = $wrapperArr['wrapper_vat'];
+                        $wrapperVAT = $wrapperArr['wrapper_vat'];
                         $wrapperPrice = $wrapperArr['wrapper_price'];
                     }
 
                     $subscriptionVat = 0;
 
                     if (isset($cart[$i]['subscription_id']) && $cart[$i]['subscription_id'] != "") {
-                        $productId           = $cart[$i]['product_id'];
+                        $productId = $cart[$i]['product_id'];
                         $subscriptionDetail = \RedshopHelperProduct::getProductSubscriptionDetail(
                             $productId,
                             $cart[$i]['subscription_id']
                         );
-                        $subscriptionPrice  = $subscriptionDetail->subscription_price;
+                        $subscriptionPrice = $subscriptionDetail->subscription_price;
 
                         if ($subscriptionPrice) {
                             $subscriptionVat = \RedshopHelperProduct::getProductTax($productId, $subscriptionPrice);
                         }
 
                         $productPriceVAT += $subscriptionVat;
-                        $productPrice     = $productPrice + $subscriptionPrice;
+                        $productPrice = $productPrice + $subscriptionPrice;
 
                         $productOldPriceExcludedVat += $subscriptionPrice;
                     }
 
-                    $cart[$i]['product_price']              = $productPrice + $productPriceVAT + $accessoryTotalPrice + $accessoryPriceVat + $wrapperPrice + $wrapperVAT;
-                    $cart[$i]['product_old_price']          = $productOldPrice + $accessoryTotalPrice + $accessoryPriceVat + $wrapperPrice + $wrapperVAT;
+                    $cart[$i]['product_price'] = $productPrice + $productPriceVAT + $accessoryTotalPrice + $accessoryPriceVat + $wrapperPrice + $wrapperVAT;
+                    $cart[$i]['product_old_price'] = $productOldPrice + $accessoryTotalPrice + $accessoryPriceVat + $wrapperPrice + $wrapperVAT;
                     $cart[$i]['product_old_price_excl_vat'] = $productOldPriceExcludedVat + $accessoryTotalPrice + $wrapperPrice;
-                    $cart[$i]['product_price_excl_vat']     = $productPrice + $accessoryTotalPrice + $wrapperPrice;
-                    $cart[$i]['product_vat']                = $productPriceVAT + $accessoryPriceVat + $wrapperVAT;
+                    $cart[$i]['product_price_excl_vat'] = $productPrice + $accessoryTotalPrice + $wrapperPrice;
+                    $cart[$i]['product_vat'] = $productPriceVAT + $accessoryPriceVat + $wrapperVAT;
 
                     $dispatcher->trigger('onAfterCartItemUpdate', [&$cart, $i, $data]);
                 }

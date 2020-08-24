@@ -93,7 +93,7 @@ class Promotion
         }
 
         if ($ajax) {
-            $cartObject = \RedshopHelperCart::renderModuleCartHtml(\Redshop\Cart\Helper::getCart());
+            $cartObject = \Redshop\Cart\Render::moduleCart(\Redshop\Cart\Helper::getCart());
             echo json_encode(array($valid, $message, $cartObject->cartHtml? $cartObject->cartHtml: ''));
             $app->close();
         }
