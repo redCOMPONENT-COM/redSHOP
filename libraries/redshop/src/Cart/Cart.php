@@ -21,8 +21,8 @@ class Cart
     /**
      * Method for modify cart data.
      *
-     * @param   array    $cart    Cart data.
-     * @param   integer  $userId  User ID
+     * @param array $cart Cart data.
+     * @param integer $userId User ID
      *
      * @return  array
      *
@@ -30,8 +30,8 @@ class Cart
      */
     public static function modify($cart = array(), $userId = 0)
     {
-        $cart            = $cart ?? \Redshop\Cart\Helper::getCart();
-        $userId          = !$userId ? \JFactory::getUser()->id : $userId;
+        $cart = $cart ?? \Redshop\Cart\Helper::getCart();
+        $userId = !$userId ? \JFactory::getUser()->id : $userId;
         $cart['user_id'] = $userId;
 
         $idx = $cart['idx'] ?? 0;
@@ -64,9 +64,9 @@ class Cart
             }
             # END REDSHOP-6083
 
-            $productId    = $cart[$i]['product_id'] ?? 0;
-            $quantity     = $cart[$i]['quantity'] ?? 0;
-            $product      = \Redshop\Product\Product::getProductById($productId);
+            $productId = $cart[$i]['product_id'] ?? 0;
+            $quantity = $cart[$i]['quantity'] ?? 0;
+            $product = \Redshop\Product\Product::getProductById($productId);
             $hasAttribute = isset($cart[$i]['cart_attribute']) ? true : false;
 
             // Attribute price
@@ -96,8 +96,8 @@ class Cart
                     && isset($cart[$i]['accessoryAsProductEligible'])) {
                     $accessoryHasProductWithoutVat = '{without_vat}';
 
-                    $accessoryPrice                     = (float)$accessoryAsProduct->accessory[$cart[$i]['product_id']]->newaccessory_price;
-                    $price                              = \RedshopHelperProductPrice::priceRound($accessoryPrice);
+                    $accessoryPrice = (float)$accessoryAsProduct->accessory[$cart[$i]['product_id']]->newaccessory_price;
+                    $price = \RedshopHelperProductPrice::priceRound($accessoryPrice);
                     $cart[$i]['product_price_excl_vat'] = \RedshopHelperProductPrice::priceRound($accessoryPrice);
                 }
             }
@@ -117,7 +117,7 @@ class Cart
             $getProductPrice = ($accessoryAsProductZero) ? 0 : $retAttArr[1];
 
             // Product + attribute (VAT)
-            $getProductTax        = ($accessoryAsProductZero) ? 0 : $retAttArr[2];
+            $getProductTax = ($accessoryAsProductZero) ? 0 : $retAttArr[2];
             $productOldPriceNoVat = ($accessoryAsProductZero) ? 0 : $retAttArr[5];
 
             // Accessory calculation
@@ -136,7 +136,7 @@ class Cart
             $productOldPriceNoVat += $accessories[1];
 
             // ADD WRAPPER PRICE
-            $wrapperVat   = 0;
+            $wrapperVat = 0;
             $wrapperPrice = 0;
 
             if (isset($cart[$i]['wrapper_id'])) {
@@ -147,14 +147,14 @@ class Cart
                     ]
                 );
 
-                $wrapperVat   = $wrappers['wrapper_vat'] ?? 0;
+                $wrapperVat = $wrappers['wrapper_vat'] ?? 0;
                 $wrapperPrice = $wrappers['wrapper_price'] ?? 0;
 
                 $productOldPriceNoVat += $wrapperPrice;
             }
 
-            $productPrice      = $accessoryPrice + $getProductPrice + $getProductTax + $accessoryTax + $wrapperPrice + $wrapperVat;
-            $productVat        = ($getProductTax + $accessoryTax + $wrapperVat);
+            $productPrice = $accessoryPrice + $getProductPrice + $getProductTax + $accessoryTax + $wrapperPrice + $wrapperVat;
+            $productVat = ($getProductTax + $accessoryTax + $wrapperVat);
             $productPriceNoVat = ($getProductPrice + $accessoryPrice + $wrapperPrice);
 
             if (isset($product->product_type) && $product->product_type == 'subscription') {
@@ -162,11 +162,11 @@ class Cart
                     return array();
                 }
 
-                $subscription      = \RedshopHelperProduct::getProductSubscriptionDetail(
+                $subscription = \RedshopHelperProduct::getProductSubscriptionDetail(
                     $productId,
                     $cart[$i]['subscription_id']
                 );
-                $subscriptionVat   = 0;
+                $subscriptionVat = 0;
                 $subscriptionPrice = $subscription->subscription_price;
 
                 if ($subscriptionPrice) {
@@ -178,8 +178,8 @@ class Cart
 
                 $productPrice = $productPrice + $subscriptionPrice + $subscriptionVat;
 
-                $productVat           += $subscriptionVat;
-                $productPriceNoVat    += $subscriptionPrice;
+                $productVat += $subscriptionVat;
+                $productPriceNoVat += $subscriptionPrice;
                 $productOldPriceNoVat += $subscriptionPrice + $subscriptionVat;
             }
 
@@ -189,9 +189,9 @@ class Cart
             }
 
             $cart[$i]['product_old_price_excl_vat'] = $productOldPriceNoVat;
-            $cart[$i]['product_price_excl_vat']     = $productPriceNoVat;
-            $cart[$i]['product_vat']                = $productVat;
-            $cart[$i]['product_price']              = $productPrice;
+            $cart[$i]['product_price_excl_vat'] = $productPriceNoVat;
+            $cart[$i]['product_vat'] = $productVat;
+            $cart[$i]['product_price'] = $productPrice;
 
             \RedshopHelperUtility::getDispatcher()->trigger('onBeforeLoginCartSession', array(&$cart, $i));
         }
@@ -204,7 +204,7 @@ class Cart
     /**
      * Method for add product to cart
      *
-     * @param   array  $data  Product data
+     * @param array $data Product data
      *
      * @return  mixed         True on success. Error message string if fail.
      * @throws  \Exception
@@ -213,49 +213,23 @@ class Cart
      */
     public static function add($data = [])
     {
-        $user             = \JFactory::getUser();
-        $cart             = \Redshop\Cart\Helper::getCart();
-        $data             = empty($data)? \Joomla\CMS\Factory::getApplication()->input->post->getArray(): $data;
+        $cart = \Redshop\Cart\Helper::getCart();
+        \Redshop\Workflow\Cart\Init::on($cart);
+
+        $data = empty($data) ? \Joomla\CMS\Factory::getApplication()->input->post->getArray() : $data;
 
         \Redshop\Plugin\Helper::invoke('redshop_product', '', 'onBeforeAddProductToCart', [&$data]);
-
         $data['quantity'] = round($data['quantity']);
 
-        if (empty($cart) || !array_key_exists("idx", $cart) || array_key_exists("quotation_id", $cart)) {
-            $cart = array('idx' => 0);
-        }
-
-        $idx = (int)$cart['idx'];
-
-        // Set session for gift card
         if (!empty($data['giftcard_id'])) {
-            \Redshop\Workflow\Cart\Add::giftCard($cart, $idx, $data);
-        } // Set session for product
-        else {
-            $result = \Redshop\Workflow\Cart\Add::product($cart, $idx, $data);
+            \Redshop\Workflow\Cart\Add::giftCard($cart, (int) $cart['idx'], $data);
+        } else {
+            $result =  \Redshop\Workflow\Cart\Add::product($cart, (int) $cart['idx'], $data);
 
             if (true !== $result) {
                 return $result;
             }
         }
-
-        if (!isset($cart['discount_type']) || !$cart['discount_type']) {
-            $cart['discount_type'] = 0;
-        }
-
-        if (!isset($cart['discount']) || !$cart['discount']) {
-            $cart['discount'] = 0;
-        }
-
-        if (!isset($cart['cart_discount']) || !$cart['cart_discount']) {
-            $cart['cart_discount'] = 0;
-        }
-
-        if (!isset($cart['user_shopper_group_id']) || (isset($cart['user_shopper_group_id']) && $cart['user_shopper_group_id'] == 0)) {
-            $cart['user_shopper_group_id'] = \RedshopHelperUser::getShopperGroup($user->id);
-        }
-
-        $cart['free_shipping'] = 0;
 
         \Redshop\Cart\Helper::setCart($cart);
 
@@ -265,10 +239,10 @@ class Cart
     /**
      * Method check different country and state
      *
-     * @param   object   $rate
-     * @param   integer  $user_id
-     * @param   integer  $users_info_id
-     * @param   array    $post
+     * @param object $rate
+     * @param integer $user_id
+     * @param integer $users_info_id
+     * @param array $post
      *
      * @return  boolean
      *
@@ -279,16 +253,16 @@ class Cart
         if ($users_info_id) {
             $shippingAddresses = \RedshopHelperShipping::getShippingAddress($users_info_id);
 
-            $stateCode   = $shippingAddresses->state_code;
+            $stateCode = $shippingAddresses->state_code;
             $countryCode = $shippingAddresses->country_code;
         } else {
             $anonymous = $post['anonymous'];
 
             if ($anonymous['bill_is_ship']) {
-                $stateCode   = $anonymous['BT']['state_code'];
+                $stateCode = $anonymous['BT']['state_code'];
                 $countryCode = $anonymous['BT']['country_code'];
             } else {
-                $stateCode   = $anonymous['ST']['state_code'];
+                $stateCode = $anonymous['ST']['state_code'];
                 $countryCode = $anonymous['ST']['country_code'];
             }
         }

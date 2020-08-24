@@ -148,7 +148,9 @@ class Helper
     {
         $cart = \Joomla\CMS\Factory::getSession()->get('cart', null);
 
-        if (empty($cart)) {
+        if (empty($cart)
+            || !array_key_exists("idx", $cart)
+            || array_key_exists("quotation_id", $cart)) {
             $cart = [
                 'idx' => 0
             ];

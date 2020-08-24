@@ -78,4 +78,22 @@ class Discount
     {
         return \RedshopHelperCartDiscount::getDiscountCalcDataExtra($pdcExtraIds, $productId);
     }
+
+    /**
+     * @param $cart
+     * @since __DEPLOY_VERSION__
+     */
+    public static function initDiscountForCart(&$cart) {
+        if (!isset($cart['discount_type']) || !$cart['discount_type']) {
+            $cart['discount_type'] = 0;
+        }
+
+        if (!isset($cart['discount']) || !$cart['discount']) {
+            $cart['discount'] = 0;
+        }
+
+        if (!isset($cart['cart_discount']) || !$cart['cart_discount']) {
+            $cart['cart_discount'] = 0;
+        }
+    }
 }
