@@ -62,21 +62,16 @@ class Add
 
         // Discount calculator procedure start
         $discounts = \Redshop\Promotion\Discount\Calculation::productMeasurement($product, $data);
-
-        $calcOutput      = "";
-        $calcOutputs     = [];
         $productPriceVAT = 0;
 
         if (!empty($discounts)) {
-            $calcOutput  = $discounts[0];
-            $calcOutputs = $discounts[1];
 
             // Calculate price without VAT
-            $data['product_price']                = $discounts[2];
-            $cart[$idx]['product_price_excl_vat'] = $discounts[2];
-            $cart[$idx]['discount_calc_price']    = $discounts[2];
+            $data['product_price']                = $discounts->calculationPrice;
+            $cart[$idx]['product_price_excl_vat'] = $discounts->calculationPrice;
+            $cart[$idx]['discount_calc_price']    = $discounts->calculationPrice;
 
-            $productPriceVAT += $discounts[3];
+            $productPriceVAT = $discounts->productNetPricesTax;
         }
 
         // Attribute price added
@@ -86,7 +81,7 @@ class Add
         $attributeCart = \RedshopHelperProduct::makeAttributeCart(
             $data['cart_attribute'],
             $data['product_id'],
-            0,
+            \Joomla\CMS\Factory::getUser()->id ?? 0,
             $data['product_price'],
             $data['quantity'],
             \Redshop\Cart\Render::getTemplate()[0]->template_desc
@@ -350,7 +345,7 @@ class Add
                 }
 
                 // Discount calculator
-                $arrayDiffCalc = array_diff_assoc($cart[$i]['discount_calc'], $calcOutputs);
+                $arrayDiffCalc = array_diff_assoc($cart[$i]['discount_calc'], $discount->calculationOutputs);
 
                 if (count($arrayDiffCalc) > 0) {
                     $sameProduct = false;
@@ -438,8 +433,8 @@ class Add
             // SET VALVUES INTO SESSION CART
             $cart[$idx]['giftcard_id']                = '';
             $cart[$idx]['product_id']                 = $data['product_id'];
-            $cart[$idx]['discount_calc_output']       = $calcOutput;
-            $cart[$idx]['discount_calc']              = $calcOutputs;
+            $cart[$idx]['discount_calc_output']       = $discount->html;
+            $cart[$idx]['discount_calc']              = $discount->calculationOutputs;
             $cart[$idx]['product_price']              = $data['product_price'];
             $cart[$idx]['product_old_price']          = $data['product_old_price'];
             $cart[$idx]['product_old_price_excl_vat'] = $data['product_old_price_excl_vat'];

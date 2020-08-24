@@ -48,7 +48,7 @@ class Calculation
             $calculatorPrice = $discountCalc['product_price'];
             $productNetPricesTax = $discountCalc['product_price_tax'];
 
-            $discounts = [];
+            $discounts = new \stdClass;
             if ($calculatorPrice) {
                 $calcOutput = "Type : " . $discountCalcMethod . "<br />";
                 $calculationOutputs['type'] = $discountCalcMethod;
@@ -161,10 +161,10 @@ class Calculation
                 // Extra selected value ids
                 $calculationOutputs['calcextra_ids'] = $discountCalc['pdcextra_ids'];
 
-                $discounts[] = $calcOutput;
-                $discounts[] = $calculationOutputs;
-                $discounts[] = $calculatorPrice;
-                $discounts[] = $productNetPricesTax;
+                $discounts->html = $calcOutput; #0
+                $discounts->calculationOutputs = $calculationOutputs; #1
+                $discounts->calculationPrice = $calculatorPrice; #2
+                $discounts->productNetPricesTax = $productNetPricesTax; #3
 
                 return $discounts;
             } else {
