@@ -34,7 +34,7 @@ class Init
      * @since  __DEPLOY_VERSION__
      */
     public static function post(&$post) {
-        $post = empty($data) ? \Redshop\IO\Input::getArray('post') : $post;
+        $post = empty($post) ? \Redshop\IO\Input::getArray('post') : $post;
         $post['quantity'] = round($post['quantity']);
     }
 }
