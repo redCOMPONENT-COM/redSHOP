@@ -62,12 +62,11 @@ class RedshopHelperCartDiscount
      * @since   2.0.7
      *
      */
-    public static function applyCoupon($cartData = array(), $couponCode = '')
+    public static function applyCoupon($cartData = [], $couponCode = '')
     {
-        $couponCode = empty($couponCode) ? JFactory::getApplication()->input->getString(
-            'discount_code',
-            ''
-        ) : $couponCode;
+        $couponCode = empty($couponCode)
+            ? JFactory::getApplication()->input->getString('discount_code', '')
+            : $couponCode;
         $cart       = empty($cartData) ? \Redshop\Cart\Helper::getCart() : $cartData;
 
         if (empty($couponCode)) {
@@ -76,15 +75,12 @@ class RedshopHelperCartDiscount
 
         $view   = JFactory::getApplication()->input->getCmd('view', '');
         $user   = JFactory::getUser();
-        $db     = JFactory::getDbo();
         $return = false;
 
         $coupon = \Redshop\Promotion\Voucher::getCouponData($couponCode, $cart['product_subtotal_excl_vat']);
 
-        foreach ($cart['coupon'] as $cartCoupon) {
-            if ($coupon->id == $cartCoupon['coupon_id']) {
-                return false;
-            }
+        if (\Redshop\Promotion\Coupon::isCouponApplied($coupon, $cart) == false) {
+            return false;
         }
 
         if (!empty($coupon)) {
@@ -111,14 +107,7 @@ class RedshopHelperCartDiscount
                     return false;
                 }
 
-                $query = $db->getQuery(true)
-                    ->select('SUM(' . $db->qn('coupon_value') . ') AS usertotal')
-                    ->from($db->qn('#__redshop_coupons_transaction'))
-                    ->where($db->qn('userid') . ' = ' . (int)$user->id)
-                    ->group($db->qn('userid'));
-
-                // Set the query and load the result.
-                $userData = $db->setQuery($query)->loadResult();
+                $userData = \Redshop\Promotion\Coupon::getUserTransactions((int) $user->id);
 
                 if (!empty($userData)) {
 	                $userType = $couponUser != $userData->userid;
@@ -137,16 +126,29 @@ class RedshopHelperCartDiscount
 
             $productSubtotal = $cart['product_subtotal_excl_vat'];
 
-            if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2 || Redshop::getConfig()->get('DISCOUNT_TYPE') == 1) {
+            if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2
+                || Redshop::getConfig()->get('DISCOUNT_TYPE') == 1) {
                 unset($cart['voucher']);
                 $cart['voucher_discount'] = 0;
             }
 
             if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 4) {
-                $subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'] - $cart['coupon_discount'];
+                /*var_dump($cart);
+                var_dump($productSubtotal);
+                var_dump($cart['voucher_discount']);
+                var_dump($cart['cart_discount']);
+                var_dump($cart['coupon_discount']);
+*/
+                $cart['coupon_discount'] += $coupon->value;
+                $cart['cart_discount'] += $coupon->value;
+                $subTotal = $productSubtotal - $cart['voucher_discount']
+                    - $cart['cart_discount'] - $cart['coupon_discount'];
             } else {
                 $subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
             }
+
+   //         var_dump($subTotal);
+     //       die;
 
             if ($subTotal <= 0) {
                 $subTotal = 0;
@@ -155,7 +157,7 @@ class RedshopHelperCartDiscount
             if ($discountType == 0) {
                 $avgVAT = 1;
 
-                if ((float)Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get(
+                if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get(
                         'APPLY_VAT_ON_DISCOUNT'
                     )) {
                     $avgVAT = $subTotal / $cart['product_subtotal_excl_vat'];
@@ -168,7 +170,7 @@ class RedshopHelperCartDiscount
 
             $key = \Redshop\Helper\Utility::rsMultiArrayKeyExists('coupon', $cart);
 
-            $coupons = array();
+            $coupons = [];
 
             if (!$key) {
                 $oldCoupons  = array();
@@ -219,16 +221,13 @@ class RedshopHelperCartDiscount
                     $return = true;
 
                     break;
-
                 case 2:
-
                     unset($cart['voucher']);
                     unset($cart['coupon']);
                     $cart['voucher_discount'] = 0;
-                    $return                   = true;
+                    $return = true;
 
                     break;
-
                 case 1:
                 default:
                     unset($cart['voucher']);
@@ -279,6 +278,8 @@ class RedshopHelperCartDiscount
         } elseif (Redshop::getConfig()->getBool('VOUCHERS_ENABLE') === true) {
             $return = self::applyVoucher();
         }
+
+        \Redshop\Cart\Helper::setCart($cart);
 
         if (!empty($cartData)) {
             return $cart;

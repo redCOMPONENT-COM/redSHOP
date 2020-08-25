@@ -30,11 +30,11 @@ class Promotion
         $language = \JFactory::getLanguage()->getTag();
 
         // Call coupon method of model to apply coupon
-        $valid = \RedshopHelperCartDiscount::applyCoupon();;
+        $valid = \RedshopHelperCartDiscount::applyCoupon();
 
         $cart = \Redshop\Cart\Helper::getCart();
         $cart = \RedshopHelperDiscount::modifyDiscount($cart);
-        \RedshopHelperCart::renderModuleCartHtml();
+        \Redshop\Cart\Render::moduleCart($cart);
 
         // Store cart entry in db
         \RedshopHelperCart::addCartToDatabase();
