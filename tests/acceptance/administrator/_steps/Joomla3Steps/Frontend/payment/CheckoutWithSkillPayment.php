@@ -59,6 +59,7 @@ class CheckoutWithSkillPayment extends \CheckoutMissingData
 		$I->wait(0.5);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->wait(1);
 		$I->dontSeeInCurrentUrl(FrontEndProductManagerJoomla3Page::$checkoutURL);
 
 		try
