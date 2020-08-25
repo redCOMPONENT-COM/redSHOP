@@ -2,6 +2,7 @@ var gulp = require("gulp");
 var path = require("path");
 const log = require('fancy-log');
 const color = require('colors');
+const babel = require('gulp-babel');
 var zip = require("gulp-zip");
 var fs = require("fs");
 var del = require('del');
@@ -43,9 +44,13 @@ gulp.task('scripts:components.redshop', function (cb) {
         assetsPath + '/js/**/*.js'
     ])
         .pipe(gulp.dest(mediaPath + '/js'))
+        .pipe(babel({
+            presets: ['@babel/preset-env'],
+            compact: false
+        }))
         .pipe(uglify())
         .on('error', function (err) {
-            log(color.styles.red('[Error]'), err.toString());
+            log(color.red('[Error]'), err.toString());
         })
         .pipe(rename(function (path) {
             path.basename += '.min';

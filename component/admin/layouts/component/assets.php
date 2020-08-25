@@ -22,11 +22,12 @@ $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
 
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.admin.min.js');
+$doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.admin.attribute.min.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.validation.min.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.alert.min.js');
 $doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/redshop.admin.min.css');
 $doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/font-awesome.min.css');
-
+$doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/redshop.admin.attribute.min.css');
 // Disable template shit
 $doc->disableStylesheet('administrator/templates/isis/css/template.css');
 $doc->disableScript('administrator/templates/isis/js/template.js');
