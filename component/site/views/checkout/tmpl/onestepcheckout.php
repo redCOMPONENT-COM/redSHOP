@@ -69,7 +69,7 @@ echo RedshopTagsReplacer::_(
                 },
                 errorPlacement: function (error, element) {
                     if ((element.is(":radio") && element.attr('name') == "payment_method_id")) {
-                        error.appendTo(element.parents('#divPaymentMethod'));
+                        error.appendTo(element.parents('#paymentblock'));
                     } else if (element.is(":checkbox") && element.attr('name') == "termscondition") {
                         error.appendTo(element.closest('.checkbox'));
                     } else { // This is the default behavior

@@ -1006,7 +1006,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 				});
 			});
 
-			if (objectname == "users_info_id" && users_info_id == 0 && jQuery('#divPaymentMethod')) {
+			if (objectname == "users_info_id" && users_info_id == 0 && jQuery('#paymentblock')) {
 				jQuery.ajax({
 				url: redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=checkout&task=ajaxDisplayPaymentAnonymous',
 				type: 'POST',
@@ -1018,7 +1018,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 					}
 				})
 				.done(function(response) {
-					jQuery('#divPaymentMethod').html(response);
+					jQuery('#paymentblock').html(response);
 				})
 				.fail(function() {
 					console.log("error");
@@ -1034,11 +1034,16 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 
 	if (jQuery('.extrafield_payment').length)
 	{
-		jQuery('.extrafield_payment').children('[id^="extraFields"]').remove();
+		jQuery('#paymentblock .payment_method').each(function () {
+			if (!jQuery(this).is(':checked')) {
+				jQuery(this).find('#extraFields_rs_payment_banktransfer2').remove();
+			}
+		});
 
 		if (objectname == "payment_method_id")
 		{
 			var paymentMethod = jQuery('[name="payment_method_id"]:checked');
+			jQuery('.extrafield_payment').children('[id^="extraFields"]').remove();
 
 			jQuery.ajax({
 				url: redSHOP.RSConfig._('AJAX_BASE_URL'),
@@ -1051,7 +1056,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 				},
 			})
 			.done(function(html) {
-                jQuery('#divPaymentMethod').find( ".extrafield_payment#" + paymentMethod.val() ).find('.extrafield_payment').append(html);
+                jQuery('#paymentblock').find( ".extrafield_payment#" + paymentMethod.val() ).find('.extrafield_payment').append(html);
 
 				if (jQuery('input[id^="rs_birthdate_"]').length)
 				{
