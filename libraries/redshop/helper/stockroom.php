@@ -183,16 +183,11 @@ class RedshopHelperStockroom
 
         if (Redshop::getConfig()->get('USE_STOCKROOM') == 1) {
             if ($section == 'product' && $stockroomId == 0 && $sectionId) {
-                $sectionId = explode(',', $sectionId);
-                $sectionId = ArrayHelper::toInteger($sectionId);
-                $quantity  = 0;
+                $productData = Redshop::product((int)$sectionId);
+                $quantity    = null;
 
-                foreach ($sectionId as $item) {
-                    $productData = Redshop::product((int)$item);
-
-                    if (isset($productData->sum_quanity)) {
-                        $quantity += $productData->sum_quanity;
-                    }
+                if (isset($productData->sum_quanity)) {
+                    $quantity = $productData->sum_quanity;
                 }
             } else {
                 $key = md5($section . '-' . $sectionId . '-' . $stockroomId);
@@ -236,7 +231,7 @@ class RedshopHelperStockroom
             $quantity = $quantity < 0 ? 0 : $quantity;
         }
 
-        if ($quantity == null) {
+        if ($quantity === null) {
             $quantity = (Redshop::getConfig()->get('USE_BLANK_AS_INFINITE')) ? 1000000000 : 0;
         }
 
