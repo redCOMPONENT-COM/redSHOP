@@ -158,6 +158,7 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
+		$I->wait(0.5);
 
 		if((isset($user['userName'])))
 		{
