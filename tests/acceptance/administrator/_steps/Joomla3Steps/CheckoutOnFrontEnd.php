@@ -242,9 +242,9 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5);
 				$I->amOnPage(ProductManagerPage::$cartPageUrL);
 				$I->waitForText($productNameAccessories, 30, FrontEndProductManagerJoomla3Page::$nameProduct1OnCart);
-				$I->see($productName);
-				$I->waitForText($productName, 30, FrontEndProductManagerJoomla3Page::$nameProduct2OnCart);
 				$I->see($productNameAccessories);
+				$I->waitForText($productName, 30, FrontEndProductManagerJoomla3Page::$nameProduct2OnCart);
+				$I->see($productName);
 				break;
 			case 'No':
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5);
