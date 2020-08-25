@@ -337,4 +337,16 @@ class Helper
 
         return $attributePriceIdStart->price_id ?? null;
     }
+
+    /**
+     * @param $cart
+     * @param $idx
+     * @param $post
+     * @since __DEPLOY_VERSION__
+     */
+    public static function initAttributeForCart(&$cart, $idx, &$post) {
+        if (isset($post['hidden_attribute_cartimage'])) {
+            $cart[$idx]['hidden_attribute_cartimage'] = $post['hidden_attribute_cartimage'];
+        }
+    }
 }

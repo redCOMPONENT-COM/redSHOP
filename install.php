@@ -332,6 +332,9 @@ class Com_RedshopInstallerScript
 
                 // Force to enable unserialize - twig plugin by anyways
                 $this->enablePlugin('unserialize', 'twig');
+
+                // Force to enable promotion - redshop_promotion plugin by anyways
+                $this->enablePlugin('promotion', 'redshop_promotion');
             }
         }
     }
