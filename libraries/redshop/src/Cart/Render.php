@@ -103,7 +103,7 @@ class Render
                 \JText::_('COM_REDSHOP_PRODUCT_DATE_FIELD_EXPIRED'),
                 $content
             );
-        } elseif ($product->not_for_sale) {
+        } elseif (isset($product->not_for_sale) && ($product->not_for_sale)) {
             return str_replace("{form_addtocart:$cartTemplate->name}", '', $content);
         } elseif (!$taxExemptAddToCart) {
             $content = str_replace("{form_addtocart:$cartTemplate->name}", '', $content);
@@ -111,7 +111,7 @@ class Render
             return $content;
         } elseif (!\Redshop::getConfig()->get('SHOW_PRICE')) {
             return str_replace("{form_addtocart:$cartTemplate->name}", '', $content);
-        } elseif ($product->expired == 1) {
+        } elseif (isset($product->expired) && $product->expired == 1) {
             return str_replace(
                 "{form_addtocart:$cartTemplate->name}",
                 \Redshop::getConfig()->get('PRODUCT_EXPIRE_TEXT'),
@@ -152,5 +152,84 @@ class Render
         }
 
         return $content;
+    }
+
+
+    /**
+     * @return mixed
+     * @since __DEPLOY_VERSION__
+     */
+    public static function getTemplateCart() {
+        return self::getTemplate();
+    }
+
+    /**
+     * @param array $cart
+     * @return stdClass
+     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function moduleCart($cart = array())
+    {
+        $cart             = empty($cart) ? \Redshop\Cart\Helper::getCart() : $cart;
+        $return           = new \stdClass;
+        $totalQuantity    = 0;
+        $idx              = $cart['idx'];
+        $cartParams       = \Redshop\Cart\Module::getParams();
+        $html             = (string)$cartParams->get('cart_output', 'simple');
+        $showShippingLine = (int)$cartParams->get('show_shipping_line', 0);
+        $showWithVAT      = (int)$cartParams->get('show_with_vat', 0);
+        $ajax             = \JFactory::getApplication()->input->getInt('ajax_cart_box');
+
+        for ($i = 0; $i < $idx; $i++) {
+            $totalQuantity += $cart[$i]['quantity'];
+        }
+
+        // Load cart module language
+        $lang = \JFactory::getLanguage();
+        $lang->load('mod_redshop_cart', JPATH_SITE);
+
+        $return->cartHtml = \RedshopLayoutHelper::render(
+            'cart.cart',
+            array(
+                'cartOutput'       => $html,
+                'totalQuantity'    => $totalQuantity,
+                'cart'             => $cart,
+                'showWithVat'      => $showWithVAT,
+                'showShippingLine' => $showShippingLine
+            ),
+            '',
+            array('option' => 'com_redshop')
+        );
+
+        $return->totalQuantity = $totalQuantity;
+
+        $shippingRateHtml = \Redshop\Shipping\Rate::getFreeShippingRate();
+
+        if ($ajax === 1 && \Redshop::getConfig()->getBool('AJAX_CART_BOX')) {
+            echo '`' . $return->cartHtml . '`' . $shippingRateHtml;
+            \JFactory::getApplication()->close();
+        }
+
+        return $return;
+    }
+
+    /**
+     * @return array|string
+     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getTemplate() {
+        if (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) {
+            return \RedshopHelperTemplate::getTemplate("quotation_cart");
+        } else {
+            if (!\Redshop::getConfig()->get('USE_AS_CATALOG')) {
+                return \RedshopHelperTemplate::getTemplate("cart");
+            } else {
+                return \RedshopHelperTemplate::getTemplate("catalogue_cart");
+            }
+        }
+
+        return '';
     }
 }
