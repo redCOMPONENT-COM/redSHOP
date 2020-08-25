@@ -492,6 +492,12 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'class="form-control" size="1"',
             $this->config->get('AJAX_CART_BOX')
         );
+        $lists['enable_clear_user_info']                 = JHtml::_(
+            'redshopselect.booleanlist',
+            'enable_clear_user_info',
+            'class="form-control" size="1"',
+            $this->config->get('ENABLE_CLEAR_USER_INFO')
+        );
         $lists['is_product_reserve']            = JHtml::_(
             'redshopselect.booleanlist',
             'is_product_reserve',

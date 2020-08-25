@@ -58,6 +58,7 @@ class RedshopHelperJs
             'AJAX_BASE_URL'                     => JUri::root(
                 ) . "index.php?tmpl=component&option=com_redshop&" . $token . "=1&lang=" . $langSef,
             'AJAX_CART_BOX'                     => $config->get('AJAX_CART_BOX'),
+            'ENABLE_CLEAR_USER_INFO'            => $config->get('ENABLE_CLEAR_USER_INFO'),
             'REDSHOP_VIEW'                      => $view,
             'REDSHOP_LAYOUT'                    => $layout,
             'CURRENCY_SYMBOL_CONVERT'           => $currencySymbol,

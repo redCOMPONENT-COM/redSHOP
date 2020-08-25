@@ -285,7 +285,7 @@ switch ($name) {
     case 'onestep_checkout':
         ?>
         <b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ONESTEP_CHECKOUT_HINT'); ?></b><br/><br/>
-        {billing_template} {billing_address_information_lbl} {edit_billing_address} {billing_address} {shipping_address_information_lbl} {shipping_address}
+        {billing_template} {billing_address_information_lbl} {edit_billing_address} {clear_user_info} {billing_address} {shipping_address_information_lbl} {shipping_address}
         <?php
         break;
     case 'order_detail':

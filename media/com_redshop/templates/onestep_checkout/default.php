@@ -6,6 +6,7 @@
             </div>
             <div class="panel-body">
                 {edit_billing_address}
+                {clear_user_info}
                 {billing_address}
                 {billing_template}
             </div>
