@@ -600,7 +600,6 @@ class RedshopHelperStockroom
                     $db->qn('#__redshop_stockroom', 's') . ' ON '
                     . $db->qn('x.stockroom_id') . ' = ' . $db->qn('s.id')
                 )
-	            ->where($db->qn('show_in_front') . ' = ' . $db->q(1))
 	            ->where($db->qn('published') . ' = ' . $db->q(1))
                 ->order($db->qn('s.min_del_time'));
 
