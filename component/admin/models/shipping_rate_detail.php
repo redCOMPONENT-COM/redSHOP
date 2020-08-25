@@ -30,7 +30,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
         $this->_table_prefix = '#__redshop_';
         $array               = JFactory::getApplication()->input->get('cid', 0, 'array');
-        $this->setId((int)$array[0]);
+        $this->setId((int)($array[0] ?? 0));
     }
 
     public function setId($id)
