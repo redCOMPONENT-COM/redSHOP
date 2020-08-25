@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="conditions">
+        <field
+                id="promotion_type"
+                name="promotion_type"
+                type="list"
+                label-class="radio-inline"
+                label="COM_REDSHOP_PROMOTION_CONDITION_TYPE"
+                description="COM_REDSHOP_PROMOTION_CONDITION_TYPE"
+                required="false"
+                default="amount_product"
+                onchange="this.form.submit();"
+        >
+            <option value="amount_product">COM_REDSHOP_PROMOTION_CONDITION_TYPE_AMOUNT_PRODUCT</option>
+            <option value="volume_order">COM_REDSHOP_PROMOTION_CONDITION_TYPE_VOLUME_ORDER</option>
+        </field>
+    </fieldset>
+    <fieldset name="conditions_amount_product">
+        <field
+                id="manufacturer"
+                name="manufacturer"
+                type="redshop.Manufacturer"
+                label="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT_MANUFACTURER"
+                description="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT_MANUFACTURER"
+                required="false"
+                multiple="true"
+        />
+        <field
+                name="category"
+                type="redshop.category"
+                label="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT_CATEGORY"
+                description="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT_CATEGORY"
+                class="form-control"
+                multiple="true"
+        />
+        <field
+                name="product"
+                type="redshop.product"
+                label="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT"
+                description="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT"
+                class="form-control"
+                multiple="true"
+        />
+        <field
+                id="condition_amount"
+                name="condition_amount"
+                type="number"
+                label="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
+                description="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
+                class="validate-numeric"
+                default=""
+                required="false"
+        />
+    </fieldset>
+    <fieldset name="conditions_volume_order">
+        <field
+                id="order_volume"
+                name="order_volume"
+                type="text"
+                label="COM_REDSHOP_PROMOTION_CONDITION_ORDER_VOLUME"
+                description="COM_REDSHOP_PROMOTION_CONDITION_ORDER_VOLUME"
+                size="5"
+                filter="float"
+                class="validate-numeric"
+                default=""
+                required="false"
+        />
+    </fieldset>
+    <fieldset name="datetime">
+        <field
+                id="from_date"
+                name="from_date"
+                type="calendar"
+                label="COM_REDSHOP_PROMOTION_CONDITION_FROM_DATE"
+                description="COM_REDSHOP_PROMOTION_CONDITION_FROM_DATE"
+                required="false"
+        />
+        <field
+                id="to_date"
+                name="to_date"
+                type="calendar"
+                label="COM_REDSHOP_PROMOTION_CONDITION_TO_DATE"
+                description="COM_REDSHOP_PROMOTION_CONDITION_TO_DATE"
+                required="false"
+        />
+    </fieldset>
+    <fieldset name="awards">
+        <field
+                id="product_award"
+                name="product_award"
+                type="redshop.product"
+                label="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT"
+                description="COM_REDSHOP_PROMOTION_CONDITION_PRODUCT"
+                class="form-control"
+        />
+        <field
+                id="award_amount"
+                name="award_amount"
+                type="number"
+                label="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
+                description="COM_REDSHOP_PROMOTION_CONDITION_AMOUNT"
+                size="5"
+                class="validate-numeric"
+                default="1"
+                required="false"
+        />
+        <field
+                id="free_shipping"
+                name="free_shipping"
+                type="list"
+                label="COM_REDSHOP_PROMOTION_AWARDS_FREE_SHIPPING"
+                description="COM_REDSHOP_PROMOTION_AWARDS_FREE_SHIPPING"
+                default="1"
+        >
+            <option value="true">JYES</option>
+            <option value="false">JNO</option>
+        </field>
+    </fieldset>
+</form>
