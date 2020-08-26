@@ -87,7 +87,7 @@ class Helper
      * @since  __DEPLOY_VERSION__
      */
     public static function getConditionOrderVolume(&$promotion, &$cart) {
-        $orderVolume = $promotion->order_volume ?? 0;
+        $orderVolume = (float) $promotion->order_volume ?? 0;
         $conditionOrderVolume = false;
 
         if ($orderVolume > 0) {
@@ -113,6 +113,15 @@ class Helper
      * @since  __DEPLOY_VERSION__
      */
     public static function getCartSubTotalExcludeVAT(&$cart) {
+        if (empty($cart['product_subtotal_excl_vat'])) {
+            $subTotalExcludedVAT = 0.0;
+            for ($i = 0; $i <= $cart['idx']; $i++) {
+                $subTotalExcludedVAT += ($cart[$i]['product_old_price_excl_vat'] * $cart[$i]['quantity'] );
+            }
+
+            return $subTotalExcludedVAT;
+        }
+
         return $cart['product_subtotal_excl_vat'] ?? 0.0;
     }
 
