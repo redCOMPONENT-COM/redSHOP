@@ -152,7 +152,6 @@ class Calculation
                 }
 
                 $calcOutput .= JText::_('COM_REDSHOP_DISCOUNT_CALC_UNIT') . " " . $data['calcUnit'];
-                $calcOutput .= JText::_('COM_REDSHOP_DISCOUNT_CALC_UNIT') . " " . $data['calcUnit'];
                 $calculationOutputs['calcUnit'] = $data['calcUnit'];
 
                 // Extra selected value data
