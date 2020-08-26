@@ -8,6 +8,7 @@
 namespace AcceptanceTester;
 use AdminJ3Page;
 use FrontEndProductManagerJoomla3Page;
+use Page\Acceptance\Administrator\AesirPage;
 
 /**
  * Class ProductUpdateOnQuantitySteps
@@ -56,15 +57,19 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->executeJS(AdminJ3Page::jQueryIframeMenuType());
 		$I->wait(1);
 		$I->switchToIFrame(AdminJ3Page::$menuItemType);
-		$I->wait(2);
 
 		$I->wantTo("Open the menu category: $menuCategory");
+		$I->waitForText($menuCategory, 30);
+		$I->see($menuCategory);
+		$I->scrollTo(AdminJ3Page::getMenuCategory($menuCategory), 152, 15);
 		$I->waitForElement(AdminJ3Page::getMenuCategory($menuCategory), 60);
 		$I->seeElement(AdminJ3Page::getMenuCategory($menuCategory));
 		$I->wait(0.5);
 		$I->click(AdminJ3Page::getMenuCategory($menuCategory));
+
 		$I->wantTo("Choose the menu item type: $menuItem");
 		$I->waitForElementVisible(AdminJ3Page::returnMenuItem($menuItem), 30);
+		$I->wait(0.5);
 		$I->click(AdminJ3Page::returnMenuItem($menuItem));
 		$I->wantTo('I switch back to the main window');
 		$I->switchToIFrame();
