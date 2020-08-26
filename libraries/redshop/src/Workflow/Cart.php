@@ -32,7 +32,7 @@ class Cart extends BaseWorkflow
             \Redshop\Workflow\Accessory::prepareAccessoryCart();
             \Redshop\Cart\Helper::setUserDocumentToSession();
             \Redshop\Workflow\Promotion::apply();
-            \Redshop\Cart\Render::moduleCart();
+            \Redshop\Cart\Ajax::renderModuleCartHtml();
             \Redshop\Cart\Helper::routingAfterAddToCart();
         }
 
