@@ -110,18 +110,14 @@ class RedshopHelperDiscount
         $today = time();
 
         // Convert discount_enddate to middle night
-        if (isset($productData->discount_enddate) && $productData->discount_endate != '0')
-        {
-            $productData->discount_enddate = RedshopHelperDatetime::generateTimestamp($productData->discount_enddate);
-        }
+        $productData->discount_enddate = RedshopHelperDatetime::generateTimestamp($productData->discount_enddate);
 
         if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0) {
             $productData->discount_price = 0;
         } else {
-            if (isset($productData->discount_enddate) && isset($productData->discount_stratdate)
-                && (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
+            if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
                 || ((int)$productData->discount_enddate >= $today && (int)$productData->discount_stratdate <= $today)
-                || ($productData->discount_enddate == '0' && (int)$productData->discount_stratdate <= $today))) {
+                || ($productData->discount_enddate == '0' && (int)$productData->discount_stratdate <= $today)) {
                 return (float)$productData->discount_price;
             }
         }

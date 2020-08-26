@@ -517,6 +517,11 @@ class RedshopMenuLeft_Menu
                 'COM_REDSHOP_COUPON_LISTING',
                 self::$view === 'coupons'
             )
+            ->addItem(
+                'index.php?option=com_redshop&view=promotions',
+                'COM_REDSHOP_PROMOTION_LISTING',
+                self::$view === 'promotions'
+            )
             ->group('DISCOUNT');
     }
 
