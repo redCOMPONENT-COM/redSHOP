@@ -62,7 +62,7 @@ class RedshopHelperCartDiscount
      * @since   2.0.7
      *
      */
-    public static function applyCoupon($cartData = array(), $couponCode = '')
+    public static function applyCoupon($cartData = [], $couponCode = '')
     {
         $couponCode = empty($couponCode) ? JFactory::getApplication()->input->getString(
             'discount_code',
@@ -121,7 +121,7 @@ class RedshopHelperCartDiscount
                 $userData = $db->setQuery($query)->loadResult();
 
                 if (!empty($userData)) {
-	                $userType = $couponUser != $userData->userid;
+                    $userType = $couponUser != $userData->userid;
                 } else {
                     if ($couponUser != $user->id) {
                         return false;

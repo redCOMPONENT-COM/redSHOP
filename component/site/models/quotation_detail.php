@@ -229,7 +229,7 @@ class RedshopModelQuotation_detail extends RedshopModel
         $cart = \Redshop\Cart\Cart::modify($cart, $user_id);
 
         \Redshop\Cart\Helper::setCart($cart);
-        RedshopHelperCart::cartFinalCalculation(false);
+        RedshopHelperCart::ajaxRenderModuleCartHtml(false);
     }
 
     /**
