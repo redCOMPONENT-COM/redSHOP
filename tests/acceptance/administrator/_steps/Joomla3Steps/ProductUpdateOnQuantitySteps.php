@@ -57,12 +57,11 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->executeJS(AdminJ3Page::jQueryIframeMenuType());
 		$I->wait(1);
 		$I->switchToIFrame(AdminJ3Page::$menuItemType);
+		$I->wait(0.5);
 
 		$I->wantTo("Open the menu category: $menuCategory");
-		$I->waitForText($menuCategory, 30);
-		$I->see($menuCategory);
 		$I->scrollTo(AdminJ3Page::getMenuCategory($menuCategory), 152, 15);
-		$I->waitForElement(AdminJ3Page::getMenuCategory($menuCategory), 60);
+		$I->waitForElementVisible(AdminJ3Page::getMenuCategory($menuCategory), 60);
 		$I->seeElement(AdminJ3Page::getMenuCategory($menuCategory));
 		$I->wait(0.5);
 		$I->click(AdminJ3Page::getMenuCategory($menuCategory));
