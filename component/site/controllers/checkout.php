@@ -501,7 +501,7 @@ class RedshopControllerCheckout extends RedshopController
             if ($order_id === 0) {
                 // Add plugin support
                 $dispatcher->trigger('beforeOrderPlace', array($cart));
-                $orderresult = $model->orderplace();
+                $orderresult = $model->orderPlace();
                 $order_id    = $orderresult->order_id;
             } else {
                 $input->set('order_id', $order_id);

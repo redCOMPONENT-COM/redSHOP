@@ -66,6 +66,42 @@ class Coupon
             ->where('end_date >= ' . $db->q(Factory::getDate()->toSql()))
             ->where($db->qn('amount_left') . ' > 0');
 
-        return $db->setQuery($query)->loadObjectList();
+        return \Redshop\DB\Tool::safeSelect($db, $query, true);
+    }
+
+    /**
+     * @param $coupon
+     * @param $cart
+     * @return bool
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function isCouponApplied(&$coupon, &$cart) {
+        if ((count($cart['coupon']) <= 0) || empty($coupon)) {
+            return true;
+        }
+
+        foreach ($cart['coupon'] as $cartCoupon) {
+            if ($coupon->id == $cartCoupon['coupon_id']) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @return mixed|null
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getUserTransactions($uid) {
+        $db = \Joomla\CMS\Factory::getDbo();
+        $query = $db->getQuery(true)
+            ->select('SUM(' . $db->qn('coupon_value') . ') AS usertotal')
+            ->from($db->qn('#__redshop_coupons_transaction'))
+            ->where($db->qn('userid') . ' = ' . (int)$uid)
+            ->group($db->qn('userid'));
+
+        // Set the query and load the result.
+        return $db->setQuery($query)->loadResult();
     }
 }
