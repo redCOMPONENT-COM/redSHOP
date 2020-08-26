@@ -23,7 +23,7 @@ extract($displayData);
 ?>
 <div class="userfield_input">
     <select
-            name="extrafieldname<?php echo $uniqueId; ?>[]"
+            name="extrafields<?php echo $uniqueId; ?>[]"
             class="<?php echo $rowData->class; ?>"
             id="<?php echo $rowData->name; ?>"
             userfieldlbl="<?php echo $rowData->title; ?>"
@@ -31,7 +31,7 @@ extract($displayData);
     >
         <option><?php echo JText::_('COM_REDSHOP_SELECT'); ?></option>
         <?php foreach ($fieldCheck as $key => $field) : ?>
-            <?php if ($fieldChk[$c]->field_value == "" && $fieldChk[$c]->field_value == "-" && $fieldChk[$c]->field_value == "0" && $fieldChk[$c]->field_value == "select") : ?>
+            <?php if ($field->field_value == "" && $field->field_value == "-" && $field->field_value == "0" && $field->field_value == "select") : ?>
                 <?php continue; ?>
             <?php endif; ?>
             <?php $selected = (!empty($checkData) && in_array(
