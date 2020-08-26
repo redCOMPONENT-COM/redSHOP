@@ -43,7 +43,44 @@ class RedshopViewNewsletter extends RedshopViewForm
                 return RedshopLayoutHelper::render('newsletter.tags_default');
             default:
                 return parent::prepareField($field);
-
         }
 	}
+
+    /**
+     * Method for get page title.
+     *
+     * @return  string
+     *
+     * @throws  Exception
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getTitle()
+    {
+        if ($this->getLayout() == 'statistics')
+        {
+            $title      = \JText::_('COM_REDSHOP_' . strtoupper($this->getInstanceName()));
+            return $title . ' <small>[ statistics ]</small>';
+        }
+
+        return parent::getTitle();
+    }
+
+    /**
+     * Method for add toolbar.
+     *
+     * @return  void
+     * @throws  Exception
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function addToolbar()
+    {
+        if ($this->getLayout() == 'statistics')
+        {
+            JToolbarHelper::cancel($this->getInstanceName() . '.cancel');
+        }
+        else {
+            parent::addToolbar();
+        }
+    }
 }

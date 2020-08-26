@@ -12,9 +12,7 @@
     "whichbrowser/parser": "2.0.32",
     "imagine/imagine": "^0.7.1",
     "ps/image-optimizer": "^1.1.2",
-    "facebook/graph-sdk": "^5.7",
-    "guzzlehttp/guzzle": "^6.5",
-    "google/apiclient": "^2.4"
+    "guzzlehttp/guzzle": "^6.5"
   },
   "autoload": {
     "psr-4": {

@@ -2947,9 +2947,11 @@ class RedshopHelperProduct
      * @param   int     $newProductPrice
      * @param   int     $quantity
      * @param   string  $data
+     * @param   bool    $isReturnObject
      *
-     * @return array|string
+     * @return array|string|object
      * @throws Exception
+     * @since  __DEPLOY_VERSION__
      */
     public static function makeAttributeCart(
         $attributes = array(),
@@ -2957,7 +2959,8 @@ class RedshopHelperProduct
         $userId = 0,
         $newProductPrice = 0,
         $quantity = 1,
-        $data = ''
+        $data = '',
+        $isReturnObject = false
     ) {
         $user = JFactory::getUser();
 
@@ -2992,7 +2995,7 @@ class RedshopHelperProduct
 
         $isStock          = RedshopHelperStockroom::isStockExists($productId);
         $isPreorderStock  = RedshopHelperStockroom::isPreorderStockExists($productId);
-        $displayAttribute = 0;
+        $isDisplayAttribute = 0;
 
         for ($i = 0, $in = count($attributes); $i < $in; $i++) {
             $propertiesOperator        = array();
@@ -3007,7 +3010,7 @@ class RedshopHelperProduct
             $properties = !empty($attributes[$i]['attribute_childs']) ? $attributes[$i]['attribute_childs'] : array();
 
             if (count($properties) > 0) {
-                $displayAttribute++;
+                $isDisplayAttribute++;
             }
 
             for ($k = 0, $kn = count($properties); $k < $kn; $k++) {
@@ -3119,12 +3122,12 @@ class RedshopHelperProduct
             }
         }
 
-        $displayattribute = RedshopLayoutHelper::render(
+        $isDisplayAttribute = RedshopLayoutHelper::render(
             'product.product_attribute',
             array(
                 'attributes'       => $attributes,
                 'data'             => $data,
-                'displayAttribute' => $displayAttribute
+                'displayAttribute' => $isDisplayAttribute
             ),
             '',
             array(
@@ -3151,19 +3154,34 @@ class RedshopHelperProduct
 		}*/
 
         $data = array(
-            $displayattribute,
-            $productPrice,
-            $productVatPrice,
-            $selectedAttributs,
-            $isStock,
-            $productOldprice,
-            $productVatOldPrice,
-            $isPreorderStock,
-            $selectedProperty
+            $isDisplayAttribute, #0
+            $productPrice, #1
+            $productVatPrice, #2
+            $selectedAttributs, #3
+            $isStock, #4
+            $productOldprice, #5
+            $productVatOldPrice, #6
+            $isPreorderStock, #7
+            $selectedProperty #8
         );
 
         JPluginHelper::importPlugin('redshop_product');
         RedshopHelperUtility::getDispatcher()->trigger('onMakeAttributeCart', array(&$data, $attributes, $productId));
+
+        if ($isReturnObject) {
+            $o = new stdClass();
+            $o->html = $data[0];
+            $o->productPrice = $data[1];
+            $o->productVatPrice = $data[2];
+            $o->selectedAttributs = $data[3];
+            $o->isStock = $data[4];
+            $o->productOldprice = $data[5];
+            $o->productVatOldPrice = $data[6];
+            $o->isPreorderStock = $data[7];
+            $o->selectedProperty = $data[8];
+
+            return $o;
+        }
 
         return $data;
     }
@@ -3836,7 +3854,7 @@ class RedshopHelperProduct
                 $cartAttributes[] = get_object_vars($attribute[0]);
             }
 
-            $displayattribute = RedshopLayoutHelper::render(
+            $isDisplayAttribute = RedshopLayoutHelper::render(
                 'product.order_attribute',
                 array(
                     'orderItemAttdata' => $orderItemAttdata,
@@ -3853,15 +3871,15 @@ class RedshopHelperProduct
                 )
             );
         } else {
-            $displayattribute = $product_attribute;
+            $isDisplayAttribute = $product_attribute;
         }
 
         if (isset($products->use_discount_calc) && $products->use_discount_calc == 1) {
-            $displayattribute = $displayattribute . $orderItemdata[0]->discount_calc_data;
+            $isDisplayAttribute = $isDisplayAttribute . $orderItemdata[0]->discount_calc_data;
         }
 
         $data                                 = new stdClass;
-        $data->product_attribute              = $displayattribute;
+        $data->product_attribute              = $isDisplayAttribute;
         $data->attribute_middle_template      = $attribute_final_template;
         $data->attribute_middle_template_core = $attribute_middle_template;
         $data->cart_attribute                 = $cartAttributes;
@@ -3979,7 +3997,7 @@ class RedshopHelperProduct
         $quotation_status = 2,
         $stock = 0
     ) {
-        $displayattribute  = "";
+        $isDisplayAttribute  = "";
         $product_attribute = "";
         $quantity          = 0;
         $stockroom_id      = "0";
@@ -3997,7 +4015,7 @@ class RedshopHelperProduct
             $parent_section_id
         );
 
-        $displayattribute = RedshopLayoutHelper::render(
+        $isDisplayAttribute = RedshopLayoutHelper::render(
             'product.quotation_attribute',
             array(
                 'itemAttdata'     => $ItemAttdata,
@@ -4014,7 +4032,7 @@ class RedshopHelperProduct
             )
         );
 
-        return $displayattribute;
+        return $isDisplayAttribute;
     }
 
     public static function getValidityDate($period, $data)

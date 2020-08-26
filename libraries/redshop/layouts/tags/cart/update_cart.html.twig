@@ -1,3 +1,6 @@
+{% if isPromotionAward == true %}
+    <label id="quantitybox{{ i }}">{{ quantity }}</label>
+{% else %}
 <form style="padding:0px;margin:0px;" name="update_cart{{ i }}" method="POST"
       action="index.php?option=com_redshop&view=cart&{{ token }}=1">
     <input class="inputbox input-mini" type="text" value="{{ quantity }}" name="quantity" id="quantitybox{{ i }}"
@@ -9,3 +12,4 @@
     <input type="hidden" name="{{ token }}" value="1"/>
     <input type="hidden" name="task" value=""/>
 </form>
+{% endif %}

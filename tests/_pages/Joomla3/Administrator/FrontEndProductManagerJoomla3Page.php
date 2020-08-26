@@ -334,67 +334,61 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $idCompanyName = "//input[@id='company_name']";
+	public static $idCompanyNameOnePage = "#company-company_name";
 
 	/**
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $idCompanyNameOnePage = "//input[@id='company-company_name']";
+	public static $idCompanyAddressOnePage = "#company-address";
 
 	/**
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $idCompanyAddressOnePage = "//input[@id='company-address']";
+	public static $idCompanyEmailOnePage = "#company-email1";
 
 	/**
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $idCompanyEmailOnePage = "//input[@id='company-email1']";
+	public static $idCompanyZipCodeOnePage = "#company-zipcode";
 
 	/**
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $idCompanyZipCodeOnePage = "//input[@id='company-zipcode']";
+	public static $idCompanyCityOnePage = "#company-city";
 
 	/**
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $idCompanyCityOnePage = "//input[@id='company-city']";
+	public static $idCompanyPhoneOnePage = "#company-phone";
 
 	/**
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $idCompanyPhoneOnePage = "//input[@id='company-phone']";
+	public static $idBusinessNumber = "#vat_number";
 
 	/**
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $idBusinessNumber = "//input[@id='vat_number']";
+	public static $idEanNumber = "#ean_number";
 
 	/**
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $idEanNumber = "//input[@id='ean_number']";
+	public static $idCompanyFirstName = "#company-firstname";
 
 	/**
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $idCompanyFirstName = "//input[@id='company-firstname']";
-
-	/**
-	 * @var array
-	 * @since 1.4.0
-	 */
-	public static $idCompanyLastName = "//input[@id='company-lastname']";
+	public static $idCompanyLastName = "#company-lastname";
 
 	/**
 	 * @var string

@@ -844,15 +844,20 @@ COMMENT = 'redSHOP Newsletter';
 DROP TABLE IF EXISTS `#__redshop_newsletter_subscription` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_newsletter_subscription` (
-  `subscription_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `user_id` INT(11) NOT NULL,
-  `date` INT(11) NOT NULL,
+  `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `newsletter_id` INT(11) NOT NULL,
   `name` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
-  `checkout` TINYINT(4) NOT NULL,
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `published` INT(11) NOT NULL,
-  PRIMARY KEY (`subscription_id`),
+  PRIMARY KEY (`id`),
   INDEX `idx_user_id` (`user_id` ASC),
   INDEX `idx_newsletter_id` (`newsletter_id` ASC),
   INDEX `idx_email` (`email` ASC),
@@ -1712,6 +1717,23 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Product Voucher Transaction';
 
+-- -----------------------------------------------------
+-- Table `#__redshop_promotion`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__redshop_promotion` ;
+
+CREATE TABLE IF NOT EXISTS  `#__redshop_promotion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `data` text,
+  `desc` varchar(255) DEFAULT NULL,
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'redSHOP Promotion';
 
 -- -----------------------------------------------------
 -- Table `#__redshop_product_voucher_xref`
