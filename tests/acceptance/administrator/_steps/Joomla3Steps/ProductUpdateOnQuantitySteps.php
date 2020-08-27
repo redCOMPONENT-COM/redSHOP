@@ -8,7 +8,6 @@
 namespace AcceptanceTester;
 use AdminJ3Page;
 use FrontEndProductManagerJoomla3Page;
-use Page\Acceptance\Administrator\AesirPage;
 
 /**
  * Class ProductUpdateOnQuantitySteps
