@@ -709,7 +709,7 @@ abstract class AdminJ3Page
 	 */
 	public static function getMenuCategory($menuCategory)
 	{
-		$menuCate = "//a[contains(text(), '" . $menuCategory . "')]";;
+		$menuCate = "//a[contains(text(), '" . $menuCategory . "')]";
 
 		return $menuCate;
 	}

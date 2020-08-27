@@ -212,7 +212,7 @@ class ProductsCheckoutBankTransferDiscountCest
 		$I->enablePlugin($this->pluginName);
 
 		$I = new PluginPaymentManagerJoomla($scenario);
-		$I->configBankTransferDiscountPlugin($this->pluginName,$this->categoryName, $this->paymentPrice, $this->discountType);
+		$I->configBankTransferDiscountPlugin($this->pluginName,$this->operand, $this->paymentPrice, $this->discountType);
 	}
 
 	/**
