@@ -115,7 +115,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 		else
 		{
-			$tester->click(ShopperGroupJ3Page::$quoationNo);
+			$tester->click(ShopperGroupJ3Page::$quotationNo);
 		}
 
 		$tester->click(ShopperGroupJ3Page::$publishYes);
@@ -203,6 +203,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$URLEdit = ShopperGroupJ3Page::$URLEdit . $idShopperGroups;
 		$I->amOnPage($URLEdit);
 		$I->checkForPhpNoticesOrWarnings($URLEdit);
+		$I->waitForElementVisible(ShopperGroupJ3Page::$shopperName, 30);
 		$I->fillField(ShopperGroupJ3Page::$shopperName, $nameEdit);
 		$I->click(ShopperGroupJ3Page::$buttonSave);
 		$I->see(ShopperGroupJ3Page::$saveSuccess, ShopperGroupJ3Page::$selectorSuccess);
@@ -233,7 +234,8 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(ShopperGroupJ3Page::$URL);
 		$I->click(ShopperGroupJ3Page::$buttonNew);
 		$I->click(ShopperGroupJ3Page::$buttonSaveClose);
-		$I->acceptPopup();
+		$I->waitForText(ShopperGroupJ3Page::$messageMissingName, 30);
+		$I->see(ShopperGroupJ3Page::$messageMissingName);
 	}
 
 	/**
@@ -269,10 +271,6 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(ShopperGroupJ3Page::$URL);
 		switch ($buttonName)
 		{
-			case 'edit':
-				$I->click(ShopperGroupJ3Page::$buttonEdit);
-				$I->acceptPopup();
-				break;
 			case 'delete':
 				$I->click(ShopperGroupJ3Page::$buttonDelete);
 				$I->acceptPopup();
@@ -339,15 +337,22 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(ShopperGroupJ3Page::$URL);
 		$I->checkForPhpNoticesOrWarnings(ShopperGroupJ3Page::$URL);
-
+		$I->waitForElementVisible(ShopperGroupJ3Page::$searchField, 30);
 		$I->fillField(ShopperGroupJ3Page::$searchField, $shoppergroupname);
+		$I->waitForElementVisible(ShopperGroupJ3Page::$searchButton, 30);
 		$I->click(ShopperGroupJ3Page::$searchButton);
+		$I->waitForText($shoppergroupname, 10);
 
 		$shoppergroup = new ShopperGroupJ3Page();
 		$I->waitForElementVisible($shoppergroup->xPathShoppergroupName($shoppergroupname), 30);
-		$I->checkAllResults();
+		$I->waitForElementVisible(ShopperGroupJ3Page::$shopperFirst, 30);
+		$I->click(ShopperGroupJ3Page::$shopperFirst);
+		$I->wait(0.5);
+		$I->waitForText(ShopperGroupJ3Page::$buttonDelete, 30);
 		$I->click(ShopperGroupJ3Page::$buttonDelete);
+		$I->wait(0.5);
+		$I->canSeeInPopup(ShopperGroupJ3Page::$messageDeleteInPopup);
 		$I->acceptPopup();
-		$I->waitForText(ShopperGroupJ3Page::$deleteShopperSuccess, 5, AdminJ3Page::$selectorSuccess);
+		$I->waitForText(ShopperGroupJ3Page::$messageNoItemOnTable, 30);
 	}
 }

@@ -457,7 +457,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                     $portal   = 0;
 
                     if (!empty($sgPortal)) {
-                        $portal = $sgPortal->shopper_group_portal;
+                        $portal = $sgPortal->portal;
                     }
 
                     if (!$checkCid && (Redshop::getConfig()->get('PORTAL_SHOP') == 1 || $portal == 1)) {
@@ -1543,9 +1543,17 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
             }
 
             if (strpos($template, "{order_by}") !== false) {
+                $action = JRoute::_(
+                    'index.php?option=' . $this->option .
+                    '&view=category&cid=' . $this->catid .
+                    '&manufacturer_id=' . $this->manufacturer_id .
+                    '&layout=detail&Itemid=' . $this->data['mainItemId']
+                );
+
                 $orderByForm = RedshopLayoutHelper::render(
                     'tags.category.orderby_form',
                     array(
+                        'action'             => $action,
                         'lists'              => $this->lists,
                         'texPriceMin'        => $texPriceMin,
                         'texPriceMax'        => $texPriceMax,

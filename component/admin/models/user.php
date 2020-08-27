@@ -43,7 +43,7 @@ class RedshopModelUser extends RedshopModel
         }
 
         if ($spgrp_filter) {
-            $where .= " AND sp.shopper_group_id = '" . $spgrp_filter . "' ";
+            $where .= " AND sp.id = '" . $spgrp_filter . "' ";
         }
 
         if ($tax_exempt_request_filter != 'select') {
@@ -56,16 +56,16 @@ class RedshopModelUser extends RedshopModel
         if ($this->_id != 0) {
             $query = ' SELECT * FROM  #__users AS u '
                 . 'LEFT JOIN #__redshop_users_info AS uf ON u.id=uf.user_id '
-                . 'LEFT JOIN #__redshop_shopper_group AS sp ON uf.shopper_group_id=sp.shopper_group_id '
+                . 'LEFT JOIN #__redshop_shopper_group AS sp ON uf.shopper_group_id=sp.id '
                 . 'WHERE uf.address_type="ST" '
                 . 'AND uf.user_id="' . $this->_id . '" '
                 . $where
                 . $orderby;
         } else {
-            $query = ' SELECT uf.user_id, uf.*,u.username,u.name,sp.shopper_group_name '
+            $query = ' SELECT uf.user_id, uf.*,u.username,u.name,sp.name '
                 . 'FROM #__redshop_users_info AS uf '
                 . 'LEFT JOIN #__users AS u ON u.id = uf.user_id '
-                . 'LEFT JOIN #__redshop_shopper_group AS sp ON sp.shopper_group_id = uf.shopper_group_id '
+                . 'LEFT JOIN #__redshop_shopper_group AS sp ON sp.id = uf.shopper_group_id '
                 . 'WHERE uf.address_type="BT" '
                 . $where
                 . $orderby;

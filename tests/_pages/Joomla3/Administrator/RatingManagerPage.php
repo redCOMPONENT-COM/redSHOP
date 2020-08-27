@@ -16,7 +16,7 @@ class RatingManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $URL = "administrator/index.php?option=com_redshop&view=rating";
+	public static $URL = "administrator/index.php?option=com_redshop&view=ratings";
 
 	/**
 	 * @var string
@@ -28,7 +28,7 @@ class RatingManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $titlePageNew = "Rating: [ New ]";
+	public static $titlePageNew = "Rating [ New ]";
 
 	/**
 	 * @var string
@@ -46,13 +46,13 @@ class RatingManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since
 	 */
-	public static $filterSearch = "#comment_filter";
+	public static $filterSearch = "#filter_search";
 
 	/**
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $inputTitle = "#title";
+	public static $inputTitle = "#jform_title";
 
 	/**
 	 * @var string
@@ -70,7 +70,7 @@ class RatingManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $textAreaComment = "#comment";
+	public static $textAreaComment = "#jform_comment";
 
 	/**
 	 * @var string
@@ -82,13 +82,13 @@ class RatingManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $selectUser = "#s2id_userid";
+	public static $selectUser = "#s2id_jform_userid";
 
 	/**
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $inputSearchUser = "#s2id_autogen1_search";
+	public static $inputSearchUser = "#s2id_autogen2_search";
 
 	/**
 	 * @var string
@@ -106,25 +106,25 @@ class RatingManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $searchUserFirst = '//ul[@id ="select2-results-1"]/li/div';
+	public static $searchUserFirst = '//ul[@id ="select2-results-2"]/li/div';
 
 	/**
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $selectProduct = "#s2id_product_id";
+	public static $selectProduct = "#s2id_jform_product_id";
 
 	/**
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $inputSearchProduct = "#s2id_autogen2_search";
+	public static $inputSearchProduct = "#s2id_autogen1_search";
 
 	/**
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $searchProductFirst = '//ul[@id ="select2-results-2"]/li/div';
+	public static $searchProductFirst = '//ul[@id ="select2-results-1"]/li/div';
 
 	/**
 	 * @var string
@@ -160,7 +160,7 @@ class RatingManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $messageSaveRatingSuccess = "Rating details saved";
+	public static $messageSaveRatingSuccess = "Item saved.";
 
 	/**
 	 * @var string
@@ -172,25 +172,25 @@ class RatingManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $messageDeleteRating = "Are you sure you want to delete these rating?";
+	public static $messageDeleteRating = "Are you sure want to delete these items?";
 
 	/**
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $messageDeleteRatingSuccess = "Rating detail deleted successfully";
+	public static $messageDeleteRatingSuccess = "1 item successfully deleted";
 
 	/**
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $messageUnpublishSuccess = 'unpublished successfully';
+	public static $messageUnpublishSuccess = 'successfully unpublished';
 
 	/**
 	 * @var string
 	 * @since 3.0.2
 	 */
-	public static $messagePublishSuccess = 'published successfully';
+	public static $messagePublishSuccess = 'successfully published';
 
 	/**
 	 * @param $number
@@ -199,7 +199,7 @@ class RatingManagerPage extends AdminJ3Page
 	 */
 	public function returnIdRating($number)
 	{
-		return "#user_rating" . $number;
+		return "#jform_user_rating" . $number;
 	}
 
 	/**
@@ -209,7 +209,7 @@ class RatingManagerPage extends AdminJ3Page
 	 */
 	public function returnIdFavoured($number)
 	{
-		return "#favoured" . $number;
+		return "#jform_favoured" . $number;
 	}
 
 	/**
@@ -219,7 +219,7 @@ class RatingManagerPage extends AdminJ3Page
 	 */
 	public function returnIdPublished($number)
 	{
-		return "#published" . $number;
+		return "#jform_published" . $number;
 	}
 
 	/**

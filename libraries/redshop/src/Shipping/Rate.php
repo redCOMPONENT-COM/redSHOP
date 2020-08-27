@@ -260,8 +260,8 @@ class Rate
             $query->where('(' . $db->qn('company_only') . ' = 1 OR ' . $db->qn('company_only') . ' = 0)');
         }
 
-        if (isset($shopperGroup->shopper_group_id)) {
-            $shopperGroupId = $shopperGroup->shopper_group_id;
+        if (isset($shopperGroup->id)) {
+            $shopperGroupId = $shopperGroup->id;
 
             $query->where(
                 '('

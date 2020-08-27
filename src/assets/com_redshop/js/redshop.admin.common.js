@@ -351,7 +351,7 @@ function calculateOfflineTotalPrice(unique_id) {
 		document.getElementById("taxprice" + unique_id).value = (final_price_f - excl_price) * quantity;
 	}
 	if (document.getElementById('subprice' + unique_id)) {
-		document.getElementById('subprice' + unique_id).value = quantity * final_price_f;
+        document.getElementById('subprice' + unique_id).value = excl_price * quantity;
 	}
 	if (document.getElementById('tdtotalprd' + unique_id)) {
 		document.getElementById('tdtotalprd' + unique_id).innerHTML = number_format(quantity * final_price_f, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
@@ -768,7 +768,7 @@ function calculateOfflineTotal() {
 	if (document.getElementById("divShipping")) {
 		document.getElementById("divShipping").innerHTML = number_format(order_shipping, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
 	}
-	var displaytotal = parseFloat(subtotal) + parseFloat(order_shipping);
+    var displaytotal = parseFloat(subtotal) + parseFloat(order_shipping) + parseFloat(totalTax);
 	if (document.getElementById("divFinalTotal")) {
 		document.getElementById("divFinalTotal").innerHTML = number_format(displaytotal, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
 	}

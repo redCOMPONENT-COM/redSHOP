@@ -44,7 +44,7 @@ abstract class JHtmlRedshopMedia
         $width = 1050,
         $height = 450
     ) {
-        JHTMLBehavior::modal();
+        JHtml::_('behavior.modal');
 
         $displayData = [
             'mediaSection' => $mediaSection,

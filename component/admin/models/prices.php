@@ -72,9 +72,9 @@ class RedshopModelPrices extends RedshopModel
     public function _buildQuery()
     {
         $query = ' SELECT p.*, '
-            . ' g.shopper_group_name, prd.product_name '
+            . ' g.name, prd.product_name '
             . ' FROM ' . $this->_table_prefix . 'product_price as p '
-            . ' LEFT JOIN ' . $this->_table_prefix . 'shopper_group as g ON p.shopper_group_id = g.shopper_group_id '
+            . ' LEFT JOIN ' . $this->_table_prefix . 'shopper_group as g ON p.shopper_group_id = g.id '
             . ' LEFT JOIN ' . $this->_table_prefix . 'product as prd ON p.product_id = prd.product_id '
             . 'WHERE p.product_id = \'' . $this->_prodid . '\' ';
 

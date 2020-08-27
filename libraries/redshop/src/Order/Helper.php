@@ -266,7 +266,7 @@ class Helper
      * @param $data
      *
      * @return bool
-     * @since  __DEPLOY_VERSION__
+     * @since  3.0.2
      */
     public static function updateOrderPaymentMethod($data)
     {

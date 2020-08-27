@@ -105,6 +105,7 @@
                 type="redshop.voucher_product"
                 label="COM_REDSHOP_VOUCHER_PRODUCTS"
                 description="COM_REDSHOP_VOUCHER_PRODUCTS_DESC"
+                required="true"
                 class="form-control"
                 table-hide="1"
                 multiple="true"

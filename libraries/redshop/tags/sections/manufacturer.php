@@ -208,7 +208,8 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
                             'altText'         => $altText,
                             'manufacturerId'  => $data->id,
                             'media'           => $media,
-                            'manufacturerImg' => $manufacturerImg
+                            'manufacturerImg' => $manufacturerImg,
+                            'manProducts'     => $manProducts
                         ),
                         '',
                         RedshopLayoutHelper::$layoutOption

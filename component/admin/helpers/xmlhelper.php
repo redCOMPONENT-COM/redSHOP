@@ -1202,10 +1202,10 @@ class xmlHelper
                                                     . ", " . "#__redshop_product_stockroom_xref AS sx "
                                                     . ", " . "#__redshop_product AS p "
                                                     . "SET $stockstring "
-                                                    . "WHERE sx.stockroom_id=s.stockroom_id "
+                                                    . "WHERE sx.stockroom_id=s.id "
                                                     . "AND sx.product_id=p.product_id "
                                                     . "AND p.product_number=" . $db->quote($oldproduct_number) . " "
-                                                    . "AND s.stockroom_name=" . $db->quote(
+                                                    . "AND s.name=" . $db->quote(
                                                         $value[$j]['stockroom_name']
                                                     ) . " ";
 
@@ -1222,7 +1222,7 @@ class xmlHelper
 
                                                     if (!$stockroom_id) {
                                                         $query = "INSERT IGNORE INTO " . "#__redshop_stockroom "
-                                                            . "(stockroom_name) VALUES (" . $db->quote(
+                                                            . "(name) VALUES (" . $db->quote(
                                                                 $value[$j]['stockroom_name']
                                                             ) . ")";
                                                         $db->setQuery($query);
@@ -1239,10 +1239,10 @@ class xmlHelper
                                                         . ", " . "#__redshop_product_stockroom_xref AS sx "
                                                         . ", " . "#__redshop_product AS p "
                                                         . "SET $stockstring "
-                                                        . "WHERE sx.stockroom_id=s.stockroom_id "
+                                                        . "WHERE sx.stockroom_id=s.id "
                                                         . "AND sx.product_id=p.product_id "
                                                         . "AND p.product_number=" . $db->quote($oldproduct_number) . " "
-                                                        . "AND s.stockroom_name=" . $db->quote(
+                                                        . "AND s.name=" . $db->quote(
                                                             $value[$j]['stockroom_name']
                                                         ) . " ";
 
@@ -1395,8 +1395,8 @@ class xmlHelper
                                                     $valuestring = "'" . $valuestring . "'";
 
                                                     if (trim($fieldstring) != "") {
-                                                        $query = "SELECT stockroom_id FROM " . "#__redshop_stockroom "
-                                                            . "WHERE stockroom_name=" . $db->quote(
+                                                        $query = "SELECT id FROM " . "#__redshop_stockroom "
+                                                            . "WHERE name=" . $db->quote(
                                                                 $value[$j]['stockroom_name']
                                                             ) . "";
 
@@ -1404,7 +1404,7 @@ class xmlHelper
 
                                                         if (!$stockroom_id) {
                                                             $query = "INSERT IGNORE INTO " . "#__redshop_stockroom "
-                                                                . "(stockroom_name) VALUES (" . $db->quote(
+                                                                . "(name) VALUES (" . $db->quote(
                                                                     $value[$j]['stockroom_name']
                                                                 ) . ")";
 

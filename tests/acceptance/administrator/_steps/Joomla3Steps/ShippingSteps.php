@@ -219,16 +219,10 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(ShippingPage::$shippingManagementUrl);
-		$I->waitForElementVisible(ShippingPage:: $editShipping, 30);
-
-		try
-		{
-			$I->click(ShippingPage::$standShipping);
-		}catch (Exception $e)
-		{
-			$I->click(ShippingPage:: $editShipping);
-		}
-
+		$I->checkForPhpNoticesOrWarnings();
+		$usePage = new ShippingPage;
+		$I->waitForElementVisible($usePage->xPathATag(ShippingPage::$standShipping), 30);
+		$I->click($usePage->xPathATag(ShippingPage::$standShipping));
 		$I->waitForElementVisible(ShippingPage::$shippingRate, 30);
 		$I->click(ShippingPage::$shippingRate);
 		$I->waitForText($shippingName, 30);

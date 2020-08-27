@@ -318,7 +318,7 @@
                             // minCropBoxWidth: 200,
                             //minContainerWidth: 320,
                             //minContainerHeight: 320,
-                            viewMode: 3,
+                            viewMode: 2,
                             zoomable: true
                         });
                 };

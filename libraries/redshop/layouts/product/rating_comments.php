@@ -75,7 +75,7 @@ if ($product_template != "" && $reviews_template != "" && count($reviews) > 0) {
                 );
 
                 $allImage[] = $linkImage;
-                $imgHtml1   .= '<li><a href="' . $linkImage . '" class="group-images-' . $reviews[$j]->rating_id . '"><img src="' . $thumbImg1 . '" /></a></li>';
+                $imgHtml1   .= '<li><a href="' . $linkImage . '" class="group-images-' . $reviews[$j]->id . '"><img src="' . $thumbImg1 . '" /></a></li>';
             }
         }
 

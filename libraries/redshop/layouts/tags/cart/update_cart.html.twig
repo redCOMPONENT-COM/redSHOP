@@ -1,3 +1,6 @@
+{% if isPromotionAward == true %}
+    <label id="quantitybox{{ i }}">{{ quantity }}</label>
+{% else %}
 <form style="padding:0px;margin:0px;" name="update_cart{{ i }}" method="POST"
       action="index.php?option=com_redshop&view=cart&{{ token }}=1">
     <input class="inputbox input-mini" type="text" value="{{ quantity }}" name="quantity" id="quantitybox{{ i }}"
@@ -8,8 +11,5 @@
     <input type="hidden" name="Itemid" value="{{ itemId }}"/>
     <input type="hidden" name="{{ token }}" value="1"/>
     <input type="hidden" name="task" value=""/>
-    <img class="update_cart" src="{{ constant('REDSHOP_FRONT_IMAGES_ABSPATH') ~ updateImage }}"
-         title="{{ jtext('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') }}"
-         alt="{{ jtext('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') }}"
-         onclick="document.update_cart{{ i }}.task.value='update';document.update_cart{{ i }}.submit();">
 </form>
+{% endif %}

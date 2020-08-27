@@ -242,9 +242,9 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5);
 				$I->amOnPage(ProductManagerPage::$cartPageUrL);
 				$I->waitForText($productNameAccessories, 30, FrontEndProductManagerJoomla3Page::$nameProduct1OnCart);
-				$I->see($productName);
-				$I->waitForText($productName, 30, FrontEndProductManagerJoomla3Page::$nameProduct2OnCart);
 				$I->see($productNameAccessories);
+				$I->waitForText($productName, 30, FrontEndProductManagerJoomla3Page::$nameProduct2OnCart);
+				$I->see($productName);
 				break;
 			case 'No':
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5);
@@ -501,8 +501,11 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 10, FrontEndProductManagerJoomla3Page::$orderReceiptTitle);
 				$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
 				$I->waitForText($subTotal, 30);
+				$I->see($subTotal);
 				$I->waitForText($vatPrice, 30);
+				$I->see($vatPrice);
 				$I->waitForText($total, 30);
+				$I->see($total);
 				break;
 		}
 	}
@@ -560,5 +563,124 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 		$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
 		$I->waitForText($subTotal, 30);
 		$I->waitForText($total, 30);
+	}
+
+	/**
+	 * @param $productName
+	 * @param $manufacturerMenuItem
+	 * @param $price
+	 * @param $addressDetail
+	 * @throws Exception
+	 * @since 3.0.2
+	 */
+	public function CheckoutProductInManufacturerDetail($productName, $manufacturerMenuItem, $price, $addressDetail)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$numberZero = null;
+
+		for($b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$numberZero = $numberZero."0";
+		}
+
+		$total = $currencySymbol.$price.$decimalSeparator.$numberZero;
+		$subTotal = $currencySymbol.$price.$decimalSeparator.$numberZero;
+
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($manufacturerMenuItem));
+		$I->waitForElementVisible($productFrontEndManagerPage->product($productName),30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, AdminJ3Page::$selectorSuccess);
+		$I->see(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, AdminJ3Page::$selectorSuccess);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->seeElement(['link' => $productName]);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$headBilling, 30);
+		$I->addressInformation($addressDetail);
+		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
+		$I->scrollTo($productFrontEndManagerPage->product($productName));
+		$I->seeElement($productFrontEndManagerPage->product($productName));
+		$I->waitForText($subTotal, 30);
+		$I->waitForText($total, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 10, FrontEndProductManagerJoomla3Page::$orderReceiptTitle);
+		$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
+		$I->waitForText($subTotal, 30);
+		$I->waitForText($total, 30);
+	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productName
+	 * @param $price
+	 * @param $wrappingName
+	 * @param $wrappingPrice
+	 * @param $addressDetail
+	 * @throws Exception
+	 * @since 3.0.3
+	 */
+	public function checkoutProductHaveWrapping($categoryName, $productName, $price, $wrappingName, $wrappingPrice, $addressDetail)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$numberZero = null;
+
+		for($b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$numberZero = $numberZero."0";
+		}
+
+		$total = $currencySymbol.$price.$decimalSeparator.$numberZero;
+		$subTotal = $currencySymbol.($price + $wrappingPrice).$decimalSeparator.$numberZero;
+		$wrappingPrice = $currencySymbol.$wrappingPrice.$decimalSeparator.$numberZero;
+
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, AdminJ3Page::$selectorSuccess);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->seeElement(['link' => $productName]);
+		$I->waitForText($wrappingName, 30);
+		$I->waitForText($wrappingPrice, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$headBilling, 60);
+		$I->addressInformation($addressDetail);
+		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
+		$I->scrollTo($productFrontEndManagerPage->product($productName));
+		$I->seeElement($productFrontEndManagerPage->product($productName));
+		$I->waitForText($subTotal, 30);
+		$I->waitForText($wrappingPrice, 30);
+		$I->waitForText($total, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 10, FrontEndProductManagerJoomla3Page::$orderReceiptTitle);
+		$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
+		$I->waitForText($subTotal, 30);
 	}
 }

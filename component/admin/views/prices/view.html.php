@@ -27,6 +27,7 @@ class RedshopViewPrices extends RedshopViewAdmin
         JToolbarHelper::addNew();
         JToolbarHelper::EditList();
         JToolBarHelper::deleteList();
+        JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 
         $limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
         $limit      = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');
@@ -35,7 +36,7 @@ class RedshopViewPrices extends RedshopViewAdmin
         $media     = $this->get('Data');
         $productId = $this->get('ProductId');
 
-        $pagination = new JPagination($total, $limitstart, $limit);
+        $pagination = new JPagination($total, (int) $limitstart, (int) $limit);
         $this->user = JFactory::getUser();
 
         $this->media       = $media;

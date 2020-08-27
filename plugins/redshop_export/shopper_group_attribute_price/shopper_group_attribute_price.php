@@ -127,8 +127,8 @@ class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugi
                     $db->qn('ap.discount_price'),
                     $db->qn('ap.discount_start_date'),
                     $db->qn('ap.discount_end_date'),
-                    $db->qn('s.shopper_group_id'),
-                    $db->qn('s.shopper_group_name')
+                    $db->qn('s.id', 'shopper_group_id'),
+                    $db->qn('s.name', 'shopper_group_name')
                 )
             )
             ->from($db->qn('#__redshop_product_attribute_price', 'ap'))
@@ -138,7 +138,7 @@ class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugi
             )
             ->leftjoin(
                 $db->qn('#__redshop_shopper_group', 's')
-                . ' ON ' . $db->qn('s.shopper_group_id') . '=' . $db->qn('ap.shopper_group_id')
+                . ' ON ' . $db->qn('s.id') . '=' . $db->qn('ap.shopper_group_id')
             )
             ->leftjoin(
                 $db->qn('#__redshop_product_attribute', 'pa')
@@ -167,8 +167,8 @@ class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugi
                     $db->qn('ap.discount_price'),
                     $db->qn('ap.discount_start_date'),
                     $db->qn('ap.discount_end_date'),
-                    $db->qn('s.shopper_group_id'),
-                    $db->qn('s.shopper_group_name')
+                    $db->qn('s.id', 'shopper_group_id'),
+                    $db->qn('s.name', 'shopper_group_name')
                 )
             )
             ->from($db->qn('#__redshop_product_attribute_price', 'ap'))
@@ -178,7 +178,7 @@ class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugi
             )
             ->leftjoin(
                 $db->qn('#__redshop_shopper_group', 's')
-                . ' ON ' . $db->qn('s.shopper_group_id') . '=' . $db->qn('ap.shopper_group_id')
+                . ' ON ' . $db->qn('s.id') . '=' . $db->qn('ap.shopper_group_id')
             )
             ->leftjoin(
                 $db->qn('#__redshop_product_attribute_property', 'p')

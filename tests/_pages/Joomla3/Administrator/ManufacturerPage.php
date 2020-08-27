@@ -41,6 +41,24 @@ class ManufacturerPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $templateID = "#s2id_jform_template_id";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $templateSearch = "//input[@id='s2id_autogen1_search']";
+
+	/**
+	 * @var array
+	 * @since 3.0.2
+	 */
+	public static $fieldProductPerPage = '#jform_product_per_page';
+
+	/**
+	 * @var string
 	 * @since 1.4.0
 	 */
 	public static $fieldMissing = 'Field required: Name';

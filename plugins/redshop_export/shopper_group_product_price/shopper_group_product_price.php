@@ -131,8 +131,8 @@ class PlgRedshop_ExportShopper_Group_Product_Price extends AbstractExportPlugin
                     $db->qn('pp.discount_price'),
                     $db->qn('pp.discount_start_date'),
                     $db->qn('pp.discount_end_date'),
-                    $db->qn('s.shopper_group_id'),
-                    $db->qn('s.shopper_group_name')
+                    $db->qn('s.id', 'shopper_group_id'),
+                    $db->qn('s.name', 'shopper_group_name')
                 )
             )
             ->from($db->qn('#__redshop_product_price', 'pp'))
@@ -140,7 +140,7 @@ class PlgRedshop_ExportShopper_Group_Product_Price extends AbstractExportPlugin
                 $db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . '=' . $db->qn('pp.product_id')
             )
             ->leftjoin(
-                $db->qn('#__redshop_shopper_group', 's') . ' ON ' . $db->qn('s.shopper_group_id') . '=' . $db->qn(
+                $db->qn('#__redshop_shopper_group', 's') . ' ON ' . $db->qn('s.id') . '=' . $db->qn(
                     'pp.shopper_group_id'
                 )
             )

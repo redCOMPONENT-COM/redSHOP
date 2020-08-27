@@ -262,7 +262,7 @@ class RedshopModelFields extends RedshopModelList
      *
      * @since   1.6
      */
-    protected function populateState($ordering = null, $direction = null)
+    protected function populateState($ordering = 'f.id', $direction = 'desc')
     {
         $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
@@ -282,6 +282,6 @@ class RedshopModelFields extends RedshopModelList
         );
         $this->setState('filter.field_group', $filterFieldGroup);
 
-        parent::populateState('ordering', $direction);
+        parent::populateState($ordering, $direction);
     }
 }

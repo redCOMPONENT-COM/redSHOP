@@ -38,7 +38,7 @@ defined('_JEXEC') or die;
             </thead>
             <?php foreach ($this->prices as $row): ?>
                 <tr>
-                    <td align="center"><?php echo $row->shopper_group_name ?></td>
+                    <td align="center"><?php echo $row->name ?></td>
                     <td align="center">
                         <input type="number" name="price_quantity_start[]" id="price_quantity_start"
                                value="<?php echo $row->price_quantity_start ?>" class="form-control"/>
@@ -49,7 +49,7 @@ defined('_JEXEC') or die;
                     </td>
                     <td align="center" width="5%">
                         <input type="hidden" name="price_id[]" value="<?php echo $row->price_id ?>"/>
-                        <input type="hidden" name="shopper_group_id[]" value="<?php echo $row->shopper_group_id; ?>"/>
+                        <input type="hidden" name="shopper_group_id[]" value="<?php echo $row->id; ?>"/>
                         <input type="number" name="price[]" class="form-control"
                                value="<?php echo RedshopHelperProduct::redpriceDecimal($row->product_price); ?>"/>
                     </td>

@@ -102,7 +102,7 @@ class StockRoomCest
 		$I->changeStockRoomState();
 		$I->waitForElement(AdminJ3Page::$resetButton, 30);
 		$I->click(AdminJ3Page::$resetButton);
-		$I->filterListBySearching($this->newName, $searchField = "#filter");
+		$I->filterListBySearching($this->newName, StockRoomManagerJoomla3Page::$searchField);
 		$I->verifyState('unpublished', $I->getStockRoomState($this->newName));
 	}
 

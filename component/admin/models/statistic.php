@@ -391,7 +391,7 @@ class RedshopModelStatistic extends RedshopModelList
             )
             ->from($db->qn('#__redshop_orders', 'o'))
             ->leftjoin(
-                $db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('o.user_id') . ' = ' . $db->qn('uf.user_id')
+                $db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('o.user_info_id') . ' = ' . $db->qn('uf.users_info_id')
             )
             ->where($db->qn('uf.address_type') . ' LIKE ' . $db->q('BT'))
             ->order($db->qn('o.cdate') . ' DESC');

@@ -77,8 +77,8 @@ class RedshopHelperAccess
         $shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
         if (!empty($shopperGroupData)) {
-            if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories) {
-                $shopperCategories = explode(',', $shopperGroupData[0]->shopper_group_categories);
+            if (isset($shopperGroupData[0]) && $shopperGroupData[0]->categories) {
+                $shopperCategories = explode(',', $shopperGroupData[0]->categories);
 
                 if (array_search((int)$cid, $shopperCategories) !== false) {
                     static::$portalCategories = $shopperCategories;
@@ -90,10 +90,10 @@ class RedshopHelperAccess
 
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true)
-            ->select($db->qn('shopper_group_id'))
+            ->select($db->qn('id'))
             ->from($db->qn('#__redshop_shopper_group'))
-            ->where('FIND_IN_SET(' . $db->quote($cid) . ', shopper_group_categories)')
-            ->where($db->qn('shopper_group_id') . ' = ' . (int)$shopperGroupId);
+            ->where('FIND_IN_SET(' . $db->quote($cid) . ', categories)')
+            ->where($db->qn('id') . ' = ' . (int)$shopperGroupId);
 
         if (!$db->setQuery($query)->loadResult()) {
             return false;

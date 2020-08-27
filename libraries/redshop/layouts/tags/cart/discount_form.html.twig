@@ -1,16 +1,15 @@
+{% if 'COUPONS_ENABLE' | redconfig == 1 %}
+	{% set onClick = "document.discount_form.task.value='coupon';" %}
+{% elseif 'VOUCHERS_ENABLE' | redconfig == 1 %}
+	{% set onClick = "document.discount_form.task.value='voucher';" %}
+{% endif %}
 <div class="discount_form">
-    <form action="index.php?option=com_redshop&view=cart&tmpl=component" name="discount_form" method="POST">
-        {% if 'COUPONS_ENABLE' | redconfig == 1 %}
-            <input class="inputbox" type="text" value="" name="discount_code" id="coupon_input" size="5">
-            <input type="button" id="coupon_button" class="blackbutton btn btn-primary"
-                   value="{{ jtext('COM_REDSHOP_SUBMIT_CODE') }}"
-                   onclick="document.discount_form.task.value='coupon';document.discount_form.submit();"/>
-        {% elseif 'VOUCHERS_ENABLE' | redconfig == 1 %}
-            <input class="inputbox" id="coupon_input" type="text" value="" name="discount_code" size="5">
-            <input type="button" id="coupon_button" class="blackbutton btn btn-primary"
-                   value="{{ jtext('COM_REDSHOP_SUBMIT_CODE') }}"
-                   onclick="document.discount_form.task.value='voucher';document.discount_form.submit();"/>
-        {% endif %}
-        <input type="hidden" name="task" value=""><input type="hidden" name="Itemid" value="{{ itemId }}">
-    </form>
+	<form action="index.php?option=com_redshop&view=cart&tmpl=component" name="discount_form" method="POST">
+		<input class="inputbox" id="coupon_input" type="text" value="" name="discount_code" size="5"
+		       onkeypress="keyCodeEnterTriggerClick(event, 'coupon_button')">
+		<input type="button" id="coupon_button" class="blackbutton btn btn-primary"
+		       value="{{ jtext('COM_REDSHOP_SUBMIT_CODE') }}"
+		       onclick="{{ onClick }}document.discount_form.submit();"/>
+		<input type="hidden" name="task" value=""><input type="hidden" name="Itemid" value="{{ itemId }}">
+	</form>
 </div>

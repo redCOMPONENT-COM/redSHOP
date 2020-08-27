@@ -21,11 +21,29 @@ defined('_JEXEC') or die;
     }
 
     function deleteAnswer() {
+    	if (!isChecked()) {
+    		return false;
+	    }
+
         Joomla.submitbutton('question.removeAnswer');
     }
 
     function sendAnswer() {
+	    if (!isChecked()) {
+		    return false;
+	    }
+
         Joomla.submitbutton('question.sendAnswer');
+    }
+
+    function isChecked()
+    {
+	    if (jQuery('[name="aid[]"]').is(':checked') == false) {
+		    alert("<?php echo JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST', true); ?>");
+		    return false;
+	    }
+
+	    return true;
     }
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&task=question.edit&id=' . $this->detail->id) ?>"

@@ -86,7 +86,7 @@ class RedshopHelperStockroom
                 $stockroomId = array($stockroomId);
             }
 
-            $query->where($db->qn('stockroom_id') . ' IN (' . implode(',', $stockroomId) . ')');
+            $query->where($db->qn('id') . ' IN (' . implode(',', $stockroomId) . ')');
         }
 
         if (!empty($published)) {
@@ -183,16 +183,11 @@ class RedshopHelperStockroom
 
         if (Redshop::getConfig()->get('USE_STOCKROOM') == 1) {
             if ($section == 'product' && $stockroomId == 0 && $sectionId) {
-                $sectionId = explode(',', $sectionId);
-                $sectionId = ArrayHelper::toInteger($sectionId);
-                $quantity  = 0;
+                $productData = Redshop::product((int)$sectionId);
+                $quantity    = null;
 
-                foreach ($sectionId as $item) {
-                    $productData = Redshop::product((int)$item);
-
-                    if (isset($productData->sum_quanity)) {
-                        $quantity += $productData->sum_quanity;
-                    }
+                if (isset($productData->sum_quanity)) {
+                    $quantity = $productData->sum_quanity;
                 }
             } else {
                 $key = md5($section . '-' . $sectionId . '-' . $stockroomId);
@@ -208,7 +203,7 @@ class RedshopHelperStockroom
                     $query = $db->getQuery(true)
                         ->select('SUM(x.quantity)')
                         ->from($db->qn('#__redshop_' . $table . '_stockroom_xref', 'x'))
-                        ->leftJoin($db->qn('#__redshop_stockroom', 's') . ' ON s.stockroom_id = x.stockroom_id')
+                        ->leftJoin($db->qn('#__redshop_stockroom', 's') . ' ON s.id = x.stockroom_id')
                         ->where('x.quantity >= 0');
 
                     if ($sectionId != 0) {
@@ -236,7 +231,7 @@ class RedshopHelperStockroom
             $quantity = $quantity < 0 ? 0 : $quantity;
         }
 
-        if ($quantity == null) {
+        if ($quantity === null) {
             $quantity = (Redshop::getConfig()->get('USE_BLANK_AS_INFINITE')) ? 1000000000 : 0;
         }
 
@@ -346,7 +341,7 @@ class RedshopHelperStockroom
                 ->from($db->qn($table, 'x'))
                 ->leftJoin(
                     $db->qn('#__redshop_stockroom', 's') . ' ON '
-                    . $db->qn('x.stockroom_id') . ' = ' . $db->qn('s.stockroom_id')
+                    . $db->qn('x.stockroom_id') . ' = ' . $db->qn('s.id')
                 )
                 ->where($db->qn('x.quantity') . ' >= 0')
                 ->order($db->qn('s.min_del_time'));
@@ -599,12 +594,13 @@ class RedshopHelperStockroom
 
             $db    = JFactory::getDbo();
             $query = $db->getQuery(true)
-                ->select('DISTINCT(s.stockroom_id), s.*, x.*')
+                ->select('DISTINCT(s.id), s.*, x.*')
                 ->from($db->qn($table, 'x'))
                 ->leftJoin(
                     $db->qn('#__redshop_stockroom', 's') . ' ON '
-                    . $db->qn('x.stockroom_id') . ' = ' . $db->qn('s.stockroom_id')
+                    . $db->qn('x.stockroom_id') . ' = ' . $db->qn('s.id')
                 )
+	            ->where($db->qn('published') . ' = ' . $db->q(1))
                 ->order($db->qn('s.min_del_time'));
 
             if ($sectionId != 0) {
@@ -700,11 +696,11 @@ class RedshopHelperStockroom
 
             $db    = JFactory::getDbo();
             $query = $db->getQuery(true)
-                ->select('DISTINCT(s.stockroom_id), s.*, x.*')
+                ->select('DISTINCT(s.id), s.*, x.*')
                 ->from($db->qn($table, 'x'))
                 ->leftJoin(
                     $db->qn('#__redshop_stockroom', 's') . ' ON '
-                    . $db->qn('x.stockroom_id') . ' = ' . $db->qn('s.stockroom_id')
+                    . $db->qn('x.stockroom_id') . ' = ' . $db->qn('s.id')
                 )
                 ->where($db->qn('x.preorder_stock') . ' >= ' . $db->qn('x.ordered_preorder'))
                 ->order($db->qn('s.min_del_time'));
@@ -903,7 +899,7 @@ class RedshopHelperStockroom
                 )
                 ->innerJoin(
                     $db->qn('#__redshop_stockroom', 's') . ' ON '
-                    . $db->qn('sx.stockroom_id') . ' = ' . $db->qn('s.stockroom_id')
+                    . $db->qn('sx.stockroom_id') . ' = ' . $db->qn('s.id')
                 )
                 ->where($db->qn('stock_option') . ' = 2')
                 ->where($db->qn('stock_quantity') . ' = ' . (int)$stockAmount);
@@ -1113,7 +1109,7 @@ class RedshopHelperStockroom
             ->select($db->qn('max_del_time'))
             ->select($db->qn('delivery_time'))
             ->from($db->qn('#__redshop_stockroom'))
-            ->where($db->qn('stockroom_id') . ' IN (' . implode(',', $stockroomId) . ')')
+            ->where($db->qn('id') . ' IN (' . implode(',', $stockroomId) . ')')
             ->where($db->qn('published') . ' = 1')
             ->order($db->qn('max_del_time') . ' DESC');
 
@@ -1305,7 +1301,7 @@ class RedshopHelperStockroom
                 }
 
                 $query->leftJoin(
-                    $db->qn('#__redshop_stockroom', 's') . ' ON ' . $db->qn('s.stockroom_id') . ' = ' . $db->qn(
+                    $db->qn('#__redshop_stockroom', 's') . ' ON ' . $db->qn('s.id') . ' = ' . $db->qn(
                         'x.stockroom_id'
                     )
                 );
@@ -1377,7 +1373,7 @@ class RedshopHelperStockroom
             ->from($db->qn($table, 'x'))
             ->leftJoin(
                 $db->qn('#__redshop_stockroom', 's') . ' ON '
-                . $db->qn('x.stockroom_id') . ' = ' . $db->qn('s.stockroom_id')
+                . $db->qn('x.stockroom_id') . ' = ' . $db->qn('s.id')
             )
             ->order($db->qn('s.min_del_time'));
 

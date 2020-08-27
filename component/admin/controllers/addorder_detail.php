@@ -179,6 +179,10 @@ class RedshopControllerAddorder_Detail extends RedshopController
 
         $specialDiscount = $post['special_discount'];
 
+        if ($specialDiscount > 100) {
+            $specialDiscount = 100;
+        }
+
         $subTotalExcludeVat = 0;
 
         for ($i = 0, $in = count($orderItem); $i < $in; $i++) {

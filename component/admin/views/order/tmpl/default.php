@@ -529,7 +529,7 @@ JPluginHelper::importPlugin('redshop_product');
                             $stockrooms = RedshopHelperStockroom::getStockroom(implode(',', $stockroomIds), 1);
                             ?>
                             <?php foreach ($stockrooms as $stockroom): ?>
-                                <?php echo $stockroom->stockroom_name ?>
+                                <?php echo $stockroom->name ?>
                                 <br/>
                                 <?php echo $stockroom->min_del_time . "-" . $stockroom->max_del_time . " " . $stockroom->delivery_time ?>
                                 <br/>

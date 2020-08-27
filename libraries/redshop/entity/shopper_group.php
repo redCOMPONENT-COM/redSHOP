@@ -34,7 +34,7 @@ class RedshopEntityShopper_Group extends RedshopEntity
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Shopper_Group_Detail', 'Table');
+        return JTable::getInstance('ShopperGroup', 'RedshopTable');
     }
 
     /**

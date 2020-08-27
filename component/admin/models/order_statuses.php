@@ -36,7 +36,9 @@ class RedshopModelOrder_Statuses extends RedshopModelList
                 'order_status_name',
                 'order_status_name',
                 'published',
-                'published'
+                'published',
+                'ordering',
+                'ordering'
             );
         }
 

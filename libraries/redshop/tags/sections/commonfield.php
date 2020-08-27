@@ -72,7 +72,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
         ) == 0 ? 'display:none;' : '';
         $stateStyle            = ($states['is_states'] <= 0) ? 'display:none;' : '';
         $options               = RedshopLayoutHelper::$layoutOption;
-        $this->template        = $this->replaceRetypeEmail($prefix, $options);
+        $this->template        = $this->replaceRetypeEmail($prefix, $options, $data);
 
         if ($this->isTagExists('{email}')) {
             $htmlEmail = RedshopLayoutHelper::render(
@@ -376,7 +376,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
      *
      * @since   3.0
      */
-    public function replaceRetypeEmail($prefix, $options)
+    public function replaceRetypeEmail($prefix, $options, $data)
     {
         $subTemplate = $this->getTemplateBetweenLoop('{retype_email_start}', '{retype_email_end}');
 
@@ -403,7 +403,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                         'id'    => $prefix . 'email2',
                         'name'  => 'email2',
                         'type'  => 'text',
-                        'value' => '',
+                        'value' => $data['email1'],
                         'class' => 'inputbox required',
                         'attr'  => 'size="32" maxlength="250" title="' . JText::_(
                                 'COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS'

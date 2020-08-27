@@ -530,7 +530,7 @@ class RedshopEconomic
 
 				if (count($wrapper) > 0)
 				{
-					$wrapperName = $wrapper[0]->wrapper_name;
+					$wrapperName = $wrapper[0]->name;
 
 					$displayWrapper = "\n" . \JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapperName . "(" . $orderItem[$i]->wrapper_price . ")";
 				}
@@ -1192,7 +1192,7 @@ class RedshopEconomic
 
 				if (count($wrapper) > 0)
 				{
-					$wrapperName = $wrapper[0]->wrapper_name;
+					$wrapperName = $wrapper[0]->name;
 
 					$displayWrapper = "\n" . \JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapperName . "(" . $orderItem[$i]->wrapper_price . ")";
 				}

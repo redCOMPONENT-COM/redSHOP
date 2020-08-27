@@ -8,6 +8,7 @@
  */
 
 namespace Redshop\User;
+use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die;
 
@@ -40,7 +41,7 @@ class Helper
                     if (!isset($data[$requiredFields[$i]->name])
                         || (isset($data[$requiredFields[$i]->name])
                             && $data[$requiredFields[$i]->name] == "")) {
-                        $msg .= $requiredFields[$i]->title . " " . \JText::_('COM_REDSHOP_IS_REQUIRED') . "<br/>";
+                        $msg .= $requiredFields[$i]->title . " " . Text::_('COM_REDSHOP_IS_REQUIRED') . "<br/>";
                     }
                 }
             }
@@ -70,7 +71,7 @@ class Helper
 
     /**
      * @return null
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.2
      */
     public static function getNewCustomers()
     {
@@ -91,7 +92,7 @@ class Helper
      * @param $uid
      *
      * @return int
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.2
      */
     public static function isUserExist($username, $uid)
     {
@@ -154,7 +155,7 @@ class Helper
      * @param $uid
      *
      * @return int
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.2
      */
     public static function isUserEmailExist($email, $uid)
     {

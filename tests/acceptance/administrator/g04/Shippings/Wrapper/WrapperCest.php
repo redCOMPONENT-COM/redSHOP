@@ -120,9 +120,9 @@ class WrapperCest
 	 * @throws Exception
 	 * @since 2.1.2.2
 	 */
-	public function CheckInvalidPrice(WrapperSteps $I)
+	public function CheckInvalidName(WrapperSteps $I)
 	{
 		$I->wantTo("I want to test invalid price of Wrapping");
-		$I->checkWrapperInvalidField($this->name, $this->priceinvalid);
+		$I->checkWrapperInvalidField();
 	}
 }

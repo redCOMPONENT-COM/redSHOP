@@ -87,22 +87,20 @@ class RedshopHelperAccessory
 
         if (!array_key_exists($key, static::$accessories)) {
             $db = JFactory::getDbo();
-
-            $orderBy = " ORDER BY a.child_product_id ASC";
+	        $query = $db->getQuery(true)
+                    ->order($db->qn('a.child_product_id') . ' ASC');
 
             if (Redshop::getConfig()->get('DEFAULT_ACCESSORY_ORDERING_METHOD')) {
-                $orderBy = " ORDER BY " . Redshop::getConfig()->get('DEFAULT_ACCESSORY_ORDERING_METHOD');
+                $query->clear('order')
+	                ->order(Redshop::getConfig()->get('DEFAULT_ACCESSORY_ORDERING_METHOD'));
             }
-
-            $and     = "";
-            $groupBy = "";
 
             if ($accessoryId != 0) {
                 // Sanitize ids
                 $accessoryId = explode(',', $accessoryId);
                 $accessoryId = ArrayHelper::toInteger($accessoryId);
 
-                $and .= " AND a.accessory_id IN (" . implode(',', $accessoryId) . ")";
+                $query->where($db->qn('a.accessory_id') . ' IN ('. implode(',', $accessoryId) .')');
             }
 
             if ($productId != 0) {
@@ -110,40 +108,56 @@ class RedshopHelperAccessory
                 $productId = explode(',', $productId);
                 $productId = ArrayHelper::toInteger($productId);
 
-                $and .= " AND a.product_id IN (" . implode(',', $productId) . ")";
+	            $query->where($db->qn('a.product_id') . ' IN ('. implode(',', $productId) .')');
             }
 
             if ($childProductId != 0) {
-                $and .= " AND a.child_product_id = " . (int)$childProductId;
+                $query->where($db->qn('a.child_product_id') . ' = ' . (int)$childProductId);
             }
 
             if ($categoryId != 0) {
-                $and     .= " AND a.category_id = " . (int)$categoryId;
-                $groupBy = " GROUP BY a.child_product_id";
+	            $query->where($db->qn('a.category_id') . ' = ' . (int)$categoryId);
+	            $query->group($db->qn('a.child_product_id'));
             }
 
-            $switchQuery = ", CASE a.oprand "
-                . "WHEN '+' THEN IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
-                . time() . "' AND p.discount_stratdate<='" . time(
-                ) . "'))), p.discount_price, p.product_price ) + accessory_price "
-                . "WHEN '-' THEN IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
-                . time() . "' AND p.discount_stratdate<='" . time(
-                ) . "'))), p.discount_price, p.product_price ) - accessory_price "
+            $switchQuery = ", CASE ". $db->qn('a.oprand')
+                . " WHEN '+' THEN IF ( (". $db->qn('p.product_on_sale') .">0 && ((". $db->qn('p.discount_enddate') ."='' AND "
+	            . $db->qn('p.discount_stratdate') ."='') OR ( ". $db->qn('p.discount_enddate') .">='"
+                . time() . "' AND ". $db->qn('p.discount_stratdate') ."<='" . time() . "'))), "
+	            . $db->qn('p.discount_price') .", ". $db->qn('p.product_price') ." ) + accessory_price "
+                . "WHEN '-' THEN IF ( (". $db->qn('p.product_on_sale') .">0 && ((". $db->qn('p.discount_enddate')
+	            . "='' AND ". $db->qn('p.discount_stratdate') ."='') OR ( ". $db->qn('p.discount_enddate') .">='"
+                . time() . "' AND ". $db->qn('p.discount_stratdate') ."<='" . time(
+                ) . "'))), ". $db->qn('p.discount_price') .", ". $db->qn('p.product_price') ." ) - accessory_price "
                 . "WHEN '=' THEN accessory_price "
                 . "END AS newaccessory_price ";
 
-            $priceQuery = "IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
-                . time() . "' AND p.discount_stratdate<='" . time(
-                ) . "'))), p.discount_price, p.product_price ) AS accessory_main_price ";
+            $priceQuery = "IF ( (". $db->qn('p.product_on_sale') .">0 && ((". $db->qn('p.discount_enddate') ."='' AND "
+	            . $db->qn('p.discount_stratdate') ."='') OR ( ". $db->qn('p.discount_enddate') .">='"
+                . time() . "' AND ". $db->qn('p.discount_stratdate') ."<='" . time() . "'))), "
+	            . $db->qn('p.discount_price') .", ". $db->qn('p.product_price') ." ) AS accessory_main_price ";
 
-            $query = "SELECT a.*,p.product_number, p.product_name, " . $priceQuery
-                . ", p.product_s_desc, p.product_full_image, p.product_on_sale "
-                . $switchQuery
-                . "FROM " . $db->qn('#__redshop_product_accessory') . " AS a "
-                . "LEFT JOIN " . $db->qn('#__redshop_product') . " AS p ON p.product_id = a.child_product_id "
-                . "WHERE p.published = 1 "
-                . $and . $groupBy
-                . $orderBy;
+		        $query->select(
+		        	[
+				        'a.*',
+				        'p.product_number',
+				        'p.product_name',
+				        $priceQuery,
+				        'p.product_s_desc',
+				        'p.product_full_image',
+				        'p.product_on_sale ' . $switchQuery,
+				        'p.expired'
+			        ]
+		        )
+		        ->from($db->qn('#__redshop_product_accessory', 'a'))
+		        ->leftJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = a.child_product_id')
+		        ->where($db->qn('p.published') . ' = 1');
+
+	            if (\Redshop::getConfig()->getInt('SHOW_DISCONTINUED_PRODUCTS')) {
+		            $query->where($db->qn('p.expired') . ' IN (0, 1)');
+	            } else {
+		            $query->where($db->qn('p.expired') . ' IN (0)');
+	            }
 
             static::$accessories[$key] = $db->setQuery($query)->loadObjectList();
         }

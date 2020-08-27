@@ -83,6 +83,16 @@ class Helper
             return false;
         }
 
+	    if (isset($userId) && !empty($userId)) {
+		    $taxRateShopperGroup = \RedshopHelperTax::getTaxRateByShopperGroup($userInformation->shopper_group_id, $userInformation->country_code);
+
+		    if (isset($taxRateShopperGroup) && $taxRateShopperGroup == 0) {
+			    return false;
+		    }
+
+		    return true;
+	    }
+
 	    if (isset($userSession['rs_user_info_id'])) {
 		    $taxRateShopperGroup = \RedshopHelperTax::getTaxRateByShopperGroup($userSession['rs_user_shopperGroup'], $userSession['vatCountry']);
 

@@ -325,17 +325,20 @@ class RedshopModelConfiguration extends RedshopModel
 
     public function getnewsletters()
     {
-        $query = 'SELECT newsletter_id as value,name as text FROM #__redshop_newsletter WHERE published=1';
-        $this->_db->setQuery($query);
+        $db = $this->_db;
+        $query = $db->getQuery(true)
+            ->select('id as value,name as text')
+            ->from($db->qn('#__redshop_newsletter'))
+            ->where($db->qn('published') . ' = 1');
 
-        return $this->_db->loadObjectlist();
+        return $db->setQuery($query)->loadObjectList();
     }
 
     public function getShopperGroupPrivate()
     {
-        $query = "SELECT shopper_group_id as value , shopper_group_name as text "
+        $query = "SELECT id as value , name as text "
             . " FROM #__redshop_shopper_group "
-            . " WHERE `shopper_group_customer_type` = '1'";
+            . " WHERE `customer_type` = '1'";
         $this->_db->setQuery($query);
 
         return $this->_db->loadObjectList();
@@ -343,9 +346,9 @@ class RedshopModelConfiguration extends RedshopModel
 
     public function getShopperGroupCompany()
     {
-        $query = "SELECT shopper_group_id as value , shopper_group_name as text "
+        $query = "SELECT id as value , name as text "
             . " FROM #__redshop_shopper_group "
-            . " WHERE `shopper_group_customer_type` = '0'";
+            . " WHERE `customer_type` = '0'";
         $this->_db->setQuery($query);
 
         return $this->_db->loadObjectList();
@@ -489,7 +492,7 @@ class RedshopModelConfiguration extends RedshopModel
         $query = 'SELECT n.template_id,n.body,n.subject FROM #__redshop_newsletter AS n '
             . 'LEFT JOIN #__redshop_template AS nt ON n.template_id=nt.id '
             . 'WHERE n.published=1 '
-            . 'AND n.newsletter_id="' . $newsletter_id . '" ';
+            . 'AND n.id="' . $newsletter_id . '" ';
 
         $this->_db->setQuery($query);
         $list = $this->_db->loadObjectlist();

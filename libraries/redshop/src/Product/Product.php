@@ -259,7 +259,7 @@ class Product
 
         // Select ratings
         $subQuery = $db->getQuery(true)
-            ->select('COUNT(pr1.rating_id)')
+            ->select('COUNT(pr1.id)')
             ->from($db->qn('#__redshop_product_rating', 'pr1'))
             ->where('pr1.product_id = p.product_id')
             ->where('pr1.published = 1');

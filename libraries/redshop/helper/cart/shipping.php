@@ -71,7 +71,7 @@ class RedshopHelperCartShipping
         $shopperGroup = RedshopHelperUser::getShopperGroupData($userId);
 
         if (null !== $shopperGroup) {
-            $whereShopper = ' AND (FIND_IN_SET(' . $db->quote((int)$shopperGroup->shopper_group_id) . ', '
+            $whereShopper = ' AND (FIND_IN_SET(' . $db->quote((int)$shopperGroup->id) . ', '
                 . $db->qn('shipping_rate_on_shopper_group') . ' ) OR '
                 . $db->qn('shipping_rate_on_shopper_group') . ' = "") ';
         }

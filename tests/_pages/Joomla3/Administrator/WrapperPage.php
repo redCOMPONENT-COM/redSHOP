@@ -19,13 +19,13 @@ class WrapperPage extends AdminJ3Page
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $search = "#filter";
+	public static $search = "#filter_search";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $URL = '/administrator/index.php?option=com_redshop&view=wrapper';
+	public static $URL = 'administrator/index.php?option=com_redshop&view=wrappers';
 
 	/**
 	 * @var string
@@ -43,13 +43,13 @@ class WrapperPage extends AdminJ3Page
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $wrapperName = "#wrapper_name";
+	public static $wrapperName = "#jform_name";
 
 	/**
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $wrapperPrice = "#wrapper_price";
+	public static $wrapperPrice = "#jform_price";
 
 	/**
 	 * @var integer
@@ -95,7 +95,7 @@ class WrapperPage extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * @since 2.1.2.2
+	 * @since 3.0.3
 	 */
-	public static $messageCheckInvalidPrice = 'Wrapping Price not valid';
+	public static $messageMissingName = 'Field required: Wrapping Name';
 }

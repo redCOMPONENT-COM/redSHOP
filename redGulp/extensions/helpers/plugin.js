@@ -20,12 +20,12 @@ function releasePlugin(group, name) {
 
 
     // Clean: plugin
-    gulp.task('clean:' + baseTask + ':plugin', function () {
+    gulp.task('clean:' + baseTask + ':plugin', function (cb) {
         return del(wwwExtPath, {force: true});
     });
 
     // Clean: lang
-    gulp.task('clean:' + baseTask + ':language', function () {
+    gulp.task('clean:' + baseTask + ':language', function (cb) {
         return del(config.wwwDir + '/language/**/*.plg_' + group + '_' + name + '.*', {force: true});
     });
 
@@ -35,7 +35,8 @@ function releasePlugin(group, name) {
             'clean:' + baseTask + ':plugin',
             'clean:' + baseTask + ':language'
         ),
-        function () {
+        function (cb) {
+            cb();
         });
 
     // Copy: plugin
@@ -50,10 +51,9 @@ function releasePlugin(group, name) {
         });
 
     // Copy: Language
-    gulp.task('copy:' + baseTask + ':language',
-        gulp.series('clean:' + baseTask + ':language'), function () {
+    gulp.task('copy:' + baseTask + ':language', function (cb) {
             return gulp.src(extPath + '/language/**')
-                .pipe(gulp.dest(config.wwwDir + '/language'));
+                .pipe(gulp.dest(config.wwwDir + '/language')).on('end', cb);
         });
 
     // Copy
@@ -62,7 +62,8 @@ function releasePlugin(group, name) {
             'copy:' + baseTask + ':plugin',
             'copy:' + baseTask + ':language'
         ),
-        function () {
+        function (cb) {
+            cb();
         });
 
     // Watch: plugin

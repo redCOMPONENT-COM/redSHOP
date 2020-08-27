@@ -67,7 +67,7 @@ class RedshopViewAccount_Billto extends RedshopView
         JHtml::_('script', 'com_redshop/jquery.validate.min.js', false, true);
         JHtml::_('script', 'com_redshop/redshop.common.min.js', false, true);
         JHtml::_('script', 'com_redshop/redshop.registration.min.js', false, true);
-        JHtml::_('script', 'com_redshop/account/billto.js', false, true);
+        JHtml::_('script', 'com_redshop/account/billto.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
         JHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
 

@@ -184,7 +184,7 @@ class Install
 
         if (!empty($firstId)) {
             $query = "INSERT IGNORE INTO `#__redshop_product_rating`
-				(`rating_id`, `product_id`, `title`, `comment`, `userid`, `time`, `user_rating`, `favoured`, `published`)
+				(`id`, `product_id`, `title`, `comment`, `userid`, `time`, `user_rating`, `favoured`, `published`)
 				VALUES (1, 1, 'high quality product', 'This product is high quality and well-designed...', " . $firstId . ", 1262695786, 5, 1, 1)";
 
             $db->setQuery($query)->execute();

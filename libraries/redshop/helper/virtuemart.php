@@ -76,9 +76,9 @@ class RedshopHelperVirtuemart
         if (!array_key_exists($name, self::$shopperGroups)) {
             $db    = JFactory::getDbo();
             $query = $db->getQuery(true)
-                ->select($db->qn('shopper_group_id', 'id'))
+                ->select($db->qn('id'))
                 ->from($db->qn('#__redshop_shopper_group'))
-                ->where($db->qn('shopper_group_name') . ' = ' . $db->quote($name));
+                ->where($db->qn('name') . ' = ' . $db->quote($name));
 
             self::$shopperGroups[$name] = $db->setQuery($query)->loadResult();
         }

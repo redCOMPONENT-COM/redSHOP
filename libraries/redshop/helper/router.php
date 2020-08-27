@@ -230,8 +230,8 @@ class RedshopHelperRouter
         $itemId       = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
         $shopperGroup = RedshopHelperUser::getShopperGroupData();
 
-        if (!empty($shopperGroup) && $shopperGroup->shopper_group_cart_checkout_itemid != 0) {
-            $itemId = $shopperGroup->shopper_group_cart_checkout_itemid;
+        if (!empty($shopperGroup) && $shopperGroup->cart_checkout_itemid != 0) {
+            $itemId = $shopperGroup->cart_checkout_itemid;
         }
 
         if ($itemId == 0) {
@@ -253,8 +253,8 @@ class RedshopHelperRouter
         $itemId           = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
         $shopperGroupData = RedshopHelperUser::getShopperGroupData();
 
-        if (!empty($shopperGroupData) && $shopperGroupData->shopper_group_cart_itemid != 0) {
-            $itemId = $shopperGroupData->shopper_group_cart_itemid;
+        if (!empty($shopperGroupData) && $shopperGroupData->cart_itemid != 0) {
+            $itemId = $shopperGroupData->cart_itemid;
         }
 
         return $itemId;

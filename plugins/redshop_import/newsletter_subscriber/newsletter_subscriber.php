@@ -73,7 +73,7 @@ class PlgRedshop_ImportNewsletter_Subscriber extends AbstractImportPlugin
     {
         $db    = $this->db;
         $query = $db->getQuery(true)
-            ->select(array('newsletter_id AS value', 'name AS text'))
+            ->select(array('id AS value', 'name AS text'))
             ->from($db->qn('#__redshop_newsletter'))
             ->where($db->qn('published') . ' = 1');
 

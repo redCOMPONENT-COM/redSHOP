@@ -29,13 +29,13 @@ class ShopperGroupJ3Page extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $URL = '/administrator/index.php?option=com_redshop&view=shopper_group';
+	public static $URL = 'administrator/index.php?option=com_redshop&view=shoppergroups';
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $URLEdit = '/administrator/index.php?option=com_redshop&view=shopper_group_detail&task=edit&cid[]=';
+	public static $URLEdit = '/administrator/index.php?option=com_redshop&view=shoppergroup&layout=edit&id=';
 
 	/**
 	 * @var string
@@ -49,7 +49,7 @@ class ShopperGroupJ3Page extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $shopperName = "#shopper_group_name";
+	public static $shopperName = "#jform_name";
 
 	/**
 	 * @var string
@@ -79,103 +79,103 @@ class ShopperGroupJ3Page extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $shopperGroupPortalYes = "#shopper_group_portal_1-lbl";
+	public static $shopperGroupPortalYes = "#jform_portal0";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $shopperGroupPortalNo = "#shopper_group_portal_0-lbl";
+	public static $shopperGroupPortalNo = "#jform_portal1";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $shippingYes = "#default_shipping_1-lbl";
+	public static $shippingYes = "#jform_default_shipping0";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $shippingNo = "#default_shipping_0-lbl";
+	public static $shippingNo = "#jform_default_shipping1";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $shippingRate = "#default_shipping_rate";
+	public static $shippingRate = "#jform_default_shipping_rate";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $shippingCheckout = "#shopper_group_cart_checkout_itemid";
+	public static $shippingCheckout = "#jform_cart_checkout_itemid";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $vatNo = "#show_price_without_vat_0-lbl";
+	public static $vatNo = "#jform_show_price_without_vat1";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $vatYes = "#show_price_without_vat_1-lbl";
+	public static $vatYes = "#jform_show_price_without_vat0";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $showPrice = "#s2id_show_price";
+	public static $showPrice = "#s2id_jform_show_price";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $showPriceSearch = "#s2id_autogen6_search";
+	public static $showPriceSearch = "#s2id_autogen5_search";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $catalogId = "#s2id_use_as_catalog";
+	public static $catalogId = "#s2id_jform_use_as_catalog";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $catalogSearch = "#s2id_autogen7_search";
+	public static $catalogSearch = "#s2id_autogen6_search";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $quoationNo = "#shopper_group_quotation_mode_0-lbl";
+	public static $quotationNo = "#jform_quotation_mode1";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $quotationYes = "#shopper_group_quotation_mode_1-lbl";
+	public static $quotationYes = "#jform_quotation_mode0";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $publishNo = "#published_0-lbl";
+	public static $publishNo = "#jform_published1";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $publishYes = "#published_1-lbl";
+	public static $publishYes = "#jform_published0";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $categoryFiled = "#s2id_shopper_group_categories";
+	public static $categoryFiled = "#s2id_jform_categories";
 
 	/**
 	 * @var string
@@ -199,13 +199,13 @@ class ShopperGroupJ3Page extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $shopperFirstStatus =  "//tr[1]/td[5]/a";
+	public static $shopperFirstStatus =  "//tr[1]/td[7]/a";
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $nameShopperGroupsFirst = "//tr[1]/td[3]/a";
+	public static $nameShopperGroupsFirst = "//tr[1]/td[5]/a";
 
 	//message
 
@@ -213,7 +213,7 @@ class ShopperGroupJ3Page extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $saveSuccess = 'Shopper Group Detail Saved';
+	public static $saveSuccess = 'Item saved.';
 
 	/**
 	 * @var string
@@ -225,13 +225,13 @@ class ShopperGroupJ3Page extends AdminJ3Page
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $unpublishSuccess = 'Shopper Group Detail Unpublished Successfully';
+	public static $unpublishSuccess = 'successfully unpublished';
 
 	/**
 	 * @var string
 	 * @since 1.4.0
 	 */
-	public static $publishSuccess = 'Shopper Group Detail Published Successfully';
+	public static $publishSuccess = 'successfully published';
 
 	/**
 	 * @var string
@@ -243,19 +243,25 @@ class ShopperGroupJ3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $searchField = '#filter';
+	public static $searchField = '#filter_search';
 
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $searchButton = '//button[@onclick="document.adminForm.submit();"]';
+	public static $searchButton = '//input[@value="Search"]';
 
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $deleteShopperSuccess = 'Shopper Group Detail Deleted Successfully';
+	public static $deleteShopperSuccess = 'successfully deleted';
+
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $messageMissingName = "Field required: Shopper Group Name";
 
 	/**
 	 * Function to get the path for Search Shopper Group

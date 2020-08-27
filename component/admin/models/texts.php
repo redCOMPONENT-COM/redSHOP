@@ -78,7 +78,7 @@ class RedshopModelTexts extends RedshopModelList
         $orderCol  = $this->state->get('list.ordering', 'id');
         $orderDirn = $this->state->get('list.direction', 'asc');
 
-        $query->order($db->escape($orderCol . ' ' . $orderDirn));
+        $query->order($db->escape($db->qn($orderCol) . ' ' . $orderDirn));
 
         return $query;
     }

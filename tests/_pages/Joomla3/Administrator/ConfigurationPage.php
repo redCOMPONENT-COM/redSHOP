@@ -674,6 +674,12 @@ class ConfigurationPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $alertMessageResetID = "Are You sure you want to reset order Id?";
+
+	/**
+	 * @var string
 	 * @since 2.1.3
 	 */
 	public static $sendOrderEmail = '//div[@id="s2id_order_mail_after"]';

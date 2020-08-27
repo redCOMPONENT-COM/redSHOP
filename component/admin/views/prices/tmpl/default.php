@@ -45,7 +45,7 @@
                                'COM_REDSHOP_EDIT_PRODUCT_PRICE'
                            ); ?>"><?php echo $row->product_name; ?></a>
                     </td>
-                    <td align="center"><?php echo $row->shopper_group_name; ?></td>
+                    <td align="center"><?php echo $row->name; ?></td>
                     <td align="center"><?php echo $row->price_quantity_start; ?></td>
                     <td align="center"><?php echo $row->price_quantity_end; ?></td>
                     <td align="center"

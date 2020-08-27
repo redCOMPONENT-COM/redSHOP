@@ -107,7 +107,7 @@ $model = $this->getModel('stockimage');
                     <td><img src="<?php echo $thumbUrl ?>"/></td>
                     <td><?php echo $row->stock_quantity; ?></td>
                     <td><?php echo $model->getStockAmountOption($row->stock_option); ?></td>
-                    <td><?php echo $row->stockroom_name; ?></td>
+                    <td><?php echo $row->name; ?></td>
                     <td><?php echo $row->stock_amount_id; ?></td>
                 </tr>
                 <?php $k = 1 - $k;

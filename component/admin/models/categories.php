@@ -189,7 +189,7 @@ class RedshopModelCategories extends RedshopModelList
      * @param   null  $pks
      *
      * @return bool
-     * @since  __DEPLOY_VERSION__
+     * @since  3.0.2
      */
     public function delete($pks = null)
     {

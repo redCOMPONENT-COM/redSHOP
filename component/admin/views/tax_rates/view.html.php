@@ -39,8 +39,6 @@ class RedshopViewTax_Rates extends RedshopViewList
      */
     public function onRenderColumn($config, $index, $row)
     {
-	    $value = $row->{$config['dataCol']};
-
 	    $taxShopperGroup = JFactory::getApplication()->input->post->get('shopper_group', array(), 'array');
 	    $model  = $this->getModel('tax_rates');
 
@@ -54,7 +52,7 @@ class RedshopViewTax_Rates extends RedshopViewList
 
 	    switch ($config['dataCol']) {
 		    case 'tax_group_id':
-			    return '<a href="index.php?option=com_redshop&task=tax_group.edit&id=' . $value . '">'
+			    return '<a href="index.php?option=com_redshop&task=tax_group.edit&id=' . $row->id . '">'
 				    . $row->tax_group_name . '</a>';
 
 		    case 'shopper_group':
@@ -68,7 +66,7 @@ class RedshopViewTax_Rates extends RedshopViewList
 
 		    case 'tax_rate':
 			    return number_format(
-					    $value * 100,
+                        $row->tax_rate * 100,
 					    2,
 					    Redshop::getConfig()->get('PRICE_SEPERATOR'),
 					    Redshop::getConfig()->get('THOUSAND_SEPERATOR')

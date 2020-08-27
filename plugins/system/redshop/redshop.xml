@@ -6,15 +6,31 @@
     <copyright>Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>www.redcomponent.com</authorUrl>
-    <version>2.0.1</version>
-    <redshop>2.0</redshop>
+    <version>3.0.0</version>
+    <redshop>3.0.2</redshop>
     <description>PLG_SYSTEM_REDSHOP_DESCRIPTION</description>
     <files>
         <filename plugin="redshop">redshop.php</filename>
         <filename>index.html</filename>
+	    <folder>libraries</folder>
     </files>
     <languages folder="language">
         <language tag="en-GB">en-GB/en-GB.plg_system_redshop.ini</language>
         <language tag="en-GB">en-GB/en-GB.plg_system_redshop.sys.ini</language>
     </languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="enable_twig"
+				       type="radio"
+				       default="1"
+				       class="btn-group btn-group-yesno"
+				       description="PLG_SYSTEM_REDSHOP_NAME_ENABLE_TWIG_DESC"
+				       label="PLG_SYSTEM_REDSHOP_NAME_ENABLE_TWIG_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

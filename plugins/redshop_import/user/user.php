@@ -80,8 +80,8 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
     /**
      * Process import data.
      *
-     * @param   \JTable  $table  Header array
-     * @param   array    $data   Data array
+     * @param \JTable $table Header array
+     * @param array   $data  Data array
      *
      * @return  boolean
      *
@@ -92,20 +92,20 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
         $db            = $this->db;
         $shopperGroups = $this->getShopperGroupInfo();
 
-        if (array_key_exists(trim($data['shopper_group_name']), $shopperGroups->name)) {
-            $shopperGroupId = $shopperGroups->name[trim($data['shopper_group_name'])]
+        if (array_key_exists(trim($data['n']), $shopperGroups->name)) {
+            $shopperGroupId = $shopperGroups->name[trim($data['n'])]
                 ->shopper_group_id;
         } // Create new shopper group
         else {
-            $shopper = JTable::getInstance('Shopper_group_detail', 'Table');
+            $shopper = JTable::getInstance('ShopperGroup', 'RedshopTable');
             $shopper->load();
-            $shopper->shopper_group_name          = trim($data['shopper_group_name']);
-            $shopper->shopper_group_customer_type = 1;
-            $shopper->shopper_group_portal        = 0;
+            $shopper->name                        = trim($data['n']);
+            $shopper->customer_type = 1;
+            $shopper->portal        = 0;
             $shopper->store();
 
             // Get inserted shopper group id
-            $shopperGroupId = $shopper->shopper_group_id;
+            $shopperGroupId = $shopper->id;
         }
 
         $userInfo    = $this->getUsersInfoByEmail();
@@ -161,21 +161,21 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
         }
 
         // Bind the data.
-        if (!$user->bind($jUserInfo)) {
+        if ( ! $user->bind($jUserInfo)) {
             $this->setError($user->getError());
 
             return false;
         }
 
         // Save user information
-        if (!$user->save()) {
+        if ( ! $user->save()) {
             return false;
         }
 
         // Assign user id from table
         $jUserId = $user->id;
 
-        if (!empty($data['email'])) {
+        if ( ! empty($data['email'])) {
             $data['user_email'] = $data['email'];
         }
 
@@ -188,11 +188,12 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
             $isNew = $table->load($data[$this->primaryKey]);
         }
 
-        if (!$table->bind($data)) {
+        if ( ! $table->bind($data)) {
             return false;
         }
 
-        if ((!$isNew && !$db->insertObject('#__redshop_users_info', $table, $this->primaryKey)) || !$table->store()) {
+        if (( ! $isNew && ! $db->insertObject('#__redshop_users_info', $table, $this->primaryKey)) || ! $table->store(
+            )) {
             return false;
         }
 
@@ -218,7 +219,7 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
         try {
             $shopperGroups        = new stdClass;
             $shopperGroups->index = $db->loadObjectList();
-            $shopperGroups->name  = $db->loadObjectList('shopper_group_name');
+            $shopperGroups->name  = $db->loadObjectList('n');
         } catch (RuntimeException $e) {
             throw new RuntimeException($e->getMessage(), $e->getCode());
         }

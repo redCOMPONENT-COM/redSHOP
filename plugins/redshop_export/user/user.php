@@ -135,7 +135,7 @@ class PlgRedshop_ExportUser extends AbstractExportPlugin
             ->select(
                 array(
                     $this->db->qn('ui.users_info_id'),
-                    $this->db->qn('sg.shopper_group_name'),
+                    $this->db->qn('sg.name', 'shopper_group_name'),
                     'IFNULL(u.id,ui.user_id) as id',
                     'IFNULL(u.email,ui.user_email) as email',
                     $this->db->qn('u.username'),
@@ -181,7 +181,7 @@ class PlgRedshop_ExportUser extends AbstractExportPlugin
             )
             ->leftjoin(
                 $this->db->qn('#__redshop_shopper_group', 'sg')
-                . ' ON ' . $this->db->qn('sg.shopper_group_id') . ' = ' . $this->db->qn('ui.shopper_group_id')
+                . ' ON ' . $this->db->qn('sg.id') . ' = ' . $this->db->qn('ui.shopper_group_id')
             )
             ->group($this->db->qn('ui.user_id'));
     }

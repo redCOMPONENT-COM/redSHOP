@@ -43,6 +43,7 @@ function getIncludedExtensions() {
         "./plugins/content/rs_menuitem_sh404urls/**",
         "./plugins/system/redshop/**",
         "./plugins/system/redgoogleanalytics/**",
+        "./plugins/system/redgoogletagmanager/**",
         "./plugins/redshop_payment/rs_payment_banktransfer/**",
         "./plugins/redshop_payment/rs_payment_paypal/**",
         "./plugins/redshop_product/sh404urls/**",
@@ -98,6 +99,7 @@ function getIncludedExtensions() {
         "./plugins/twig/juser/**",
         "./plugins/twig/unseriallize/**",
         "./plugins/twig/redshop/**",
+        "./plugins/redshop_promotion/promotion/**",
     ];
     var excluded = [
         '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)',
@@ -254,6 +256,7 @@ gulp.task("release:md5:generate", function () {
         "./plugins/content/rs_menuitem_sh404urls/**",
         "./plugins/system/redshop/**",
         "./plugins/system/redgoogleanalytics/**",
+        "./plugins/system/redgoogletagmanager/**",
         "./plugins/redshop_payment/rs_payment_banktransfer/**",
         "./plugins/redshop_product/sh404urls/**",
         "./plugins/redshop_payment/rs_payment_paypal/**",
@@ -306,6 +309,7 @@ gulp.task("release:md5:generate", function () {
         "./plugins/twig/juser/**",
         "./plugins/twig/unseriallize/**",
         "./plugins/twig/redshop/**",
+        "./plugins/redshop_promotion/promotion/**",
     ], {base: "./", allowEmpty: true}).pipe(hashsum({dest: "./", filename: "checksum.md5", hash: "md5"}));
 });
 

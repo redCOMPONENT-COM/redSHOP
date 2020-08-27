@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+		<field
+				name="extension_id"
+				type="hidden"
+		/>
+		<field
+				name="element_hidden"
+				type="hidden"
+		/>
+		<field
+				name="plugin"
+				type="hidden"
+		/>
+		<field
+				id="name"
+				name="name"
+				type="text"
+				label="COM_REDSHOP_SHIPPING_NAME"
+				description="COM_REDSHOP_SHIPPING_NAME"
+				size="30"
+				class="text_area"
+				default=""
+				table-edit-link="1"
+				table-sortable="1"
+		/>
+		<field
+				id="element"
+				name="element"
+				type="text"
+				label="COM_REDSHOP_PLUGIN"
+				description="COM_REDSHOP_PLUGIN"
+				size="30"
+				class="text_area"
+				default=""
+				table-edit-link="1"
+				table-sortable="1"
+		/>
+		<field
+				id="version"
+				name="version"
+				type="text"
+				label="COM_REDSHOP_VERSION"
+				description="COM_REDSHOP_VERSION"
+				size="30"
+				class="text_area"
+		/>
+		<field
+				id="support_rate"
+				name="support_rate"
+				type="text"
+				label="COM_REDSHOP_SHIPPING_SUPPORT_RATE"
+				description="COM_REDSHOP_SHIPPING_SUPPORT_RATE"
+				size="30"
+				class="text_area"
+		/>
+		<field
+				id="support_location"
+				name="support_location"
+				type="text"
+				label="COM_REDSHOP_SHIPPING_SUPPORT_LOCATION"
+				description="COM_REDSHOP_SHIPPING_SUPPORT_LOCATION"
+				size="30"
+				class="text_area"
+		/>
+		<field
+				name="enabled"
+				type="redshop.radio"
+				default="1"
+				label-class="radio-inline"
+				label="COM_REDSHOP_PUBLISHED"
+				description="COM_REDSHOP_PUBLISHED"
+				table-sortable="1"
+				table-width="5%">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
+	<fieldset name="shipping_config">
+		<field name="configuration"/>
+	</fieldset>
+</form>

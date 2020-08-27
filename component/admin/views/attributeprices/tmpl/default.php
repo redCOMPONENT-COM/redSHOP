@@ -66,7 +66,7 @@ $message = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIS
                                'COM_REDSHOP_EDIT_ATTRIBUTE_PRICE'
                            ); ?>"><?php echo $row->property_name; ?></a>
                     </td>
-                    <td align="center"><?php echo $row->shopper_group_name; ?></td>
+                    <td align="center"><?php echo $row->name; ?></td>
                     <td align="center"><?php echo $row->price_quantity_start; ?></td>
                     <td align="center"><?php echo $row->price_quantity_end; ?></td>
                     <td align="center"

@@ -179,7 +179,7 @@ class RedshopModelProduct extends RedshopModel
         $data['published']   = 0;
         $data['time']        = $data['time'];
 
-        $row = $this->getTable('rating_detail');
+        $row = $this->getTable('rating');
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */

@@ -122,13 +122,15 @@ JHtml::_('bootstrap.tooltip');
     </div>
     <?php endif; ?>
 </form>
-<div class="row login-fb">
-    <a href="<?php echo $loginFbUrl; ?>" class="btn btn-primary login-button">
-        <?php echo \JText::_('MOD_REDSHOP_LOGIN_WITH_FB_BTN') ?>
-    </a>
+<div class="third-party-login">
+    <?php foreach ($thirdPartyLogin as $login): ?>
+        <?php if (!empty($login['plugin']) && !empty($login['linkLogin'])): ?>
+            <div class="row login-<?php echo $login['plugin'] ?>">
+                <a href="<?php echo $login['linkLogin']; ?>" class="btn btn-primary login-button">
+                    <?php echo ucfirst($login['plugin']) ?>
+                </a>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
 </div>
-<div class="row login-gg">
-    <a href="<?php echo $loginGgUrl; ?>" class="btn btn-primary login-button">
-        <?php echo \JText::_('MOD_REDSHOP_LOGIN_WITH_GG_BTN') ?>
-    </a>
-</div>
+

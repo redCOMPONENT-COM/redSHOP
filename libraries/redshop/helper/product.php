@@ -341,31 +341,31 @@ class RedshopHelperProduct
 
         $wArray                  = array();
         $wArray[0]               = new stdClass;
-        $wArray[0]->wrapper_id   = 0;
-        $wArray[0]->wrapper_name = JText::_('COM_REDSHOP_SELECT');
+        $wArray[0]->id   = 0;
+        $wArray[0]->name = JText::_('COM_REDSHOP_SELECT');
         $commonId                = $productId . $uniqueId;
 
         for ($i = 0, $in = count($wrapper); $i < $in; $i++) {
             $wrapperVat = 0;
 
-            if ($wrapper[$i]->wrapper_price > 0) {
-                $wrapperVat = self::getProductTax($productId, $wrapper[$i]->wrapper_price, $userId);
+            if ($wrapper[$i]->price > 0) {
+                $wrapperVat = self::getProductTax($productId, $wrapper[$i]->price, $userId);
             }
 
-            $wrapper[$i]->wrapper_price += $wrapperVat;
+            $wrapper[$i]->price += $wrapperVat;
 
-            $wrapperPrice = RedshopHelperProductPrice::formattedPrice($wrapper[$i]->wrapper_price);
+            $wrapperPrice = RedshopHelperProductPrice::formattedPrice($wrapper[$i]->price);
 
             if ($isTripTags) {
                 $wrapperPrice = strip_tags($wrapperPrice);
             }
 
-            $wrapper[$i]->wrapper_name = $wrapper [$i]->wrapper_name . " (" . $wrapperPrice . ")";
+            $wrapper[$i]->name = $wrapper[$i]->name . " (" . $wrapperPrice . ")";
 
             $wrapperList .= "<input type='hidden' id='wprice_" . $commonId . "_"
-                . $wrapper [$i]->wrapper_id . "' value='" . $wrapper[$i]->wrapper_price . "' />";
+                . $wrapper[$i]->id . "' value='" . $wrapper[$i]->price . "' />";
             $wrapperList .= "<input type='hidden' id='wprice_tax_" . $commonId . "_"
-                . $wrapper [$i]->wrapper_id . "' value='" . $wrapperVat . "' />";
+                . $wrapper[$i]->id . "' value='" . $wrapperVat . "' />";
         }
 
         $wrapper = array_merge($wArray, $wrapper);
@@ -375,8 +375,8 @@ class RedshopHelperProduct
             $wrapper,
             'wrapper_id_' . $commonId . '[]',
             'id="wrapper_id_' . $commonId . '" class="inputbox" onchange="calculateOfflineTotalPrice(\'' . $uniqueId . '\');" ',
-            'wrapper_id',
-            'wrapper_name',
+            'id',
+            'name',
             0
         );
 
@@ -403,13 +403,13 @@ class RedshopHelperProduct
         }
 
         if ($default != 0) {
-            $subQuery[] = $db->qn('wrapper_use_to_all') . ' = 1 ';
+            $subQuery[] = $db->qn('use_to_all') . ' = 1 ';
         }
 
         $query = $db->getQuery(true);
 
         if ($wrapper_id != 0) {
-            $query->where($db->qn('wrapper_id') . ' = ' . (int)$wrapper_id);
+            $query->where($db->qn('id') . ' = ' . (int)$wrapper_id);
         }
 
         $query->select('*')
@@ -683,12 +683,13 @@ class RedshopHelperProduct
      *
      * @param   int  $productId  Product Id
      * @param   int  $userId     User Id
+     * @param   bool $isApplyTax Apply vat or not
      *
      * @return  mixed  Redshop Layout
      *
      * @since   2.0.5
      */
-    public static function getProductQuantityPrice($productId, $userId)
+    public static function getProductQuantityPrice($productId, $userId, $isApplyTax = true)
     {
         $db      = JFactory::getDbo();
         $userArr = JFactory::getSession()->get('rs_user');
@@ -732,7 +733,8 @@ class RedshopHelperProduct
             array(
                 'result'    => $result,
                 'productId' => $productId,
-                'userId'    => $userId
+                'userId'    => $userId,
+                'isApplyTax'=> $isApplyTax
             ),
             '',
             array(
@@ -911,7 +913,7 @@ class RedshopHelperProduct
         $db = JFactory::getDbo();
 
         $totalRating = $db->getQuery(true)
-            ->select('count(rating_id)')
+            ->select('count(id)')
             ->from($db->qn('#__redshop_product_rating'))
             ->where("product_id = $productId");
 
@@ -1649,7 +1651,7 @@ class RedshopHelperProduct
             )
         )
             ->join('', $db->qn('#__redshop_stockroom') . ' AS s')
-            ->where($db->qn('ps.stockroom_id') . ' = ' . $db->qn('s.stockroom_id'))
+            ->where($db->qn('ps.stockroom_id') . ' = ' . $db->qn('s.id'))
             ->where($db->qn('ps.quantity') . ' > 0 ')
             ->order($db->qn('min_del_time') . ' ASC');
 
@@ -2945,9 +2947,11 @@ class RedshopHelperProduct
      * @param   int     $newProductPrice
      * @param   int     $quantity
      * @param   string  $data
+     * @param   bool    $isReturnObject
      *
-     * @return array|string
+     * @return array|string|object
      * @throws Exception
+     * @since  __DEPLOY_VERSION__
      */
     public static function makeAttributeCart(
         $attributes = array(),
@@ -2955,7 +2959,8 @@ class RedshopHelperProduct
         $userId = 0,
         $newProductPrice = 0,
         $quantity = 1,
-        $data = ''
+        $data = '',
+        $isReturnObject = false
     ) {
         $user = JFactory::getUser();
 
@@ -2990,7 +2995,7 @@ class RedshopHelperProduct
 
         $isStock          = RedshopHelperStockroom::isStockExists($productId);
         $isPreorderStock  = RedshopHelperStockroom::isPreorderStockExists($productId);
-        $displayAttribute = 0;
+        $isDisplayAttribute = 0;
 
         for ($i = 0, $in = count($attributes); $i < $in; $i++) {
             $propertiesOperator        = array();
@@ -3005,7 +3010,7 @@ class RedshopHelperProduct
             $properties = !empty($attributes[$i]['attribute_childs']) ? $attributes[$i]['attribute_childs'] : array();
 
             if (count($properties) > 0) {
-                $displayAttribute++;
+                $isDisplayAttribute++;
             }
 
             for ($k = 0, $kn = count($properties); $k < $kn; $k++) {
@@ -3117,12 +3122,12 @@ class RedshopHelperProduct
             }
         }
 
-        $displayattribute = RedshopLayoutHelper::render(
+        $isDisplayAttribute = RedshopLayoutHelper::render(
             'product.product_attribute',
             array(
                 'attributes'       => $attributes,
                 'data'             => $data,
-                'displayAttribute' => $displayAttribute
+                'displayAttribute' => $isDisplayAttribute
             ),
             '',
             array(
@@ -3149,19 +3154,34 @@ class RedshopHelperProduct
 		}*/
 
         $data = array(
-            $displayattribute,
-            $productPrice,
-            $productVatPrice,
-            $selectedAttributs,
-            $isStock,
-            $productOldprice,
-            $productVatOldPrice,
-            $isPreorderStock,
-            $selectedProperty
+            $isDisplayAttribute, #0
+            $productPrice, #1
+            $productVatPrice, #2
+            $selectedAttributs, #3
+            $isStock, #4
+            $productOldprice, #5
+            $productVatOldPrice, #6
+            $isPreorderStock, #7
+            $selectedProperty #8
         );
 
         JPluginHelper::importPlugin('redshop_product');
         RedshopHelperUtility::getDispatcher()->trigger('onMakeAttributeCart', array(&$data, $attributes, $productId));
+
+        if ($isReturnObject) {
+            $o = new stdClass();
+            $o->html = $data[0];
+            $o->productPrice = $data[1];
+            $o->productVatPrice = $data[2];
+            $o->selectedAttributs = $data[3];
+            $o->isStock = $data[4];
+            $o->productOldprice = $data[5];
+            $o->productVatOldPrice = $data[6];
+            $o->isPreorderStock = $data[7];
+            $o->selectedProperty = $data[8];
+
+            return $o;
+        }
 
         return $data;
     }
@@ -3834,7 +3854,7 @@ class RedshopHelperProduct
                 $cartAttributes[] = get_object_vars($attribute[0]);
             }
 
-            $displayattribute = RedshopLayoutHelper::render(
+            $isDisplayAttribute = RedshopLayoutHelper::render(
                 'product.order_attribute',
                 array(
                     'orderItemAttdata' => $orderItemAttdata,
@@ -3851,15 +3871,15 @@ class RedshopHelperProduct
                 )
             );
         } else {
-            $displayattribute = $product_attribute;
+            $isDisplayAttribute = $product_attribute;
         }
 
         if (isset($products->use_discount_calc) && $products->use_discount_calc == 1) {
-            $displayattribute = $displayattribute . $orderItemdata[0]->discount_calc_data;
+            $isDisplayAttribute = $isDisplayAttribute . $orderItemdata[0]->discount_calc_data;
         }
 
         $data                                 = new stdClass;
-        $data->product_attribute              = $displayattribute;
+        $data->product_attribute              = $isDisplayAttribute;
         $data->attribute_middle_template      = $attribute_final_template;
         $data->attribute_middle_template_core = $attribute_middle_template;
         $data->cart_attribute                 = $cartAttributes;
@@ -3881,20 +3901,20 @@ class RedshopHelperProduct
         $catquery       = $db->getQuery(true);
 
         if ($user->id > 0) {
-            $catquery->select($db->qn('sg.shopper_group_categories'))
+            $catquery->select($db->qn('sg.categories'))
                 ->from($db->qn('#__redshop_shopper_group', 'sg'))
                 ->leftJoin(
-                    $db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('sg.shopper_group_id') . ' = ' . $db->qn(
+                    $db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('sg.id') . ' = ' . $db->qn(
                         'uf.shopper_group_id'
                     )
                 )
                 ->where($db->qn('uf.user_id') . ' = ' . (int)$user->id)
-                ->where($db->qn('sg.shopper_group_portal') . ' = 1');
+                ->where($db->qn('sg.portal') . ' = 1');
         } else {
-            $catquery->select($db->qn('sg.shopper_group_categories'))
+            $catquery->select($db->qn('sg.categories'))
                 ->from($db->qn('#__redshop_shopper_group', 'sg'))
-                ->where($db->qn('sg.shopper_group_id') . ' = ' . (int)$shopperGroupId)
-                ->where($db->qn('sg.shopper_group_portal') . ' = 1');
+                ->where($db->qn('sg.id') . ' = ' . (int)$shopperGroupId)
+                ->where($db->qn('sg.portal') . ' = 1');
         }
 
         $db->setQuery($catquery);
@@ -3902,7 +3922,7 @@ class RedshopHelperProduct
         if (empty($category_ids_obj)) {
             return "";
         } else {
-            $category_ids = $category_ids_obj[0]->shopper_group_categories;
+            $category_ids = $category_ids_obj[0]->categories;
         }
 
         // Sanitize ids
@@ -3977,7 +3997,7 @@ class RedshopHelperProduct
         $quotation_status = 2,
         $stock = 0
     ) {
-        $displayattribute  = "";
+        $isDisplayAttribute  = "";
         $product_attribute = "";
         $quantity          = 0;
         $stockroom_id      = "0";
@@ -3995,7 +4015,7 @@ class RedshopHelperProduct
             $parent_section_id
         );
 
-        $displayattribute = RedshopLayoutHelper::render(
+        $isDisplayAttribute = RedshopLayoutHelper::render(
             'product.quotation_attribute',
             array(
                 'itemAttdata'     => $ItemAttdata,
@@ -4012,7 +4032,7 @@ class RedshopHelperProduct
             )
         );
 
-        return $displayattribute;
+        return $isDisplayAttribute;
     }
 
     public static function getValidityDate($period, $data)
@@ -5018,8 +5038,8 @@ class RedshopHelperProduct
             ->where($db->qn('pr.product_id') . ' = ' . (int)$productId)
             ->where($db->qn('pr.published') . ' = 1')
             ->where($db->qn('pr.email') . ' != ' . $db->q(''))
-            ->order($db->qn('pr.favoured') . ' DESC')
-            ->group($db->qn('pr.rating_id'));
+            ->order($db->qn('pr.time') . ' DESC')
+            ->group($db->qn('pr.id'));
 
         try {
             $reviews = $db->setQuery($query)->loadObjectList();

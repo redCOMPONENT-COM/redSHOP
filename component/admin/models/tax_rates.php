@@ -185,9 +185,9 @@ class RedshopModelTax_Rates extends RedshopModelList
 		foreach ($shopperGroupIds as $shopperGroupId)
 		{
 			$query = $db->getQuery(true)
-				->select('shopper_group_name')
+				->select('name')
 				->from($db->qn('#__redshop_shopper_group'))
-				->where($db->qn('shopper_group_id') . ' = ' . $db->q($shopperGroupId));
+				->where($db->qn('id') . ' = ' . $db->q($shopperGroupId));
 
 			$result[] = $db->setQuery($query)->loadResult();
 		}

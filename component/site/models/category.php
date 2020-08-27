@@ -220,19 +220,32 @@ class RedshopModelCategory extends RedshopModel
 
         RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query, &$categories, &$endlimit));
 
-        // First steep get product ids
-        if ($minmax != 0 || $isSlider) {
-            $db->setQuery($query);
-        } else {
-            $db->setQuery($query, $limitstart, $endlimit);
-        }
-
 	    $productFilters = JFactory::getApplication()->input->get->get('filterform', array(), 'array');
 
         if (!empty($productFilters)) {
             $query->clear();
             $query = RedshopHelperCategory::buildQueryFilterProduct($this->_id, $categories, $productFilters);
 	        $query->order($orderBy);
+        }
+
+        if (\Redshop::getConfig()->getInt('USE_STOCKROOM')
+            && \Redshop::getConfig()->getInt('DISPLAY_OUT_OF_STOCK_AFTER')) {
+            $query->clear('order');
+            $subQuery = $db->getQuery(true)
+                ->select('sr.product_id')
+                ->select('IF(SUM(sr.quantity) > 0, 1, 0) AS stock')
+                ->from($db->qn('#__redshop_product_stockroom_xref', 'sr'))
+                ->group('sr.product_id');
+
+            $query
+                ->leftJoin('(' . $subQuery . ') stockroom ON stockroom.product_id = p.product_id')
+                ->order($db->qn('stockroom.stock') . ' DESC,' . $orderBy);
+        }
+
+        // First steep get product ids
+        if ($minmax != 0 || $isSlider) {
+            $db->setQuery($query);
+        } else {
             $db->setQuery($query, $limitstart, $endlimit);
         }
 
@@ -349,31 +362,6 @@ class RedshopModelCategory extends RedshopModel
         } else {
             $db->setQuery($queryCount);
             $this->_total = $db->loadResult();
-        }
-
-        // H.A 20.04.2020 REDSHOP-5970 Display out of stock after in stock products
-        if (\Redshop::getConfig()->getInt('USE_STOCKROOM')
-            && \Redshop::getConfig()->getInt('DISPLAY_OUT_OF_STOCK_AFTER')) {
-
-            $inStock = \RedshopHelperProduct::removeOutofstockProduct($this->_product);
-
-            if (count($this->_product) > 0) {
-                foreach ($this->_product as $p) {
-                    $flag = false;
-                    foreach ($inStock as $i) {
-                        if ($p->product_id == $i->product_id) {
-                            $flag = true;
-                            break;
-                        }
-                    }
-
-                    if (!$flag) {
-                        $inStock[] = $p;
-                    }
-                }
-            }
-
-            $this->_product = $inStock;
         }
 
         return $this->_product;

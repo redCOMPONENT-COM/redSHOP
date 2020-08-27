@@ -124,9 +124,13 @@ class RedshopViewOrder_Detail extends RedshopView
         $app     = JFactory::getApplication();
         $orderId = $app->input->getInt('oid', 0);
         $print   = $app->input->getInt('print', 0);
-        $order   = RedshopEntityOrder::getInstance($orderId)->getItem();
 
-        if ($order->order_status != 'C' && $order->order_status != 'S' && $order->order_status != 'PR' && $order->order_status != 'APP' && $print != 1 && $order->order_payment_status != 'Paid') {
+	    $orderEntity        = RedshopEntityOrder::getInstance($orderId);
+	    $order              = $orderEntity->getItem();
+	    $paymentMethodClass = $orderEntity->getPayment()->getItem()->payment_method_class;
+
+
+	    if ($order->order_status != 'C' && $order->order_status != 'S' && $order->order_status != 'PR' && $order->order_status != 'APP' && $print != 1 && $order->order_payment_status != 'Paid' && $paymentMethodClass != 'rs_payment_banktransfer') {
             $reorder = "<form method='post'>
 			<input type='hidden' name='order_id' value='" . $orderId . "'>
 			<input type='hidden' name='option' value='com_redshop'>

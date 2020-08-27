@@ -151,7 +151,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->waitForElementVisible($searchField, 30);
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(['link' => $text]);
+		$I->waitForElement(['link' => $text], 30);
 	}
 
 	/**
@@ -221,6 +221,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
+		$I->wait(0.5);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonReset);
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);

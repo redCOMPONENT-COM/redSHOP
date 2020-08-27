@@ -62,7 +62,7 @@ class RedshopModelStockimage extends RedshopModel
         }
 
         $query = "SELECT * FROM " . $this->_table_prefix . "stockroom_amount_image AS si "
-            . "LEFT JOIN " . $this->_table_prefix . "stockroom AS s ON s.stockroom_id=si.stockroom_id "
+            . "LEFT JOIN " . $this->_table_prefix . "stockroom AS s ON s.id=si.stockroom_id "
             . $where
             . $orderby;
 
