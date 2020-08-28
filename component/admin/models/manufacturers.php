@@ -61,7 +61,7 @@ class RedshopModelManufacturers extends RedshopModelList
      *
      * @since   1.6
      */
-    protected function populateState($ordering = 'm.id', $direction = 'asc')
+    protected function populateState($ordering = 'm.id', $direction = 'desc')
     {
         $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
