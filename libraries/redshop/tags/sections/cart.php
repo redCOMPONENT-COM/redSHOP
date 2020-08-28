@@ -208,8 +208,6 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
         $discount = RedshopHelperDiscount::getDiscount($cart ['product_subtotal']);
 
         if (is_object($discount)) {
-            $text = '';
-
             if (isset($discount->discount_type) && $discount->discount_type == 0) {
                 $discountAmount = $discount->discount_amount;
                 $discountSign   = " " . Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
@@ -218,7 +216,6 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
                 $discountSign   = " %";
             }
 
-            $diff  = $discount->amount - $cart ['product_subtotal'];
             $price = number_format(
                 $discount->discount_amount,
                 Redshop::getConfig()->get('PRICE_DECIMAL'),
