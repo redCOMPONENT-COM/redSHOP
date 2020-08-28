@@ -30,34 +30,43 @@ class Helper
         $conditionCategory = isset($promotion->category)? false: true;
         $conditionProduct = isset($promotion->product)? false: true;
         $count = 0;
-        $counted = [];
 
         for ($i = 0; $i < $cart['idx']; $i++) {
+
             if (empty($cart[$i]['isPromotionAward'])) {
                 $product = \Redshop\Product\Product::getProductById($cart[$i]['product_id']);
+                $isCounted = false;
 
-                if (isset($promotion->product)
-                    && in_array($product->product_id, $promotion->product)
-                    && !in_array($product->product_id, $counted)) {
-                    $conditionProduct = true;
-                    $count += $cart[$i]['quantity'];
-                    $counted[] = $product->product_id;
+                if (isset($promotion->manufacturer)
+                    && in_array($product->manufacturer_id, $promotion->manufacturer)
+                ) {
+                    $conditionManufacturer = true;
+
+                    if (!$isCounted) {
+                        $count += $cart[$i]['quantity'];
+                        $isCounted = true;
+                    }
                 }
 
                 if (isset($promotion->category)
                     && in_array($product->category_id, $promotion->category)
-                    && !in_array($product->product_id, $counted)) {
+                ) {
                     $conditionCategory = true;
-                    $count += $cart[$i]['quantity'];
-                    $counted[] = $product->product_id;
+
+                    if (!$isCounted) {
+                        $count += $cart[$i]['quantity'];
+                        $isCounted = true;
+                    }
                 }
 
-                if (isset($promotion->manufacturer)
-                    && in_array($product->manufacturer_id, $promotion->manufacturer)
-                    && !in_array($product->product_id, $counted)) {
-                    $conditionManufacturer = true;
-                    $count += $cart[$i]['quantity'];
-                    $counted[] = $product->product_id;
+                if (isset($promotion->product)
+                    && in_array($product->product_id, $promotion->product)
+                ) {
+                    $conditionProduct = true;
+
+                    if (!$isCounted) {
+                        $count += $cart[$i]['quantity'];
+                    }
                 }
             }
         }
