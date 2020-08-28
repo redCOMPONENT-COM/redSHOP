@@ -46,7 +46,9 @@ class RedshopHelperDiscount
         $result      = false;
         $currentTime = time();
 
-        foreach ($shopperGroupDiscounts->getAll() as $discount) {
+        $discounts = $shopperGroupDiscounts->getAll();
+
+        foreach ($discounts as $discount) {
             /** @var RedshopEntityDiscount $discount */
             $potentialDiscount = null;
 
@@ -82,7 +84,7 @@ class RedshopHelperDiscount
                 continue;
             }
 
-            if (false === $result || $result->get('amount') > $potentialDiscount->get('amount')) {
+            if (false === $result) {
                 $result = $potentialDiscount;
             }
         }
