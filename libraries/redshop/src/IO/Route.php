@@ -34,7 +34,11 @@ class Route
                              $lang = null) {
 
         $lang = $lang ?? \Redshop\Language\Helper::getLanguage();
-        $url = self::addParamToUrl($url, $lang);
+        $item = 'lang=' . substr($lang->getTag(), 0, 2);
+
+        if (!strstr($url, 'administrator')) {
+            $url = self::addParamToUrl($url, $item);
+        }
 
         return \Joomla\CMS\Router\Route::_($url, $xhtml, $tls, $absolute);
     }
@@ -50,7 +54,7 @@ class Route
         }
 
         $params = explode('&', $url);
-        $params[] = 'lang=' . $item;
+        $params[] = $item;
         $url = implode('&', $params);
 
         return $url;
