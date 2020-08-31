@@ -26,7 +26,6 @@ extract($displayData);
             name="extrafields<?php echo $uniqueId; ?>[]"
             class="<?php echo $rowData->class; ?>"
             id="<?php echo $rowData->name; ?>"
-            maxlength="<?php echo $rowData->maxlength; ?>"
             cols="<?php echo $rowData->cols; ?>"
             rows="<?php echo $rowData->rows; ?>"
             userfieldlbl="<?php echo $rowData->title; ?>"
