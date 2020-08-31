@@ -77,7 +77,7 @@ class Helper
 
         $conditionTime = self::checkValidTimePromotion($promotion);
 
-        return $conditionAmount && $conditionProduct && $conditionManufacturer && $conditionCategory && $conditionTime;
+        return $conditionAmount && ($conditionProduct || $conditionManufacturer || $conditionCategory) && $conditionTime;
     }
 
     /**
