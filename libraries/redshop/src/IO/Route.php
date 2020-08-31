@@ -47,7 +47,7 @@ class Route
         }
 
         $params = explode('&', $url);
-        $params[] = $item;
+        $params[] = 'lang=' . $item;
         $url = implode('&', $params);
 
         return $url;
