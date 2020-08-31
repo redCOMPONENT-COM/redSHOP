@@ -382,7 +382,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
 
             $replacements[$cTag] = $catMainThumb;
 
-            $extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
+            $extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(2, null, 1);
 
             $template = RedshopHelperProductTag::getExtraSectionTag(
                 $extraFieldName,
