@@ -20,12 +20,13 @@ defined('_JEXEC') or die;
 class Route
 {
     /**
-     * @param $url
+     * @param string $url
      * @param bool $xhtml
-     * @param  $tls
-     * @param bool $absolute
-     * @param null $lang
+     * @param int $tls
+     * @param false $absolute
+     * @param string $lang
      * @return string|null
+     * @throws \Exception
      * @since  __DEPLOY_VERSION__
      */
     public static function _($url, $xhtml = true,
@@ -33,8 +34,11 @@ class Route
                              $absolute = false,
                              $lang = null) {
 
-        $lang = $lang ?? \Redshop\Language\Helper::getLanguage();
-        $item = 'lang=' . substr($lang->getTag(), 0, 2);
+        if (empty($lang)) {
+            $lang = substr(\Redshop\Language\Helper::getLanguage()->getTag(), 0, 2);
+        }
+
+        $item = 'lang=' . $lang;
         $condition = !\Joomla\CMS\Factory::getApplication()->isClient('administrator')
             && strpos($url, 'lang') === false;
 
