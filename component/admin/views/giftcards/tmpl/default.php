@@ -40,7 +40,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
     };
 </script>
 <form
-        action="<?php echo JRoute::_('index.php?option=com_redshop&view=giftcards'); ?>"
+        action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=giftcards'); ?>"
         method="post"
         name="adminForm"
         id="adminForm"
@@ -143,7 +143,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <div class="pull-left break-word">
                             <a
                                     class="hasTooltip"
-                                    href="<?php echo JRoute::_(
+                                    href="<?php echo Redshop\IO\Route::_(
                                         'index.php?option=com_redshop&task=giftcard.edit&giftcard_id=' . $item->giftcard_id
                                     ); ?>"
                                     title="<?php echo JText::_('JACTION_EDIT'); ?>"

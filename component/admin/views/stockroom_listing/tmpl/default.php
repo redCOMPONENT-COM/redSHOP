@@ -33,7 +33,7 @@ $showbuttons = JFactory::getApplication()->input->getInt('showbuttons', 0);
     Joomla.submitbutton = function (pressbutton) {
         if (pressbutton == "print_data") {
             window.open(
-                "<?php echo JRoute::_(
+                "<?php echo Redshop\IO\Route::_(
                     'index.php?tmpl=component&option=com_redshop&view=stockroom_listing&id=0&showbuttons=1',
                     false
                 );?>", "<?php echo JText::_('COM_REDSHOP_STOCKROOM_LISTING');?>",
@@ -155,7 +155,7 @@ $showbuttons = JFactory::getApplication()->input->getInt('showbuttons', 0);
                 $quntotal[$i]            = array(0);
                 $preorder_stocktotal[$i] = array(0);
                 $row                     = $this->resultlisting [$i];
-                $link1                   = JRoute::_(
+                $link1                   = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id
                 );
                 ?>

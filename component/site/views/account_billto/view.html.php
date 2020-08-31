@@ -56,7 +56,7 @@ class RedshopViewAccount_Billto extends RedshopView
             $auth = $session->get('auth');
         }
 
-        $link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
+        $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
 
         $accountBilltoJs = ['isEdit' => $isEdit, 'link' => $link];
         $document        = JFactory::getDocument();
@@ -73,7 +73,7 @@ class RedshopViewAccount_Billto extends RedshopView
 
         // Preform security checks
         if ($user->id == 0 && $auth['users_info_id'] == 0) {
-            $app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
+            $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
             $app->close();
         }
 

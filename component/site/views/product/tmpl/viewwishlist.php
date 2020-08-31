@@ -77,7 +77,7 @@ function display_products($rows)
     for ($i = 0, $in = count($rows); $i < $in; $i++) {
         $row           = $rows[$i];
         $Itemid        = $this->redHelper->getItemid($row->product_id);
-        $link          = JRoute::_(
+        $link          = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid
         );
         $product_price = Redshop\Product\Price::getPrice($row->product_id);

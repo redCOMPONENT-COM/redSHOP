@@ -156,7 +156,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos(
 
         $categoryItemId = RedshopHelperRouter::getCategoryItemid($row->id);
 
-        $link = JRoute::_(
+        $link = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=category&cid='
             . $row->id . '&manufacturer_id='
             . $categoryModel->getState('manufacturer_id') . '&layout=detail&Itemid='
@@ -409,7 +409,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
         // Replace VAT information
         $dataAdd = RedshopHelperTax::replaceVatInformation($dataAdd);
 
-        $link = JRoute::_(
+        $link = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid
         );
 
@@ -486,7 +486,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
         }
 
         if (strstr($dataAdd, '{manufacturer_link}')) {
-            $manufacturerLinkHref = JRoute::_(
+            $manufacturerLinkHref = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $product->manufacturer_id . '&Itemid=' . $itemId
             );
             $manufacturerLink     = '';
@@ -503,7 +503,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
         }
 
         if (strstr($dataAdd, '{manufacturer_product_link}')) {
-            $manufacturerPLink = "<a href='" . JRoute::_(
+            $manufacturerPLink = "<a href='" . Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $product->manufacturer_id . '&Itemid=' . $itemId
                 ) . "'>" . JText::_(
                     "COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS"

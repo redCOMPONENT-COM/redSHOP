@@ -41,7 +41,7 @@ if ($download) {
     $app->close();
 }
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm"
+<form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm"
       id="adminForm">
     <div id="editcell">
         <table class="adminlist table table-striped">
@@ -85,10 +85,10 @@ if ($download) {
             for ($i = 0, $n = count($this->orders); $i < $n; $i++) {
                 $row     = $this->orders[$i];
                 $row->id = $row->order_id;
-                $link    = JRoute::_(
+                $link    = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id
                 );
-                $dlink   = JRoute::_(
+                $dlink   = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=order&layout=labellisting&download=1&oid=' . $row->order_id
                 );
                 $plink   = JURI::base() . 'components/com_redshop/assets/lables/label_' . $row->order_id . '.pdf';

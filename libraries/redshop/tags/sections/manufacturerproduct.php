@@ -176,7 +176,7 @@ class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
             $manufacturer->id
         );
 
-        $this->replacements['{manufacturer_link}'] = JRoute::_(
+        $this->replacements['{manufacturer_link}'] = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer->id . '&Itemid=' . $itemId
         );
 

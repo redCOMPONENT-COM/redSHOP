@@ -95,7 +95,7 @@ class Wishlist
                 $dataAdd .= '<div class="redProductWishlist">';
 
                 $productName = $row->product_name;
-                $link        = \JRoute::_(
+                $link        = \Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $itemId,
                     false
                 );
@@ -157,7 +157,7 @@ class Wishlist
         if (count($myWishList)) {
             foreach ($myWishList as $row) {
                 $itemId       = \RedshopHelperRouter::getItemId($row->product_id);
-                $link         = \JRoute::_(
+                $link         = \Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . (int)$itemId,
                     true,
                     -1

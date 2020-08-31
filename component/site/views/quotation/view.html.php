@@ -26,7 +26,7 @@ class RedshopViewQuotation extends RedshopView
 
         if (!$return) {
             if ($cart['idx'] < 1) {
-                $app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid));
+                $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid));
             }
         }
 

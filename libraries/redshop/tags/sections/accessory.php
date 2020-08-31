@@ -571,7 +571,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 
         $this->replacements["{product_number}"] = $accessory->product_number;
 
-        $readMoreLink = JRoute::_(
+        $readMoreLink = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=product&pid=' . $accessory->child_product_id . '&Itemid=' . $this->itemId,
             false
         );
@@ -597,7 +597,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
             $manufacturer = RedshopEntityManufacturer::getInstance($accessoryProduct->manufacturer_id)->getItem();
 
             if (!empty($manufacturer)) {
-                $manufacturerUrl = JRoute::_(
+                $manufacturerUrl = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=manufacturers&layout=products&mid='
                     . $manufacturer->id . '&Itemid=' . $this->itemId
                 );
@@ -651,7 +651,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
         $accessoryHeightThumb = $infoAccessoryImg['height'];
 
 
-        $accessoryProductLink = JRoute::_(
+        $accessoryProductLink = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=product&pid=' . $accessory->child_product_id . '&Itemid=' . $itemId,
             false
         );

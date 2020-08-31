@@ -41,7 +41,7 @@ class RedshopViewRatings extends RedshopViewList
             case 'favoured':
                 return JHTML::_('grid.published', $row->favoured, $index, 'tick.png', 'publish_x.png', 'FV');
             case 'product_id':
-                $prodlink = JRoute::_(
+                $prodlink = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id
                 );
 

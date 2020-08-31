@@ -53,7 +53,7 @@ if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE')) {
     echo JLayoutHelper::render('cart.wizard', array('step' => '1'));
 }
 
-$returnUrl = JRoute::_($url . 'index.php?option=com_redshop&view=checkout', false);
+$returnUrl = Redshop\IO\Route::_($url . 'index.php?option=com_redshop&view=checkout', false);
 $returnUrl = base64_encode($returnUrl);
 
 if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) {
@@ -142,7 +142,7 @@ if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) 
     <?php endif; ?>
 
     <div id="redshopRegistrationForm">
-        <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId); ?>"
+        <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId); ?>"
               method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
             <?php if (Redshop::getConfig()->get('REGISTER_METHOD') == 2) :

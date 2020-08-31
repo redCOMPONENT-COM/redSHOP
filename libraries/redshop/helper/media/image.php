@@ -46,7 +46,7 @@ class RedshopHelperMediaImage
 
         $imgUrl = $useMediaPath ? '/media/com_redshop/images/' . $type . '/' . $sectionId . '/' . $image
             : '/components/com_redshop/assets/images/' . $type . '/' . $image;
-        $imgUrl = JRoute::_($imgUrl);
+        $imgUrl = Redshop\IO\Route::_($imgUrl);
 
         $imgFile = $useMediaPath ? REDSHOP_MEDIA_IMAGE_RELPATH . $type . '/' . $sectionId . '/' . $image
             : REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;

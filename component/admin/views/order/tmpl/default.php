@@ -172,7 +172,7 @@ JPluginHelper::importPlugin('redshop_product');
     })(jQuery);
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm"
+<form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm"
       id="adminForm">
     <div id="editcell">
         <div class="filterTool">
@@ -498,7 +498,7 @@ JPluginHelper::importPlugin('redshop_product');
                                         <?php echo JText::_('JTOOLBAR_CANCEL') ?>
                                     </button>
                                     <button type="button" class="button btn btn-primary"
-                                            onclick="location.href='<?php echo JRoute::_(
+                                            onclick="location.href='<?php echo Redshop\IO\Route::_(
                                                 $linkUpdate,
                                                 false
                                             ) ?>&status='+document.adminForm.order_status<?php echo $row->order_id ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id ?>.value;"

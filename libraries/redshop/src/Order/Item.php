@@ -69,7 +69,7 @@ class Item
                 $productId,
                 isset($productData->cat_in_sefurl) ? $productData->cat_in_sefurl : ''
             );
-            $link        = \JRoute::_(
+            $link        = \Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=product&pid=' . $productId .
                 (isset($productData->cat_in_sefurl) ? ('&cid=' . $productData->cat_in_sefurl) : '') . '&Itemid=' . $itemId,
                 false
@@ -229,7 +229,7 @@ class Item
 
             if (!empty($category)) {
                 $categoryLink = "<a href='"
-                    . \JRoute::_(
+                    . \Redshop\IO\Route::_(
                         $url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $categoryId
                     ) . "'>"
                     . $category->name . "</a>";
@@ -422,7 +422,7 @@ class Item
                 $itemId = \RedshopHelperRouter::getCartItemId();
 
                 $copyToCart      = '<a href="'
-                    . \JRoute::_(
+                    . \Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=order_detail&task=copyorderitemtocart&order_item_id='
                         . $items[$i]->order_item_id . '&Itemid=' . $itemId,
                         false
@@ -467,7 +467,7 @@ class Item
                     $downloadMax = $download->download_max;
                     $endDate     = $download->end_date;
                     $mailToken   = "<a href='"
-                        . \JRoute::_(
+                        . \Redshop\IO\Route::_(
                             \JUri::root(
                             ) . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $downloadId,
                             false
@@ -533,7 +533,7 @@ class Item
                     $ip           = $download->ip;
 
                     $mailToken = "<a href='"
-                        . \JRoute::_(
+                        . \Redshop\IO\Route::_(
                             \JUri::root(
                             ) . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $downloadId,
                             false
