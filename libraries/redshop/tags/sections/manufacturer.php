@@ -186,7 +186,8 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
                             $media->get('media_name'),
                             $mwThumb,
                             $mhThumb,
-                            Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE')
+                            Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'),
+                            $data->id
                         );
                     } else {
                         $manufacturerImg = RedshopHelperMedia::getImagePath(
