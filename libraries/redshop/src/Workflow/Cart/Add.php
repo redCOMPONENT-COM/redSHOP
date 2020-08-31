@@ -346,7 +346,7 @@ class Add
                 }
 
                 // Discount calculator
-                $arrayDiffCalc = array_diff_assoc($cart[$i]['discount_calc'], $discount->calculationOutputs);
+                $arrayDiffCalc = array_diff_assoc($cart[$i]['discount_calc'] ?? [], $discounts->calculationOutputs ?? []);
 
                 if (count($arrayDiffCalc) > 0) {
                     $sameProduct = false;
@@ -434,8 +434,8 @@ class Add
             // SET VALVUES INTO SESSION CART
             $cart[$idx]['giftcard_id']                = '';
             $cart[$idx]['product_id']                 = $data['product_id'];
-            $cart[$idx]['discount_calc_output']       = $discount->html;
-            $cart[$idx]['discount_calc']              = $discount->calculationOutputs;
+            $cart[$idx]['discount_calc_output']       = $discounts->html ?? '';
+            $cart[$idx]['discount_calc']              = $discounts->calculationOutputs ?? [];
             $cart[$idx]['product_price']              = $data['product_price'];
             $cart[$idx]['product_old_price']          = $data['product_old_price'];
             $cart[$idx]['product_old_price_excl_vat'] = $data['product_old_price_excl_vat'];

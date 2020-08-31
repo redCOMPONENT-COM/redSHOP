@@ -129,11 +129,13 @@ class Accessory
             }
 
             \Redshop\Workflow\Quotation::saveCartToDB();
-            \Redshop\Cart\Ajax::renderModuleCartHtml();
+            $cart = \RedshopHelperDiscount::modifyDiscount($cart);
+            \Redshop\Cart\Helper::setCart($cart);
             unset($cart['AccessoryAsProduct']);
         } else {
             \Redshop\Workflow\Quotation::saveCartToDB();
-            \Redshop\Cart\Ajax::renderModuleCartHtml();
+            $cart = \RedshopHelperDiscount::modifyDiscount($cart);
+            \Redshop\Cart\Helper::setCart($cart);
         }
     }
 }
