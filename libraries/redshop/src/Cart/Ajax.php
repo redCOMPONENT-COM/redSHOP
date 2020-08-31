@@ -81,9 +81,8 @@ class Ajax
         \Redshop\Cart\Helper::removeItemCart($cartElement);
 
         \RedshopHelperCart::addCartToDatabase();
-        \RedshopHelperCart::ajaxRenderModuleCartHtml();
 
-        $cartObject = \RedshopHelperCart::renderModuleCartHtml(\Redshop\Cart\Helper::getCart());
+        $cartObject = \Redshop\Cart\Render::moduleCart(\Redshop\Cart\Helper::getCart());
 
         echo $cartObject->cartHtml? $cartObject->cartHtml: '' ;
 

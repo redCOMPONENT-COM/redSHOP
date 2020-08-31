@@ -46,7 +46,9 @@ class RedshopHelperDiscount
         $result      = false;
         $currentTime = time();
 
-        foreach ($shopperGroupDiscounts->getAll() as $discount) {
+        $discounts = $shopperGroupDiscounts->getAll();
+
+        foreach ($discounts as $discount) {
             /** @var RedshopEntityDiscount $discount */
             $potentialDiscount = null;
 
@@ -82,7 +84,7 @@ class RedshopHelperDiscount
                 continue;
             }
 
-            if (false === $result || $result->get('amount') > $potentialDiscount->get('amount')) {
+            if (false === $result) {
                 $result = $potentialDiscount;
             }
         }
@@ -215,8 +217,9 @@ class RedshopHelperDiscount
      * @throws  Exception
      * @since 3.0
      */
-    public static function modifyDiscount($cart)
+    public static function modifyDiscount($cart = [])
     {
+        $cart = empty($cart) ? \Redshop\Cart\Helper::getCart(): $cart;
         $calculations                      = \Redshop\Cart\Helper::calculation();
         $cart['product_subtotal']          = $calculations[1];
         $cart['product_subtotal_excl_vat'] = $calculations[2];
@@ -344,7 +347,7 @@ class RedshopHelperDiscount
         $cart['discount_ex_vat']           = $totalDiscount - $discountVAT;
         $cart['mod_cart_total']            = Redshop\Cart\Module::calculate((array)$cart);
 
-        \JFactory::getSession()->set('cart', $cart);
+        \Redshop\Cart\Helper::setCart($cart);
 
         return $cart;
     }

@@ -1086,7 +1086,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$usePage = new ProductManagerPage();
 		$I->waitForElement($usePage->returnChoice($productCategory), 30);
 		$I->click($usePage->returnChoice($productCategory));
-		$I->scrollTo(ProductManagerPage::$saleYes);
+		$I->scrollTo(ProductManagerPage::$additionalInformation);
 		$I->waitForElement(ProductManagerPage::$saleYes, 30);
 		$I->click(ProductManagerPage::$saleYes);
 		if ($prices == 'No')
