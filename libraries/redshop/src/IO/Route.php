@@ -35,8 +35,10 @@ class Route
 
         $lang = $lang ?? \Redshop\Language\Helper::getLanguage();
         $item = 'lang=' . substr($lang->getTag(), 0, 2);
+        $condition = !\Joomla\CMS\Factory::getApplication()->isClient('administrator')
+            && strpos($url, 'lang') === false;
 
-        if (!strstr($url, 'administrator')) {
+        if ($condition) {
             $url = self::addParamToUrl($url, $item);
         }
 
