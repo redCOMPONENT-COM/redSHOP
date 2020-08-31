@@ -21,16 +21,19 @@ class Route
 {
     /**
      * @param $url
+     * @param bool $xhtml
+     * @param  $tls
+     * @param bool $absolute
      * @param null $lang
      * @return string|null
      * @since  __DEPLOY_VERSION__
      */
-    public static function _($url, $lang = null) {
+    public static function _($url, $xhtml = true, $tls = self::TLS_IGNORE, $absolute = false, $lang = null) {
 
         $lang = $lang ?? \Redshop\Language\Helper::getLanguage();
         $url = self::addParamToUrl($url, $lang);
 
-        return \Joomla\CMS\Router\Route::_($url);
+        return \Joomla\CMS\Router\Route::_($url, $xhtml, $tls, $absolute);
     }
 
     /**
