@@ -359,7 +359,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 						$I->see($orderInfo['priceDiscount'], GiftCardCheckoutPage::$priceDiscount);
 						$I->see($orderInfo['priceEnd'], GiftCardCheckoutPage::$priceEnd);
 
-						$I->wantTo('Add voucher ');
+						$I->wantTo('Add voucher');
 						$I->fillField(GiftCardCheckoutPage::$couponInput, $discount['voucherCode']);
 						$I->click(GiftCardCheckoutPage::$couponButton);
 						$I->waitForText(GiftCardCheckoutPage::$messageValid, 10, GiftCardCheckoutPage::$selectorMessage);
@@ -374,7 +374,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 						$I->waitForText(GiftCardCheckoutPage::$messageInvalid, 10, GiftCardCheckoutPage::$selectorError);
 						$I->see(GiftCardCheckoutPage::$messageInvalid, GiftCardCheckoutPage::$selectorError);
 						$I->see($orderInfo['priceTotal'], GiftCardCheckoutPage::$priceTotal);
-						$I->see($orderInfo['priceDiscount'], GiftCardCheckoutPage::$priceDiscount);
 						$I->see($orderInfo['priceEnd'], GiftCardCheckoutPage::$priceEnd);
 
 						$I->wantTo('Add voucher ');
@@ -414,7 +413,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 						$I->waitForText(GiftCardCheckoutPage::$messageInvalid, 10, GiftCardCheckoutPage::$selectorError);
 						$I->see(GiftCardCheckoutPage::$messageInvalid, GiftCardCheckoutPage::$selectorError);
 						$I->see($orderInfo['priceTotal'], GiftCardCheckoutPage::$priceTotal);
-						$I->see($orderInfo['priceDiscount'], GiftCardCheckoutPage::$priceDiscount);
 						$I->see($orderInfo['priceEnd'], GiftCardCheckoutPage::$priceEnd);
 
 						$I->wantTo('Add coupon ');
@@ -520,7 +518,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			}
 		}
 
-//		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->wait(1);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
