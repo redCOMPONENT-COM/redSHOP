@@ -411,6 +411,11 @@ class SiteHelper
                             )
                         );
 
+                        $ajax   = '';
+                        if ($isAtt > 0) {
+                            $ajax   = 'ajax';
+                        }
+
                         $exField .= '<p>' . \JText::_(
                                 'COM_REDSHOP_UPLOADED_FILE'
                             ) . ':</p>' . ExtraFields::displayUserDocuments($productId, $data, $ajax) . '</div>';
