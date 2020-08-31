@@ -376,7 +376,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 						$I->see($orderInfo['priceTotal'], GiftCardCheckoutPage::$priceTotal);
 						$I->see($orderInfo['priceEnd'], GiftCardCheckoutPage::$priceEnd);
 
-						$I->wantTo('Add voucher ');
+						$I->wantTo('Add voucher');
 						$I->fillField(GiftCardCheckoutPage::$couponInput, $discount['voucherCode']);
 						$I->click(GiftCardCheckoutPage::$couponButton);
 						$I->waitForText(GiftCardCheckoutPage::$messageInvalid, 10, GiftCardCheckoutPage::$selectorError);
@@ -415,7 +415,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 						$I->see($orderInfo['priceTotal'], GiftCardCheckoutPage::$priceTotal);
 						$I->see($orderInfo['priceEnd'], GiftCardCheckoutPage::$priceEnd);
 
-						$I->wantTo('Add coupon ');
+						$I->wantTo('Add coupon');
 						$I->fillField(GiftCardCheckoutPage::$couponInput, $discount['couponCode']);
 						$I->click(GiftCardCheckoutPage::$couponButton);
 						$I->waitForText(GiftCardCheckoutPage::$messageInvalid, 10, GiftCardCheckoutPage::$selectorError);
