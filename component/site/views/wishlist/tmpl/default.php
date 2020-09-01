@@ -49,7 +49,7 @@ $itemId      = $input->getInt('Itemid', 0);
                            value="<?php echo JText::_('COM_REDSHOP_CREATE_SAVE'); ?>"
                            onclick="checkValidation()"/>&nbsp;
                     <?php if (JFactory::getApplication()->input->getInt('loginwishlist') == 1) : ?>
-                        <a href="<?PHP echo JRoute::_(
+                        <a href="<?PHP echo Redshop\IO\Route::_(
                             'index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=' . $itemId
                         ); ?>">
                             <input type="button" class="btn btn-primary"

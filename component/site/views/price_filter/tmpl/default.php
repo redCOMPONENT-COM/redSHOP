@@ -34,7 +34,7 @@ $configobj = Redconfiguration::getInstance();
     for ($i = 0, $countPrdList = count($this->prdlist); $i < $countPrdList; $i++) {
         $row = $this->prdlist[$i];
 
-        $link          = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id);
+        $link          = Redshop\IO\Route::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id);
         $pricetext     = '';
         $product_price = Redshop\Product\Price::getPrice($row->product_id);
         $tmpprcie      = $product_price;

@@ -32,7 +32,7 @@ final class JRoute extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('jroute', [Route::class, '_']),
+            new TwigFunction('jroute', [\Redshop\IO\Route::class, '_']),
         ];
     }
 

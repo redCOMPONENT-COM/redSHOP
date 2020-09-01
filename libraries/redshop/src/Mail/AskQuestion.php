@@ -81,7 +81,7 @@ class AskQuestion
         }
 
         $product    = \Redshop::product((int)$productId);
-        $link       = \JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $productId);
+        $link       = \Redshop\IO\Route::_($url . "index.php?option=com_redshop&view=product&pid=" . $productId);
         $dataAdd    = str_replace("{product_name}", $product->product_name, $dataAdd);
         $dataAdd    = str_replace("{product_desc}", $product->product_desc, $dataAdd);
         $productUrl = "<a href=" . $link . ">" . $product->product_name . "</a>";
@@ -150,7 +150,7 @@ class AskQuestion
         $data['address']   = isset($data['address']) ? $data['address'] : null;
         $data['telephone'] = isset($data['telephone']) ? $data['telephone'] : null;
 
-        $link    = \JRoute::_(
+        $link    = \Redshop\IO\Route::_(
             \JUri::base() . 'index.php?option=com_redshop&view=product&pid=' . $productId . '&Itemid=' . $itemId
         );
         $content = str_replace(

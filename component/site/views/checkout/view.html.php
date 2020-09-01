@@ -73,7 +73,7 @@ class RedshopViewCheckout extends RedshopView
         if ($cart['idx'] < 1) {
             $msg  = JText::_('COM_REDSHOP_EMPTY_CART');
             $link = 'index.php?option=com_redshop&Itemid=' . $Itemid;
-            $app->redirect(JRoute::_($link, false), $msg);
+            $app->redirect(Redshop\IO\Route::_($link, false), $msg);
         }
 
         $lists = array();
@@ -109,7 +109,7 @@ class RedshopViewCheckout extends RedshopView
             $cart = $session->get('cart');
 
             if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == 1 && !array_key_exists("quotation_id", $cart)) {
-                $app->redirect(JRoute::_('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid, false));
+                $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid, false));
             }
 
             $users_info_id     = $app->input->getInt('users_info_id');
@@ -127,7 +127,7 @@ class RedshopViewCheckout extends RedshopView
                     $users_info_id = $billingAddresses->users_info_id;
                 } else {
                     $app->redirect(
-                        JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid, false)
+                        Redshop\IO\Route::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid, false)
                     );
                 }
             }

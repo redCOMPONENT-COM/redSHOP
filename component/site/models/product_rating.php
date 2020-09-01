@@ -90,7 +90,7 @@ class RedshopModelProduct_Rating extends RedshopModelForm
         }
 
         $product  = \Redshop\Product\Product::getProductById($data['product_id']);
-        $link     = JRoute::_(
+        $link     = Redshop\IO\Route::_(
             JURI::base(
             ) . "index.php?option=com_redshop&view=product&pid=" . $data['product_id'] . '&Itemid=' . $data['Itemid'],
             false
