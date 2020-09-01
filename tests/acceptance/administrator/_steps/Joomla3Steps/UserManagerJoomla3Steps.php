@@ -573,8 +573,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$userOrderPage = new OrderManagerPage();
 		$I->waitForElement(OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
-		$I->waitForElement(OrderManagerPage::$productId, 30);
-		$I->scrollTo(OrderManagerPage::$productId);
+		$I->waitForElement(OrderManagerPage::$orderDetailTable, 30);
+		$I->scrollTo(OrderManagerPage::$orderDetailTable);
 		$I->waitForElement(OrderManagerPage::$productId, 30);
 		$I->click(OrderManagerPage::$productId);
 		$I->waitForElement(OrderManagerPage::$productsSearch, 30);
