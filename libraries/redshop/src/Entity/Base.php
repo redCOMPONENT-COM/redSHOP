@@ -60,7 +60,7 @@ abstract class Base extends BaseObject
     /**
      * Cached table.
      *
-     * @var  JTable
+     * @var  \JTable
      * @since  __DEPLOY_VERSION__
      */
     protected $table;
@@ -111,7 +111,7 @@ abstract class Base extends BaseObject
      *
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
-     * @return  RedshopTable
+     * @return  \RedshopTable
      * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
@@ -123,7 +123,7 @@ abstract class Base extends BaseObject
 
         $name = str_replace('Entity', '', $name);
 
-        return RedshopTable::getAdminInstance($name, array(), $this->getComponent());
+        return \RedshopTable::getAdminInstance($name, array(), $this->getComponent());
     }
 
     /**
@@ -246,9 +246,7 @@ abstract class Base extends BaseObject
     public function bind($item)
     {
         // Accept basic array binding
-        if (is_array($item)) {
-            $item = (object)$item;
-        }
+        $item = is_array($item) ? (object) $item: $item;
 
         $this->item = $item;
 

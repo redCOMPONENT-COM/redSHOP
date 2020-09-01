@@ -77,7 +77,7 @@ class DiscountProduct extends Entity
         }
 
         foreach ($result as $shopperGroupId) {
-            $this->shopperGroups->add(RedshopEntityShopper_Group::getInstance($shopperGroupId));
+            $this->shopperGroups->add(\Redshop\Entity\ShopperGroup::getInstance($shopperGroupId));
         }
 
         return $this;
@@ -117,7 +117,7 @@ class DiscountProduct extends Entity
         $categoryIds = explode(',', $this->get('category_ids'));
 
         foreach ($categoryIds as $categoryId) {
-            $this->categories->add(\RedshopEntityCategory::getInstance($categoryId));
+            $this->categories->add(\Redshop\Entity\Category::getInstance($categoryId));
         }
 
         return $this;

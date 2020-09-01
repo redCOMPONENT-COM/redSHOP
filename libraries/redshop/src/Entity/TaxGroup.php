@@ -54,7 +54,7 @@ class TaxGroup extends Entity
      */
     protected function loadTaxRates()
     {
-        /** @var RedshopEntitiesCollection taxRates */
+        /** @var \RedshopEntitiesCollection taxRates */
         $this->taxRates = new \RedshopEntitiesCollection;
 
         if (!$this->hasId()) {

@@ -23,7 +23,7 @@ class TaxRate extends Entity
 	/**
 	 * Method for get shopper groups associate with this tax rate
 	 *
-	 * @return  RedshopEntitiesCollection
+	 * @return  \RedshopEntitiesCollection
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

@@ -342,7 +342,7 @@ class Order extends Entity
     /**
      * Method for get shipping information of this order
      *
-     * @return   RedshopEntityOrder_User   User infor if success. Null otherwise.
+     * @return   \Redshop\Entity\OrderUser   User infor if success. Null otherwise.
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -372,7 +372,7 @@ class Order extends Entity
             return $this;
         }
 
-        $this->shipping = RedshopEntityOrder_User::getInstance();
+        $this->shipping = \Redshop\Entity\OrderUser::getInstance();
         $users = $this->getUsers();
 
         if ($users->isEmpty()) {

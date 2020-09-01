@@ -42,7 +42,7 @@ class Currency extends Entity
         }
 
         if (!isset(static::$codeInstance[$code])) {
-            /** @var RedshopTableCurrency $table */
+            /** @var \RedshopTableCurrency $table */
             $table = $this->getTable();
 
             if (!$table->load(array('code' => $code))) {

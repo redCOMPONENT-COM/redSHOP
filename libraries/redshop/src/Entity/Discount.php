@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 class Discount extends Entity
 {
     /**
-     * @var RedshopEntitiesCollection
+     * @var \RedshopEntitiesCollection
      * @since __DEPLOY_VERSION__
      */
 
@@ -30,7 +30,7 @@ class Discount extends Entity
     /**
      * Method for get shopper groups associate with this discount
      *
-     * @return  RedshopEntitiesCollection
+     * @return  \RedshopEntitiesCollection
      *
      * @since __DEPLOY_VERSION__
      */
@@ -72,7 +72,7 @@ class Discount extends Entity
         }
 
         foreach ($result as $shopperGroupId) {
-            $this->shopperGroups->add(RedshopEntityShopper_Group::getInstance($shopperGroupId));
+            $this->shopperGroups->add(\Redshop\Entity\ShopperGroup::getInstance($shopperGroupId));
         }
 
         return $this;

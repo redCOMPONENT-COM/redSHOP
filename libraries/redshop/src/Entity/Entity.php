@@ -29,7 +29,7 @@ abstract class Entity extends Base
     /**
      * Asset of this for this entity
      *
-     * @var    JTable
+     * @var    \JTable
      * @since  __DEPLOY_VERSION__
      */
     protected $asset;
@@ -41,7 +41,7 @@ abstract class Entity extends Base
      *
      * @return  array
      *
-     * @throws  InvalidArgumentException  If an array of RedshopbEntity is not received
+     * @throws  \InvalidArgumentException  If an array of RedshopbEntity is not received
      *
      * @since  __DEPLOY_VERSION__
      */
@@ -54,8 +54,8 @@ abstract class Entity extends Base
         }
 
         foreach ($entities as $key => $entity) {
-            if (!$entity instanceof RedshopEntity) {
-                throw new InvalidArgumentException("RedshopEntityExpected in " . __FUNCTION__);
+            if (!$entity instanceof \Redshop\Entity\Entity) {
+                throw new \InvalidArgumentException("RedshopEntityExpected in " . __FUNCTION__);
             }
 
             $results[$key] = $entity->getItem();

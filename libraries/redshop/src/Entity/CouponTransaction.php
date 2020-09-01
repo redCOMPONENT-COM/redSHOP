@@ -25,11 +25,11 @@ class CouponTransaction extends Entity
      *
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
-     * @return  RedshopTable
+     * @return  \JTable
      * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Transaction_Coupon_Detail', 'Table');
+        return \JTable::getInstance('Transaction_Coupon_Detail', 'Table');
     }
 }

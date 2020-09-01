@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 class Manufacturer extends Entity
 {
     /**
-     * @var  RedshopEntityMediaImage
+     * @var  \RedshopEntityMediaImage
      *
      * @since  __DEPLOY_VERSION__
      */
@@ -32,8 +32,8 @@ class Manufacturer extends Entity
      *
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
-     * @return  RedshopTableManufacturer
-     * @throws  Exception
+     * @return  \RedshopTableManufacturer
+     * @throws  \Exception
      * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = "Manufacturer")
@@ -44,7 +44,7 @@ class Manufacturer extends Entity
     /**
      * Method for get medias of current category
      *
-     * @return  RedshopEntityMediaImage
+     * @return  \Redshop\Entity\MediaImage
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -66,7 +66,7 @@ class Manufacturer extends Entity
      */
     protected function loadMedia()
     {
-        $this->media = \RedshopEntityMediaImage::getInstance();
+        $this->media = \Redshop\Entity\MediaImage::getInstance();
 
         if (!$this->hasId()) {
             return $this;
@@ -85,7 +85,7 @@ class Manufacturer extends Entity
             return $this;
         }
 
-        $this->media = \RedshopEntityMediaImage::getInstance($result->media_id);
+        $this->media = \Redshop\Entity\MediaImage::getInstance($result->media_id);
         $this->media->bind($result);
 
         return $this;

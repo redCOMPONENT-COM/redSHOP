@@ -27,7 +27,7 @@ class OrderPayment extends Entity
      *
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
-     * @return  RedshopTable
+     * @return  \JTable
      * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
@@ -50,7 +50,7 @@ class OrderPayment extends Entity
 
         if (!empty($this->get('payment_method_class'))) {
             // Get plugin information
-            $plugin = JPluginHelper::getPlugin('redshop_payment', $this->get('payment_method_class'));
+            $plugin = \JPluginHelper::getPlugin('redshop_payment', $this->get('payment_method_class'));
 
             if ($plugin) {
                 $plugin->params = new Registry($plugin->params);

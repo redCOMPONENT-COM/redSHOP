@@ -72,7 +72,7 @@ class Field extends Entity
     /**
      * Method for get group of this field
      *
-     * @return  null|RedshopEntityField_Group
+     * @return  null|\Redshop\Entity\FieldGroup
      *
      * @since   2.1.0
      */
@@ -82,6 +82,6 @@ class Field extends Entity
             return null;
         }
 
-        return \RedshopEntityField_Group::getInstance((int)$this->get('groupId'));
+        return \Redshop\Entity\FieldGroup::getInstance((int)$this->get('groupId'));
     }
 }

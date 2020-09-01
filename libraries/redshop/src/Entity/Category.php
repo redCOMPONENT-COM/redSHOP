@@ -37,14 +37,14 @@ class Category extends Entity
     protected $products;
 
     /**
-     * @var    RedshopEntitiesCollection
+     * @var    \RedshopEntitiesCollection
      *
      * @since  __DEPLOY_VERSION__
      */
     protected $childCategories;
 
     /**
-     * @var    RedshopEntitiesCollection
+     * @var    \RedshopEntitiesCollection
      *
      * @since  __DEPLOY_VERSION__
      */
@@ -59,7 +59,7 @@ class Category extends Entity
     public function productCount()
     {
         if (is_null($this->productCount)) {
-            $db    = JFactory::getDbo();
+            $db    = \JFactory::getDbo();
             $query = $db->getQuery(true)
                 ->select('COUNT(category_id)')
                 ->from($db->qn('#__redshop_product_category_xref'))
@@ -100,7 +100,7 @@ class Category extends Entity
             return $this;
         }
 
-        $db = JFactory::getDbo();
+        $db = \JFactory::getDbo();
 
         $query = $db->getQuery(true)
             ->select('DISTINCT p.product_id AS id')
@@ -139,7 +139,7 @@ class Category extends Entity
     /**
      * Method for get child categories of current category
      *
-     * @return  RedshopEntitiesCollection
+     * @return  \RedshopEntitiesCollection
      *
      * @since  __DEPLOY_VERSION__
      */
@@ -165,9 +165,9 @@ class Category extends Entity
             return $this;
         }
 
-        $this->childCategories = new RedshopEntitiesCollection;
+        $this->childCategories = new \RedshopEntitiesCollection;
 
-        $db    = JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true)
             ->select('id')
             ->from($db->qn('#__redshop_category'))
@@ -190,7 +190,7 @@ class Category extends Entity
     /**
      * Method for get medias of current category
      *
-     * @return  RedshopEntitiesCollection
+     * @return  \RedshopEntitiesCollection
      *
      * @since  __DEPLOY_VERSION__
      */
@@ -212,13 +212,13 @@ class Category extends Entity
      */
     protected function loadMedia()
     {
-        $this->media = new RedshopEntitiesCollection;
+        $this->media = new \RedshopEntitiesCollection;
 
         if (!$this->hasId()) {
             return $this;
         }
 
-        $db    = JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true)
             ->select('media_id')
             ->from($db->qn('#__redshop_media'))
@@ -232,7 +232,7 @@ class Category extends Entity
         }
 
         foreach ($results as $mediaId) {
-            $this->media->add(RedshopEntityMedia::getInstance($mediaId));
+            $this->media->add(\RedshopEntityMedia::getInstance($mediaId));
         }
 
         return $this;
@@ -258,29 +258,29 @@ class Category extends Entity
         }
 
         if (!$item) {
-            JLog::add("Nothing to save", JLog::ERROR, 'entity');
+            \JLog::add("Nothing to save", \JLog::ERROR, 'entity');
 
             return false;
         }
 
         try {
-            /** @var RedshopTableCategory $table */
+            /** @var \RedshopTableCategory $table */
             $table = $this->getTable();
         } catch (\Exception $e) {
-            JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
+            \JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", \JLog::ERROR, 'entity');
 
             return false;
         }
 
-        $item = Joomla\Utilities\ArrayHelper::fromObject($item);
+        $item = \Joomla\Utilities\ArrayHelper::fromObject($item);
 
         $table->setLocation(
-            isset($item['parent_id']) ? $item['parent_id'] : RedshopHelperCategory::getRootId(),
+            isset($item['parent_id']) ? $item['parent_id'] : \RedshopHelperCategory::getRootId(),
             'last-child'
         );
 
         if (!$table->save($item)) {
-            JLog::add($table->getError(), JLog::ERROR, 'entity');
+            \JLog::add($table->getError(), \JLog::ERROR, 'entity');
 
             return false;
         }

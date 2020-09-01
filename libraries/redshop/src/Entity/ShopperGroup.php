@@ -87,7 +87,7 @@ class ShopperGroup extends Entity
         }
 
         foreach ($discounts as $discountId) {
-            $this->discounts->add(\RedshopEntityDiscount::getInstance($discountId));
+            $this->discounts->add(\Redshop\Entity\Discount::getInstance($discountId));
         }
 
         return $this;

@@ -24,11 +24,11 @@ class ProductTag extends Entity
      *
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
-     * @return  \RedshopTable
+     * @return  \JTable
      * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Product_Tags', 'Table');
+        return \JTable::getInstance('Product_Tags', 'Table');
     }
 }
