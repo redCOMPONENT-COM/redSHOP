@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,9 +16,9 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityProduct extends RedshopEntity
+class Product extends Entity
 {
     use \Redshop\Entity\Traits\Product\Related,
         \Redshop\Entity\Traits\Product\Categories,
@@ -24,7 +26,8 @@ class RedshopEntityProduct extends RedshopEntity
         \Redshop\Entity\Traits\Product\Stock;
 
     /**
-     * @var   RedshopEntitiesCollection  Collections of child products
+     * @var   \RedshopEntitiesCollection  Collections of child products
+     * @since  __DEPLOY_VERSION__
      */
     protected $childProducts = null;
 
@@ -34,10 +37,11 @@ class RedshopEntityProduct extends RedshopEntity
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
      * @return  JTable
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Product_Detail', 'Table');
+        return \JTable::getInstance('Product_Detail', 'Table');
     }
 
     /**
@@ -45,9 +49,9 @@ class RedshopEntityProduct extends RedshopEntity
      *
      * @param   boolean  $reload  Force reload even it's cached
      *
-     * @return  RedshopEntitiesCollection
+     * @return  \RedshopEntitiesCollection
      *
-     * @since   2.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getChildProducts($reload = false)
     {
@@ -63,7 +67,7 @@ class RedshopEntityProduct extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadChild()
     {
@@ -71,9 +75,9 @@ class RedshopEntityProduct extends RedshopEntity
             return $this;
         }
 
-        $this->childProducts = new RedshopEntitiesCollection;
+        $this->childProducts = new \RedshopEntitiesCollection;
 
-        $db    = JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
 
         $query->select($db->quoteName('product_id'))
@@ -96,12 +100,13 @@ class RedshopEntityProduct extends RedshopEntity
      * @param   string   $value    Field value
      *
      * @return boolean
+     * @since  __DEPLOY_VERSION__
      */
     public function assignCustomField($fieldId, $value)
     {
         // Try to load this custom field data
         /** @var RedshopEntityField_Data $entity */
-        $entity = RedshopEntityField_Data::getInstance()->loadItemByArray(
+        $entity = \Redshop\Entity\FieldData::getInstance()->loadItemByArray(
             array
             (
                 'fieldid' => $fieldId,
@@ -134,7 +139,7 @@ class RedshopEntityProduct extends RedshopEntity
      *
      * @return  boolean|float|integer
      *
-     * @since   2.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getTax($productPrice = 0.0, $userId = 0, $taxExempt = 0)
     {
