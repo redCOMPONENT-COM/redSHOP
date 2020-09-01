@@ -67,7 +67,7 @@ class RedshopEntityVoucher extends RedshopEntity
         }
 
         foreach ($result as $productId) {
-            $this->products->add(RedshopEntityProduct::getInstance($productId));
+            $this->products->add(Redshop\Entity\Product::getInstance($productId));
         }
 
         return $this;

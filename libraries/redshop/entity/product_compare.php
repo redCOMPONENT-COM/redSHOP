@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityProduct_Compare extends RedshopEntity
+class Redshop\Entity\Product_Compare extends RedshopEntity
 {
     /**
      * Get the associated table

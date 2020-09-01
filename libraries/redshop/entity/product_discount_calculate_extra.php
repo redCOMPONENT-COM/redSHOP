@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityProduct_Discount_Calculate_Extra extends RedshopEntity
+class Redshop\Entity\Product_Discount_Calculate_Extra extends RedshopEntity
 {
     /**
      * Get the associated table

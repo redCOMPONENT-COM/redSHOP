@@ -2077,7 +2077,7 @@ class RedshopHelperProduct
         $selectedPropertyId = 0,
         $selectedsubpropertyId = 0
     ) {
-        return RedshopEntityProduct::getInstance($productId)->getStockstatus(
+        return Redshop\Entity\Product::getInstance($productId)->getStockstatus(
             $totalAttribute,
             $selectedPropertyId,
             $selectedsubpropertyId
@@ -2799,7 +2799,7 @@ class RedshopHelperProduct
      */
     public static function getChildProduct($productId = 0)
     {
-        $childProducts = RedshopEntityProduct::getInstance($productId)->getChildProducts();
+        $childProducts = Redshop\Entity\Product::getInstance($productId)->getChildProducts();
 
         if ($childProducts->isEmpty()) {
             return array();
@@ -2808,7 +2808,7 @@ class RedshopHelperProduct
         $results = array();
 
         foreach ($childProducts->getAll() as $child) {
-            /** @var  RedshopEntityProduct $child */
+            /** @var  Redshop\Entity\Product $child */
             $results[] = $child->getItem();
         }
 

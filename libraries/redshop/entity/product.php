@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityProduct extends RedshopEntity
+class Redshop\Entity\Product extends RedshopEntity
 {
     use \Redshop\Entity\Traits\Product\Related,
         \Redshop\Entity\Traits\Product\Categories,

@@ -462,7 +462,7 @@ class RedshopRouter extends JComponentRouterBase
                         if ($tagId) {
                             $segments[] = $tagId;
 
-                            $tag        = RedshopEntityProduct_Tag::getInstance($tagId);
+                            $tag        = Redshop\Entity\Product_Tag::getInstance($tagId);
                             $segments[] = str_replace($specialChars, '-', $tag->get('tags_name'));
 
                             if ($tagId && isset($edit)) {
