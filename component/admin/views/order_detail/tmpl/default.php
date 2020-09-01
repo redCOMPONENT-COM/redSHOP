@@ -1596,11 +1596,6 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
 
         var totalDiscount = discount + specialDiscount;
 
-        // if (subTotal <= totalDiscount) {
-        //     alert('<?php echo JText::_("COM_REDSHOP_ORDER_DISCOUNT_INVALID") ?>');
-        //     return false;
-        // }
-
         jQuery(form).submit();
     }
 

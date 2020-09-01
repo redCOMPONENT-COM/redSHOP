@@ -875,15 +875,11 @@ class RedshopModelOrder_detail extends RedshopModel
         $orderData->special_discount        = $specialDiscount;
         $orderData->special_discount_amount = $discountPrice;
 
-        if($discountPrice >= $orderSubTotal){
-            $orderData->special_discount  = 100 ;var_dump($orderData->special_discount );
-            $orderData->special_discount_amount = $orderSubTotal;
-            $orderData->order_total = 0;
+        if($discountPrice > $orderSubTotal){
+            $discountPrice = $orderSubTotal;
         }
-        else{
             $orderData->order_total = $orderSubTotal + $orderData->order_shipping - $discountPrice - $orderData->order_discount;
-        }
-        
+
         $post                   = array();
 
         $paymentmethod                            = RedshopHelperOrder::getPaymentMethodInfo(
