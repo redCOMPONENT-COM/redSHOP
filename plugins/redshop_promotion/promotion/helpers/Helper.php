@@ -32,21 +32,42 @@ class Helper
         $count = 0;
 
         for ($i = 0; $i < $cart['idx']; $i++) {
-            $product = \Redshop\Product\Product::getProductById($cart[$i]['product_id']);
 
-            if (isset($promotion->product) && in_array($product->product_id, $promotion->product)) {
-                $conditionProduct = true;
-                $count += $cart[$i]['quantity'];
-            }
+            if (empty($cart[$i]['isPromotionAward'])) {
+                $product = \Redshop\Product\Product::getProductById($cart[$i]['product_id']);
+                $isCounted = false;
 
-            if (isset($promotion->category) && in_array($product->category_id, $promotion->category)) {
-                $conditionCategory = true;
-                $count += $cart[$i]['quantity'];
-            }
+                if (isset($promotion->manufacturer)
+                    && in_array($product->manufacturer_id, $promotion->manufacturer)
+                ) {
+                    $conditionManufacturer = true;
 
-            if (isset($promotion->manufacturer) && in_array($product->manufacturer_id, $promotion->manufacturer)) {
-                $conditionManufacturer = true;
-                $count += $cart[$i]['quantity'];
+                    if (!$isCounted) {
+                        $count += $cart[$i]['quantity'];
+                        $isCounted = true;
+                    }
+                }
+
+                if (isset($promotion->category)
+                    && in_array($product->category_id, $promotion->category)
+                ) {
+                    $conditionCategory = true;
+
+                    if (!$isCounted) {
+                        $count += $cart[$i]['quantity'];
+                        $isCounted = true;
+                    }
+                }
+
+                if (isset($promotion->product)
+                    && in_array($product->product_id, $promotion->product)
+                ) {
+                    $conditionProduct = true;
+
+                    if (!$isCounted) {
+                        $count += $cart[$i]['quantity'];
+                    }
+                }
             }
         }
 
@@ -56,7 +77,7 @@ class Helper
 
         $conditionTime = self::checkValidTimePromotion($promotion);
 
-        return $conditionAmount && $conditionProduct && $conditionManufacturer && $conditionCategory && $conditionTime;
+        return $conditionAmount && ($conditionProduct || $conditionManufacturer || $conditionCategory) && $conditionTime;
     }
 
     /**
@@ -87,7 +108,7 @@ class Helper
      * @since  __DEPLOY_VERSION__
      */
     public static function getConditionOrderVolume(&$promotion, &$cart) {
-        $orderVolume = $promotion->order_volume ?? 0;
+        $orderVolume = (float) $promotion->order_volume ?? 0;
         $conditionOrderVolume = false;
 
         if ($orderVolume > 0) {
@@ -113,6 +134,15 @@ class Helper
      * @since  __DEPLOY_VERSION__
      */
     public static function getCartSubTotalExcludeVAT(&$cart) {
+        if (empty($cart['product_subtotal_excl_vat'])) {
+            $subTotalExcludedVAT = 0.0;
+            for ($i = 0; $i <= $cart['idx']; $i++) {
+                $subTotalExcludedVAT += ($cart[$i]['product_old_price_excl_vat'] * $cart[$i]['quantity'] );
+            }
+
+            return $subTotalExcludedVAT;
+        }
+
         return $cart['product_subtotal_excl_vat'] ?? 0.0;
     }
 

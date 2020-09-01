@@ -144,11 +144,7 @@ class Step
         $cart['shipping'] = $cart['shipping_before_promotion'] ?? $cart['shipping'];
         $cart['shipping_tax'] = $cart['shipping_tax_before_promotion'] ?? $cart['shipping_tax'];
 
-        if (!empty($cart['shipping_before_promotion']) && !empty($cart['shipping_tax_before_promotion']))
-        {
-            $cart['subtotal'] += $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
-            $cart['total'] += $cart['shipping_before_promotion'] + $cart['shipping_tax_before_promotion'];
-        }
+        $cart = \RedshopHelperDiscount::modifyDiscount($cart);
     }
 
     /**
