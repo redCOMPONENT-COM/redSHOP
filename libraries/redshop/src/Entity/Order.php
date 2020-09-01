@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,70 +16,71 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityOrder extends RedshopEntity
+class Order extends Entity
 {
     /**
-     * @var   RedshopEntitiesCollection
+     * @var   \RedshopEntitiesCollection
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     protected $orderItems;
 
     /**
-     * @var   RedshopEntityOrder_Payment
+     * @var   \Redshop\Entity\OrderPayment
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     protected $payment;
 
     /**
-     * @var    RedshopEntitiesCollection
+     * @var    \RedshopEntitiesCollection
      *
-     * @since  2.0.6
+     * @since  __DEPLOY_VERSION__
      */
     protected $users;
 
     /**
-     * @var   RedshopEntityOrder_User
+     * @var   \Redshop\Entity\OrderUser
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     protected $billing;
 
     /**
-     * @var   RedshopEntityOrder_User
+     * @var   \Redshop\Entity\OrderUser
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     protected $shipping;
 
     /**
      * @var   array
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     protected $statusLog;
 
     /**
      * Get the associated table
      *
-     * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
+     * @param string $name Main name of the Table. Example: Article for ContentTableArticle
      *
      * @return  boolean|Tableorder_detail
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Order_Detail', 'Table');
+        return \JTable::getInstance('Order_Detail', 'Table');
     }
 
     /**
      * Method for get order items for this order
      *
-     * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
+     * @return   \RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     public function getOrderItems()
     {
@@ -97,7 +100,7 @@ class RedshopEntityOrder extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadOrderItems()
     {
@@ -105,10 +108,10 @@ class RedshopEntityOrder extends RedshopEntity
             return $this;
         }
 
-        $this->orderItems = new RedshopEntitiesCollection;
+        $this->orderItems = new \RedshopEntitiesCollection;
 
-        $db         = JFactory::getDbo();
-        $query      = $db->getQuery(true)
+        $db = \JFactory::getDbo();
+        $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_order_item'))
             ->where($db->qn('order_id') . ' = ' . $this->getId());
@@ -119,7 +122,7 @@ class RedshopEntityOrder extends RedshopEntity
         }
 
         foreach ($orderItems as $orderItem) {
-            $entity = RedshopEntityOrder_Item::getInstance($orderItem->order_item_id);
+            $entity = \RedshopEntityOrder_Item::getInstance($orderItem->order_item_id);
             $entity->bind($orderItem);
 
             $this->orderItems->add($entity);
@@ -133,7 +136,7 @@ class RedshopEntityOrder extends RedshopEntity
      *
      * @return   array   RedshopEntitiesCollection if success. Null otherwise.
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     public function getStatusLog()
     {
@@ -153,7 +156,7 @@ class RedshopEntityOrder extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadStatusLog()
     {
@@ -161,7 +164,7 @@ class RedshopEntityOrder extends RedshopEntity
             return $this;
         }
 
-        $db    = JFactory::getDbo();
+        $db = \JFactory::getDbo();
         $query = $db->getQuery(true)
             ->select('l.*')
             ->select($db->qn('s.order_status_name'))
@@ -180,9 +183,9 @@ class RedshopEntityOrder extends RedshopEntity
     /**
      * Method for get payment for this order
      *
-     * @return   RedshopEntityOrder_Payment   Payment data if success. Null otherwise.
+     * @return   \RedshopEntityOrder_Payment   Payment data if success. Null otherwise.
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     public function getPayment()
     {
@@ -202,7 +205,7 @@ class RedshopEntityOrder extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadPayment()
     {
@@ -210,10 +213,10 @@ class RedshopEntityOrder extends RedshopEntity
             return $this;
         }
 
-        $this->payment = RedshopEntityOrder_Payment::getInstance();
+        $this->payment = \Redshop\Entity\OrderPayment::getInstance();
 
-        $db     = JFactory::getDbo();
-        $query  = $db->getQuery(true)
+        $db = \JFactory::getDbo();
+        $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_order_payment'))
             ->where($db->qn('order_id') . ' = ' . (int)$this->getId());
@@ -223,7 +226,7 @@ class RedshopEntityOrder extends RedshopEntity
             return $this;
         }
 
-        $this->payment = RedshopEntityOrder_Payment::getInstance($result->payment_order_id)->bind($result);
+        $this->payment = \Redshop\Entity\OrderPayment::getInstance($result->payment_order_id)->bind($result);
         $this->payment->loadPlugin();
 
         return $this;
@@ -232,9 +235,9 @@ class RedshopEntityOrder extends RedshopEntity
     /**
      * Method for get billing information of this order
      *
-     * @return   RedshopEntityOrder_User   User infor if success. Null otherwise.
+     * @return   \Redshop\Entity\OrderUser   User infor if success. Null otherwise.
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     public function getBilling()
     {
@@ -254,7 +257,7 @@ class RedshopEntityOrder extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadBilling()
     {
@@ -262,8 +265,8 @@ class RedshopEntityOrder extends RedshopEntity
             return $this;
         }
 
-        $this->billing = RedshopEntityOrder_User::getInstance();
-        $users         = $this->getUsers();
+        $this->billing = \Redshop\Entity\OrderUser::getInstance();
+        $users = $this->getUsers();
 
         if ($users->isEmpty()) {
             return $this;
@@ -283,9 +286,9 @@ class RedshopEntityOrder extends RedshopEntity
     /**
      * Method for get users of this order
      *
-     * @return   RedshopEntitiesCollection   Collection of users if success. Null otherwise.
+     * @return   \RedshopEntitiesCollection   Collection of users if success. Null otherwise.
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     public function getUsers()
     {
@@ -305,7 +308,7 @@ class RedshopEntityOrder extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadUsers()
     {
@@ -313,11 +316,11 @@ class RedshopEntityOrder extends RedshopEntity
             return $this;
         }
 
-        $this->users = new RedshopEntitiesCollection;
+        $this->users = new \RedshopEntitiesCollection;
 
-        $db = JFactory::getDbo();
+        $db = \JFactory::getDbo();
 
-        $query   = $db->getQuery(true)
+        $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_order_users_info'))
             ->where($db->qn('order_id') . ' = ' . (int)$this->getId());
@@ -328,7 +331,7 @@ class RedshopEntityOrder extends RedshopEntity
         }
 
         foreach ($results as $result) {
-            $entity = RedshopEntityOrder_User::getInstance($result->order_info_id)->bind($result)->loadExtraFields();
+            $entity = \Redshop\Entity\OrderUser::getInstance($result->order_info_id)->bind($result)->loadExtraFields();
 
             $this->users->add($entity);
         }
@@ -341,7 +344,7 @@ class RedshopEntityOrder extends RedshopEntity
      *
      * @return   RedshopEntityOrder_User   User infor if success. Null otherwise.
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     public function getShipping()
     {
@@ -361,7 +364,7 @@ class RedshopEntityOrder extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadShipping()
     {
@@ -370,7 +373,7 @@ class RedshopEntityOrder extends RedshopEntity
         }
 
         $this->shipping = RedshopEntityOrder_User::getInstance();
-        $users          = $this->getUsers();
+        $users = $this->getUsers();
 
         if ($users->isEmpty()) {
             return $this;

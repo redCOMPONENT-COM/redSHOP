@@ -7,16 +7,18 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
- * Newsletter Entity
+ * Order Item Accessory Entity
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityNewsletter extends RedshopEntity
+class OrderItemAccessory extends Entity
 {
     /**
      * Get the associated table
@@ -24,9 +26,10 @@ class RedshopEntityNewsletter extends RedshopEntity
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
      * @return  RedshopTable
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Newsletter_Detail', 'Table');
+        return \JTable::getInstance('Order_Acc_Item', 'Table');
     }
 }

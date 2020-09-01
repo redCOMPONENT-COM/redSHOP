@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,21 +16,22 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.1.0
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityMedia extends RedshopEntity
+class Media extends Entity
 {
     /**
-     * @var  RedshopEntity
+     * @var  Entity
+     * @since __DEPLOY_VERSION__
      */
     protected $sectionEntity;
 
     /**
      * Method for get section entity
      *
-     * @return  RedshopEntity
+     * @return  Entity
      *
-     * @since   2.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getSection()
     {
@@ -44,7 +47,7 @@ class RedshopEntityMedia extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function loadSectionEntity()
     {
@@ -52,7 +55,7 @@ class RedshopEntityMedia extends RedshopEntity
             return $this;
         }
 
-        $entityClass         = 'RedshopEntity' . ucfirst($this->get('media_section'));
+        $entityClass         = '\\Redshop\\Entity\\' . ucfirst($this->get('media_section'));
         $this->sectionEntity = $entityClass::getInstance($this->get('section_id'));
 
         return $this;

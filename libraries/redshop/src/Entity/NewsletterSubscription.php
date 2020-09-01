@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,23 +18,24 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityNewsletter_Subscription extends RedshopEntity
+class NewsletterSubscription extends Entity
 {
 	/**
 	 * Get the associated table
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  \RedshopTable
+     * @since   __DEPLOY_VERSION__
 	 */
 	public function getTable($name = null)
 	{
-		return JTable::getInstance('Newsletter_Subscription', 'Table');
+		return \JTable::getInstance('Newsletter_Subscription', 'Table');
 	}
 
 	public static function getUserFullName($id)
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('firstname, lastname, username')
 			->from($db->qn('#__redshop_users_info', 'ui'))
@@ -43,7 +46,7 @@ class RedshopEntityNewsletter_Subscription extends RedshopEntity
 		$user = $db->setQuery($query)->loadAssoc();
 
 		if (isset($user)) {
-			$fullname = $user['firstname'] . " " . $user['lastname'];
+			$fullName = $user['firstname'] . " " . $user['lastname'];
 		} else {
             $query = $db->getQuery(true)
                 ->select('firstname, lastname, username')
@@ -54,9 +57,9 @@ class RedshopEntityNewsletter_Subscription extends RedshopEntity
 
             $user = $db->setQuery($query)->loadAssoc();
 
-            $fullname = $user['firstname'] . " " . $user['lastname'];
+            $fullName = $user['firstname'] . " " . $user['lastname'];
 		}
 
-		return $fullname;
+		return $fullName;
 	}
 }

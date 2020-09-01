@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,14 +16,14 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityOrder_Item extends RedshopEntity
+class OrderItem extends Entity
 {
     /**
-     * @var   RedshopEntitiesCollection
+     * @var   \RedshopEntitiesCollection
      *
-     * @since   2.0.6
+     * @since __DEPLOY_VERSION__
      */
     protected $accessoryItems;
 
@@ -31,18 +33,19 @@ class RedshopEntityOrder_Item extends RedshopEntity
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
      * @return  RedshopTable
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Order_Item_Detail', 'Table');
+        return \Joomla\CMS\Table\Table::getInstance('Order_Item_Detail', 'Table');
     }
 
     /**
      * Method for get accessory items for this order item
      *
-     * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
+     * @return   \RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     public function getAccessoryItems()
     {
@@ -62,7 +65,7 @@ class RedshopEntityOrder_Item extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadAccessoryItems()
     {
@@ -70,9 +73,9 @@ class RedshopEntityOrder_Item extends RedshopEntity
             return $this;
         }
 
-        $this->accessoryItems = new RedshopEntitiesCollection;
+        $this->accessoryItems = new \RedshopEntitiesCollection;
 
-        $db    = JFactory::getDbo();
+        $db    = \Joomla\CMS\Factory::getDbo();
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_order_acc_item'))
@@ -84,7 +87,7 @@ class RedshopEntityOrder_Item extends RedshopEntity
         }
 
         foreach ($items as $item) {
-            $entity = RedshopEntityOrder_Item_Accessory::getInstance($item->order_item_acc_id);
+            $entity = \Redshop\Entity\OrderItemAccessory::getInstance($item->order_item_acc_id);
 
             $entity->bind($item);
 

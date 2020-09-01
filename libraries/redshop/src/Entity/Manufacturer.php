@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,14 +16,14 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.3
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityManufacturer extends RedshopEntity
+class Manufacturer extends Entity
 {
     /**
      * @var  RedshopEntityMediaImage
      *
-     * @since  2.1.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $media;
 
@@ -32,10 +34,11 @@ class RedshopEntityManufacturer extends RedshopEntity
      *
      * @return  RedshopTableManufacturer
      * @throws  Exception
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = "Manufacturer")
     {
-        return RedshopTable::getAdminInstance($name, array('ignore_request' => true), 'com_redshop');
+        return \RedshopTable::getAdminInstance($name, array('ignore_request' => true), 'com_redshop');
     }
 
     /**
@@ -43,7 +46,7 @@ class RedshopEntityManufacturer extends RedshopEntity
      *
      * @return  RedshopEntityMediaImage
      *
-     * @since   2.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getMedia()
     {
@@ -59,17 +62,17 @@ class RedshopEntityManufacturer extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadMedia()
     {
-        $this->media = RedshopEntityMediaImage::getInstance();
+        $this->media = \RedshopEntityMediaImage::getInstance();
 
         if (!$this->hasId()) {
             return $this;
         }
 
-        $db    = JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_media'))
@@ -82,7 +85,7 @@ class RedshopEntityManufacturer extends RedshopEntity
             return $this;
         }
 
-        $this->media = RedshopEntityMediaImage::getInstance($result->media_id);
+        $this->media = \RedshopEntityMediaImage::getInstance($result->media_id);
         $this->media->bind($result);
 
         return $this;
