@@ -280,7 +280,7 @@ class RedshopModelAccount extends RedshopModel
         }
 
         $app->redirect(
-            JRoute::_(
+            Redshop\IO\Route::_(
                 'index.php?option=com_redshop&wishlist_id=' . $wishListId . '&view=account&layout=mywishlist&Itemid=' . $itemId,
                 false
             )
@@ -306,7 +306,7 @@ class RedshopModelAccount extends RedshopModel
             $app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_TAG'));
         }
 
-        $app->redirect(JRoute::_('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $itemId));
+        $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $itemId));
     }
 
     /**
@@ -416,7 +416,7 @@ class RedshopModelAccount extends RedshopModel
             $app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_PRODUCT_FROM_COMPARE'));
         }
 
-        $app->redirect(JRoute::_('index.php?option=com_redshop&view=account&layout=compare&Itemid=' . $itemId, false));
+        $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=account&layout=compare&Itemid=' . $itemId, false));
     }
 
     /**

@@ -44,7 +44,7 @@ class Promotion
 
         // If coupon code is valid than apply to cart else raise error
         if ($valid) {
-            $link = \JRoute::_(
+            $link = \Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=cart&lang=' . $language . '&Itemid=' . $itemId,
                 false
             );
@@ -83,7 +83,7 @@ class Promotion
                 $app->redirect($link);
             }
         } else {
-            $link = \JRoute::_(
+            $link = \Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=cart&lang=' . $language . '&Itemid=' . $itemId,
                 false
             );
@@ -117,7 +117,7 @@ class Promotion
             \RedshopHelperCart::modifyCalculation($cart);
             \Redshop\Cart\Ajax::renderModuleCartHtml(false);
 
-            $link = \JRoute::_(
+            $link = \Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=cart&seldiscount=voucher&lang=' . $language . '&Itemid=' . $itemId,
                 false
             );
@@ -152,7 +152,7 @@ class Promotion
             }
         } else {
             $msg  = \JText::_('COM_REDSHOP_VOUCHER_CODE_IS_NOT_VALID');
-            $link = \JRoute::_(
+            $link = \Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=cart&msg=' . $msg . '&seldiscount=voucher&lang=' . $language
                 . '&Itemid=' . $itemId,
                 false

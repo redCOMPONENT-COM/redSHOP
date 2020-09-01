@@ -48,7 +48,7 @@ if ($this->params->get('show_page_heading', 1)) {
     </label>
 </div>
 
-<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo Redshop\IO\Route::_('index.php') ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION'); ?></legend>

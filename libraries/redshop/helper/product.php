@@ -1197,7 +1197,7 @@ class RedshopHelperProduct
                         $product->categories
                     ) ? $product->categories[0] : $categoryId;
 
-                    $link = JRoute::_(
+                    $link = Redshop\IO\Route::_(
                         'index.php?option=com_redshop' .
                         '&view=product&pid=' . $product->product_id .
                         '&cid=' . $productCatId .
@@ -1303,7 +1303,7 @@ class RedshopHelperProduct
                 }
 
                 if (strpos($dataAdd, '{manufacturer_link}') !== false) {
-                    $manufacturerLinkHref = JRoute::_(
+                    $manufacturerLinkHref = Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $product->manufacturer_id .
                         '&Itemid=' . $itemId
                     );
@@ -1318,7 +1318,7 @@ class RedshopHelperProduct
                 }
 
                 if (strpos($dataAdd, '{manufacturer_product_link}') !== false) {
-                    $manuUrl           = JRoute::_(
+                    $manuUrl           = Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $product->manufacturer_id .
                         '&Itemid=' . $itemId
                     );
@@ -2166,7 +2166,7 @@ class RedshopHelperProduct
                     $catItem = JFactory::getApplication()->input->getInt('Itemid');
                 }
 
-                $catlink = JRoute::_(
+                $catlink = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=category&layout=detail&cid='
                     . $row->id . '&Itemid=' . $catItem
                 );
@@ -2402,7 +2402,7 @@ class RedshopHelperProduct
                     $productItemId = RedshopHelperRouter::getItemId($relatedProduct[$r]->product_id, $catIdMain);
                 }
 
-                $relatedUrl = JRoute::_(
+                $relatedUrl = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product&pid=' . $relatedProduct[$r]->product_id
                     . '&cid='
                     . $relatedProduct[$r]->cat_in_sefurl . '&Itemid=' . $productItemId
@@ -2536,7 +2536,7 @@ class RedshopHelperProduct
                     )->getItem();
 
                     if (!empty($manufacturer)) {
-                        $manufacturerUrl     = JRoute::_(
+                        $manufacturerUrl     = Redshop\IO\Route::_(
                             'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $relatedProduct[$r]->manufacturer_id . '&Itemid=' . $productItemId
                         );
                         $manufacturerLink    = "<a class='btn btn-primary' href='" . $manufacturerUrl . "'>" . JText::_(

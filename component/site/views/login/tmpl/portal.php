@@ -50,7 +50,7 @@ if ($shoppergroupid != 0) {
 }
 
 ?>
-<form action="<?php echo JRoute::_($loginlink); ?>" method="post">
+<form action="<?php echo Redshop\IO\Route::_($loginlink); ?>" method="post">
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
             <td colspan="2" align="center">

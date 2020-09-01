@@ -615,7 +615,7 @@ abstract class RedshopEntityBase extends BaseObject
             return $url;
         }
 
-        return JRoute::_($url, $xhtml);
+        return Redshop\IO\Route::_($url, $xhtml);
     }
 
     /**

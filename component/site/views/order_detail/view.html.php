@@ -81,7 +81,7 @@ class RedshopViewOrder_Detail extends RedshopView
 
             if ($rUser->user_email != $user->email) {
                 $app->redirect(
-                    JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid'), false)
+                    Redshop\IO\Route::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid'), false)
                 );
             }
         } else {
@@ -94,7 +94,7 @@ class RedshopViewOrder_Detail extends RedshopView
                 }
             } elseif ((int)$orderDetail->user_id > 0) {
                 $app->redirect(
-                    JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid'), false)
+                    Redshop\IO\Route::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid'), false)
                 );
             } elseif ((int)$auth['users_info_id'] !== (int)$orderDetail->user_info_id) {
                 throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);

@@ -23,7 +23,7 @@ $section    = $this->input->getString('property', '');
 $stockrooms = $model->StockRoomList();
 
 ?>
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo Redshop\IO\Route::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 
     <table class="admintable" width="100%">
