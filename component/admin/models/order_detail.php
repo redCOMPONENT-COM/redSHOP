@@ -875,7 +875,15 @@ class RedshopModelOrder_detail extends RedshopModel
         $orderData->special_discount        = $specialDiscount;
         $orderData->special_discount_amount = $discountPrice;
 
-        $orderData->order_total = $orderSubTotal + $orderData->order_shipping - $discountPrice - $orderData->order_discount;
+        if($discountPrice >= $orderSubTotal){
+            $orderData->special_discount  = 100 ;var_dump($orderData->special_discount );
+            $orderData->special_discount_amount = $orderSubTotal;
+            $orderData->order_total = 0;
+        }
+        else{
+            $orderData->order_total = $orderSubTotal + $orderData->order_shipping - $discountPrice - $orderData->order_discount;
+        }
+        
         $post                   = array();
 
         $paymentmethod                            = RedshopHelperOrder::getPaymentMethodInfo(
@@ -911,7 +919,9 @@ class RedshopModelOrder_detail extends RedshopModel
         if (!$orderData->store()) {
             return false;
         }
-
+        if ($discountPrice == $orderSubTotal){
+            return false;
+        }
         $this->_dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
 
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
