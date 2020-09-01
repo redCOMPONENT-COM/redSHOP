@@ -828,17 +828,19 @@ class RedshopHelperMedia
                     list($width, $height) = getimagesize($destinationFile);
                     list($watermarkWidth, $watermarkHeight) = getimagesize($watermark);
 
-                    imagecopymerge(
-                        $dest,
-                        $src,
-                        ($width - $watermarkWidth) >> 1,
-                        ($height - $watermarkHeight) >> 1,
-                        0,
-                        0,
-                        $watermarkWidth,
-                        $watermarkHeight,
-                        50
-                    );
+                    if (is_resource($dest) && is_resource($src)) {
+                        imagecopymerge(
+                            $dest,
+                            $src,
+                            ($width - $watermarkWidth) >> 1,
+                            ($height - $watermarkHeight) >> 1,
+                            0,
+                            0,
+                            $watermarkWidth,
+                            $watermarkHeight,
+                            50
+                        );
+                    }
 
                     imagejpeg($dest, $destinationFile);
 
