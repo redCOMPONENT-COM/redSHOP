@@ -194,7 +194,7 @@ JHtml::_('behavior.formvalidation');
     </fieldset>
 <?php endif; ?>
 
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo Redshop\IO\Route::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
       class="form-validate"
       enctype="multipart/form-data">
 

@@ -799,7 +799,7 @@ class RedshopModelCategory extends RedshopModel
                     $app->input->get->getInt('manufacturer_id', 0)
                 )) {
                 $app->redirect(
-                    JRoute::_(
+                    Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=category&layout=' . $layout . '&cid=' . $this->_id . '&manufacturer_id=' . $manufacturerId
                         . '&Itemid=' . $app->input->getInt('Itemid', 0),
                         true

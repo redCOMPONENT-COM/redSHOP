@@ -284,7 +284,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 </script>
 
 <?php if (!JFactory::getApplication()->input->getCmd('ajaxtask', '')): ?>
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Redshop\IO\Route::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
     <div class="row">
         <div class="col-md-4">
             <?php echo JText::_('COM_REDSHOP_SELECT_USER_OR_ADD_NEW_USER_IN_BOTTOM_FIELDS'); ?>:

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$returnUrl = JRoute::_('index.php?option=com_redshop&view=checkout', false);
+$returnUrl = Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout', false);
 $returnUrl = base64_encode($returnUrl);
 $itemId    = RedshopHelperRouter::getCheckoutItemId();
 ?>
@@ -31,7 +31,7 @@ $itemId    = RedshopHelperRouter::getCheckoutItemId();
     <input type="hidden" name="task" value="setlogin"/>
     <input type="hidden" name="option" value="com_redshop"/>
     <input type="hidden" name="view" value="login"/>
-    <a href="<?php echo JRoute::_('index.php?option=com_users&view=reset', false); ?>">
+    <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=reset', false); ?>">
         <?php echo JText::_('COM_REDSHOP_FORGOT_PWD_LINK') ?>
     </a>
 </form>

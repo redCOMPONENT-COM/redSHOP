@@ -22,7 +22,7 @@ $logoLgUrl = JUri::root() . 'media/com_redshop/images/redshop_white_logo.png';
 <?php endif; ?>
 
 <!-- Logo -->
-<a href="<?php echo JRoute::_('index.php?option=com_redshop'); ?>" class="logo">
+<a href="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop'); ?>" class="logo">
   <span class="logo-lg">
 	  <img src="<?php echo $logoLgUrl ?>" class="center-block">
   </span>

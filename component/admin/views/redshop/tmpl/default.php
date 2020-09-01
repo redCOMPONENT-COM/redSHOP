@@ -75,7 +75,7 @@ $user->gid      = $user->groups[$user->usertype];
 
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo JText::_('COM_REDSHOP_STATISTIC_TOTAL_MEMBER'); ?></span>
-                <span class="info-box-number"><?php echo (int)$statistic[2] ?></span>
+                <span class="info-box-number"><?php echo (int) ($statistic[2] ?? 0) ?></span>
             </div>
         </div>
     </div>

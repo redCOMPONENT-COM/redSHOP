@@ -92,7 +92,7 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1') {
     $cc_list['discover']->img = 'discover.jpg';
     ?>
 
-    <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout') ?>" method="post"
+    <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout') ?>" method="post"
           name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">
 
         <fieldset class="adminform">

@@ -61,9 +61,9 @@ class RedshopControllerLogin extends RedshopController
             $error = $model->setlogin($username, $password);
 
             if ($error == true) {
-                $wishreturn = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $productId, false);
+                $wishreturn = Redshop\IO\Route::_('index.php?option=com_redshop&view=product&pid=' . $productId, false);
             } else {
-                $wishreturn = JRoute::_(
+                $wishreturn = Redshop\IO\Route::_(
                     'index.php?loginwishlist=1&option=com_redshop&view=login&wishlist=1&Itemid=' . $Itemid,
                     false
                 );
@@ -80,16 +80,16 @@ class RedshopControllerLogin extends RedshopController
                 $error = $model->setlogin($username, $password);
 
                 if ($error == true) {
-                    $link = JRoute::_('index.php?option=com_redshop&Itemid=' . $returnitemid, false);
+                    $link = Redshop\IO\Route::_('index.php?option=com_redshop&Itemid=' . $returnitemid, false);
                 } else {
-                    $link = JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $Itemid, false);
+                    $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=login&Itemid=' . $Itemid, false);
                 }
             }
 
             if (!empty($return)) {
                 $s_Itemid = RedshopHelperRouter::getCheckoutItemId();
                 $Itemid   = $s_Itemid ? $s_Itemid : $Itemid;
-                $return   = JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false);
+                $return   = Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false);
 
                 $this->setRedirect($return);
             } else {
@@ -112,9 +112,9 @@ class RedshopControllerLogin extends RedshopController
         $item          = $menu->getItem($logout_itemid);
 
         if ($item) {
-            $link = JRoute::_($item->link . '&Itemid=' . $logout_itemid, false);
+            $link = Redshop\IO\Route::_($item->link . '&Itemid=' . $logout_itemid, false);
         } else {
-            $link = JRoute::_('index.php?option=com_redshop', false);
+            $link = Redshop\IO\Route::_('index.php?option=com_redshop', false);
         }
 
         $app->logout();

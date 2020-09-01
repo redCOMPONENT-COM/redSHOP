@@ -86,7 +86,7 @@ class RedshopControllerAddquotation_Detail extends RedshopController
 
             if (!$user) {
                 $errorMsg = $this->_db->getErrorMsg();
-                $link     = JRoute::_('index.php?option=com_redshop&view=addquotation_detail', false);
+                $link     = Redshop\IO\Route::_('index.php?option=com_redshop&view=addquotation_detail', false);
                 $this->setRedirect($link, $errorMsg);
 
                 return false;

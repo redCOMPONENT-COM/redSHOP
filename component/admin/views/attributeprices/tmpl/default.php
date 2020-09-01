@@ -55,7 +55,7 @@ $message = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIS
             for ($i = 0; $i < count($this->data); $i++) {
                 $row = $this->data[$i];
                 $row->id = $row->price_id;
-                $link = JRoute::_(
+                $link = Redshop\IO\Route::_(
                     'index.php?tmpl=component&option=com_redshop&view=attributeprices_detail&task=edit&section=' . $this->section . '&section_id=' . $row->section_id . '&cid[]=' . $row->price_id
                 ); ?>
                 <tr class="<?php echo "row$k"; ?>">
