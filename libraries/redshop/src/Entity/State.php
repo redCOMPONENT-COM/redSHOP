@@ -7,15 +7,17 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
- * Wishlist Product Entity
+ * State Entity
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityWishlist_Product extends RedshopEntity
+class State extends Entity
 {
 }

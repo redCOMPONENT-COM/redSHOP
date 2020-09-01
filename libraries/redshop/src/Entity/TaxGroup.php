@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,25 +16,25 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.4
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityTax_Group extends RedshopEntity
+class TaxGroup extends Entity
 {
     /**
      * List of tax rates belong to this tax group
      *
-     * @var    RedshopEntitiesCollection
+     * @var    \RedshopEntitiesCollection
      *
-     * @since  2.0.4
+     * @since  __DEPLOY_VERSION__
      */
     protected $taxRates;
 
     /**
      * Method for get all associated tax rates
      *
-     * @return  RedshopEntitiesCollection
+     * @return  \RedshopEntitiesCollection
      *
-     * @since   2.0.4
+     * @since   __DEPLOY_VERSION__
      */
     public function getTaxRates()
     {
@@ -48,18 +50,18 @@ class RedshopEntityTax_Group extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.0.4
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadTaxRates()
     {
         /** @var RedshopEntitiesCollection taxRates */
-        $this->taxRates = new RedshopEntitiesCollection;
+        $this->taxRates = new \RedshopEntitiesCollection;
 
         if (!$this->hasId()) {
             return $this;
         }
 
-        $model = RedshopModel::getInstance('Tax_Rates', 'RedshopModel', array('ignore_request' => true));
+        $model = \RedshopModel::getInstance('Tax_Rates', 'RedshopModel', array('ignore_request' => true));
         $model->setState('filter.tax_group', $this->getId());
 
         $taxRates = $model->getItems();
@@ -69,7 +71,7 @@ class RedshopEntityTax_Group extends RedshopEntity
         }
 
         foreach ($taxRates as $taxRate) {
-            $this->taxRates->add(RedshopEntityTax_Rate::getInstance($taxRate->id)->bind($taxRate));
+            $this->taxRates->add(\Redshop\Entity\TaxRate::getInstance($taxRate->id)->bind($taxRate));
         }
 
         return $this;

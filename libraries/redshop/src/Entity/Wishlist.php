@@ -7,26 +7,29 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
- * Shipping Rate Entity
+ * Wishlist Entity
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityShipping_Rate extends RedshopEntity
+class Wishlist extends Entity
 {
     /**
      * Get the associated table
      *
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
-     * @return  RedshopTable
+     * @return  \JTable
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Shipping_Rate_Detail', 'Table');
+        return \JTable::getInstance('Wishlist', 'Table');
     }
 }

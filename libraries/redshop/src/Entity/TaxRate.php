@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,16 +16,16 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       3.0.2
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityTax_Rate extends RedshopEntity
+class TaxRate extends Entity
 {
 	/**
 	 * Method for get shopper groups associate with this tax rate
 	 *
 	 * @return  RedshopEntitiesCollection
 	 *
-	 * @since   3.0.2
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getShopperGroups()
 	{
@@ -39,17 +41,17 @@ class RedshopEntityTax_Rate extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   3.0.2
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function loadShopperGroups()
 	{
-		$this->shopperGroups = new RedshopEntitiesCollection;
+		$this->shopperGroups = new \RedshopEntitiesCollection;
 
 		if (!$this->hasId()) {
 			return $this;
 		}
 
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select($db->qn('shopper_group_id'))
@@ -63,7 +65,7 @@ class RedshopEntityTax_Rate extends RedshopEntity
 		}
 
 		foreach ($result as $shopperGroupId) {
-			$this->shopperGroups->add(RedshopEntityShopper_Group::getInstance($shopperGroupId));
+			$this->shopperGroups->add(\Redshop\Entity\ShopperGroup::getInstance($shopperGroupId));
 		}
 
 		return $this;

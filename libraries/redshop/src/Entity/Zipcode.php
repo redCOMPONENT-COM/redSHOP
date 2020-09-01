@@ -3,30 +3,33 @@
  * @package     Redshop.Library
  * @subpackage  Entity
  *
- * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
+namespace Redshop\Entity;
 
 defined('_JEXEC') or die;
 
 /**
- * Sub-Attribute Entity
+ * ZipCode Entity
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntitySub_Attribute extends RedshopEntity
+class Zipcode extends Entity
 {
     /**
      * Get the associated table
      *
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
-     * @return  RedshopTable
+     * @return  \JTable
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('SubAttribute_Property', 'Table');
+        return \JTable::getInstance('Zipcode_Detail', 'Table');
     }
 }

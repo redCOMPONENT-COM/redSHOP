@@ -7,15 +7,17 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
- * User Cart Item Entity
+ * Template Entity
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityUser_Cart_Item extends RedshopEntity
+class Template extends Entity
 {
 }

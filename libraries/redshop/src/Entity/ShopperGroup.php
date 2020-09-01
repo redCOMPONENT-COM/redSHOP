@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,14 +16,14 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityShopper_Group extends RedshopEntity
+class ShopperGroup extends Entity
 {
     /**
-     * @var    RedshopEntitiesCollection
+     * @var    \RedshopEntitiesCollection
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     protected $discounts;
 
@@ -30,19 +32,20 @@ class RedshopEntityShopper_Group extends RedshopEntity
      *
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
-     * @return  RedshopTable
+     * @return  \JTable
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('ShopperGroup', 'RedshopTable');
+        return \JTable::getInstance('ShopperGroup', 'RedshopTable');
     }
 
     /**
      * Method for get discounts of this shopper group
      *
-     * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
+     * @return   \RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     public function getDiscounts()
     {
@@ -62,7 +65,7 @@ class RedshopEntityShopper_Group extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadDiscounts()
     {
@@ -70,9 +73,9 @@ class RedshopEntityShopper_Group extends RedshopEntity
             return $this;
         }
 
-        $this->discounts = new RedshopEntitiesCollection;
+        $this->discounts = new \RedshopEntitiesCollection;
 
-        $db        = JFactory::getDbo();
+        $db        = \JFactory::getDbo();
         $query     = $db->getQuery(true)
             ->select($db->qn('discount_id'))
             ->from($db->qn('#__redshop_discount_shoppers'))
@@ -84,7 +87,7 @@ class RedshopEntityShopper_Group extends RedshopEntity
         }
 
         foreach ($discounts as $discountId) {
-            $this->discounts->add(RedshopEntityDiscount::getInstance($discountId));
+            $this->discounts->add(\RedshopEntityDiscount::getInstance($discountId));
         }
 
         return $this;

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,8 +16,8 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntitySupplier extends RedshopEntity
+class Supplier extends Entity
 {
 }

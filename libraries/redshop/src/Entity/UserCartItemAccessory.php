@@ -7,26 +7,30 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
- * Discount Entity
+ * User Cart Item Accessory Entity
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntitySubscription extends RedshopEntity
+class UserCartItemAccessory extends Entity
 {
     /**
      * Get the associated table
      *
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
-     * @return  RedshopTable
+     * @return  \RedshopTable|boolean
+     * @throws  \Exception
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('NewsletterSubscr_detail', 'Table');
+        return \RedshopTable::getInstance('Usercart_Accessory_Item', 'RedshopTable');
     }
 }
