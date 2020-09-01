@@ -7,16 +7,18 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
- * Product Subscription Renewal Entity
+ * Product Discount Calculate Entity
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityProduct_Subscription_Renewal extends RedshopEntity
+class ProductDiscountCalculate extends Entity
 {
     /**
      * Get the associated table
@@ -24,9 +26,10 @@ class RedshopEntityProduct_Subscription_Renewal extends RedshopEntity
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
      * @return  RedshopTable
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Product_Subscription_Renewal', 'Table');
+        return \JTable::getInstance('Product_Discount_Calc', 'Table');
     }
 }

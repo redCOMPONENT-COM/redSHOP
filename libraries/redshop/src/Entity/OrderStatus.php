@@ -16,8 +16,8 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityOrder_Status extends RedshopEntity
+class OrderStatus extends Entity
 {
 }

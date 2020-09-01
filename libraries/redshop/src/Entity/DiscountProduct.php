@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,26 +16,28 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.1.0
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityDiscount_Product extends RedshopEntity
+class DiscountProduct extends Entity
 {
     /**
-     * @var RedshopEntitiesCollection
+     * @var \RedshopEntitiesCollection
+     * @since  __DEPLOY_VERSION__
      */
     protected $shopperGroups;
 
     /**
-     * @var RedshopEntitiesCollection
+     * @var \RedshopEntitiesCollection
+     * @since  __DEPLOY_VERSION__
      */
     protected $categories;
 
     /**
      * Method for get shopper groups associate with this discount
      *
-     * @return  RedshopEntitiesCollection
+     * @return \RedshopEntitiesCollection
      *
-     * @since   2.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getShopperGroups()
     {
@@ -49,17 +53,17 @@ class RedshopEntityDiscount_Product extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadShopperGroups()
     {
-        $this->shopperGroups = new RedshopEntitiesCollection;
+        $this->shopperGroups = new \RedshopEntitiesCollection;
 
         if (!$this->hasId()) {
             return $this;
         }
 
-        $db = JFactory::getDbo();
+        $db = \JFactory::getDbo();
 
         $query = $db->getQuery(true)
             ->select($db->qn('shopper_group_id'))
@@ -82,9 +86,9 @@ class RedshopEntityDiscount_Product extends RedshopEntity
     /**
      * Method for get categories associate with this discount
      *
-     * @return  RedshopEntitiesCollection
+     * @return  \RedshopEntitiesCollection
      *
-     * @since   2.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getCategories()
     {
@@ -100,11 +104,11 @@ class RedshopEntityDiscount_Product extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.1.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadCategories()
     {
-        $this->categories = new RedshopEntitiesCollection;
+        $this->categories = new \RedshopEntitiesCollection;
 
         if (!$this->hasId() || empty($this->get('category_ids'))) {
             return $this;
@@ -113,7 +117,7 @@ class RedshopEntityDiscount_Product extends RedshopEntity
         $categoryIds = explode(',', $this->get('category_ids'));
 
         foreach ($categoryIds as $categoryId) {
-            $this->categories->add(RedshopEntityCategory::getInstance($categoryId));
+            $this->categories->add(\RedshopEntityCategory::getInstance($categoryId));
         }
 
         return $this;

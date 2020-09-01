@@ -7,16 +7,18 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
- * Order Status Log Entity
+ * Product Serial Number Entity
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityOrder_Status_Log extends RedshopEntity
+class ProductSerial extends Entity
 {
     /**
      * Get the associated table
@@ -24,9 +26,10 @@ class RedshopEntityOrder_Status_Log extends RedshopEntity
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
      * @return  RedshopTable
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Order_Status_Log', 'Table');
+        return \JTable::getInstance('Product_Serial_Number', 'Table');
     }
 }

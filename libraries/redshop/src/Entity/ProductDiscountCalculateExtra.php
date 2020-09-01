@@ -7,16 +7,18 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
- * Product Serial Number Entity
+ * Product Discount Calculate Extra Entity
  *
  * @package     Redshop.Library
  * @subpackage  Entity
  * @since       2.0.6
  */
-class RedshopEntityProduct_Serial extends RedshopEntity
+class ProductDiscountCalculateExtra extends Entity
 {
     /**
      * Get the associated table
@@ -24,9 +26,10 @@ class RedshopEntityProduct_Serial extends RedshopEntity
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
      * @return  RedshopTable
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Product_Serial_Number', 'Table');
+        return \JTable::getInstance('Product_Discount_Calc_Extra', 'Table');
     }
 }

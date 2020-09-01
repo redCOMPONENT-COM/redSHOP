@@ -7,26 +7,29 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
- * Product Discount Calculate Extra Entity
+ * Quotation Item Accessory Entity
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityProduct_Discount_Calculate_Extra extends RedshopEntity
+class QuotationItemAccessory extends Entity
 {
     /**
      * Get the associated table
      *
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
-     * @return  RedshopTable
+     * @return  \RedshopTable
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Product_Discount_Calc_Extra', 'Table');
+        return \JTable::getInstance('Quotation_Accessory_Item', 'Table');
     }
 }

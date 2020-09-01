@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,20 +16,21 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopEntityOrder_User extends RedshopEntity
+class OrderUser extends Entity
 {
     /**
      * Get the associated table
      *
-     * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
+     * @param string $name Main name of the Table. Example: Article for ContentTableArticle
      *
-     * @return  JTable
+     * @return  \JTable
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
-        return JTable::getInstance('Order_User_Detail', 'Table');
+        return \JTable::getInstance('Order_User_Detail', 'Table');
     }
 
     /**
@@ -35,7 +38,7 @@ class RedshopEntityOrder_User extends RedshopEntity
      *
      * @return  self
      *
-     * @since   2.0.6
+     * @since   __DEPLOY_VERSION__
      */
     public function loadExtraFields()
     {
@@ -45,20 +48,21 @@ class RedshopEntityOrder_User extends RedshopEntity
 
         $this->set('email', $this->get('user_email'));
 
-        $privateSection = RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS;
-        $companySection = RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS;
+        $privateSection = \RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS;
+        $companySection = \RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS;
 
         if ($this->get('address_type', '') == 'ST') {
-            $privateSection = RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS;
-            $companySection = RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS;
+            $privateSection = \RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS;
+            $companySection = \RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS;
         }
 
-        $db = JFactory::getDbo();
+        $db = \JFactory::getDbo();
 
         $query = $db->getQuery(true)
             ->select($db->qn('f.name') . ',' . $db->qn('fd.data_txt'))
             ->from($db->qn('#__redshop_fields_data', 'fd'))
-            ->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.id') . '=' . $db->qn('fd.fieldid'))
+            ->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON '
+                . $db->qn('f.id') . '=' . $db->qn('fd.fieldid'))
             ->where(
                 '('
                 . $db->qn('fd.section') . ' = ' . $privateSection
