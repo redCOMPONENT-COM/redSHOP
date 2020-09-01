@@ -345,7 +345,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
             if ($redirect) {
                 // Do final cart calculations
-                RedshopHelperCart::ajaxRenderModuleCartHtml();
+                \Redshop\Cart\Ajax::renderModuleCartHtml(true);
 
                 $app->redirect(
                     Redshop\IO\Route::_(
