@@ -869,6 +869,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->fillField($usePage->attributeNameAttribute($position, $x), $attribute["attributeName"]);
 			$I->waitForElement($usePage->attributePricePropertyAttribute($position, $x), 30);
 			$I->fillField($usePage->attributePricePropertyAttribute($position, $x), $attribute["attributePrice"]);
+			$I->executeJS('window.scrollTo(0,0)');
 			$I->click("+ Add Attribute value");
 		}
 
@@ -1086,7 +1087,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$usePage = new ProductManagerPage();
 		$I->waitForElement($usePage->returnChoice($productCategory), 30);
 		$I->click($usePage->returnChoice($productCategory));
-		$I->scrollTo(ProductManagerPage::$saleYes);
+		$I->scrollTo(ProductManagerPage::$additionalInformation);
 		$I->waitForElement(ProductManagerPage::$saleYes, 30);
 		$I->click(ProductManagerPage::$saleYes);
 		if ($prices == 'No')
