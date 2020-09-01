@@ -18,8 +18,17 @@ defined('_JEXEC') or die;
  * @var   string $uniqueId    Extra field unique Id
  * @var   array  $fieldCheck  Extra field check
  * @var   string $checkData   Extra field check data
+ * @var   int    $isAtt
+ * @var   int    $productId
  */
 extract($displayData);
+
+$ajax    = '';
+
+if (\Redshop::getConfig()->getInt('AJAX_CART_BOX') && $isAtt > 0) {
+    $ajax = 'ajax';
+}
+
 ?>
 <table>
     <tr>
@@ -32,8 +41,7 @@ extract($displayData);
                             src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $field->field_name; ?>"
                             title="<?php echo $field->field_value; ?>"
                             alt="<?php echo $field->field_value; ?>"
-                            onclick="javascript:setProductUserFieldImage(<?php echo $rowData->name; ?>, <?php echo $uniqueId; ?>, <?php echo $field->field_value; ?>, this);"
-                        <?php echo $class; ?>
+                            onclick="javascript:setProductUserFieldImage('<?php echo $rowData->name; ?>', '<?php echo $uniqueId; ?>', '<?php echo $field->field_value; ?>', this);"
                     >
                 </div>
             </td>
@@ -41,8 +49,8 @@ extract($displayData);
     </tr>
     <input
             type="hidden"
-            name="extrafieldname<?php echo $uniqueId; ?>[]"
-            id="<?php echo $rowData->name . '_' . $uniqueId; ?>"
+            name="extrafields<?php echo $uniqueId; ?>[]"
+            id="<?php echo $ajax . $rowData->name . '_' . $uniqueId; ?>"
             userfieldlbl="<?php echo $rowData->title; ?>"
         <?php echo $required; ?>
     >

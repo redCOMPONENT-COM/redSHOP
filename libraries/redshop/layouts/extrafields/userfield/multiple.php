@@ -23,7 +23,7 @@ extract($displayData);
 ?>
 <div class="userfield_input">
     <select
-            name="extrafieldname<?php echo $uniqueId; ?>[]"
+            name="extrafields<?php echo $uniqueId; ?>[]"
             class="<?php echo $rowData->class; ?>"
             id="<?php echo $rowData->name; ?>"
             userfieldlbl="<?php echo $rowData->title; ?>"
