@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
         for ($i = 0; $i < count($this->userorders); $i++) {
             $row     = $this->userorders[$i];
             $row->id = $row->order_id;
-            $link    = JRoute::_('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id); ?>
+            $link    = Redshop\IO\Route::_('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id); ?>
             <tr>
                 <td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
                 <td align="center">

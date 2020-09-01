@@ -113,7 +113,7 @@ defined('_JEXEC') or die;
         for ($i = 0, $n = count($this->detail); $i < $n; $i++) {
             $row       = $this->detail[$i];
             $row->id   = $row->accountgroup_id;
-            $link      = JRoute::_('index.php?option=com_redshop&view=accountgroup_detail&task=edit&cid[]=' . $row->id);
+            $link      = Redshop\IO\Route::_('index.php?option=com_redshop&view=accountgroup_detail&task=edit&cid[]=' . $row->id);
             $published = JHtml::_('jgrid.published', $row->published, $i, '', 1); ?>
             <tr class="<?php echo "row$k"; ?>">
                 <td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>

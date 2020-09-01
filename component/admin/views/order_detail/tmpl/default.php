@@ -236,7 +236,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                             if (Redshop::getConfig()->get('SEND_MAIL_TO_CUSTOMER')) {
                                 $sendMailToCustomer = "checked";
                             }
-                            $linkUpdate = JRoute::_(
+                            $linkUpdate = Redshop\IO\Route::_(
                                 'index.php?option=com_redshop&view=order&task=update_status&return=order_detail&order_id[]=' . $orderId
                             );
                             ?>
@@ -329,7 +329,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                     <?php else: ?>
                                         <?php echo JText::_($this->payment_detail->order_payment_name); ?>
                                         <?php if (!empty($model->getccdetail($orderId))): ?>
-                                            <a href="<?php echo JRoute::_(
+                                            <a href="<?php echo Redshop\IO\Route::_(
                                                 'index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $orderId
                                             ); ?>"
                                                class="joom-box btn btn-primary"
@@ -654,7 +654,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                         <h3><?php echo JText::_('COM_REDSHOP_EXTRA_FIELD'); ?></h3>
                     </div>
                     <div class="box-body">
-                        <form action="<?php echo JRoute::_(
+                        <form action="<?php echo Redshop\IO\Route::_(
                             'index.php?option=com_redshop&view=order_detail&task=storeExtraField'
                         ); ?>" method="post"
                               name="adminForm" id="adminForm" enctype="multipart/form-data">
@@ -730,7 +730,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
 
                             if (!empty($res)) {
                                 $cname = $res->name;
-                                $clink = JRoute::_(
+                                $clink = Redshop\IO\Route::_(
                                     $url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId
                                 );
                                 $cname = "<a href='" . $clink . "'>" . $cname . "</a>";

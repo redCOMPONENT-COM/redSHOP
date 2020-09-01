@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure', 0)); ?>" method="post" id="login-form" class="form-vertical">
+<form action="<?php echo Redshop\IO\Route::_('index.php', true, $params->get('usesecure', 0)); ?>" method="post" id="login-form" class="form-vertical">
 <?php if ($params->get('greeting', 1)) : ?>
 	<div class="login-greeting">
 	<?php if (!$params->get('name', 0)) : ?>
@@ -24,7 +24,7 @@ JHtml::_('behavior.keepalive');
 <?php if ($params->get('profilelink', 0)) : ?>
 	<ul class="unstyled">
 		<li>
-			<a href="<?php echo JRoute::_('index.php?option=com_users&view=profile'); ?>">
+			<a href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=profile'); ?>">
 			<?php echo JText::_('MOD_REDSHOP_LOGIN_PROFILE'); ?></a>
 		</li>
 	</ul>

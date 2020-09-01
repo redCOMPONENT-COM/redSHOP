@@ -17,7 +17,7 @@ $itemId = RedshopHelperRouter::getRedShopMenuItem(
     )
 );
 
-$compareLink = JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $itemId);
+$compareLink = Redshop\IO\Route::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $itemId);
 ?>
 
 <div class="compare_product_div">

@@ -80,7 +80,7 @@ class RedshopHelperBreadcrumb
                 if (!empty($menu) && $menu->home !== 1) {
                     $main             = new stdClass;
                     $main->name       = $menu->title;
-                    $main->link       = JRoute::_($newLink . '&Itemid=' . $menu->id);
+                    $main->link       = Redshop\IO\Route::_($newLink . '&Itemid=' . $menu->id);
                     $customPathways[] = $main;
                 }
 
@@ -111,14 +111,14 @@ class RedshopHelperBreadcrumb
                             if (count($parentMenu) > 0) {
                                 $main             = new stdClass;
                                 $main->name       = $parentMenu->name;
-                                $main->link       = JRoute::_($parentMenu->link . '&Itemid=' . $parentMenu->id);
+                                $main->link       = Redshop\IO\Route::_($parentMenu->link . '&Itemid=' . $parentMenu->id);
                                 $customPathways[] = $main;
                             }
                         }
 
                         $main             = new stdClass;
                         $main->name       = $menu->title;
-                        $main->link       = JRoute::_(
+                        $main->link       = Redshop\IO\Route::_(
                             'index.php?option=com_redshop&view=manufacturers&Itemid=' . $menu->id
                         );
                         $customPathways[] = $main;
@@ -131,7 +131,7 @@ class RedshopHelperBreadcrumb
                         if (!empty($menu)) {
                             $main             = new stdClass;
                             $main->name       = $menu->name;
-                            $main->link       = JRoute::_(
+                            $main->link       = Redshop\IO\Route::_(
                                 'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $prd->manufacturer_id
                                 . '&Itemid=' . $itemId
                             );
@@ -150,7 +150,7 @@ class RedshopHelperBreadcrumb
                     if (!empty($menu) && $menu->home != 1) {
                         $main             = new stdClass;
                         $main->name       = $menu->title;
-                        $main->link       = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $menu->id);
+                        $main->link       = Redshop\IO\Route::_('index.php?option=com_redshop&view=category&Itemid=' . $menu->id);
                         $customPathways[] = $main;
                     } else {
                         $menu = RedshopHelperProduct::getMenuDetail(
@@ -163,7 +163,7 @@ class RedshopHelperBreadcrumb
                             if (!empty($parentMenu)) {
                                 $main             = new stdClass;
                                 $main->name       = $parentMenu->name;
-                                $main->link       = JRoute::_($parentMenu->link . '&Itemid=' . $parentMenu->id);
+                                $main->link       = Redshop\IO\Route::_($parentMenu->link . '&Itemid=' . $parentMenu->id);
                                 $customPathways[] = $main;
                             }
                         }
@@ -206,14 +206,14 @@ class RedshopHelperBreadcrumb
                         if (count($parentMenu) > 0) {
                             $main             = new stdClass;
                             $main->name       = $parentMenu->name;
-                            $main->link       = JRoute::_($parentMenu->link . '&Itemid=' . $parentMenu->id);
+                            $main->link       = Redshop\IO\Route::_($parentMenu->link . '&Itemid=' . $parentMenu->id);
                             $customPathways[] = $main;
                         }
                     }
 
                     $main             = new stdClass;
                     $main->name       = $menu->title;
-                    $main->link       = JRoute::_(
+                    $main->link       = Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=manufacturers&Itemid=' . $menu->id
                     );
                     $customPathways[] = $main;
@@ -266,12 +266,12 @@ class RedshopHelperBreadcrumb
                 if (!empty($menu)) {
                     $main             = new stdClass;
                     $main->name       = $menu->title;
-                    $main->link       = JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $menu->id);
+                    $main->link       = Redshop\IO\Route::_('index.php?option=com_redshop&view=account&Itemid=' . $menu->id);
                     $customPathways[] = $main;
                 } else {
                     $main             = new stdClass;
                     $main->name       = JText::_('COM_REDSHOP_ACCOUNT_MAINTAINANCE');
-                    $main->link       = JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $itemId);
+                    $main->link       = Redshop\IO\Route::_('index.php?option=com_redshop&view=account&Itemid=' . $itemId);
                     $customPathways[] = $main;
                 }
 
@@ -291,12 +291,12 @@ class RedshopHelperBreadcrumb
                 if (is_object($menu) && count(get_object_vars($menu)) > 0) {
                     $main             = new stdClass;
                     $main->name       = $menu->title;
-                    $main->link       = JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $menu->id);
+                    $main->link       = Redshop\IO\Route::_('index.php?option=com_redshop&view=account&Itemid=' . $menu->id);
                     $customPathways[] = $main;
                 } else {
                     $main             = new stdClass;
                     $main->name       = JText::_('COM_REDSHOP_ACCOUNT_MAINTAINANCE');
-                    $main->link       = JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $itemId);
+                    $main->link       = Redshop\IO\Route::_('index.php?option=com_redshop&view=account&Itemid=' . $itemId);
                     $customPathways[] = $main;
                 }
 
@@ -346,7 +346,7 @@ class RedshopHelperBreadcrumb
         foreach ($categories as $category) {
             $item       = new stdClass;
             $item->name = $category['category_name'];
-            $item->link = JRoute::_(
+            $item->link = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $category['category_id'] . '&Itemid=' . $category['catItemid']
             );
 

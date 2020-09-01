@@ -42,7 +42,7 @@ $editor = JFactory::getEditor();
         <?php endif ?>
     }
 </script>
-<form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo Redshop\IO\Route::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
     <input type="hidden" name="extension_id" value="<?php echo $this->shipping->extension_id; ?>"/>
     <input type="hidden" name="shipping_class" value="<?php echo $this->shipping->element; ?>"/>

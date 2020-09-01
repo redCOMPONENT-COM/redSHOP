@@ -84,10 +84,10 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
         return valid;
     }
 </script>
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Redshop\IO\Route::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 
     <?php if (!$quotation->quotation_id) {
-        $edit_addlink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=quotation_detail&layout=account');
+        $edit_addlink = Redshop\IO\Route::_('index.php?tmpl=component&option=com_redshop&view=quotation_detail&layout=account');
         ?>
         <a class="joom-box btn btn-primary" href="<?php echo $edit_addlink; ?>"
            rel="{handler: 'iframe', size: {x: 670, y: 500}}">
@@ -364,7 +364,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
                             $product_total = $quo->product_price * $quo->product_quantity;
                             $product_tax   = ($quo->product_price - $quo->product_excl_price) * $quo->product_quantity;
 
-                            $delete_itemlink = JRoute::_(
+                            $delete_itemlink = Redshop\IO\Route::_(
                                 'index.php?option=com_redshop&view=quotation_detail&task=deleteitem&cid[]=' . $quotation->quotation_id . '&qitemid=' . $quo->quotation_item_id
                             );
                             ?>

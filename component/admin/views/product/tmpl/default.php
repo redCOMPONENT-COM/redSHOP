@@ -254,7 +254,7 @@ JHtml::_('redshopjquery.framework');
             <?php foreach ($this->products as $index => $product): ?>
                 <?php
                 $product->id = $product->product_id;
-                $link        = JRoute::_(
+                $link        = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $product->product_id
                 );
                 $published   = JHtml::_('jgrid.published', $product->published, $index, '', 1);

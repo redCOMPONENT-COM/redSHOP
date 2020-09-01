@@ -39,7 +39,7 @@ class PlgRedshop_LoginGoogle extends JPlugin
     {
         $client = new Google_Client();
 
-        $redirectUri = \JRoute::_(
+        $redirectUri = \Redshop\IO\Route::_(
             \JUri::root() . 'index.php?option=com_ajax&group=redshop_login&plugin=googleLoginCallBack&format=raw'
         );  // URL này được Google chuyển hướng, khi người dùng đồng ý
 
