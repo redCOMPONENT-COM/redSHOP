@@ -203,6 +203,7 @@ class SiteHelper
      * @param   integer  $productId     Product ID
      * @param   string   $myWish        My wish
      * @param   integer  $addWish       Add wish
+     * @param   string  $uniqueId       Unique ID
      *
      * @return  array
      * @since   2.1.0
@@ -215,7 +216,8 @@ class SiteHelper
         $isAtt = 0,
         $productId = 0,
         $myWish = '',
-        $addWish = 0
+        $addWish = 0,
+        $uniqueId = ''
     ) {
         $db   = \JFactory::getDbo();
         $cart = \Redshop\Cart\Helper::getCart();
@@ -287,6 +289,8 @@ class SiteHelper
                     $req = ' required = "' . $data->required . '"';
                 }
 
+                $uniqueId = !empty($uniqueId) ? $uniqueId : $productId;
+
                 switch ($type) {
                     default:
                     case \RedshopHelperExtrafields::TYPE_TEXT:
@@ -297,12 +301,15 @@ class SiteHelper
                             $onKeyup = $addToCartFormName . '.' . $data->name . '.value = this.value';
                         }
 
-                        $exField .= '<div class="userfield_input">'
-                            . '<input class="' . $data->class . '" type="text" maxlength="' . $data->maxlength . '"'
-                            . ' onkeyup="var f_value = this.value;' . $onKeyup . '" name="extrafields' . $productId . '[]"'
-                            . ' id="' . $data->name . '" ' . $req . ' userfieldlbl="' . $data->title . '" '
-                            . ' value="' . $textValue . '" size="' . $data->size . '" />'
-                            . '</div>';
+                        $exField .= \RedshopLayoutHelper::render(
+                            'extrafields.userfield.text',
+                            array(
+                                'rowData'  => $data,
+                                'required' => $req,
+                                'uniqueId' => $uniqueId,
+                                'onKeyup' => $onKeyup
+                            )
+                        );
                         break;
 
                     case \RedshopHelperExtrafields::TYPE_TEXT_AREA:
@@ -313,9 +320,15 @@ class SiteHelper
                             $onKeyup = $addToCartFormName . '.' . $data->name . '.value = this.value';
                         }
 
-                        $exField .= '<div class="userfield_input">';
-                        $exField .= '<textarea class="' . $data->class . '"  name="extrafields' . $productId . '[]" id="' . $data->name . '" ' . $req . ' userfieldlbl="' . $data->title . '" cols="' . $data->cols . '" onkeyup=" var f_value = this.value;' . $onKeyup . '" rows="' . $data->rows . '" >' . $textValue . '</textarea>';
-                        $exField .= '</div>';
+                        $exField .= \RedshopLayoutHelper::render(
+                            'extrafields.userfield.textarea',
+                            array(
+                                'rowData'  => $data,
+                                'required' => $req,
+                                'uniqueId' => $uniqueId,
+                                'onKeyup' => $onKeyup
+                            )
+                        );
                         break;
 
                     case \RedshopHelperExtrafields::TYPE_CHECK_BOX:
@@ -323,29 +336,33 @@ class SiteHelper
                         $fieldCheck = \RedshopEntityField::getInstance($data->id)->getFieldValues();
                         $checkData  = explode(",", $cart[$idx][$data->name]);
 
-                        foreach ($fieldCheck as $aFieldCheck) {
-                            $checked = '';
-
-                            if (in_array($aFieldCheck->field_value, $checkData)) {
-                                $checked = ' checked="checked" ';
-                            }
-
-                            $exField .= '<div class="userfield_input">';
-                            $exField .= '<input  class="' . $data->class . '" type="checkbox"  ' . $checked . ' name="extrafields' . $productId . '[]" id="' . $data->name . "_" . $aFieldCheck->value_id . '" userfieldlbl="' . $data->title . '" value="' . $aFieldCheck->field_value . '" ' . $req . ' />' . $aFieldCheck->field_value;
-                            $exField .= '</div>';
-                        }
-
+                        $exField  .= \RedshopLayoutHelper::render(
+                            'extrafields.userfield.checkbox',
+                            array(
+                                'rowData'    => $data,
+                                'required'   => $req,
+                                'fieldCheck' => $fieldCheck,
+                                'checkData'  => $checkData,
+                                'uniqueId'   => $uniqueId
+                            )
+                        );
                         break;
 
                     case \RedshopHelperExtrafields::TYPE_RADIO_BUTTON:
 
                         $fieldCheck = \RedshopEntityField::getInstance($data->id)->getFieldValues();
+                        $chkData    = explode(",", $cart[$idx][$data->name]);
 
-                        foreach ($fieldCheck as $aFieldCheck) {
-                            $exField .= '<div class="userfield_input">';
-                            $exField .= '<input class="' . $data->class . '" type="radio" name="extrafields' . $productId . '[]" userfieldlbl="' . $data->title . '"  id="' . $data->name . "_" . $aFieldCheck->value_id . '" value="' . $aFieldCheck->field_value . '" ' . $req . ' />' . $aFieldCheck->field_name;
-                            $exField .= '</div>';
-                        }
+                        $exField  .= \RedshopLayoutHelper::render(
+                            'extrafields.userfield.radio',
+                            array(
+                                'rowData'    => $data,
+                                'required'   => $req,
+                                'fieldCheck' => $fieldCheck,
+                                'checkData'  => $chkData,
+                                'uniqueId'   => $uniqueId
+                            )
+                        );
 
                         break;
 
@@ -353,97 +370,51 @@ class SiteHelper
 
                         $fieldCheck = \RedshopEntityField::getInstance($data->id)->getFieldValues();
                         $checkData  = explode(",", $cart[$idx][$data->name]);
-                        $exField    .= '<div class="userfield_input"><select name="extrafields' . $productId . '[]" ' . $req . ' id="' . $data->name . '" userfieldlbl="' . $data->title . '">';
-                        $exField    .= '<option value="">' . \JText::_('COM_REDSHOP_SELECT') . '</option>';
 
-                        foreach ($fieldCheck as $aFieldCheck) {
-                            if ($aFieldCheck->field_value != "" && $aFieldCheck->field_value != "-" && $aFieldCheck->field_value != "0" && $aFieldCheck->field_value != "select") {
-                                $selected = '';
-
-                                if (in_array($aFieldCheck->field_value, $checkData)) {
-                                    $selected = ' selected="selected" ';
-                                }
-
-                                $exField .= '<option value="' . $aFieldCheck->field_value . '" ' . $selected . '   >' . $aFieldCheck->field_value . '</option>';
-                            }
-                        }
-
-                        $exField .= '</select></div>';
+                        $exField  .= \RedshopLayoutHelper::render(
+                            'extrafields.userfield.select',
+                            array(
+                                'rowData'    => $data,
+                                'required'   => $req,
+                                'fieldCheck' => $fieldCheck,
+                                'checkData'  => $checkData,
+                                'uniqueId'   => $uniqueId
+                            )
+                        );
                         break;
 
                     case \RedshopHelperExtrafields::TYPE_SELECT_BOX_MULTIPLE:
 
-                        $fieldCheck = \RedshopEntityField::getInstance($data->id)->getFieldValues();
-                        $checkData  = explode(",", $cart[$idx][$data->name]);
-                        $exField    .= '<div class="userfield_input"><select multiple="multiple" size=10 name="extrafields' . $productId . '[]" ' . $req . ' id="' . $data->name . '" userfieldlbl="' . $data->title . '">';
-
-                        foreach ($fieldCheck as $aFieldCheck) {
-                            $selected = '';
-
-                            if (in_array(urlencode($aFieldCheck->field_value), $checkData)) {
-                                $selected = ' selected="selected" ';
-                            }
-
-                            $exField .= '<option value="' . urlencode(
-                                    $aFieldCheck->field_value
-                                ) . '" ' . $selected . ' >' . $aFieldCheck->field_value . '</option>';
-                        }
-
-                        $exField .= '</select></div>';
+                        $fieldChk = \RedshopEntityField::getInstance($data->id)->getFieldValues();
+                        $chkData  = explode(",", $cart[$idx][$data->name]);
+                        $exField  .= \RedshopLayoutHelper::render(
+                            'extrafields.userfield.multiple',
+                            array(
+                                'rowData'    => $data,
+                                'required'   => $req,
+                                'fieldCheck' => $fieldChk,
+                                'checkData'  => $chkData,
+                                'uniqueId'   => $uniqueId
+                            )
+                        );
                         break;
 
                     case \RedshopHelperExtrafields::TYPE_DOCUMENTS:
-
-                        // File Upload
-                        \JHtml::_('redshopjquery.framework');
-                        /** @scrutinizer ignore-deprecated */
-                        \JHtml::script('com_redshop/ajaxupload.min.js', false, true);
+                        $exField .= \RedshopLayoutHelper::render(
+                            'extrafields.userfield.document',
+                            array(
+                                'rowData'    => $data,
+                                'required'   => $req,
+                                'uniqueId'   => $uniqueId,
+                                'isAtt' => $isAtt,
+                                'productId' => $productId
+                            )
+                        );
 
                         $ajax   = '';
-                        $unique = $data->name . '_' . $productId;
-
                         if ($isAtt > 0) {
                             $ajax   = 'ajax';
-                            $unique = $data->name;
                         }
-
-                        $exField .= '<div class="userfield_input">'
-                            . '<input type="button" class="' . $data->class . '" value="' . \JText::_(
-                                'COM_REDSHOP_UPLOAD'
-                            ) . '" id="file'
-                            . $ajax . $unique . '" />';
-                        $exField .= '<script>
-							new AjaxUpload(
-								"file' . $ajax . $unique . '",
-								{
-									action:"' . \JUri::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=ajaxupload",
-									data :{
-										mname:"file' . $ajax . $data->name . '",
-										product_id:"' . $productId . '",
-										uniqueOl:"' . $unique . '",
-										fieldName: "' . $data->name . '",
-										ajaxFlag: "' . $ajax . '"
-									},
-									name:"file' . $ajax . $unique . '",
-									onSubmit : function(file , ext){
-										jQuery("file' . $ajax . $unique . '").text("' . \JText::_(
-                                'COM_REDSHOP_UPLOADING'
-                            ) . '" + file);
-										this.disable();
-									},
-									onComplete :function(file,response){
-										jQuery("#ol_' . $unique . ' li.error").remove();
-										jQuery("#ol_' . $unique . '").append(response);
-										var uploadfiles = jQuery("#ol_' . $unique . ' li").map(function() {
-											return jQuery(this).find("span").text();
-										}).get().join(",");
-										this.enable();
-										jQuery("#' . $ajax . $unique . '").val(uploadfiles);
-										jQuery("#' . $data->name . '").val(uploadfiles);
-									}
-								}
-							);
-						</script>';
 
                         $exField .= '<p>' . \JText::_(
                                 'COM_REDSHOP_UPLOADED_FILE'
@@ -451,22 +422,19 @@ class SiteHelper
                         break;
 
                     case \RedshopHelperExtrafields::TYPE_IMAGE_SELECT:
-
-                        $fieldCheck = \RedshopEntityField::getInstance($data->id)->getFieldValues();
-                        $exField    .= '<table><tr>';
-
-                        foreach ($fieldCheck as $aFieldCheck) {
-                            $exField .= '<td><div class="userfield_input"><img id="' . $data->name . "_" . $aFieldCheck->value_id . '" class="pointer imgClass_' . $productId . '" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $aFieldCheck->field_name . '" title="' . $aFieldCheck->field_value . '" alt="' . $aFieldCheck->field_value . '" onclick="javascript:setProductUserFieldImage(\'' . $data->name . '\',\'' . $productId . '\',\'' . $aFieldCheck->field_value . '\',this);"/></div></td>';
-                        }
-
-                        $exField .= '</tr></table>';
-                        $ajax    = '';
-
-                        if (\Redshop::getConfig()->getInt('AJAX_CART_BOX') && $isAtt > 0) {
-                            $ajax = 'ajax';
-                        }
-
-                        $exField .= '<input type="hidden" name="extrafields' . $productId . '[]" id="' . $ajax . $data->name . '_' . $productId . '" userfieldlbl="' . $data->title . '" ' . $req . '  />';
+                        $fieldChk = \RedshopEntityField::getInstance($data->id)->getFieldValues();
+                        $chkData  = explode(",", $cart[$idx][$data->name]);
+                        $exField  .= \RedshopLayoutHelper::render(
+                            'extrafields.userfield.image',
+                            array(
+                                'rowData'    => $data,
+                                'required'   => $req,
+                                'fieldCheck' => $fieldChk,
+                                'checkData'  => $chkData,
+                                'uniqueId'   => $uniqueId,
+                                'isAtt'      => $isAtt
+                            )
+                        );
                         break;
 
                     case \RedshopHelperExtrafields::TYPE_DATE_PICKER:

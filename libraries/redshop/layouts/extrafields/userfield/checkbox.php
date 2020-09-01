@@ -31,7 +31,7 @@ extract($displayData);
             <input
                     type="checkbox"
                     id="<?php echo $rowData->name . '_' . $field->value_id; ?>"
-                    name="extrafieldname<?php echo $uniqueId; ?>[]"
+                    name="extrafields<?php echo $uniqueId; ?>[]"
                     class="<?php echo $rowData->class; ?>"
                     value="<?php echo urlencode($field->field_value); ?>"
                     userfieldlbl="<?php echo $rowData->title; ?>"
