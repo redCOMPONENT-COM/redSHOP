@@ -32,7 +32,7 @@ class RedshopControllerOrder extends RedshopController
         // Check pdf plugins
         if (!RedshopHelperPdf::isAvailablePdfPlugins()) {
             $this->setMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
-            $this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order'));
+            $this->setRedirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=order'));
         }
 
         RedshopHelperOrder::generateInvoicePdf($orderId, 'I');
@@ -46,20 +46,20 @@ class RedshopControllerOrder extends RedshopController
 
         if (empty($orderIds)) {
             $this->setMessage(JText::_('COM_REDSHOP_ORDER_DOWNLOAD_ERROR_MISSING_ORDER_ID'), 'error');
-            $this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order'));
+            $this->setRedirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=order'));
         }
 
         // Check pdf plugins
         if (!RedshopHelperPdf::isAvailablePdfPlugins()) {
             $this->setMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
-            $this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order', false));
+            $this->setRedirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=order', false));
         }
 
         $invoicePdf = RedshopHelperPdf::createMultiInvoice($orderIds);
 
         if (empty($invoicePdf)) {
             $this->setMessage(JText::_('COM_REDSHOP_ERROR_GENERATE_PDF'), 'error');
-            $this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order', false));
+            $this->setRedirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=order', false));
         }
 
         $invoiceLink = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'invoice/' . $invoicePdf . '.pdf';
@@ -76,7 +76,7 @@ class RedshopControllerOrder extends RedshopController
             }
         }
 
-        $this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order', false));
+        $this->setRedirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=order', false));
     }
 
     public function cancel()

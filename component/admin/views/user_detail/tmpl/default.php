@@ -132,7 +132,7 @@ if ($this->pagination->limitstart > 0) {
     }
 </script>
 
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Redshop\IO\Route::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
     <?php
     echo JHtml::_('tabs.start', 'user-pane', array('startOffset' => $tab));
 

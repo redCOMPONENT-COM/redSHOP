@@ -176,7 +176,7 @@ class RedshopTagsSectionsOrderList extends RedshopTagsAbstract
                     'tags.common.div_link',
                     [
                         'divClass' => 'order_detail_link',
-                        'link'     => JRoute::_(
+                        'link'     => Redshop\IO\Route::_(
                             'index.php?option=com_redshop&view=order_detail&oid=' . $this->detail[$i]->order_id
                         ),
                         'content'  => JText::_('COM_REDSHOP_ORDER_DETAIL')

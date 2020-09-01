@@ -109,7 +109,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
                    value="<?php echo $subProperty->ordering; ?>">
 
             <a class="btn joom-box" rel="{handler: 'iframe', size: {x: 950, y: 500}}" title=""
-               href="<?php echo JRoute::_(
+               href="<?php echo Redshop\IO\Route::_(
                    'index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId . '&section=subproperty'
                ); ?>">
                 <img
@@ -117,7 +117,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
                         alt=""/><?php echo JText::_('COM_REDSHOP_ADD_PRICE_LBL'); ?>
             </a>
             <?php if (Redshop::getConfig()->get('USE_STOCKROOM')): ?>
-                <a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}" href="<?php echo JRoute::_(
+                <a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}" href="<?php echo Redshop\IO\Route::_(
                     'index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId
                 ); ?>&layout=productstockroom&property=subproperty">
                     <img
@@ -178,7 +178,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
 
                     <a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}"
                        title=""
-                       href="<?php echo JRoute::_(
+                       href="<?php echo Redshop\IO\Route::_(
                            'index.php?tmpl=component&option=com_redshop&view=media&section_id='
                            . $subProperty->subattribute_color_id . '&showbuttons=1&media_section=subproperty'
                        ); ?>">

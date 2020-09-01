@@ -121,10 +121,10 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
                 $cLink->setScheme('https');
                 $cLink->setHost($uri->getHost());
 
-                $cLink->setPath(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId));
+                $cLink->setPath(Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId));
                 $link = $cLink->toString();
             } else {
-                $link = JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId);
+                $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId);
             }
 
             $checkout = RedshopLayoutHelper::render(
@@ -158,11 +158,11 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
          */
         if (strstr($this->template, "{shop_more}")) {
             if (Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK') != '') {
-                $shopMoreLink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
+                $shopMoreLink = Redshop\IO\Route::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
             } elseif ($catItemId = RedshopHelperRouter::getCategoryItemid()) {
-                $shopMoreLink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
+                $shopMoreLink = Redshop\IO\Route::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
             } else {
-                $shopMoreLink = JRoute::_('index.php');
+                $shopMoreLink = Redshop\IO\Route::_('index.php');
             }
 
             $shopMore = RedshopLayoutHelper::render(

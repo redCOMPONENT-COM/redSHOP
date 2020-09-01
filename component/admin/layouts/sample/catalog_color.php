@@ -40,7 +40,7 @@ $url = $uri->root();
             echo JText::_('COM_REDSHOP_COLOUR_IMAGE'); ?> :
 		</td>
 		<td><?php
-            $ilink = JRoute::_(
+            $ilink = Redshop\IO\Route::_(
                 'index.php?option=com_media&view=images&tmpl=component&e_name=text'
             ); ?>
 			<div class="button2-left">

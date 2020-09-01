@@ -77,7 +77,7 @@ class RedshopViewAccount extends RedshopView
 
         if (empty($this->userdata) && $layout != 'mywishlist') {
             $this->app->redirect(
-                JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $itemId),
+                Redshop\IO\Route::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $itemId),
                 JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER')
             );
         }
@@ -87,7 +87,7 @@ class RedshopViewAccount extends RedshopView
 
         // Preform security checks. Give permission to send wishlist while not logged in
         if (($this->user->id == 0 && $layout !== 'mywishlist') || ($this->user->id == 0 && $layout === 'mywishlist' && !isset($mail))) {
-            $this->app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $itemId, false));
+            $this->app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=login&Itemid=' . $itemId, false));
         }
 
         switch ($layout) {
@@ -211,7 +211,7 @@ class RedshopViewAccount extends RedshopView
             $usersWishlist = reset($usersWishlist);
 
             $this->app->redirect(
-                JRoute::_(
+                Redshop\IO\Route::_(
                     "index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id="
                     . $usersWishlist->wishlist_id . "&Itemid=" . $itemId,
                     false
@@ -222,7 +222,7 @@ class RedshopViewAccount extends RedshopView
         // If wishlist Id is not set then redirect to it's main page
         if ($wishlistId == 0) {
             $this->app->redirect(
-                JRoute::_("index.php?option=com_redshop&view=wishlist&layout=viewwishlist&Itemid=" . $itemId)
+                Redshop\IO\Route::_("index.php?option=com_redshop&view=wishlist&layout=viewwishlist&Itemid=" . $itemId)
             );
         }
 

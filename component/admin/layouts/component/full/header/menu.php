@@ -11,19 +11,19 @@ defined('_JEXEC') or die;
 
 extract($displayData);
 
-$logoutUrl = JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1');
+$logoutUrl = Redshop\IO\Route::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1');
 $user      = JFactory::getUser();
 ?>
 <ul class="nav navbar-nav">
     <?php echo RedshopLayoutHelper::render('alert.header_link') ?>
     <li>
-        <a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . $user->id) ?>">
+        <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&task=user.edit&id=' . $user->id) ?>">
             <span class="hidden-xs"><?php echo $user->name ?></span>
         </a>
     </li>
 
     <li>
-        <a title="Joomla" href="<?php echo JRoute::_('index.php') ?>"><i class="fa fa-joomla"></i></a>
+        <a title="Joomla" href="<?php echo Redshop\IO\Route::_('index.php') ?>"><i class="fa fa-joomla"></i></a>
     </li>
 
     <li>

@@ -73,7 +73,7 @@ class RedshopTagsSectionsRelatedProduct extends RedshopTagsAbstract
     {
         $replacement = [];
 
-        $rLink = JRoute::_(
+        $rLink = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $this->itemId
         );
 
@@ -163,7 +163,7 @@ class RedshopTagsSectionsRelatedProduct extends RedshopTagsAbstract
             $replacement['{manufacturer_link}'] = RedshopLayoutHelper::render(
                 'tags.common.link',
                 [
-                    'link'    => JRoute::_(
+                    'link'    => Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $product->manufacturer_id . '&Itemid=' . $this->itemId
                     ),
                     'content' => JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS")
@@ -199,7 +199,7 @@ class RedshopTagsSectionsRelatedProduct extends RedshopTagsAbstract
 
         // End Show Price
 
-        $relMoreLinkHref = JRoute::_(
+        $relMoreLinkHref = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&cid=' . $product->cat_in_sefurl . '&Itemid=' . $this->itemId
         );
         $relMoreLink     = "javascript:window.parent.location.href='" . $relMoreLinkHref . "'";

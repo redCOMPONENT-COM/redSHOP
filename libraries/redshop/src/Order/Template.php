@@ -450,7 +450,7 @@ class Template
                 $downloadToken    = $downloadProduct->download_id;
                 $productName      = $downloadProduct->product_name;
                 $mailToken        = $productName . ": <a href='"
-                    . \JRoute::_(
+                    . \Redshop\IO\Route::_(
                         \JUri::root(
                         ) . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $downloadToken,
                         false

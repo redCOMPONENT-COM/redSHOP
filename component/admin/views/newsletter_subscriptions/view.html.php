@@ -38,7 +38,7 @@ class RedshopViewNewsletter_Subscriptions extends RedshopViewList
 
 		switch ($config['dataCol']) {
 			case 'user_id':
-				$link = JRoute::_(
+				$link = Redshop\IO\Route::_(
 					'index.php?option=com_redshop&task=newsletter_subscription.edit&id=' . $row->id
 				);
 

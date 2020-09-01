@@ -90,7 +90,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
         $this->replacements['{logout_link}'] = RedshopLayoutHelper::render(
             'tags.account.logout_link',
             [
-                'logoutLink' => JRoute::_(
+                'logoutLink' => Redshop\IO\Route::_(
                     "index.php?option=com_redshop&view=login&task=logout&logout=" . $returnItemId . "&Itemid=" . $this->itemId
                 )
             ],
@@ -116,7 +116,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
             'tags.common.link',
             [
                 'class'   => 'btn btn-primary',
-                'link'    => JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $this->itemId),
+                'link'    => Redshop\IO\Route::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $this->itemId),
                 'content' => JText::_('COM_REDSHOP_EDIT_ACCOUNT_INFORMATION')
             ],
             '',
@@ -127,7 +127,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
             'tags.common.link',
             [
                 'class'   => 'btn btn-primary',
-                'link'    => JRoute::_(
+                'link'    => Redshop\IO\Route::_(
                     "index.php?option=com_redshop&view=account&task=deleteAccount&Itemid=" . $this->itemId
                 ),
                 'attr'    => 'onclick="return confirm(\'' . JText::_(
@@ -198,7 +198,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 'tags.common.link',
                 [
                     'tags.common.link',
-                    'link'    => JRoute::_("index.php?option=com_redshop&view=account_shipto&Itemid=" . $this->itemId),
+                    'link'    => Redshop\IO\Route::_("index.php?option=com_redshop&view=account_shipto&Itemid=" . $this->itemId),
                     'content' => JText::_('COM_REDSHOP_UPDATE_SHIPPING_INFO')
                 ],
                 '',
@@ -244,7 +244,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 $this->replacements['{more_orders}'] = RedshopLayoutHelper::render(
                     'tags.common.link',
                     [
-                        'link'    => JRoute::_('index.php?option=com_redshop&view=orders&Itemid=' . $this->itemId),
+                        'link'    => Redshop\IO\Route::_('index.php?option=com_redshop&view=orders&Itemid=' . $this->itemId),
                         'content' => JText::_('COM_REDSHOP_MORE'),
                     ],
                     '',
@@ -267,7 +267,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                     $replaceOrder['{order_detail_link}'] = RedshopLayoutHelper::render(
                         'tags.common.link',
                         [
-                            'link'    => JRoute::_(
+                            'link'    => Redshop\IO\Route::_(
                                 'index.php?option=com_redshop&view=order_detail&oid=' . $ordersList[$j]->order_id . '&Itemid=' . $this->itemId
                             ),
                             'content' => JText::_('COM_REDSHOP_DETAILS')
@@ -383,7 +383,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 $tagLink = RedshopLayoutHelper::render(
                     'tags.common.link',
                     [
-                        'link'    => JRoute::_(
+                        'link'    => Redshop\IO\Route::_(
                             "index.php?option=com_redshop&view=account&layout=mytags&Itemid=" . $this->itemId
                         ),
                         'content' => JText::_("COM_REDSHOP_SHOW_TAG"),
@@ -435,7 +435,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 $this->replacements['{more_quotations}'] = RedshopLayoutHelper::render(
                     'tags.common.link',
                     [
-                        'link'    => JRoute::_('index.php?option=com_redshop&view=quotation&Itemid=' . $this->itemId),
+                        'link'    => Redshop\IO\Route::_('index.php?option=com_redshop&view=quotation&Itemid=' . $this->itemId),
                         'content' => JText::_('COM_REDSHOP_MORE')
                     ],
                     '',
@@ -452,7 +452,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                     $replaceQuotation['{quotation_detail_link}'] = RedshopLayoutHelper::render(
                         'tags.common.link',
                         [
-                            'link'    => JRoute::_(
+                            'link'    => Redshop\IO\Route::_(
                                 'index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotations[$j]->quotation_id . '&Itemid=' . $this->itemId
                             ),
                             'content' => JText::_('COM_REDSHOP_DETAILS'),
@@ -506,7 +506,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 $editWishlistLink = RedshopLayoutHelper::render(
                     'tags.common.link',
                     [
-                        'link'    => JRoute::_(
+                        'link'    => Redshop\IO\Route::_(
                             "index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $this->itemId
                         ),
                         'content' => JText::_("COM_REDSHOP_SHOW_WISHLIST_PRODUCTS"),
@@ -600,7 +600,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 $cmpLink = RedshopLayoutHelper::render(
                     'tags.common.link',
                     [
-                        'link'    => JRoute::_(
+                        'link'    => Redshop\IO\Route::_(
                             "index.php?option=com_redshop&view=product&layout=compare&Itemid=" . $this->itemId
                         ),
                         'content' => JText::_("COM_REDSHOP_SHOW_PRODUCTS_TO_COMPARE"),
