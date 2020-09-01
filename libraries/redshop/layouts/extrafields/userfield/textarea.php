@@ -16,20 +16,20 @@ defined('_JEXEC') or die;
  * @var   object $rowData     Extra field data
  * @var   string $uniqueId    Extra field unique Id
  * @var   string $required    Extra field required
+ * @var   string $onKeyup
  */
 extract($displayData);
 ?>
 
 <div class="userfield_input">
 	<textarea
-            name="extrafieldname<?php echo $uniqueId; ?>[]"
+            name="extrafields<?php echo $uniqueId; ?>[]"
             class="<?php echo $rowData->class; ?>"
             id="<?php echo $rowData->name; ?>"
-            maxlength="<?php echo $rowData->maxlength; ?>"
             cols="<?php echo $rowData->cols; ?>"
             rows="<?php echo $rowData->rows; ?>"
             userfieldlbl="<?php echo $rowData->title; ?>"
-            onkeyup="var f_value = this.value;"
+            onkeyup="<?php echo $onKeyup ?>"
 		<?php echo $required; ?>
 	>
 	</textarea>
