@@ -32,7 +32,7 @@ class ShopperGroup extends Entity
      *
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
-     * @return  \JTable
+     * @return  \JTable|bool
      * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
