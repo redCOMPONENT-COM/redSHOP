@@ -426,7 +426,7 @@ class SiteHelper
                                 'rowData'    => $data,
                                 'required'   => $req,
                                 'fieldCheck' => $fieldChk,
-                                'checkData'  => isset($cart[$idx][$data->name]) ? explode(",", $cart[$idx][$data->name]) : [],
+                                'checkData'  => $chkData,
                                 'uniqueId'   => $uniqueId,
                                 'isAtt'      => $isAtt
                             )
@@ -515,8 +515,8 @@ class SiteHelper
                                     if ($aMainSplitDateExtra != "") {
                                         $exField .= '<option value="' . date(
                                                 "d-m-Y",
-                                                $aMainSplitDateExtra
-                                            ) . '"  >' . date("d-m-Y", $aMainSplitDateExtra) . '</option>';
+                                                (int) $aMainSplitDateExtra
+                                            ) . '"  >' . date("d-m-Y", (int) $aMainSplitDateExtra) . '</option>';
                                     }
                                 }
 
@@ -527,14 +527,13 @@ class SiteHelper
                 }
             }
 
-            if (trim($data->desc) != '' && $fieldType != 'hidden') {
+            if (trim($data->description) != '' && $fieldType != 'hidden') {
                 $exField .= '<div class="userfield_tooltip">&nbsp; ' . \JHtml::tooltip(
                         $data->description,
                         $data->name,
                         'tooltip.png',
                         '',
-                        '',
-                        false
+                        ''
                     ) . '</div>';
             }
         }
