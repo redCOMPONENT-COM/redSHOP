@@ -336,8 +336,8 @@ class RedshopModelCategory extends RedshopModelForm
      */
     public function storeMediaCopy($copyCatId, $catId, $media, $scope)
     {
-        /** @var Redshop\Entity\MediaImage $fullImage */
-        $fullImage     = Redshop\Entity\MediaImage::getInstance($media->getId());
+        /** @var Redshop\Entity\Media\RImage $fullImage */
+        $fullImage     = Redshop\Entity\Media\RImage::getInstance($media->getId());
         $fullImageName = $fullImage->get('media_name');
         $newFullImage  = time() . '_' . $fullImageName;
 

@@ -170,7 +170,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
             if (isset($medias) && count($medias) > 0) {
                 foreach ($medias as $media) {
                     if ($media->get('scope') == 'back') {
-                        $backImage = Redshop\Entity\MediaImage::getInstance($media->getId())->getAbsImagePath();
+                        $backImage = Redshop\Entity\Media\RImage::getInstance($media->getId())->getAbsImagePath();
 
                         break;
                     }
@@ -309,13 +309,13 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
         $medias = Redshop\Entity\Category::getInstance($category->id)->getMedia();
 
-        /** @var Redshop\Entity\MediaImage $fullImage */
+        /** @var Redshop\Entity\Media\RImage $fullImage */
         $fullImage = null;
 
         foreach ($medias->getAll() as $media) {
             /** @var Redshop\Entity\Media $media */
             if ($media->get('scope') == 'full') {
-                $fullImage = Redshop\Entity\MediaImage::getInstance($media->getId());
+                $fullImage = Redshop\Entity\Media\RImage::getInstance($media->getId());
 
                 break;
             }

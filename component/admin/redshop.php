@@ -17,8 +17,6 @@
  */
 defined('_JEXEC') or die;
 
-use \Redshop;
-
 $app = \JFactory::getApplication();
 
 // Load redSHOP Library

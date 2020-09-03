@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 class Manufacturer extends Entity
 {
     /**
-     * @var  \Redshop\Entity\MediaImage
+     * @var  \Redshop\Entity\Media\RImage
      *
      * @since  __DEPLOY_VERSION__
      */
@@ -44,7 +44,7 @@ class Manufacturer extends Entity
     /**
      * Method for get medias of current category
      *
-     * @return  \Redshop\Entity\MediaImage
+     * @return  \Redshop\Entity\Media\RImage
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -66,7 +66,7 @@ class Manufacturer extends Entity
      */
     protected function loadMedia()
     {
-        $this->media = \Redshop\Entity\MediaImage::getInstance();
+        $this->media = \Redshop\Entity\Media\RImage::getInstance();
 
         if (!$this->hasId()) {
             return $this;
@@ -85,7 +85,7 @@ class Manufacturer extends Entity
             return $this;
         }
 
-        $this->media = \Redshop\Entity\MediaImage::getInstance($result->media_id);
+        $this->media = \Redshop\Entity\Media\RImage::getInstance($result->media_id);
         $this->media->bind($result);
 
         return $this;

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+namespace Redshop\Entity\Media;
+
 defined('_JEXEC') or die;
 
 use ImageOptimizer\OptimizerFactory;
@@ -21,21 +23,21 @@ use Imagine\Image\Palette\RGB;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       2.1.0
+ * @since       __DEPLOY_VERSION__
  */
-class Redshop\Entity\MediaImage extends Redshop\Entity\Media
+class RImage extends \Redshop\Entity\Media
 {
     /**
      * Get the associated table
      *
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
-     * @return  RedshopTable
+     * @return  \RedshopTable
      * @throws  Exception
      */
     public function getTable($name = null)
     {
-        return RedshopTable::getAdminInstance('Media', array(), 'com_redshop');
+        return \RedshopTable::getAdminInstance('Media', array(), 'com_redshop');
     }
 
     /**
@@ -78,13 +80,13 @@ class Redshop\Entity\MediaImage extends Redshop\Entity\Media
         // Get original file path
         $sourceFile = $this->getImagePath();
 
-        if (empty($sourceFile) || !JFile::exists($sourceFile)) {
+        if (empty($sourceFile) || !\JFile::exists($sourceFile)) {
             return $result;
         }
 
-        $destinationFile = JFile::stripExt(basename($this->get('media_name')));
+        $destinationFile = \JFile::stripExt(basename($this->get('media_name')));
         $destinationFile .= '_w' . $width . '_h' . $height;
-        $destinationFile .= '.' . JFile::getExt($this->get('media_name'));
+        $destinationFile .= '.' . \JFile::getExt($this->get('media_name'));
 
         // Create thumb folder if not exist
         $thumbPath = REDSHOP_MEDIA_IMAGE_RELPATH . $this->get('media_section')
@@ -92,14 +94,14 @@ class Redshop\Entity\MediaImage extends Redshop\Entity\Media
         \Redshop\Helper\Media::createFolder($thumbPath);
 
         $result = array(
-            'rel' => JPath::clean(
+            'rel' => \JPath::clean(
                 $thumbPath . $destinationFile
             ),
             'abs' => REDSHOP_MEDIA_IMAGE_ABSPATH . $this->get('media_section')
                 . '/' . $this->get('section_id') . '/thumb/' . $destinationFile
         );
 
-        if ($force === false && JFile::exists($result['rel'])) {
+        if ($force === false && \JFile::exists($result['rel'])) {
             return $result;
         }
 
@@ -139,7 +141,7 @@ class Redshop\Entity\MediaImage extends Redshop\Entity\Media
             return '';
         }
 
-        return JPath::clean(
+        return \JPath::clean(
             REDSHOP_MEDIA_IMAGE_RELPATH . $this->get('media_section')
             . '/' . $this->get('section_id') . '/' . $this->get('media_name')
         );

@@ -218,7 +218,7 @@ if ($showbuttons == 1) {
                                 array('manufacturer', 'category')
                             )): ?>
                             <?php
-                            $media     = Redshop\Entity\MediaImage::getInstance($row->media_id);
+                            $media     = Redshop\Entity\Media\RImage::getInstance($row->media_id);
                             $mediaFile = $media->generateThumb(100, 100);
                             ?>
                             <a class="joom-box img-thumbnail" href="<?php echo $media->getAbsImagePath() ?>"
