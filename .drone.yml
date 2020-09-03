@@ -381,7 +381,7 @@ pipeline:
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
             # Waits until Chromedriver is up and running
-            - while ! nc -z localhost 9515; do sleep 1; done tests/acceptance/administrator/_steps/Joomla3Steps/QuestionManagerJoomla3Steps.php:181
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/Ajax 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/TermsCondition 0 0'
