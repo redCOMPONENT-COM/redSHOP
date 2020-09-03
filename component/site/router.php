@@ -296,7 +296,7 @@ class RedshopRouter extends JComponentRouterBase
                 }
 
                 if ($cid) {
-                    $url = Redshop\Entity\Category::getInstance($cid);
+                    $url = \Redshop\Entity\Category::getInstance($cid);
 
                     if (empty($url->get('sef_url'))) {
                         $categoriesReverse = RedshopHelperCategory::getCategoryListReverseArray($cid);
@@ -320,9 +320,9 @@ class RedshopRouter extends JComponentRouterBase
                         }
                     } else {
                         if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME')) {
-                            $segments[] = $cid . '-' . RedshopHelperUtility::convertToNonSymbol($url->sef_url);
+                            $segments[] = $cid . '-' . RedshopHelperUtility::convertToNonSymbol($url->get('sef_url'));
                         } else {
-                            $segments[] = RedshopHelperUtility::convertToNonSymbol($url->sef_url);
+                            $segments[] = RedshopHelperUtility::convertToNonSymbol($url->get('sef_url'));
                         }
                     }
                 } elseif ($menuItem->title !== '') {

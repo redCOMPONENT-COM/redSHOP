@@ -210,7 +210,7 @@ class Collection implements \Countable, \Iterator
      * Sets an item. This removes previous item if it already exists
      *
      * @param   integer        $id      Entity identifier
-     * @param   Redshop\Entity\Entity  $entity  Entity
+     * @param   \Redshop\Entity\Entity  $entity  Entity
      *
      * @return  self
      * @since  __DEPLOY_VERSION__

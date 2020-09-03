@@ -702,13 +702,13 @@ class RedshopModelOrder_detail extends RedshopModel
         $orderItemQuantity = $orderItem->get('product_quantity');
 
         // Get Order Info
-        $order = Redshop\Entity\Order::getInstance($this->_id);
+        $order = \Redshop\Entity\Order::getInstance($this->_id);
 
         // Update stock room
         RedshopHelperStockroom::manageStockAmount(
-            $productId,
-            $orderItem->get('product_quantity'),
-            $orderItem->get('stockroom_id')
+            (int) $productId,
+            (int) $orderItem->get('product_quantity'),
+            (int) $orderItem->get('stockroom_id')
         );
 
         $db = $this->_db;

@@ -9,7 +9,7 @@
 
 namespace Redshop\Currency;
 
-use Redshop\Entity\Currency;
+use Redshop\Entity\Currency as EntityCurrency;
 
 defined('_JEXEC') or die;
 
@@ -71,7 +71,7 @@ class CurrencyLayer
 	 */
 	public function convert($amount, $sourceCurrency = '', $targetCurrency = '')
 	{
-		$session = \JFactory::getSession();
+		$session = \Joomla\CMS\Factory::getSession();
 
 		$convertedCurrencies = array();
 
@@ -82,7 +82,7 @@ class CurrencyLayer
 
 		if (!$targetCurrency)
 		{
-			$targetCurrency = \Redshop\Entity\Currency::getInstance((int) $session->get('product_currency'))->get('code');
+			$targetCurrency = EntityCurrency::getInstance((int) $session->get('product_currency'))->get('code');
 
 			// If both currency codes match, do nothing
 			if ($sourceCurrency == $targetCurrency)

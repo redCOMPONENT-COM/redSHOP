@@ -25,7 +25,7 @@ class AttributeSet extends Entity
      *
      * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
      *
-     * @return  \JTable
+     * @return  bool|\JTable
      * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)

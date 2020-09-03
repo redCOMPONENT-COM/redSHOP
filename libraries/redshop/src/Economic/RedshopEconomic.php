@@ -285,14 +285,14 @@ class RedshopEconomic
 
 		if (\Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 		{
-			self::createInvoiceLineInEconomicAsProduct($orderItem, $invoiceNo, $orderEntity->get('user_id'));
+			self::createInvoiceLineInEconomicAsProduct($orderItem, $invoiceNo, (int) $orderEntity->get('user_id'));
 		}
 		else
 		{
-			self::createInvoiceLineInEconomic($orderItem, $invoiceNo, $orderEntity->get('user_id'));
+			self::createInvoiceLineInEconomic($orderItem, $invoiceNo, (int) $orderEntity->get('user_id'));
 		}
 
-		self::createInvoiceShippingLineInEconomic($orderEntity->get('ship_method_id'), $invoiceNo);
+		self::createInvoiceShippingLineInEconomic((int) $orderEntity->get('ship_method_id'), $invoiceNo);
 
 		$isVatDiscount = 0;
 
@@ -311,7 +311,7 @@ class RedshopEconomic
 			$isVatDiscount         = 1;
 		}
 
-		$orderDiscount = $order->order_discount + $orderEntity->special_discount_amount;
+		$orderDiscount = $order->order_discount + (float) $orderEntity->get('special_discount_amount');
 
 		if ($orderDiscount)
 		{
@@ -1608,7 +1608,8 @@ class RedshopEconomic
 		$order = $orderEntity->getItem();
 
 		if ((\Redshop::getConfig()->getInt('ECONOMIC_INVOICE_DRAFT') == 2
-				&& $orderEntity->order_status == \Redshop::getConfig()->getString('BOOKING_ORDER_STATUS')) || $checkOrderStatus == 0)
+            && $orderEntity->get('order_status') == \Redshop::getConfig()->getString('BOOKING_ORDER_STATUS'))
+            || $checkOrderStatus == 0)
 		{
 			$userBillingInfo = \RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 
