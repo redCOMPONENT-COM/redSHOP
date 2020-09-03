@@ -32,21 +32,21 @@ abstract class AbstractTable extends \JTable implements TableInterface
      *
      * @var  string
      */
-    protected $_tableName = null;
+    protected $tableName = null;
 
     /**
      * The table key column. Usually: id
      *
      * @var  string
      */
-    protected $_tableKey = 'id';
+    protected $tableKey = 'id';
 
     /**
      * Array with alias for "special" columns such as ordering, hits etc etc
      *
      * @var    array
      */
-    protected $_columnAlias = array();
+    protected $columnAlias = array();
 
     /**
      * The options.
