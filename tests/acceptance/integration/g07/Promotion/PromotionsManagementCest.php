@@ -277,7 +277,6 @@ class PromotionsManagementCest
 		$I->checkPromotionWithCartAjax($this->promotion2, $this->customerInformation);
 	}
 
-
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario

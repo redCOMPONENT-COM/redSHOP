@@ -54,10 +54,10 @@ class PromotionsManagementPage extends AdminJ3Page
 	 */
 	public static $selectManufacturer = "#s2id_manufacturer";
 
-    /**
-     * @var string
-     * @since 3.0.3
-     */
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
 	public static $inputManufacturer = "#s2id_autogen3";
 
 	/**
@@ -66,11 +66,11 @@ class PromotionsManagementPage extends AdminJ3Page
 	 */
 	public static $selectCategory = "#s2id_category";
 
-    /**
-     * @var string
-     * @since 3.0.3
-     */
-    public static $inputCategory = "#s2id_autogen4";
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $inputCategory = "#s2id_autogen4";
 
 	/**
 	 * @var string
@@ -78,11 +78,11 @@ class PromotionsManagementPage extends AdminJ3Page
 	 */
 	public static $selectProduct = "#s2id_product";
 
-    /**
-     * @var string
-     * @since 3.0.3
-     */
-    public static $inputProduct = "#s2id_autogen5";
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $inputProduct = "#s2id_autogen5";
 
 	/**
 	 * @var string
@@ -114,17 +114,17 @@ class PromotionsManagementPage extends AdminJ3Page
 	 */
 	public static $selectProductAwards = "#s2id_product_award";
 
-    /**
-     * @var string
-     * @since 3.0.3
-     */
-    public static $searchProductAwards = "#s2id_autogen6_search";
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $searchProductAwards = "#s2id_autogen6_search";
 
-    /**
-     * @var string
-     * @since 3.0.3
-     */
-    public static $searchProductAwards2 = "#s2id_autogen3_search";
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $searchProductAwards2 = "#s2id_autogen3_search";
 
 	/**
 	 * @var string
@@ -138,17 +138,17 @@ class PromotionsManagementPage extends AdminJ3Page
 	 */
 	public static $selectFreeShipping = "#s2id_free_shipping";
 
-    /**
-     * @var string
-     * @since 3.0.3
-     */
-    public static $searchFreeShipping = "#s2id_autogen7_search";
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $searchFreeShipping = "#s2id_autogen7_search";
 
-    /**
-     * @var string
-     * @since 3.0.3
-     */
-    public static $searchFreeShipping2 = "#s2id_autogen4_search";
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $searchFreeShipping2 = "#s2id_autogen4_search";
 
 	/**
 	 * @var string
