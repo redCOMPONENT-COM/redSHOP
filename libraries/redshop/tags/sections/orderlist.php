@@ -127,7 +127,7 @@ class RedshopTagsSectionsOrderList extends RedshopTagsAbstract
                     $orderItemName[$j] = $proList[$j]->order_item_name;
                 }
 
-                $paymentMethod = Redshop\Entity\Order_Payment::getInstance($this->detail[$i]->order_id)->getItem();
+                $paymentMethod = \Redshop\Entity\OrderPayment::getInstance($this->detail[$i]->order_id)->getItem();
 
                 $orderTransFee = '';
 

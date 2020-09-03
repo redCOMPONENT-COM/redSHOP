@@ -105,7 +105,7 @@ class Product extends Entity
     public function assignCustomField($fieldId, $value)
     {
         // Try to load this custom field data
-        /** @var Redshop\Entity\Field_Data $entity */
+        /** @var \Redshop\Entity\FieldData $entity */
         $entity = \Redshop\Entity\FieldData::getInstance()->loadItemByArray(
             array
             (

@@ -1313,7 +1313,7 @@ class RedshopHelperOrder
             return null;
         }
 
-        /** @var Redshop\Entity\Order_User $userBilling */
+        /** @var \Redshop\Entity\OrderUser $userBilling */
         $userBilling = Redshop\Entity\Order::getInstance($orderId)->getBilling();
 
         if ($force) {
@@ -1339,8 +1339,8 @@ class RedshopHelperOrder
             return null;
         }
 
-        /** @var Redshop\Entity\Order_User $userBilling */
-        $userBilling = Redshop\Entity\Order::getInstance($orderId)->getShipping();
+        /** @var Redshop\Entity\OrderUser $userBilling */
+        $userBilling = \Redshop\Entity\Order::getInstance($orderId)->getShipping();
 
         if ($force) {
             $userBilling->reset()->loadExtraFields();
@@ -2809,7 +2809,7 @@ class RedshopHelperOrder
      */
     public static function getOrderPaymentDetail($orderPaymentId = 0)
     {
-        return Redshop\Entity\Order_Payment::getInstance($orderPaymentId)->getItem();
+        return \Redshop\Entity\OrderPayment::getInstance($orderPaymentId)->getItem();
     }
 
     /**

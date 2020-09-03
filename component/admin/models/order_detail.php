@@ -698,7 +698,7 @@ class RedshopModelOrder_detail extends RedshopModel
         $orderItemId = $data['order_item_id'];
 
         // Get Order Item Info
-        $orderItem         = Redshop\Entity\Order_Item::getInstance($orderItemId);
+        $orderItem         = \Redshop\Entity\OrderItem::getInstance($orderItemId);
         $orderItemQuantity = $orderItem->get('product_quantity');
 
         // Get Order Info

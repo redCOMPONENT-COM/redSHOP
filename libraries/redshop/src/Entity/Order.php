@@ -122,7 +122,7 @@ class Order extends Entity
         }
 
         foreach ($orderItems as $orderItem) {
-            $entity = \Redshop\Entity\Order_Item::getInstance($orderItem->order_item_id);
+            $entity = \Redshop\Entity\OrderItem::getInstance($orderItem->order_item_id);
             $entity->bind($orderItem);
 
             $this->orderItems->add($entity);
@@ -183,7 +183,7 @@ class Order extends Entity
     /**
      * Method for get payment for this order
      *
-     * @return   \Redshop\Entity\Order_Payment   Payment data if success. Null otherwise.
+     * @return   \Redshop\Entity\OrderPayment   Payment data if success. Null otherwise.
      *
      * @since   __DEPLOY_VERSION__
      */
