@@ -384,9 +384,9 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/Ajax 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g07 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/TermsCondition 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g04 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g07 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/install/extension 0 0'
 
 services:
