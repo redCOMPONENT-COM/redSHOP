@@ -270,6 +270,6 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 		$I->waitForText(PromotionsPage::$buttonDelete, 30);
 		$I->click(PromotionsPage::$buttonDelete);
 		$I->acceptPopup();
-		$I->waitForText(PromotionsPage::$messageDeleteSuccess, 30);
+		$I->waitForText(PromotionsPage::$messageNoItemOnTable, 30);
 	}
 }

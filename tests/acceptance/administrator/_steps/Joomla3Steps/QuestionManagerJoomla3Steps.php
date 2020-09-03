@@ -163,29 +163,29 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		if((isset($user['userName'])))
 		{
-				$I->executeJS(FrontEndProductManagerJoomla3Page::jQueryIframe());
-				$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
-				$I->wait(1);
-				$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
-				$I->waitForElementVisible(QuestionManagerJoomla3Page::$fieldYourQuestion, 30);
-				$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question2']);
-				$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
-				$I->click(QuestionManagerJoomla3Page::$sendButton);
-				$I->waitForText(QuestionManagerJoomla3Page::$messageSendQuestionSuccess, 30);
+			$I->executeJS(FrontEndProductManagerJoomla3Page::jQueryIframe());
+			$I->wait(1);
+			$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
+			$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+			$I->waitForElementVisible(QuestionManagerJoomla3Page::$fieldYourQuestion, 30);
+			$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question2']);
+			$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
+			$I->click(QuestionManagerJoomla3Page::$sendButton);
+			$I->waitForText(QuestionManagerJoomla3Page::$messageSendQuestionSuccess, 30);
 		}else
 		{
-				$I->executeJS(FrontEndProductManagerJoomla3Page::jQueryIframe());
-				$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
-				$I->wait(1);
-				$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
-				$I->waitForElement(QuestionManagerJoomla3Page::$fieldNameQuestion, 60);
-				$I->seeElement(QuestionManagerJoomla3Page::$fieldNameQuestion);
-				$I->fillField(QuestionManagerJoomla3Page::$fieldNameQuestion, $questionInformation['userName']);
-				$I->fillField(QuestionManagerJoomla3Page::$fieldEmailQuestion, $questionInformation['email']);
-				$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question1']);
-				$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
-				$I->click(QuestionManagerJoomla3Page::$sendButton);
-				$I->waitForText(QuestionManagerJoomla3Page::$messageSendQuestionSuccess, 30);
+			$I->executeJS(FrontEndProductManagerJoomla3Page::jQueryIframe());
+			$I->wait(1);
+			$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
+			$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+			$I->waitForElement(QuestionManagerJoomla3Page::$fieldNameQuestion, 60);
+			$I->seeElement(QuestionManagerJoomla3Page::$fieldNameQuestion);
+			$I->fillField(QuestionManagerJoomla3Page::$fieldNameQuestion, $questionInformation['userName']);
+			$I->fillField(QuestionManagerJoomla3Page::$fieldEmailQuestion, $questionInformation['email']);
+			$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question1']);
+			$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
+			$I->click(QuestionManagerJoomla3Page::$sendButton);
+			$I->waitForText(QuestionManagerJoomla3Page::$messageSendQuestionSuccess, 30);
 		}
 	}
 
