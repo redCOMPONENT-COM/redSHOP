@@ -173,6 +173,7 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 		$I = $this;
 		$currencyUnit = $I->getCurrencyValue();
 		$I->doFrontEndLogin($customerInformation['userName'], $customerInformation['password']);
+
 		if($promotion['promotionType'] == 'Amount Product')
 		{
 			$I->amOnPage(CheckoutChangeQuantityProductPage::$url);
@@ -235,6 +236,7 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 	{
 		$I = $this;
 		$I->doFrontEndLogin($customerInformation['userName'], $customerInformation['password']);
+
 		if($promotion['promotionType'] == 'Amount Product')
 		{
 			for( $a= 0; $a < $promotion['conditionAmount']; $a++)
