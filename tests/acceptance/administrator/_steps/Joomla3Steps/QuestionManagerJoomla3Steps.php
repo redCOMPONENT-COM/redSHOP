@@ -158,15 +158,15 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
+		$I->seeElement(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteQuestion);
-		$I->wait(0.5);
 
 		if((isset($user['userName'])))
 		{
 				$I->executeJS(FrontEndProductManagerJoomla3Page::jQueryIframe());
+				$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 				$I->wait(1);
 				$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
-				$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 				$I->waitForElementVisible(QuestionManagerJoomla3Page::$fieldYourQuestion, 30);
 				$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question2']);
 				$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
@@ -175,9 +175,9 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}else
 		{
 				$I->executeJS(FrontEndProductManagerJoomla3Page::jQueryIframe());
+				$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 				$I->wait(1);
 				$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframe);
-				$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 				$I->waitForElement(QuestionManagerJoomla3Page::$fieldNameQuestion, 60);
 				$I->seeElement(QuestionManagerJoomla3Page::$fieldNameQuestion);
 				$I->fillField(QuestionManagerJoomla3Page::$fieldNameQuestion, $questionInformation['userName']);
