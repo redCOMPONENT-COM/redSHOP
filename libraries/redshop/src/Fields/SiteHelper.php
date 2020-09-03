@@ -367,17 +367,14 @@ class SiteHelper
                         break;
 
                     case \RedshopHelperExtrafields::TYPE_SELECT_BOX_SINGLE:
-
                         $fieldCheck = \RedshopEntityField::getInstance($data->id)->getFieldValues();
-                        $checkData  = explode(",", $cart[$idx][$data->name]);
-
                         $exField  .= \RedshopLayoutHelper::render(
                             'extrafields.userfield.select',
                             array(
                                 'rowData'    => $data,
                                 'required'   => $req,
                                 'fieldCheck' => $fieldCheck,
-                                'checkData'  => $checkData,
+                                'checkData'  => isset($cart[$idx][$data->name]) ? explode(",", $cart[$idx][$data->name]) : [],
                                 'uniqueId'   => $uniqueId
                             )
                         );
@@ -423,14 +420,13 @@ class SiteHelper
 
                     case \RedshopHelperExtrafields::TYPE_IMAGE_SELECT:
                         $fieldChk = \RedshopEntityField::getInstance($data->id)->getFieldValues();
-                        $chkData  = explode(",", $cart[$idx][$data->name]);
                         $exField  .= \RedshopLayoutHelper::render(
                             'extrafields.userfield.image',
                             array(
                                 'rowData'    => $data,
                                 'required'   => $req,
                                 'fieldCheck' => $fieldChk,
-                                'checkData'  => $chkData,
+                                'checkData'  => isset($cart[$idx][$data->name]) ? explode(",", $cart[$idx][$data->name]) : [],
                                 'uniqueId'   => $uniqueId,
                                 'isAtt'      => $isAtt
                             )
@@ -531,7 +527,7 @@ class SiteHelper
                 }
             }
 
-            if (trim($data->description) != '' && $fieldType != 'hidden') {
+            if (trim($data->desc) != '' && $fieldType != 'hidden') {
                 $exField .= '<div class="userfield_tooltip">&nbsp; ' . \JHtml::tooltip(
                         $data->description,
                         $data->name,
