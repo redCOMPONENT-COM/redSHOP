@@ -203,7 +203,8 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioShippingRate, 30);
 		$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+		$I->wait(0.5);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 60);
 		$I->seeElement(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
