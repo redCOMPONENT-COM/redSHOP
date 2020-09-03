@@ -46,7 +46,7 @@ class RedshopViewManufacturers extends RedshopViewList
             return parent::onRenderColumn($config, $index, $row);
         }
 
-        $media = RedshopEntityManufacturer::getInstance($row->id)->getMedia();
+        $media = Redshop\Entity\Manufacturer::getInstance($row->id)->getMedia();
 
         if (!$media->isValid()) {
             return '';

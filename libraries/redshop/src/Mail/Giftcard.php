@@ -40,7 +40,7 @@ class Giftcard
 
         foreach ($giftCards as $eachOrder) {
             for ($i = 0; $i < $eachOrder->product_quantity; $i++) {
-                $giftcardData  = \RedshopEntityGiftcard::getInstance($eachOrder->product_id)->getItem();
+                $giftcardData  = \Redshop\Entity\GiftCard::getInstance($eachOrder->product_id)->getItem();
                 $giftCardValue = \RedshopHelperProductPrice::formattedPrice($giftcardData->giftcard_value, true);
                 $giftCardPrice = $eachOrder->product_final_price;
                 $giftCode      = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(12);

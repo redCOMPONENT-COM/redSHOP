@@ -31,7 +31,7 @@ $shipping        = $this->shipping;
 $isCompany       = (!empty($billing->is_company) ? $billing->is_company : '');
 $orderId         = $this->detail->order_id;
 $products        = RedshopHelperOrder::getOrderItemDetail($orderId);
-$orderStatusLogs = RedshopEntityOrder::getInstance($orderId)->getStatusLog();
+$orderStatusLogs = Redshop\Entity\Order::getInstance($orderId)->getStatusLog();
 
 if (!$shipping) {
     $shipping = $billing;

@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 class OrderItem extends Entity
 {
     /**
-     * @var   \RedshopEntitiesCollection
+     * @var   \Redshop\Entities\Collection
      *
      * @since __DEPLOY_VERSION__
      */
@@ -43,7 +43,7 @@ class OrderItem extends Entity
     /**
      * Method for get accessory items for this order item
      *
-     * @return   \RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
+     * @return   \Redshop\Entities\Collection   Redshop\Entities\Collection if success. Null otherwise.
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -73,7 +73,7 @@ class OrderItem extends Entity
             return $this;
         }
 
-        $this->accessoryItems = new \RedshopEntitiesCollection;
+        $this->accessoryItems = new \Redshop\Entities\Collection;
 
         $db    = \Joomla\CMS\Factory::getDbo();
         $query = $db->getQuery(true)

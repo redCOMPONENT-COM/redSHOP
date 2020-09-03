@@ -37,14 +37,14 @@ class Category extends Entity
     protected $products;
 
     /**
-     * @var    \RedshopEntitiesCollection
+     * @var    \Redshop\Entities\Collection
      *
      * @since  __DEPLOY_VERSION__
      */
     protected $childCategories;
 
     /**
-     * @var    \RedshopEntitiesCollection
+     * @var    \Redshop\Entities\Collection
      *
      * @since  __DEPLOY_VERSION__
      */
@@ -139,7 +139,7 @@ class Category extends Entity
     /**
      * Method for get child categories of current category
      *
-     * @return  \RedshopEntitiesCollection
+     * @return  \Redshop\Entities\Collection
      *
      * @since  __DEPLOY_VERSION__
      */
@@ -165,7 +165,7 @@ class Category extends Entity
             return $this;
         }
 
-        $this->childCategories = new \RedshopEntitiesCollection;
+        $this->childCategories = new \Redshop\Entities\Collection;
 
         $db    = \JFactory::getDbo();
         $query = $db->getQuery(true)
@@ -190,7 +190,7 @@ class Category extends Entity
     /**
      * Method for get medias of current category
      *
-     * @return  \RedshopEntitiesCollection
+     * @return  \Redshop\Entities\Collection
      *
      * @since  __DEPLOY_VERSION__
      */
@@ -212,7 +212,7 @@ class Category extends Entity
      */
     protected function loadMedia()
     {
-        $this->media = new \RedshopEntitiesCollection;
+        $this->media = new \Redshop\Entities\Collection;
 
         if (!$this->hasId()) {
             return $this;

@@ -23,7 +23,7 @@ class TaxGroup extends Entity
     /**
      * List of tax rates belong to this tax group
      *
-     * @var    \RedshopEntitiesCollection
+     * @var    \Redshop\Entities\Collection
      *
      * @since  __DEPLOY_VERSION__
      */
@@ -32,7 +32,7 @@ class TaxGroup extends Entity
     /**
      * Method for get all associated tax rates
      *
-     * @return  \RedshopEntitiesCollection
+     * @return  \Redshop\Entities\Collection
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -54,8 +54,8 @@ class TaxGroup extends Entity
      */
     protected function loadTaxRates()
     {
-        /** @var \RedshopEntitiesCollection taxRates */
-        $this->taxRates = new \RedshopEntitiesCollection;
+        /** @var \Redshop\Entities\Collection taxRates */
+        $this->taxRates = new \Redshop\Entities\Collection;
 
         if (!$this->hasId()) {
             return $this;

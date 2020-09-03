@@ -308,7 +308,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
                             $quo = $quotation_item[$i];
 
                             if ($quo->is_giftcard == 1) {
-                                $giftcardData = RedshopEntityGiftcard::getInstance($quo->product_id)->getItem();
+                                $giftcardData = Redshop\Entity\GiftCard::getInstance($quo->product_id)->getItem();
 
                                 $actual_price   = $giftcardData->giftcard_price;
                                 $product_number = "";

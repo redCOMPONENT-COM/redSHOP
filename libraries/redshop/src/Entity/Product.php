@@ -26,7 +26,7 @@ class Product extends Entity
         \Redshop\Entity\Traits\Product\Stock;
 
     /**
-     * @var   \RedshopEntitiesCollection  Collections of child products
+     * @var   \Redshop\Entities\Collection  Collections of child products
      * @since  __DEPLOY_VERSION__
      */
     protected $childProducts = null;
@@ -49,7 +49,7 @@ class Product extends Entity
      *
      * @param   boolean  $reload  Force reload even it's cached
      *
-     * @return  \RedshopEntitiesCollection
+     * @return  \Redshop\Entities\Collection
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -75,7 +75,7 @@ class Product extends Entity
             return $this;
         }
 
-        $this->childProducts = new \RedshopEntitiesCollection;
+        $this->childProducts = new \Redshop\Entities\Collection;
 
         $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
@@ -105,7 +105,7 @@ class Product extends Entity
     public function assignCustomField($fieldId, $value)
     {
         // Try to load this custom field data
-        /** @var RedshopEntityField_Data $entity */
+        /** @var Redshop\Entity\Field_Data $entity */
         $entity = \Redshop\Entity\FieldData::getInstance()->loadItemByArray(
             array
             (

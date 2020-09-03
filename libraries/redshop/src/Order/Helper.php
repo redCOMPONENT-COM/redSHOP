@@ -323,7 +323,7 @@ class Helper
                         'email.order.payment_method_changed',
                         array(
                             'order' => $orderStatus,
-	                        'encrKey' => \RedshopEntityOrder::getInstance($orderId)->getItem()->encr_key
+	                        'encrKey' => \Redshop\Entity\Order::getInstance($orderId)->getItem()->encr_key
                         )
                     );
 

@@ -35,7 +35,7 @@ class RedshopTableTax_Group extends RedshopTable
     protected function doDelete($pk = null)
     {
         // Check tax rates
-        if (RedshopEntityTax_Group::getInstance($this->id)->getTaxRates()->count() > 0) {
+        if (Redshop\Entity\TaxGroup::getInstance($this->id)->getTaxRates()->count() > 0) {
             $this->setError(JText::sprintf('COM_REDSHOP_TAX_GROUP_ERROR_DELETE_HAVE_TAX_RATE', $this->name));
 
             return false;

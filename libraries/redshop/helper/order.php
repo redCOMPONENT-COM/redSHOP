@@ -203,7 +203,7 @@ class RedshopHelperOrder
      *
      * @return  array              Order Items
      *
-     * @deprecated  2.0.6 Use RedshopEntityOrder::getOrderItems instead
+     * @deprecated  2.0.6 Use Redshop\Entity\Order::getOrderItems instead
      */
     public static function getItems($orderId)
     {
@@ -211,7 +211,7 @@ class RedshopHelperOrder
             return null;
         }
 
-        return RedshopEntityOrder::getInstance($orderId)->getOrderItems()->toObjects();
+        return Redshop\Entity\Order::getInstance($orderId)->getOrderItems()->toObjects();
     }
 
     /**
@@ -223,7 +223,7 @@ class RedshopHelperOrder
      */
     public static function giftCardItems($orderId)
     {
-        $orderItems = RedshopEntityOrder::getInstance($orderId)->getOrderItems();
+        $orderItems = Redshop\Entity\Order::getInstance($orderId)->getOrderItems();
 
         if (!$orderItems->count()) {
             return array();
@@ -297,7 +297,7 @@ class RedshopHelperOrder
         $checkUpdateOrders               = self::checkUpdateOrders($data);
         if ($checkUpdateOrders == 0 && $data->order_status_code != "" && $data->order_payment_status_code != "") {
             // Order status valid and change the status
-            $order = RedshopEntityOrder::getInstance($orderId);
+            $order = Redshop\Entity\Order::getInstance($orderId);
             if ($order->isValid()) {
                 $order->set('order_status', $data->order_status_code)
                     ->set('order_payment_status', $data->order_payment_status_code)
@@ -552,7 +552,7 @@ class RedshopHelperOrder
         $db = JFactory::getDbo();
 
         // Use entity instead query directly. Do reset for make sure
-        $orderEntity = RedshopEntityOrder::getInstance($orderId);
+        $orderEntity = Redshop\Entity\Order::getInstance($orderId);
 
         if (!$orderEntity->isValid()) {
             return false;
@@ -612,7 +612,7 @@ class RedshopHelperOrder
      */
     public static function updateInvoiceNumber($number, $orderId)
     {
-        $order = RedshopEntityOrder::getInstance($orderId);
+        $order = Redshop\Entity\Order::getInstance($orderId);
 
         if ($order->isValid()) {
             $order->set('invoice_number_chrono', (int)$number)
@@ -1240,7 +1240,7 @@ class RedshopHelperOrder
             return null;
         }
 
-        $order = RedshopEntityOrder::getInstance($orderId);
+        $order = Redshop\Entity\Order::getInstance($orderId);
 
         if ($force) {
             $order->reset();
@@ -1313,8 +1313,8 @@ class RedshopHelperOrder
             return null;
         }
 
-        /** @var RedshopEntityOrder_User $userBilling */
-        $userBilling = RedshopEntityOrder::getInstance($orderId)->getBilling();
+        /** @var Redshop\Entity\Order_User $userBilling */
+        $userBilling = Redshop\Entity\Order::getInstance($orderId)->getBilling();
 
         if ($force) {
             $userBilling->reset()->loadExtraFields();
@@ -1339,8 +1339,8 @@ class RedshopHelperOrder
             return null;
         }
 
-        /** @var RedshopEntityOrder_User $userBilling */
-        $userBilling = RedshopEntityOrder::getInstance($orderId)->getShipping();
+        /** @var Redshop\Entity\Order_User $userBilling */
+        $userBilling = Redshop\Entity\Order::getInstance($orderId)->getShipping();
 
         if ($force) {
             $userBilling->reset()->loadExtraFields();
@@ -1364,7 +1364,7 @@ class RedshopHelperOrder
             return null;
         }
 
-        return RedshopEntityOrder_Item::getInstance($orderItemId)->getAccessoryItems()->toObjects();
+        return Redshop\Entity\Order_Item::getInstance($orderItemId)->getAccessoryItems()->toObjects();
     }
 
     /**
@@ -1435,7 +1435,7 @@ class RedshopHelperOrder
      */
     public static function getPaymentInfo($orderId)
     {
-        $payment = RedshopEntityOrder::getInstance($orderId)->getPayment();
+        $payment = Redshop\Entity\Order::getInstance($orderId)->getPayment();
 
         if (null === $payment) {
             return null;
@@ -1633,7 +1633,7 @@ class RedshopHelperOrder
         $orderItemId = $app->input->getInt('order_item_id', 0);
 
         // Get order detail before processing
-        $prevOrderStatus = RedshopEntityOrder::getInstance($orderId)->getItem()->order_status;
+        $prevOrderStatus = Redshop\Entity\Order::getInstance($orderId)->getItem()->order_status;
 
         if (isset($paymentStatus)) {
             self::updateOrderPaymentStatus($orderId, $paymentStatus);
@@ -1661,7 +1661,7 @@ class RedshopHelperOrder
             RedshopHelperUtility::getDispatcher()->trigger(
                 'onAfterOrderStatusUpdate',
                 array(
-                    RedshopEntityOrder::getInstance($orderId)->getItem(),
+                    Redshop\Entity\Order::getInstance($orderId)->getItem(),
                     $newStatus
                 )
             );
@@ -1819,7 +1819,7 @@ class RedshopHelperOrder
      */
     public static function updateOrderPaymentStatus($orderId, $newStatus)
     {
-        $order = RedshopEntityOrder::getInstance($orderId);
+        $order = Redshop\Entity\Order::getInstance($orderId);
 
         if ($order->isValid()) {
             $order->set('order_payment_status', $newStatus)
@@ -1842,7 +1842,7 @@ class RedshopHelperOrder
      */
     public static function updateOrderComment($orderId, $comment = '')
     {
-        $order = RedshopEntityOrder::getInstance($orderId);
+        $order = Redshop\Entity\Order::getInstance($orderId);
 
         if ($order->isValid()) {
             $order->set('customer_note', $comment)
@@ -1862,7 +1862,7 @@ class RedshopHelperOrder
      */
     public static function updateOrderRequisitionNumber($orderId, $requisitionNumber = '')
     {
-        $order = RedshopEntityOrder::getInstance($orderId);
+        $order = Redshop\Entity\Order::getInstance($orderId);
 
         if (!$order->isValid()) {
             return;
@@ -1890,7 +1890,7 @@ class RedshopHelperOrder
      */
     public static function updateOrderStatus($orderId, $newStatus)
     {
-        $order = RedshopEntityOrder::getInstance($orderId);
+        $order = Redshop\Entity\Order::getInstance($orderId);
 
         if ($order->get('order_status', '') == $newStatus) {
             return;
@@ -1933,7 +1933,7 @@ class RedshopHelperOrder
         $paymentMethod = $paymentMethod[0];
 
         // Getting the order details
-        $orderDetail        = RedshopEntityOrder::getInstance($orderId)->getItem();
+        $orderDetail        = Redshop\Entity\Order::getInstance($orderId)->getItem();
         $paymentParams      = new Registry($paymentMethod->params);
         $orderStatusCapture = $paymentParams->get('capture_status', '');
         $orderStatusCode    = $orderStatusCapture;
@@ -2037,11 +2037,11 @@ class RedshopHelperOrder
      * @return  object
      *
      * @since       2.0.3
-     * @deprecated  Use RedshopEntityOrder::getInstance($orderId)->getItem();
+     * @deprecated  Use Redshop\Entity\Order::getInstance($orderId)->getItem();
      */
     public static function getMultiOrderDetails($orderId)
     {
-        return RedshopEntityOrder::getInstance($orderId)->getItem();
+        return Redshop\Entity\Order::getInstance($orderId)->getItem();
     }
 
     /**
@@ -2809,7 +2809,7 @@ class RedshopHelperOrder
      */
     public static function getOrderPaymentDetail($orderPaymentId = 0)
     {
-        return RedshopEntityOrder_Payment::getInstance($orderPaymentId)->getItem();
+        return Redshop\Entity\Order_Payment::getInstance($orderPaymentId)->getItem();
     }
 
     /**

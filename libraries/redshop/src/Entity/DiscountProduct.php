@@ -21,13 +21,13 @@ defined('_JEXEC') or die;
 class DiscountProduct extends Entity
 {
     /**
-     * @var \RedshopEntitiesCollection
+     * @var \Redshop\Entities\Collection
      * @since  __DEPLOY_VERSION__
      */
     protected $shopperGroups;
 
     /**
-     * @var \RedshopEntitiesCollection
+     * @var \Redshop\Entities\Collection
      * @since  __DEPLOY_VERSION__
      */
     protected $categories;
@@ -35,7 +35,7 @@ class DiscountProduct extends Entity
     /**
      * Method for get shopper groups associate with this discount
      *
-     * @return \RedshopEntitiesCollection
+     * @return \Redshop\Entities\Collection
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -57,7 +57,7 @@ class DiscountProduct extends Entity
      */
     protected function loadShopperGroups()
     {
-        $this->shopperGroups = new \RedshopEntitiesCollection;
+        $this->shopperGroups = new \Redshop\Entities\Collection;
 
         if (!$this->hasId()) {
             return $this;
@@ -86,7 +86,7 @@ class DiscountProduct extends Entity
     /**
      * Method for get categories associate with this discount
      *
-     * @return  \RedshopEntitiesCollection
+     * @return  \Redshop\Entities\Collection
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -108,7 +108,7 @@ class DiscountProduct extends Entity
      */
     protected function loadCategories()
     {
-        $this->categories = new \RedshopEntitiesCollection;
+        $this->categories = new \Redshop\Entities\Collection;
 
         if (!$this->hasId() || empty($this->get('category_ids'))) {
             return $this;

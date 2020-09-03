@@ -230,7 +230,7 @@ class ExtraFields
 
             case \RedshopHelperExtrafields::TYPE_IMAGE_SELECT:
             case \RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK:
-                $documentValues = \RedshopEntityField::getInstance($field->id)->getFieldValues();
+                $documentValues = \Redshop\Entity\Field::getInstance($field->id)->getFieldValues();
                 $tmpImagesHover = !empty($fieldValue->alt_text) ? explode(',,,,,', $fieldValue->alt_text) : array();
                 $tmpImagesLink  = !empty($fieldValue->image_link) ? explode(',,,,,', $fieldValue->image_link) : array();
 

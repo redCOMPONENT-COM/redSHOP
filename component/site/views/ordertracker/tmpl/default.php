@@ -22,7 +22,7 @@ $order_detail  = array();
 $OrderProducts = array();
 
 if ($order_id != 0) {
-    $order_detail  = RedshopEntityOrder::getInstance($order_id)->getItem();
+    $order_detail  = Redshop\Entity\Order::getInstance($order_id)->getItem();
     $OrderProducts = RedshopHelperOrder::getOrderItemDetail($order_id);
 }
 

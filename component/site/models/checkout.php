@@ -606,7 +606,7 @@ class RedshopModelCheckout extends RedshopModel
             }
 
             if ($isGiftCard == 1) {
-                $giftCardData                    = RedshopEntityGiftcard::getInstance(
+                $giftCardData                    = Redshop\Entity\GiftCard::getInstance(
                     $cart[$i]['giftcard_id']
                 )->getItem();
                 $rowItem->product_id             = $cart [$i] ['giftcard_id'];

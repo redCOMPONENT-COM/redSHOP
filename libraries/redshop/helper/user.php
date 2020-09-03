@@ -46,11 +46,11 @@ class RedshopHelperUser
      *
      * @return  null|object  Shopper group object data. Null if not found.
      *
-     * @deprecated  2.0.7  Use RedshopEntityShopper_Group instead.
+     * @deprecated  2.0.7  Use Redshop\Entity\ShopperGroup instead.
      */
     public static function getShopperGroupDataById($id)
     {
-        return RedshopEntityShopper_Group::getInstance($id)->getItem();
+        return Redshop\Entity\ShopperGroup::getInstance($id)->getItem();
     }
 
     /**
@@ -439,7 +439,7 @@ class RedshopHelperUser
         if (!$userId) {
             $shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
 
-            return RedshopEntityShopper_Group::getInstance($shopperGroupId)->getItem();
+            return Redshop\Entity\ShopperGroup::getInstance($shopperGroupId)->getItem();
         }
 
         // In case user is not guest.

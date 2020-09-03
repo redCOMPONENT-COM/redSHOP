@@ -23,7 +23,7 @@ class FieldGroup extends Entity
     /**
      * List of fields
      *
-     * @var \RedshopEntitiesCollection
+     * @var \Redshop\Entities\Collection
      * @since __DEPLOY_VERSION__
      */
     protected $fields;
@@ -31,7 +31,7 @@ class FieldGroup extends Entity
     /**
      * Method for get fields associate with this group
      *
-     * @return  \RedshopEntitiesCollection
+     * @return  \Redshop\Entities\Collection
      *
      * @since __DEPLOY_VERSION__
      */
@@ -53,7 +53,7 @@ class FieldGroup extends Entity
      */
     protected function loadFields()
     {
-        $this->fields = new \RedshopEntitiesCollection;
+        $this->fields = new \Redshop\Entities\Collection;
 
         if (!$this->hasId()) {
             return $this;

@@ -2531,7 +2531,7 @@ class RedshopHelperProduct
                         $relatedTemplateData,
                         "{manufacturer_link}"
                     ) !== false) {
-                    $manufacturer = RedshopEntityManufacturer::getInstance(
+                    $manufacturer = Redshop\Entity\Manufacturer::getInstance(
                         $relatedProduct[$r]->manufacturer_id
                     )->getItem();
 

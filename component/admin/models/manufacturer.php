@@ -36,7 +36,7 @@ class RedshopModelManufacturer extends RedshopModelForm
     public function afterCopy($source, $target)
     {
         // Copy media file if necessary
-        $media = RedshopEntityManufacturer::getInstance()->bind($source)->getMedia();
+        $media = Redshop\Entity\Manufacturer::getInstance()->bind($source)->getMedia();
 
         if (!$media->isValid()) {
             return;

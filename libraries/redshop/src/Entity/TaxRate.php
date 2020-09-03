@@ -23,7 +23,7 @@ class TaxRate extends Entity
 	/**
 	 * Method for get shopper groups associate with this tax rate
 	 *
-	 * @return  \RedshopEntitiesCollection
+	 * @return  \Redshop\Entities\Collection
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -45,7 +45,7 @@ class TaxRate extends Entity
 	 */
 	protected function loadShopperGroups()
 	{
-		$this->shopperGroups = new \RedshopEntitiesCollection;
+		$this->shopperGroups = new \Redshop\Entities\Collection;
 
 		if (!$this->hasId()) {
 			return $this;

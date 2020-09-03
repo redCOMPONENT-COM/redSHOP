@@ -35,7 +35,7 @@ class Template
      */
     public static function replaceTemplate($order, $template, $sendMail = false)
     {
-        $orderEntity = \RedshopEntityOrder::getInstance($order->order_id)->bind($order);
+        $orderEntity = \Redshop\Entity\Order::getInstance($order->order_id)->bind($order);
 
         if (!$orderEntity->isValid()) {
             return $template;
@@ -270,7 +270,7 @@ class Template
      * Method for replace payment
      *
      * @param   string               $template     Template HTML
-     * @param   \RedshopEntityOrder  $orderEntity  Order entity
+     * @param   \Redshop\Entity\Order  $orderEntity  Order entity
      *
      * @return  void
      *
@@ -377,7 +377,7 @@ class Template
      * Method for replace shipping
      *
      * @param   string               $template     Template HTML
-     * @param   \RedshopEntityOrder  $orderEntity  Order entity
+     * @param   \Redshop\Entity\Order  $orderEntity  Order entity
      *
      * @return  void
      *
@@ -436,7 +436,7 @@ class Template
             return;
         }
 
-        $orderEntity      = \RedshopEntityOrder::getInstance($orderId);
+        $orderEntity      = \Redshop\Entity\Order::getInstance($orderId);
         $downloadProducts = \RedshopHelperOrder::getDownloadProduct($orderId);
         $tokenHtml        = '';
         $tokenLabel       = '';
@@ -553,7 +553,7 @@ class Template
     protected static function replaceOrderStatusLog($template, $orderId)
     {
         if (strpos($template, '{order_status_log}') !== false) {
-            $orderStatusLogs = \RedshopEntityOrder::getInstance((int)$orderId)->getStatusLog();
+            $orderStatusLogs = \Redshop\Entity\Order::getInstance((int)$orderId)->getStatusLog();
 
             $logLayout = \RedshopLayoutHelper::render(
                 'order.status_log',

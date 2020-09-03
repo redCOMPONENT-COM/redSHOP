@@ -153,7 +153,7 @@ $action = 'index.php?option=com_redshop&view=product&layout=element&tmpl=compone
                         <?php endforeach; ?>
                     </td>
                     <td>
-                        <?php echo RedshopEntityManufacturer::getInstance($product->manufacturer_id)->get('name') ?>
+                        <?php echo Redshop\Entity\Manufacturer::getInstance($product->manufacturer_id)->get('name') ?>
                     </td>
                     <td align="center" width="5%">
                         <?php echo $product->product_id; ?>

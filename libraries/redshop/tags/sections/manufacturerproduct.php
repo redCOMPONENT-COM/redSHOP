@@ -105,7 +105,7 @@ class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
 
         if ($this->isTagExists('{manufacturer_image}')) {
             $thumbImage = '';
-            $media      = RedshopEntityManufacturer::getInstance($manufacturer->id)->getMedia();
+            $media      = Redshop\Entity\Manufacturer::getInstance($manufacturer->id)->getMedia();
 
             if ($media->isValid() && !empty($media->get('media_name'))
                 && JFile::exists(

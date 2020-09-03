@@ -20,7 +20,7 @@ use Redshop\Repositories\Product;
 trait Categories
 {
     /**
-     * @var   \RedshopEntitiesCollection  Collections of categories
+     * @var   \Redshop\Entities\Collection  Collections of categories
      *
      * @since 2.1.0
      */
@@ -42,7 +42,7 @@ trait Categories
     /**
      * @param   boolean  $reload  Force reload even it's cached
      *
-     * @return  \RedshopEntitiesCollection
+     * @return  \Redshop\Entities\Collection
      *
      * @since   2.1.0
      */
@@ -127,7 +127,7 @@ trait Categories
             return $this;
         }
 
-        $this->categories = new \RedshopEntitiesCollection;
+        $this->categories = new \Redshop\Entities\Collection;
         $categories       = Product::getCategoryIds($this->getId());
 
         if (empty($categories)) {

@@ -591,7 +591,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
             $replaceProductItemData['{product_rating_summary}'] = Redshop\Product\Rating::getRating($productId);
         }
 
-        $manufacturerName = RedshopEntityManufacturer::getInstance($product->manufacturer_id)->getItem()->name;
+        $manufacturerName = Redshop\Entity\Manufacturer::getInstance($product->manufacturer_id)->getItem()->name;
 
         if (strstr($template, '{manufacturer_link}')) {
             $replaceProductItemData['{manufacturer_link}'] = RedshopLayoutHelper::render(

@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 class Voucher extends Entity
 {
     /**
-     * @var  \RedshopEntitiesCollection
+     * @var  \Redshop\Entities\Collection
      * @since  __DEPLOY_VERSION__
      */
     protected $products;
@@ -29,7 +29,7 @@ class Voucher extends Entity
     /**
      * Method for get products available with this voucher
      *
-     * @return  \RedshopEntitiesCollection
+     * @return  \Redshop\Entities\Collection
      *
      * @since  __DEPLOY_VERSION__
      */
@@ -51,7 +51,7 @@ class Voucher extends Entity
      */
     protected function loadProducts()
     {
-        $this->products = new \RedshopEntitiesCollection;
+        $this->products = new \Redshop\Entities\Collection;
 
         if (!$this->hasId()) {
             return $this;

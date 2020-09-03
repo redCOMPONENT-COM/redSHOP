@@ -408,7 +408,7 @@ abstract class RedshopHelperCart
                 $section       = 13;
                 $giftCardId    = $cartItem->giftcard_id;
                 $giftCardPrice = 0;
-                $giftCardData  = RedshopEntityGiftcard::getInstance($giftCardId)->getItem();
+                $giftCardData  = Redshop\Entity\GiftCard::getInstance($giftCardId)->getItem();
 
                 if (!empty($giftCardData)) {
                     if ($giftCardData->customer_amount) {

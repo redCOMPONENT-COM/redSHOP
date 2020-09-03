@@ -1328,7 +1328,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
     private function replaceManufactureImage()
     {
         $manufacturerImage = '';
-        $manufacturerMedia = RedshopEntityManufacturer::getInstance($this->product->manufacturer_id)->getMedia();
+        $manufacturerMedia = Redshop\Entity\Manufacturer::getInstance($this->product->manufacturer_id)->getMedia();
 
         if ($manufacturerMedia->isValid() && !empty($manufacturerMedia->get('media_name'))
             && JFile::exists(

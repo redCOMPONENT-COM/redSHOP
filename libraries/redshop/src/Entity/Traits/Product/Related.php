@@ -20,7 +20,7 @@ use Redshop\Repositories\Product;
 trait Related
 {
     /**
-     * @var   \RedshopEntitiesCollection  Collections of related products
+     * @var   \Redshop\Entities\Collection  Collections of related products
      *
      * @since 2.1.0
      */
@@ -29,7 +29,7 @@ trait Related
     /**
      * @param   boolean  $reload  Force reload even it's cached
      *
-     * @return  \RedshopEntitiesCollection
+     * @return  \Redshop\Entities\Collection
      *
      * @since   2.1.0
      */
@@ -55,7 +55,7 @@ trait Related
             return $this;
         }
 
-        $this->relatedProducts = new \RedshopEntitiesCollection;
+        $this->relatedProducts = new \Redshop\Entities\Collection;
         $productIds            = Product::getRelatedProductIds($this->getId());
 
         foreach ($productIds as $productId) {

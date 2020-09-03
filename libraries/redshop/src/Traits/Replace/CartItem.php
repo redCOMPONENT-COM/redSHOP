@@ -123,7 +123,7 @@ trait CartItem
 
         if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id']) {
             $giftCardId = $cart[$i]['giftcard_id'];
-            $giftCard   = \RedshopEntityGiftcard::getInstance($giftCardId)->getItem();
+            $giftCard   = \Redshop\Entity\GiftCard::getInstance($giftCardId)->getItem();
             $link       = Route::_(
                 'index.php?option=com_redshop&view=giftcard&gid=' . $giftCardId . '&Itemid=' . $itemId
             );

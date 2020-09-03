@@ -47,7 +47,7 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
         $verify_status   = $this->params->get('verify_status', '');
         $invalid_status  = $this->params->get('invalid_status', '');
         $order_id        = $request["orderid"];
-        $orderDetail     = RedshopEntityOrder::getInstance($order_id)->getItem();
+        $orderDetail     = Redshop\Entity\Order::getInstance($order_id)->getItem();
         $status          = $request['payment_status'];
         $tid             = $request['txn_id'];
         $pending_reason  = $request['pending_reason'];

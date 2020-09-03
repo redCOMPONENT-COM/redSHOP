@@ -214,7 +214,7 @@ class RedshopEconomic
 	 */
 	public static function createInvoiceInEconomic($orderId, $data = array())
 	{
-		$orderEntity = \RedshopEntityOrder::getInstance($orderId);
+		$orderEntity = \Redshop\Entity\Order::getInstance($orderId);
 
 		// Order is not valid.
 		if (!$orderEntity->isValid())
@@ -1275,7 +1275,7 @@ class RedshopEconomic
 		$orderItem->order_item_sku = $product->product_number;
 		$product->product_name     = $orderItem->order_item_name;
 		$product->product_price    = $orderItem->product_item_price_excl_vat;
-		$giftData                  = \RedshopEntityGiftcard::getInstance($orderItem->product_id)->getItem();
+		$giftData                  = \Redshop\Entity\GiftCard::getInstance($orderItem->product_id)->getItem();
 		$product->accountgroup_id  = $giftData->accountgroup_id;
 		$product->product_volume   = 0;
 
@@ -1591,7 +1591,7 @@ class RedshopEconomic
 			return '';
 		}
 
-		$orderEntity = \RedshopEntityOrder::getInstance($orderId);
+		$orderEntity = \Redshop\Entity\Order::getInstance($orderId);
 
 		if (!$orderEntity->isValid())
 		{

@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 class Order extends Entity
 {
     /**
-     * @var   \RedshopEntitiesCollection
+     * @var   \Redshop\Entities\Collection
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -35,7 +35,7 @@ class Order extends Entity
     protected $payment;
 
     /**
-     * @var    \RedshopEntitiesCollection
+     * @var    \Redshop\Entities\Collection
      *
      * @since  __DEPLOY_VERSION__
      */
@@ -78,7 +78,7 @@ class Order extends Entity
     /**
      * Method for get order items for this order
      *
-     * @return   \RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
+     * @return   \Redshop\Entities\Collection   Redshop\Entities\Collection if success. Null otherwise.
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -108,7 +108,7 @@ class Order extends Entity
             return $this;
         }
 
-        $this->orderItems = new \RedshopEntitiesCollection;
+        $this->orderItems = new \Redshop\Entities\Collection;
 
         $db = \JFactory::getDbo();
         $query = $db->getQuery(true)
@@ -122,7 +122,7 @@ class Order extends Entity
         }
 
         foreach ($orderItems as $orderItem) {
-            $entity = \RedshopEntityOrder_Item::getInstance($orderItem->order_item_id);
+            $entity = \Redshop\Entity\Order_Item::getInstance($orderItem->order_item_id);
             $entity->bind($orderItem);
 
             $this->orderItems->add($entity);
@@ -134,7 +134,7 @@ class Order extends Entity
     /**
      * Method for get order status log for this order
      *
-     * @return   array   RedshopEntitiesCollection if success. Null otherwise.
+     * @return   array   Redshop\Entities\Collection if success. Null otherwise.
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -183,7 +183,7 @@ class Order extends Entity
     /**
      * Method for get payment for this order
      *
-     * @return   \RedshopEntityOrder_Payment   Payment data if success. Null otherwise.
+     * @return   \Redshop\Entity\Order_Payment   Payment data if success. Null otherwise.
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -286,7 +286,7 @@ class Order extends Entity
     /**
      * Method for get users of this order
      *
-     * @return   \RedshopEntitiesCollection   Collection of users if success. Null otherwise.
+     * @return   \Redshop\Entities\Collection   Collection of users if success. Null otherwise.
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -316,7 +316,7 @@ class Order extends Entity
             return $this;
         }
 
-        $this->users = new \RedshopEntitiesCollection;
+        $this->users = new \Redshop\Entities\Collection;
 
         $db = \JFactory::getDbo();
 

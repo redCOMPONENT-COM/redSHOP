@@ -18,7 +18,7 @@ namespace Redshop\Entity\Traits\Product;
 trait Media
 {
     /**
-     * @var    \RedshopEntitiesCollection
+     * @var    \Redshop\Entities\Collection
      *
      * @since  2.1.0
      */
@@ -27,7 +27,7 @@ trait Media
     /**
      * Method for get medias of current category
      *
-     * @return  \RedshopEntitiesCollection
+     * @return  \Redshop\Entities\Collection
      *
      * @since   2.1.0
      */
@@ -49,7 +49,7 @@ trait Media
      */
     protected function loadMedia()
     {
-        $this->media = new \RedshopEntitiesCollection;
+        $this->media = new \Redshop\Entities\Collection;
 
         if (!$this->hasId()) {
             return $this;

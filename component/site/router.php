@@ -238,7 +238,7 @@ class RedshopRouter extends JComponentRouterBase
                 if (isset($gid)) {
                     $segments[] = $gid;
 
-                    $entity = RedshopEntityGiftcard::getInstance($gid);
+                    $entity = Redshop\Entity\GiftCard::getInstance($gid);
 
                     if ($entity->isValid()) {
                         $segments[] = RedshopHelperUtility::convertToNonSymbol($entity->get('giftcard_name'));
@@ -424,7 +424,7 @@ class RedshopRouter extends JComponentRouterBase
                 if ($mid) {
                     $segments[] = $mid;
 
-                    $manufacturer = RedshopEntityManufacturer::getInstance($mid);
+                    $manufacturer = Redshop\Entity\Manufacturer::getInstance($mid);
 
                     if ($manufacturer->isValid()) {
                         if (!empty($manufacturer->get('sef_url'))) {

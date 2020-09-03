@@ -157,7 +157,7 @@ class RedshopTagsSectionsRelatedProduct extends RedshopTagsAbstract
         $replacement['{relproduct_s_desc}']     = $rpShortDesc;
         $replacement['{relproduct_desc}']       = $rpDesc;
 
-        $manufacturer = RedshopEntityManufacturer::getInstance($product->manufacturer_id)->getItem();
+        $manufacturer = Redshop\Entity\Manufacturer::getInstance($product->manufacturer_id)->getItem();
 
         if (is_object($manufacturer)) {
             $replacement['{manufacturer_link}'] = RedshopLayoutHelper::render(

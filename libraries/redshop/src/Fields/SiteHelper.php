@@ -74,7 +74,7 @@ class SiteHelper
             // Default css class name
             $cssClassName[] = $field->class;
             $class          .= ' class="' . implode(' ', $cssClassName) . '"';
-            $fieldEntity    = \RedshopEntityField::getInstance($field->id)->bind($field);
+            $fieldEntity    = \Redshop\Entity\Field::getInstance($field->id)->bind($field);
             $inputField     = '';
 
             switch ($type) {
@@ -333,7 +333,7 @@ class SiteHelper
 
                     case \RedshopHelperExtrafields::TYPE_CHECK_BOX:
 
-                        $fieldCheck = \RedshopEntityField::getInstance($data->id)->getFieldValues();
+                        $fieldCheck = \Redshop\Entity\Field::getInstance($data->id)->getFieldValues();
                         $checkData  = explode(",", $cart[$idx][$data->name]);
 
                         $exField  .= \RedshopLayoutHelper::render(
@@ -350,7 +350,7 @@ class SiteHelper
 
                     case \RedshopHelperExtrafields::TYPE_RADIO_BUTTON:
 
-                        $fieldCheck = \RedshopEntityField::getInstance($data->id)->getFieldValues();
+                        $fieldCheck = \Redshop\Entity\Field::getInstance($data->id)->getFieldValues();
                         $chkData    = explode(",", $cart[$idx][$data->name]);
 
                         $exField  .= \RedshopLayoutHelper::render(
@@ -368,7 +368,7 @@ class SiteHelper
 
                     case \RedshopHelperExtrafields::TYPE_SELECT_BOX_SINGLE:
 
-                        $fieldCheck = \RedshopEntityField::getInstance($data->id)->getFieldValues();
+                        $fieldCheck = \Redshop\Entity\Field::getInstance($data->id)->getFieldValues();
                         $checkData  = explode(",", $cart[$idx][$data->name]);
 
                         $exField  .= \RedshopLayoutHelper::render(
@@ -385,7 +385,7 @@ class SiteHelper
 
                     case \RedshopHelperExtrafields::TYPE_SELECT_BOX_MULTIPLE:
 
-                        $fieldChk = \RedshopEntityField::getInstance($data->id)->getFieldValues();
+                        $fieldChk = \Redshop\Entity\Field::getInstance($data->id)->getFieldValues();
                         $chkData  = explode(",", $cart[$idx][$data->name]);
                         $exField  .= \RedshopLayoutHelper::render(
                             'extrafields.userfield.multiple',
@@ -422,7 +422,7 @@ class SiteHelper
                         break;
 
                     case \RedshopHelperExtrafields::TYPE_IMAGE_SELECT:
-                        $fieldChk = \RedshopEntityField::getInstance($data->id)->getFieldValues();
+                        $fieldChk = \Redshop\Entity\Field::getInstance($data->id)->getFieldValues();
                         $chkData  = explode(",", $cart[$idx][$data->name]);
                         $exField  .= \RedshopLayoutHelper::render(
                             'extrafields.userfield.image',

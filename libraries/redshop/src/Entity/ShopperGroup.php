@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 class ShopperGroup extends Entity
 {
     /**
-     * @var    \RedshopEntitiesCollection
+     * @var    \Redshop\Entities\Collection
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -43,7 +43,7 @@ class ShopperGroup extends Entity
     /**
      * Method for get discounts of this shopper group
      *
-     * @return   \RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
+     * @return   \Redshop\Entities\Collection   Redshop\Entities\Collection if success. Null otherwise.
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -73,7 +73,7 @@ class ShopperGroup extends Entity
             return $this;
         }
 
-        $this->discounts = new \RedshopEntitiesCollection;
+        $this->discounts = new \Redshop\Entities\Collection;
 
         $db        = \JFactory::getDbo();
         $query     = $db->getQuery(true)

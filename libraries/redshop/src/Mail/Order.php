@@ -49,7 +49,7 @@ class Order
         $message = $mailInfo[0]->mail_body;
         $subject = $mailInfo[0]->mail_subject;
 
-        $row = \RedshopEntityOrder::getInstance($orderId)->getItem();
+        $row = \Redshop\Entity\Order::getInstance($orderId)->getItem();
 
         // It is necessary to take billing info from order user info table
         // Order mail output should reflect the checkout process"
@@ -92,7 +92,7 @@ class Order
 
         Helper::imgInMail($message);
 
-        $billingAddresses = \RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
+        $billingAddresses = \Redshop\Entity\Order::getInstance($orderId)->getBilling()->getItem();
         $thirdPartyEmail  = $billingAddresses->thirdparty_email;
         $email            = $billingAddresses->user_email;
         $fullName         = $billingAddresses->firstname . ' ' . $billingAddresses->lastname;
@@ -219,7 +219,7 @@ class Order
             $product = \Redshop::product((int)$orderItem->product_id);
 
             if ($useManufacturerEmail) {
-                $manufacturer = \RedshopEntityManufacturer::getInstance($product->manufacturer_id)->getItem();
+                $manufacturer = \Redshop\Entity\Manufacturer::getInstance($product->manufacturer_id)->getItem();
 
                 if (!empty($manufacturer)
                     && !empty($manufacturer->manufacturer_email)
@@ -297,7 +297,7 @@ class Order
             $mailBcc = explode(",", $mailInfo[0]->mail_bcc);
         }
 
-        $order            = \RedshopEntityOrder::getInstance($orderId);
+        $order            = \Redshop\Entity\Order::getInstance($orderId);
         $billingAddresses = $order->getBilling()->getItem();
         $orderPayment     = $order->getPayment()->getItem();
         $order            = $order->getItem();
@@ -387,7 +387,7 @@ class Order
                 }
 
                 $product      = \Redshop::product((int)$orderItem->product_id);
-                $manufacturer = \RedshopEntityManufacturer::getInstance($product->manufacturer_id)->getItem();
+                $manufacturer = \Redshop\Entity\Manufacturer::getInstance($product->manufacturer_id)->getItem();
 
                 if (!empty($manufacturer)
                     && !empty($manufacturer->manufacturer_email)

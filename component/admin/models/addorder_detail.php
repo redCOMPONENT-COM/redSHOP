@@ -55,7 +55,7 @@ class RedshopModelAddorder_detail extends RedshopModel
     public function _loadData()
     {
         if (empty($this->_data)) {
-            $this->_data = RedshopEntityOrder::getInstance($this->_id)->getItem();
+            $this->_data = Redshop\Entity\Order::getInstance($this->_id)->getItem();
 
             return (boolean)$this->_data;
         }

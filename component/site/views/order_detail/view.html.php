@@ -125,7 +125,7 @@ class RedshopViewOrder_Detail extends RedshopView
         $orderId = $app->input->getInt('oid', 0);
         $print   = $app->input->getInt('print', 0);
 
-	    $orderEntity        = RedshopEntityOrder::getInstance($orderId);
+	    $orderEntity        = Redshop\Entity\Order::getInstance($orderId);
 	    $order              = $orderEntity->getItem();
 	    $paymentMethodClass = $orderEntity->getPayment()->getItem()->payment_method_class;
 

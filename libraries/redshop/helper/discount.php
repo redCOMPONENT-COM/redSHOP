@@ -37,7 +37,7 @@ class RedshopHelperDiscount
         $userData       = RedshopHelperUser::createUserSession($userId);
         $shopperGroupId = (int)$userData['rs_user_shopperGroup'];
 
-        $shopperGroupDiscounts = RedshopEntityShopper_Group::getInstance($shopperGroupId)->getDiscounts();
+        $shopperGroupDiscounts = Redshop\Entity\ShopperGroup::getInstance($shopperGroupId)->getDiscounts();
 
         if ($shopperGroupDiscounts->isEmpty()) {
             return false;
@@ -148,7 +148,7 @@ class RedshopHelperDiscount
             $cartItem['customer_amount'] = $data['customer_amount'];
         }
 
-        $giftCard      = RedshopEntityGiftcard::getInstance($data['giftcard_id'])->getItem();
+        $giftCard      = Redshop\Entity\GiftCard::getInstance($data['giftcard_id'])->getItem();
         $giftCardPrice = $giftCard && $giftCard->customer_amount ? $cartItem['customer_amount'] : $giftCard->giftcard_price;
 
         $fields = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_GIFT_CARD_USER_FIELD);

@@ -110,7 +110,7 @@ switch ($view) {
 
         // If link set From Manufacturer detail Page
         if ($manufacturer_id) {
-            $manufacturer = RedshopEntityManufacturer::getInstance($manufacturer_id);
+            $manufacturer = Redshop\Entity\Manufacturer::getInstance($manufacturer_id);
             $title[]      = RedshopHelperUtility::convertToNonSymbol($manufacturer->get('manufacturer_name'));
         }
 
@@ -287,7 +287,7 @@ switch ($view) {
         shRemoveFromGETVarsList('view');
 
         if ($gid) {
-            $giftcard = RedshopEntityGiftcard::getInstance($gid);
+            $giftcard = Redshop\Entity\GiftCard::getInstance($gid);
             $title[]  = $giftcard->get('giftcard_name');
             shRemoveFromGETVarsList('gid');
         }
@@ -624,7 +624,7 @@ switch ($view) {
         if ($mid) {
             $menuMF = false;
 
-            $url = RedshopEntityManufacturer::getInstance($mid);
+            $url = Redshop\Entity\Manufacturer::getInstance($mid);
 
             if ($url->isValid() && !$menuMF) {
                 $url = $url->getItem();
@@ -662,7 +662,7 @@ switch ($view) {
     case 'manufacturer_products':
 
         if ($mid) {
-            $url = RedshopEntityManufacturer::getInstance($mid);
+            $url = Redshop\Entity\Manufacturer::getInstance($mid);
 
             if ($url->get('sef_url') == "") {
                 $title[] = $url->get('name');

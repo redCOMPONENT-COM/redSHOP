@@ -240,7 +240,7 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                 $this->replacements['{product_image}'] .= $expDiv . $img . $divEnd . $tdEnd . $tdStart;
 
                 if (strstr($template, "{manufacturer_name}")) {
-                    $manufacturer                              = RedshopEntityManufacturer::getInstance(
+                    $manufacturer                              = Redshop\Entity\Manufacturer::getInstance(
                         $product->manufacturer_id
                     );
                     $manufacturerName                          = $manufacturer->get('name');

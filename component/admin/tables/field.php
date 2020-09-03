@@ -200,7 +200,7 @@ class RedshopTableField extends RedshopTable
         $task = $app->input->get('task');
 
         if ($task != 'fields.saveOrderAjax' && $task != 'saveOrderAjax') {
-            $fieldDataIds = RedshopEntityField::getInstance($id)->getFieldValues();
+            $fieldDataIds = Redshop\Entity\Field::getInstance($id)->getFieldValues();
 
             if (count($fieldDataIds) > 0) {
                 $fid = array();

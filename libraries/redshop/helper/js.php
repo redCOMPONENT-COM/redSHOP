@@ -96,7 +96,7 @@ class RedshopHelperJs
         );
 
         // Current Shopper Group - Show price with VAT config
-        $shopperGroupData = RedshopEntityShopper_Group::getInstance(
+        $shopperGroupData = Redshop\Entity\ShopperGroup::getInstance(
             RedshopHelperUser::getShopperGroup(JFactory::getUser()->id)
         )->getItem();
 

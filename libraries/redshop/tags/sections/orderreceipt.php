@@ -94,7 +94,7 @@ class RedshopTagsSectionsOrderReceipt extends RedshopTagsAbstract
          */
 
         $paymentMethodClass = null;
-        $payment            = RedshopEntityOrder::getInstance($orderId)->getPayment();
+        $payment            = Redshop\Entity\Order::getInstance($orderId)->getPayment();
 
         if (!empty($payment)) {
             $orderPayment       = $payment->getItem();

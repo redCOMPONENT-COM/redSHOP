@@ -410,7 +410,7 @@ JHtml::_('redshopjquery.framework');
                         <?php endforeach; ?>
                     </td>
                     <td>
-                        <?php echo RedshopEntityManufacturer::getInstance($product->manufacturer_id)->get(
+                        <?php echo Redshop\Entity\Manufacturer::getInstance($product->manufacturer_id)->get(
                             'name',
                             ''
                         ); ?>
