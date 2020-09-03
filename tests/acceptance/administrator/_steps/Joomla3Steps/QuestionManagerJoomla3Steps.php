@@ -170,6 +170,7 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->waitForElementVisible(QuestionManagerJoomla3Page::$fieldYourQuestion, 30);
 			$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question2']);
 			$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
+			$I->wait(0.2);
 			$I->click(QuestionManagerJoomla3Page::$sendButton);
 			$I->waitForText(QuestionManagerJoomla3Page::$messageSendQuestionSuccess, 30);
 		}else
@@ -184,6 +185,7 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->fillField(QuestionManagerJoomla3Page::$fieldEmailQuestion, $questionInformation['email']);
 			$I->fillField(QuestionManagerJoomla3Page::$fieldYourQuestion, $questionInformation['question1']);
 			$I->waitForElementVisible(QuestionManagerJoomla3Page::$sendButton, 10);
+			$I->wait(0.2);
 			$I->click(QuestionManagerJoomla3Page::$sendButton);
 			$I->waitForText(QuestionManagerJoomla3Page::$messageSendQuestionSuccess, 30);
 		}
