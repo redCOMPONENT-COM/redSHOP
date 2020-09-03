@@ -426,7 +426,6 @@ class SiteHelper
                                 'rowData'    => $data,
                                 'required'   => $req,
                                 'fieldCheck' => $fieldChk,
-                                'checkData'  => $chkData,
                                 'uniqueId'   => $uniqueId,
                                 'isAtt'      => $isAtt
                             )
