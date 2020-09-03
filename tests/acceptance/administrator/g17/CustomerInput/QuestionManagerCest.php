@@ -179,13 +179,13 @@ class QuestionManagerCest
 	 */
 	public function addQuestionInProductDetail(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Create Question in Frontend page with Missing login account');
-		$I = new QuestionManagerJoomla3Steps($scenario);
-		$I->addQuestionOnProductDetailOnFrontend($this->productName, $this->categoryName, $this->questionInformation);
-
 		$I->wantTo('Create Question in Frontend page with login account');
 		$I = new QuestionManagerJoomla3Steps($scenario);
 		$I->addQuestionOnProductDetailOnFrontend($this->productName, $this->categoryName, $this->questionInformation, $this->user);
+
+		$I->wantTo('Create Question in Frontend page with Missing login account');
+		$I = new QuestionManagerJoomla3Steps($scenario);
+		$I->addQuestionOnProductDetailOnFrontend($this->productName, $this->categoryName, $this->questionInformation);
 	}
 
 	/**
