@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 extract($displayData);
 
-$url = JRoute::_(
+$url = Redshop\IO\Route::_(
     JURI::base(
     ) . 'index.php?option=com_redshop&view=media&section_id=' . $sectionId . '&showbuttons=1&media_section=' . $mediaSection . '&section_name=' . $sectionName . '&tmpl=component'
 );

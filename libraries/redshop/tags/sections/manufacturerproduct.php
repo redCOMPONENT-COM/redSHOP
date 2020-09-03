@@ -122,7 +122,8 @@ class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
                         $media->get('media_name'),
                         $thumbWidth,
                         $thumbHeight,
-                        Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE')
+                        Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'),
+                        $manufacturer->id
                     );
                 } else {
                     $imagePath = RedshopHelperMedia::getImagePath(
@@ -176,7 +177,7 @@ class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
             $manufacturer->id
         );
 
-        $this->replacements['{manufacturer_link}'] = JRoute::_(
+        $this->replacements['{manufacturer_link}'] = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer->id . '&Itemid=' . $itemId
         );
 

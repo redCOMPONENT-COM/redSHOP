@@ -66,7 +66,7 @@ class RedshopModelNewsletter extends RedshopModel
         $db->setQuery($query)->execute();
 
         $app->redirect(
-            JRoute::_(JUri::root() . 'index.php?option=com_redshop&view=newsletter'),
+            Redshop\IO\Route::_(JUri::root() . 'index.php?option=com_redshop&view=newsletter'),
             JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE')
         );
     }
@@ -92,7 +92,7 @@ class RedshopModelNewsletter extends RedshopModel
 
         if (!$count) {
             // If there are no newsletter, redirect with message.
-            $app->redirect(JRoute::_($link), JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
+            $app->redirect(Redshop\IO\Route::_($link), JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
         }
 
         $user = JFactory::getUser();

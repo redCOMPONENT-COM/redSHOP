@@ -30,7 +30,7 @@ $lists = $this->lists; ?>
     }
 </script>
 
-<form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Redshop\IO\Route::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm">
     <div id="editcell">
         <table class="adminlist table table-striped">
             <thead>
@@ -95,7 +95,7 @@ $lists = $this->lists; ?>
             for ($i = 0, $n = count($this->data); $i < $n; $i++) {
                 $row = $this->data[$i];
                 $row->id = $row->xmlimport_id;
-                $link = JRoute::_('index.php?option=com_redshop&view=xmlimport_detail&task=edit&cid[]=' . $row->id);
+                $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=xmlimport_detail&task=edit&cid[]=' . $row->id);
 
                 $published = JHtml::_('jgrid.published', $row->published, $i, '', 1); ?>
                 <tr class="<?php echo "row$k"; ?>">

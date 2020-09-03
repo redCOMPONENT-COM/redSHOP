@@ -46,7 +46,7 @@ defined('_JEXEC') or die;
 	    return true;
     }
 </script>
-<form action="<?php echo JRoute::_('index.php?option=com_redshop&task=question.edit&id=' . $this->detail->id) ?>"
+<form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&task=question.edit&id=' . $this->detail->id) ?>"
       method="post" name="adminForm" id="adminForm" class="form-validate form-horizontal">
     <div class="row">
         <div class="col-sm-6">

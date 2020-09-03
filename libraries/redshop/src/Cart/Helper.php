@@ -1332,7 +1332,7 @@ class Helper
         $post = $app->input->post->getArray();
         $itemId = \RedshopHelperRouter::getCartItemId();
 
-        $link = \JRoute::_(
+        $link = \Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&Itemid=' . $itemId,
             false
         );
@@ -1342,21 +1342,21 @@ class Helper
 
         if (!$userField) {
             if ($isAjaxCartBox && isset($post['ajax_cart_box'])) {
-                $link = \JRoute::_(
+                $link = \Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=cart&ajax_cart_box='
                     . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $itemId,
                     false
                 );
             } else {
                 if (\Redshop::getConfig()->getInt('ADDTOCART_BEHAVIOUR') === 1) {
-                    $link = \JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
+                    $link = \Redshop\IO\Route::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
                 } else {
                     if (isset($cart['notice_message']) && !empty($cart['notice_message'])) {
                         $app->enqueueMessage($cart['notice_message'], 'warning');
                     }
 
                     $app->enqueueMessage(\JText::_('COM_REDSHOP_PRODUCT_ADDED_TO_CART'), 'message');
-                    $link = \JRoute::_($_SERVER['HTTP_REFERER'], false);
+                    $link = \Redshop\IO\Route::_($_SERVER['HTTP_REFERER'], false);
                 }
             }
         }
@@ -1396,7 +1396,7 @@ class Helper
 
                 // Directly redirect if error found
                 $app->redirect(
-                    \JRoute::_(
+                    \Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&cid='
                         . $post['category_id'] . '&Itemid=' . $productItemId,
                         false

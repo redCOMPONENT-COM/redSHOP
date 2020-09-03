@@ -270,7 +270,7 @@ if ($gid != 0) {
         for ($i = 0, $in = count($detail); $i < $in; $i++) {
             $data_add .= $templateDesc;
             $gid      = $detail[$i]->giftcard_id;
-            $link     = JRoute::_('index.php?option=com_redshop&view=giftcard&gid=' . $gid . '&Itemid=' . $itemid);
+            $link     = Redshop\IO\Route::_('index.php?option=com_redshop&view=giftcard&gid=' . $gid . '&Itemid=' . $itemid);
 
             if (strstr($data_add, "{giftcard_image}")) {
                 $product_img = RedshopHelperMedia::watermark(
