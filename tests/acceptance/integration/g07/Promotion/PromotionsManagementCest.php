@@ -261,12 +261,28 @@ class PromotionsManagementCest
 		$I->wantTo('Create promotion');
 		$I->createPromotion($this->promotion1, "Save & Close");
 		$I->createPromotion($this->promotion2, "Save & Close");
+	}
 
+	/**
+	 * @param PromotionsManagementSteps $I
+	 * @throws Exception
+	 * @since 3.0.3
+	 */
+	public function checkoutPromotionWithShipping(PromotionsManagementSteps $I)
+	{
 		$I->wantTo('Checkout promotion with shipping');
 		$I->checkoutPromotionWithShipping($this->promotion1, $this->shipping, $this->customerInformation);
 		$I->checkoutPromotionWithShipping($this->promotion2, $this->shipping, $this->customerInformation);
+	}
 
-		$I = new ConfigurationSteps($scenario);
+	/**
+	 * @param ConfigurationSteps $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 3.0.3
+	 */
+	public function checkPromotionWithCartAjax(ConfigurationSteps $I, $scenario)
+	{
 		$I->wantTo('enable cart ajax');
 		$this->cartSetting['enabledAjax'] = 'yes';
 		$I->cartSetting($this->cartSetting);
