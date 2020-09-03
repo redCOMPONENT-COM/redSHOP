@@ -232,7 +232,7 @@ class Category extends Entity
         }
 
         foreach ($results as $mediaId) {
-            $this->media->add(\RedshopEntityMedia::getInstance($mediaId));
+            $this->media->add(\Redshop\Entity\Media::getInstance($mediaId));
         }
 
         return $this;

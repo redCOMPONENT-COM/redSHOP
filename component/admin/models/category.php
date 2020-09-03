@@ -132,11 +132,11 @@ class RedshopModelCategory extends RedshopModelForm
 
             $this->/** @scrutinizer ignore-call */ saveCategory($post);
 
-            /** @var RedshopEntityCategory $medias */
-            $medias = RedshopEntityCategory::getInstance($copyData[$i]->id)->getMedia();
+            /** @var Redshop\Entity\Category $medias */
+            $medias = Redshop\Entity\Category::getInstance($copyData[$i]->id)->getMedia();
 
             foreach ($medias->/** @scrutinizer ignore-call */ getAll() as $media) {
-                /** @var RedshopEntityMedia $media */
+                /** @var Redshop\Entity\Media $media */
                 if ($media->get('scope') == 'full') {
                     $this->/** @scrutinizer ignore-call */ storeMediaCopy(
                         $copyData[$i]->id,
@@ -278,7 +278,7 @@ class RedshopModelCategory extends RedshopModelForm
         }
 
         $productAccessories = array_merge(array(), $productAccessories);
-        $productList        = RedshopEntityCategory::getInstance($categoryId)->getProducts();
+        $productList        = Redshop\Entity\Category::getInstance($categoryId)->getProducts();
         $productIds         = array_column($productList, 'id');
 
         if (empty($productList)) {
@@ -336,8 +336,8 @@ class RedshopModelCategory extends RedshopModelForm
      */
     public function storeMediaCopy($copyCatId, $catId, $media, $scope)
     {
-        /** @var RedshopEntityMediaImage $fullImage */
-        $fullImage     = RedshopEntityMediaImage::getInstance($media->getId());
+        /** @var Redshop\Entity\MediaImage $fullImage */
+        $fullImage     = Redshop\Entity\MediaImage::getInstance($media->getId());
         $fullImageName = $fullImage->get('media_name');
         $newFullImage  = time() . '_' . $fullImageName;
 

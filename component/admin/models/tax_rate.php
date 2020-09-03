@@ -31,7 +31,7 @@ class RedshopModelTax_Rate extends RedshopModelForm
 	{
 		$item = parent::getItem($pk);
 
-		$item->shopper_group = RedshopEntityTax_Rate::getInstance($item->id)->getShopperGroups()->ids();
+		$item->shopper_group = Redshop\Entity\TaxRate::getInstance($item->id)->getShopperGroups()->ids();
 
 		return $item;
 	}

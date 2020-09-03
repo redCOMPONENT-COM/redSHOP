@@ -241,7 +241,7 @@ class Order
             }
 
             if ($useSupplierEmail) {
-                $supplier = \RedshopEntitySupplier::getInstance($product->supplier_id)->getItem();
+                $supplier = \Redshop\Entity\Supplier::getInstance($product->supplier_id)->getItem();
 
                 if (!empty($supplier)
                     && !empty($supplier->supplier_email)

@@ -55,7 +55,7 @@ abstract class Entity extends Base
 
         foreach ($entities as $key => $entity) {
             if (!$entity instanceof \Redshop\Entity\Entity) {
-                throw new \InvalidArgumentException("RedshopEntityExpected in " . __FUNCTION__);
+                throw new \InvalidArgumentException("\\Redshop\\Entity\\Expected in " . __FUNCTION__);
             }
 
             $results[$key] = $entity->getItem();

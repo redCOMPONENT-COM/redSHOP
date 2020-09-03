@@ -224,7 +224,7 @@ class Item
             $cartHtmlContent = str_replace("{product_name}", $productName, $cartHtmlContent);
 
             $categoryId   = \RedshopHelperProduct::getCategoryProduct($productId);
-            $category     = \RedshopEntityCategory::getInstance((int)$categoryId)->getItem();
+            $category     = \Redshop\Entity\Category::getInstance((int)$categoryId)->getItem();
             $categoryLink = '';
 
             if (!empty($category)) {

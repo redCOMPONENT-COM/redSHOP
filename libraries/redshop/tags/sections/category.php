@@ -165,12 +165,12 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
         }
 
         if ($this->isTagExists('{category_back_thumb_image}') && isset($category->category_back_full_image)) {
-            $medias = RedshopEntityCategory::getInstance($category->id)->getMedia()->getAll();
+            $medias = Redshop\Entity\Category::getInstance($category->id)->getMedia()->getAll();
 
             if (isset($medias) && count($medias) > 0) {
                 foreach ($medias as $media) {
                     if ($media->get('scope') == 'back') {
-                        $backImage = RedshopEntityMediaImage::getInstance($media->getId())->getAbsImagePath();
+                        $backImage = Redshop\Entity\MediaImage::getInstance($media->getId())->getAbsImagePath();
 
                         break;
                     }
@@ -307,15 +307,15 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
             '&layout=detail&Itemid=' . $mainItemId
         );
 
-        $medias = RedshopEntityCategory::getInstance($category->id)->getMedia();
+        $medias = Redshop\Entity\Category::getInstance($category->id)->getMedia();
 
-        /** @var RedshopEntityMediaImage $fullImage */
+        /** @var Redshop\Entity\MediaImage $fullImage */
         $fullImage = null;
 
         foreach ($medias->getAll() as $media) {
-            /** @var RedshopEntityMedia $media */
+            /** @var Redshop\Entity\Media $media */
             if ($media->get('scope') == 'full') {
-                $fullImage = RedshopEntityMediaImage::getInstance($media->getId());
+                $fullImage = Redshop\Entity\MediaImage::getInstance($media->getId());
 
                 break;
             }

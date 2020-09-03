@@ -2838,7 +2838,7 @@ class RedshopHelperProduct
         static $i = 0;
         static $category_list = array();
 
-        $categorylist       = RedshopEntityCategory::getInstance($category_id)->getItem();
+        $categorylist       = Redshop\Entity\Category::getInstance($category_id)->getItem();
         $category_parent_id = self::getParentCategory($category_id);
 
         if (!empty($categorylist) && $categorylist->parent_id > 0) {
@@ -2873,7 +2873,7 @@ class RedshopHelperProduct
      */
     public static function getParentCategory($id = 0)
     {
-        if ($result = RedshopEntityCategory::getInstance($id)->getItem()) {
+        if ($result = Redshop\Entity\Category::getInstance($id)->getItem()) {
             return $result->parent_id;
         }
 
@@ -5067,7 +5067,7 @@ class RedshopHelperProduct
                 case 'product':
                     return \Redshop\Product\Product::getProductById($id);
                 case 'category':
-                    return RedshopEntityCategory::getInstance($id)->getItem();
+                    return Redshop\Entity\Category::getInstance($id)->getItem();
                 default:
                     $db    = JFactory::getDbo();
                     $query = $db->getQuery(true)

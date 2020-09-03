@@ -296,7 +296,7 @@ class RedshopRouter extends JComponentRouterBase
                 }
 
                 if ($cid) {
-                    $url = RedshopEntityCategory::getInstance($cid);
+                    $url = Redshop\Entity\Category::getInstance($cid);
 
                     if (empty($url->get('sef_url'))) {
                         $categoriesReverse = RedshopHelperCategory::getCategoryListReverseArray($cid);
@@ -377,7 +377,7 @@ class RedshopRouter extends JComponentRouterBase
                             }
                         }
 
-                        $categoryData = RedshopEntityCategory::getInstance($categoryId);
+                        $categoryData = Redshop\Entity\Category::getInstance($categoryId);
 
                         // Attach category id with name for consistency
                         if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME')) {

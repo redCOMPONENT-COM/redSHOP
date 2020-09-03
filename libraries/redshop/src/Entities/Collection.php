@@ -93,7 +93,7 @@ class Collection implements \Countable, \Iterator
      * Get the active entity.
      * Iterator implementation.
      *
-     * @return  mixed  RedshopEntity | FALSE if no entities
+     * @return  mixed  \Redshop\Entity\Entity | FALSE if no entities
      * @since  __DEPLOY_VERSION__
      */
     public function current()
@@ -106,7 +106,7 @@ class Collection implements \Countable, \Iterator
      *
      * @param   integer  $id  Item's identifier
      *
-     * @return  mixed  RedshopEntity if item exists. Null otherwise
+     * @return  mixed  Redshop\Entity\Entity if item exists. Null otherwise
      * @since  __DEPLOY_VERSION__
      */
     public function get($id)
@@ -167,7 +167,7 @@ class Collection implements \Countable, \Iterator
      * Gets the next entity.
      * Iterator implementation.
      *
-     * @return  mixed  RedshopEntity | FALSE if no entities
+     * @return  mixed  Redshop\Entity\Entity | FALSE if no entities
      * @since  __DEPLOY_VERSION__
      */
     public function next()
@@ -198,7 +198,7 @@ class Collection implements \Countable, \Iterator
      * Method to get the first entity.
      * Iterator implementation.
      *
-     * @return  mixed  RedshopEntity | FALSE if no entities
+     * @return  mixed  Redshop\Entity\Entity | FALSE if no entities
      * @since  __DEPLOY_VERSION__
      */
     public function rewind()
@@ -210,12 +210,12 @@ class Collection implements \Countable, \Iterator
      * Sets an item. This removes previous item if it already exists
      *
      * @param   integer        $id      Entity identifier
-     * @param   RedshopEntity  $entity  Entity
+     * @param   Redshop\Entity\Entity  $entity  Entity
      *
      * @return  self
      * @since  __DEPLOY_VERSION__
      */
-    public function set($id, RedshopEntity $entity)
+    public function set($id, \Redshop\Entity\Entity $entity)
     {
         $this->entities[$id] = $entity;
 

@@ -59,7 +59,7 @@ class RedshopModelDiscount extends RedshopModelForm
             return false;
         }
 
-        $item->shopper_group = RedshopEntityDiscount::getInstance($item->discount_id)->getShopperGroups()->ids();
+        $item->shopper_group = Redshop\Entity\Discount::getInstance($item->discount_id)->getShopperGroups()->ids();
 
         $spgrpdisFilter = JFactory::getApplication()->input->getInt('spgrpdis_filter', 0);
 

@@ -515,7 +515,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         $supplierName = '';
 
         if ($this->product->supplier_id) {
-            $supplierName = RedshopEntitySupplier::getInstance($this->product->supplier_id)->getItem()->name;
+            $supplierName = Redshop\Entity\Supplier::getInstance($this->product->supplier_id)->getItem()->name;
         }
 
         $this->addReplace('{supplier_name}', $supplierName);

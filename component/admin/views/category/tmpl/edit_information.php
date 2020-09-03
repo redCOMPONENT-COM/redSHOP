@@ -14,7 +14,7 @@ $fullMediaId = 0;
 $backImage   = '';
 $backMediaId = 0;
 
-$media = RedshopEntityCategory::getInstance($this->item->id)->getMedia();
+$media = Redshop\Entity\Category::getInstance($this->item->id)->getMedia();
 
 foreach ($media->getAll() as $mediaItem) {
     if ($mediaItem->get('scope') == 'full') {

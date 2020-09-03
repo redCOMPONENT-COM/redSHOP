@@ -49,7 +49,7 @@ class RedshopHelperDiscount
         $discounts = $shopperGroupDiscounts->getAll();
 
         foreach ($discounts as $discount) {
-            /** @var RedshopEntityDiscount $discount */
+            /** @var Redshop\Entity\Discount $discount */
             $potentialDiscount = null;
 
             // Skip if this discount is not published

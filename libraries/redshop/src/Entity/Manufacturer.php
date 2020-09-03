@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 class Manufacturer extends Entity
 {
     /**
-     * @var  \RedshopEntityMediaImage
+     * @var  \Redshop\Entity\MediaImage
      *
      * @since  __DEPLOY_VERSION__
      */

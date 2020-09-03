@@ -286,7 +286,7 @@ if (count($this->search) > 0) {
         }
 
         if (strpos($data_add, "{category_name}") !== false) {
-            $category  = RedshopEntityCategory::getInstance($this->search[$i]->cat_in_sefurl)->getItem();
+            $category  = Redshop\Entity\Category::getInstance($this->search[$i]->cat_in_sefurl)->getItem();
             $catItemId = RedshopHelperRouter::getCategoryItemid($category->id);
 
             $title   = " title='" . $category->name . "' ";
@@ -348,7 +348,7 @@ if (count($this->search) > 0) {
             $parentCategoryId = RedshopHelperProduct::getParentCategory($this->search[$i]->category_id);
 
             if ($parentCategoryId != 0) {
-                $parentCategory = RedshopEntityCategory::getInstance($parentCategoryId)->getItem();
+                $parentCategory = Redshop\Entity\Category::getInstance($parentCategoryId)->getItem();
                 $data_add       = str_replace(
                     "{returntoparent_category_name}",
                     $parentCategory->category_name,

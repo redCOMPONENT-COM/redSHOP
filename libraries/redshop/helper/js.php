@@ -45,11 +45,11 @@ class RedshopHelperJs
         }
 
         if ($session->get('product_currency')) {
-            $currencySymbol  = RedshopEntityCurrency::getInstance((int)$session->get('product_currency'))->get('code');
+            $currencySymbol  = Redshop\Entity\Currency::getInstance((int)$session->get('product_currency'))->get('code');
             $currencyConvert = round(RedshopHelperCurrency::convert(1), 2);
         }
 
-        $token = JSession::getFormToken();
+        $token = \JSession::getFormToken();
 
         // Prepare dynamic variables to add them in javascript stack
         $dynamicVars = array(

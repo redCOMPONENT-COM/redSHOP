@@ -1467,7 +1467,7 @@ class RedshopHelperExtrafields
                     $extraFieldValue = "";
 
                     if ($dataValue && $dataValue->data_txt) {
-                        $fieldChk        = RedshopEntityCountry::getInstance($dataValue->data_txt);
+                        $fieldChk        = Redshop\Entity\Country::getInstance($dataValue->data_txt);
                         $extraFieldValue = $fieldChk->get('country_name');
                     }
 

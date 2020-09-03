@@ -77,7 +77,7 @@ class RedshopViewCategories extends RedshopViewList
             return JHtml::_('redshopgrid.slidetext', strip_tags($row->description));
         }
 
-        $row->product = RedshopEntityCategory::getInstance($row->id)->productCount();
+        $row->product = Redshop\Entity\Category::getInstance($row->id)->productCount();
 
         return parent::onRenderColumn($config, $index, $row);
     }

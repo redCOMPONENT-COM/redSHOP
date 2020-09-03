@@ -651,7 +651,7 @@ class RedshopHelperProductPrice
             $currencySymbol  = (int)$productCurrency;
             $currencySymbol  = !$currencySymbol
                 ? $productCurrency
-                : RedshopEntityCurrency::getInstance((int)$productCurrency)->get('code');
+                : Redshop\Entity\Currency::getInstance((int)$productCurrency)->get('code');
         }
 
         if (!is_numeric($productPrice)) {

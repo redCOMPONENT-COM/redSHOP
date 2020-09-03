@@ -135,7 +135,7 @@ trait Categories
         }
 
         foreach ($categories as $categoryId) {
-            $this->categories->add(\RedshopEntityCategory::getInstance($categoryId));
+            $this->categories->add(\Redshop\Entity\Category::getInstance($categoryId));
         }
 
         return $this;

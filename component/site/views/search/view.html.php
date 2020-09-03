@@ -477,7 +477,7 @@ class RedshopViewSearch extends RedshopView
                     $parentCategoryId = RedshopHelperProduct::getParentCategory($this->search[$i]->category_id);
 
                     if ($parentCategoryId != 0) {
-                        $parentCategory = RedshopEntityCategory::getInstance($parentCategoryId)->getItem();
+                        $parentCategory = Redshop\Entity\Category::getInstance($parentCategoryId)->getItem();
                         $data_add       = str_replace(
                             "{returntoparent_category_name}",
                             $parentCategory->category_name,

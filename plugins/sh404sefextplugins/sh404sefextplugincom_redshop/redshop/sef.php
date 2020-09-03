@@ -119,7 +119,7 @@ switch ($view) {
         }
 
         if ($cid) {
-            $url = RedshopEntityCategory::getInstance($cid)->getItem();
+            $url = Redshop\Entity\Category::getInstance($cid)->getItem();
 
             if ($url->sef_url == "") {
                 if (Redshop::getConfig()->get('CATEGORY_TREE_IN_SEF_URL')) {

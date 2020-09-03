@@ -47,11 +47,11 @@ class RedshopHelperCategory
      *
      * @return  mixed
      *
-     * @deprecated  2.0.6  Use RedshopEntityCategory instead
+     * @deprecated  2.0.6  Use Redshop\Entity\Category instead
      */
     public static function getCategoryById($cid)
     {
-        return RedshopEntityCategory::getInstance($cid)->getItem();
+        return Redshop\Entity\Category::getInstance($cid)->getItem();
     }
 
     /**
@@ -434,7 +434,7 @@ class RedshopHelperCategory
      */
     public static function getCategoryProductList($cid, $includeProductsFromSubCat = false)
     {
-        return RedshopEntityCategory::getInstance($cid)->getProducts($includeProductsFromSubCat);
+        return Redshop\Entity\Category::getInstance($cid)->getProducts($includeProductsFromSubCat);
     }
 
     /**

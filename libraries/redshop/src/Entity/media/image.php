@@ -23,7 +23,7 @@ use Imagine\Image\Palette\RGB;
  * @subpackage  Entity
  * @since       2.1.0
  */
-class RedshopEntityMediaImage extends RedshopEntityMedia
+class Redshop\Entity\MediaImage extends Redshop\Entity\Media
 {
     /**
      * Get the associated table

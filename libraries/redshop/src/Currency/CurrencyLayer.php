@@ -9,7 +9,7 @@
 
 namespace Redshop\Currency;
 
-use RedshopEntityCurrency;
+use Redshop\Entity\Currency;
 
 defined('_JEXEC') or die;
 
@@ -82,7 +82,7 @@ class CurrencyLayer
 
 		if (!$targetCurrency)
 		{
-			$targetCurrency = \RedshopEntityCurrency::getInstance((int) $session->get('product_currency'))->get('code');
+			$targetCurrency = \Redshop\Entity\Currency::getInstance((int) $session->get('product_currency'))->get('code');
 
 			// If both currency codes match, do nothing
 			if ($sourceCurrency == $targetCurrency)

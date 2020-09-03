@@ -41,7 +41,7 @@ class RedshopFormFieldVoucher_Product extends JFormFieldList
         $typeField = ', alert:"voucher"';
 
         if ($voucherId) {
-            $products  = RedshopEntityVoucher::getInstance($voucherId)->getProducts();
+            $products  = Redshop\Entity\Voucher::getInstance($voucherId)->getProducts();
             $typeField .= ', voucher_id:' . $voucherId;
 
             if (!$products->isEmpty()) {

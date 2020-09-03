@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $productsFilter = array();
-$productList    = RedshopEntityCategory::getInstance($this->item->id)->getProducts(true);
+$productList    = Redshop\Entity\Category::getInstance($this->item->id)->getProducts(true);
 
 if (!empty($productList)) {
     foreach ($productList as $product) {

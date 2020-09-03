@@ -48,7 +48,7 @@ class RedshopTableNewsletter_Subscription extends RedshopTable
 		$data       = $app->input->post->get('jform', array(), 'array');
 
 		if (empty($data['name'])) {
-			$this->name = \RedshopEntityNewsletter_Subscription::getUserFullName($data['user_id']);
+			$this->name = \Redshop\Entity\NewsletterSubscription::getUserFullName($data['user_id']);
 		}
 
 		return parent::doStore($updateNulls);

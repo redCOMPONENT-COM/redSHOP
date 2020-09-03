@@ -78,7 +78,7 @@ class RedshopModelDiscount_Product extends RedshopModelForm
             return false;
         }
 
-        $item->shopper_group = RedshopEntityDiscount_Product::getInstance($item->discount_product_id)->getShopperGroups(
+        $item->shopper_group = Redshop\Entity\Discount_Product::getInstance($item->discount_product_id)->getShopperGroups(
         )->ids();
         $item->category_ids  = explode(',', $item->category_ids);
 

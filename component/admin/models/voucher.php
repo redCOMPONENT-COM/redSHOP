@@ -92,7 +92,7 @@ class RedshopModelVoucher extends RedshopModelForm
             return false;
         }
 
-        $item->voucher_products = RedshopEntityVoucher::getInstance($item->id)->getProducts()->ids();
+        $item->voucher_products = Redshop\Entity\Voucher::getInstance($item->id)->getProducts()->ids();
         $item->start_date       = $item->start_date != JFactory::getDbo()->getNullDate() ? JFactory::getDate(
             $item->start_date
         )->toUnix() : null;
