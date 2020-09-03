@@ -1364,7 +1364,7 @@ class RedshopHelperOrder
             return null;
         }
 
-        return Redshop\Entity\Order_Item::getInstance($orderItemId)->getAccessoryItems()->toObjects();
+        return Redshop\Entity\OrderItem::getInstance($orderItemId)->getAccessoryItems()->toObjects();
     }
 
     /**

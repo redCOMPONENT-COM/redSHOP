@@ -34,6 +34,7 @@ class RImage extends \Redshop\Entity\Media
      *
      * @return  \RedshopTable
      * @throws  Exception
+     * @since   __DEPLOY_VERSION__
      */
     public function getTable($name = null)
     {
@@ -44,6 +45,7 @@ class RImage extends \Redshop\Entity\Media
      * Method get image path
      *
      * @return string
+     * @since   __DEPLOY_VERSION__
      */
     public function getAbsImagePath()
     {
@@ -66,7 +68,7 @@ class RImage extends \Redshop\Entity\Media
      * @return  array             List of relative and absolute path
      * @throws  Exception
      *
-     * @since   2.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function generateThumb($width, $height, $crop = false, $force = false)
     {
@@ -134,6 +136,7 @@ class RImage extends \Redshop\Entity\Media
      * Method get image path
      *
      * @return string
+     * @since   __DEPLOY_VERSION__
      */
     public function getImagePath()
     {
