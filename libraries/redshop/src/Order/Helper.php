@@ -351,4 +351,20 @@ class Helper
 
         return $result;
     }
+
+    /**
+     * @param $data
+     */
+    public static function copyProductUserField(&$data)
+    {
+        $userFields = \RedshopHelperOrder::getOrderUserFieldData(
+            $data['order_item_id'],
+            \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD
+        );
+
+        foreach ($userFields as $field)
+        {
+            $data[$field->name] = $field->data_txt;
+        }
+    }
 }
