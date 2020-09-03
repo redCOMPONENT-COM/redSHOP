@@ -294,7 +294,7 @@ abstract class Base extends BaseObject
      */
     public function canDo($action)
     {
-        $user = JFactory::getUser();
+        $user = \Joomla\CMS\Factory::getUser();
 
         return $user->authorise($action, $this->getAssetName());
     }
@@ -427,7 +427,7 @@ abstract class Base extends BaseObject
     /**
      * Load the item already loaded in a table
      *
-     * @param   RedshopTable|JTable  $table  Table with the item loaded
+     * @param   \RedshopTable|\JTable|bool  $table  Table with the item loaded
      *
      * @return  self
      * @since   __DEPLOY_VERSION__
@@ -581,7 +581,7 @@ abstract class Base extends BaseObject
      */
     public function getAddLinkWithReturn($itemId = 'inherit', $routed = true, $xhtml = true)
     {
-        $url = $this->getAddLink($itemId, false, false) . '&return=' . base64_encode(JUri::getInstance()->toString());
+        $url = $this->getAddLink($itemId, false, false) . '&return=' . base64_encode(\JUri::getInstance()->toString());
 
         return $this->formatUrl($url, $routed, $xhtml);
     }
@@ -649,7 +649,7 @@ abstract class Base extends BaseObject
             return $url;
         }
 
-        return JRoute::_($url, $xhtml);
+        return \Redshop\IO\Route::_($url, $xhtml);
     }
 
     /**
@@ -671,10 +671,10 @@ abstract class Base extends BaseObject
         }
 
         if ($format && $translateFormat) {
-            $format = JText::_($format);
+            $format = \JText::_($format);
         }
 
-        return JHtml::_('date', $item->{$itemProperty}, $format);
+        return \JHtml::_('date', $item->{$itemProperty}, $format);
     }
 
     /**
@@ -716,7 +716,7 @@ abstract class Base extends BaseObject
             return null;
         }
 
-        $urlToken = '&' . JSession::getFormToken() . '=1';
+        $urlToken = '&' . \JSession::getFormToken() . '=1';
 
         $url = $this->getBaseUrl() . '&task=' . $this->getInstanceName()
             . '.delete&id=' . $this->getSlug() . $urlToken . $this->getLinkItemIdString($itemId);
@@ -864,28 +864,28 @@ abstract class Base extends BaseObject
         }
 
         if (!$item) {
-            JLog::add("Nothing to save", JLog::ERROR, 'entity');
+            \JLog::add("Nothing to save", JLog::ERROR, 'entity');
 
             return false;
         }
 
         try {
             $table = $this->getTable();
-        } catch (Exception $exception) {
-            JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
+        } catch (\Exception $exception) {
+            \JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", \JLog::ERROR, 'entity');
 
             return false;
         }
 
         if (!$table->save((array)$item)) {
-            JLog::add($table->getError(), JLog::ERROR, 'entity');
+            \JLog::add($table->getError(), \JLog::ERROR, 'entity');
 
             return false;
         }
 
         // Force entity reload / save to cache
         static::clearInstance($this->id);
-        static::loadFromTable($table);
+        $this->loadFromTable($table);
 
         $this->processAfterSaving($table);
 
@@ -968,11 +968,11 @@ abstract class Base extends BaseObject
     /**
      * Local proxy for JFactory::getDbo()
      *
-     * @return  JDatabaseDriver
+     * @return  \JDatabaseDriver
      * @since   __DEPLOY_VERSION__
      */
     protected function getDbo()
     {
-        return JFactory::getDbo();
+        return \Joomla\CMS\Factory::getDbo();
     }
 }

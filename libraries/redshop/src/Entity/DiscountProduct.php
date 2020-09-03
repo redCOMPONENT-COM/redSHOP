@@ -117,7 +117,7 @@ class DiscountProduct extends Entity
         $categoryIds = explode(',', $this->get('category_ids'));
 
         foreach ($categoryIds as $categoryId) {
-            $this->categories->add(\Redshop\Entity\Category::getInstance($categoryId));
+            $this->categories->add(\Redshop\Entity\Category::getInstance((int) $categoryId));
         }
 
         return $this;
