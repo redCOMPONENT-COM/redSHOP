@@ -369,7 +369,7 @@ abstract class Base extends BaseObject
             return false;
         }
 
-        $user = JFactory::getUser();
+        $user = \Joomla\CMS\Factory::getUser();
 
         if ($user->get('guest')) {
             return false;
@@ -694,7 +694,7 @@ abstract class Base extends BaseObject
         }
 
         $url = $this->getDeleteLink($itemId, false, false) . '&return=' . base64_encode(
-                JUri::getInstance()->toString()
+                \JUri::getInstance()->toString()
             );
 
         return $this->formatUrl($url, $routed, $xhtml);
@@ -864,7 +864,7 @@ abstract class Base extends BaseObject
         }
 
         if (!$item) {
-            \JLog::add("Nothing to save", JLog::ERROR, 'entity');
+            \JLog::add("Nothing to save", \JLog::ERROR, 'entity');
 
             return false;
         }
@@ -923,7 +923,7 @@ abstract class Base extends BaseObject
     /**
      * Process data after saving.
      *
-     * @param   JTable  $table  JTable instance data.
+     * @param   \JTable  $table  JTable instance data.
      *
      * @return  boolean
      * @since   __DEPLOY_VERSION__

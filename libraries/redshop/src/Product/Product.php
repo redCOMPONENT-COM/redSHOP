@@ -172,10 +172,10 @@ class Product
                 $query->where($db->qn('p.product_id') . ' = ' . (int)$productId);
 
                 $db->setQuery($query);
-                static::$products[$key] = \Redshop\DB\Tool::safeSelect($db, $query);
+                static::$products[$key] = \Redshop\DB\Tool::safeSelect($db, $query, false, null);
             }
 
-            if ($setRelated === true && static::$products[$key]) {
+            if ($setRelated === true && !empty(static::$products[$key])) {
                 self::setProductRelates(array($key => static::$products[$key]), $userId);
             }
         }

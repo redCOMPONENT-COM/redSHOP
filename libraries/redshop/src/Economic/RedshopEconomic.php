@@ -1642,7 +1642,7 @@ class RedshopEconomic
 
 					$paymentInfo = \RedshopHelperOrder::getPaymentInfo($order->order_id);
 
-					if ($paymentInfo)
+					if (!empty($paymentInfo->payment_method_class))
 					{
 						$paymentMethod = \RedshopHelperOrder::getPaymentMethodInfo($paymentInfo->payment_method_class);
 
