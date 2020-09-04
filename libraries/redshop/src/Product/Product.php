@@ -150,8 +150,6 @@ class Product
      */
     public static function getProductById($productId, $userId = 0, $setRelated = true)
     {
-       // return \Redshop\Entity\Product::getInstance($productId)->getItem();
-
        if (!$userId) {
             $user   = \Joomla\CMS\Factory::getUser();
             $userId = $user->id;
