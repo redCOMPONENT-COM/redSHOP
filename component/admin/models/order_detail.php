@@ -22,7 +22,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
     public $_copydata = null;
 
-    private $_dispatcher = null;
+    public $_dispatcher = null;
 
     public function __construct()
     {
@@ -848,7 +848,7 @@ class RedshopModelOrder_detail extends RedshopModel
             $orderData->special_discount_amount = 0;
         }
 
-        if ($data['special_discount'] == $orderData->special_discount && $chk != true) {
+        if ($data['special_discount'] == $orderData->special_discount && $chk !== true) {
             return false;
         }
 
