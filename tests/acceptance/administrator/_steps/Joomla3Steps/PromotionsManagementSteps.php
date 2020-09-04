@@ -28,7 +28,7 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 		$I->click(PromotionsPage::$buttonNew);
 		$I->waitForText(PromotionsPage::$titlePageNew, 30, PromotionsPage::$h1);
 
-		if(isset($promotion['promotionType']))
+		if (isset($promotion['promotionType']))
 		{
 			$I->waitForElementVisible(PromotionsPage::$selectPromotionType, 30);
 			$I->click(PromotionsPage::$selectPromotionType);
@@ -36,7 +36,7 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 			$I->fillField(PromotionsPage::$searchPromotionType, $promotion['promotionType']);
 			$I->pressKey(PromotionsPage::$searchPromotionType, \Facebook\WebDriver\WebDriverKeys::ENTER);
 
-			if($promotion['promotionType'] == 'Amount Product')
+			if ($promotion['promotionType'] == 'Amount Product')
 			{
 				$I->waitForElementVisible(PromotionsPage::$selectManufacturer, 30);
 				$I->click(PromotionsPage::$selectManufacturer);
@@ -62,7 +62,7 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 				$I->waitForElementVisible(PromotionsPage::$inputToDate, 30);
 				$I->fillField(PromotionsPage::$inputToDate, $promotion['toDate']);
 
-				if(isset($promotion['productAward']))
+				if (isset($promotion['productAward']))
 				{
 					$I->waitForElementVisible(PromotionsPage::$selectProductAwards, 30);
 					$I->click(PromotionsPage::$selectProductAwards);
@@ -70,13 +70,13 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 					$I->fillField(PromotionsPage::$searchProductAwards, $promotion['productAward']);
 					$I->pressKey(PromotionsPage::$searchProductAwards, \Facebook\WebDriver\WebDriverKeys::ENTER);
 
-					if(isset($promotion['awardAmount']))
+					if (isset($promotion['awardAmount']))
 					{
 						$I->waitForElementVisible(PromotionsPage::$inputAwardAmount, 30);
 						$I->fillField(PromotionsPage::$inputAwardAmount, $promotion['awardAmount']);
 					}
 
-					if(isset($promotion['freeShipping']))
+					if (isset($promotion['freeShipping']))
 					{
 						$I->waitForElementVisible(PromotionsPage::$selectFreeShipping, 30);
 						$I->click(PromotionsPage::$selectFreeShipping);
@@ -85,7 +85,8 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 						$I->pressKey(PromotionsPage::$searchFreeShipping, \Facebook\WebDriver\WebDriverKeys::ENTER);
 					}
 				}
-			}else
+			}
+			else
 			{
 				$I->waitForElementVisible(PromotionsPage::$inputOrderVolume, 30);
 				$I->fillField(PromotionsPage::$inputOrderVolume, $promotion['orderVolume']);
@@ -96,7 +97,7 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 				$I->waitForElementVisible(PromotionsPage::$inputToDate, 30);
 				$I->fillField(PromotionsPage::$inputToDate, $promotion['toDate']);
 
-				if(isset($promotion['productAward']))
+				if (isset($promotion['productAward']))
 				{
 					$I->waitForElementVisible(PromotionsPage::$selectProductAwards, 30);
 					$I->click(PromotionsPage::$selectProductAwards);
@@ -104,13 +105,13 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 					$I->fillField(PromotionsPage::$searchProductAwards2, $promotion['productAward']);
 					$I->pressKey(PromotionsPage::$searchProductAwards2, \Facebook\WebDriver\WebDriverKeys::ENTER);
 
-					if(isset($promotion['awardAmount']))
+					if (isset($promotion['awardAmount']))
 					{
 						$I->waitForElementVisible(PromotionsPage::$inputAwardAmount, 30);
 						$I->fillField(PromotionsPage::$inputAwardAmount, $promotion['awardAmount']);
 					}
 
-					if(isset($promotion['freeShipping']))
+					if (isset($promotion['freeShipping']))
 					{
 						$I->waitForElementVisible(PromotionsPage::$selectFreeShipping, 30);
 						$I->click(PromotionsPage::$selectFreeShipping);
@@ -125,11 +126,12 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 		$I->waitForElementVisible(PromotionsPage::$idFieldName, 30);
 		$I->fillField(PromotionsPage::$idFieldName, $promotion['name']);
 
-		if(isset($promotion['desc']))
+		if (isset($promotion['desc']))
 		{
 			$I->waitForElementVisible(PromotionsPage::$textareDescription, 30);
 			$I->fillField(PromotionsPage::$textareDescription, $promotion['desc']);
 		}
+
 		Switch ($function)
 		{
 			case ('Save'):
@@ -174,21 +176,22 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 		$currencyUnit = $I->getCurrencyValue();
 		$I->doFrontEndLogin($customerInformation['userName'], $customerInformation['password']);
 
-		if($promotion['promotionType'] == 'Amount Product')
+		if ($promotion['promotionType'] == 'Amount Product')
 		{
 			$I->amOnPage(CheckoutChangeQuantityProductPage::$url);
 			$I->click($promotion['category']);
 			$I->waitForElementVisible(["link" => $promotion['product']], 30);
 			$I->click(["link" => $promotion['product']]);
 
-			for( $a= 0; $a < $promotion['conditionAmount']; $a++)
+			for ( $a= 0; $a < $promotion['conditionAmount']; $a++)
 			{
 				$I->waitForElementVisible(AdminJ3Page::$addToCart, 30);
 				$I->seeElement(AdminJ3Page:: $addToCart);
 				$I->click(AdminJ3Page:: $addToCart);
 				$I->waitForText(AdminJ3Page::$alertSuccessMessage, 120, FrontEndProductManagerJoomla3Page::$selectorSuccess);
 			}
-		}else
+		}
+		else
 		{
 			$I->addToCart($promotion['category'], $promotion['product']);
 		}
@@ -212,13 +215,14 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 
-		if($promotion['freeShipping'] == 'No')
+		if ($promotion['freeShipping'] == 'No')
 		{
 			$priceRate = $currencyUnit['currencySymbol'].($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 			$I->waitForText($priceRate, 30);
 			$I->see($priceRate);
 			$I->doFrontendLogout();
-		}else
+		}
+		else
 		{
 			$priceRate = $currencyUnit['currencySymbol'].(0).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 			$I->waitForText($priceRate, 30);
@@ -238,13 +242,14 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 		$I = $this;
 		$I->doFrontEndLogin($customerInformation['userName'], $customerInformation['password']);
 
-		if($promotion['promotionType'] == 'Amount Product')
+		if ($promotion['promotionType'] == 'Amount Product')
 		{
-			for( $a= 0; $a < $promotion['conditionAmount']; $a++)
+			for ( $a= 0; $a < $promotion['conditionAmount']; $a++)
 			{
 				$I->addToCartAjax($promotion['category'], $promotion['product'], 'no', 'no');
 			}
-		}else
+		}
+		else
 		{
 			$I->addToCartAjax($promotion['category'], $promotion['product'], 'no', 'yes');
 		}
