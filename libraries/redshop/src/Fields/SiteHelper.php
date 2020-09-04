@@ -367,17 +367,14 @@ class SiteHelper
                         break;
 
                     case \RedshopHelperExtrafields::TYPE_SELECT_BOX_SINGLE:
-
                         $fieldCheck = \RedshopEntityField::getInstance($data->id)->getFieldValues();
-                        $checkData  = explode(",", $cart[$idx][$data->name]);
-
                         $exField  .= \RedshopLayoutHelper::render(
                             'extrafields.userfield.select',
                             array(
                                 'rowData'    => $data,
                                 'required'   => $req,
                                 'fieldCheck' => $fieldCheck,
-                                'checkData'  => $checkData,
+                                'checkData'  => isset($cart[$idx][$data->name]) ? explode(",", $cart[$idx][$data->name]) : [],
                                 'uniqueId'   => $uniqueId
                             )
                         );
@@ -423,14 +420,12 @@ class SiteHelper
 
                     case \RedshopHelperExtrafields::TYPE_IMAGE_SELECT:
                         $fieldChk = \RedshopEntityField::getInstance($data->id)->getFieldValues();
-                        $chkData  = explode(",", $cart[$idx][$data->name]);
                         $exField  .= \RedshopLayoutHelper::render(
                             'extrafields.userfield.image',
                             array(
                                 'rowData'    => $data,
                                 'required'   => $req,
                                 'fieldCheck' => $fieldChk,
-                                'checkData'  => $chkData,
                                 'uniqueId'   => $uniqueId,
                                 'isAtt'      => $isAtt
                             )
@@ -519,8 +514,8 @@ class SiteHelper
                                     if ($aMainSplitDateExtra != "") {
                                         $exField .= '<option value="' . date(
                                                 "d-m-Y",
-                                                $aMainSplitDateExtra
-                                            ) . '"  >' . date("d-m-Y", $aMainSplitDateExtra) . '</option>';
+                                                (int) $aMainSplitDateExtra
+                                            ) . '"  >' . date("d-m-Y", (int) $aMainSplitDateExtra) . '</option>';
                                     }
                                 }
 
@@ -537,8 +532,7 @@ class SiteHelper
                         $data->name,
                         'tooltip.png',
                         '',
-                        '',
-                        false
+                        ''
                     ) . '</div>';
             }
         }
