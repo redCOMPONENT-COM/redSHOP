@@ -256,11 +256,6 @@ class PromotionsManagementCest
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->customerInformation['userName'], $this->customerInformation['password'], $this->customerInformation['email'], $this->customerInformation['group'],
 			$this->customerInformation['shopperGroup'], $this->customerInformation['firstName'], $this->customerInformation['lastName'], 'saveclose');
-
-		$I = new PromotionsManagementSteps($scenario);
-		$I->wantTo('Create promotion');
-		$I->createPromotion($this->promotion1, "Save & Close");
-		$I->createPromotion($this->promotion2, "Save & Close");
 	}
 
 	/**
@@ -270,6 +265,9 @@ class PromotionsManagementCest
 	 */
 	public function checkoutPromotionWithShipping(PromotionsManagementSteps $I)
 	{
+		$I->wantTo('Create promotion');
+		$I->createPromotion($this->promotion1, "Save & Close");
+		$I->createPromotion($this->promotion2, "Save & Close");
 		$I->wantTo('Checkout promotion with shipping');
 		$I->checkoutPromotionWithShipping($this->promotion1, $this->shipping, $this->customerInformation);
 		$I->checkoutPromotionWithShipping($this->promotion2, $this->shipping, $this->customerInformation);

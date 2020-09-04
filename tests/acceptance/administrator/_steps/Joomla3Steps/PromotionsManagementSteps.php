@@ -183,7 +183,7 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 			$I->waitForElementVisible(["link" => $promotion['product']], 30);
 			$I->click(["link" => $promotion['product']]);
 
-			for ( $a= 0; $a < $promotion['conditionAmount']; $a++)
+			for ($a= 0; $a < $promotion['conditionAmount']; $a++)
 			{
 				$I->waitForElementVisible(AdminJ3Page::$addToCart, 30);
 				$I->seeElement(AdminJ3Page:: $addToCart);
