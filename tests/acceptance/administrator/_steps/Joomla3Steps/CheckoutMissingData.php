@@ -269,7 +269,6 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-				$I->seeElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, $productFrontEndManagerPage->locatorMessagePrivate("email1"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, $productFrontEndManagerPage->locatorMessagePrivate("firstname"));
