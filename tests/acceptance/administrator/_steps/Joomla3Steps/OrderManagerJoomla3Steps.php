@@ -409,7 +409,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 		$I->seeElement($userOrderPage->returnXpathAttributeName($product['attributeName']));
 		$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
-		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$I->waitForJs('return document.readyState == "complete"', 10);
 
 		switch ($function)
 		{
@@ -418,6 +418,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$priceVATAttribute = ($product['priceProduct'] + $product['priceSize']) * $vatValue;
 
 				$priceProductTotal = $priceVATAttribute + ($product['priceProduct'] + $product['priceSize']);
+
+				$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
 
 				$I->waitForElement(OrderManagerPage::$priceVAT, 30);
 				$vatProduct = $I->grabTextFrom(OrderManagerPage::$priceVAT);
@@ -451,6 +453,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 			case 'NotVAT':
 			{
+				$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
 				$priceProductTotal = $product['priceProduct'] + $product['priceSize'];
 				$vatProduct = $I->grabTextFrom(OrderManagerPage::$priceVAT);
 				$priceProductString = $currencyUnit['currencySymbol'].' '.$priceProductTotal.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
