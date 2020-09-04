@@ -81,14 +81,15 @@ class CheckoutWithAjaxCart extends CheckoutMissingData
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-		$I->wait(0.5);
+		$I->wait(0.2);
 		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
-		$I->wait(0.5);
+		$I->wait(0.2);
 		$I->click(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->wait(0.2);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page:: $h1);
 	}
 }
