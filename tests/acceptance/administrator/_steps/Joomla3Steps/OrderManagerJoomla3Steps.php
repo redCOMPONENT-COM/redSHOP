@@ -419,7 +419,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 				$priceProductTotal = $priceVATAttribute + ($product['priceProduct'] + $product['priceSize']);
 
-				$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
+				$I->waitForElementVisible($userOrderPage->returnPropertyName($product['size']), 30);
 
 				$I->waitForElement(OrderManagerPage::$priceVAT, 30);
 				$vatProduct = $I->grabTextFrom(OrderManagerPage::$priceVAT);
@@ -453,7 +453,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 			case 'NotVAT':
 			{
-				$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
+				$I->waitForElementVisible($userOrderPage->returnPropertyName($product['size']), 30);
 				$priceProductTotal = $product['priceProduct'] + $product['priceSize'];
 				$vatProduct = $I->grabTextFrom(OrderManagerPage::$priceVAT);
 				$priceProductString = $currencyUnit['currencySymbol'].' '.$priceProductTotal.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
