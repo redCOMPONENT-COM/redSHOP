@@ -120,7 +120,7 @@ $action = 'index.php?option=com_redshop&view=product&layout=element&tmpl=compone
             <?php foreach ($this->products as $i => $product): ?>
                 <?php
                 $product->id = $product->product_id;
-                $link        = JRoute::_(
+                $link        = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $product->product_id
                 );
 

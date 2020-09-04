@@ -869,6 +869,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->fillField($usePage->attributeNameAttribute($position, $x), $attribute["attributeName"]);
 			$I->waitForElement($usePage->attributePricePropertyAttribute($position, $x), 30);
 			$I->fillField($usePage->attributePricePropertyAttribute($position, $x), $attribute["attributePrice"]);
+			$I->executeJS('window.scrollTo(0,0)');
 			$I->click("+ Add Attribute value");
 		}
 

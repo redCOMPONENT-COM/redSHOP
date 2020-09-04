@@ -304,7 +304,7 @@ class RedshopControllerCategory extends RedshopController
             $xmlHelper = new xmlHelper;
             $xmlHelper->writeXMLExportFile($exportId);
             $row  = $xmlHelper->getXMLExportInfo($exportId);
-            $link = JRoute::_(
+            $link = Redshop\IO\Route::_(
                 JURI::root(
                 ) . 'index.php?option=com_redshop&view=category&tmpl=component&task=download&file=' . $row->filename
             );

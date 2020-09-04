@@ -715,15 +715,15 @@ class RedshopHelperMedia
     /**
      *  Generate thumb image with watermark
      *
-     * @param   string   $section          Image section
-     * @param   string   $imageName        Image name
-     * @param   string   $thumbWidth       Thumb width
-     * @param   string   $thumbHeight      Thumb height
-     * @param   integer  $enableWatermark  Enable watermark
+     * @param string $section         Image section
+     * @param string $imageName       Image name
+     * @param string $thumbWidth      Thumb width
+     * @param string $thumbHeight     Thumb height
+     * @param int    $enableWatermark Enable watermark
+     * @param int    $sectionId
      *
      * @return  string
-     * @throws  Exception
-     *
+     * @throws \Exception
      * @since   2.0.6
      */
     public static function watermark(
@@ -731,20 +731,23 @@ class RedshopHelperMedia
         $imageName = '',
         $thumbWidth = '',
         $thumbHeight = '',
-        $enableWatermark = -1
+        $enableWatermark = -1,
+        $sectionId = 0
     ) {
         if ($enableWatermark == -1) {
             $enableWatermark = Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE');
         }
 
-        $pathMainImage = $section . '/' . $imageName;
+        $pathImage = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $imageName;
+
+        if (in_array($section, array('manufacturer', 'category'))) {
+            $pathImage = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/' . $imageName;
+        }
 
         try {
             // If main image not exists - display noimage
-            if (!JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage)) {
-                $pathMainImage = 'noimage.jpg';
-
-                throw new Exception;
+            if (!JFile::exists($pathImage)) {
+                return REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
             }
 
             // If watermark not exists or disable - display simple thumb
@@ -761,7 +764,7 @@ class RedshopHelperMedia
                 || ((int)$thumbWidth != 0 && (int)$thumbHeight == 0)
                 || ((int)$thumbWidth == 0 && (int)$thumbHeight != 0)
             ) {
-                list($thumbWidth, $thumbHeight) = getimagesize(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage);
+                list($thumbWidth, $thumbHeight) = getimagesize($pathImage);
             }
 
             $imageNameWithPrefix = JFile::stripExt(
@@ -773,7 +776,15 @@ class RedshopHelperMedia
 
             $destinationFile = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/thumb/' . $imageNameWithPrefix;
 
+            if (in_array($section, array('manufacturer', 'category'))) {
+                $destinationFile = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/thumb/' . $imageName;
+            }
+
             if (JFile::exists($destinationFile)) {
+                if (in_array($section, array('manufacturer', 'category'))) {
+                    return REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/' . $imageName;
+                }
+
                 return REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $imageNameWithPrefix;
             }
 
@@ -795,7 +806,7 @@ class RedshopHelperMedia
 
             ob_start();
             self::resizeImage(
-                REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage,
+                $pathImage,
                 $thumbWidth,
                 $thumbHeight,
                 Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'),
@@ -817,17 +828,19 @@ class RedshopHelperMedia
                     list($width, $height) = getimagesize($destinationFile);
                     list($watermarkWidth, $watermarkHeight) = getimagesize($watermark);
 
-                    imagecopymerge(
-                        $dest,
-                        $src,
-                        ($width - $watermarkWidth) >> 1,
-                        ($height - $watermarkHeight) >> 1,
-                        0,
-                        0,
-                        $watermarkWidth,
-                        $watermarkHeight,
-                        50
-                    );
+                    if (is_resource($dest) && is_resource($src)) {
+                        imagecopymerge(
+                            $dest,
+                            $src,
+                            ($width - $watermarkWidth) >> 1,
+                            ($height - $watermarkHeight) >> 1,
+                            0,
+                            0,
+                            $watermarkWidth,
+                            $watermarkHeight,
+                            50
+                        );
+                    }
 
                     imagejpeg($dest, $destinationFile);
 
@@ -902,10 +915,22 @@ class RedshopHelperMedia
                 JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
             }
 
+
+            $pathMainImage = $section . '/' . $imageName;
+
             $fileName = REDSHOP_FRONT_IMAGES_ABSPATH . $pathMainImage;
 
+            if (in_array($section, array('manufacturer', 'category'))) {
+                $fileName = REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/' . $imageName;
+            }
+
             if ((int)$thumbWidth != 0 || (int)$thumbHeight != 0) {
-                $filePath = JPATH_SITE . '/components/com_redshop/assets/images/' . $pathMainImage;
+                $filePath = REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage;
+
+                if (in_array($section, array('manufacturer', 'category'))) {
+                    $filePath = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/' . $imageName;
+                }
+
                 $fileName = self::generateImages(
                     $filePath,
                     '',
@@ -914,8 +939,13 @@ class RedshopHelperMedia
                     'thumb',
                     Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
                 );
+
                 $fileInfo = pathinfo($fileName);
                 $fileName = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $fileInfo['basename'];
+
+                if (in_array($section, array('manufacturer', 'category'))) {
+                    $fileName = REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/' . $fileInfo['basename'];;
+                }
             }
 
             return $fileName;

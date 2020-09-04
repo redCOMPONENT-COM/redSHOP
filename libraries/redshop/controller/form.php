@@ -282,10 +282,10 @@ class RedshopControllerForm extends JControllerForm
         if ($returnUrl) {
             $returnUrl = base64_decode($returnUrl);
 
-            return JRoute::_($returnUrl . $append, false);
+            return Redshop\IO\Route::_($returnUrl . $append, false);
         }
 
-        return JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $append, false);
+        return Redshop\IO\Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $append, false);
     }
 
     /**
@@ -315,7 +315,7 @@ class RedshopControllerForm extends JControllerForm
      */
     protected function getRedirectToItemRoute($append = null)
     {
-        return JRoute::_(
+        return Redshop\IO\Route::_(
             'index.php?option=' . $this->option . '&view=' . $this->view_item
             . $append,
             false

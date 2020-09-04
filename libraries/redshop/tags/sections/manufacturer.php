@@ -133,10 +133,10 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
             $mhThumb = Redshop::getConfig()->getInt('MANUFACTURER_THUMB_HEIGHT');
             $mwThumb = Redshop::getConfig()->getInt('MANUFACTURER_THUMB_WIDTH');
 
-            $link        = JRoute::_(
+            $link        = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $data->id . '&Itemid=' . $itemId
             );
-            $manProducts = JRoute::_(
+            $manProducts = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $data->id . '&Itemid=' . $itemId
             );
 
@@ -186,7 +186,8 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
                             $media->get('media_name'),
                             $mwThumb,
                             $mhThumb,
-                            Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE')
+                            Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'),
+                            $data->id
                         );
                     } else {
                         $manufacturerImg = RedshopHelperMedia::getImagePath(

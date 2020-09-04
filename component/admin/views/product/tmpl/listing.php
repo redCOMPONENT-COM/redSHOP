@@ -134,7 +134,7 @@ $model = $this->getModel('product');
                         <?php echo JHTML::_('grid.id', $i, $row->product_id) ?>
                     </td>
                     <td>
-                        <a href="<?php echo JRoute::_(
+                        <a href="<?php echo Redshop\IO\Route::_(
                             'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id
                         ) ?>"
                            title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT') ?>">

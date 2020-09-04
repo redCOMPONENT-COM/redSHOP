@@ -591,7 +591,7 @@ class RedshopControllerProduct extends RedshopController
         $Itemid = $this->input->getInt('Itemid', 0);
 
         $this->setRedirect(
-            JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid, false),
+            Redshop\IO\Route::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid, false),
             JText::_('COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY')
         );
     }
@@ -860,6 +860,8 @@ class RedshopControllerProduct extends RedshopController
         } else {
             echo '<li class="error">' . JText::_('COM_REDSHOP_NO_FILE_SELECTED') . '</li>';
         }
+
+        JFactory::getApplication()->close();
     }
 
     /**
@@ -954,7 +956,7 @@ class RedshopControllerProduct extends RedshopController
             $pItemid = $ItemData->id;
         }
 
-        $link = JRoute::_(
+        $link = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=product&pid=' . $pid . '&cid=' . $cid . '&Itemid=' . $pItemid,
             false
         );
@@ -979,7 +981,7 @@ class RedshopControllerProduct extends RedshopController
         }
 
         $this->setRedirect(
-            JRoute::_(
+            Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=product&pid=' . $pid . '&cid=' . $cid . '&Itemid=' . $pItemid,
                 false
             )

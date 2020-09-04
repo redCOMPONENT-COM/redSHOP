@@ -51,7 +51,7 @@ $end   = $this->pagination->limit;
                 }
                 $secinfo = $model->getSectionDetail($row->section, $row->section_id);
                 if (count($secinfo) > 0) {
-                    $link        = JRoute::_(
+                    $link        = Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=' . $row->section . '_detail&task=edit&cid[]=' . $secinfo->id
                     );
                     $sectionname = "<a href='" . $link . "'>" . $row->section . " :: " . $secinfo->sname . "</a>";

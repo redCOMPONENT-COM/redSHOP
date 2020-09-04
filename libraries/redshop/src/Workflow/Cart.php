@@ -26,14 +26,16 @@ class Cart extends BaseWorkflow
      */
     public static function add()
     {
-        $post = \Joomla\CMS\Factory::getApplication()->input->post->getArray();
-        \Redshop\Cart\Helper::checkCondition(__FUNCTION__);
-        $result = \Redshop\Cart\Cart::add(\Joomla\CMS\Factory::getApplication()->input->post->getArray());
-        \Redshop\Cart\Helper::addToCartErrorHandler($result);
-        \Redshop\Workflow\Accessory::prepareAccessoryCart();
-        \Redshop\Cart\Helper::setUserDocumentToSession();
-        \Redshop\Workflow\Promotion::apply();
-        \Redshop\Cart\Helper::routingAfterAddToCart();
+        if (\Redshop\Cart\Helper::checkCondition(__FUNCTION__)) {
+            $result = \Redshop\Cart\Cart::add(\Redshop\IO\Input::getArray('post'));
+            \Redshop\Cart\Helper::addToCartErrorHandler($result);
+            \Redshop\Workflow\Accessory::prepareAccessoryCart();
+            \Redshop\Cart\Helper::setUserDocumentToSession();
+            \Redshop\Workflow\Promotion::apply();
+            \Redshop\Cart\Ajax::renderModuleCartHtml();
+            \Redshop\Cart\Helper::routingAfterAddToCart();
+        }
+
     }
 
     /**
@@ -55,8 +57,10 @@ class Cart extends BaseWorkflow
 
         // Call update method of model to update product info of cart
         \Redshop\Cart\Helper::updateCart($post);
-        \Redshop\Cart\Ajax::renderModuleCartHtml();
+        //\Redshop\Cart\Ajax::renderModuleCartHtml();
+        \RedshopHelperDiscount::modifyDiscount();
         \Redshop\Workflow\Promotion::apply();
+        \Redshop\Cart\Render::moduleCart();
         \RedshopHelperCart::addCartToDatabase();
 
         if ($ajax) {
@@ -67,7 +71,7 @@ class Cart extends BaseWorkflow
             $app->close();
         }
 
-        $link = \JRoute::_(
+        $link = \Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=cart&Itemid=' . \RedshopHelperRouter::getCartItemId(),
             false
         );
@@ -88,7 +92,7 @@ class Cart extends BaseWorkflow
         \RedshopHelperCart::ajaxRenderModuleCartHtml();
         \RedshopHelperCart::addCartToDatabase();
 
-        $link = \JRoute::_(
+        $link = \Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=cart&Itemid=' . \RedshopHelperRouter::getCartItemId(),
             false
         );
@@ -111,7 +115,7 @@ class Cart extends BaseWorkflow
         \Redshop\Workflow\Promotion::apply();
         \RedshopHelperCart::addCartToDatabase();
 
-        $link = \JRoute::_(
+        $link = \Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=cart&Itemid=' . \RedshopHelperRouter::getCartItemId(),
             false
         );
@@ -139,7 +143,7 @@ class Cart extends BaseWorkflow
             echo $cartObject->cartHtml? $cartObject->cartHtml: '';
             $app->close();
         } else {
-            $link = \JRoute::_(
+            $link = \Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=cart&Itemid=' . \RedshopHelperRouter::getCartItemId(),
                 false
             );
@@ -179,7 +183,7 @@ class Cart extends BaseWorkflow
 
         \Redshop\Cart\Helper::redMassCart($post);
 
-        $link = \JRoute::_('index.php?option=com_redshop&view=cart&Itemid='
+        $link = \Redshop\IO\Route::_('index.php?option=com_redshop&view=cart&Itemid='
             . $app->input->getInt('Itemid'), false);
         $app->redirect($link);
     }

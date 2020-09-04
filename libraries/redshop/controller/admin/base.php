@@ -160,10 +160,10 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
         $returnUrl = (string)$this->input->get('return', '', 'Base64');
 
         if ($returnUrl) {
-            return JRoute::_(base64_decode($returnUrl) . $append, false);
+            return Redshop\IO\Route::_(base64_decode($returnUrl) . $append, false);
         }
 
-        return JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $append, false);
+        return Redshop\IO\Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $append, false);
     }
 
     /**

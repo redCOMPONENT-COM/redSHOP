@@ -191,7 +191,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
             $tmpItemId = $this->itemId;
         }
 
-        $link       = JRoute::_(
+        $link       = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=category&cid=' . $category->id . '&layout=detail&Itemid=' . $tmpItemId
         );
         $middlePath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
@@ -513,7 +513,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
 
         $template            = RedshopHelperTax::replaceVatInformation($template);
         $this->data['catId'] = isset($catId) ? $catId : '';
-        $link                = JRoute::_(
+        $link                = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=product&pid=' .
             $productId . '&cid=' . $this->data['catId'] . '&Itemid=' . $pItemid
         );
@@ -597,7 +597,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
             $replaceProductItemData['{manufacturer_link}'] = RedshopLayoutHelper::render(
                 'tags.common.link',
                 [
-                    'link'    => JRoute::_(
+                    'link'    => Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' .
                         $product->manufacturer_id . '&Itemid=' . $this->itemId
                     ),
@@ -618,7 +618,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
             $replaceProductItemData['{manufacturer_product_link}'] = RedshopLayoutHelper::render(
                 'tags.common.link',
                 [
-                    'link'    => JRoute::_(
+                    'link'    => Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $product->manufacturer_id .
                         '&Itemid=' . $this->itemId
                     ),
