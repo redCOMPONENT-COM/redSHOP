@@ -875,10 +875,11 @@ class RedshopModelOrder_detail extends RedshopModel
         $orderData->special_discount        = $specialDiscount;
         $orderData->special_discount_amount = $discountPrice;
 
-        if($discountPrice > $orderSubTotal){
+        if($discountPrice > $orderSubTotal) {
             $discountPrice = $orderSubTotal;
         }
-            $orderData->order_total = $orderSubTotal + $orderData->order_shipping - $discountPrice - $orderData->order_discount;
+
+        $orderData->order_total = $orderSubTotal + $orderData->order_shipping - $discountPrice - $orderData->order_discount;
 
         $post                   = array();
 
@@ -915,9 +916,7 @@ class RedshopModelOrder_detail extends RedshopModel
         if (!$orderData->store()) {
             return false;
         }
-        if ($discountPrice == $orderSubTotal){
-            return false;
-        }
+
         $this->_dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
 
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
