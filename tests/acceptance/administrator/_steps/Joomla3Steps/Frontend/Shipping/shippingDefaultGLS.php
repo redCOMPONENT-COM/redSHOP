@@ -129,6 +129,7 @@ class shippingDefaultGLS extends CheckoutWithEWAYPayment
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+		$I->wait(0.5);
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);

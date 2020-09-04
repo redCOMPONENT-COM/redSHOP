@@ -64,6 +64,11 @@ $editor = JEditor::getInstance();
                         chks[i].focus();
                         return false;
                     }
+                    else if (chks[i].value.indexOf(" ") !== -1) {
+                        alert("<?php echo JText::_('COM_REDSHOP_CUSTOM_FIELD_NO_ENTER_SPACE'); ?>")
+                        chks[i].focus();
+                        return false;
+                    }
                 }
             }
 
@@ -249,6 +254,12 @@ $editor = JEditor::getInstance();
                     <p class="text text-primary"><?php echo JText::_(
                             'COM_REDSHOP_USE_THE_TABLE_BELOW_TO_ADD_NEW_VALUES'
                         ) ?></p>
+                    <p>
+                    <div class="alert alert-warning alert-dismissible" role="alert">
+                        <h4 class="alert-heading"><i class="fa fa-exclamation-triangle"></i> Warning</h4>
+                        <?php echo JText::_('COM_REDSHOP_CUSTOM_FIELD_WARNING_CHANGE_OPTION_VALUE') ?>
+                    </div>
+                    </p>
 
                     <p><input type="button" name="addvalue" id="addvalue" class="btn btn-primary"
                               Value="<?php echo JText::_('COM_REDSHOP_ADD_VALUE'); ?>"
