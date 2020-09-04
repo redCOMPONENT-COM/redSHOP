@@ -4245,7 +4245,7 @@ class RedshopHelperProduct
                                 ',',
                                 array(
                                     (int)$rowData[$i]->id,
-                                    $db->quote($db->quote(addslashes($user_fields))),
+                                    $db->quote(addslashes($user_fields)),
                                     (int)$order_item_id,
                                     $db->quote($sectionId)
                                 )

@@ -221,6 +221,7 @@ class RedshopControllerOrder_Detail extends RedshopController
      * On Reorder Order
      *
      * @return  void
+     * @throws \Exception
      */
     public function reorder()
     {
@@ -250,7 +251,7 @@ class RedshopControllerOrder_Detail extends RedshopController
                 $this->copyOrderItemToCart($row, false);
             }
 
-            RedshopHelperCart::ajaxRenderModuleCartHtml();
+            \Redshop\Cart\Ajax::renderModuleCartHtml(true);
         }
 
         $app->redirect(
@@ -261,10 +262,11 @@ class RedshopControllerOrder_Detail extends RedshopController
     /**
      * Copy Order Item to Cart
      *
-     * @param   array    $row       Order Item information if not empty
-     * @param   boolean  $redirect  If true will redirect to cart else not.
+     * @param array   $row      Order Item information if not empty
+     * @param boolean $redirect If true will redirect to cart else not.
      *
      * @return  mixed    void / boolean
+     * @throws \Exception
      */
     public function copyOrderItemToCart($row = array(), $redirect = true)
     {
@@ -333,6 +335,8 @@ class RedshopControllerOrder_Detail extends RedshopController
             }
         }
 
+        Redshop\Order\Helper::copyProductUserField($row);
+
         $result = Redshop\Cart\Cart::add($row);
 
         if (is_bool($result) && $result) {
@@ -341,7 +345,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
             if ($redirect) {
                 // Do final cart calculations
-                RedshopHelperCart::ajaxRenderModuleCartHtml();
+                \Redshop\Cart\Ajax::renderModuleCartHtml(true);
 
                 $app->redirect(
                     Redshop\IO\Route::_(
