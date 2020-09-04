@@ -252,6 +252,8 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 		$I->amOnPage(CheckoutChangeQuantityProductPage::$cartPageUrL);
 		$I->waitForText($promotion['product'], 10);
 		$I->waitForText($promotion['productAward'], 10);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonEmptyCart, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
 		$I->doFrontendLogout();
 	}
 

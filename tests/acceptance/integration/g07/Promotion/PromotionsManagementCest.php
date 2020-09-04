@@ -304,7 +304,6 @@ class PromotionsManagementCest
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
-
 		$I->deleteProduct($this->productAwardsName);
 
 		$I->wantTo('Delete category');
