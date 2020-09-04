@@ -192,7 +192,7 @@ if ($showbuttons) {
     }
 </script>
 
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo Redshop\IO\Route::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-12" id="media_data">
@@ -298,7 +298,7 @@ if ($showbuttons) {
                 <fieldset id="media_bank">
                     <table>
                         <tr>
-                            <td width="2%"><?php $ilink = JRoute::_(
+                            <td width="2%"><?php $ilink = Redshop\IO\Route::_(
                                     'index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'
                                 ); ?>
                                 <div class="button2-left">
@@ -320,7 +320,7 @@ if ($showbuttons) {
                         <?php if ($media_section == 'product') : ?>
                             <tr>
                                 <td width="2%">
-                                    <?php $down_ilink = JRoute::_(
+                                    <?php $down_ilink = Redshop\IO\Route::_(
                                         'index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&fdownload=1'
                                     ); ?>
                                     <div class="button2-left">

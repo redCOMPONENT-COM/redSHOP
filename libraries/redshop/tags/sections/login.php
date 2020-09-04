@@ -102,7 +102,7 @@ class RedshopTagsSectionsLogin extends RedshopTagsAbstract
         $forgotPwd = RedshopLayoutHelper::render(
             'tags.common.link',
             array(
-                'link'    => JRoute::_('index.php?option=com_users&view=reset'),
+                'link'    => Redshop\IO\Route::_('index.php?option=com_users&view=reset'),
                 'content' => JText::_('COM_REDSHOP_FORGOT_PWD_LINK')
             ),
             '',

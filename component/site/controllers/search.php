@@ -137,7 +137,7 @@ class RedshopControllerSearch extends RedshopController
         $list       = $model->getItem();
         $pagination = $model->getFilterPagination();
         $total      = $model->getFilterTotal();
-        $url        = JRoute::_(
+        $url        = Redshop\IO\Route::_(
             'index.php?option=' . $post['option']
             . '&view=' . $post['view']
             . '&layout=' . $post['layout']

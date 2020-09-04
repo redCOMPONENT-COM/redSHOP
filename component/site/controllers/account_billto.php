@@ -94,7 +94,7 @@ class RedshopControllerAccount_Billto extends RedshopController
         if ($return != "") {
             if ($setExit) {
                 $app->redirect(
-                    JRoute::_(
+                    Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=account_billto&tmpl=component&is_edit=1&return=' . $return,
                         false
                     ),
@@ -102,9 +102,9 @@ class RedshopControllerAccount_Billto extends RedshopController
                 );
             }
 
-            $link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
+            $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
         } else {
-            $link = JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $itemId, false);
+            $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=account&Itemid=' . $itemId, false);
         }
 
         $this->setRedirect($link, $msg);
@@ -125,7 +125,7 @@ class RedshopControllerAccount_Billto extends RedshopController
         $setexit = $input->getInt('setexit', 1);
 
         if ($return != "") {
-            $link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
+            $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
 
             if (!isset($setexit) || $setexit != 0) {
                 ?>

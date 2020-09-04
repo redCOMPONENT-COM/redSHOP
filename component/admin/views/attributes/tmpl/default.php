@@ -15,7 +15,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <form
-        action="<?php echo JRoute::_('index.php?option=com_redshop&view=attributes'); ?>"
+        action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=attributes'); ?>"
         method="post"
         name="adminForm"
         id="adminForm"
@@ -108,7 +108,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <div class="pull-left break-word">
                             <a
                                     class="hasTooltip"
-                                    href="<?php echo JRoute::_(
+                                    href="<?php echo Redshop\IO\Route::_(
                                         'index.php?option=com_redshop&task=attribute.edit&attribute_id=' . $item->attribute_id
                                     ); ?>"
                                     title="<?php echo JText::_('JACTION_EDIT'); ?>"

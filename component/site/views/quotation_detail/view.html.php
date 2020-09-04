@@ -41,7 +41,7 @@ class RedshopViewQuotation_Detail extends RedshopView
         $encr   = $app->input->getString('encr');
 
         if (!$quoid) {
-            $app->redirect(JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $itemId, false));
+            $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=account&Itemid=' . $itemId, false));
         }
 
         $quotationDetail = RedshopHelperQuotation::getQuotationDetail($quoid);
@@ -66,7 +66,7 @@ class RedshopViewQuotation_Detail extends RedshopView
                 }
             } else {
                 $app->redirect(
-                    JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid'))
+                    Redshop\IO\Route::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid'))
                 );
 
                 return;

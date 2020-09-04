@@ -49,7 +49,7 @@ class RedshopControllerAccess extends RedshopControllerForm
             $app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_SAVE_FAIL', 'error'));
         }
 
-        $this->setRedirect(JRoute::_('index.php?option=com_redshop&view=access', false));
+        $this->setRedirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=access', false));
 
         return true;
     }

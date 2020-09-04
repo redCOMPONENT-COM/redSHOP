@@ -195,7 +195,7 @@ class RedshopViewManufacturers extends RedshopView
                     $canonicalurl = Redshop::getConfig()->get('SEO_PAGE_CANONICAL_MANUFACTUR');
 
                     $manufacturer_products_url = substr_replace(JURI::root(), "", -1)
-                        . JRoute::_(
+                        . Redshop\IO\Route::_(
                             'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $manufacturer->id . '&Itemid=' . $itemId
                         );
                     $canonicalurl_content      = '<link rel="canonical" href="' . $manufacturer_products_url . '" />';

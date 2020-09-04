@@ -35,7 +35,7 @@ class Check
                 // Invalid request then redirect to dashboard
                 if (!$condition) {
                     $app->enqueueMessage(\JText::_('COM_REDSHOP_CART_INVALID_REQUEST'), 'error');
-                    $app->redirect(\JRoute::_('index.php?option=com_redshop'));
+                    $app->redirect(\Redshop\IO\Route::_('index.php?option=com_redshop'));
                 }
 
                 return $condition;
