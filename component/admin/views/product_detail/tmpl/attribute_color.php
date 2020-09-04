@@ -50,7 +50,7 @@ $images     = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $sect
         ?></div>
 </fieldset>
 
-<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo Redshop\IO\Route::_('index.php') ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 
     <div class="col50">

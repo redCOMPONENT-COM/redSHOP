@@ -209,7 +209,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
             $returnToCategory = '';
 
             if ($this->product->category_id) {
-                $returnCatLink = JRoute::_(
+                $returnCatLink = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=category&layout=detail&cid=' . $this->product->category_id .
                     '&Itemid=' . $this->itemId
                 );
@@ -472,7 +472,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         $manufacturerLink = RedshopLayoutHelper::render(
             'tags.common.link',
             [
-                'link'    => JRoute::_(
+                'link'    => Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $this->product->manufacturer_id .
                     '&Itemid=' . $this->itemId
                 ),
@@ -486,7 +486,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         $manufacturerPLink = RedshopLayoutHelper::render(
             'tags.common.link',
             [
-                'link'    => JRoute::_(
+                'link'    => Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $this->product->manufacturer_id .
                     '&Itemid=' . $this->itemId
                 ),
@@ -1228,7 +1228,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         );
 
         if (!empty($nextProducts)) {
-            $nextLink          = JRoute::_(
+            $nextLink          = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=product&pid=' . $nextProducts->product_id .
                 '&cid=' . $this->product->category_id .
                 '&Itemid=' . $this->itemId
@@ -1274,7 +1274,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         );
 
         if (!empty($previousProducts)) {
-            $prevLink          = JRoute::_(
+            $prevLink          = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=product&pid=' . $previousProducts->product_id .
                 '&cid=' . $this->product->category_id .
                 '&Itemid=' . $this->itemId
@@ -1645,7 +1645,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         if ($this->isTagExists($this->infoTagImg['imageTag'])) {
             $thumbImg = Redshop\Product\Image\Image::getImage(
                 $this->product->product_id,
-                JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->product->product_id),
+                Redshop\IO\Route::_('index.php?option=com_redshop&view=product&pid=' . $this->product->product_id),
                 $this->infoTagImg['width'],
                 $this->infoTagImg['height'],
                 Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'),

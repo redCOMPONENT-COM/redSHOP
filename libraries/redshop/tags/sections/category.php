@@ -143,7 +143,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
         $manufacturerId = (!empty($this->data['manufacturerId'])) ? $this->data['manufacturerId'] : '';
         $catItemId      = RedshopHelperRouter::getCategoryItemid($category->id);
 
-        $link = JRoute::_(
+        $link = Redshop\IO\Route::_(
             'index.php?option=com_redshop' .
             '&view=category&cid=' . $category->id .
             '&manufacturer_id=' . $manufacturerId .
@@ -300,7 +300,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
         $mainItemId     = !$categoryItemId ? $input->getInt('Itemid', null) : $categoryItemId;
 
         // Generate category link
-        $link = JRoute::_(
+        $link = Redshop\IO\Route::_(
             'index.php?option=' . $input->get('option', 'com_redshop') .
             '&view=category&cid=' . $category->id .
             '&manufacturer_id=' . $manufacturerId .

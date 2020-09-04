@@ -145,7 +145,7 @@ class RedshopControllerOrder_Detail extends RedshopController
         $model->resetcart();
 
         $link = 'index.php?option=com_redshop&view=order_detail&Itemid=' . $Itemid . '&oid=' . $request['order_id'];
-        $app->redirect(JRoute::_($link, false), $paymentResponse->message);
+        $app->redirect(Redshop\IO\Route::_($link, false), $paymentResponse->message);
     }
 
     /**
@@ -207,7 +207,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
         if ($request['payment_plugin'] != "rs_payment_worldpay") {
             // New checkout flow
-            $redirect_url = JRoute::_(
+            $redirect_url = Redshop\IO\Route::_(
                 JUri::base(
                 ) . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $order_id,
                 false
@@ -221,6 +221,7 @@ class RedshopControllerOrder_Detail extends RedshopController
      * On Reorder Order
      *
      * @return  void
+     * @throws \Exception
      */
     public function reorder()
     {
@@ -250,21 +251,22 @@ class RedshopControllerOrder_Detail extends RedshopController
                 $this->copyOrderItemToCart($row, false);
             }
 
-            RedshopHelperCart::cartFinalCalculation();
+            \Redshop\Cart\Ajax::renderModuleCartHtml(true);
         }
 
         $app->redirect(
-            JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false)
+            Redshop\IO\Route::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false)
         );
     }
 
     /**
      * Copy Order Item to Cart
      *
-     * @param   array    $row       Order Item information if not empty
-     * @param   boolean  $redirect  If true will redirect to cart else not.
+     * @param array   $row      Order Item information if not empty
+     * @param boolean $redirect If true will redirect to cart else not.
      *
      * @return  mixed    void / boolean
+     * @throws \Exception
      */
     public function copyOrderItemToCart($row = array(), $redirect = true)
     {
@@ -333,7 +335,9 @@ class RedshopControllerOrder_Detail extends RedshopController
             }
         }
 
-        $result = Redshop\Cart\Cart::addProduct($row);
+        Redshop\Order\Helper::copyProductUserField($row);
+
+        $result = Redshop\Cart\Cart::add($row);
 
         if (is_bool($result) && $result) {
             // Set success message for product line
@@ -341,10 +345,10 @@ class RedshopControllerOrder_Detail extends RedshopController
 
             if ($redirect) {
                 // Do final cart calculations
-                RedshopHelperCart::cartFinalCalculation();
+                \Redshop\Cart\Ajax::renderModuleCartHtml(true);
 
                 $app->redirect(
-                    JRoute::_(
+                    Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(),
                         false
                     )
@@ -369,7 +373,7 @@ class RedshopControllerOrder_Detail extends RedshopController
             }
 
             $app->redirect(
-                JRoute::_(
+                Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product&pid=' . $row['product_id'] . '&Itemid=' . $Itemid,
                     false
                 ),
@@ -408,7 +412,7 @@ class RedshopControllerOrder_Detail extends RedshopController
                     JHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
                     ?>
 
-                    <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout', false) ?>"
+                    <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout', false) ?>"
                           method="post"
                           name="adminForm" id="adminForm" enctype="multipart/form-data"
                           onsubmit="return CheckCardNumber(this);">
@@ -431,7 +435,7 @@ class RedshopControllerOrder_Detail extends RedshopController
                     </form>
                     <?php
                 } else {
-	                $link = JRoute::_('index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $orderId . '&encr='. $encr .'&Itemid=' . $itemId);
+	                $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $orderId . '&encr='. $encr .'&Itemid=' . $itemId);
                     $this->setRedirect($link);
                 }
             }
@@ -475,7 +479,7 @@ class RedshopControllerOrder_Detail extends RedshopController
         // Check pdf plugins
         if (!RedshopHelperPdf::isAvailablePdfPlugins()) {
             $this->setMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
-            $this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order'));
+            $this->setRedirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=order'));
         }
 
         RedshopHelperOrder::generateInvoicePdf($orderId, 'I');

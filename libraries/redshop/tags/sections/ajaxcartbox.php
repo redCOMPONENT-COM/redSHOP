@@ -71,7 +71,7 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
                 array(
                     'text'  => JText::_('COM_REDSHOP_VIEW_CART'),
                     'class' => 'view_cart_button btn btn-primary',
-                    'attr'  => 'name="viewcart" onclick="javascript:window.location.href=\'' . JRoute::_(
+                    'attr'  => 'name="viewcart" onclick="javascript:window.location.href=\'' . Redshop\IO\Route::_(
                             'index.php?option=com_redshop&view=cart&Itemid=' . $itemId
                         ) . '\'"'
                 ),
@@ -84,7 +84,7 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
 
         if ($this->isTagExists('{continue_shopping_button}')) {
             if (Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK') != '') {
-                $shopMoreLink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
+                $shopMoreLink = Redshop\IO\Route::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
             } else {
                 $shopMoreLink = \JUri::base() . 'index.php?option=com_redshop';
             }

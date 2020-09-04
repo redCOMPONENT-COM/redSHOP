@@ -31,7 +31,7 @@ class RedshopViewOrder_Detail extends RedshopView
     {
         if (!RedshopHelperPdf::isAvailablePdfPlugins()) {
             JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
-            JFactory::getApplication()->redirect(JRoute::_('index.php?option=com_redshop', false));
+            JFactory::getApplication()->redirect(Redshop\IO\Route::_('index.php?option=com_redshop', false));
         }
 
         $config = Redconfiguration::getInstance();

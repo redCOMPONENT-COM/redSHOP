@@ -272,7 +272,7 @@ if (count($this->search) > 0) {
             $pItemid = RedshopHelperRouter::getItemId($this->search[$i]->product_id, $this->search[$i]->category_id);
         }
 
-        $link = JRoute::_(
+        $link = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&cid=' . $this->search[$i]->category_id . '&Itemid=' . $pItemid
         );
 
@@ -290,7 +290,7 @@ if (count($this->search) > 0) {
             $catItemId = RedshopHelperRouter::getCategoryItemid($category->id);
 
             $title   = " title='" . $category->name . "' ";
-            $linkCat = JRoute::_(
+            $linkCat = Redshop\IO\Route::_(
                 'index.php?option=com_redshop' .
                 '&view=category&cid=' . $category->id .
                 '&layout=detail&Itemid=' . $catItemId
@@ -614,7 +614,7 @@ if (count($this->search) > 0) {
         $manufacturer_id = $this->search[$i]->id;
 
         if ($manufacturer_id != 0) {
-            $manufacturer_link_href = JRoute::_(
+            $manufacturer_link_href = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer_id . '&Itemid=' . $Itemid
             );
             $manufacturer_name      = $this->search[$i]->name;

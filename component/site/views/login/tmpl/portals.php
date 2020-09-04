@@ -33,7 +33,7 @@ if ($module = JModuleHelper::getModule('redshop_login')) {
 
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=login'); ?>" method="post">
+<form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=login'); ?>" method="post">
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <?php if (isset($this->ShopperGroupDetail[0])) : ?>
             <tr>

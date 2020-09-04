@@ -753,7 +753,7 @@ class RedshopModelSearch extends RedshopModel
                         }
 
                         if ($finalcount > 0) {
-                            $tagname .= "&nbsp;&nbsp;<a  href='" . JRoute::_(
+                            $tagname .= "&nbsp;&nbsp;<a  href='" . Redshop\IO\Route::_(
                                     'index.php?option=com_redshop&view=search&layout=redfilter&typeid=' . $type->id . '&tagid=' . $tags[$t]->tag_id . '&Itemid=' . $Itemid
                                 ) . "' title='" . $tags[$t]->tag_name . "' >" . $tags[$t]->tag_name . "</a> ( " . $finalcount . " )<br/>";
                         }
@@ -843,7 +843,7 @@ class RedshopModelSearch extends RedshopModel
             }
             ?>
             <div>
-                <a href="<?php echo JRoute::_(
+                <a href="<?php echo Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=search&layout=redfilter&remove=1&Itemid=' . $Itemid
                 ); ?>" title="<?php echo JText::_('COM_REDSHOP_CLEAR_ALL'); ?>">
                     <?php echo JText::_('COM_REDSHOP_CLEAR_ALL'); ?></a>
@@ -1097,7 +1097,7 @@ class RedshopModelSearch extends RedshopModel
 
                 $pItemid = RedshopHelperRouter::getItemId($row->id, $category_id);
 
-                $row->link = JRoute::_(
+                $row->link = Redshop\IO\Route::_(
                     'index.php?option=com_redshop' .
                     '&view=product&pid=' . $row->id .
                     '&cid=' . $row->cat_in_sefurl .

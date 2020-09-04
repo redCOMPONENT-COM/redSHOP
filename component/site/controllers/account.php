@@ -39,7 +39,7 @@ class RedshopControllerAccount extends RedshopController
         }
 
         $this->setRedirect(
-            JRoute::_(
+            Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $app->input->getInt('Itemid'),
                 false
             )
@@ -75,7 +75,7 @@ class RedshopControllerAccount extends RedshopController
         $url = 'index.php?option=com_redshop&view=account&layout=mywishlist&mail=0&window=1&tmpl=component'
             . '&wishlist_id=' . $wishListId . '&Itemid' . $itemId;
 
-        $this->setRedirect(JRoute::_($url, false), $msg);
+        $this->setRedirect(Redshop\IO\Route::_($url, false), $msg);
     }
 
     /**
@@ -90,7 +90,7 @@ class RedshopControllerAccount extends RedshopController
 
         $itemId = JFactory::getApplication()->input->getInt('Itemid');
         $this->setRedirect(
-            JRoute::_("index.php?option=com_redshop&view=account&Itemid=" . $itemId, false),
+            Redshop\IO\Route::_("index.php?option=com_redshop&view=account&Itemid=" . $itemId, false),
             JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS')
         );
     }
@@ -109,7 +109,7 @@ class RedshopControllerAccount extends RedshopController
         RedshopHelperNewsletter::removeSubscribe($user->email);
         $msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
 
-        $this->setRedirect(JRoute::_("index.php?option=com_redshop&view=account&Itemid=" . $itemId, false), $msg);
+        $this->setRedirect(Redshop\IO\Route::_("index.php?option=com_redshop&view=account&Itemid=" . $itemId, false), $msg);
     }
 
     /**
@@ -139,12 +139,12 @@ class RedshopControllerAccount extends RedshopController
             $app->logout(null, $options);
 
             $app->redirect(
-                JRoute::_('index.php?option=com_users&view=login', false),
+                Redshop\IO\Route::_('index.php?option=com_users&view=login', false),
                 JText::_('COM_REDSHOP_ACCOUNT_DELETED_SUCCESSFULLY')
             );
         } else {
             $this->setRedirect(
-                JRoute::_("index.php?option=com_redshop&view=account&Itemid=" . $itemId, false),
+                Redshop\IO\Route::_("index.php?option=com_redshop&view=account&Itemid=" . $itemId, false),
                 JText::_('COM_REDSHOP_ACCOUNT_DELETED_FAIL')
             );
         }

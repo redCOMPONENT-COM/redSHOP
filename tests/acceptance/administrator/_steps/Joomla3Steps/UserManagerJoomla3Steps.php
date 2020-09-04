@@ -573,8 +573,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$userOrderPage = new OrderManagerPage();
 		$I->waitForElement(OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
-		$I->waitForElement(OrderManagerPage::$productId, 30);
-		$I->scrollTo(OrderManagerPage::$productId);
+		$I->waitForElement(OrderManagerPage::$orderDetailTable, 30);
+		$I->scrollTo(OrderManagerPage::$orderDetailTable);
 		$I->waitForElement(OrderManagerPage::$productId, 30);
 		$I->click(OrderManagerPage::$productId);
 		$I->waitForElement(OrderManagerPage::$productsSearch, 30);
@@ -626,6 +626,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(UserManagerJoomla3Page::$country);
 		$I->waitForElement($userManagerPage->shopperGroup($user['country']), 30);
 		$I->click($userManagerPage->shopperGroup($user['country']));
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(UserManagerJoomla3Page::$saveCloseButton);
 		$I->waitForText(UserManagerJoomla3Page::$userSuccessMessage, 60, UserManagerJoomla3Page::$selectorSuccess);
 		$I->see(UserManagerJoomla3Page::$userSuccessMessage, UserManagerJoomla3Page::$selectorSuccess);

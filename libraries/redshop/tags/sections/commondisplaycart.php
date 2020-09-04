@@ -312,11 +312,11 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 
         if ($this->isTagExists('{shop_more}')) {
             if (Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK') != '') {
-                $shopMoreLink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
+                $shopMoreLink = Redshop\IO\Route::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
             } elseif ($catItemId = RedshopHelperRouter::getCategoryItemid()) {
-                $shopMoreLink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
+                $shopMoreLink = Redshop\IO\Route::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
             } else {
-                $shopMoreLink = JRoute::_('index.php');
+                $shopMoreLink = Redshop\IO\Route::_('index.php');
             }
 
             $shopMore = RedshopLayoutHelper::render(
@@ -386,7 +386,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
         $this->addReplace('{checkout}', $checkout);
         $this->addReplace('{checkout_button}', $checkout);
 
-        $qlink             = JRoute::_(
+        $qlink             = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=quotation&tmpl=component&return=1&Itemid=' . $itemId
         );
         $quotation_request = RedshopLayoutHelper::render(

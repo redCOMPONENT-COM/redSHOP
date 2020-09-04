@@ -110,7 +110,7 @@ $showbuttons    = JFactory::getApplication()->input->get('showbuttons', ''); ?>
             for ($i = 0, $n = count($this->products); $i < $n; $i++) {
                 $row = $this->products[$i];
 
-                $link       = JRoute::_(
+                $link       = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id
                 );
                 $link_order = 'index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id;
