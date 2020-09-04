@@ -35,7 +35,7 @@ class Tableorder_user_detail extends JTable
 
     public $published = null;
 
-    public $isCompany = null;
+    public $is_company = null;
 
     public $country_code = null;
 
