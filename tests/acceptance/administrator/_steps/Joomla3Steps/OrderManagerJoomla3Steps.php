@@ -370,6 +370,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->amOnPage(OrderManagerPage::$URL);
 		$I->click(OrderManagerPage::$buttonNew);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForText(OrderManagerPage::$titlePage, 30, OrderManagerPage::$h1);
 		$I->waitForElementVisible(OrderManagerPage::$userId, 30);
 		$I->click(OrderManagerPage::$userId);
@@ -380,12 +381,12 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
 		$I->pressKey(OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(OrderManagerPage::$fistName, 30);
+		$I->waitForText($nameUser, 30);
 		$I->see($nameUser);
 
 		$I->waitForElementVisible(OrderManagerPage::$applyUser, 30);
 		$I->wait(0.5);
 		$I->click(OrderManagerPage::$applyUser);
-		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElement(OrderManagerPage::$orderDetailTable, 60);
 		$I->scrollTo(OrderManagerPage::$orderDetailTable);
 
