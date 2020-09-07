@@ -22,7 +22,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
     public $_copydata = null;
 
-    public $_dispatcher = null;
+    private $_dispatcher = null;
 
     public function __construct()
     {
@@ -848,7 +848,7 @@ class RedshopModelOrder_detail extends RedshopModel
             $orderData->special_discount_amount = 0;
         }
 
-        if ($data['special_discount'] == $orderData->special_discount && $chk !== true) {
+        if ($data['special_discount'] == $orderData->special_discount && $chk != true) {
             return false;
         }
 
@@ -872,7 +872,7 @@ class RedshopModelOrder_detail extends RedshopModel
         }
 
         $discountPrice                      = ($orderSubTotal * $specialDiscount) / 100;
-        $orderData->special_discount        = $specdispatcherialDiscount;
+        $orderData->special_discount        = $specialDiscount;
         $orderData->special_discount_amount = $discountPrice;
 
         if($discountPrice > $orderSubTotal) {
@@ -880,7 +880,6 @@ class RedshopModelOrder_detail extends RedshopModel
         }
 
         $orderData->order_total = $orderSubTotal + $orderData->order_shipping - $discountPrice - $orderData->order_discount;
-
         $post                   = array();
 
         $paymentmethod                            = RedshopHelperOrder::getPaymentMethodInfo(
