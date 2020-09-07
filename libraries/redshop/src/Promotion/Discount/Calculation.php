@@ -167,7 +167,7 @@ class Calculation
 
                 return $discounts;
             } else {
-                return [];
+                return new \stdClass;
             }
         }
     }
