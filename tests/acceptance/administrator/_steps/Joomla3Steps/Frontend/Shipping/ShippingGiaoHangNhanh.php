@@ -46,10 +46,10 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->fillInformationPrivate($customerInformation);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible($productFrontEndManagerPage->xpathShippingName($shipping['shippingName']), 60);
-		$I->wait(0.2);
 		$I->click($productFrontEndManagerPage->xpathShippingName($shipping['shippingName']));
-
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->wait(0.2);
 		$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
