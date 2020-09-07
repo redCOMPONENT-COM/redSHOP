@@ -261,10 +261,12 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->waitForElement(['link' => $productName], 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+
 		switch ($missing)
 		{
 			case 'user':
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 60);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
