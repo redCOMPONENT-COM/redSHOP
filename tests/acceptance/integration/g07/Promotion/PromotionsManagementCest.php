@@ -188,7 +188,7 @@ class PromotionsManagementCest
 			"toDate"          => $this->endDate,
 			"productAward"    => $this->productAwardsName,
 			"awardAmount"     => $this->faker->numberBetween(1, 5),
-			"freeShipping"    => 'Yes',
+			"freeShipping"    => 'No',
 		);
 
 		$this->promotion2 = array(
@@ -202,7 +202,7 @@ class PromotionsManagementCest
 			"toDate"        => $this->endDate,
 			"productAward"  => $this->productAwardsName,
 			"awardAmount"   => $this->faker->numberBetween(1, 5),
-			"freeShipping"  => 'No',
+			"freeShipping"  => 'Yes',
 		);
 
 		$this->shippingMethod = 'redSHOP - Standard Shipping';
