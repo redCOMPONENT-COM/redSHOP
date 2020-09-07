@@ -917,7 +917,7 @@ class RedshopModelOrder_detail extends RedshopModel
         }
 
         $dispatcher = JEventDispatcher::getInstance();
-        $dispatcher->trigger('onBuildQueryGetOrderList', array(&$query));
+        $dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
 
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
             RedshopEconomic::renewInvoiceInEconomic($orderData);
