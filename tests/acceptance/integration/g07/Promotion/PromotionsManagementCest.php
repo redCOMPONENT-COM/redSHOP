@@ -267,9 +267,12 @@ class PromotionsManagementCest
 	{
 		$I->wantTo('Create promotion');
 		$I->createPromotion($this->promotion1, "Save & Close");
-		$I->createPromotion($this->promotion2, "Save & Close");
-		$I->wantTo('Checkout promotion with shipping');
+		$I->wantTo('Checkout promotion dont use free shipping');
 		$I->checkoutPromotionWithShipping($this->promotion1, $this->shipping, $this->customerInformation);
+
+		$I->wantTo('Create promotion');
+		$I->createPromotion($this->promotion2, "Save & Close");
+		$I->wantTo('Checkout promotion use free shipping');
 		$I->checkoutPromotionWithShipping($this->promotion2, $this->shipping, $this->customerInformation);
 	}
 
