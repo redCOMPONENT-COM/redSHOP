@@ -32,7 +32,7 @@ class Calculation
      * @param $productData
      * @param $data
      *
-     * @return array
+     * @return object
      * @since  __DEPLOY_VERSION__
      */
     public static function productMeasurement($productData, $data)
