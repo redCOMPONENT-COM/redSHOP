@@ -438,6 +438,7 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 					$I->addressInformation($user);
 					$I->shippingInformation($user);
 					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
+					$I->wait(0.2);
 					$I->click(FrontEndProductManagerJoomla3Page::$proceedButtonId);
 					$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
 					$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
