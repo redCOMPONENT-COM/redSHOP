@@ -533,8 +533,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(FrontEndProductManagerJoomla3Page::$saveInfoUser);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
-		$I->wait(1);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
+		$I->wait(1);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 
 		if (isset($orderInfoSecond))
@@ -554,6 +554,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->see($orderInfo['priceEnd'], GiftCardCheckoutPage::$priceEnd);
 
 		}
+
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
