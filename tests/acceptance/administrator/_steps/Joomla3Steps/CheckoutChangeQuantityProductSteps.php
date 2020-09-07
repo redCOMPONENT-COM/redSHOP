@@ -85,7 +85,7 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 		$I->click(CheckoutChangeQuantityProductPage::$checkoutFinalStep);
 		$I->waitForJs('return document.readyState == "complete"', 10);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressAddress, 60);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressAddress, 120);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressAddress, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
