@@ -872,7 +872,7 @@ class RedshopModelOrder_detail extends RedshopModel
         }
 
         $discountPrice                      = ($orderSubTotal * $specialDiscount) / 100;
-        $orderData->special_discount        = $specialDiscount;
+        $orderData->special_discount        = $specdispatcherialDiscount;
         $orderData->special_discount_amount = $discountPrice;
 
         if($discountPrice > $orderSubTotal) {
@@ -917,7 +917,8 @@ class RedshopModelOrder_detail extends RedshopModel
             return false;
         }
 
-        $this->_dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
+        $dispatcher = JEventDispatcher::getInstance();
+        $dispatcher->trigger('onBuildQueryGetOrderList', array(&$query));
 
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
             RedshopEconomic::renewInvoiceInEconomic($orderData);
