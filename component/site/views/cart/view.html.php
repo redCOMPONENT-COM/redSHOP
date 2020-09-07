@@ -46,7 +46,7 @@ class RedshopViewCart extends RedshopView
 
         if ($app->input->getString('quotemsg') != "") {
             $app->redirect(
-                JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false),
+                Redshop\IO\Route::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false),
                 $app->input->getString('quotemsg')
             );
         }

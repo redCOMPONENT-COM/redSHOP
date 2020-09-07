@@ -42,7 +42,7 @@ class RedshopControllerRegistration extends RedshopController
 
             if ($post['mywishlist'] == 1) {
                 $this->setRedirect(
-                    JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $itemId, false)
+                    Redshop\IO\Route::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $itemId, false)
                 );
             } else {
                 $msg = Redshop::getConfig()->get('WELCOME_MSG');
@@ -52,13 +52,13 @@ class RedshopControllerRegistration extends RedshopController
                 }
 
                 // Redirection settings
-                $link = JRoute::_('index.php?option=com_redshop&view=redshop&Itemid=' . $itemId);
+                $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=redshop&Itemid=' . $itemId);
 
                 $menu        = JFactory::getApplication()->getMenu();
                 $retMenuItem = $menu->getItem($menu->getParams($itemId)->get('registrationredirect'));
 
                 if (!empty($retMenuItem)) {
-                    $link = JRoute::_($retMenuItem->link . '&Itemid=' . $retMenuItem->id, false);
+                    $link = Redshop\IO\Route::_($retMenuItem->link . '&Itemid=' . $retMenuItem->id, false);
                 }
 
                 // Redirection settings End

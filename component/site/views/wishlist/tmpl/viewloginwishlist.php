@@ -41,7 +41,7 @@ $auth      = $session->get('auth');
     <div id="wishlist" class="wishlist_prompt_text">
 <?php
 if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) {
-    $wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
+    $wishreturn = Redshop\IO\Route::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
     $app->redirect($wishreturn);
 } else {
     $pagetitle = JText::_('COM_REDSHOP_LOGIN_PROMPTWISHLIST');
@@ -61,12 +61,12 @@ if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) 
                 <td colspan="3" align="center" class="wishlist_prompt_button_wrapper">
                     <input type="button" class="wishlist_prompt_button_login"
                            value="<?php echo JText::_('COM_REDSHOP_ADD_TO_LOGINWISHLIST'); ?>"
-                           onclick="window.parent.location.href='<?php echo JRoute::_(
+                           onclick="window.parent.location.href='<?php echo Redshop\IO\Route::_(
                                'index.php?option=com_redshop&view=login&wishlist=1'
                            ); ?>'"/>&nbsp;
                     <input type="button" class="wishlist_prompt_button_create"
                            value="<?php echo JText::_('COM_REDSHOP_CREATE_LOGINACCOUNT'); ?>"
-                           onclick="window.parent.location.href='<?php echo JRoute::_(
+                           onclick="window.parent.location.href='<?php echo Redshop\IO\Route::_(
                                'index.php?option=com_redshop&view=registration&Itemid=' . $Itemid . '&wishlist=1'
                            ); ?>'"/>
                 </td>

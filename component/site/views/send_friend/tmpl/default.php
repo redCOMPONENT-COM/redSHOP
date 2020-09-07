@@ -37,7 +37,7 @@ $user = JFactory::getUser();
     }
 </script>
 <div align="center">
-    <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=send_friend', false) ?>" method="post">
+    <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=send_friend', false) ?>" method="post">
         <table>
             <tr>
                 <td>&nbsp;

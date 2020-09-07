@@ -108,7 +108,7 @@ if ($property->property_main_image && JFile::exists(
         </div>
 
         <div class="col-sm-4">
-            <a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}" href="<?php echo JRoute::_(
+            <a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}" href="<?php echo Redshop\IO\Route::_(
                 'index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $propertyId . '&cid=' . $productId . '&section=property'
             ); ?>">
                 <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>discountmanagmenet16.png"/> <?php echo JText::_(
@@ -116,7 +116,7 @@ if ($property->property_main_image && JFile::exists(
                 ); ?>
             </a>
             <?php if (Redshop::getConfig()->get('USE_STOCKROOM')): ?>
-                <a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}" href="<?php echo JRoute::_(
+                <a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}" href="<?php echo Redshop\IO\Route::_(
                     'index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $propertyId . '&cid=' . $productId . '&layout=productstockroom&property=property'
                 ); ?>">
                     <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>stockroom16.png"/> <?php echo JText::_(
@@ -179,7 +179,7 @@ if ($property->property_main_image && JFile::exists(
 
                     <a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}"
                        title=""
-                       href="<?php echo JRoute::_(
+                       href="<?php echo Redshop\IO\Route::_(
                            'index.php?tmpl=component&option=com_redshop&view=media&section_id='
                            . $propertyId . '&showbuttons=1&media_section=property'
                        ); ?>"><?php echo JText::_('COM_REDSHOP_UPLOAD'); ?>

@@ -308,13 +308,13 @@ class RedshopControllerProduct extends RedshopController
         if ($return === false) {
             // Checkin failed.
             $message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-            $this->setRedirect(JRoute::_('index.php?option=com_redshop&view=product', false), $message, 'error');
+            $this->setRedirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=product', false), $message, 'error');
 
             return false;
         } else {
             // Checkin succeeded.
             $message = JText::plural('COM_REDSHOP_PRODUCT_N_ITEMS_CHECKED_IN', count($ids));
-            $this->setRedirect(JRoute::_('index.php?option=com_redshop&view=product', false), $message);
+            $this->setRedirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=product', false), $message);
 
             return true;
         }

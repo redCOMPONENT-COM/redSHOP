@@ -40,7 +40,7 @@ $idx = isset($compareProducts) ? (int)$compareProducts['idx'] : 0;
         <?php for ($i = 0; $i < $idx; $i++): ?>
             <?php
             $product = \Redshop\Product\Product::getProductById($compareProducts[$i]["product_id"]);
-            $link    = JRoute::_(
+            $link    = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=product&pid=' . $compareProducts[$i]["product_id"] . '&Itemid=' . $itemId,
                 false
             );

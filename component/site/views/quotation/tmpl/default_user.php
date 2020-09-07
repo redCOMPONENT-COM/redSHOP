@@ -100,7 +100,7 @@ $link = 'index.php?option=com_redshop&view=cart&Itemid=' . $Itemid;
 
 </script>
 
-<form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo Redshop\IO\Route::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_REDSHOP_ACCOUNT_CREATION'); ?></legend>

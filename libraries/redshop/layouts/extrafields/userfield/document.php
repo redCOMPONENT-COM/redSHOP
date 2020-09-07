@@ -20,35 +20,34 @@ JHtml::script('com_redshop/ajaxupload.min.js', false, true);
  * @var   string $required   Extra field required
  * @var   string $uniqueId   Extra field unique Id
  * @var   array $fieldCheck  Extra field check
+ * @var   int $isAtt
+ * @var   int $productId
  */
 extract($displayData);
 $http_referer = JFactory::getApplication()->input->server->getString('HTTP_REFERER', '');
+$ajax   = '';
+
+$unique = $rowData->name . '_' . $productId;
+
+if ($isAtt > 0) {
+    $ajax   = 'ajax';
+    $unique = $rowData->name;
+}
+
 ?>
 
 <div class="userfield_input">
     <input
             type="button"
             class="<?php echo $rowData->class; ?>"
-            id="file<?php echo $rowData->name . '_' . $uniqueId; ?>"
-            name="file<?php echo $rowData->name . '_' . $uniqueId; ?>"
+            id="file<?php echo $ajax . $unique ?>"
+            name="file<?php echo $ajax . $unique ?>"
             value="<?php echo JText::_('COM_REDSHOP_UPLOAD'); ?>"
             size="<?php echo $rowData->size; ?>"
             userfieldlbl="<?php echo $rowData->title; ?>"
         <?php echo $required; ?>
     />
-    <p>
-        <?php echo JText::_('COM_REDSHOP_UPLOADED_FILE'); ?>
-    <ol id="ol_<?php echo $rowData->name; ?>"></ol>
-    </p>
 </div>
-<input
-        type="hidden"
-        name="extrafieldname<?php echo $uniqueId ?>[]"
-        id="<?php echo $rowData->name . '_' . $uniqueId; ?>"
-        userfieldlbl="<?php echo $rowData->title; ?>"
-    <?php echo $required; ?>
-/>
-
 <?php if (strpos($http_referer, 'administrator') !== false
     && (strpos($http_referer, 'view=order_detail') !== false
         || strpos($http_referer, 'view=addorder_detail') !== false
@@ -89,30 +88,35 @@ $http_referer = JFactory::getApplication()->input->server->getString('HTTP_REFER
         })(jQuery);
     </script>
 <?php else: ?>
-    <script type="text/javascript">
-        jQuery.noConflict();
-        new AjaxUpload(
-            "file<?php echo $rowData->name . '_' . $uniqueId; ?>",
-            {
-                action: "index.php?tmpl=component&option=com_redshop&view=product&task=ajaxupload",
-                data: {mname: "file<?php echo $rowData->name . '_' . $uniqueId; ?>"},
-                name: "file<?php echo $rowData->name . '_' . $uniqueId; ?>",
-                onSubmit: function (file, ext) {
-                    jQuery('#<?php echo $rowData->name ?>').text("<?php echo JText::_(
-                            'COM_REDSHOP_UPLOADING'
-                        ) . 'file'; ?>");
-                    this.disable();
-                },
-                onComplete: function (file, response) {
-                    jQuery('<li></li>').appendTo(jQuery('#ol_<?php echo $rowData->name; ?>')).text(response);
-                    var uploadfiles = jQuery('#ol_<?php echo $rowData->name; ?> li').map(function () {
-                        return jQuery(this).text();
-                    }).get().join(',');
-                    jQuery('#<?php echo $rowData->name . '_' . $uniqueId; ?>').val(uploadfiles);
-                    jQuery('#<?php echo $rowData->name; ?>').val(uploadfiles);
-                    this.enable();
-                }
-            }
-        );
+    <script>
+	    // jQuery.noConflict();
+	    new AjaxUpload(
+		    "file<?php echo $ajax . $unique ?>",
+		    {
+			    action:"<?php echo JUri::root() ?>index.php?tmpl=component&option=com_redshop&view=product&task=ajaxupload",
+			    data :{
+				    mname:"file<?php echo $ajax . $rowData->name ?>",
+				    product_id:"<?php echo $productId ?>",
+				    uniqueOl:"<?php echo $unique ?>",
+				    fieldName: "<?php echo $rowData->name ?>",
+				    ajaxFlag: "<?php echo $ajax ?>"
+			    },
+			    name:"file<?php echo $ajax . $unique ?>",
+			    onSubmit : function(file , ext){
+				    jQuery("file<?php echo $ajax . $unique ?>").text("<?php echo \JText::_('COM_REDSHOP_UPLOADING') ?>" + file);
+				    this.disable();
+			    },
+			    onComplete :function(file,response){
+				    jQuery("#ol_<?php echo $unique ?> li.error").remove();
+				    jQuery("#ol_<?php echo $unique ?>").append(response);
+				    var uploadfiles = jQuery("#ol_<?php echo $unique ?> li").map(function() {
+					    return jQuery(this).find("span").text();
+				    }).get().join(",");
+				    this.enable();
+				    jQuery("#<?php echo $ajax . $unique ?>").val(uploadfiles);
+				    jQuery("#<?php echo $rowData->name ?>").val(uploadfiles);
+			    }
+		    }
+	    );
     </script>
 <?php endif; ?>
