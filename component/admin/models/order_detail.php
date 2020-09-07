@@ -22,7 +22,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
     public $_copydata = null;
 
-    private $_dispatcher = null;
+    public $_dispatcher = null;
 
     public function __construct()
     {
@@ -916,8 +916,7 @@ class RedshopModelOrder_detail extends RedshopModel
             return false;
         }
 
-        $dispatcher = JEventDispatcher::getInstance();
-        $dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
+        $this->_dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
 
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
             RedshopEconomic::renewInvoiceInEconomic($orderData);
@@ -963,7 +962,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
         $new_added_qty = $data['quantity'] - $orderitemdata->product_quantity;
 
-        if ($currentStock >= $new_added_qty || Redshop::getConfig()->get('USE_STOCKROOM') == 0) {
+        if ($currentStock >= $new_added_qty || Redshop::getConfig()->get('USE_STOCKROOM') === 0) {
             $quantity = (int)$data['quantity'];
         } else {
             $quantity = (int)$orderitemdata->product_quantity;
@@ -977,7 +976,7 @@ class RedshopModelOrder_detail extends RedshopModel
         $OrderItems = RedshopHelperOrder::getOrderItemDetail($order_id);
         $totalTax   = $product_tax * $quantity;
 
-        for ($i = 0, $in = count($OrderItems); $i < $in; $i++) {
+        for ($i = 0, $in = count((array)$OrderItems); $i < $in; $i++) {
             if ($order_item_id != $OrderItems[$i]->order_item_id) {
                 $itemtax  = $OrderItems[$i]->product_item_price - $OrderItems[$i]->product_item_price_excl_vat;
                 $totalTax = $totalTax + ($itemtax * $OrderItems[$i]->product_quantity);
@@ -1013,6 +1012,7 @@ class RedshopModelOrder_detail extends RedshopModel
         $orderdata->order_tax                       = $totalTax;
         $orderdata->order_total                     = $total;
         $orderdata->order_subtotal                  = $subtotal;
+        $tmpArr                                     = array();
 
         if ($orderitemdata->store()) {
             $this->_dispatcher->trigger('onAfterUpdateOrderItem', array($orderitemdata));
@@ -1045,7 +1045,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
         $orderItems      = RedshopHelperOrder::getOrderItemDetail($this->_id);
         $update_discount = abs($data['update_discount']);
-
+        $discountvat     = 0;
         if ($update_discount == $orderData->order_discount) {
             return false;
         }
@@ -1067,8 +1067,8 @@ class RedshopModelOrder_detail extends RedshopModel
         if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == '0' && Redshop::getConfig()->get(
                 'VAT_RATE_AFTER_DISCOUNT'
             ) && $update_discount != "0.00" && $orderData->order_tax && !empty($update_discount)) {
-            $Discountvat     = (Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $update_discount);
-            $update_discount = $update_discount + $Discountvat;
+            $discountvat     = (Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $update_discount);
+            $update_discount = $update_discount + $discountvat;
         }
 
         if (abs($data['update_discount']) == 0) {
@@ -1105,8 +1105,8 @@ class RedshopModelOrder_detail extends RedshopModel
 
         $orderData->order_total = $orderData->order_total - $orderData->payment_discount;
 
-        $orderData->order_tax          = $orderData->order_tax + $orderData->order_discount_vat - $Discountvat;
-        $orderData->order_discount_vat = $Discountvat;
+        $orderData->order_tax          = $orderData->order_tax + $orderData->order_discount_vat - $discountvat;
+        $orderData->order_discount_vat = $discountvat;
         $orderData->order_discount     = $update_discount;
         $orderData->mdate              = time();
 
