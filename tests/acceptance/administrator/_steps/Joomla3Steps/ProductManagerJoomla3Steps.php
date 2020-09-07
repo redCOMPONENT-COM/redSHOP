@@ -388,6 +388,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$usePage = new ProductManagerPage();
 		$I->waitForElement($usePage->returnChoice($category), 30);
 		$I->click($usePage->returnChoice($category));
+		$I->executeJS('window.scrollTo(0,0);');
+		$I->waitForText(ProductManagerPage::$buttonSaveClose, 30);
 		$I->click(ProductManagerPage::$buttonSaveClose);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}

@@ -17,7 +17,6 @@ defined('_JEXEC') or die;
  * @var   string $required    Extra field required
  * @var   string $uniqueId    Extra field unique Id
  * @var   array  $fieldCheck  Extra field check
- * @var   string $checkData   Extra field check data
  * @var   int    $isAtt
  * @var   int    $productId
  */
