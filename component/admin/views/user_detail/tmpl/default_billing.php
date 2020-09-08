@@ -30,7 +30,16 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                 <span id="divFirstname"><?php echo JText::_('COM_REDSHOP_FIRST_NAME'); ?></span>:
             </td>
             <td><input class="text_area" type="text" name="firstname" id="firstname"
-                       value="<?php echo $this->detail->firstname; ?>" size="20" maxlength="250"/></td>
+                       value="<?php echo $this->detail->firstname; ?>" size="20" maxlength="250"/>
+                <?php echo JHTML::tooltip(
+                    JText::_('COM_REDSHOP_TOOLTIP_FIRST_NAME'),
+                    JText::_('COM_REDSHOP_FIRST_NAME'),
+                    'tooltip.png',
+                    '',
+                    '',
+                    false
+                ); ?>
+            </td>
         </tr>
         <tr id="trLastname">
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_LAST_NAME'); ?>:</td>
@@ -124,7 +133,16 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
         <tr>
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_ZIPCODE'); ?>:</td>
             <td><input class="inputbox" type="text" name="zipcode" id="zipcode" size="20"
-                       value="<?php echo $this->detail->zipcode; ?>"/></td>
+                       value="<?php echo $this->detail->zipcode; ?>"/>
+                <?php echo JHTML::tooltip(
+                    JText::_('COM_REDSHOP_TOOLTIP_ZIPCODES'),
+                    JText::_('COM_REDSHOP_ZIPCODE'),
+                    'tooltip.png',
+                    '',
+                    '',
+                    false
+                ); ?>
+            </td>
         </tr>
         <tr id="trEANnumber" <?php echo $allowCompany; ?>>
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_EAN_NUMBER'); ?>:</td>
