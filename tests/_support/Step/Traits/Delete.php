@@ -42,7 +42,9 @@ trait Delete
 		$tester->wait(0.5);
 		$tester->click($pageClass::$checkAllXpath);
 		$tester->waitForText($pageClass::$buttonDelete, 30);
+		$tester->wait(0.2);
 		$tester->click($pageClass::$buttonDelete);
+		$tester->wait(0.2);
 		$tester->acceptPopup();
 		$tester->waitForText($pageClass::$namePage, 30, $pageClass::$headPage);
 		$tester->searchItem($item);
