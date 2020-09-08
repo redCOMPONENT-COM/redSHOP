@@ -1587,7 +1587,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
         var subTotal = <?php echo $subtotal_excl_vat ?>;
         var discount = parseFloat(jQuery('#update_discount').val());
 
-        var specialDiscount = parseFloat(jQuery('#special_discount').val());
+        var specialDiscount = (parseFloat(jQuery('#special_discount').val()) * subTotal) / 100;
 
         if ((discount < 0) || (specialDiscount < 0)) {
             alert('<?php echo JText::_("COM_REDSHOP_ORDER_DISCOUNT_NOT_LESS_THAN_ZERO") ?>');
