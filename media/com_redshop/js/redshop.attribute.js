@@ -1649,7 +1649,7 @@ function discountCalculation(proid) {
 					var product_main_price = document.getElementById('main_price' + proid).value;
 
 					if (redSHOP.RSConfig._('SHOW_PRICE') == '1' && (redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') != '1' || (redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') && redSHOP.RSConfig._('SHOW_QUOTATION_PRICE')))) {
-						var product_total = parseFloat(product_main_price) + parseFloat(price_total);
+						var product_total = parseFloat(price_total);
 
 						if (areaPrice[8] == 1) {
 							var product_price_excl_vat = price_total + price_excl_vat * qty;
