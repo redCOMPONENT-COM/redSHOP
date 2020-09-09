@@ -1287,7 +1287,7 @@ class RedshopHelperStockroom
 
                 $query->select($db->qn($column, 'id'))
                     ->from($db->qn($table, 'p'))
-                    ->group($db->qn('id'));
+                    ->group($db->qn('p.property_id'));
 
                 if ($section != 'product') {
                     $query->leftJoin(
