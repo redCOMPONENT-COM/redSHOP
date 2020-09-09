@@ -376,4 +376,15 @@ class OrderManagerPage extends AdminJ3Page
 		$path = "//select[@attribute_name='$nameAttribute']";
 		return $path;
 	}
+
+	/**
+	 * @param $nameProperty
+	 * @return string
+	 * @since 3.0.3
+	 */
+	public function returnPropertyName($nameProperty)
+	{
+		$path = "//div[contains(text(),'$nameProperty')]";
+		return $path;
+	}
 }

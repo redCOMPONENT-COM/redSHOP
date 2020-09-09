@@ -276,7 +276,9 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 	{
 		$client = $this;
 		$client->amOnPage(TaxGroupPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
 		$client->checkAllResults();
+		$client->waitForText(TaxGroupPage::$buttonPublish, 30);
 		$client->click(TaxGroupPage::$buttonPublish);
 	}
 

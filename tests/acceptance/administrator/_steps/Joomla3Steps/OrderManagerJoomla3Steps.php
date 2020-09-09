@@ -227,27 +227,20 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(OrderManagerPage::$buttonNew);
 		$I->waitForElementVisible(OrderManagerPage::$userId, 30);
 		$I->click(OrderManagerPage::$userId);
-		$I->waitForElement(OrderManagerPage::$userSearch, 30);
+		$I->waitForElementVisible(OrderManagerPage::$userSearch, 30);
 		$userOrderPage = new OrderManagerPage();
 		$I->fillField(OrderManagerPage::$userSearch, $nameUser);
 		$I->waitForElementVisible($userOrderPage->returnSearch($nameUser), 30);
 		$I->wait(0.5);
 		$I->pressKey(OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForJs('return document.readyState == "complete"', 10);
 		$I->waitForElementVisible(OrderManagerPage::$fistName, 30);
 		$I->see($nameUser);
-		$I->wait(0.5);
 		$I->waitForElement(OrderManagerPage::$applyUser, 30);
-		$I->executeJS("jQuery('.button-apply').click()");
+		$I->wait(0.5);
+		$I->click(OrderManagerPage::$applyUser);
 
-		try
-		{
-			$I->waitForElement(OrderManagerPage::$productId, 5);
-		}catch (\Exception $e)
-		{
-			$I->executeJS("jQuery('.button-apply').click()");
-		}
-
-		$I->waitForElement(OrderManagerPage::$orderDetailTable, 10);
+		$I->waitForElement(OrderManagerPage::$orderDetailTable, 60);
 		$I->scrollTo(OrderManagerPage::$orderDetailTable);
 		$I->waitForElementVisible(OrderManagerPage::$productId, 30);
 		$I->click(OrderManagerPage::$productId);
@@ -370,6 +363,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->amOnPage(OrderManagerPage::$URL);
 		$I->click(OrderManagerPage::$buttonNew);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForText(OrderManagerPage::$titlePage, 30, OrderManagerPage::$h1);
 		$I->waitForElementVisible(OrderManagerPage::$userId, 30);
 		$I->click(OrderManagerPage::$userId);
@@ -380,12 +374,12 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
 		$I->pressKey(OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(OrderManagerPage::$fistName, 30);
+		$I->waitForText($nameUser, 30);
 		$I->see($nameUser);
 
 		$I->waitForElementVisible(OrderManagerPage::$applyUser, 30);
 		$I->wait(0.5);
 		$I->click(OrderManagerPage::$applyUser);
-		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElement(OrderManagerPage::$orderDetailTable, 60);
 		$I->scrollTo(OrderManagerPage::$orderDetailTable);
 
@@ -409,7 +403,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 		$I->seeElement($userOrderPage->returnXpathAttributeName($product['attributeName']));
 		$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
-		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$I->waitForJs('return document.readyState == "complete"', 10);
 
 		switch ($function)
 		{
@@ -419,7 +413,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 				$priceProductTotal = $priceVATAttribute + ($product['priceProduct'] + $product['priceSize']);
 
-				$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
+				$I->waitForElementVisible($userOrderPage->returnPropertyName($product['size']), 30);
 
 				$I->waitForElement(OrderManagerPage::$priceVAT, 30);
 				$vatProduct = $I->grabTextFrom(OrderManagerPage::$priceVAT);
@@ -453,7 +447,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 			case 'NotVAT':
 			{
-				$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
+				$I->waitForElementVisible($userOrderPage->returnPropertyName($product['size']), 30);
 				$priceProductTotal = $product['priceProduct'] + $product['priceSize'];
 				$vatProduct = $I->grabTextFrom(OrderManagerPage::$priceVAT);
 				$priceProductString = $currencyUnit['currencySymbol'].' '.$priceProductTotal.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
