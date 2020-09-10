@@ -29,13 +29,25 @@ class RedshopModelPromotion extends RedshopModelForm
      */
     public function save($data)
     {
-        $post = JFactory::getApplication()->input->post->getArray();
+        # Step 1: get data from Post
+        $post = \Joomla\CMS\Factory::getApplication()->input->post->getArray();
 
-        JPluginHelper::importPlugin('redshop_promotion', $data['type']);
-        $dispatcher = RedshopHelperUtility::getDispatcher();
-        $data = $dispatcher->trigger('onSavePromotion', [$post])[0];
+        # Step 2: validate data
+        $check = \Redshop\Plugin\Helper::invoke('redshop_promotion',
+            $data['type'],
+            'onValidate',
+            [$post])[0];
 
-        //JFactory::getApplication()->enqueueMessage('OK', 'success');
+        if (!$check->isValid) {
+            $this->setError('<br />' . implode('<br />', $check->errorMessage));
+            return false;
+        }
+
+        # Step 3: If pass validate, do save;
+        $data = \Redshop\Plugin\Helper::invoke('redshop_promotion',
+            $data['type'],
+            'onSavePromotion',
+            [$post])[0];
 
         return parent::save($data);
     }
