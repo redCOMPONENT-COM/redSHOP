@@ -52,7 +52,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     'tooltip.png',
                     '',
                     '',
-                    false
+                    /** @scrutinizer ignore-type */ false
                 ); ?>
                 <span id="user_valid">*</span>
             </td>
