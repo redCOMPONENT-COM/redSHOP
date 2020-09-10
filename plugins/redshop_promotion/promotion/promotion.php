@@ -75,21 +75,21 @@ class PlgRedshop_PromotionPromotion extends JPlugin
                         . '. ' . \JText::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_DATE_RANGE');
                 }
 
-                if (empty($data['condition_amount'])) {
+                if (empty($data['condition_amount']) || (int) $data['condition_amount'] < 0 ) {
                     $result->errorMessage[] = (count($result->errorMessage) + 1)
                         . '. ' . \JText::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_CONDITION_QUANTITY');;
                 }
 
                 break;
             case 'volume_order':
-                if (empty($data['order_volume'])) {
+                if (empty($data['order_volume']) || (int) $data['order_volume'] < 0) {
                     $result->errorMessage[] = (count($result->errorMessage) + 1)
                         . '. ' . \JText::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_VOLUME_ORDER');;
                 }
 
                 break;
             default:
-                if (empty($data['award_amount'])) {
+                if (empty($data['award_amount']) || (int) $data['award_amount'] < 0) {
                     $result->errorMessage[] = (count($result->errorMessage) + 1)
                         . '. ' . \JText::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_AWARD_QUANTITY');;
                 }
