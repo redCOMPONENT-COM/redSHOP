@@ -39,6 +39,7 @@ class RedshopModelPromotion extends RedshopModelForm
             [$post])[0];
 
         if (!$check->isValid) {
+            /** @scrutinizer ignore-deprecated */
             $this->setError('<br />' . implode('<br />', $check->errorMessage));
             return false;
         }
