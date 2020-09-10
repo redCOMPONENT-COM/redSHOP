@@ -85,10 +85,10 @@ class PlgRedshop_PromotionPromotion extends JPlugin
                 }
 
                 break;
-            default:
-                if (empty($data['award_amount']) || (int) $data['award_amount'] < 0) {
-                    $result->errorMessage[] = \JText::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_AWARD_QUANTITY');;
-                }
+        }
+
+        if (empty($data['award_amount']) || (int) $data['award_amount'] < 0) {
+            $result->errorMessage[] = \JText::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_AWARD_QUANTITY');;
         }
 
         if (count($result->errorMessage) > 0) {
