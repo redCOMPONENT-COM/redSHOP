@@ -26,32 +26,30 @@ class RedshopUpdate303 extends RedshopInstallUpdate
 	 */
 	public function installShopperGroup()
 	{
-		$db    = JFactory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_tax_rate'));
-		$taxRates = $db->setQuery($query)->loadAssocList();
+			->select('tr.*')
+			->from($db->qn('#__redshop_tax_rate', 'tr'))
+			->leftJoin(
+				$db->qn('#__redshop_tax_shoppergroup_xref', 'tsx')
+				. ' ON ' . $db->qn('tr.id') . ' = ' . $db->qn('tsx.tax_rate_id')
+			)
+			->where($db->qn('tsx.shopper_group_id') . 'IS NULL');
+
+		$taxRates = \Redshop\DB\Tool::safeSelect($db, $query, true);
 
 		foreach ($taxRates as $taxRate) {
-			$subQuery = $db->getQuery(true)
-				->select('*')
-				->from($db->qn('#__redshop_tax_shoppergroup_xref'))
-				->where($db->qn('tax_rate_id') . ' = ' . $db->q($taxRate['id']));
-			$taxShopperGroups = $db->setQuery($subQuery)->loadAssocList();
+			$query = $db->getQuery(true)
+				->select('id')
+				->from($db->qn('#__redshop_shopper_group'));
 
-			if (!$taxShopperGroups) {
-				$query = $db->getQuery(true)
-					->select('id')
-					->from($db->qn('#__redshop_shopper_group'));
+			$shopperGroups = \Redshop\DB\Tool::safeSelect($db, $query, true);
 
-				$shopperGroups = $db->setQuery($query)->loadAssocList();
-
-				foreach ($shopperGroups as $shopperGroup) {
-					$obTaxShopperGroup = new stdClass();
-					$obTaxShopperGroup->tax_rate_id = $taxRate['id'];
-					$obTaxShopperGroup->shopper_group_id = $shopperGroup['id'];
-					$db->insertObject('#__redshop_tax_shoppergroup_xref', $obTaxShopperGroup, 'id');
-				}
+			foreach ($shopperGroups as $shopperGroup) {
+				$obTaxShopperGroup = new stdClass();
+				$obTaxShopperGroup->tax_rate_id = $taxRate['id'];
+				$obTaxShopperGroup->shopper_group_id = $shopperGroup['id'];
+				$db->insertObject('#__redshop_tax_shoppergroup_xref', $obTaxShopperGroup, 'id');
 			}
 		}
 	}
