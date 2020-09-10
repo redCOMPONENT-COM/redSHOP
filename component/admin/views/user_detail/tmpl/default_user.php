@@ -88,6 +88,7 @@ defined('_JEXEC') or die; ?>
                         '',
                         false
                     ); ?>
+                    <span id="user_valid">*</span>
                 </td>
             </tr>
             <?php if (!$this->silerntuser) {
@@ -103,6 +104,7 @@ defined('_JEXEC') or die; ?>
                             '',
                             false
                         ); ?>
+                        <span id="user_valid">*</span>
                     </td>
                 </tr>
                 <?php

@@ -39,6 +39,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     '',
                     false
                 ); ?>
+                <span id="user_valid">*</span>
             </td>
         </tr>
         <tr id="trLastname">
@@ -53,6 +54,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     '',
                     false
                 ); ?>
+                <span id="user_valid">*</span>
             </td>
         </tr>
         <tr id="trCompanyName" <?php echo $allowCompany; ?>>
