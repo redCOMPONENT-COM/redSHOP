@@ -32,7 +32,7 @@ class Calculation
      * @param $productData
      * @param $data
      *
-     * @return array
+     * @return object
      * @since  __DEPLOY_VERSION__
      */
     public static function productMeasurement($productData, $data)
@@ -152,7 +152,6 @@ class Calculation
                 }
 
                 $calcOutput .= JText::_('COM_REDSHOP_DISCOUNT_CALC_UNIT') . " " . $data['calcUnit'];
-                $calcOutput .= JText::_('COM_REDSHOP_DISCOUNT_CALC_UNIT') . " " . $data['calcUnit'];
                 $calculationOutputs['calcUnit'] = $data['calcUnit'];
 
                 // Extra selected value data
@@ -168,7 +167,7 @@ class Calculation
 
                 return $discounts;
             } else {
-                return [];
+                return new \stdClass;
             }
         }
     }
