@@ -47,7 +47,7 @@ class RedshopControllerCatalog extends RedshopController
             $msg = JText::_('COM_REDSHOP_ERROR_CATALOG_SEND_SUCCSEEFULLY');
         }
 
-        $this->setRedirect(JRoute::_('index.php?option=com_redshop&view=catalog&Itemid=' . $itemId, false), $msg);
+        $this->setRedirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=catalog&Itemid=' . $itemId, false), $msg);
     }
 
     /**
@@ -88,7 +88,7 @@ class RedshopControllerCatalog extends RedshopController
         }
 
         $this->setRedirect(
-            JRoute::_('index.php?option=com_redshop&view=catalog&layout=sample&Itemid=' . $itemId, false),
+            Redshop\IO\Route::_('index.php?option=com_redshop&view=catalog&layout=sample&Itemid=' . $itemId, false),
             $msg
         );
     }

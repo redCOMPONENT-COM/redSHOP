@@ -183,7 +183,8 @@ switch ($view) {
 
     case 'product':
         if ($pid) {
-            $product = \Redshop\Product\Product::getProductById($pid);
+            RedshopEntityProduct::clearInstance($pid);
+            $product = RedshopEntityProduct::getInstance($pid)->getItem();
 
             $url = trim($product->sef_url);
 

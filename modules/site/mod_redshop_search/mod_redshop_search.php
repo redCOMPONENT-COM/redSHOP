@@ -143,7 +143,7 @@ $lists['searchtypedata'] = JHtml::_(
 
 $twigParams = array(
 	'itemid'                    => $itemId,
-	'formAction'                => JRoute::_('index.php?option=com_redshop&view=search&Itemid='. $itemId),
+	'formAction'                => Redshop\IO\Route::_('index.php?option=com_redshop&view=search&Itemid='. $itemId),
 	'goodGuy'                   => !defined('JEXEC'),
 	'showProductSearchTitle'    => $showProductSearchTitle,
 	'showSearchTypeField'       => $showSearchTypeField,

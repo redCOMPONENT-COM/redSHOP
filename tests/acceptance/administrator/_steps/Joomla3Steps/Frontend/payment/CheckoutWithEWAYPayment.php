@@ -36,9 +36,9 @@ class CheckoutWithEWAYPayment extends CheckoutWithAuthorizeDPMPayment
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
-		$I->wait(1);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment,30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentEWAY, 30);
+		$I->wait(0.5);
 		$I->click(FrontEndProductManagerJoomla3Page::$paymentEWAY);
 		$I->wait(0.5);
 

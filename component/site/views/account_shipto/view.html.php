@@ -81,7 +81,7 @@ class RedshopViewAccount_Shipto extends RedshopView
             $billingAddress = $model->_loadData($auth['users_info_id']);
         } else {
             $app->redirect(
-                JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $itemId)
+                Redshop\IO\Route::_('index.php?option=com_redshop&view=login&Itemid=' . $itemId)
             );
             $app->close();
         }
@@ -151,7 +151,7 @@ class RedshopViewAccount_Shipto extends RedshopView
         JHtml::_('script', 'com_redshop/account/shipto.min.js', false, true);
         $optionShipTo = [
             'isEdit' => $isEdit,
-            'link'   => JRoute::_("index.php?option=com_redshop&view=" . $return . "&Itemid" . $itemId)
+            'link'   => Redshop\IO\Route::_("index.php?option=com_redshop&view=" . $return . "&Itemid" . $itemId)
         ];
 
 

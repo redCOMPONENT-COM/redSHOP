@@ -51,7 +51,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
         if (!$form) {
             /** @scrutinizer ignore-deprecated */
             JError::raiseError(500, $model->getError());
-            $this->setRedirect(JRoute::_($link, false));
+            $this->setRedirect(Redshop\IO\Route::_($link, false));
 
             return false;
         }
@@ -115,6 +115,6 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
             }
         }
 
-        $this->setRedirect(JRoute::_($link, false));
+        $this->setRedirect(Redshop\IO\Route::_($link, false));
     }
 }

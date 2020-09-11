@@ -70,7 +70,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 	public function addDiscountToday($productPrice, $condition, $type, $discountAmount, $category, $groupName)
 	{
 		$client = $this;
-		$toDay = date('Y-m-d');
+		$toDay = date('d-M-y');
 
 		$client->amOnPage(DiscountProductPage::$url);
 		$client->checkForPhpNoticesOrWarnings();

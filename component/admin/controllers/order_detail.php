@@ -480,7 +480,7 @@ class RedshopControllerOrder_detail extends RedshopController
         $model->update_ccdata($request['order_id'], $paymentResponse->transaction_id);
 
         $app->redirect(
-            JRoute::_(
+            Redshop\IO\Route::_(
                 JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['order_id']
             ),
             $paymentResponse->message

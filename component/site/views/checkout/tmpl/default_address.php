@@ -16,12 +16,12 @@ $auth           = $session->get('auth');
 $cart   = \Redshop\Cart\Helper::getCart();
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '', false) ?>"
+<form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '', false) ?>"
       method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
     <input type="hidden" name='l' value='0'>
     <?php
     $billingAddresses = $model->billingaddresses();
-    $editbill         = JRoute::_(
+    $editbill         = Redshop\IO\Route::_(
         "index.php?option=com_redshop&view=account_billto&return=checkout&tmpl=component&setexit=1&Itemid=" . $Itemid,
         false
     );
@@ -88,7 +88,7 @@ $cart   = \Redshop\Cart\Helper::getCart();
                         }
 
                         $shippingaddresses = $model->shippingaddresses();
-                        $add_addlink       = JRoute::_(
+                        $add_addlink       = Redshop\IO\Route::_(
                             "index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&is_company=" . $billingAddresses->is_company . "&Itemid=" . $Itemid,
                             false
                         );
@@ -98,11 +98,11 @@ $cart   = \Redshop\Cart\Helper::getCart();
                                 $checked = ($this->users_info_id == $shippingaddresses [$i]->users_info_id) ? 'checked' : '';
                             }
 
-                            $edit_addlink   = JRoute::_(
+                            $edit_addlink   = Redshop\IO\Route::_(
                                 "index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid,
                                 false
                             );
-                            $delete_addlink = JRoute::_(
+                            $delete_addlink = Redshop\IO\Route::_(
                                 "index.php?option=com_redshop&view=account_shipto&return=checkout&tmpl=component&task=remove&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid,
                                 false
                             ); ?>

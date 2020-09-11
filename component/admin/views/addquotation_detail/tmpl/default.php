@@ -202,7 +202,7 @@ $jinput = JFactory::getApplication()->input;
 if (!$jinput->get('ajaxtask'))
 {
 ?>
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Redshop\IO\Route::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
     <table border="0" cellspacing="0" cellpadding="0" class="adminlist table">
         <tbody>
         <tr>

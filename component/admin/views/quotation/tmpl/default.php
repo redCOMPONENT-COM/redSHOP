@@ -21,7 +21,7 @@ $model = $this->getModel('quotation');
     };
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=quotation'); ?>" method="post"
+<form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=quotation'); ?>" method="post"
       name="adminForm" id="adminForm">
     <div id="editcell">
         <div class="filterTool">
@@ -104,7 +104,7 @@ $model = $this->getModel('quotation');
                         $display .= ($userarr->is_company && $userarr->company_name != "") ? "<br>" . $userarr->company_name : "";
                     }
                 }
-                $link   = JRoute::_(
+                $link   = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id
                 );
                 $status = RedshopHelperQuotation::getQuotationStatusName($row->quotation_status);

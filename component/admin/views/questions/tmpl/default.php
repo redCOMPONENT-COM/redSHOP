@@ -107,7 +107,7 @@ if ($allowOrder) {
                         <?php echo JHtml::_('jgrid.published', $row->published, $i, '', 1) ?>
                     </td>
                     <td>
-                        <a href="<?php echo JRoute::_(
+                        <a href="<?php echo Redshop\IO\Route::_(
                             'index.php?option=com_redshop&task=question.edit&id=' . $row->id
                         ) ?>"
                            title="<?php echo JText::_('COM_REDSHOP_VIEW_QUESTION') ?>">
@@ -127,7 +127,7 @@ if ($allowOrder) {
                         $answer = count($answer);
                         ?>
                         <a class="badge label-info"
-                           href="<?php echo JRoute::_(
+                           href="<?php echo Redshop\IO\Route::_(
                                'index.php?option=com_redshop&task=question.edit&id=' . $row->id . '#answerlists'
                            ) ?>">
                             <strong><?php echo $answer ?></strong>

@@ -121,10 +121,10 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
                 $cLink->setScheme('https');
                 $cLink->setHost($uri->getHost());
 
-                $cLink->setPath(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId));
+                $cLink->setPath(Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId));
                 $link = $cLink->toString();
             } else {
-                $link = JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId);
+                $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId);
             }
 
             $checkout = RedshopLayoutHelper::render(
@@ -158,11 +158,11 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
          */
         if (strstr($this->template, "{shop_more}")) {
             if (Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK') != '') {
-                $shopMoreLink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
+                $shopMoreLink = Redshop\IO\Route::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
             } elseif ($catItemId = RedshopHelperRouter::getCategoryItemid()) {
-                $shopMoreLink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
+                $shopMoreLink = Redshop\IO\Route::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
             } else {
-                $shopMoreLink = JRoute::_('index.php');
+                $shopMoreLink = Redshop\IO\Route::_('index.php');
             }
 
             $shopMore = RedshopLayoutHelper::render(
@@ -205,11 +205,9 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
 
         $this->addReplace('{empty_cart}', $emptyCart);
 
-        $discount = RedshopHelperDiscount::getDiscount(0);
+        $discount = RedshopHelperDiscount::getDiscount($cart ['product_subtotal']);
 
         if (is_object($discount)) {
-            $text = '';
-
             if (isset($discount->discount_type) && $discount->discount_type == 0) {
                 $discountAmount = $discount->discount_amount;
                 $discountSign   = " " . Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
@@ -218,7 +216,6 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
                 $discountSign   = " %";
             }
 
-            $diff  = $discount->amount - $cart ['product_subtotal'];
             $price = number_format(
                 $discount->discount_amount,
                 Redshop::getConfig()->get('PRICE_DECIMAL'),
@@ -226,14 +223,27 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
                 Redshop::getConfig()->get('THOUSAND_SEPERATOR')
             );
 
-            if ($diff > 0) {
-                $text = sprintf(
-                    JText::_('COM_REDSHOP_DISCOUNT_TEXT'),
-                    RedshopHelperProductPrice::formattedPrice($diff, true),
-                    RedshopHelperProductPrice::formattedPrice($discountAmount, true),
-                    $price . $discountSign
-                );
-            }
+            $conditionText = '';
+
+            switch ($discount->condition) {
+                case 1:
+                    $conditionText = JText::_('COM_REDSHOP_LOWER');
+                    break;
+                case 2:
+                    $conditionText = JText::_('COM_REDSHOP_EQUAL');
+                    break;
+                case 3:
+                    $conditionText =  JText::_('COM_REDSHOP_HIGHER');
+                    break;
+                };
+
+            $text = sprintf(
+                JText::_('COM_REDSHOP_DISCOUNT_TEXT'),
+                RedshopHelperProductPrice::formattedPrice($discountAmount, true),
+                $price . $discountSign,
+                $conditionText ,
+                RedshopHelperProductPrice::formattedPrice($discount->amount, true)
+            );
 
             /*
               *  Discount type =  1 // Discount/coupon/voucher

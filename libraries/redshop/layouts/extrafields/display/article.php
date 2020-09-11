@@ -20,7 +20,7 @@ extract($displayData);
 
 <div class="redshop-field-joomla-article">
     <?php foreach ($data as $article) : ?>
-        <?php $link = JRoute::_(
+        <?php $link = Redshop\IO\Route::_(
             'index.php?option=com_content&view=article' .
             '&id=' . $article->id . ':' . $article->alias .
             '&catid=' . $article->catid

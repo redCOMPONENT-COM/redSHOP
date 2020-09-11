@@ -189,6 +189,9 @@ class CheckoutChangeQuantityProductCest
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->cartSetting);
 
+		$I->wantTo('Enable PayPal');
+		$I->enablePlugin('PayPal');
+
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);

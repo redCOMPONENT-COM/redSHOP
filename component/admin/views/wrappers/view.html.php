@@ -34,7 +34,7 @@ class RedshopViewWrappers extends RedshopViewList
 	{
 		switch ($config['dataCol']) {
             case 'name':
-                $nameLink = JRoute::_(
+                $nameLink = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&task=wrapper.edit&id=' . $row->id
                 );
 
