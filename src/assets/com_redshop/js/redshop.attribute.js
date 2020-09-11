@@ -457,9 +457,9 @@ function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
 		requiredError = "",
 		subPropRequiredError = "",
 		layout = jQuery('#isAjaxBoxOpen').val(),
-		preorder = jQuery('#product_preorder' + productId).val(),
-		product_stock = jQuery('#product_stock' + productId).val(),
-		preorder_stock = jQuery('#preorder_product_stock' + productId).val(),
+		preorder = jQuery('[data-id=product_preorder'+ productId +']').val(),
+		product_stock = jQuery('[data-id=product_stock'+ productId +']').val(),
+		preorder_stock = jQuery('[data-id=preorder_product_stock'+ productId +']').val(),
 		preprefix = "",
 		myaccQuan = 1;
 
