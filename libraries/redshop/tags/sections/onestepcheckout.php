@@ -123,7 +123,7 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
                 'tags.common.tag',
                 array(
                     'tag'  => 'div',
-                    'id'   => 'divPaymentMethod',
+                    'id'   => 'paymentblock',
                     'text' => $paymentTemplate
                 ),
                 '',
