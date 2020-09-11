@@ -30,7 +30,17 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                 <span id="divFirstname"><?php echo JText::_('COM_REDSHOP_FIRST_NAME'); ?></span>:
             </td>
             <td><input class="text_area" type="text" name="firstname" id="firstname"
-                       value="<?php echo $this->detail->firstname; ?>" size="20" maxlength="250"/></td>
+                       value="<?php echo $this->detail->firstname; ?>" size="20" maxlength="250"/>
+                <?php echo JHTML::tooltip(
+                    JText::_('COM_REDSHOP_TOOLTIP_FIRST_NAME'),
+                    JText::_('COM_REDSHOP_FIRST_NAME'),
+                    'tooltip.png',
+                    '',
+                    '',
+                    'hasTooltip'
+                ); ?>
+                <span id="user_valid">*</span>
+            </td>
         </tr>
         <tr id="trLastname">
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_LAST_NAME'); ?>:</td>
@@ -42,8 +52,9 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     'tooltip.png',
                     '',
                     '',
-                    false
+                    'hasTooltip'
                 ); ?>
+                <span id="user_valid">*</span>
             </td>
         </tr>
         <tr id="trCompanyName" <?php echo $allowCompany; ?>>
@@ -61,7 +72,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     'tooltip.png',
                     '',
                     '',
-                    false
+                    'hasTooltip'
                 ); ?>
             </td>
         </tr>
@@ -75,7 +86,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     'tooltip.png',
                     '',
                     '',
-                    false
+                    'hasTooltip'
                 ); ?>
             </td>
         </tr>
@@ -88,7 +99,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     'tooltip.png',
                     '',
                     '',
-                    false
+                    'hasTooltip'
                 ); ?></td>
         </tr>
         <tr <?php echo $countryStyle; ?>>
@@ -103,7 +114,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                         'tooltip.png',
                         '',
                         '',
-                        false
+                        'hasTooltip'
                     ); ?></div>
             </td>
         </tr>
@@ -117,14 +128,23 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     'tooltip.png',
                     '',
                     '',
-                    false
+                    'hasTooltip'
                 ); ?>
             </td>
         </tr>
         <tr>
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_ZIPCODE'); ?>:</td>
             <td><input class="inputbox" type="text" name="zipcode" id="zipcode" size="20"
-                       value="<?php echo $this->detail->zipcode; ?>"/></td>
+                       value="<?php echo $this->detail->zipcode; ?>"/>
+                <?php echo JHTML::tooltip(
+                    JText::_('COM_REDSHOP_TOOLTIP_ZIPCODES'),
+                    JText::_('COM_REDSHOP_ZIPCODE'),
+                    'tooltip.png',
+                    '',
+                    '',
+                    'hasTooltip'
+                ); ?>
+            </td>
         </tr>
         <tr id="trEANnumber" <?php echo $allowCompany; ?>>
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_EAN_NUMBER'); ?>:</td>
@@ -144,7 +164,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                         'tooltip.png',
                         '',
                         '',
-                        false
+                        'hasTooltip'
                     ); ?>
                 </td>
             </tr>
@@ -157,7 +177,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                         'tooltip.png',
                         '',
                         '',
-                        false
+                        'hasTooltip'
                     ); ?></td>
             </tr>
             <tr id="trTaxExemptRequest" <?php echo $allowCompany; ?>>
@@ -169,7 +189,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                         'tooltip.png',
                         '',
                         '',
-                        false
+                        'hasTooltip'
                     ); ?></td>
             </tr>
             <tr id="trTaxExemptApproved" <?php echo $allowCompany; ?>>
@@ -181,7 +201,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                         'tooltip.png',
                         '',
                         '',
-                        false
+                        'hasTooltip'
                     ); ?>
                     <input type="hidden" name="tax_exempt_approved_id"
                            value="<?php echo $this->detail->tax_exempt_approved; ?>"/></td>
