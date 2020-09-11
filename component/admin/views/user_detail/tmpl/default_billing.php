@@ -37,7 +37,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     'tooltip.png',
                     '',
                     '',
-                    /** @scrutinizer ignore-type */ false
+                    'hasTooltip'
                 ); ?>
                 <span id="user_valid">*</span>
             </td>
@@ -52,7 +52,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     'tooltip.png',
                     '',
                     '',
-                    /** @scrutinizer ignore-type */ false
+                    'hasTooltip'
                 ); ?>
                 <span id="user_valid">*</span>
             </td>
@@ -72,7 +72,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     'tooltip.png',
                     '',
                     '',
-                    false
+                    'hasTooltip'
                 ); ?>
             </td>
         </tr>
@@ -86,7 +86,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     'tooltip.png',
                     '',
                     '',
-                    false
+                    'hasTooltip'
                 ); ?>
             </td>
         </tr>
@@ -99,7 +99,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     'tooltip.png',
                     '',
                     '',
-                    false
+                    'hasTooltip'
                 ); ?></td>
         </tr>
         <tr <?php echo $countryStyle; ?>>
@@ -114,7 +114,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                         'tooltip.png',
                         '',
                         '',
-                        false
+                        'hasTooltip'
                     ); ?></div>
             </td>
         </tr>
@@ -128,7 +128,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     'tooltip.png',
                     '',
                     '',
-                    false
+                    'hasTooltip'
                 ); ?>
             </td>
         </tr>
@@ -142,7 +142,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     'tooltip.png',
                     '',
                     '',
-                    false
+                    'hasTooltip'
                 ); ?>
             </td>
         </tr>
@@ -164,7 +164,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                         'tooltip.png',
                         '',
                         '',
-                        false
+                        'hasTooltip'
                     ); ?>
                 </td>
             </tr>
@@ -177,7 +177,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                         'tooltip.png',
                         '',
                         '',
-                        false
+                        'hasTooltip'
                     ); ?></td>
             </tr>
             <tr id="trTaxExemptRequest" <?php echo $allowCompany; ?>>
@@ -189,7 +189,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                         'tooltip.png',
                         '',
                         '',
-                        false
+                        'hasTooltip'
                     ); ?></td>
             </tr>
             <tr id="trTaxExemptApproved" <?php echo $allowCompany; ?>>
@@ -201,7 +201,7 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                         'tooltip.png',
                         '',
                         '',
-                        false
+                        'hasTooltip'
                     ); ?>
                     <input type="hidden" name="tax_exempt_approved_id"
                            value="<?php echo $this->detail->tax_exempt_approved; ?>"/></td>
