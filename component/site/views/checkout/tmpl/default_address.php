@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 $model  = $this->getModel('checkout');
 $Itemid = RedshopHelperRouter::getCheckoutItemId();
 $session        = JFactory::getSession();
+$user = $session->get('user');
 $auth           = $session->get('auth');
 $cart   = \Redshop\Cart\Helper::getCart();
 ?>
@@ -41,7 +42,7 @@ $cart   = \Redshop\Cart\Helper::getCart();
                         <a class="modal btn btn-primary" href="<?php echo $editbill; ?>"
                            rel="{handler: 'iframe', size: {x: 720, y: 470}}"><?php echo JText::_('COM_REDSHOP_EDIT'); ?>
                         </a>
-	                    <?php if ($auth['users_info_id'] && Redshop::getConfig()->getInt('ENABLE_CLEAR_USER_INFO') == 1): ?>
+	                    <?php if (($auth['users_info_id'] && Redshop::getConfig()->getInt('ENABLE_CLEAR_USER_INFO') == 1) && !$user->id): ?>
                             <button type="button" class="btn btn-primary" name="clear_user_info" onclick="javascript:clearUserInfo();">
 			                    <?php echo JText::_('COM_REDSHOP_CLEAR_USER_INFO'); ?>
                             </button>
