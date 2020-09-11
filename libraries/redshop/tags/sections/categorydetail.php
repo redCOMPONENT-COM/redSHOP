@@ -243,7 +243,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 if ($parentId != 0) {
                     $categoryList         = RedshopEntityCategory::getInstance($parentId)->getItem();
                     $returnToCategoryName = $categoryList->name;
-                    $returnCatLink        = JRoute::_(
+                    $returnCatLink        = Redshop\IO\Route::_(
                         'index.php?option=' . $this->option .
                         '&view=category&cid=' . $parentId .
                         '&manufacturer_id=' . $this->manufacturer_id .
@@ -263,7 +263,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                     );
                 } elseif (Redshop::getConfig()->get('DAFULT_RETURN_TO_CATEGORY_PREFIX')) {
                     $returnToCategoryName = Redshop::getConfig()->get('DAFULT_RETURN_TO_CATEGORY_PREFIX');
-                    $returnCatLink        = JRoute::_(
+                    $returnCatLink        = Redshop\IO\Route::_(
                         'index.php?option=' . $this->option .
                         '&view=category&manufacturer_id=' . $this->manufacturer_id .
                         '&Itemid=' . $this->itemid
@@ -335,7 +335,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 $cwThumb = Redshop::getConfig()->get('THUMB_WIDTH');
             }
 
-            $link = JRoute::_(
+            $link = Redshop\IO\Route::_(
                 'index.php?option=' . $this->option .
                 '&view=category&cid=' . $this->catid .
                 '&manufacturer_id=' . $this->manufacturer_id .
@@ -382,7 +382,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
 
             $replacements[$cTag] = $catMainThumb;
 
-            $extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
+            $extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(2, null, 1);
 
             $template = RedshopHelperProductTag::getExtraSectionTag(
                 $extraFieldName,
@@ -397,7 +397,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
 
                 if (!empty(Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE'))) {
                     $compareDiv = Redshop\Product\Compare::generateCompareProduct();
-                    $compareUrl = JRoute::_(
+                    $compareUrl = Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $this->itemid
                     );
 
@@ -846,7 +846,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                         $product->categories
                     ) ? $product->categories[0] : $this->catid;
 
-                    $link = JRoute::_(
+                    $link = Redshop\IO\Route::_(
                         'index.php?option=' . $this->option .
                         '&view=product&pid=' . $product->product_id .
                         '&cid=' . $productCatId .
@@ -975,7 +975,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 $manufacturerName = isset($product->manufacturer_name) ? $product->manufacturer_name : $product->name;
 
                 if (strpos($dataAdd, '{manufacturer_link}') !== false) {
-                    $manufacturerLinkHref = JRoute::_(
+                    $manufacturerLinkHref = Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $product->manufacturer_id .
                         '&Itemid=' . $this->itemid
                     );
@@ -1000,7 +1000,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 }
 
                 if (strpos($dataAdd, '{manufacturer_product_link}') !== false) {
-                    $manuUrl = JRoute::_(
+                    $manuUrl = Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' .
                         $product->manufacturer_id . '&Itemid=' . $this->itemid
                     );
@@ -1543,7 +1543,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
             }
 
             if (strpos($template, "{order_by}") !== false) {
-                $action = JRoute::_(
+                $action = Redshop\IO\Route::_(
                     'index.php?option=' . $this->option .
                     '&view=category&cid=' . $this->catid .
                     '&manufacturer_id=' . $this->manufacturer_id .

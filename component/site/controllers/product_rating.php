@@ -51,7 +51,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
         // Preform security checks
         if (!$user->id && Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED')) {
             $app->enqueueMessage(JText::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW'), 'warning');
-            $this->setRedirect(JRoute::_($link, false));
+            $this->setRedirect(Redshop\IO\Route::_($link, false));
 
             return false;
         }
@@ -62,7 +62,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
         if (!$form) {
             /** @scrutinizer ignore-deprecated */
             JError::raiseError(500, $model->getError());
-            $this->setRedirect(JRoute::_($link, false));
+            $this->setRedirect(Redshop\IO\Route::_($link, false));
 
             return false;
         }

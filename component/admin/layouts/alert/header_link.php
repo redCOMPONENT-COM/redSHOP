@@ -34,7 +34,7 @@ $alerts      = $model->getAlert(5);
         <?php endforeach ?>
 
         <li class="footer">
-            <a href="<?php echo JRoute::_('index.php?option=com_redshop&view=alert') ?>">
+            <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=alert') ?>">
                 <?php echo JText::_('COM_REDSHOP_ALERT_VIEW_ALL') ?>
             </a>
         </li>

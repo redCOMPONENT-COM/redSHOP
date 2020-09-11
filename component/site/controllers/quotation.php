@@ -78,7 +78,7 @@ class RedshopControllerQuotation extends RedshopController
             unset ($_SESSION ['ccdata']);
 
             if ($return != "") {
-                $link = JRoute::_(
+                $link = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=cart&Itemid=' . $Itemid . '&quotemsg=' . $msg,
                     false
                 );
@@ -136,7 +136,7 @@ class RedshopControllerQuotation extends RedshopController
         $return = $app->input->get('return');
 
         if ($return != "") {
-            $link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
+            $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
 
             ?>
             <script language="javascript">

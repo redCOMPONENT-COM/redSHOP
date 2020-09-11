@@ -180,6 +180,8 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 			$I->pressKey(ShippingPage::$shippingVATGroups, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		}
 
+		$I->executeJS('window.scrollTo(0,0);');
+
 		switch ($function)
 		{
 			case 'save':
@@ -204,7 +206,6 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 			default:
 				break;
 		}
-
 	}
 
 	/**
@@ -232,6 +233,8 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		$I->fillField(ShippingPage::$shippingName, $shippingNameEdit);
 		$I->executeJS(ShippingPage::$scrollDown);
 		$I->fillField(ShippingPage::$shippingRateValue, $shippingRate);
+		$I->executeJS('window.scrollTo(0,0);');
+
 		switch ($function)
 		{
 			case 'save':
@@ -246,7 +249,6 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 				$I->waitForElement(ShippingPage::$selectorSuccess, 30);
 				$I->seeLink($shippingNameEdit);
 		}
-
 	}
 
 	/**

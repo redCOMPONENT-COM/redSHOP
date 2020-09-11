@@ -84,7 +84,7 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                 JLog::add(JText::_('COM_REDSHOP_ADD_ONE_MORE_PRODUCT_TO_COMPARE'), JLog::NOTICE);
             }
 
-            $returnLink = JRoute::_(
+            $returnLink = Redshop\IO\Route::_(
                 "index.php?option=com_redshop&view=category&cid=" . $compareCategoryId . "&Itemid=" . $itemId
             );
 
@@ -179,7 +179,7 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                     $pItemid   = RedshopHelperRouter::getItemId($product->product_id, $catIdMain);
                 }
 
-                $link = JRoute::_(
+                $link = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $pItemid
                 );
 

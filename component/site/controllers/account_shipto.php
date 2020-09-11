@@ -42,7 +42,7 @@ class RedshopControllerAccount_Shipto extends RedshopController
         $redUser = $model->store($post);
 
         $msg  = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING_INFORMATION');
-        $link = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
+        $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
 
         if (false !== $redUser) {
             $post['users_info_id'] = $redUser->users_info_id;
@@ -50,7 +50,7 @@ class RedshopControllerAccount_Shipto extends RedshopController
         }
 
         if (!empty($return)) {
-            $link = JRoute::_(
+            $link = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=' . $return
                 . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $itemId,
                 false
@@ -93,10 +93,10 @@ class RedshopControllerAccount_Shipto extends RedshopController
 
         $msg    = JText::_('COM_REDSHOP_ACCOUNT_SHIPPING_DELETED_SUCCESSFULLY');
         $return = $input->get('return');
-        $link   = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
+        $link   = Redshop\IO\Route::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
 
         if (!empty($return)) {
-            $link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
+            $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
         }
 
         $this->setRedirect($link, $msg);
@@ -117,14 +117,14 @@ class RedshopControllerAccount_Shipto extends RedshopController
 
         if (empty($return)) {
             $this->setRedirect(
-                JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false),
+                Redshop\IO\Route::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false),
                 $message
             );
             $this->redirect();
         }
 
         $setExit = $input->getInt('setexit', 1);
-        $link    = JRoute::_(
+        $link    = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=' . $return . '&users_info_id=' . $input->getInt(
                 'cid'
             ) . '&Itemid=' . $itemId . '',

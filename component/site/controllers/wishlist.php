@@ -47,7 +47,7 @@ class RedshopControllerWishlist extends RedshopController
         }
 
         if ($input->getInt('loginwishlist', 0) == 1) {
-            $return = JRoute::_(
+            $return = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . $this->input->post->getInt(
                     'Itemid'
                 ),
@@ -108,7 +108,7 @@ class RedshopControllerWishlist extends RedshopController
         $model  = $this->getModel("wishlist");
         $Itemid = $app->input->get('Itemid');
         $post   = $app->input->getArray();
-        $link   = JRoute::_("index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
+        $link   = Redshop\IO\Route::_("index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
 
         if ($model->check_user_wishlist_authority($user->id, $post["wishlist_id"])) {
             if ($model->delwishlist($user->id, $post["wishlist_id"])) {
@@ -144,7 +144,7 @@ class RedshopControllerWishlist extends RedshopController
             $post['subattribute_id'] = $input->getInt('subattribute_id', 0);
         }
 
-        $link = JRoute::_(
+        $link = Redshop\IO\Route::_(
             "index.php?mydel=1&option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid,
             false
         );

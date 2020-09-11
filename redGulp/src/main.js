@@ -99,6 +99,7 @@ function getIncludedExtensions() {
         "./plugins/twig/juser/**",
         "./plugins/twig/unseriallize/**",
         "./plugins/twig/redshop/**",
+        "./plugins/redshop_promotion/promotion/**",
     ];
     var excluded = [
         '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)',
@@ -308,6 +309,7 @@ gulp.task("release:md5:generate", function () {
         "./plugins/twig/juser/**",
         "./plugins/twig/unseriallize/**",
         "./plugins/twig/redshop/**",
+        "./plugins/redshop_promotion/promotion/**",
     ], {base: "./", allowEmpty: true}).pipe(hashsum({dest: "./", filename: "checksum.md5", hash: "md5"}));
 });
 

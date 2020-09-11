@@ -63,7 +63,7 @@ class RedshopControllerProduct_Detail extends RedshopController
     {
         $cid = $this->input->post->get('cid', array(), 'array');
         $this->setRedirect(
-            JRoute::_(
+            Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=product_detail'
                 . $this->getRedirectToItemAppend($cid[0], 'cid[]'),
                 false
@@ -81,7 +81,7 @@ class RedshopControllerProduct_Detail extends RedshopController
     public function addRedirect()
     {
         $this->setRedirect(
-            JRoute::_(
+            Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=product_detail'
                 . $this->getRedirectToItemAppend(),
                 false

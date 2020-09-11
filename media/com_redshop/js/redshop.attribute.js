@@ -457,9 +457,9 @@ function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
 		requiredError = "",
 		subPropRequiredError = "",
 		layout = jQuery('#isAjaxBoxOpen').val(),
-		preorder = jQuery('#product_preorder' + productId).val(),
-		product_stock = jQuery('#product_stock' + productId).val(),
-		preorder_stock = jQuery('#preorder_product_stock' + productId).val(),
+		preorder = jQuery('[data-id=product_preorder'+ productId +']').val(),
+		product_stock = jQuery('[data-id=product_stock'+ productId +']').val(),
+		preorder_stock = jQuery('[data-id=preorder_product_stock'+ productId +']').val(),
 		preprefix = "",
 		myaccQuan = 1;
 
@@ -656,7 +656,7 @@ function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
 		jQuery('[data-id=property_data]').val(allProperties.join("##"));
 		jQuery('[data-id=subproperty_data]').val(totalSubProperties.join("##"));
 		jQuery('[data-id=tmp_product_price]').val(mainprice);
-		jQuery('[data-id=productprice_notvat]').val(price_without_vat);
+		jQuery('[data-id=total_price_no_vat_per_product]').val(price_without_vat);
 		jQuery('[data-id=tmp_product_old_price]').val(old_price);
 	}
 
@@ -849,8 +849,8 @@ function calculateTotalPrice(productId, relatedProductId, withoutVAT) {
 		mainprice += parseFloat(jQuery('#hidden_subscription_prize').val());
 	}
 
-	if (jQuery('[data-id=productprice_notvat]').length) {
-		price_without_vat = parseFloat(jQuery('[data-id=productprice_notvat]').val());
+	if (jQuery('[data-id=total_price_no_vat_per_product]').length) {
+		price_without_vat = parseFloat(jQuery('[data-id=total_price_no_vat_per_product]').val());
 	}
 
 	if (jQuery('[data-id=tmp_product_old_price]').length) {
@@ -1649,7 +1649,7 @@ function discountCalculation(proid) {
 					var product_main_price = document.getElementById('main_price' + proid).value;
 
 					if (redSHOP.RSConfig._('SHOW_PRICE') == '1' && (redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') != '1' || (redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') && redSHOP.RSConfig._('SHOW_QUOTATION_PRICE')))) {
-						var product_total = parseFloat(product_main_price) + parseFloat(price_total);
+						var product_total = parseFloat(price_total);
 
 						if (areaPrice[8] == 1) {
 							var product_price_excl_vat = price_total + price_excl_vat * qty;

@@ -62,7 +62,7 @@ class RedshopControllerCheckout extends RedshopController
 
         if ($model->store($post)) {
             $this->setRedirect(
-                JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $input->get('Itemid'), false)
+                Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $input->get('Itemid'), false)
             );
         } else {
             $input->set('view', 'checkout');
@@ -118,7 +118,7 @@ class RedshopControllerCheckout extends RedshopController
                 $link = 'index.php?option=com_redshop&view=account_shipto&task=addshipping&setexit=0&return=checkout&infoid=' . $userInfoIds . '&Itemid=' . $itemId;
             }
 
-            $app->redirect(\JRoute::_($link, true));
+            $app->redirect(\Redshop\IO\Route::_($link, true));
         }
 
         $errorMsg = "";
@@ -128,7 +128,7 @@ class RedshopControllerCheckout extends RedshopController
         }
 
         if ($errorMsg != "") {
-            $link = \JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false);
+            $link = \Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false);
             $app->redirect($link, $errorMsg);
         } else {
             $view = $this->getView('checkout', 'next');
@@ -442,7 +442,7 @@ class RedshopControllerCheckout extends RedshopController
 
             if ($shipping_rate_id == '' && $cart['free_shipping'] != 1) {
                 $msg = JText::_('LIB_REDSHOP_SELECT_SHIP_METHOD');
-                $app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false), $msg);
+                $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false), $msg);
             }
         }
 
@@ -451,7 +451,7 @@ class RedshopControllerCheckout extends RedshopController
                 if ($cart['idx'] > 0) {
                     $session->set('order_id', 0);
                 } else {
-                    $app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false));
+                    $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false));
                     $app->close();
                 }
             }
@@ -473,7 +473,7 @@ class RedshopControllerCheckout extends RedshopController
                         $link = 'index.php?option=com_redshop&view=account_shipto&task=addshipping&setexit=0&return=checkout&infoid=' . $userInfoIds . '&Itemid=' . $itemId;
                     }
 
-                    $app->redirect(JRoute::_($link));
+                    $app->redirect(Redshop\IO\Route::_($link));
 
                     return;
                 }
@@ -484,7 +484,7 @@ class RedshopControllerCheckout extends RedshopController
 
                     if ($errorMsg != "") {
                         $app->redirect(
-                            JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId),
+                            Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId),
                             $errorMsg
                         );
 
@@ -501,7 +501,7 @@ class RedshopControllerCheckout extends RedshopController
             if ($order_id === 0) {
                 // Add plugin support
                 $dispatcher->trigger('beforeOrderPlace', array($cart));
-                $orderresult = $model->orderplace();
+                $orderresult = $model->orderPlace();
                 $order_id    = $orderresult->order_id;
             } else {
                 $input->set('order_id', $order_id);
@@ -563,13 +563,13 @@ class RedshopControllerCheckout extends RedshopController
                 $session->clear('userDocument');
 
                 if ($is_creditcard && !$is_redirected) {
-                    $link = JRoute::_(
+                    $link = Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $itemId,
                         false
                     );
                     $this->setRedirect($link, JText::_('COM_REDSHOP_ORDER_PLACED'));
                 } else {
-                    $link = JRoute::_(
+                    $link = Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $order_id
                         . '&Itemid=' . $itemId,
                         false
@@ -580,12 +580,12 @@ class RedshopControllerCheckout extends RedshopController
                 $errorMsg = $model->getError();
                 /** @scrutinizer ignore-deprecated */
                 JError::raiseWarning(21, $errorMsg);
-                $app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false));
+                $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false));
             }
         } else {
             $msg = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
             $app->redirect(
-                JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false),
+                Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false),
                 $msg,
                 'error'
             );
