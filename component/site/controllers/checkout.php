@@ -863,4 +863,10 @@ class RedshopControllerCheckout extends RedshopController
 
         $app->close();
     }
+
+	public function ajaxClearUserInfo()
+	{
+		$session = JFactory::getSession();
+		$session->set('auth', '');
+	}
 }
