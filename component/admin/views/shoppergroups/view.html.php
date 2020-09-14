@@ -41,7 +41,7 @@ class RedshopViewShopperGroups extends RedshopViewList
     {
         switch ($config['dataCol']) {
             case 'add_discount' :
-                $addDiscount = JRoute::_(
+                $addDiscount = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=discount&layout=edit&spgrpdis_filter=' . $row->id
                 );
 

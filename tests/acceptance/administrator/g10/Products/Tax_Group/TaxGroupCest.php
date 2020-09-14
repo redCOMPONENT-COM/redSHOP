@@ -154,7 +154,7 @@ class TaxGroupCest
 		$client->wantTo('Publish all VAT/tax Group in Administrator');
 		$client = new TaxGroupSteps($scenario);
 		$client->publishAllGroups();
-		$client->see(TaxGroupPage::$namePage, TaxGroupPage::$headPage);
+		$client->waitForText(TaxGroupPage::$namePage, 30, TaxGroupPage::$headPage);
 	}
 
 	/**

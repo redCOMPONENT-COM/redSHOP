@@ -39,7 +39,7 @@ $total   = $compare->getItemsTotal();
                 $pItemid = RedshopHelperRouter::getItemId($product->product_id, $catidmain);
             }
 
-            $link = JRoute::_(
+            $link = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=product&pid=' . $productId . '&cid=' . $categoryId . '&Itemid=' . $pItemid
             );
             ?>

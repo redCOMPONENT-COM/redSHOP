@@ -26,7 +26,7 @@ $url           = $uri->root(); ?>
         }
     }
 </script>
-<form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo Redshop\IO\Route::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
     <div class="col50">
         <table class="admintable table">

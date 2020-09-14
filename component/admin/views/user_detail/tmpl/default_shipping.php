@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $shipping_data = $this->order_functions->getShippingAddress($this->detail->user_id);
 
-$addlink = JRoute::_(
+$addlink = Redshop\IO\Route::_(
     'index.php?option=com_redshop&view=user_detail&task=edit&user_id=' . $this->detail->user_id . '&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=0'
 );
 ?>
@@ -32,10 +32,10 @@ $addlink = JRoute::_(
         $x = 0;
         for ($j = 0, $n = count($shipping_data); $j < $n; $j++) {
             $row         = $shipping_data[$j];
-            $link        = JRoute::_(
+            $link        = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&&user_id=' . $this->detail->user_id . '&info_id=' . $this->detail->users_info_id . '&cid[]=' . $row->users_info_id
             );
-            $link_delete = JRoute::_(
+            $link_delete = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=user_detail&task=remove&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=' . $row->users_info_id
             ); ?>
             <tr class="<?php echo "row$x"; ?>">

@@ -37,7 +37,7 @@ if ($this->params->get('show_page_heading', 1)) {
     <?php
 }
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=ordertracker&Itemid=' . $Itemid); ?>"
+<form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=ordertracker&Itemid=' . $Itemid); ?>"
       method="post" name="adminForm">
     <table cellpadding="3" cellspacing="0" border="0">
         <tr>
@@ -75,7 +75,7 @@ if ($this->params->get('show_page_heading', 1)) {
 
     $itemlist       = implode(',<br/>', $order_item_name);
     $statusname     = RedshopHelperOrder::getOrderStatusTitle($order_detail->order_status);
-    $orderdetailurl = JRoute::_('index.php?option=com_redshop&view=order_detail&oid=' . $order_id); ?>
+    $orderdetailurl = Redshop\IO\Route::_('index.php?option=com_redshop&view=order_detail&oid=' . $order_id); ?>
     <tr class="rblOrderDetailItem">
         <td><?php echo $order_id; ?></td>
         <td><?php echo $order_detail->order_number; ?></td>

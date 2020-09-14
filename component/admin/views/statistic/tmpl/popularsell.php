@@ -50,7 +50,7 @@ $end   = $this->pagination->limit;
                     </tr>
                     <?php
                 }
-                $link = JRoute::_(
+                $link = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id
                 ); ?>
                 <tr>

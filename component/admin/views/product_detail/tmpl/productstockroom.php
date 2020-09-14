@@ -23,7 +23,7 @@ $section    = $this->input->getString('property', '');
 $stockrooms = $model->StockRoomList();
 
 ?>
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo Redshop\IO\Route::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 
     <table class="admintable" width="100%">
@@ -51,12 +51,12 @@ $stockrooms = $model->StockRoomList();
                             $preorder_stock = "";
                             $quantity = $model->StockRoomAttProductQuantity(
                                 $section_id,
-                                $s->stockroom_id,
+                                $s->id,
                                 $section
                             );
                             $preorder_stock_data = $model->StockRoomAttProductPreorderstock(
                                 $section_id,
-                                $s->stockroom_id,
+                                $s->id,
                                 $section
                             );
 
@@ -68,12 +68,12 @@ $stockrooms = $model->StockRoomList();
 
                             <tr>
                                 <td>
-                                    <?php echo $s->stockroom_name; ?>
+                                    <?php echo $s->name; ?>
                                 </td>
                                 <td>
                                     <input type="number" name="quantity[]" size="5" class="text_area input-small"
                                            min="0" oninput="validity.valid||(value='');" value="<?php echo $quantity; ?>"/>
-                                    <input type="hidden" name="stockroom_id[]" value="<?php echo $s->stockroom_id; ?>"/>
+                                    <input type="hidden" name="stockroom_id[]" value="<?php echo $s->id; ?>"/>
                                 </td>
                                 <td>
                                     <input type="number" name="preorder_stock[]" size="5" class="text_area input-small"
@@ -81,7 +81,7 @@ $stockrooms = $model->StockRoomList();
                                     <input type="button" class="btn btn-small"
                                            name="preorder_reset"
                                            value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
-                                           onclick="location.href = 'index.php?option=com_redshop&view=product_detail&task=ResetPreorderStockBank&stockroom_type=<?php echo $section ?>&section_id=<?php echo $section_id ?>&cid=<?php echo $cid ?>&product_id=<?php echo $this->detail->product_id ?>&stockroom_id=<?php echo $s->stockroom_id ?>' ; "
+                                           onclick="location.href = 'index.php?option=com_redshop&view=product_detail&task=ResetPreorderStockBank&stockroom_type=<?php echo $section ?>&section_id=<?php echo $section_id ?>&cid=<?php echo $cid ?>&product_id=<?php echo $this->detail->product_id ?>&stockroom_id=<?php echo $s->id ?>' ; "
                                     />
                                 </td>
                                 <td>

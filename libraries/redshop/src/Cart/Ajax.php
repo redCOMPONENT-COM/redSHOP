@@ -81,9 +81,8 @@ class Ajax
         \Redshop\Cart\Helper::removeItemCart($cartElement);
 
         \RedshopHelperCart::addCartToDatabase();
-        \RedshopHelperCart::ajaxRenderModuleCartHtml();
 
-        $cartObject = \RedshopHelperCart::renderModuleCartHtml(\Redshop\Cart\Helper::getCart());
+        $cartObject = \Redshop\Cart\Render::moduleCart(\Redshop\Cart\Helper::getCart());
 
         echo $cartObject->cartHtml? $cartObject->cartHtml: '' ;
 
@@ -131,7 +130,7 @@ class Ajax
      * @since  __DEPLOY_VERSION__
      */
     public static function cancel() {
-        $link = \JRoute::_(
+        $link = \Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=cart&Itemid=' . \JFactory::getApplication()->input->getInt('Itemid'),
             false
         ); ?>

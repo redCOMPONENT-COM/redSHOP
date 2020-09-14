@@ -122,7 +122,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
                     ) . 'index.php?tmpl=component&option=com_redshop&view=wishlist&task=addtowishlist&tmpl=component';
             } else {
                 if (Redshop::getConfig()->get('WISHLIST_LOGIN_REQUIRED') != 0) {
-                    $link = JRoute::_('index.php?option=com_redshop&view=login&wishlist=1&product_id=' . $productId);
+                    $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=login&wishlist=1&product_id=' . $productId);
                 }
             }
 
@@ -236,7 +236,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 
                     $link = "index.php?tmpl=component&option=com_redshop&view=wishlist&task=addtowishlist&tmpl=component";
                 } else {
-                    $link             = JRoute::_(
+                    $link             = Redshop\IO\Route::_(
                         "index.php?wishlist=1&option=com_redshop&view=login&Itemid=" . $this->itemId
                     );
                     $myProductId      = '';
@@ -266,10 +266,10 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
             if (!empty($wishlists) && count((array)$wishlists) > 0) {
                 foreach ($wishlists as $wishlist) {
                     $wishlistName   = $wishlist->wishlist_name ?? '';
-                    $wishlistLink   = JRoute::_(
+                    $wishlistLink   = Redshop\IO\Route::_(
                         "index.php?view=account&layout=mywishlist&wishlist_id=" . $wishlist->wishlist_id . "&option=com_redshop&Itemid=" . $this->itemId
                     );
-                    $delWishlist    = JRoute::_(
+                    $delWishlist    = Redshop\IO\Route::_(
                         "index.php?view=wishlist&task=delwishlist&wishlist_id=" . $wishlist->wishlist_id . "&option=com_redshop&Itemid=" . $this->itemId
                     );
                     $wishlist       = array_merge(
@@ -351,7 +351,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
                 $backLink = RedshopLayoutHelper::render(
                     'tags.common.link',
                     array(
-                        'link'    => JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $this->itemId),
+                        'link'    => Redshop\IO\Route::_('index.php?option=com_redshop&view=account&Itemid=' . $this->itemId),
                         'content' => JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT'),
                         'attr'    => 'title="' . JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT') . '"'
                     ),
@@ -400,7 +400,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
         $templateProduct       = $this->replaceCommonProduct($templateProduct, $wishlist->product_id);
         $isIndividualAddToCart = (boolean)Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE');
 
-        $link       = JRoute::_(
+        $link       = Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=product&pid=' . $wishlist->product_id . '&Itemid=' . $this->itemId
         );
         $linkRemove = 'index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id=' . $this->wishlistId
@@ -415,9 +415,9 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
         }
 
         if (isset($wishlist->wishlist_id)) {
-            $linkRemove = JRoute::_($linkRemove . '&Itemid=' . $this->itemId, false);
+            $linkRemove = Redshop\IO\Route::_($linkRemove . '&Itemid=' . $this->itemId, false);
         } else {
-            $linkRemove = JRoute::_(
+            $linkRemove = Redshop\IO\Route::_(
                 "index.php?mydel=1&view=wishlist&wishlist_id=" . $wishlist->product_id . "&task=mysessdelwishlist",
                 false
             );

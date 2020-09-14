@@ -117,7 +117,7 @@ class Accessory
                             }
 
                             $app->redirect(
-                                \JRoute::_(
+                                \Redshop\IO\Route::_(
                                     'index.php?option=com_redshop&view=product&pid='
                                     . $post['product_id'] . '&Itemid=' . $productItemId,
                                     false
@@ -129,11 +129,13 @@ class Accessory
             }
 
             \Redshop\Workflow\Quotation::saveCartToDB();
-            \Redshop\Cart\Ajax::renderModuleCartHtml();
+            $cart = \RedshopHelperDiscount::modifyDiscount($cart);
+            \Redshop\Cart\Helper::setCart($cart);
             unset($cart['AccessoryAsProduct']);
         } else {
             \Redshop\Workflow\Quotation::saveCartToDB();
-            \Redshop\Cart\Ajax::renderModuleCartHtml();
+            $cart = \RedshopHelperDiscount::modifyDiscount($cart);
+            \Redshop\Cart\Helper::setCart($cart);
         }
     }
 }

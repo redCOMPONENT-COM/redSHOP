@@ -115,7 +115,7 @@ defined('_JEXEC') or die;
             for ($i = 0, $n = count($this->tags); $i < $n; $i++) {
                 $row = $this->tags[$i];
                 $row->id = $row->tags_id;
-                $link = JRoute::_(
+                $link = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=producttags_detail&task=edit&cid[]=' . $row->tags_id
                 );
 

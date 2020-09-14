@@ -467,6 +467,10 @@ class CouponVoucherMixCheckoutCest
 		$I = new AcceptanceTester($scenario);
 		$I->wantTo('Test Product Checkout on Front End with 2 Checkout Payment Plugin');
 		$I->doAdministratorLogin();
+
+		$I->wantTo('Enable PayPal');
+		$I->enablePlugin('PayPal');
+
 		$this->createCoupon($I, $scenario);
 		$this->createCategory($I, $scenario);
 		$this->createProductSave($I, $scenario);
@@ -496,14 +500,14 @@ class CouponVoucherMixCheckoutCest
 		$this->orderInfoDiscount['priceEnd'] = 'DKK 100,00';
 
 		$I->comment('Configuration for voucher/coupon/discount');
-		$I->wantToTest('Checkout with coupon first and input voucher but still get value of voucher and product not have discount ');
+		$I->wantToTest('Checkout with coupon first and input voucher but still get value of voucher and product not have discount');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountCouponCode, null, $this->haveDiscount['no']);
 
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
-		$I->wantToTest('Checkout with coupon first and input voucher but still get value of voucher and product have discount ');
+		$I->wantToTest('Checkout with coupon first and input voucher but still get value of voucher and product have discount');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productNameDiscount, $this->categoryName, $this->discount, $this->orderInfoDiscount, $this->applyDiscountCouponCode, null, $this->haveDiscount['yes']);
 
