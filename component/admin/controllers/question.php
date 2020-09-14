@@ -195,6 +195,6 @@ class RedshopControllerQuestion extends RedshopControllerForm
     public function cancel($key = null)
     {
         $msg = JText::_('COM_REDSHOP_CANCEL_NEW_QUESTION');
-        $this->setRedirect('index.php?option=com_redshop&view=questions', $msg, 'error');
+        $this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
     }
 }
