@@ -8,6 +8,7 @@
  */
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die;
 
@@ -61,9 +62,9 @@ class RedshopControllerQuestion extends RedshopControllerForm
         $row = $model->save($data);
 
         if ($row) {
-            $msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_SAVED');
+            $msg = Text::_('COM_REDSHOP_QUESTION_DETAIL_SAVED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUESTION_DETAIL');
+            $msg = Text::_('COM_REDSHOP_ERROR_SAVING_QUESTION_DETAIL');
         }
 
         if ($send == 1) {
@@ -107,7 +108,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('Question');
@@ -116,7 +117,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_DELETED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_QUESTION_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
     }
 
@@ -131,7 +132,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
         $qid = $this->input->post->get('jform', array(), 'array')['id'];
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         $model = $this->getModel('Question');
@@ -158,7 +159,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
             Redshop\Mail\AskQuestion::sendMail($cid[$i]);
         }
 
-        $msg = JText::_('COM_REDSHOP_ANSWER_MAIL_SENT');
+        $msg = Text::_('COM_REDSHOP_ANSWER_MAIL_SENT');
         $this->setRedirect('index.php?option=com_redshop&task=question.edit&id=' . $qid, $msg);
     }
 
@@ -181,20 +182,18 @@ class RedshopControllerQuestion extends RedshopControllerForm
 
         $model->saveorder($cid, $order);
 
-        $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+        $msg = Text::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
     }
 
     /**
-     * Method to cancel an edit.
-     *
-     * @param   string  $key  The name of the primary key of the URL variable.
-     *
-     * @return  boolean  True if access level checks pass, false otherwise.
+     * @param null $key
+     * @return bool|void
+     * @since __DEPLOY_VERSION__
      */
     public function cancel($key = null)
     {
-        $msg = JText::_('COM_REDSHOP_CANCEL_NEW_QUESTION');
+        $msg = Text::_('COM_REDSHOP_CANCEL_NEW_QUESTION');
         $this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
     }
 }
