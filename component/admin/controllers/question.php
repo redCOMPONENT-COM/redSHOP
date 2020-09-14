@@ -186,13 +186,11 @@ class RedshopControllerQuestion extends RedshopControllerForm
     }
 
     /**
-     * Method to cancel an edit.
+     * Remove Answer function
      *
-     * @param   string  $key  The name of the primary key of the URL variable.
-     *
-     * @return  boolean  True if access level checks pass, false otherwise.
+     * @return void
      */
-    public function cancel($key = null)
+    public function cancel()
     {
         $msg = JText::_('COM_REDSHOP_CANCEL_NEW_QUESTION');
         $this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
