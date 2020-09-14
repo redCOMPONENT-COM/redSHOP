@@ -610,7 +610,8 @@ class App
             "WISHLIST_LIST"                                => $data["wishlist_list"],
             "PRODUCT_DEFAULT_CATEGORY"                     => $data["product_default_category"],
             "ENABLE_PERFORMANCE_MODE"                      => $data["enable_performance_mode"],
-            "SHOW_DISCONTINUED_PRODUCTS"                   => $data["show_discontinued_products"]
+            "SHOW_DISCONTINUED_PRODUCTS"                   => $data["show_discontinued_products"],
+            "ENABLE_CLEAR_USER_INFO"                       => $data["enable_clear_user_info"]
         );
 
         $configs["CART_TIMEOUT"]               = $data["cart_timeout"] <= 0 ? 20 : $data["cart_timeout"];
