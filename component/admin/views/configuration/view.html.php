@@ -1069,7 +1069,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $tmp                                         = array_merge(
             $tmp,
             $shopper_Group_private,
-            $shopper_Group_company
+            $shopper_Group_company ?? [] // Fix scrutinizer.
         );
         $lists['shopper_group_default_unregistered'] = JHtml::_(
             'select.genericlist',
