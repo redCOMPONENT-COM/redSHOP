@@ -38,19 +38,22 @@ class RedshopUpdate303 extends RedshopInstallUpdate
 
 		$taxRates = \Redshop\DB\Tool::safeSelect($db, $query, true);
 
-		foreach ($taxRates as $taxRate) {
-			$query = $db->getQuery(true)
-				->select('id')
-				->from($db->qn('#__redshop_shopper_group'));
+		if (!empty($taxRates) && $taxRates) {
+			foreach ($taxRates as $taxRate) {
+				$query = $db->getQuery(true)
+					->select('id')
+					->from($db->qn('#__redshop_shopper_group'));
 
-			$shopperGroups = \Redshop\DB\Tool::safeSelect($db, $query, true);
+				$shopperGroups = \Redshop\DB\Tool::safeSelect($db, $query, true);
 
-			foreach ($shopperGroups as $shopperGroup)
-			{
-				$obTaxShopperGroup = new stdClass();
-				$obTaxShopperGroup->tax_rate_id = $taxRate['id'];
-				$obTaxShopperGroup->shopper_group_id = $shopperGroup['id'];
-				$db->insertObject('#__redshop_tax_shoppergroup_xref', $obTaxShopperGroup, 'id');
+				if (!empty($shopperGroups)) {
+					foreach ($shopperGroups as $shopperGroup) {
+						$obTaxShopperGroup = new stdClass();
+						$obTaxShopperGroup->tax_rate_id = $taxRate->id;
+						$obTaxShopperGroup->shopper_group_id = $shopperGroup->id;
+						$db->insertObject('#__redshop_tax_shoppergroup_xref', $obTaxShopperGroup, 'id');
+					}
+				}
 			}
 		}
 	}

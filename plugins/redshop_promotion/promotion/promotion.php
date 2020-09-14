@@ -58,6 +58,48 @@ class PlgRedshop_PromotionPromotion extends JPlugin
 
     /**
      * @param $data
+     * @return stdClass
+     * @since __DEPLOY_VERSION__
+     */
+    public function onValidate($data) {
+        $result = new \stdClass;
+        $result->errorMessage = [];
+        $result->isValid = true;
+
+        switch ($data['promotion_type']) {
+            case 'amount_product':
+                if (isset($data['from_date'])
+                    && isset($data['to_date'])
+                    && $data['from_date'] > $data['to_date']) {
+                    $result->errorMessage[] = \JText::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_DATE_RANGE');
+                }
+
+                if (empty($data['condition_amount']) || (int) $data['condition_amount'] < 0 ) {
+                    $result->errorMessage[] = \JText::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_CONDITION_QUANTITY');;
+                }
+
+                break;
+            case 'volume_order':
+                if (empty($data['order_volume']) || (int) $data['order_volume'] < 0) {
+                    $result->errorMessage[] = \JText::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_VOLUME_ORDER');;
+                }
+
+                break;
+        }
+
+        if (empty($data['award_amount']) || (int) $data['award_amount'] < 0) {
+            $result->errorMessage[] = \JText::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_AWARD_QUANTITY');;
+        }
+
+        if (count($result->errorMessage) > 0) {
+            $result->isValid = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $data
      * @return array
      * @since __DEPLOY_VERSION__
      */
