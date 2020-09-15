@@ -36,7 +36,7 @@ class RedshopUpdate303 extends RedshopInstallUpdate
 			)
 			->where($db->qn('tsx.shopper_group_id') . 'IS NULL');
 
-		$taxRates = \Redshop\DB\Tool::safeSelect($db, $query, true);
+		$taxRates = /** @scrutinizer ignore-deprecated */ \Redshop\DB\Tool::safeSelect($db, $query, true);
 
 		if (!empty($taxRates) && $taxRates) {
 			foreach ($taxRates as $taxRate) {
@@ -44,7 +44,7 @@ class RedshopUpdate303 extends RedshopInstallUpdate
 					->select('id')
 					->from($db->qn('#__redshop_shopper_group'));
 
-				$shopperGroups = \Redshop\DB\Tool::safeSelect($db, $query, true);
+				$shopperGroups = /** @scrutinizer ignore-deprecated */ \Redshop\DB\Tool::safeSelect($db, $query, true);
 
 				if (!empty($shopperGroups)) {
 					foreach ($shopperGroups as $shopperGroup) {
