@@ -31,6 +31,7 @@ $doc = new RedshopHelperDocument;
 
 if (Redshop::getConfig()->getBool('LOAD_REDSHOP_STYLE', true)) {
     $doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/redshop.min.css');
+    $doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/bootstrap-grid.min.css');
 }
 
 // Use different CSS for print layout
@@ -38,4 +39,3 @@ if ($app->input->getCmd('print', '')) {
     $doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/redshop.print.min.css');
 }
 
-$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/bootstrap-grid.min.css');
