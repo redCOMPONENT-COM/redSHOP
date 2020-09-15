@@ -1630,6 +1630,14 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
         jQuery("#special_discount").keydown(function (e) {
             validateInputFloat(e);
         });
+        jQuery("#update_discount, #special_discount").keypress(function (e, form) {
+            if(e.which == 13){
+                var check = validateDiscount(form);
+                if (check == false) {
+                    e.preventDefault();
+                }
+            }
+        });
 
         jQuery("input[name=update_price]").keydown(function (e) {
             validateInputFloat(e);
