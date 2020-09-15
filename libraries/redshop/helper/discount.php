@@ -49,9 +49,6 @@ class RedshopHelperDiscount
         $discounts = $shopperGroupDiscounts->getAll();
 
         foreach ($discounts as $discount) {
-            /** @var RedshopEntityDiscount $discount */
-            $potentialDiscount = null;
-
             // Skip if this discount is not published
             if (!$discount->get('published', false)) {
                 continue;
