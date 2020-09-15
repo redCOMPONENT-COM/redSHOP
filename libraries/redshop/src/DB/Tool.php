@@ -18,12 +18,11 @@ defined('_JEXEC') or die;
  */
 class Tool
 {
-    /**
-     * @param $db
-     * @param $query
-     *
-     * @return bool
-     */
+	/**
+	 * @param \JDatabaseDriver $db
+	 * @param $query
+	 * @return bool
+	 */
     public static function safeExecute(\JDatabaseDriver $db, $query)
     {
         try {
@@ -43,15 +42,16 @@ class Tool
         return false;
     }
 
-    /**
-     * @param         $db
-     * @param         $query
-     * @param   bool  $getList
-     * @param   null  $defaultReturn
-     *
-     * @return null
-     */
-    public static function safeSelect(\JDatabaseDriver $db, $query, $getList = false, $defaultReturn = null)
+
+	/**
+	 * @param \JDatabaseDriver $db
+	 * @param $query
+	 * @param bool $getList
+	 * @param null $defaultReturn
+	 * @return array|mixed|null
+	 * @throws \Exception
+	 */
+	public static function safeSelect(\JDatabaseDriver $db, $query, $getList = false, $defaultReturn = null)
     {
         try {
             if ($getList) {
