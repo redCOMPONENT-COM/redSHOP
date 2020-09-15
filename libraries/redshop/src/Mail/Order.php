@@ -43,8 +43,8 @@ class Order
 
         $row      = \RedshopEntityOrder::getInstance($orderId)->getItem();
         $language = \Redshop\Language\Helper::getInstance();
-        $language->setDefault($row->lang);
-        $language->setLanguage($row->lang);
+        $language->setDefault($row->lang_checkout);
+        $language->setLanguage($row->lang_checkout);
 
         $mailSection = \Redshop::getConfig()->get('USE_AS_CATALOG') ? 'catalogue_order' : 'order';
         $mailInfo    = Helper::getTemplate(0, $mailSection);

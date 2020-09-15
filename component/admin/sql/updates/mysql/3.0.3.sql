@@ -111,4 +111,9 @@ CALL redSHOP_Column_Update('#__redshop_shopper_group', 'created_by', 'created_by
 CALL redSHOP_Column_Update('#__redshop_shopper_group', 'modified_by', 'modified_by', "INT(11) NULL DEFAULT NULL AFTER `created_by`");
 CALL redSHOP_Column_Update('#__redshop_shopper_group', 'modified_date', 'modified_date', "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `modified_by`");
 
+ -- -----------------------------------------------------
+-- Table `#__redshop_orders`
+-- -----------------------------------------------------
+CALL redSHOP_Column_Update('#__redshop_orders', 'lang_checkout', 'lang_checkout', 'VARCHAR(10) NULL');
+
 SET FOREIGN_KEY_CHECKS = 1;
