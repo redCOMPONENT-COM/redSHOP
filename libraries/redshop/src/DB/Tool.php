@@ -44,7 +44,7 @@ class Tool
     /**
      * @param \JDatabaseDriver $db
      * @param $query
-     * @param false $getList
+     * @param bool $getList
      * @param null|mixed $defaultReturn
      * @return array|mixed|null
      * @throws \Exception

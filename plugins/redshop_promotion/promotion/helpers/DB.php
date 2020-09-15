@@ -25,7 +25,8 @@ class DB {
     }
 
     /**
-     * @return null
+     * @return array|mixed|null
+     * @throws Exception
      * @since  __DEPLOY_VERSION__
      */
     public static function getPromotionsFromDB() {

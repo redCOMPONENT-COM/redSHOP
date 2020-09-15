@@ -185,8 +185,7 @@ class Helper
 
     /**
      * @param $userId
-     *
-     * @return float
+     * @return array|mixed|null
      * @throws \Exception
      */
     public static function getAvgAmountById($userId)
@@ -209,8 +208,7 @@ class Helper
 
     /**
      * @param int $id
-     *
-     * @return null
+     * @return array|mixed|null
      * @throws \Exception
      */
     public static function getTotalOrderById($id = 0)
@@ -228,7 +226,7 @@ class Helper
     }
 
     /**
-     * @return null
+     * @return array|mixed|null
      * @throws \Exception
      */
     public static function getNewOrders()
