@@ -57,6 +57,7 @@ class Tableorder_user_detail extends JTable
 
     public $company_name = null;
 
+    public $is_company = null;
     public $thirdparty_email = null;
 
     public $ean_number = null;
