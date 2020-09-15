@@ -290,6 +290,21 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
             $this->replacements['{edit_billing_address}'] = '';
         }
 
+	    if ($this->isTagExists('{clear_user_info}') && $usersInfoId && Redshop::getConfig()->getInt('ENABLE_CLEAR_USER_INFO') == 1) {
+		    $this->replacements['{clear_user_info}'] = RedshopLayoutHelper::render(
+			    'tags.common.button',
+			    array(
+				    'class' => 'btn btn-primary',
+				    'attr'  => 'type="button" name="clear_user_info" onclick="javascript:clearUserInfo();"',
+				    'text'  => JText::_('COM_REDSHOP_CLEAR_USER_INFO')
+			    ),
+			    '',
+			    RedshopLayoutHelper::$layoutOption
+		    );
+	    } else {
+		    $this->replacements['{clear_user_info}'] = '';
+	    }
+
         $isCompany = isset($billingAddresses->is_company) ? $billingAddresses->is_company : 0;
 
         $this->template = RedshopTagsReplacer::_(

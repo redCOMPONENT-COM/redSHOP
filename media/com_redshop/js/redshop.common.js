@@ -792,6 +792,17 @@ function displaytextarea(obj)
 		}
 	}
 }
+function clearUserInfo()
+{
+	// doing ajax request
+	jQuery.ajax({
+		url: 'index.php?option=com_redshop&task=checkout.ajaxClearUserInfo',
+		type: 'POST',
+		data: ''
+	}).done(function (){
+		location.reload();
+	});
+}
 function onestepCheckoutProcess(objectname, classname, anonymous)
 {
 	var newparam = "";

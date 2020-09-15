@@ -687,7 +687,7 @@ class RedshopHelperUser
             return false;
         }
 
-        $userTable->user_id               = $data['user_id'] > 0 ? $data['user_id'] : \JFactory::getApplication(
+        $userTable->user_id               = isset($data['user_id']) ? $data['user_id'] : \JFactory::getApplication(
         )->input->getInt(
             'user_id',
             0
