@@ -184,4 +184,15 @@ class RedshopControllerQuestion extends RedshopControllerForm
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
     }
+
+    /**
+     * Remove Answer function
+     *
+     * @return void
+     */
+    public function cancel()
+    {
+        $msg = JText::_('COM_REDSHOP_CANCEL_NEW_QUESTION');
+        $this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
+    }
 }
