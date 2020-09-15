@@ -38,19 +38,18 @@ class Tool
 
             return false;
         }
-
-        return false;
     }
 
 
-	/**
-	 * @param \JDatabaseDriver $db
-	 * @param $query
-	 * @param bool $getList
-	 * @param null $defaultReturn
-	 * @return array|mixed|null
-	 * @throws \Exception
-	 */
+    /**
+     * @param \JDatabaseDriver $db
+     * @param $query
+     * @param false $getList
+     * @param null|mixed $defaultReturn
+     * @return array|mixed|null
+     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
+     */
 	public static function safeSelect(\JDatabaseDriver $db, $query, $getList = false, $defaultReturn = null)
     {
         try {
