@@ -70,8 +70,9 @@ class Helper
     }
 
     /**
-     * @return null
-     * @since 3.0.2
+     * @return array|mixed|null
+     * @throws \Exception
+     * @since  3.0.2
      */
     public static function getNewCustomers()
     {

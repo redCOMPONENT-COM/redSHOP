@@ -19,11 +19,10 @@ defined('_JEXEC') or die;
 class Helper
 {
     /**
-     * @param   int  $taxGroupId
-     *
-     * @return null
+     * @param int $taxGroupId
+     * @return array|mixed|null
      * @throws \Exception
-     * @since 3.0
+     * @since  3.0
      */
     public static function getTaxRatesById($taxGroupId = 1)
     {
