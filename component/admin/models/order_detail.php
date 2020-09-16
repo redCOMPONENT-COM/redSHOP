@@ -848,7 +848,7 @@ class RedshopModelOrder_detail extends RedshopModel
             $orderData->special_discount_amount = 0;
         }
 
-        if ($data['special_discount'] == $orderData->special_discount && $chk != true) {
+        if ($data['special_discount'] == $orderData->special_discount && $chk !== true) {
             return false;
         }
 
@@ -921,8 +921,8 @@ class RedshopModelOrder_detail extends RedshopModel
         if (!$orderData->store()) {
             return false;
         }
-
-        $this->_dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
+        $dispatcher = JEventDispatcher::getInstance();
+        $dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
 
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
             RedshopEconomic::renewInvoiceInEconomic($orderData);
