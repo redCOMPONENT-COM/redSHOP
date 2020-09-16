@@ -1470,6 +1470,8 @@ class RedshopModelCheckout extends RedshopModel
 
         if ($user->id) {
             return RedshopHelperOrder::getShippingAddress($user->id);
+        } elseif ($auth['users_info_id']) {
+	        return RedshopHelperOrder::getShippingAddress(-$auth['users_info_id']);
         }
 
         $uid = -$auth['users_info_id'];
