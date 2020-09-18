@@ -840,10 +840,10 @@ class RedshopModelOrder_detail extends RedshopModel
         $orderItems  = RedshopHelperOrder::getOrderItemDetail($this->_id, 0, 0, true);
         $orderItemId = isset($data['order_item_id']) ? $data['order_item_id'] : 0;
 
-        !$orderData->special_discount ?:  $orderData->special_discount = 0;
+        $orderData->special_discount = !$orderData->special_discount ? 0 : $orderData->special_discount;
 
 
-        !$orderData->special_discount_amount ?: $orderData->special_discount_amount = 0;
+        $orderData->special_discount_amount = !$orderData->special_discount_amount ? $orderData->special_discount_amount = 0 : $orderData->special_discount_amount;
 
         if ($data['special_discount'] == $orderData->special_discount && $chk !== true) {
             return false;
@@ -865,7 +865,9 @@ class RedshopModelOrder_detail extends RedshopModel
             $orderDetailTax[] = ((float)$orderItem->product_item_price - (float)$orderItem->product_item_price_excl_vat) * $orderItem->product_quantity;
         }
 
-        !empty($orderDetailTax) ?: $orderTax = array_sum($orderDetailTax);
+        if (!empty($orderDetailTax)) {
+            $orderTax = array_sum($orderDetailTax);
+        }
 
 
         $specialDiscountPrice               = ($orderSubTotal * $specialDiscount) / 100;
@@ -914,7 +916,9 @@ class RedshopModelOrder_detail extends RedshopModel
         $orderData->order_tax      = $orderTax;
         $orderData->mdate          = time();
 
-            !$orderData->store() ?: false;
+        if (!$orderData->store()) {
+            return false;
+        }
 
         $dispatcher = JEventDispatcher::getInstance();
         $dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
