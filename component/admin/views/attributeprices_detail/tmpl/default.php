@@ -41,6 +41,9 @@ $section = JFactory::getApplication()->input->get('section');
         } else if (isNaN(form.price_quantity_start.value) > isNaN(form.price_quantity_end.value)) {
             alert("<?php echo JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL', true); ?>");
             form.product_price.focus();
+        } else if ((form.price_quantity_start.value) > (form.price_quantity_end.value)) {
+            alert("<?php echo JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL', true); ?>");
+            form.product_price.focus();
         } else {
             submitform(pressbutton);
         }
