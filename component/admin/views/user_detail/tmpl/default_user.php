@@ -28,17 +28,36 @@ defined('_JEXEC') or die; ?>
                             '',
                             false
                         ); ?>
-                        <span id="user_valid">*</span></td>
+                        <span id="user_valid">*</span>
+                    </td>
                 </tr>
                 <tr>
                     <td valign="top" align="right"
                         class="key"><?php echo JText::_('COM_REDSHOP_NEW_PASSWORD_LBL'); ?></td>
-                    <td><input class="inputbox" type="password" name="password" id="password" size="20" value=""/></td>
+                    <td><input class="inputbox" type="password" name="password" id="password" size="20" value=""/>
+                        <?php echo JHTML::tooltip(
+                            JText::_('COM_REDSHOP_TOOLTIP_PASSWORD'),
+                            JText::_('COM_REDSHOP_NEW_PASSWORD_LBL'),
+                            'tooltip.png',
+                            '',
+                            '',
+                            false
+                        ); ?>
+                        <span id="user_valid">*</span>
+                    </td>
                 </tr>
                 <tr>
                     <td valign="top" align="right"
                         class="key"><?php echo JText::_('COM_REDSHOP_VERIFIED_PASSWORD_LBL'); ?></td>
-                    <td><input class="inputbox" type="password" name="password2" id="password2" size="20" value=""/>
+                    <td><input class="inputbox" type="password" name="password2" id="password2" size="20" value=""/>                        <?php echo JHTML::tooltip(
+                            JText::_('COM_REDSHOP_TOOLTIP_PASSWORD'),
+                            JText::_('COM_REDSHOP_VERIFIED_PASSWORD_LBL'),
+                            'tooltip.png',
+                            '',
+                            '',
+                            false
+                        ); ?>
+                        <span id="user_valid">*</span>
                     </td>
                 </tr>
                 <?php
@@ -55,7 +74,8 @@ defined('_JEXEC') or die; ?>
                         '',
                         false
                     ); ?>
-                    <span id="email_valid">*</span></td>
+                    <span id="email_valid">*</span>
+                </td>
             </tr>
             <tr>
                 <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_LBL'); ?></td>
@@ -67,7 +87,9 @@ defined('_JEXEC') or die; ?>
                         '',
                         '',
                         false
-                    ); ?></td>
+                    ); ?>
+                    <span id="user_valid">*</span>
+                </td>
             </tr>
             <?php if (!$this->silerntuser) {
                 ?>
@@ -81,7 +103,9 @@ defined('_JEXEC') or die; ?>
                             '',
                             '',
                             false
-                        ); ?></td>
+                        ); ?>
+                        <span id="user_valid">*</span>
+                    </td>
                 </tr>
                 <?php
             } ?>

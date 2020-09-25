@@ -179,6 +179,14 @@ echo RedshopLayoutHelper::render(
         'field' => $this->lists['addtocart_behaviour']
     )
 );
+echo RedshopLayoutHelper::render(
+    'config.config',
+    array(
+        'title' => JText::_('COM_REDSHOP_ENABLE_CLEAR_USER_INFO_LBL'),
+        'desc'  => JText::_('COM_REDSHOP_ENABLE_CLEAR_USER_INFO'),
+        'field' => $this->lists['enable_clear_user_info']
+    )
+);
 ?>
     <legend class="no-border text-danger"><?php echo JText::_('COM_REDSHOP_CART_SETTINGS') ?></legend>
 <?php
