@@ -284,6 +284,7 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 	 * @param $promotionName
 	 * @param $promotionNameEdit
 	 * @throws Exception
+	 * @since 3.0.3
 	 */
 	public function editPromotion($promotionName, $promotionNameEdit)
 	{
@@ -304,6 +305,7 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 	/**
 	 * @param $promotion
 	 * @throws Exception
+	 * @since 3.0.3
 	 */
 	public function badCasePromotion($promotion)
 	{
@@ -448,6 +450,7 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 	 * @param $promotionName
 	 * @param $state
 	 * @throws Exception
+	 * @since 3.0.3
 	 */
 	public function changeStatePromotionItem($promotionName, $state)
 	{
@@ -475,7 +478,7 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 	/**
 	 * @param $namePromotion
 	 * @throws \Exception
-	 * @since 1.4.0
+	 * @since 3.0.3
 	 */
 	public function copyPromotion($namePromotion)
 	{

@@ -262,16 +262,31 @@ class PromotionAdministratorCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I want to add product inside the category');
 		$I->createProductSaveClose($this->productAwardsName, $this->categoryName, $this->randomAwardsProductNumber, $this->randomAwardsProductPrice);
+	}
 
-		$I = new PromotionsManagementSteps($scenario);
+	/**
+	 * @param PromotionsManagementSteps $I
+	 * @throws Exception
+	 * @since 3.0.3
+	 */
+	public function checkBadCasePromotion(PromotionsManagementSteps $I)
+	{
 		$I->wantTo('I want to check bad case');
 		$I->badCasePromotion($this->promotionMissingName);
 		$I->badCasePromotion($this->promotionOrderVolumeLowZero);
 		$I->badCasePromotion($this->promotionQuantityAwardLowZero);
 		$I->badCasePromotion($this->promotionStartThanEnd);
 		$I->badCasePromotion($this->promotionQuantityConditionLowZero);
+	}
 
-		$I->wantTo('I want to create promotion success');
+	/**
+	 * @param PromotionsManagementSteps $I
+	 * @throws Exception
+	 * @since 3.0.3
+	 */
+	public function checkCreateUpdateDelete(PromotionsManagementSteps $I)
+	{
+		$I->wantTo('I want to create promotion');
 		$I->createPromotion($this->promotionNew, PromotionsManagementPage::$buttonSaveClose);
 
 		$I->wantTo('I want to edit promotion');
@@ -283,6 +298,9 @@ class PromotionAdministratorCest
 
 		$I->wantTo('I want to copy promotion');
 		$I->copyPromotion($this->promotionNameEdit);
+
+		$I->wantTo('Delete promotion');
+		$I->deletePromotion($this->promotionNameEdit);
 	}
 
 	/**
@@ -301,9 +319,5 @@ class PromotionAdministratorCest
 		$I->wantTo('Delete category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
-
-		$I->wantTo('Delete promotion');
-		$I = new PromotionsManagementSteps($scenario);
-		$I->deletePromotion($this->promotionNameEdit);
 	}
 }
