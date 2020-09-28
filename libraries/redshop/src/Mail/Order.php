@@ -222,11 +222,11 @@ class Order
                 $manufacturer = \RedshopEntityManufacturer::getInstance($product->manufacturer_id)->getItem();
 
                 if (!empty($manufacturer)
-                    && !empty($manufacturer->manufacturer_email)
+                    && !empty($manufacturer->email)
                     && !Helper::sendEmail(
                         $from,
                         $fromName,
-                        $manufacturer->manufacturer_email,
+                        $manufacturer->email,
                         $subject,
                         $body,
                         true,
@@ -244,11 +244,11 @@ class Order
                 $supplier = \RedshopEntitySupplier::getInstance($product->supplier_id)->getItem();
 
                 if (!empty($supplier)
-                    && !empty($supplier->supplier_email)
+                    && !empty($supplier->email)
                     && !Helper::sendEmail(
                         $from,
                         $fromName,
-                        $supplier->supplier_email,
+                        $supplier->email,
                         $subject,
                         $body,
                         true,
@@ -390,11 +390,11 @@ class Order
                 $manufacturer = \RedshopEntityManufacturer::getInstance($product->manufacturer_id)->getItem();
 
                 if (!empty($manufacturer)
-                    && !empty($manufacturer->manufacturer_email)
+                    && !empty($manufacturer->email)
                     && !Helper::sendEmail(
                         $from,
                         $fromName,
-                        $manufacturer->manufacturer_email,
+                        $manufacturer->email,
                         $subject,
                         $body,
                         true,
