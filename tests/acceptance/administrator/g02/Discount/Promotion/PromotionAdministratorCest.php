@@ -132,9 +132,8 @@ class PromotionAdministratorCest
 		$this->randomAwardsProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomAwardsProductPrice  = $this->faker->numberBetween(100, 900);
 		$this->promotionNameEdit         = $this->faker->bothify('promotion name edit ?####?');
-
-		$this->startDate = date('Y-m-d');
-		$this->endDate   = date('Y-m-d', strtotime('+1 day', strtotime($this->startDate)));
+		$this->startDate                 = date('Y-m-d');
+		$this->endDate                   = date('Y-m-d', strtotime('+1 day', strtotime($this->startDate)));
 
 		$this->promotionMissingName = array(
 			"name"            => '',
@@ -181,7 +180,7 @@ class PromotionAdministratorCest
 			"productAward"    => $this->productAwardsName,
 			"awardAmount"     => $this->faker->numberBetween(1, 5),
 			"freeShipping"    => 'No',
-			"function"      => 'startThanEnd'
+			"function"        => 'startThanEnd'
 		);
 
 		$this->promotionQuantityAwardLowZero = array(
