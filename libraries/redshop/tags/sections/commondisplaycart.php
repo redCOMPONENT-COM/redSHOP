@@ -103,7 +103,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
             $cart['shipping_vat'] = (!isset($shipArr['shipping_vat'])) ? 0 : $shipArr['shipping_vat'];
         }
 
-	    if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE')) {
+	    if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE') && empty($usersInfoId)) {
 		    Redshop\Cart\Helper::calculateShipping($cart['shipping'], $cart['shipping_vat'], $cart, 0, JFactory::getUser()->id);
 	    }
 
