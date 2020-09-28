@@ -492,6 +492,12 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'class="form-control" size="1"',
             $this->config->get('AJAX_CART_BOX')
         );
+        $lists['enable_clear_user_info']                 = JHtml::_(
+            'redshopselect.booleanlist',
+            'enable_clear_user_info',
+            'class="form-control" size="1"',
+            $this->config->get('ENABLE_CLEAR_USER_INFO')
+        );
         $lists['is_product_reserve']            = JHtml::_(
             'redshopselect.booleanlist',
             'is_product_reserve',
@@ -1063,7 +1069,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $tmp                                         = array_merge(
             $tmp,
             $shopper_Group_private,
-            $shopper_Group_company
+            $shopper_Group_company ?: [] // Fix scrutinizer.
         );
         $lists['shopper_group_default_unregistered'] = JHtml::_(
             'select.genericlist',
