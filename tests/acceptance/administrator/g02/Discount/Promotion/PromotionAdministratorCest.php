@@ -131,6 +131,7 @@ class PromotionAdministratorCest
 		$this->productAwardsName         = $this->faker->bothify('product name ?####?');
 		$this->randomAwardsProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomAwardsProductPrice  = $this->faker->numberBetween(100, 900);
+		$this->promotionNameEdit         = $this->faker->bothify('promotion name edit ?####?');
 
 		$this->startDate = date('Y-m-d');
 		$this->endDate   = date('Y-m-d', strtotime('+1 day', strtotime($this->startDate)));
@@ -229,8 +230,6 @@ class PromotionAdministratorCest
 			"freeShipping"  => 'Yes',
 			"function"      => 'orderVolumeLowZero'
 		);
-
-		$this->promotionNameEdit = $this->faker->bothify('promotion name edit ?####?');
 	}
 
 	/**

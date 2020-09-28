@@ -191,5 +191,4 @@ class PromotionsManagementPage extends AdminJ3Page
 	 * @since 3.0.3
 	 */
 	public static $messageErrorVolumeOrder= "Volume of order must be greater than 0";
-
 }

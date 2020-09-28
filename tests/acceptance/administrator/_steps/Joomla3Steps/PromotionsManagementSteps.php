@@ -422,7 +422,7 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 		$I->waitForText(PromotionsPage::$buttonSave, 30);
 		$I->click(PromotionsPage::$buttonSave);
 
-		Switch ($promotion['function'])
+		switch ($promotion['function'])
 		{
 			case ('nameMissing'):
 				$I->waitForText(PromotionsPage::$messageErrorNameMissing, 30);
