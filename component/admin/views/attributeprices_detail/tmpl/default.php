@@ -24,14 +24,6 @@ $section = JFactory::getApplication()->input->get('section');
 </fieldset>
 <script language="javascript" type="text/javascript">
     Joomla.submitbutton = function (pressbutton) {
-        function parseDate(date) {
-            var format = "<?php echo Redshop::getConfig()->get('DEFAULT_DATEFORMAT') ?>";
-            if (format != 'd-m-Y') {
-                var date = moment(date).format('DD-MM-YYYY');
-            }
-            var parts = date.split("-");
-            return new Date(parts[2], parts[1] - 1, parts[0]);
-        }
         var form = document.adminForm;
         if (pressbutton == 'cancel') {
             submitform(pressbutton);
@@ -46,10 +38,10 @@ $section = JFactory::getApplication()->input->get('section');
         } else if (isNaN(form.price_quantity_end.value)) {
             alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_END_QUANTITY_NOT_VALID', true); ?>");
             form.product_price.focus();
-        } else if ((form.price_quantity_start.value) > (form.price_quantity_end.value)) {
+        } else if (form.price_quantity_start.value > form.price_quantity_end.value) {
             alert("<?php echo JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL', true); ?>");
             form.product_price.focus();
-        } else if (parseDate(form.discount_end_date.value) < parseDate(form.discount_start_date.value)) {
+        } else if (form.discount_end_date.value < form.discount_start_date.value) {
             alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE_END_DATE_CONDITION', true); ?>");
             return;
         } else {
