@@ -58,7 +58,7 @@ class RedshopViewMedia extends RedshopViewAdmin
 
         $media_type           = $this->state->get('media_type', 0);
         $filter_media_section = $this->state->get('filter_media_section', 0);
-        $this->filter_search  = $this->state->get('filter_search', 0);
+        $this->filter_search  = $this->state->get('filter_search', '');
 
         $optiontype   = array();
         $optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
