@@ -54,8 +54,8 @@ class RedshopModelMedia extends RedshopModel
         // Filter Search
         if ($filter_search = $this->getState('filter_search')) {
             $query->where(
-                 $db->qn('media_name') . " LIKE " . $db->q('%' . $filter_search . '%')
-                    . " OR " . $db->qn('media_alternate_text') . " LIKE " . $db->q('%' . $filter_search . '%')
+                 "(" . $db->qn('media_name') . " LIKE " . $db->q('%' . $filter_search . '%')
+               . " OR " . $db->qn('media_alternate_text') . " LIKE " . $db->q('%' . $filter_search . '%') . ")"
             );
         }
 
