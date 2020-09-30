@@ -51,6 +51,21 @@ class RedshopModelMedia extends RedshopModel
             $query->where('media_type = ' . $db->q($media_type));
         }
 
+        // Filter
+        $filter = $app->input->getCmd('filter','');
+        if ($filter) {
+            $filter = str_replace(' ', '', $filter);
+
+            $query->where(
+                "(" . $db->qn('media_name') . " LIKE " . $db->q('%' . $filter . '%')
+                    . " OR " . $db->qn('media_id') . " LIKE " . $db->q('%' . $filter . '%')
+                    . " OR " . $db->qn('media_alternate_text') . " LIKE " . $db->q('%' . $filter . '%')
+                    . " OR " . $db->qn('media_section') . " LIKE " . $db->q('%' . $filter . '%')
+                    . " OR " . $db->qn('section_id') . " LIKE " . $db->q('%' . $filter . '%')
+                    . " AND " . $db->qn('published') . " = 1 " . ")"
+            );
+        }
+
         $filterOrderDir = $this->getState('list.direction');
         $filterOrder    = $this->getState('list.ordering');
         $query->order($db->escape($filterOrder . ' ' . $filterOrderDir));

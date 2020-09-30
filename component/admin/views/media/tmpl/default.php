@@ -98,16 +98,20 @@ if ($showbuttons == 1) {
         <div class="filterTool">
             <?php if ($showbuttons != 1): ?>
                 <div class="filterItem">
+                    <div class="btn-wrapper input-append">
+                        <input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
+                               placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>"/>
+                        <button class="btn" onclick="document.adminForm.submit();"><?php echo JText::_(
+                                'COM_REDSHOP_SEARCH'
+                            ); ?></button>
+                        <input type="button" value="Reset" class="btn reset" onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('filter_media_section').value='0';this.form.submit();"/>
+                    </div>
+                </div>
+                <div class="filterItem">
                     <?php echo JText::_('COM_REDSHOP_MEDIA_TYPE') . ': ' . $this->lists['type']; ?>
                 </div>
                 <div class="filterItem">
                     <?php echo JText::_('COM_REDSHOP_MEDIA_SECTION') . ': ' . $this->lists['filter_media_section']; ?>
-                </div>
-                <div class="filterItem">
-                    <button class="btn reset"
-                            onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('filter_media_section').value='0';this.form.submit();"><?php echo JText::_(
-                            'COM_REDSHOP_RESET'
-                        ); ?></button>
                 </div>
             <?php endif; ?>
         </div>
