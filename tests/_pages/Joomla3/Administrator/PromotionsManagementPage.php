@@ -155,4 +155,40 @@ class PromotionsManagementPage extends AdminJ3Page
 	 * @since 3.0.3
 	 */
 	public static $textareDescription = "#jform_desc";
+
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $promotionNameSecond = "//table[@id='table-promotions']//tr[2]/td[5]";
+
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $messageErrorNameMissing = "Field required: Name";
+
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $messageErrorStartThanEnd = "From Date must be less than To Date";
+
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $messageErrorConditionQuantity = "Condition quantity must be greater than 0";
+
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $messageErrorAwardQuantity = "Awards quantity must be greater than 0";
+
+	/**
+	 * @var string
+	 * @since 3.0.3
+	 */
+	public static $messageErrorVolumeOrder= "Volume of order must be greater than 0";
 }
