@@ -104,7 +104,7 @@ if ($showbuttons == 1) {
                         <button class="btn" onclick="document.adminForm.submit();"><?php echo JText::_(
                                 'COM_REDSHOP_SEARCH'
                             ); ?></button>
-                        <input type="button" value="Reset" class="btn reset" onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('filter_media_section').value='0';this.form.submit();"/>
+                        <input type="button" value="Reset" class="btn reset" onclick="resetFilter(); document.adminForm.submit();"/>
                     </div>
                 </div>
                 <div class="filterItem">
@@ -348,5 +348,12 @@ if ($showbuttons == 1) {
     var viewForm = 'media_detail';
     Joomla.submitbutton = function (pressbutton) {
         checkSubmit(pressbutton, viewForm);
+    };
+
+    resetFilter = function () {
+        document.adminForm.task.value = "";
+        document.getElementById("filter_search").value = "";
+        document.getElementById("media_type").value = "0";
+        document.getElementById("filter_media_section").value = "0";
     };
 </script>
