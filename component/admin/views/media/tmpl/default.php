@@ -344,7 +344,7 @@ if ($showbuttons == 1) {
     <input type="hidden" name="filter_order" value="<?php echo $this->lists ['order']; ?>"/>
     <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists ['order_Dir']; ?>"/>
 </form>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
     var viewForm = 'media_detail';
     Joomla.submitbutton = function (pressbutton) {
         checkSubmit(pressbutton, viewForm);

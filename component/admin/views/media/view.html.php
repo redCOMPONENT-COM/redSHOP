@@ -21,7 +21,7 @@ class RedshopViewMedia extends RedshopViewAdmin
     public $state;
 
     /**
-     * @var  array
+     * @var  string
      */
     public $filter_search;
 
