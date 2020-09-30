@@ -21,6 +21,11 @@ class RedshopViewMedia extends RedshopViewAdmin
     public $state;
 
     /**
+     * @var  array
+     */
+    public $filter_search;
+
+    /**
      * The pagination object.
      *
      * @var  JPagination
@@ -53,6 +58,7 @@ class RedshopViewMedia extends RedshopViewAdmin
 
         $media_type           = $this->state->get('media_type', 0);
         $filter_media_section = $this->state->get('filter_media_section', 0);
+        $this->filter_search  = $this->state->get('filter_search', 0);
 
         $optiontype   = array();
         $optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));

@@ -51,17 +51,14 @@ class RedshopModelMedia extends RedshopModel
             $query->where('media_type = ' . $db->q($media_type));
         }
 
-        // Filter
-        $filter = $app->input->getCmd('filter','');
-        if ($filter) {
-            $filter = str_replace(' ', '', $filter);
-
+        // Filter Search
+        if ($filter_search = $this->getState('filter_search')) {
             $query->where(
-                "(" . $db->qn('media_name') . " LIKE " . $db->q('%' . $filter . '%')
-                    . " OR " . $db->qn('media_id') . " LIKE " . $db->q('%' . $filter . '%')
-                    . " OR " . $db->qn('media_alternate_text') . " LIKE " . $db->q('%' . $filter . '%')
-                    . " OR " . $db->qn('media_section') . " LIKE " . $db->q('%' . $filter . '%')
-                    . " OR " . $db->qn('section_id') . " LIKE " . $db->q('%' . $filter . '%')
+                "(" . $db->qn('media_name') . " LIKE " . $db->q('%' . $filter_search . '%')
+                    . " OR " . $db->qn('media_id') . " LIKE " . $db->q('%' . $filter_search . '%')
+                    . " OR " . $db->qn('media_alternate_text') . " LIKE " . $db->q('%' . $filter_search . '%')
+                    . " OR " . $db->qn('media_section') . " LIKE " . $db->q('%' . $filter_search . '%')
+                    . " OR " . $db->qn('section_id') . " LIKE " . $db->q('%' . $filter_search . '%')
                     . " AND " . $db->qn('published') . " = 1 " . ")"
             );
         }
@@ -444,6 +441,7 @@ class RedshopModelMedia extends RedshopModel
         // Compile the store id.
         $id .= ':' . $this->getState('filter_media_section');
         $id .= ':' . $this->getState('media_type');
+        $id .= ':' . $this->getState('filter_search');
 
         return parent::getStoreId($id);
     }
@@ -469,6 +467,9 @@ class RedshopModelMedia extends RedshopModel
 
         $media_type = $this->getUserStateFromRequest($this->context . '.media_type', 'media_type', '');
         $this->setState('media_type', $media_type);
+
+        $filter_search = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+        $this->setState('filter_search', $filter_search);
 
         $folder = JFactory::getApplication()->input->getPath('folder', '');
         $this->setState('folder', $folder);
