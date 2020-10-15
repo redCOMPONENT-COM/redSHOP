@@ -127,7 +127,7 @@ class PromotionsManagementCest
 	protected $shipping;
 
 	/**
-	 * WrappingFrontEndCest constructor.
+	 * PromotionsManagementCest constructor.
 	 * @since 3.0.3
 	 */
 	public function __construct()
@@ -210,8 +210,8 @@ class PromotionsManagementCest
 			'shippingName' => $this->faker->bothify('TestingShippingRate ?##?'),
 			'shippingRate' => 10
 		);
-
 	}
+
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
