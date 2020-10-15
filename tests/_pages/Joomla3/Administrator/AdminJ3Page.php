@@ -172,6 +172,12 @@ abstract class AdminJ3Page
 	public static $messageDemoContentSuccess = 'Data Installed Successfully';
 
 	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $messageCopySuccess = 'successfully copied';
+
+	/**
 	 * @var array
 	 * @since 2.1.2
 	 */
