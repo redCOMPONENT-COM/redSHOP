@@ -207,9 +207,10 @@ class RedshopControllerOrder_Detail extends RedshopController
 
         if ($request['payment_plugin'] != "rs_payment_worldpay") {
             // New checkout flow
+            $encrKey      = RedshopEntityOrder::getInstance($order_id)->getItem()->encr_key;
             $redirect_url = Redshop\IO\Route::_(
                 JUri::base(
-                ) . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $order_id,
+                ) . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=$order_id&encr=$encrKey",
                 false
             );
 
