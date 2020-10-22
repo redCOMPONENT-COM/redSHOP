@@ -58,6 +58,13 @@ class Order
             \JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'),
             $message
         );
+
+        $objMessage = new \stdClass;
+        $objMessage->text = $message;
+
+        \JPluginHelper::importPlugin('content');
+        \JFactory::getApplication()->triggerEvent('onContentPrepare',  array('com_redshop.mail', &$objMessage, &$row));
+
         $message = str_replace("{order_mail_intro_text}", \JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
         $message = Template::replaceTemplate($row, $message, true);
 
