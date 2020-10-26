@@ -41,7 +41,7 @@ class RedshopViewMedia extends RedshopViewAdmin
 
     public function display($tpl = null)
     {
-        $uri      = JFactory::getURI();
+        $uri      = JUri::getInstance();
         $document = JFactory::getDocument();
 
         /** @scrutinizer ignore-deprecated */
