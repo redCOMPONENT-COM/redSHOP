@@ -70,6 +70,7 @@ class ConfigurationPluginREDSHOPSteps extends AdminManagerJoomla3Steps
 	 * @param $filter
 	 * @param $filterValue
 	 * @throws \Exception
+	 * @since 3.0.3
 	 */
 	public function filterPlugin($filter, $filterValue)
 	{
