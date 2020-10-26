@@ -108,10 +108,10 @@ class ConfigurationPluginREDSHOPCest
 	public function checkAllCase(PluginSteps $I)
 	{
 		$I->doAdministratorLogin();
-		$I->changeStatus($this->namePlugin, PluginManagerPage::$buttonUnpublish);
-		$I->changeStatus($this->namePlugin, PluginManagerPage::$buttonPublish);
 		$I->changeStatus($this->namePlugin, PluginManagerPage::$buttonCheckIn);
+		$I->changeStatus($this->namePlugin, PluginManagerPage::$buttonUnpublish);
 		$I->filterPlugin($this->filterStatus, $this->status);
+		$I->changeStatus($this->namePlugin, PluginManagerPage::$buttonPublish);
 		$I->filterPlugin($this->filterComponent, $this->component);
 		$I->filterPlugin($this->filterType, $this->type);
 		$I->filterPlugin($this->filterElement, $this->element);
