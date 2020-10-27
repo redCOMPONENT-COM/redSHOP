@@ -278,7 +278,8 @@ class RedshopModelMedia extends RedshopModel
         $this->_db->setQuery($query);
 
         if (!$this->_db->execute()) {
-            $this->setError($this->_db->getErrorMsg());
+            /** @scrutinizer ignore-deprecated */
+            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
             return false;
         }
