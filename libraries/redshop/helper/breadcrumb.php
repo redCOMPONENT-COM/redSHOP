@@ -126,7 +126,7 @@ class RedshopHelperBreadcrumb
 
                     if ($sectionId != 0) {
                         $prd  = \Redshop\Product\Product::getProductById($sectionId);
-                        $menu = RedshopEntityManufacturer::getInstance($prd->manufacturer_id)->getItem();
+                        $menu = Redshop\Entity\Manufacturer::getInstance($prd->manufacturer_id)->getItem();
 
                         if (!empty($menu)) {
                             $main             = new stdClass;
@@ -228,7 +228,7 @@ class RedshopHelperBreadcrumb
                         $main->link       = "";
                         $customPathways[] = $main;
                     } else {
-                        $menu = RedshopEntityManufacturer::getInstance($sectionId)->getItem();
+                        $menu = Redshop\Entity\Manufacturer::getInstance($sectionId)->getItem();
 
                         if (!empty((array)$menu)) {
                             $main             = new stdClass;

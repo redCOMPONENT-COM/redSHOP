@@ -231,7 +231,7 @@ class Helper
                         }
                     }
                 } else {
-                    $attributeSetId = \RedshopEntityProduct::getInstance($accessory[0]->child_product_id)
+                    $attributeSetId = \Redshop\Entity\Product::getInstance($accessory[0]->child_product_id)
                         ->get('attribute_set_id');
                     $attributesAccessorySet = array();
 

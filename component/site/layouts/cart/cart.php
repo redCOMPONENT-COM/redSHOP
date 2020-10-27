@@ -41,7 +41,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
             <?php for ($i = 0; $i < $cart['idx']; $i++):
 
             if (\Redshop\Helper\Utility::rsMultiArrayKeyExists('giftcard_id', $cart[$i]) && $cart[$i]['giftcard_id']) {
-                $giftCardData = RedshopEntityGiftcard::getInstance($cart[$i]['giftcard_id'])->getItem();
+                $giftCardData = Redshop\Entity\GiftCard::getInstance($cart[$i]['giftcard_id'])->getItem();
                 $name         = $giftCardData->giftcard_name;
             } else {
                 $productDetail = \Redshop\Product\Product::getProductById($cart[$i]['product_id']);

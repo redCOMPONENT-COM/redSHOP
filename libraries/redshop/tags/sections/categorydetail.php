@@ -241,7 +241,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 $returnToCategoryName = '';
 
                 if ($parentId != 0) {
-                    $categoryList         = RedshopEntityCategory::getInstance($parentId)->getItem();
+                    $categoryList         = Redshop\Entity\Category::getInstance($parentId)->getItem();
                     $returnToCategoryName = $categoryList->name;
                     $returnCatLink        = Redshop\IO\Route::_(
                         'index.php?option=' . $this->option .
@@ -344,15 +344,15 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
 
             $catMainThumb = "";
 
-            $medias = RedshopEntityCategory::getInstance($this->maincat->id)->getMedia();
+            $medias = Redshop\Entity\Category::getInstance($this->maincat->id)->getMedia();
 
-            // @var RedshopEntityMediaImage $fullImage
+            // @var Redshop\Entity\Media\RImage $fullImage
             $fullImage = null;
 
             foreach ($medias->getAll() as $media) {
-                // @var RedshopEntityMedia $media
+                // @var Redshop\Entity\Media $media
                 if ($media->get('scope') == 'full') {
-                    $fullImage = RedshopEntityMediaImage::getInstance($media->getId());
+                    $fullImage = Redshop\Entity\Media\RImage::getInstance($media->getId());
 
                     break;
                 }

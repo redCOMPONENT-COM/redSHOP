@@ -214,7 +214,7 @@ class RedshopEconomic
 	 */
 	public static function createInvoiceInEconomic($orderId, $data = array())
 	{
-		$orderEntity = \RedshopEntityOrder::getInstance($orderId);
+		$orderEntity = \Redshop\Entity\Order::getInstance($orderId);
 
 		// Order is not valid.
 		if (!$orderEntity->isValid())
@@ -285,14 +285,14 @@ class RedshopEconomic
 
 		if (\Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 		{
-			self::createInvoiceLineInEconomicAsProduct($orderItem, $invoiceNo, $orderEntity->get('user_id'));
+			self::createInvoiceLineInEconomicAsProduct($orderItem, $invoiceNo, (int) $orderEntity->get('user_id'));
 		}
 		else
 		{
-			self::createInvoiceLineInEconomic($orderItem, $invoiceNo, $orderEntity->get('user_id'));
+			self::createInvoiceLineInEconomic($orderItem, $invoiceNo, (int) $orderEntity->get('user_id'));
 		}
 
-		self::createInvoiceShippingLineInEconomic($orderEntity->get('ship_method_id'), $invoiceNo);
+		self::createInvoiceShippingLineInEconomic((int) $orderEntity->get('ship_method_id'), $invoiceNo);
 
 		$isVatDiscount = 0;
 
@@ -311,7 +311,7 @@ class RedshopEconomic
 			$isVatDiscount         = 1;
 		}
 
-		$orderDiscount = $order->order_discount + $orderEntity->special_discount_amount;
+		$orderDiscount = $order->order_discount + (float) $orderEntity->get('special_discount_amount');
 
 		if ($orderDiscount)
 		{
@@ -1275,7 +1275,7 @@ class RedshopEconomic
 		$orderItem->order_item_sku = $product->product_number;
 		$product->product_name     = $orderItem->order_item_name;
 		$product->product_price    = $orderItem->product_item_price_excl_vat;
-		$giftData                  = \RedshopEntityGiftcard::getInstance($orderItem->product_id)->getItem();
+		$giftData                  = \Redshop\Entity\GiftCard::getInstance($orderItem->product_id)->getItem();
 		$product->accountgroup_id  = $giftData->accountgroup_id;
 		$product->product_volume   = 0;
 
@@ -1591,7 +1591,7 @@ class RedshopEconomic
 			return '';
 		}
 
-		$orderEntity = \RedshopEntityOrder::getInstance($orderId);
+		$orderEntity = \Redshop\Entity\Order::getInstance($orderId);
 
 		if (!$orderEntity->isValid())
 		{
@@ -1608,7 +1608,8 @@ class RedshopEconomic
 		$order = $orderEntity->getItem();
 
 		if ((\Redshop::getConfig()->getInt('ECONOMIC_INVOICE_DRAFT') == 2
-				&& $orderEntity->order_status == \Redshop::getConfig()->getString('BOOKING_ORDER_STATUS')) || $checkOrderStatus == 0)
+            && $orderEntity->get('order_status') == \Redshop::getConfig()->getString('BOOKING_ORDER_STATUS'))
+            || $checkOrderStatus == 0)
 		{
 			$userBillingInfo = \RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 
@@ -1641,7 +1642,7 @@ class RedshopEconomic
 
 					$paymentInfo = \RedshopHelperOrder::getPaymentInfo($order->order_id);
 
-					if ($paymentInfo)
+					if (!empty($paymentInfo->payment_method_class))
 					{
 						$paymentMethod = \RedshopHelperOrder::getPaymentMethodInfo($paymentInfo->payment_method_class);
 

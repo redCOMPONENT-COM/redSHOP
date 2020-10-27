@@ -79,7 +79,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		</div>';
 
         // Prepare categories list.
-        $categories = RedshopEntityCategory::getInstance(RedshopHelperCategory::getRootId())->getChildCategories();
+        $categories = Redshop\Entity\Category::getInstance(RedshopHelperCategory::getRootId())->getChildCategories();
         $options    = array();
 
         if (!$categories->isEmpty()) {

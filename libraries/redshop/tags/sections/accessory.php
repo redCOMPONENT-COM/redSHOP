@@ -594,7 +594,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
         $this->replacements["{accessory_readmore_link}"] = $readMoreLink;
 
         if ($this->isTagExists('{manufacturer_name}') || $this->isTagExists("{manufacturer_link}")) {
-            $manufacturer = RedshopEntityManufacturer::getInstance($accessoryProduct->manufacturer_id)->getItem();
+            $manufacturer = Redshop\Entity\Manufacturer::getInstance($accessoryProduct->manufacturer_id)->getItem();
 
             if (!empty($manufacturer)) {
                 $manufacturerUrl = Redshop\IO\Route::_(

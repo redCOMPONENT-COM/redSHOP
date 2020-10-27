@@ -54,7 +54,7 @@ class RedshopControllerOrder_Detail extends RedshopController
         $request = $this->input->getArray();
 
         // Get Order Detail
-        $order = RedshopEntityOrder::getInstance((int)$request['order_id'])->getItem();
+        $order = Redshop\Entity\Order::getInstance((int)$request['order_id'])->getItem();
 
         // Get Billing and Shipping Info
         $billingAddresses       = RedshopHelperOrder::getBillingAddress($order->user_id);
@@ -232,7 +232,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
         if ($orderId) {
             if (empty($auth['users_info_id'])) {
-                $orderDetail           = RedshopEntityOrder::getInstance($orderId)->getItem();
+                $orderDetail           = Redshop\Entity\Order::getInstance($orderId)->getItem();
                 $auth['users_info_id'] = $orderDetail->user_info_id;
                 $session->set('auth', $auth);
             }
@@ -393,8 +393,8 @@ class RedshopControllerOrder_Detail extends RedshopController
         $orderId = $this->input->getInt('order_id');
 	    $encr    = $this->input->getString('encr');
 
-        $order       = RedshopEntityOrder::getInstance($orderId)->getItem();
-        $paymentInfo = RedshopEntityOrder::getInstance($orderId);
+        $order       = Redshop\Entity\Order::getInstance($orderId)->getItem();
+        $paymentInfo = Redshop\Entity\Order::getInstance($orderId);
 
         if ($paymentInfo !== null) {
             $paymentInfo = $paymentInfo->getItem();
@@ -449,7 +449,7 @@ class RedshopControllerOrder_Detail extends RedshopController
     {
         $orderId = $this->input->post->getInt('id');
 
-        $orderPaymentStatus = RedshopEntityOrder::load($orderId)->get('order_payment_status');
+        $orderPaymentStatus = Redshop\Entity\Order::load($orderId)->get('order_payment_status');
 
         $status = JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
 

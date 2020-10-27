@@ -7,7 +7,7 @@
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>3.0.3</version>
+    <version>4-Alpha-Dev</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
     <scriptfile>install.php</scriptfile>
     <install>
@@ -26,6 +26,11 @@
             <schemapath type="mysql">sql/updates/mysql</schemapath>
         </schemas>
     </update>
+
+    <!-- Libraries to install with the component -->
+    <libraries>
+        <library name="redshop"/>
+    </libraries>
 
     <files folder="component/site">
         <folder>assets</folder>
@@ -80,11 +85,6 @@
             <language tag="en-GB">en-GB/en-GB.com_redshop.sys.ini</language>
         </languages>
     </administration>
-
-    <!-- Libraries to install with the component -->
-    <libraries>
-        <library name="redshop"/>
-    </libraries>
 
     <!-- Modules to install with the component -->
     <modules>

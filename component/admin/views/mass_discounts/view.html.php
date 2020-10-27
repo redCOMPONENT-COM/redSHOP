@@ -111,7 +111,7 @@ class RedshopViewMass_Discounts extends RedshopViewList
 
         $ids    = explode(',', $ids);
         $return = array();
-        $entity = 'RedshopEntity' . $entity;
+        $entity = '\\Redshop\\Entity\\' . $entity;
 
         if (!class_exists($entity)) {
             return '';

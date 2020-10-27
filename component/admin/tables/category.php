@@ -107,7 +107,7 @@ class RedshopTableCategory extends RedshopTableNested
         }
 
         // Check products
-        $productCount = RedshopEntityCategory::getInstance($this->id)->productCount();
+        $productCount = Redshop\Entity\Category::getInstance($this->id)->productCount();
 
         if ($productCount > 0) {
             $this->setError(JText::sprintf('COM_REDSHOP_CATEGORY_EXIST_PRODUCT', $this->name, $this->id));

@@ -35,7 +35,7 @@ class RedshopViewTax_Groups extends RedshopViewList
             return parent::onRenderColumn($config, $index, $row);
         }
 
-        $taxRates = RedshopEntityTax_Group::getInstance($row->id)->getTaxRates()->count();
+        $taxRates = Redshop\Entity\TaxGroup::getInstance($row->id)->getTaxRates()->count();
 
         return '<a href="index.php?option=com_redshop&view=tax_rates&filter[tax_group]=' . $row->id . '" '
             . 'class="badge label-success">' . $taxRates . '</a>';

@@ -89,7 +89,7 @@ class Invoice
         $from     = $config->get('mailfrom');
         $fromName = $config->get('fromname');
 
-        $billingAddresses = \RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
+        $billingAddresses = \Redshop\Entity\Order::getInstance($orderId)->getBilling()->getItem();
 
         if (empty($email)) {
             $email = $billingAddresses->user_email;
@@ -163,7 +163,7 @@ class Invoice
      */
     public static function replaceTemplate($orderId, $html, $subject = null)
     {
-        $row          = \RedshopEntityOrder::getInstance($orderId)->getItem();
+        $row          = \Redshop\Entity\Order::getInstance($orderId)->getItem();
         $discounts    = array_filter(explode('@', $row->discount_type));
         $discountType = '';
 
@@ -193,7 +193,7 @@ class Invoice
         $searchSub[]  = "{shopname}";
         $replaceSub[] = \Redshop::getConfig()->get('SHOP_NAME');
 
-        $billingAddresses = \RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
+        $billingAddresses = \Redshop\Entity\Order::getInstance($orderId)->getBilling()->getItem();
         $userFullName     = $billingAddresses->firstname . " " . $billingAddresses->lastname;
         $searchSub[]      = "{fullname}";
         $replaceSub[]     = $userFullName;
@@ -257,8 +257,8 @@ class Invoice
             }
         }
 
-        $orderDetail     = \RedshopEntityOrder::getInstance($orderId)->getItem();
-        $userBillingInfo = \RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
+        $orderDetail     = \Redshop\Entity\Order::getInstance($orderId)->getItem();
+        $userBillingInfo = \Redshop\Entity\Order::getInstance($orderId)->getBilling()->getItem();
 
         // Replace tags in mail's subject, reference:  KON-417
         $searchSub    = array();

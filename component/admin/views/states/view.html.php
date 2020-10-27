@@ -42,7 +42,7 @@ class RedshopViewStates extends RedshopViewList
         $value = $row->{$config['dataCol']};
 
         if ($config['dataCol'] === 'country_id') {
-            return RedshopEntityCountry::getInstance($value)->get('country_name');
+            return Redshop\Entity\Country::getInstance($value)->get('country_name');
         }
 
         if ($config['dataCol'] === 'show_state') {

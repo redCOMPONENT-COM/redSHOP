@@ -17,4 +17,4 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 
-echo RedshopEntityCountry::getInstance((int)$data)->get('country_name');
+echo Redshop\Entity\Country::getInstance((int)$data)->get('country_name');

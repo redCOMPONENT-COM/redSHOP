@@ -49,7 +49,7 @@ class Item
         $cart          = '';
         $url           = \JUri::root();
         $wrapperName   = '';
-        $orderDetail   = \RedshopEntityOrder::getInstance((int)$items[0]->order_id)->getItem();
+        $orderDetail   = \Redshop\Entity\Order::getInstance((int)$items[0]->order_id)->getItem();
         $orderCount    = count($items);
         $thumbWidth    = \Redshop::getConfig()->getInt('CART_THUMB_WIDTH');
         $thumbHeight   = \Redshop::getConfig()->getInt('CART_THUMB_HEIGHT');
@@ -76,7 +76,7 @@ class Item
             );
 
             if ($items[$i]->is_giftcard) {
-                $giftcardData     = \RedshopEntityGiftcard::getInstance($productId)->getItem();
+                $giftcardData     = \Redshop\Entity\GiftCard::getInstance($productId)->getItem();
                 $productName      = isset($giftcardData->giftcard_name) ? $giftcardData->giftcard_name : '';
                 $userFieldSection = \RedshopHelperExtrafields::SECTION_GIFT_CARD_USER_FIELD;
                 $product          = new \stdClass;
@@ -224,7 +224,7 @@ class Item
             $cartHtmlContent = str_replace("{product_name}", $productName, $cartHtmlContent);
 
             $categoryId   = \RedshopHelperProduct::getCategoryProduct($productId);
-            $category     = \RedshopEntityCategory::getInstance((int)$categoryId)->getItem();
+            $category     = \Redshop\Entity\Category::getInstance((int)$categoryId)->getItem();
             $categoryLink = '';
 
             if (!empty($category)) {

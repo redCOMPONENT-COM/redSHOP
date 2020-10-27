@@ -32,10 +32,10 @@ class RedshopModelPrices_detail extends RedshopModel
 
         $jinput = JFactory::getApplication()->input;
 
-        $array         = $jinput->get('cid', 0, 'array');
+        $array         = $jinput->get('cid', 0, 'INT');
         $this->_prodid = $jinput->getInt('product_id', 0);
 
-        $this->setId((int)$array[0]);
+        $this->setId((int) $array);
         $this->setProductName();
     }
 

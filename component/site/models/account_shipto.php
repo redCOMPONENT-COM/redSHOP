@@ -85,11 +85,11 @@ class RedshopModelAccount_Shipto extends RedshopModel
     public function _loadData($userInfoId = 0)
     {
         if ($userInfoId) {
-            return RedshopEntityUser::getInstance((int)$userInfoId)->getItem();
+            return Redshop\Entity\User::getInstance((int)$userInfoId)->getItem();
         }
 
         if (empty($this->_data)) {
-            $this->_data = RedshopEntityUser::getInstance((int)$this->_id)->getItem();
+            $this->_data = Redshop\Entity\User::getInstance((int)$this->_id)->getItem();
 
             return $this->_data;
         }

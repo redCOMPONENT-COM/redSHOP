@@ -74,7 +74,7 @@ class SiteHelper
             // Default css class name
             $cssClassName[] = $field->class;
             $class          .= ' class="' . implode(' ', $cssClassName) . '"';
-            $fieldEntity    = \RedshopEntityField::getInstance($field->id)->bind($field);
+            $fieldEntity    = \Redshop\Entity\Field::getInstance($field->id)->bind($field);
             $inputField     = '';
 
             switch ($type) {
@@ -367,14 +367,17 @@ class SiteHelper
                         break;
 
                     case \RedshopHelperExtrafields::TYPE_SELECT_BOX_SINGLE:
+
                         $fieldCheck = \RedshopEntityField::getInstance($data->id)->getFieldValues();
+                        $checkData  = explode(",", $cart[$idx][$data->name]);
+
                         $exField  .= \RedshopLayoutHelper::render(
                             'extrafields.userfield.select',
                             array(
                                 'rowData'    => $data,
                                 'required'   => $req,
                                 'fieldCheck' => $fieldCheck,
-                                'checkData'  => isset($cart[$idx][$data->name]) ? explode(",", $cart[$idx][$data->name]) : [],
+                                'checkData'  => $checkData,
                                 'uniqueId'   => $uniqueId
                             )
                         );
@@ -419,7 +422,7 @@ class SiteHelper
                         break;
 
                     case \RedshopHelperExtrafields::TYPE_IMAGE_SELECT:
-                        $fieldChk = \RedshopEntityField::getInstance($data->id)->getFieldValues();
+                        $fieldChk = \Redshop\Entity\Field::getInstance($data->id)->getFieldValues();
                         $exField  .= \RedshopLayoutHelper::render(
                             'extrafields.userfield.image',
                             array(

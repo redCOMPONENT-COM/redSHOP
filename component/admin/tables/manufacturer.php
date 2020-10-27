@@ -51,7 +51,7 @@ class RedshopTableManufacturer extends RedshopTable
     protected function doDelete($pk = null)
     {
         $manufacturerId = $this->id;
-        $media          = RedshopEntityManufacturer::getInstance($manufacturerId)->getMedia();
+        $media          = Redshop\Entity\Manufacturer::getInstance($manufacturerId)->getMedia();
 
         if (!parent::doDelete($pk)) {
             return false;

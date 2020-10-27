@@ -187,7 +187,7 @@ class RedshopControllerOrder extends RedshopController
                 'ECONOMIC_INVOICE_DRAFT'
             ) != 2) {
             $order_id    = $this->input->getInt('order_id');
-            $paymentInfo = RedshopEntityOrder::getInstance($order_id)->getPayment()->getItem();
+            $paymentInfo = Redshop\Entity\Order::getInstance($order_id)->getPayment()->getItem();
 
             if ($paymentInfo) {
                 $payment_name = $paymentInfo->payment_method_class;

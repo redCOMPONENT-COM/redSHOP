@@ -169,7 +169,7 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
             );
 
             if (strpos($template, $mimgTag) !== false) {
-                $media     = RedshopEntityManufacturer::getInstance($data->id)->getMedia();
+                $media     = Redshop\Entity\Manufacturer::getInstance($data->id)->getMedia();
                 $thumImage = "";
 
                 if ($media->isValid() && !empty($media->get('media_name'))

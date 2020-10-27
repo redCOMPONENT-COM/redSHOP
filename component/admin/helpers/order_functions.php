@@ -293,11 +293,11 @@ class order_functions
      *
      * @return  object
      *
-     * @deprecated  2.0.3  Use RedshopEntityOrder::getInstance($orderId)->getItem() instead
+     * @deprecated  2.0.3  Use Redshop\Entity\Order::getInstance($orderId)->getItem() instead
      */
     public function getmultiOrderDetails($orderId)
     {
-        return RedshopEntityOrder::getInstance($orderId)->getItem();
+        return Redshop\Entity\Order::getInstance($orderId)->getItem();
     }
 
     /**

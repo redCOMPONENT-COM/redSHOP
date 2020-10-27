@@ -240,7 +240,7 @@ class RedshopModelOrder extends RedshopModel
             }
 
             $orderProducts  = RedshopHelperOrder::getOrderItemDetail($order->order_id);
-            $billingDetails = RedshopEntityOrder::getInstance($order->order_id)->getBilling();
+            $billingDetails = Redshop\Entity\Order::getInstance($order->order_id)->getBilling();
 
             $totalWeight = 0;
 
@@ -380,8 +380,8 @@ class RedshopModelOrder extends RedshopModel
             }
 
             $orderProducts   = RedshopHelperOrder::getOrderItemDetail($order->order_id);
-            $shippingDetails = RedshopEntityOrder::getInstance($order->order_id)->getShipping();
-            $billingDetails  = RedshopEntityOrder::getInstance($order->order_id)->getBilling();
+            $shippingDetails = Redshop\Entity\Order::getInstance($order->order_id)->getShipping();
+            $billingDetails  = Redshop\Entity\Order::getInstance($order->order_id)->getBilling();
             $totalWeight     = 0;
 
             foreach ($orderProducts as $orderProduct) {

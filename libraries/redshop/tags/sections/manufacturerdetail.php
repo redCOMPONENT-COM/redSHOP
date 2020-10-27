@@ -75,7 +75,7 @@ class RedshopTagsSectionsManufacturerDetail extends RedshopTagsAbstract
 
         if ($this->isTagExists('{manufacturer_image}')) {
             $thumbImage = '';
-            $media      = null !== $row ? RedshopEntityManufacturer::getInstance($manufacturerId)->getMedia() : null;
+            $media      = null !== $row ? Redshop\Entity\Manufacturer::getInstance($manufacturerId)->getMedia() : null;
 
             if (null !== $media) {
                 $mediaImagePath = $media->getAbsImagePath();

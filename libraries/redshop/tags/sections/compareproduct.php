@@ -240,7 +240,7 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                 $this->replacements['{product_image}'] .= $expDiv . $img . $divEnd . $tdEnd . $tdStart;
 
                 if (strstr($template, "{manufacturer_name}")) {
-                    $manufacturer                              = RedshopEntityManufacturer::getInstance(
+                    $manufacturer                              = Redshop\Entity\Manufacturer::getInstance(
                         $product->manufacturer_id
                     );
                     $manufacturerName                          = $manufacturer->get('name');
@@ -437,13 +437,13 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                     $categoriesId = explode(',', $data['item']->categoriesId);
 
                     if (count($categoriesId) <= 1) {
-                        $category     = RedshopEntityCategory::getInstance($data['item']->categoryId);
+                        $category     = Redshop\Entity\Category::getInstance($data['item']->categoryId);
                         $categoryName = $category->get('name');
                     } else {
                         $categoriesName = array();
 
                         foreach ($categoriesId as $categoryId) {
-                            $category = RedshopEntityCategory::getInstance((int)$categoryId);
+                            $category = Redshop\Entity\Category::getInstance((int)$categoryId);
 
                             if (!in_array($category->get('name'), $categoriesName)) {
                                 $categoriesName[] = $category->get('name');

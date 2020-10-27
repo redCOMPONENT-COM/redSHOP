@@ -50,7 +50,7 @@ class RedshopViewManufacturer extends RedshopViewForm
         $this->item = $this->model->getItem();
         $this->form = $this->model->getForm();
 
-        $media = RedshopEntityManufacturer::getInstance($this->item->id)->getMedia();
+        $media = Redshop\Entity\Manufacturer::getInstance($this->item->id)->getMedia();
 
         if ($media->isValid()) {
             $this->form->setFieldAttribute('media', 'media-id', $media->get('media_id'));

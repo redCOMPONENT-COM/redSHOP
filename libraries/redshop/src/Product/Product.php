@@ -150,8 +150,8 @@ class Product
      */
     public static function getProductById($productId, $userId = 0, $setRelated = true)
     {
-        if (!$userId) {
-            $user   = \JFactory::getUser();
+       if (!$userId) {
+            $user   = \Joomla\CMS\Factory::getUser();
             $userId = $user->id;
         }
 
@@ -163,17 +163,17 @@ class Product
                 static::$products[$key] = static::$allProducts[$productId];
             } // Otherwise load product info
             else {
-                $db    = \JFactory::getDbo();
+                $db    = \Joomla\CMS\Factory::getDbo();
                 $query = self::getMainProductQuery(false, $userId);
 
                 // Select product
                 $query->where($db->qn('p.product_id') . ' = ' . (int)$productId);
 
                 $db->setQuery($query);
-                static::$products[$key] = $db->loadObject();
+                static::$products[$key] = \Redshop\DB\Tool::safeSelect($db, $query, false, null);
             }
 
-            if ($setRelated === true && static::$products[$key]) {
+            if ($setRelated === true && !empty(static::$products[$key])) {
                 self::setProductRelates(array($key => static::$products[$key]), $userId);
             }
         }

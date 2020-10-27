@@ -228,7 +228,7 @@ class extra_field
      */
     public function getFieldValue($id)
     {
-        return RedshopHelperExtrafields::getFieldValue($id);
+        return \Redshop\Entity\Field::getInstance($id)->getFieldValues();
     }
 
     /**

@@ -55,10 +55,10 @@ class RedshopFormFieldMedia extends JFormField
         $referenceId       = isset($this->element['media-reference']) ? (int)$this->element['media-reference'] : 0;
         $mediaId           = isset($this->element['media-id']) ? (int)$this->element['media-id'] : 0;
 
-        $media = RedshopEntityMediaImage::getInstance();
+        $media = Redshop\Entity\Media\RImage::getInstance();
 
         if ($mediaId) {
-            $media = RedshopEntityMediaImage::getInstance($mediaId);
+            $media = Redshop\Entity\Media\RImage::getInstance($mediaId);
         }
 
         $html = '';

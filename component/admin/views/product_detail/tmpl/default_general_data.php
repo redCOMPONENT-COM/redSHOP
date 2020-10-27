@@ -20,7 +20,7 @@ $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')
 $config         = JFactory::getConfig();
 $tz             = new \DateTimeZone($config->get('offset'));
 
-$media = RedshopEntityProduct::getInstance($this->detail->product_id)->getMedia();
+$media = Redshop\Entity\Product::getInstance($this->detail->product_id)->getMedia();
 
 $fullMediaId = 0;
 $fullImage   = $this->detail->product_full_image;

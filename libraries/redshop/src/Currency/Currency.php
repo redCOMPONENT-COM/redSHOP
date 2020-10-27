@@ -86,7 +86,7 @@ class Currency
         }
 
         if (!$targetCurrency) {
-            $targetCurrency = \RedshopEntityCurrency::getInstance((int)$session->get('product_currency'))->get('code');
+            $targetCurrency = \Redshop\Entity\Currency::getInstance((int)$session->get('product_currency'))->get('code');
         }
 
         // Make sure data is correct format.

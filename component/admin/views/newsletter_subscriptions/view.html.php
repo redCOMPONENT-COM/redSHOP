@@ -34,7 +34,7 @@ class RedshopViewNewsletter_Subscriptions extends RedshopViewList
 	{
 		$model = $this->getModel('newsletter_subscriptions');
 		$newsletterName = $model::getNewsletterNameById($row->newsletter_id);
-		$userName = \RedshopEntityNewsletter_Subscription::getUserFullName($row->user_id);
+		$userName = \Redshop\Entity\NewsletterSubscription::getUserFullName($row->user_id);
 
 		switch ($config['dataCol']) {
 			case 'user_id':

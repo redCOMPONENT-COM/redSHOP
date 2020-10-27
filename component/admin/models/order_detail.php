@@ -58,7 +58,7 @@ class RedshopModelOrder_detail extends RedshopModel
     public function _loadData()
     {
         if (empty($this->_data)) {
-            $this->_data = RedshopEntityOrder::getInstance($this->_id)->getItem();
+            $this->_data = Redshop\Entity\Order::getInstance($this->_id)->getItem();
 
             return (boolean)$this->_data;
         }
@@ -136,7 +136,7 @@ class RedshopModelOrder_detail extends RedshopModel
                 $quntity = $order_item[$i]->product_quantity;
 
                 $order_id     = $order_item[$i]->order_id;
-                $order_detail = RedshopEntityOrder::getInstance($order_id)->getItem();
+                $order_detail = Redshop\Entity\Order::getInstance($order_id)->getItem();
 
                 if ($order_detail->order_payment_status == "Unpaid") {
                     // Update stock roommanageStockAmount
@@ -698,17 +698,17 @@ class RedshopModelOrder_detail extends RedshopModel
         $orderItemId = $data['order_item_id'];
 
         // Get Order Item Info
-        $orderItem         = RedshopEntityOrder_Item::getInstance($orderItemId);
+        $orderItem         = \Redshop\Entity\OrderItem::getInstance($orderItemId);
         $orderItemQuantity = $orderItem->get('product_quantity');
 
         // Get Order Info
-        $order = RedshopEntityOrder::getInstance($this->_id);
+        $order = \Redshop\Entity\Order::getInstance($this->_id);
 
         // Update stock room
         RedshopHelperStockroom::manageStockAmount(
-            $productId,
-            $orderItem->get('product_quantity'),
-            $orderItem->get('stockroom_id')
+            (int) $productId,
+            (int) $orderItem->get('product_quantity'),
+            (int) $orderItem->get('stockroom_id')
         );
 
         $db = $this->_db;

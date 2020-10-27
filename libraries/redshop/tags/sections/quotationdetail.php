@@ -218,7 +218,7 @@ class RedshopTagsSectionsQuotationDetail extends RedshopTagsAbstract
                         $quotationProducts[$i]->quotation_item_id,
                         13
                     );
-                    $giftcardData      = RedshopEntityGiftcard::getInstance(
+                    $giftcardData      = Redshop\Entity\GiftCard::getInstance(
                         $quotationProducts[$i]->product_id
                     )->getItem();
 

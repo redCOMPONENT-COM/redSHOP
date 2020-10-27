@@ -46,7 +46,7 @@ class RedshopViewField extends RedshopViewForm
 
         $this->item = $this->get('Item');
 
-        $field_data = RedshopEntityField::getInstance($this->item->id)->getFieldValues();
+        $field_data = Redshop\Entity\Field::getInstance($this->item->id)->getFieldValues();
 
         $list                = array();
         $lists['extra_data'] = $field_data;

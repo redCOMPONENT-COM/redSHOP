@@ -156,7 +156,7 @@ class RedshopViewCategory extends RedshopView
             $parentid     = RedshopHelperProduct::getParentCategory($maincat->id);
 
             while ($parentid != 0) {
-                $parentdetail = RedshopEntityCategory::getInstance($parentid)->getItem();
+                $parentdetail = Redshop\Entity\Category::getInstance($parentid)->getItem();
                 $parentcat    = $parentdetail->name . "  " . $parentcat;
                 $parentid     = RedshopHelperProduct::getParentCategory($parentdetail->id);
             }
@@ -347,10 +347,10 @@ class RedshopViewCategory extends RedshopView
             );
         }
 
-        $categories = new RedshopEntitiesCollection;
+        $categories = new Redshop\Entities\Collection;
 
         if ($model->getState('include_sub_categories_products', false)) {
-            $categories          = RedshopEntityCategory::getInstance($this->catid)->getChildCategories();
+            $categories          = Redshop\Entity\Category::getInstance($this->catid)->getChildCategories();
             $lists['categories'] = '';
             $this->category_id   = $model->getState('category_id');
 

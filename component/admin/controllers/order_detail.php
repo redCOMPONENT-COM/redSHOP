@@ -389,7 +389,7 @@ class RedshopControllerOrder_detail extends RedshopController
         $model = $this->getModel('order_detail');
 
         $request = $this->input->getArray();
-        $order   = RedshopEntityOrder::getInstance($request['order_id'])->getItem();
+        $order   = Redshop\Entity\Order::getInstance($request['order_id'])->getItem();
 
         // Send the order_id and order payment_id to the payment plugin so it knows which DB record to update upon successful payment
         $userBilling       = RedshopHelperOrder::getOrderBillingUserInfo($request['order_id']);

@@ -515,7 +515,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         $supplierName = '';
 
         if ($this->product->supplier_id) {
-            $supplierName = RedshopEntitySupplier::getInstance($this->product->supplier_id)->getItem()->name;
+            $supplierName = Redshop\Entity\Supplier::getInstance($this->product->supplier_id)->getItem()->name;
         }
 
         $this->addReplace('{supplier_name}', $supplierName);
@@ -1328,7 +1328,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
     private function replaceManufactureImage()
     {
         $manufacturerImage = '';
-        $manufacturerMedia = RedshopEntityManufacturer::getInstance($this->product->manufacturer_id)->getMedia();
+        $manufacturerMedia = Redshop\Entity\Manufacturer::getInstance($this->product->manufacturer_id)->getMedia();
 
         if ($manufacturerMedia->isValid() && !empty($manufacturerMedia->get('media_name'))
             && JFile::exists(

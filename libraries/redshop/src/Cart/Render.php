@@ -67,7 +67,7 @@ class Render
         }
 
         if ($giftCardId != 0) {
-            $product      = \RedshopEntityGiftcard::getInstance($giftCardId)->getItem();
+            $product      = \Redshop\Entity\GiftCard::getInstance($giftCardId)->getItem();
             $fieldSection = \RedshopHelperExtrafields::SECTION_GIFT_CARD_USER_FIELD;
         } else {
             $product = \Redshop\Product\Product::getProductById($productId);

@@ -238,7 +238,7 @@ class RedshopRouter extends JComponentRouterBase
                 if (isset($gid)) {
                     $segments[] = $gid;
 
-                    $entity = RedshopEntityGiftcard::getInstance($gid);
+                    $entity = Redshop\Entity\GiftCard::getInstance($gid);
 
                     if ($entity->isValid()) {
                         $segments[] = RedshopHelperUtility::convertToNonSymbol($entity->get('giftcard_name'));
@@ -296,7 +296,7 @@ class RedshopRouter extends JComponentRouterBase
                 }
 
                 if ($cid) {
-                    $url = RedshopEntityCategory::getInstance($cid);
+                    $url = \Redshop\Entity\Category::getInstance($cid);
 
                     if (empty($url->get('sef_url'))) {
                         $categoriesReverse = RedshopHelperCategory::getCategoryListReverseArray($cid);
@@ -320,9 +320,9 @@ class RedshopRouter extends JComponentRouterBase
                         }
                     } else {
                         if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME')) {
-                            $segments[] = $cid . '-' . RedshopHelperUtility::convertToNonSymbol($url->sef_url);
+                            $segments[] = $cid . '-' . RedshopHelperUtility::convertToNonSymbol($url->get('sef_url'));
                         } else {
-                            $segments[] = RedshopHelperUtility::convertToNonSymbol($url->sef_url);
+                            $segments[] = RedshopHelperUtility::convertToNonSymbol($url->get('sef_url'));
                         }
                     }
                 } elseif ($menuItem->title !== '') {
@@ -377,7 +377,7 @@ class RedshopRouter extends JComponentRouterBase
                             }
                         }
 
-                        $categoryData = RedshopEntityCategory::getInstance($categoryId);
+                        $categoryData = Redshop\Entity\Category::getInstance($categoryId);
 
                         // Attach category id with name for consistency
                         if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME')) {
@@ -424,7 +424,7 @@ class RedshopRouter extends JComponentRouterBase
                 if ($mid) {
                     $segments[] = $mid;
 
-                    $manufacturer = RedshopEntityManufacturer::getInstance($mid);
+                    $manufacturer = Redshop\Entity\Manufacturer::getInstance($mid);
 
                     if ($manufacturer->isValid()) {
                         if (!empty($manufacturer->get('sef_url'))) {
@@ -462,7 +462,7 @@ class RedshopRouter extends JComponentRouterBase
                         if ($tagId) {
                             $segments[] = $tagId;
 
-                            $tag        = RedshopEntityProduct_Tag::getInstance($tagId);
+                            $tag        = \Redshop\Entity\ProductTag::getInstance($tagId);
                             $segments[] = str_replace($specialChars, '-', $tag->get('tags_name'));
 
                             if ($tagId && isset($edit)) {
