@@ -264,7 +264,7 @@ class Add
         $wrapperPrice = 0;
         $wrapperVat   = 0;
 
-        if (isset($data['sel_wrapper_id']) && $data['sel_wrapper_id']) {
+        if (isset($data['sel_wrapper_id'])) {
             $wrapperArr = \Redshop\Wrapper\Helper::getWrapperPrice(
                 array('product_id' => $data['product_id'], 'wrapper_id' => $data['sel_wrapper_id'])
             );
