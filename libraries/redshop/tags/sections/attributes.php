@@ -650,12 +650,14 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 $property->property_price = $property->property_price_without_vat;
             }
 
-            $attributesPropertyOldPrice = $property->property_price;
-
             $pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($property->value, 1, 'property');
 
             if (!empty($pricelist)) {
                 $property->property_price = $pricelist->product_price;
+                $attributesPropertyOldPrice = $pricelist->discount_price;
+            }
+            else{
+                $attributesPropertyOldPrice = $property->property_price;
             }
 
             $attributesPropertyWithoutVat = $property->property_price;
