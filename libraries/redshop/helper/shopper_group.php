@@ -68,7 +68,7 @@ class RedshopHelperShopper_Group
         $html     .= "<select class=\"inputbox\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
 
         if ($topLevel) {
-            $html .= "<option value=\"0\"> -Top- </option>\n";
+            $html .= "<option value=\"1\"> -Top- </option>\n";
         }
 
         $html .= self::listTree($shopperGroupId, 0, 0, $selectedGroups, $disabledFields);
