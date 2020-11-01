@@ -662,6 +662,9 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
 
             $attributesPropertyWithoutVat = $property->property_price;
 
+            //Apply massdiscount with product attribute
+            $attributesPropertyWithoutVat = RedshopHelperProduct::calculateProductApplyMassDiscount($productId, $attributesPropertyWithoutVat);
+
             /*
              * changes for {without_vat} tag output parsing
              * only for display purpose
