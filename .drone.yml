@@ -279,7 +279,7 @@ pipeline:
             - tests_suite=09-Group09
             - tests_db=group9
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-09-Group09
+            - output_append=-09-Group9
             - php_version=74
         commands:
             # Regular entry point
