@@ -271,15 +271,15 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g16 0 0'
 
-    9-Group09:
+    09-Group9:
         group: 01-tests
         image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
-            - tests_suite=9-Group09
-            - tests_db=group09
+            - tests_suite=09-Group09
+            - tests_db=group9
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-9-Group09
+            - output_append=-09-Group09
             - php_version=74
         commands:
             # Regular entry point
