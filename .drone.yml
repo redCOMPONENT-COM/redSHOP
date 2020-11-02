@@ -398,7 +398,7 @@ services:
             - MYSQL_ROOT_HOST=%
 
     php73:
-        image: redwebaps/php-apache:7.3
+        image: redwebaps/php-apache:7.4
         pull: true
         environment:
             - WEB_DOCUMENT_ROOT=/drone/src/github.com/${DRONE_REPO}
