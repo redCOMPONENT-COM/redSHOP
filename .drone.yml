@@ -276,7 +276,7 @@ pipeline:
         image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
-            - tests_suite=09-Group09
+            - tests_suite=09-Group9
             - tests_db=group9
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-09-Group9
