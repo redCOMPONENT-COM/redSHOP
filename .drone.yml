@@ -70,7 +70,7 @@ pipeline:
             # Touching temp file to start the setup of each installation (in each PHP version - via services)
             - touch tests/.setup.tmp
 
-    00-setup-73:
+    00-setup-74:
         group: 00-setup
         image: redwebaps/testbox-chromedriver:79.0-n12
         pull: true
@@ -80,7 +80,7 @@ pipeline:
             - tests_db=setup
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-00-setup
-            - php_version=73
+            - php_version=74
         commands:
             # Regular entry point
             - /entrypoint.sh &
@@ -109,7 +109,7 @@ pipeline:
             - tests_db=group1
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-01-Group1
-            - php_version=73
+            - php_version=74
         commands:
             # Regular entry point
             - /entrypoint.sh &
@@ -132,7 +132,7 @@ pipeline:
             - tests_db=group2
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-02-Group2
-            - php_version=73
+            - php_version=74
         commands:
             # Regular entry point
             - /entrypoint.sh &
@@ -157,7 +157,7 @@ pipeline:
             - tests_db=group3
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-03-Group3
-            - php_version=73
+            - php_version=74
         commands:
             # Regular entry point
             - /entrypoint.sh &
@@ -179,7 +179,7 @@ pipeline:
             - tests_db=group4
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-04-Group4
-            - php_version=73
+            - php_version=74
         commands:
             # Regular entry point
             - /entrypoint.sh &
@@ -199,7 +199,7 @@ pipeline:
             - tests_db=group5
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-05-Group5
-            - php_version=73
+            - php_version=74
         commands:
             # Regular entry point
             - /entrypoint.sh &
@@ -220,7 +220,7 @@ pipeline:
             - tests_db=group6
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-06-Group6
-            - php_version=73
+            - php_version=74
         commands:
             # Regular entry point
             - /entrypoint.sh &
@@ -240,7 +240,7 @@ pipeline:
             - tests_db=group7
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-07-Group7
-            - php_version=73
+            - php_version=74
         commands:
             # Regular entry point
             - /entrypoint.sh &
@@ -260,7 +260,7 @@ pipeline:
             - tests_db=group8
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-08-Group8
-            - php_version=73
+            - php_version=74
         commands:
             # Regular entry point
             - /entrypoint.sh &
@@ -280,7 +280,7 @@ pipeline:
             - tests_db=group09
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-9-Group09
-            - php_version=73
+            - php_version=74
         commands:
             # Regular entry point
             - /entrypoint.sh &
@@ -301,7 +301,7 @@ pipeline:
             - tests_db=group10
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-10-Group10
-            - php_version=73
+            - php_version=74
         commands:
             # Regular entry point
             - /entrypoint.sh &
@@ -322,7 +322,7 @@ pipeline:
             - tests_db=group11
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-11-Group11
-            - php_version=73
+            - php_version=74
         commands:
             # Regular entry point
             - /entrypoint.sh &
@@ -342,7 +342,7 @@ pipeline:
             - tests_db=group12
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-12-Group12
-            - php_version=73
+            - php_version=74
         commands:
             # Regular entry point
             - /entrypoint.sh &
