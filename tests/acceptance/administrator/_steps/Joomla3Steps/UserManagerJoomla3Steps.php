@@ -383,10 +383,12 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->searchUser($firstName);
 		$I->see($firstName, UserManagerJoomla3Page::$firstResultRow);
+		$I->waitForElement(UserManagerJoomla3Page::$firstResultRow, 30);
 		$I->click(UserManagerJoomla3Page::$selectFirst);
 		$I->click(UserManagerJoomla3Page::$editButton);
+		$I->waitForElement(UserManagerJoomla3Page::$billingInformationTab, 30);
 		$I->click(UserManagerJoomla3Page::$billingInformationTab);
-		$I->waitForElement(UserManagerJoomla3Page::$firstName);
+		$I->waitForElement(UserManagerJoomla3Page::$firstName, 30);
 		$I->fillField(UserManagerJoomla3Page::$firstName, $updatedName);
 		$I->click(UserManagerJoomla3Page::$generalUserInformationTab);
 		$I->click(UserManagerJoomla3Page::$saveCloseButton);

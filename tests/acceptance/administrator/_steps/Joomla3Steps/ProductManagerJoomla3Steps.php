@@ -144,7 +144,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(ProductManagerPage::$minimumPerProduct, $minimumPerProduct);
 		$I->fillField(ProductManagerPage::$minimumQuantity, $minimumQuantity);
 		$I->fillField(ProductManagerPage::$maximumQuantity, $maximumQuantity);
-		$I->wait(0.5);
+		$I->executeJS('window.scrollTo(0,0);');
+		$I->waitForText(ProductManagerPage::$buttonSave, 30);
 		$I->click(ProductManagerPage::$buttonSave);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}
