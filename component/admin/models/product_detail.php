@@ -985,10 +985,17 @@ class RedshopModelProduct_Detail extends RedshopModel
         }
 
         $mediaFullImage = '';
-
+    
         if (empty($data['copy_product'])) {
-            // Media: Store product full image
-            $mediaFullImage = $this->storeMedia($row, 'product_full_image');
+            if ($data['task'] !== 'save2copy')
+            {
+                // Media: Store product full image
+                $mediaFullImage = $this->storeMedia($row, 'product_full_image');
+            }
+            else
+            {
+                $this->storeMediaSave2Copy($data, $row);
+            }
         }
 
         if (isset($data['back_thumb_image_delete'])) {
