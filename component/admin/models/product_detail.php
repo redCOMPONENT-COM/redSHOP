@@ -985,14 +985,12 @@ class RedshopModelProduct_Detail extends RedshopModel
         }
 
         $mediaFullImage = '';
-    
+
         if (empty($data['copy_product'])) {
-            if ($data['task'] !== 'save2copy')
-            {
-                // Media: Store product full image
-                $mediaFullImage = $this->storeMedia($row, 'product_full_image');
-            }
-            else
+            
+            // Media: Store product full image
+            $mediaFullImage = $this->storeMedia($row, 'product_full_image', $data['task']);
+            if ($data['task'] == 'save2copy')
             {
                 $this->storeMediaSave2Copy($data, $row);
             }
@@ -1128,10 +1126,6 @@ class RedshopModelProduct_Detail extends RedshopModel
         }
 
         $dispatcher->trigger('onAfterProductSave', array(&$row, $isNew));
-
-        if ($data['task'] === 'save2copy') {
-            $this->storeMediaSave2Copy($data, $row);
-        }
 
         // Upgrade media reference Id if needed
         if ($isNew && !empty($mediaFullImage) !== false && (!$data['copy_product'] || $data['task'] === ' save2copy')) {
@@ -1663,7 +1657,7 @@ class RedshopModelProduct_Detail extends RedshopModel
      *
      * @since   2.1.0
      */
-    protected function storeMedia($row, $mediaField = 'product_full_image')
+    protected function storeMedia($row, $mediaField = 'product_full_image', $data )
     {
         $input    = JFactory::getApplication()->input;
         $dropzone = $input->post->get('dropzone', array(), 'array');
@@ -1688,7 +1682,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                 // Delete old image.
                 $oldMediaFile = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediaTable->media_name);
 
-                if (JFile::exists($oldMediaFile)) {
+                if (JFile::exists($oldMediaFile) && $data != 'save2copy') {
                     JFile::delete($oldMediaFile);
                 }
 
