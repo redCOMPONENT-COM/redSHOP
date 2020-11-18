@@ -990,10 +990,6 @@ class RedshopModelProduct_Detail extends RedshopModel
             
             // Media: Store product full image
             $mediaFullImage = $this->storeMedia($row, 'product_full_image', $data['task']);
-            if ($data['task'] == 'save2copy')
-            {
-                $this->storeMediaSave2Copy($data, $row);
-            }
         }
 
         if (isset($data['back_thumb_image_delete'])) {
@@ -1126,6 +1122,10 @@ class RedshopModelProduct_Detail extends RedshopModel
         }
 
         $dispatcher->trigger('onAfterProductSave', array(&$row, $isNew));
+
+        if ($data['task'] === 'save2copy') {
+            $this->storeMediaSave2Copy($data, $row);
+        }
 
         // Upgrade media reference Id if needed
         if ($isNew && !empty($mediaFullImage) !== false && (!$data['copy_product'] || $data['task'] === ' save2copy')) {
@@ -1651,13 +1651,14 @@ class RedshopModelProduct_Detail extends RedshopModel
      *
      * @param   object  $row         Product data
      * @param   string  $mediaField  Media field name
+     * @param   array  $data        Product detail data.
      *
      * @return  boolean|integer       Id of media row if success. False otherwise.
      * @throws  Exception
      *
      * @since   2.1.0
      */
-    protected function storeMedia($row, $mediaField = 'product_full_image', $data )
+    protected function storeMedia($row, $mediaField = 'product_full_image', $data = '' )
     {
         $input    = JFactory::getApplication()->input;
         $dropzone = $input->post->get('dropzone', array(), 'array');
@@ -1681,15 +1682,17 @@ class RedshopModelProduct_Detail extends RedshopModel
 
                 // Delete old image.
                 $oldMediaFile = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediaTable->media_name);
-
-                if (JFile::exists($oldMediaFile) && $data != 'save2copy') {
-                    JFile::delete($oldMediaFile);
-                }
-
-                if (empty($value)) {
-                    $mediaTable->delete();
-
-                    continue;
+                
+                if ($data !== 'save2copy') {
+                    if (JFile::exists($oldMediaFile)) {
+                        JFile::delete($oldMediaFile);
+                    }
+    
+                    if (empty($value)) {
+                        $mediaTable->delete();
+        
+                        continue;
+                    }
                 }
             } else {
                 if (!$mediaTable->load(
