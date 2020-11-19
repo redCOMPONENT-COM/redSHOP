@@ -987,7 +987,6 @@ class RedshopModelProduct_Detail extends RedshopModel
         $mediaFullImage = '';
 
         if (empty($data['copy_product'])) {
-            
             // Media: Store product full image
             $mediaFullImage = $this->storeMedia($row, 'product_full_image', $data['task']);
         }
@@ -1651,7 +1650,7 @@ class RedshopModelProduct_Detail extends RedshopModel
      *
      * @param   object  $row         Product data
      * @param   string  $mediaField  Media field name
-     * @param   array  $data        Product detail data.
+     * @param   string  $data        Product detail data.
      *
      * @return  boolean|integer       Id of media row if success. False otherwise.
      * @throws  Exception
