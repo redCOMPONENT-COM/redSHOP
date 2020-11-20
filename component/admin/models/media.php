@@ -290,9 +290,12 @@ class RedshopModelMedia extends RedshopModel
     public function saveorder($cid = array())
     {
         $row        = $this->getTable('media_detail');
-        $order      = JFactory::getApplication()->input->post->get('order', array(0), 'array');
         $conditions = array();
-
+        if (!isset($order) || $order == array())
+        {
+            $order  = JFactory::getApplication()->input->post->get('order', array(0), 'array');
+        }
+        
         // Update ordering values
         for ($i = 0, $in = count($cid); $i < $in; $i++) {
             $row->load((int)$cid[$i]);
