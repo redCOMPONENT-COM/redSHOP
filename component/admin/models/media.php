@@ -287,7 +287,7 @@ class RedshopModelMedia extends RedshopModel
         return true;
     }
 
-    public function saveorder($cid = array(), $order)
+    public function saveorder($cid = array())
     {
         $row        = $this->getTable('media_detail');
         $order      = JFactory::getApplication()->input->post->get('order', array(0), 'array');
