@@ -51,7 +51,7 @@ class RedshopModelMedia extends RedshopModel
             $query->where('media_type = ' . $db->q($media_type));
         }
         
-        $filter_search = $this->getState('filter_search');
+        $filter_search = $this->getState('filter_search', null);
         if ($filter_search) {
             $query->where(
                  "(" . $db->qn('media_name') . " LIKE " . $db->q('%' . $filter_search . '%')
@@ -131,7 +131,7 @@ class RedshopModelMedia extends RedshopModel
         $folderList = JFolder::folders($basePath);
 
         // Iterate over the files if they exist
-        if (isset($fileList)) {
+        if (!empty($fileList)) {
             foreach ($fileList as $file) {
                 if (file_exists($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower(
                         $file
@@ -206,7 +206,7 @@ class RedshopModelMedia extends RedshopModel
         }
 
         // Iterate over the folders if they exist
-        if (isset($folderList)) {
+        if (!empty($folderList)) {
             foreach ($folderList as $folder) {
                 $tmp                = new stdClass;
                 $tmp->name          = basename($folder);
