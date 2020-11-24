@@ -51,7 +51,6 @@ class RedshopModelMedia extends RedshopModel
             $query->where('media_type = ' . $db->q($media_type));
         }
 
-        // Filter Search
         if ($filter_search = $this->getState('filter_search')) {
             $query->where(
                  "(" . $db->qn('media_name') . " LIKE " . $db->q('%' . $filter_search . '%')
@@ -131,78 +130,79 @@ class RedshopModelMedia extends RedshopModel
         $folderList = JFolder::folders($basePath);
 
         // Iterate over the files
-        foreach ($fileList as $file) {
-            if (file_exists($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower(
-                    $file
-                ) !== 'index.html') {
-                $tmp                = new stdClass;
-                $tmp->name          = $file;
-                $tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
-                $tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
-                $tmp->size          = filesize($tmp->path);
-
-                $ext = strtolower(JFile::getExt($file));
-
-                switch ($ext) {
-                    // Image
-                    case 'jpg':
-                    case 'png':
-                    case 'gif':
-                    case 'xcf':
-                    case 'odg':
-                    case 'bmp':
-                    case 'jpeg':
-                        $info        = @getimagesize($tmp->path);
-                        $tmp->width  = @$info[0];
-                        $tmp->height = @$info[1];
-                        $tmp->type   = @$info[2];
-                        $tmp->mime   = @$info['mime'];
-
-                        if (($info[0] > 60) || ($info[1] > 60)) {
-                            $dimensions     = RedshopHelperMedia::imageResize($info[0], $info[1], 60);
-                            $tmp->width_60  = $dimensions[0];
-                            $tmp->height_60 = $dimensions[1];
-                        } else {
-                            $tmp->width_60  = $tmp->width;
-                            $tmp->height_60 = $tmp->height;
-                        }
-
-                        if (($info[0] > 16) || ($info[1] > 16)) {
-                            $dimensions     = RedshopHelperMedia::imageResize($info[0], $info[1], 16);
-                            $tmp->width_16  = $dimensions[0];
-                            $tmp->height_16 = $dimensions[1];
-                        } else {
-                            $tmp->width_16  = $tmp->width;
-                            $tmp->height_16 = $tmp->height;
-                        }
-
-                        $images[] = $tmp;
-                        break;
-
-                    // Non-image document
-                    default:
-                        $iconfile_32 = JPATH_ROOT . '/media/com_redshop/images/mime-icon-32/' . $ext . '.png';
-
-                        if (file_exists($iconfile_32)) {
-                            $tmp->icon_32 = 'media/com_redshop/images/mime-icon-32/' . $ext . '.png';
-                        } else {
-                            $tmp->icon_32 = 'media/com_redshop/images/con_info.png';
-                        }
-
-                        $iconfile_16 = JPATH_ADMINISTRATOR . '/media/com_redshop/images/mime-icon-16/' . $ext . '.png';
-
-                        if (file_exists($iconfile_16)) {
-                            $tmp->icon_16 = 'media/com_redshop/images/mime-icon-16/' . $ext . '.png';
-                        } else {
-                            $tmp->icon_16 = 'media/com_redshop/images/con_info.png';
-                        }
-
-                        $docs[] = $tmp;
-                        break;
+        if ($fileList !== false) {
+            foreach ($fileList as $file) {
+                if (file_exists($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower(
+                        $file
+                    ) !== 'index.html') {
+                    $tmp                = new stdClass;
+                    $tmp->name          = $file;
+                    $tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
+                    $tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
+                    $tmp->size          = filesize($tmp->path);
+            
+                    $ext = strtolower(JFile::getExt($file));
+            
+                    switch ($ext) {
+                        // Image
+                        case 'jpg':
+                        case 'png':
+                        case 'gif':
+                        case 'xcf':
+                        case 'odg':
+                        case 'bmp':
+                        case 'jpeg':
+                            $info        = @getimagesize($tmp->path);
+                            $tmp->width  = @$info[0];
+                            $tmp->height = @$info[1];
+                            $tmp->type   = @$info[2];
+                            $tmp->mime   = @$info['mime'];
+                    
+                            if (($info[0] > 60) || ($info[1] > 60)) {
+                                $dimensions     = RedshopHelperMedia::imageResize($info[0], $info[1], 60);
+                                $tmp->width_60  = $dimensions[0];
+                                $tmp->height_60 = $dimensions[1];
+                            } else {
+                                $tmp->width_60  = $tmp->width;
+                                $tmp->height_60 = $tmp->height;
+                            }
+                    
+                            if (($info[0] > 16) || ($info[1] > 16)) {
+                                $dimensions     = RedshopHelperMedia::imageResize($info[0], $info[1], 16);
+                                $tmp->width_16  = $dimensions[0];
+                                $tmp->height_16 = $dimensions[1];
+                            } else {
+                                $tmp->width_16  = $tmp->width;
+                                $tmp->height_16 = $tmp->height;
+                            }
+                    
+                            $images[] = $tmp;
+                            break;
+                
+                        // Non-image document
+                        default:
+                            $iconfile_32 = JPATH_ROOT . '/media/com_redshop/images/mime-icon-32/' . $ext . '.png';
+                    
+                            if (file_exists($iconfile_32)) {
+                                $tmp->icon_32 = 'media/com_redshop/images/mime-icon-32/' . $ext . '.png';
+                            } else {
+                                $tmp->icon_32 = 'media/com_redshop/images/con_info.png';
+                            }
+                    
+                            $iconfile_16 = JPATH_ADMINISTRATOR . '/media/com_redshop/images/mime-icon-16/' . $ext . '.png';
+                    
+                            if (file_exists($iconfile_16)) {
+                                $tmp->icon_16 = 'media/com_redshop/images/mime-icon-16/' . $ext . '.png';
+                            } else {
+                                $tmp->icon_16 = 'media/com_redshop/images/con_info.png';
+                            }
+                    
+                            $docs[] = $tmp;
+                            break;
+                    }
                 }
             }
         }
-
         // Iterate over the folders
         foreach ($folderList as $folder) {
             $tmp                = new stdClass;
