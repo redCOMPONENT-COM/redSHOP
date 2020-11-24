@@ -131,7 +131,7 @@ class RedshopModelMedia extends RedshopModel
         $folderList = JFolder::folders($basePath);
 
         // Iterate over the files if they exist
-        if ($fileList !== false) {
+        if (isset($fileList)) {
             foreach ($fileList as $file) {
                 if (file_exists($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower(
                         $file
@@ -206,7 +206,7 @@ class RedshopModelMedia extends RedshopModel
         }
 
         // Iterate over the folders if they exist
-        if ($folderList !== false) {
+        if (isset($folderList)) {
             foreach ($folderList as $folder) {
                 $tmp                = new stdClass;
                 $tmp->name          = basename($folder);
