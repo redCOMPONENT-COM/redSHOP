@@ -287,7 +287,7 @@ class RedshopModelMedia extends RedshopModel
         return true;
     }
 
-    public function saveorder($cid = array())
+    public function saveorder($cid = array(), $order)
     {
         $row        = $this->getTable('media_detail');
         $conditions = array();
