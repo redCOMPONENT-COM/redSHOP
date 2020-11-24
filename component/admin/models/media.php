@@ -203,7 +203,10 @@ class RedshopModelMedia extends RedshopModel
                     }
                 }
             }
+        }
 
+        // Iterate over the folders if they exist
+        if ($folderList !== false) {
             foreach ($folderList as $folder) {
                 $tmp                = new stdClass;
                 $tmp->name          = basename($folder);
