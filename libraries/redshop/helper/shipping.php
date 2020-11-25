@@ -848,7 +848,7 @@ class RedshopHelperShipping
 				AND (( " . $db->quote($weightTotal) . " BETWEEN " . $db->qn('shipping_rate_weight_start')
                 . " AND " . $db->qn('shipping_rate_weight_end') . ") OR ("
                 . $db->qn('shipping_rate_weight_end') . " = 0)) " . $whereShippingVolume . "
-				AND (" . $db->qn('shipping_rate_on_product') . " = '' " . $pWhere . ") AND ("
+				AND (" . $db->qn('shipping_rate_on_product') . " = '' " . $pWhere . ") OR ("
                 . $db->qn('shipping_rate_on_category') . " = '' " . $cWhere . ")" . $where . "
 				ORDER BY " . $db->qn('shipping_rate_priority');
 
