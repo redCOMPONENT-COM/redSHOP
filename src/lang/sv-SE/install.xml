@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="file" version="3.6" method="upgrade">
-    <name>redSHOP da-DK</name>
+    <name>redSHOP sv-SE</name>
     <creationDate>October 2020</creationDate>
     <version>3.0.2</version>
     <author>redCOMPONENT.com</author>
@@ -8,14 +8,14 @@
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>Copyright (C) 2012 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
     <license>GNU/GPL</license>
-    <description>redSHOP Danish (da-DK) language pack</description>
+    <description>redSHOP Swedish (sv-SE) language pack</description>
 
     <fileset>
         <files folder="admin" target="administrator/language">
-            <folder>da-DK</folder>
+            <folder>sv-SE</folder>
         </files>
         <files folder="site" target="language">
-            <folder>da-DK</folder>
+            <folder>sv-SE</folder>
         </files>
     </fileset>
 </extension>
