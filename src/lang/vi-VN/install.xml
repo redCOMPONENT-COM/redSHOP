@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="file" version="3.6" method="upgrade">
     <name>redSHOP vi-VN</name>
-    <creationDate>October 2020</creationDate>
+    <creationDate>November 2020</creationDate>
     <version>3.0.2</version>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
