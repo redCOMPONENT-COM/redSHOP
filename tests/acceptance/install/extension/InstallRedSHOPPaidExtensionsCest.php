@@ -208,9 +208,6 @@ class InstallRedSHOPPaidExtensionsCest
 				'package'  => 'plg_redshop_payment_paypalcreditcard.zip',
 			),
 			array(
-				'package'  => 'plg_redshop_payment_payson.zip',
-			),
-			array(
 				'package'  => 'plg_redshop_payment_quickbook.zip',
 			),
 			array(
