@@ -226,7 +226,6 @@ class Cart
         if (true !== $result) {
             return $result;
         }
-        $cart = self::modify($cart);
 
         \Redshop\Cart\Helper::setCart($cart);
         return true;
