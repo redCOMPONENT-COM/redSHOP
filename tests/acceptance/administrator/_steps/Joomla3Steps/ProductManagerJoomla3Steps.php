@@ -144,7 +144,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(ProductManagerPage::$minimumPerProduct, $minimumPerProduct);
 		$I->fillField(ProductManagerPage::$minimumQuantity, $minimumQuantity);
 		$I->fillField(ProductManagerPage::$maximumQuantity, $maximumQuantity);
-		$I->wait(0.5);
+		$I->executeJS('window.scrollTo(0,0);');
+		$I->waitForText(ProductManagerPage::$buttonSave, 30);
 		$I->click(ProductManagerPage::$buttonSave);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}
@@ -323,6 +324,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$this->searchProduct($productName);
 		$I->waitForElementVisible(ProductManagerPage::$checkAllXpath, 30);
 		$I->checkAllResults();
+		$I->waitForText(ProductManagerPage::$buttonDelete, 30);
 		$I->click(ProductManagerPage::$buttonDelete);
 		$I->acceptPopup();
 		$I->waitForText(ProductManagerPage::$messageDeleteProductSuccess, 60, ProductManagerPage::$selectorSuccess);

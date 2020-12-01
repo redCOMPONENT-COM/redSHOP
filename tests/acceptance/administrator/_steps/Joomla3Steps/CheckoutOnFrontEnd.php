@@ -282,7 +282,7 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings();
 		$I->seeElement(['link' => $productName]);
 		$I->click(AdminJ3Page::$checkoutButton);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$newCustomerSpan);
 
 		$I->addressInformation($addressDetail);
