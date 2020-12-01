@@ -118,7 +118,7 @@ class PlgSystemRedSHOP extends JPlugin
         
         if (isset($data->manufacturer_name))
         {
-            $getBrands = '"brand": {
+            $getBrand = '"brand": {
                      "@type": "Brand",
                      "name": "'.$data->manufacturer_name.'"
                      },';
@@ -127,27 +127,27 @@ class PlgSystemRedSHOP extends JPlugin
         if ($getConfigUseStockRoom && $option == 'com_redshop' && $view == 'product' )
         {
             $js = '
-            {
-            "@context": "schema.org",
-            "@type": "Product",
-            "name": "'.$data->product_name.'",
-            "sku": "'.$productNumber.'",
-            "mpn": "'.$productNumber.'",
-            "image": "'.$path . $data->product_full_image.'",
-            "description": "'.$product_desc_clean.'",
-            '.$getBrands.'
-            "offers": {
-                "@type": "Offer",
-                "priceCurrency": "'.$currencySymbol.'",
-                "price": "'.$price.'",
-                "availability": "'.$getStockroom.'",
-                "itemCondition": "http://schema.org/NewCondition",
-                "url": "'.$url.'",
-                "priceValidUntil": "01-01-2030"
-                }
-            }
-            ';
-            
+                    {
+                    "@context": "schema.org",
+                    "@type": "Product",
+                    "name": "'.$data->product_name.'",
+                    "sku": "'.$productNumber.'",
+                    "mpn": "'.$productNumber.'",
+                    "image": "'.$path . $data->product_full_image.'",
+                    "description": "'.$product_desc_clean.'",
+                    '.$getBrand.'
+                    "offers": {
+                        "@type": "Offer",
+                        "priceCurrency": "'.$currencySymbol.'",
+                        "price": "'.$price.'",
+                        "availability": "'.$getStockroom.'",
+                        "itemCondition": "http://schema.org/NewCondition",
+                        "url": "'.$url.'",
+                        "priceValidUntil": "01-01-2030"
+                        }
+                    }
+                ';
+
             JFactory::getDocument()->addScriptDeclaration($js, 'application/ld+json');
         }
     }
