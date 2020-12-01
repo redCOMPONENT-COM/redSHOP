@@ -104,16 +104,17 @@ class PlgSystemRedSHOP extends JPlugin
         $vatprice              = RedshopHelperProduct::getProductTax($data->product_id, $data->product_price);
         $currencySymbol        = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
         $isStock               = RedshopHelperStockroom::isStockExists($data->product_id);
+        $getBrand              = null;
         $discountPrice         = $data->discount_price + $vatprice;
         $normalPrice           = $data->product_price + $vatprice;
-        
+
         $getProductDesc        = !empty($data->product_s_desc) ? $data->product_s_desc : $data->product_desc;
-        
+
         $product_desc_clean    = str_replace(array( '\'', '"'), "", strip_tags($getProductDesc));
         $productNumber         = strip_tags($data->product_number);
         $getConfigUseStockRoom = Redshop::getConfig()->get('USE_STOCKROOM');
         $path                  = (REDSHOP_FRONT_IMAGES_ABSPATH . 'product/');
-        
+
         $price                 = $data->product_on_sale ? $discountPrice : $normalPrice;
         $getStockroom          = $isStock ? 'http://schema.org/InStock' : 'https://schema.org/OutOfStock';
         
@@ -129,22 +130,22 @@ class PlgSystemRedSHOP extends JPlugin
         {
             $js = '
                     {
-                    "@context": "schema.org",
-                    "@type": "Product",
-                    "name": "'.$data->product_name.'",
-                    "sku": "'.$productNumber.'",
-                    "mpn": "'.$productNumber.'",
-                    "image": "'.$path . $data->product_full_image.'",
-                    "description": "'.$product_desc_clean.'",
-                    '.$getBrand.'
-                    "offers": {
-                        "@type": "Offer",
-                        "priceCurrency": "'.$currencySymbol.'",
-                        "price": "'.$price.'",
-                        "availability": "'.$getStockroom.'",
-                        "itemCondition": "http://schema.org/NewCondition",
-                        "url": "'.$url.'",
-                        "priceValidUntil": "01-01-2030"
+                        "@context": "schema.org",
+                        "@type": "Product",
+                        "name": "'.$data->product_name.'",
+                        "sku": "'.$productNumber.'",
+                        "mpn": "'.$productNumber.'",
+                        "image": "'.$path . $data->product_full_image.'",
+                        "description": "'.$product_desc_clean.'",
+                        '.$getBrand.'
+                        "offers": {
+                            "@type": "Offer",
+                            "priceCurrency": "'.$currencySymbol.'",
+                            "price": "'.$price.'",
+                            "availability": "'.$getStockroom.'",
+                            "itemCondition": "http://schema.org/NewCondition",
+                            "url": "'.$url.'",
+                            "priceValidUntil": "01-01-2030"
                         }
                     }
                 ';
