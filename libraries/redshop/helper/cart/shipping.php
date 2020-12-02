@@ -56,7 +56,6 @@ class RedshopHelperCartShipping
         $totalDimension = RedshopHelperShipping::getCartItemDimension();
         $weightTotal    = $totalDimension['totalweight'];
         $volume         = $totalDimension['totalvolume'];
-        $country        = Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY');
         $state          = '';
         $isCompany      = 0;
         $whereState     = '';
@@ -64,7 +63,7 @@ class RedshopHelperCartShipping
         $userId         = JFactory::getUser()->id;
 
         if ($userInfo) {
-            $country   = $userInfo->country_code;
+	        $country   = $userInfo->country_code;
             $isCompany = (int)$userInfo->is_company;
             $userId    = $userInfo->user_id;
             $state     = $userInfo->state_code;
