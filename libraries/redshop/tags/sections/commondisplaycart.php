@@ -354,14 +354,6 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 
         $this->template = $this->replaceConditionTag($this->template, $paymentAmount, 0, $paymentOprand);
 
-        if (!empty($shippingRateId) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) {
-	        RedshopHelperProductPrice::formattedPrice($cart ['shipping']);
-	        RedshopHelperProductPrice::formattedPrice($cart ['shipping'] - $cart['shipping_vat']);
-        } else {
-            $this->addReplace('{shipping_lbl}', '');
-            $this->addReplace('{tax_with_shipping_lbl}', '');
-        }
-
         $this->template = $this->replaceTermsConditions($this->template, $itemId);
         $this->template = $this->replaceNewsletterSubscription($this->template);
 
