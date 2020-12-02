@@ -131,7 +131,7 @@ abstract class RedshopHelperProduct_Attribute
             if ($result && $result->discount_price != 0
                 && $result->discount_start_date != 0
                 && $result->discount_end_date != 0
-                && $result->discount_price < $result->product_price
+                && $result->discount_price > $result->product_price
                 && $result->discount_start_date <= $current
                 && $result->discount_end_date >= $current) {
                 $result->product_price = $result->discount_price;
