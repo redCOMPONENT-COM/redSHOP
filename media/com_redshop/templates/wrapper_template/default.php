@@ -11,8 +11,5 @@
             <div class="wrapper_image">{wrapper_image}</div>
             <div class="wrapper_price">{wrapper_price}</div>
         </div>
-        <div class="wrapper_left">
-            <div class="wrapper_image">{wrapper_add_checkbox}</div>
-        </div>
     </div>
 </div>

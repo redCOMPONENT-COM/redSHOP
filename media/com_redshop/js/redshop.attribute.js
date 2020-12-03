@@ -841,8 +841,8 @@ function calculateTotalPrice(productId, relatedProductId, withoutVAT) {
 		qty = jQuery('#quantity' + prefix).val();
 	}
 
-	if (jQuery('[data-id=tmp_product_price]').length) {
-		mainprice = parseFloat(jQuery('[data-id=tmp_product_price]').val());
+	if (jQuery('#main_price' + productId).length) {
+		mainprice = parseFloat(jQuery('#main_price' + productId).val());
 	}
 
 	if (jQuery('#hidden_subscription_prize').length) {
@@ -1484,29 +1484,30 @@ function setWrapperComboBox() {
 
 	var wprice = 0;
 	var wprice_withoutvat = 0;
-	if (document.getElementById("wrapper_check") && document.getElementById("wrapper_check").checked) {
-		if (id != 0) {
-			wprice = document.getElementById("w_price" + id).value;
-			wprice_withoutvat = document.getElementById("w_price_withoutvat" + id).value;
-		}
-	}
-	if (document.getElementById("wrapper_price")) {
-		document.getElementById("wrapper_price").value = wprice;
-	}
-	if (document.getElementById("wrapper_price_withoutvat")) {
-		document.getElementById("wrapper_price_withoutvat").value = wprice_withoutvat;
-	}
+	var select_wrapper_chosen = jQuery("#wrapper_id option:selected").text();
+
 	for (i = 0; i < obj.length; i++) {
 		var tmpval = obj[i].id.substr(7);
 		if (document.getElementById("wrappertd" + tmpval)) {
 			if (tmpval == id) {
 				document.getElementById("wrappertd" + tmpval).style.border = "1px solid";
 				document.getElementById("wrappertd" + tmpval).style.padding = "7px";
+				wprice = document.getElementById("w_price" + id).value;
+				wprice_withoutvat = document.getElementById("w_price_withoutvat" + id).value;
+				jQuery('.wrapper_image').find('.select2-chosen').html(select_wrapper_chosen);
 			} else {
 				document.getElementById("wrappertd" + tmpval).style.border = "";
 				document.getElementById("wrappertd" + tmpval).style.padding = "";
 			}
 		}
+	}
+
+
+	if (document.getElementById("wrapper_price")) {
+		document.getElementById("wrapper_price").value = wprice;
+	}
+	if (document.getElementById("wrapper_price_withoutvat")) {
+		document.getElementById("wrapper_price_withoutvat").value = wprice_withoutvat;
 	}
 }
 
