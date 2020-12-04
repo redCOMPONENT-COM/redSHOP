@@ -381,7 +381,7 @@ class RedshopHelperProductPrice
 
             $dispatcher->trigger('onSetProductDiscountPrice', array(&$productDiscountPriceTemp, $productId));
 
-            if (isset($row->product_on_sale) && $productDiscountPriceTemp > 0) {
+            if ($row->product_on_sale && $productDiscountPriceTemp > 0) {
                 $discountPriceExcludingVat = $productDiscountPriceTemp;
 
                 $taxAmount = RedshopHelperProduct::getProductTax($productId, $productDiscountPriceTemp, $userId);

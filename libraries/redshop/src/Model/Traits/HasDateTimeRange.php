@@ -34,22 +34,18 @@ trait HasDateTimeRange
         $format = \Redshop::getConfig()->get('DEFAULT_DATEFORMAT');
 
         if ($startDate == $endDate) {
-            $startDate = date_create_from_format($format, $startDate, $tz)->setTime(0, 0, 0)->setTimezone(
-                $UTC
-            )->getTimestamp();
-            $endDate   = date_create_from_format($format, $endDate, $tz)->setTime(23, 59, 59)->setTimezone(
-                $UTC
-            )->getTimestamp();
+			$startDate = date_create_from_format($format, $startDate, $tz)->setTime(0, 0, 0)->getTimestamp();
+			$endDate   = date_create_from_format($format, $endDate, $tz)->setTime(23, 59, 59)->getTimestamp();
 
             return;
         }
 
         if (!empty($startDate) && !is_numeric($startDate)) {
-            $startDate = date_create_from_format($format, $startDate, $tz)->setTimezone($UTC)->getTimestamp();
+			$startDate = date_create_from_format($format, $startDate, $tz)->setTime(23, 59, 59)->getTimestamp();
         }
 
         if (!empty($endDate) && !is_numeric($endDate)) {
-            $endDate = date_create_from_format($format, $endDate, $tz)->setTimezone($UTC)->getTimestamp();
+			$endDate = date_create_from_format($format, $endDate, $tz)->setTime(23, 59, 59)->getTimestamp();
         }
     }
 }
