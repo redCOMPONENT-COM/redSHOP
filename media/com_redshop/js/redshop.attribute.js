@@ -1052,6 +1052,7 @@ function collectAccessory(product_id, relatedprd_id) {
 }
 
 // formatting number
+// formatting number
 function number_format(number, decimals, dec_point, thousands_sep) {
 
 	var n = number, prec = decimals;
@@ -1095,16 +1096,20 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 
 	// setting final price with currency Symbol
 	var display_price = "";
+	var position = redSHOP.RSConfig._('CURRENCY_SYMBOL_POSITION');
 
-
-	if (redSHOP.RSConfig._('CURRENCY_SYMBOL_POSITION') == 'front') {
-		display_price = redSHOP.RSConfig._('CURRENCY_SYMBOL_CONVERT') + s;
-	} else if (redSHOP.RSConfig._('CURRENCY_SYMBOL_POSITION') == 'behind') {
-		display_price = s + redSHOP.RSConfig._('CURRENCY_SYMBOL_CONVERT');
-	} else if (redSHOP.RSConfig._('CURRENCY_SYMBOL_POSITION') == 'none') {
-		display_price = s;
-	} else {
-		display_price = redSHOP.RSConfig._('CURRENCY_SYMBOL_CONVERT') + s;
+	switch (position)
+	{
+		case 'behind':
+			display_price = s + ' <span class="product-currency-symbol">' + redSHOP.RSConfig._('CURRENCY_SYMBOL_CONVERT') + '</span>';
+			break;
+		case 'none':
+			display_price = s;
+			break;
+		case 'front':
+		default:
+			display_price = '<span class="product-currency-symbol">' + redSHOP.RSConfig._('CURRENCY_SYMBOL_CONVERT') + '</span> ' + s;
+			break;
 	}
 
 	return display_price;
