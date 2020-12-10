@@ -296,6 +296,13 @@ class RedshopControllerOrder_Detail extends RedshopController
         } else {
             $product_data = \Redshop\Product\Product::getProductById($row['product_id']);
 
+            if (!isset($product_data))
+            {
+                $app->enqueueMessage($row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_IS_NOT_EXISTS"));
+
+                return;
+            }
+
             if ($product_data->product_type == 'subscription') {
                 $productSubscription = RedshopHelperProduct::getUserProductSubscriptionDetail($row['order_item_id']);
 
@@ -337,6 +344,13 @@ class RedshopControllerOrder_Detail extends RedshopController
 
         Redshop\Order\Helper::copyProductUserField($row);
 
+        if ($product_data->expired == 1 || $product_data->not_for_sale == 1) {
+            $app->enqueueMessage(
+                $row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_IS_EXPIRED_OR_NOT_FOR_SALE")
+            );
+
+            return;
+        } else {
         $result = Redshop\Cart\Cart::add($row);
 
         if (is_bool($result) && $result) {
@@ -355,30 +369,8 @@ class RedshopControllerOrder_Detail extends RedshopController
                 );
             }
         } else {
-            $ItemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $row['product_id']);
-
-            if (count($ItemData) > 0) {
-                $Itemid = $ItemData->id;
-            } else {
-                $Itemid = RedshopHelperRouter::getItemId($row['product_id']);
+                $app->enqueueMessage($row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART"));
             }
-
-            $errorMessage = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
-
-            if (/** @scrutinizer ignore-deprecated */ JError::isError(
-            /** @scrutinizer ignore-deprecated */ JError::getError()
-            )) {
-                $errorMessage = /** @scrutinizer ignore-deprecated */
-                    JError::getError()->getMessage();
-            }
-
-            $app->redirect(
-                Redshop\IO\Route::_(
-                    'index.php?option=com_redshop&view=product&pid=' . $row['product_id'] . '&Itemid=' . $Itemid,
-                    false
-                ),
-                $errorMessage
-            );
         }
     }
 
