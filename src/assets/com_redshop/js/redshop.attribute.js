@@ -1101,13 +1101,18 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 	switch (position)
 	{
 		case 'behind':
-			return s + ' <span class="product-currency-symbol">' + redSHOP.RSConfig._('CURRENCY_SYMBOL_CONVERT') + '</span>';
+			display_price = s + ' <span class="product-currency-symbol">' + redSHOP.RSConfig._('CURRENCY_SYMBOL_CONVERT') + '</span>';
+			break;
 		case 'none':
-			return s;
+			display_price = s;
+			break;
 		case 'front':
 		default:
-			return '<span class="product-currency-symbol">' + redSHOP.RSConfig._('CURRENCY_SYMBOL_CONVERT') + '</span> ' + s;
+			display_price = '<span class="product-currency-symbol">' + redSHOP.RSConfig._('CURRENCY_SYMBOL_CONVERT') + '</span> ' + s;
+			break;
 	}
+
+	return display_price;
 }
 
 function getPriceReplacement(product_price) {
