@@ -298,7 +298,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
             if (!isset($product_data))
             {
-                $app->enqueueMessage($row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_IS_NOT_EXISTS"));
+                $app->enqueueMessage($row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_DOES_NOT_EXISTS"), 'warning');
 
                 return;
             }
@@ -346,30 +346,37 @@ class RedshopControllerOrder_Detail extends RedshopController
 
         if ($product_data->expired == 1 || $product_data->not_for_sale == 1) {
             $app->enqueueMessage(
-                $row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_IS_EXPIRED_OR_NOT_FOR_SALE")
+                sprintf(
+                    \JText::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'),
+                    $product_data->product_name,
+                    $product_data->product_id
+                ),
+                'warning'
             );
 
             return;
         } else {
-        $result = Redshop\Cart\Cart::add($row);
+            $result = Redshop\Cart\Cart::add($row);
 
-        if (is_bool($result) && $result) {
-            // Set success message for product line
-            $app->enqueueMessage($row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_ADDED_TO_CART"));
+            if (is_bool($result) && $result) {
+                // Set success message for product line
+                $app->enqueueMessage($row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_ADDED_TO_CART"));
 
-            if ($redirect) {
-                // Do final cart calculations
-                \Redshop\Cart\Ajax::renderModuleCartHtml(true);
+                if ($redirect) {
+                    // Do final cart calculations
+                    \Redshop\Cart\Ajax::renderModuleCartHtml(true);
 
-                $app->redirect(
-                    Redshop\IO\Route::_(
-                        'index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(),
-                        false
-                    )
+                    $app->redirect(
+                        Redshop\IO\Route::_(
+                            'index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(),
+                            false
+                        )
+                    );
+                }
+            } else {
+                $app->enqueueMessage(
+                    $row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART")
                 );
-            }
-        } else {
-                $app->enqueueMessage($row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART"));
             }
         }
     }
