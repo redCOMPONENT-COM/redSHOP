@@ -303,6 +303,19 @@ class RedshopControllerOrder_Detail extends RedshopController
                 return;
             }
 
+            if ($product_data->expired == 1 || $product_data->not_for_sale == 1) {
+                $app->enqueueMessage(
+                    sprintf(
+                        \JText::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'),
+                        $product_data->product_name,
+                        $product_data->product_id
+                    ),
+                    'warning'
+                );
+
+                return;
+            }
+
             if ($product_data->product_type == 'subscription') {
                 $productSubscription = RedshopHelperProduct::getUserProductSubscriptionDetail($row['order_item_id']);
 
@@ -344,40 +357,27 @@ class RedshopControllerOrder_Detail extends RedshopController
 
         Redshop\Order\Helper::copyProductUserField($row);
 
-        if ($product_data->expired == 1 || $product_data->not_for_sale == 1) {
-            $app->enqueueMessage(
-                sprintf(
-                    \JText::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'),
-                    $product_data->product_name,
-                    $product_data->product_id
-                ),
-                'warning'
-            );
+        $result = Redshop\Cart\Cart::add($row);
 
-            return;
-        } else {
-            $result = Redshop\Cart\Cart::add($row);
+        if (is_bool($result) && $result) {
+            // Set success message for product line
+            $app->enqueueMessage($row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_ADDED_TO_CART"));
 
-            if (is_bool($result) && $result) {
-                // Set success message for product line
-                $app->enqueueMessage($row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_ADDED_TO_CART"));
+            if ($redirect) {
+                // Do final cart calculations
+                \Redshop\Cart\Ajax::renderModuleCartHtml(true);
 
-                if ($redirect) {
-                    // Do final cart calculations
-                    \Redshop\Cart\Ajax::renderModuleCartHtml(true);
-
-                    $app->redirect(
-                        Redshop\IO\Route::_(
-                            'index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(),
-                            false
-                        )
-                    );
-                }
-            } else {
-                $app->enqueueMessage(
-                    $row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART")
+                $app->redirect(
+                    Redshop\IO\Route::_(
+                        'index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(),
+                        false
+                    )
                 );
             }
+        } else {
+            $app->enqueueMessage(
+                $row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART")
+            );
         }
     }
 
