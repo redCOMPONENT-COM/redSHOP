@@ -22,6 +22,8 @@ class RedshopModelStatistic extends RedshopModelList
 
     public $_typeoption = null;
 
+    public $_limitColumsOption = null;
+
     /**
      * Constructor
      *
@@ -30,9 +32,10 @@ class RedshopModelStatistic extends RedshopModelList
     public function __construct()
     {
         parent::__construct();
-        $input               = JFactory::getApplication()->input;
-        $this->_filteroption = $input->getInt('filteroption', 0);
-        $this->_typeoption   = $input->getInt('typeoption', 2);
+        $input                    = JFactory::getApplication()->input;
+        $this->_filteroption      = $input->getInt('filteroption', 0);
+        $this->_typeoption        = $input->getInt('typeoption', 2);
+        $this->_limitColumsOption = $input->getInt('limitcolumsoption', 10);
 
         if (!$this->_filteroption && $input->getString('view', '') == "") {
             $this->_filteroption = 1;
@@ -451,6 +454,7 @@ class RedshopModelStatistic extends RedshopModelList
         // Set the query and load the result.
         $db->setQuery($query, 0, 1);
         $minDate = $db->loadResult();
+        $limit = $this->_limitColumsOption;
 
         if (!$minDate) {
             return array();
@@ -488,7 +492,7 @@ class RedshopModelStatistic extends RedshopModelList
         $query->select('SUM(o.order_total) AS turnover');
 
         if ($this->_filteroption != 4) {
-            $db->setQuery($query, 0, 10);
+            $db->setQuery($query, 0, $limit);
         } else {
             $db->setQuery($query);
         }

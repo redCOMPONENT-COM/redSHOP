@@ -129,6 +129,25 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
                             'text'
                         );
 
+						?>
+                    </div>
+                    <div class="filterItem">
+		                <?php
+			                echo JText::_('COM_REDSHOP_LIMIT') . ": ";
+			                $options = array();
+			                for ($i = 1; $i <= 100; $i++)
+			                {
+				                $options[] = JHTML::_('select.option', $i);
+			                }
+			                echo JHTML::_(
+				                'select.genericlist',
+				                $options,
+				                'limitcolumsoption',
+				                'class="inputbox" size="1" onchange="document.chartform.submit();"',
+				                'value',
+				                'text',
+				                JFactory::getApplication()->input->getInt('limitcolumsoption', 10)
+			                );
                         ?>
                     </div>
                 </div>
