@@ -187,7 +187,7 @@ function updateCartAjax($, form)
         },
         success: function(data) {
             $('#redshopcomponent').html($(data).find('#redshopcomponent').html());
-            redSHOP.addCustomEvent('onAfterUpdateCartAjax', {
+            redSHOP.triggerCustomEvents('onAfterUpdateCartAjax', {
                 data: data
             })
         },

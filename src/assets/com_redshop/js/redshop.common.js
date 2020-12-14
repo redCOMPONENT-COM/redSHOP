@@ -703,7 +703,7 @@ function showCompanyOrCustomer(obj)
 
 		jQuery('select:not(".disableBootstrapChosen")').select2();
 
-		redSHOP.addCustomEvent('AfterGetBillingTemplate');
+		redSHOP.triggerCustomEvents('AfterGetBillingTemplate');
 	})
 	.fail(function() {
 		console.warn("error");
@@ -725,7 +725,7 @@ function getBillingTemplate(el)
 			jQuery('#wrapper-billing').html('');
 			jQuery('#wrapper-billing').append(html);
 			jQuery('#wrapper-billing select:not(".disableBootstrapChosen")').select2();
-			redSHOP.addCustomEvent('AfterGetBillingTemplate');
+			redSHOP.triggerCustomEvents('AfterGetBillingTemplate');
 
 			var event = {};
 			handleAjaxOnestep(event);
@@ -974,7 +974,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 			anonymous: anonymous
 		};
 
-		redSHOP.addCustomEvent('onBeforeOneStepCheckoutProcess', {
+		redSHOP.triggerCustomEvents('onBeforeOneStepCheckoutProcess', {
 			postParams: postParams
 		});
 
@@ -1043,7 +1043,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 				});
 			}
 
-				redSHOP.addCustomEvent('onAfterOneStepCheckoutProcess', {
+				redSHOP.triggerCustomEvents('onAfterOneStepCheckoutProcess', {
 					postParams: postParams
 				});
 			})

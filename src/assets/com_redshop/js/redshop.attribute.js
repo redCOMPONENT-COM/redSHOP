@@ -65,7 +65,7 @@ redSHOP.collectExtraFields = function (extraField, productId) {
 	return field;
 };
 
-redSHOP.addCustomEvent = function(customEvent, params) {
+redSHOP.triggerCustomEvents = function(customEvent, params) {
 	if (redSHOP[customEvent].length > 0) {
 		for (var g = 0, n = redSHOP[customEvent].length; g < n; g++) {
 			new redSHOP[customEvent][g](params);
@@ -419,7 +419,7 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
 
 			jQuery('select:not(".disableBootstrapChosen")').select2();
 			// Setting up redSHOP JavaScript onChangePropertyDropdown trigger
-			redSHOP.addCustomEvent('onChangePropertyDropdown', {
+			redSHOP.triggerCustomEvents('onChangePropertyDropdown', {
 				allarg: allarg,
 				propArr: propArr
 			});
@@ -1388,7 +1388,7 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
 	var url = redSHOP.RSConfig._('AJAX_BASE_URL') + "&view=product&task=displayAdditionImage&redview=" + redSHOP.RSConfig._('REDSHOP_VIEW') + "&redlayout=" + redSHOP.RSConfig._('REDSHOP_LAYOUT');
 	url = url + suburl;
 
-	redSHOP.addCustomEvent('onBeforeAjaxdisplayAdditionalImage', {
+	redSHOP.triggerCustomEvents('onBeforeAjaxdisplayAdditionalImage', {
 		url: url,
 		product_id: product_id,
 		allarg: allarg
@@ -1460,7 +1460,7 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
 			// preload slimbox
 			var imagehandle = {isenable: true, mainImage: false};
 			preloadSlimbox(imagehandle);
-			redSHOP.addCustomEvent('onAfterAjaxdisplayAdditionalImage', {
+			redSHOP.triggerCustomEvents('onAfterAjaxdisplayAdditionalImage', {
 				arrResponse: arrResponse,
 				product_id: product_id,
 				allarg: allarg
@@ -1992,7 +1992,7 @@ function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftca
 		}
 
 		// Setting up redSHOP JavaScript Add to cart trigger
-		redSHOP.addCustomEvent('redShopAddtocartValidationJsTrigger', {
+		redSHOP.triggerCustomEvents('redShopAddtocartValidationJsTrigger', {
 			arguments: arguments
 		});
 		document.getElementById(frmCartName).submit();
@@ -2032,7 +2032,7 @@ function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftca
 			}
 
 			// Setting up redSHOP JavaScript Add to cart trigger
-			redSHOP.addCustomEvent('redShopAddtocartValidationJsTrigger', {
+			redSHOP.triggerCustomEvents('redShopAddtocartValidationJsTrigger', {
 				arguments: arguments
 			});
 
@@ -2228,7 +2228,7 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 					htmldata: responce,
 					onOpen: function() {
 						jQuery('select[id^=property_id_ajax_prd_]').select2();
-						redSHOP.addCustomEvent('onDisplayAjaxCartBoxDetail', {
+						redSHOP.triggerCustomEvents('onDisplayAjaxCartBoxDetail', {
 							params: params
 						});
 					}
@@ -2382,7 +2382,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 	params = params + subscription_data + '&' + extraFieldPost;
 
 	// Setting up redSHOP Ja;vaScript Add to cart trigger
-	redSHOP.addCustomEvent('redShopJsTrigger', {
+	redSHOP.triggerCustomEvents('redShopJsTrigger', {
 		arguments: arguments
 	});
 
@@ -2428,7 +2428,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 				document.getElementById('mod_cart_checkout_ajax').style.display = "";
 			}
 
-			redSHOP.addCustomEvent('onAfterSubmitAjaxCartdetail', {
+			redSHOP.triggerCustomEvents('onAfterSubmitAjaxCartdetail', {
 				responce: responce,
 				product_id: product_id,
 				params: params,
@@ -2457,7 +2457,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 						},
 						htmldata: responcebox,
 						onOpen: function () {
-							redSHOP.addCustomEvent('onDisplayAjaxCartBox', {
+							redSHOP.triggerCustomEvents('onDisplayAjaxCartBox', {
 								params: params,
 								product_id: product_id
 							});
@@ -2688,7 +2688,7 @@ function submitAjaxwishlistCartdetail(frmCartName, product_id, relatedprd_id, gi
 	var postVars = params.join('&') + '&' + extraFieldPost;
 
 	// Setting up redSHOP JavaScript Add to cart trigger
-	redSHOP.addCustomEvent('redShopJsTrigger', {
+	redSHOP.triggerCustomEvents('redShopJsTrigger', {
 		arguments: arguments
 	});
 
