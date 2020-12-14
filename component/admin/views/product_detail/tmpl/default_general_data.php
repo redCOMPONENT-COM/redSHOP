@@ -68,11 +68,9 @@ foreach ($media->getAll() as $mediaItem) {
                 processing: function processing(file) {
                     var reloading_img = '<div class="image  wait-loading" ><img src="' + redSHOP.RSConfig._('SITE_URL') + '/media/com_redshop/images/reloading.gif" alt="" border="0" ></div>';
                     $('.content-wrapper').css("opacity", 0.2);
-                    $('#toolbar-apply').css("pointer-events", 'none');
-                    $('#toolbar-save').css("pointer-events", 'none');
-                    $('#toolbar-save-copy').css("pointer-events", 'none');
-                    $('#toolbar-save-new').css("pointer-events", 'none');
+                    $('.btn-toolbar .btn-wrapper').find('button').css("pointer-events", 'none');
                     $('.content-wrapper').prepend(reloading_img);
+
                     if (file.previewElement) {
                         file.previewElement.classList.add("dz-processing");
                         if (file._removeLink) {
@@ -84,10 +82,8 @@ foreach ($media->getAll() as $mediaItem) {
                 success: function success(file) {
                     $('.wait-loading').remove();
                     $('.content-wrapper').css("opacity", 1);
-                    $('#toolbar-apply').css("pointer-events", 'auto');
-                    $('#toolbar-save').css("pointer-events", 'auto');
-                    $('#toolbar-save-copy').css("pointer-events", 'auto');
-                    $('#toolbar-save-new').css("pointer-events", 'auto');
+                    $('.btn-toolbar .btn-wrapper').find('button').css("pointer-events", 'auto');
+
                     if (file.previewElement) {
                         return file.previewElement.classList.add("dz-success");
                     }
