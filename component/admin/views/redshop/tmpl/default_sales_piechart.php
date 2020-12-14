@@ -94,6 +94,25 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
                 <div class="filterTool">
                     <div class="filterItem">
                         <?php
+                        echo JText::_('COM_REDSHOP_NUMBER_OF_ORDERS_PER_DAILY_WEEKLY_MONTHLY') . ": ";
+                        $options = array();
+                        for ($i = 5; $i <= 30; $i += 5) {
+                            $options[] = \JHtml::_('select.option', "$i");
+                        }
+
+                        $options[] = \JHtml::_('select.option', '50', \JText::_('J50'));
+                        $options[] = \JHtml::_('select.option', '100', \JText::_('J100'));
+                        echo JHTML::_(
+                            'select.genericlist',
+                            $options,
+                            'numberofordersoption',
+                            'class="inputbox" size="1" onchange="document.chartform.submit();"',
+                            'value',
+                            'text',
+                            JFactory::getApplication()->input->getInt('number_of_order_soption', 10)
+                        );
+                        ?>
+                        <?php
                         echo JText::_('COM_REDSHOP_FILTER') . ": ";
                         $options   = array();
                         $options[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_DAILY'));
@@ -129,25 +148,6 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
                             'text'
                         );
 
-						?>
-                    </div>
-                    <div class="filterItem">
-		                <?php
-			                echo JText::_('COM_REDSHOP_LIMIT') . ": ";
-			                $options = array();
-			                for ($i = 1; $i <= 100; $i++)
-			                {
-				                $options[] = JHTML::_('select.option', $i);
-			                }
-			                echo JHTML::_(
-				                'select.genericlist',
-				                $options,
-				                'limitcolumsoption',
-				                'class="inputbox" size="1" onchange="document.chartform.submit();"',
-				                'value',
-				                'text',
-				                JFactory::getApplication()->input->getInt('limitcolumsoption', 10)
-			                );
                         ?>
                     </div>
                 </div>

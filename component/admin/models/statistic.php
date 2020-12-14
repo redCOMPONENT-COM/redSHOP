@@ -22,7 +22,7 @@ class RedshopModelStatistic extends RedshopModelList
 
     public $_typeoption = null;
 
-    public $_limitColumsOption = null;
+    public $_numberOfOrderOption = null;
 
     /**
      * Constructor
@@ -32,10 +32,10 @@ class RedshopModelStatistic extends RedshopModelList
     public function __construct()
     {
         parent::__construct();
-        $input                    = JFactory::getApplication()->input;
-        $this->_filteroption      = $input->getInt('filteroption', 0);
-        $this->_typeoption        = $input->getInt('typeoption', 2);
-        $this->_limitColumsOption = $input->getInt('limitcolumsoption', 10);
+        $input                      = JFactory::getApplication()->input;
+        $this->_filteroption        = $input->getInt('filteroption', 0);
+        $this->_typeoption          = $input->getInt('typeoption', 2);
+        $this->_numberOfOrderOption = $input->getInt('numberofordersoption', 10);
 
         if (!$this->_filteroption && $input->getString('view', '') == "") {
             $this->_filteroption = 1;
@@ -454,7 +454,7 @@ class RedshopModelStatistic extends RedshopModelList
         // Set the query and load the result.
         $db->setQuery($query, 0, 1);
         $minDate = $db->loadResult();
-        $limit = $this->_limitColumsOption;
+        $limit = $this->_numberoforderoption;
 
         if (!$minDate) {
             return array();
