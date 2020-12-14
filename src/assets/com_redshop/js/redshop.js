@@ -12,17 +12,17 @@ redSHOP = window.redSHOP || {};
  * Allows you to call redSHOP.RSConfig._() to get a dynamic JavaScript string pushed in with JText::script() in Joomla.
  */
 redSHOP.RSConfig = {
-    configStrings: {},
-    '_': function(key, def) {
-        return typeof this.configStrings[key.toUpperCase()] !== 'undefined' ? this.configStrings[key.toUpperCase()] : def;
-    },
-    load: function(object) {
-        for (var key in object) {
-            this.configStrings[key.toUpperCase()] = object[key];
-        }
+	configStrings: {},
+	'_': function(key, def) {
+		return typeof this.configStrings[key.toUpperCase()] !== 'undefined' ? this.configStrings[key.toUpperCase()] : def;
+	},
+	load: function(object) {
+		for (var key in object) {
+			this.configStrings[key.toUpperCase()] = object[key];
+		}
 
-        return this;
-    }
+		return this;
+	}
 };
 
 /**
@@ -38,112 +38,112 @@ redSHOP.AjaxOrderPaymentStatusExecuted = false;
  */
 redSHOP.AjaxOrderPaymentStatusCheck = function(){
 
-    var checkValidity = jQuery.trim(jQuery('#order_payment_status').html()) == Joomla.JText._('COM_REDSHOP_PAYMENT_STA_PAID');
+	var checkValidity = jQuery.trim(jQuery('#order_payment_status').html()) == Joomla.JText._('COM_REDSHOP_PAYMENT_STA_PAID');
 
-    // Don't do anything if status is already paid.
-    if (checkValidity)
-    {
-        return false;
-    }
+	// Don't do anything if status is already paid.
+	if (checkValidity)
+	{
+		return false;
+	}
 
-    jQuery.ajax({
-        url: redSHOP.RSConfig._('SITE_URL') + 'index.php?option=com_redshop&view=order_detail&task=order_detail.AjaxOrderPaymentStatusCheck&tmpl=component',
-        type: 'POST',
-        dataType: 'HTML',
-        data: {id: redSHOP.RSConfig._('orderId')},
-    })
-    .done(function(res) {
+	jQuery.ajax({
+		url: redSHOP.RSConfig._('SITE_URL') + 'index.php?option=com_redshop&view=order_detail&task=order_detail.AjaxOrderPaymentStatusCheck&tmpl=component',
+		type: 'POST',
+		dataType: 'HTML',
+		data: {id: redSHOP.RSConfig._('orderId')},
+	})
+	.done(function(res) {
 
-        // Update status to matched DOM. Make sure you add this ID in order receipt template.
-        jQuery('#order_payment_status').html(res);
+		// Update status to matched DOM. Make sure you add this ID in order receipt template.
+		jQuery('#order_payment_status').html(res);
 
-        // Make sure script is executed at least one time.
-        if (redSHOP.AjaxOrderPaymentStatusExecuted)
-        {
-            setTimeout('redSHOP.AjaxOrderPaymentStatusCheck()', 10000);
-        }
+		// Make sure script is executed at least one time.
+		if (redSHOP.AjaxOrderPaymentStatusExecuted)
+		{
+			setTimeout('redSHOP.AjaxOrderPaymentStatusCheck()', 10000);
+		}
 
-        redSHOP.AjaxOrderPaymentStatusExecuted = true;
-    })
-    .fail(function() {
-        console.log("error");
-    });
+		redSHOP.AjaxOrderPaymentStatusExecuted = true;
+	})
+	.fail(function() {
+		console.log("error");
+	});
 };
 
 redSHOP.prepareStateList = function(countryListEle, stateListEle){
-    var postData =  {
-        view: 'search',
-        task: 'getStatesAjax',
-        country: countryListEle.val()
-    };
+	var postData =  {
+		view: 'search',
+		task: 'getStatesAjax',
+		country: countryListEle.val()
+	};
 
-    // Add token field
-    postData[redSHOP.RSConfig._('AJAX_TOKEN')] = 1;
+	// Add token field
+	postData[redSHOP.RSConfig._('AJAX_TOKEN')] = 1;
 
-    jQuery.ajax({
-        url: redSHOP.RSConfig._('AJAX_BASE_URL'),
-        type: 'POST',
-        dataType: 'json',
-        data: postData
-    })
-    .done(function(data) {
+	jQuery.ajax({
+		url: redSHOP.RSConfig._('AJAX_BASE_URL'),
+		type: 'POST',
+		dataType: 'json',
+		data: postData
+	})
+	.done(function(data) {
 
-        // Remove all the options
-        stateListEle.empty();
+		// Remove all the options
+		stateListEle.empty();
 
-        // Now let's hide state list by default
-        jQuery('#div_state_txt').hide();
-        stateListEle.parent().hide();
-        stateListEle.hide();
+		// Now let's hide state list by default
+		jQuery('#div_state_txt').hide();
+		stateListEle.parent().hide();
+		stateListEle.hide();
 
-        // And show it when it has actua options
-        if (data.length)
-        {
-            jQuery('#div_state_txt').show();
-            stateListEle.parent().show();
+		// And show it when it has actua options
+		if (data.length)
+		{
+			jQuery('#div_state_txt').show();
+			stateListEle.parent().show();
 
-            // No needs to show original select if select2 is there.
-            if (!jQuery('#s2id_' + stateListEle.attr('id')).length)
-            {
-                stateListEle.show();
-            }
-        }
+			// No needs to show original select if select2 is there.
+			if (!jQuery('#s2id_' + stateListEle.attr('id')).length)
+			{
+				stateListEle.show();
+			}
+		}
 
-        // Generate options for select lists
-        jQuery.each(data, function(key,state) {
-            stateListEle.append(jQuery("<option></option>")
-                        .attr("value", state.value).text(state.text));
-        });
+		// Generate options for select lists
+		jQuery.each(data, function(key,state) {
+			stateListEle.append(jQuery("<option></option>")
+						.attr("value", state.value).text(state.text));
+		});
 
-        stateListEle.trigger('change.select2')
-    })
-    .fail(function() {
-        console.log("Error getting state list.");
-    });
+		stateListEle.trigger('change.select2')
+	})
+	.fail(function() {
+		console.log("Error getting state list.");
+	});
 };
 
 // Write script here to execute on page load - dom ready.
 jQuery(document).ready(function($) {
 
-    if (jQuery(location).attr('search').match(/&layout=receipt/))
-    {
-        if (jQuery('#order_payment_status').length > 0)
-        {
-            // Execure first time after 1 second.
-            setTimeout('redSHOP.AjaxOrderPaymentStatusCheck()', 1000);
+	if (jQuery(location).attr('search').match(/&layout=receipt/))
+	{
+		if (jQuery('#order_payment_status').length > 0)
+		{
+			// Execure first time after 1 second.
+			setTimeout('redSHOP.AjaxOrderPaymentStatusCheck()', 1000);
 
-            // Then run second time after 10 second.
-            setTimeout('redSHOP.AjaxOrderPaymentStatusCheck()', 10000);
-        }
-        else
-        {
-            console.warn('Make sure you add #order_payment_status ID in order receipt template');
-        }
-    }
+			// Then run second time after 10 second.
+			setTimeout('redSHOP.AjaxOrderPaymentStatusCheck()', 10000);
+		}
+		else
+		{
+			console.warn('Make sure you add #order_payment_status ID in order receipt template');
+		}
+	}
 
-    jQuery(document).on('change', 'select[id^="rs_country_"]', function() {
-        redSHOP.prepareStateList(jQuery(this), jQuery('#' + jQuery(this).attr('stateid')));
-    });
+	jQuery(document).on('change', 'select[id^="rs_country_"]', function() {
+		redSHOP.prepareStateList(jQuery(this), jQuery('#' + jQuery(this).attr('stateid')));
+	});
 
     $('body')
         .on('change', 'form[name^="update_cart"]', function() {
@@ -187,7 +187,6 @@ function updateCartAjax($, form)
         },
         success: function(data) {
             $('#redshopcomponent').html($(data).find('#redshopcomponent').html());
-            $(redSHOP).trigger('onAfterUpdateCartAjax', [data]);
             redSHOP.addCustomEvent('onAfterUpdateCartAjax', {
                 data: data
             })
