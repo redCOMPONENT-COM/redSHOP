@@ -6,9 +6,6 @@
 // Only define the redSHOP namespace if not defined.
 redSHOP = window.redSHOP || {};
 
-// redSHOP custom event trigger
-redSHOP.onAfterUpdateCartAjax = [];
-
 /**
  * Custom behavior for JavaScript dynamic variables
  *
@@ -190,9 +187,10 @@ function updateCartAjax($, form)
         },
         success: function(data) {
             $('#redshopcomponent').html($(data).find('#redshopcomponent').html());
+            $(redSHOP).trigger('onAfterUpdateCartAjax', [data]);
             redSHOP.addCustomEvent('onAfterUpdateCartAjax', {
-	            data: data
-            });
+                data: data
+            })
         },
         complete: function(){
             //afer ajax call is completed
