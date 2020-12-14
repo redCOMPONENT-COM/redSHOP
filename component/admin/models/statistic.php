@@ -35,7 +35,7 @@ class RedshopModelStatistic extends RedshopModelList
         $input                      = JFactory::getApplication()->input;
         $this->_filteroption        = $input->getInt('filteroption', 0);
         $this->_typeoption          = $input->getInt('typeoption', 2);
-        $this->_numberOfOrderOption = $input->getInt('numberofordersoption', 10);
+        $this->_numberOfOrderOption = $input->getInt('number_of_order_option', 10);
 
         if (!$this->_filteroption && $input->getString('view', '') == "") {
             $this->_filteroption = 1;
@@ -454,7 +454,7 @@ class RedshopModelStatistic extends RedshopModelList
         // Set the query and load the result.
         $db->setQuery($query, 0, 1);
         $minDate = $db->loadResult();
-        $limit = $this->_numberoforderoption;
+        $limit = $this->_numberOfOrderOption;
 
         if (!$minDate) {
             return array();

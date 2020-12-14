@@ -105,11 +105,11 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
                         echo JHTML::_(
                             'select.genericlist',
                             $options,
-                            'numberofordersoption',
+                            'number_of_order_option',
                             'class="inputbox" size="1" onchange="document.chartform.submit();"',
                             'value',
                             'text',
-                            JFactory::getApplication()->input->getInt('number_of_order_soption', 10)
+                            JFactory::getApplication()->input->getInt('number_of_order_option', 10)
                         );
                         ?>
                         <?php
