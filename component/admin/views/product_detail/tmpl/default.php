@@ -143,6 +143,8 @@ JHtml::_('behavior.formvalidation');
             resetAttributeset();
         }
 
+        $('.btn-toolbar .btn-wrapper').find('button').removeAttr('onclick');
+
         submitform(pressbutton);
     };
 
