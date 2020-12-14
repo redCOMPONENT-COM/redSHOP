@@ -143,10 +143,8 @@ JHtml::_('behavior.formvalidation');
             resetAttributeset();
         }
 
-        var reloading_img = '<div class="image  wait-loading" ><img src="' + redSHOP.RSConfig._('SITE_URL') + '/media/com_redshop/images/reloading.gif" alt="" border="0" ></div>';
-        $('.btn-toolbar .btn-wrapper').find('button').removeAttr('onclick');
-        $('.content-wrapper').css("opacity", 0.2);
-        $('.content-wrapper').prepend(reloading_img);
+        $('#redSHOPAdminContainer').css("opacity", 0.2);
+        $('.wait-loading').css("z-index", 9999 );
 
         submitform(pressbutton);
     };
