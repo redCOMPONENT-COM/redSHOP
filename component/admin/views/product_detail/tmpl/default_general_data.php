@@ -67,8 +67,7 @@ foreach ($media->getAll() as $mediaItem) {
             $.extend(true, Dropzone.prototype.defaultOptions, {
                 processing: function processing(file) {
                     var reloading_img = '<div class="image  wait-loading" ><img src="' + redSHOP.RSConfig._('SITE_URL') + '/media/com_redshop/images/reloading.gif" alt="" border="0" ></div>';
-                    $('#redSHOPAdminContainer').css("opacity", 0.2);
-                    $('#redSHOPAdminContainer').prepend(reloading_img);
+                    $('#redSHOPAdminContainer').css("opacity", 0.2).prepend(reloading_img);
 
                     if (file.previewElement) {
                         file.previewElement.classList.add("dz-processing");
