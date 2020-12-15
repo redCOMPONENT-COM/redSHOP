@@ -40,7 +40,7 @@ class Route
 
         $item = 'lang=' . $lang;
         $condition = !\Joomla\CMS\Factory::getApplication()->isClient('administrator')
-            && strpos($url, 'lang') === false;
+            && strpos($url, 'lang') === false && (strpos($url, '?') !== false);
 
         if ($condition) {
             $url = self::addParamToUrl($url, $item);

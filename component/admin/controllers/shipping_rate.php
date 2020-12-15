@@ -16,7 +16,7 @@ class RedshopControllerShipping_rate extends RedshopController
     {
         $input = JFactory::getApplication()->input;
         $this->setRedirect(
-            'index.php?option=com_redshop&view=shipping_detail&task=edit&cid[]=' . $input->getInt('id', 0)
+            'index.php?option=com_redshop&view=shipping_method&layout=edit&extension_id=' . $input->getInt('id', 0)
         );
     }
 }
