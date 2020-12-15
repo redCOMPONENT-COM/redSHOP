@@ -1083,6 +1083,12 @@ class RedshopHelperOrder
         $address = mb_convert_encoding($billingInfo->address, "ISO-8859-1", "UTF-8");
         $city    = mb_convert_encoding($billingInfo->city, "ISO-8859-1", "UTF-8");
 
+        if (Redshop::getConfig()->get('PACSOFT_SET_ADDRESS') == 'shipping')
+        {
+            $address = mb_convert_encoding($shippingInfo->address, "ISO-8859-1", "UTF-8");
+            $city    = mb_convert_encoding($shippingInfo->city, "ISO-8859-1", "UTF-8");
+        }
+
         if ($billingInfo->is_company) {
             $companyName   = mb_convert_encoding($shippingInfo->company_name, "ISO-8859-1", "UTF-8");
             $fProductCode  = "PDKEP";
@@ -1127,6 +1133,8 @@ class RedshopHelperOrder
             $addon .= '<addon adnid="PUPOPT"></addon>';
         }
 
+        $reference = Redshop::getConfig()->get('SET_REFERENCE') === 'order_number' ? $orderDetail->order_number : $orderDetail->order_id;
+
         $xmlnew = '<?xml version="1.0" encoding="ISO-8859-1"?>
 				<unifaunonline>
 				<meta>
@@ -1145,10 +1153,10 @@ class RedshopHelperOrder
 				<val n="email">' . $shippingInfo->user_email . '</val>
 				<val n="sms">' . $shippingInfo->phone . '</val>
 				</receiver>
-				<shipment orderno="' . $shippingInfo->order_id . '">
+				<shipment orderno="' . $orderDetail->order_id . '">
 				<val n="from">1</val>
 				<val n="to">' . $shippingInfo->users_info_id . '</val>
-				<val n="reference">' . $orderDetail->order_number . '</val>
+				<val n="reference">' . $reference . '</val>
 				' . $agentEle . '
 				<service srvid="' . $fProductCode . '">
 				' . $addon . '

@@ -128,6 +128,52 @@ echo RedshopLayoutHelper::render(
         'field'  => $this->lists['webpack_enable_sms']
     )
 );
+
+$options   = [];
+$options[] = JHTML::_('select.option', 'order_number', JText::_('COM_REDSHOP_POSTDANMARK_SET_REFERENCE_ORDER_NUMBER'));
+$options[] = JHTML::_('select.option', 'order_id', JText::_('COM_REDSHOP_POSTDANMARK_SET_REFERENCE_ORDER_ID'));
+
+echo RedshopLayoutHelper::render(
+    'config.config',
+    array(
+        'title'  => JText::_('COM_REDSHOP_POSTDANMARK_SET_REFERENCE_LBL'),
+        'desc'   => JText::_('COM_REDSHOP_POSTDANMARK_SET_REFERENCE_DESC'),
+        'id'     => 'set_reference',
+        'showOn' => 'postdk_integration:1',
+        'field'  => Jhtml::_(
+                'select.genericlist',
+                $options,
+                'set_reference',
+                ' class="disableBoostrapChosen form-control"',
+                'value',
+                'text',
+                $this->config->get('SET_REFERENCE')
+            )
+    )
+);
+
+$options   = [];
+$options[] = JHTML::_('select.option', 'billing', JText::_('COM_REDSHOP_POSTDANMARK_SET_BILLING_ADDRESS'));
+$options[] = JHTML::_('select.option', 'shipping', JText::_('COM_REDSHOP_POSTDANMARK_SET_SHIPPING_ADDRESS'));
+
+echo RedshopLayoutHelper::render(
+    'config.config',
+    array(
+        'title'  => JText::_('COM_REDSHOP_POSTDANMARK_SET_ADDRESS_LBL'),
+        'desc'   => JText::_('COM_REDSHOP_POSTDANMARK_SET_ADDRESS_DESC'),
+        'id'     => 'pacsoft_set_address',
+        'showOn' => 'postdk_integration:1',
+        'field'  => Jhtml::_(
+            'select.genericlist',
+            $options,
+            'pacsoft_set_address',
+            ' class="disableBoostrapChosen form-control"',
+            'value',
+            'text',
+            $this->config->get('PACSOFT_SET_ADDRESS')
+        )
+    )
+);
 ?>
 
 <script type="text/javascript">
