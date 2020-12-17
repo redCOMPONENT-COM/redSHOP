@@ -79,7 +79,6 @@ class CheckoutWithAjaxCart extends CheckoutMissingData
 		$I->addToCartAjax($categoryName, $productName, 'no', 'yes');
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->fillInformationPrivate($customerInformation);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->wait(0.2);
