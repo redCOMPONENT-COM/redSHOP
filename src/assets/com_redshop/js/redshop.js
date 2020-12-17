@@ -6,6 +6,8 @@
 // Only define the redSHOP namespace if not defined.
 redSHOP = window.redSHOP || {};
 
+redSHOP.onAfterUpdateCartAjax = [];
+
 /**
  * Custom behavior for JavaScript dynamic variables
  *
