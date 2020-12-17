@@ -194,7 +194,6 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 		$I->executeJS($ratingPage->jQueryIframe());
 		$I->wait(2);
 		$I->switchToIFrame(RatingManagerPage::$nameIframe);
-		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible(RatingManagerPage::$inputTitleFrontEnd, 60);
 		$I->fillField(RatingManagerPage::$inputTitleFrontEnd, $rating['title']);
 		$ratingPage = new RatingManagerPage();
