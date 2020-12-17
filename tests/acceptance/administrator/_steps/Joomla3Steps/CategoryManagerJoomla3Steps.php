@@ -164,7 +164,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
 		$I->searchCategory($name);
-		$I->click(['link' => $name]);
+		$I->click(CategoryManagerJ3Page::xpathLink($name));
 		$I->waitForElement(CategoryManagerJ3Page::$categoryName, 30);
 		$I->click(CategoryManagerJ3Page::$buttonReview);
 		$I->switchToNextTab();
@@ -249,7 +249,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($categoryName);
 
 		$value = $I->grabTextFrom(CategoryManagerJ3Page::$categoryId);
-		$I->click(['link' => $categoryName]);
+		$I->click(CategoryManagerJ3Page::xpathLink($categoryName));
 		$I->waitForElement(CategoryManagerJ3Page::$categoryName, 30);
 
 		$URLEdit = CategoryManagerJ3Page::$URLEdit . $value;
@@ -276,7 +276,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->searchCategory($categoryName);
 		$I->see($categoryName);
 		$value = $I->grabTextFrom(CategoryManagerJ3Page::$categoryId);
-		$I->click(['link' => $categoryName]);
+		$I->click(CategoryManagerJ3Page::xpathLink($categoryName));
 		$I->waitForElement(CategoryManagerJ3Page::$categoryName, 30);
 
 		$URLEdit = CategoryManagerJ3Page::$URLEdit . $value;

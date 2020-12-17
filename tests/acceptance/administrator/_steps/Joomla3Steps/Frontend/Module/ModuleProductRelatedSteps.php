@@ -35,17 +35,18 @@ class ModuleProductRelatedSteps extends CheckoutMissingData
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElementVisible(["link" => $categoryName], 30);
-		$I->click(["link" => $categoryName]);
-		$I->waitForElementVisible(["link" => $productRelated], 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->waitForElementVisible($productFrontEndManagerPage->xpathLink($categoryName), 30);
+		$I->click($productFrontEndManagerPage->xpathLink($categoryName));
+		$I->waitForElementVisible($productFrontEndManagerPage->xpathLink($productRelated), 30);
 		$I->waitForText($productRelated, 30);
-		$I->click(["link" => $productRelated]);
+		$I->click($productFrontEndManagerPage->xpathLink($productRelated));
 		$I->waitForText($moduleName, 30);
-		$I->waitForElementVisible(["link" => $productName], 30,FrontEndProductManagerJoomla3Page::$productRelatedTitle);
+		$I->waitForElementVisible($productFrontEndManagerPage->xpathLink($productName), 30,FrontEndProductManagerJoomla3Page::$productRelatedTitle);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCartProductRelated, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCartProductRelated);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
-		$I->waitForElementVisible(["link" => $productName], 30);
+		$I->waitForElementVisible($productFrontEndManagerPage->xpathLink($productName), 30);
 		$I->see($productName);
 		$I->see($productPrice);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);

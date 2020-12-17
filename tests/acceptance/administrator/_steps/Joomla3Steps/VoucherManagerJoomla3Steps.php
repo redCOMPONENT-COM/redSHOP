@@ -69,7 +69,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->click(VoucherManagerPage::$buttonSaveClose);
 				$I->waitForElement(VoucherManagerPage::$idInstallSuccess, 60);
 				$I->see(VoucherManagerPage::$messageSaveSuccess, VoucherManagerPage::$selectorSuccess);
-				$I->seeElement(['link' => $code]);
+				$I->seeElement(VoucherManagerPage::xpathLink($code));
 				break;
 			case 'validday':
 				$I->fillField(VoucherManagerPage::$voucherCode, $code);
@@ -192,7 +192,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(VoucherManagerPage::$voucherCode, $voucherNewCode);
 		$I->click(VoucherManagerPage::$buttonSaveClose);
 		$I->assertSystemMessageContains(VoucherManagerPage::$messageSaveSuccess);
-		$I->seeElement(['link' => $voucherNewCode]);
+		$I->seeElement(VoucherManagerPage::xpathLink($voucherNewCode));
 	}
 
 	/**
@@ -387,7 +387,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->click(VoucherManagerPage::$buttonDelete);
 		$I->acceptPopup();;
-		$I->dontSeeElement(['link' => $updatedRandomVoucherCode]);
+		$I->dontSeeElement(VoucherManagerPage::xpathLink($updatedRandomVoucherCode));
 	}
 
 	/**

@@ -36,7 +36,7 @@ class CheckoutWithShippingRateSteps extends CheckoutOnFrontEnd
 		$I->addToCart($categoryName, $productName);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
-		$I->seeElement(['link' => $productName]);
+		$I->seeElement($productFrontEndManagerPage->xpathLink($productName));
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 
 		try

@@ -62,7 +62,7 @@ class WrapperSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(WrapperPage::$wrapperPrice, 30);
 		$I->fillField(WrapperPage::$wrapperPrice, $newPrice);
 		$I->click(WrapperPage::$buttonSaveClose);
-		$I->seeElement(['link' => $nameWrapper]);
+		$I->seeElement(WrapperPage::xpathLink($nameWrapper));
 	}
 
 	/**
@@ -81,12 +81,12 @@ class WrapperSteps extends AdminManagerJoomla3Steps
 		$I->fillField(WrapperPage::$search, $nameWrapper);
 		$I->checkAllResults();
 		$I->click(WrapperPage::$buttonUnpublish);
-		$I->seeElement(['link' => $nameWrapper]);
+		$I->seeElement(WrapperPage::xpathLink($nameWrapper));
 		$I->click(WrapperPage::$search);
 		$I->fillField(WrapperPage::$search, $nameWrapper);
 		$I->checkAllResults();
 		$I->click(WrapperPage::$buttonPublish);
-		$I->seeElement(['link' => $nameWrapper]);
+		$I->seeElement(WrapperPage::xpathLink($nameWrapper));
 	}
 
 	/**
@@ -109,7 +109,7 @@ class WrapperSteps extends AdminManagerJoomla3Steps
 		$I->waitForText(WrapperPage::$buttonDelete, 30);
 		$I->click(WrapperPage::$buttonDelete);
 		$I->acceptPopup();
-		$I->dontSeeElement(['link' => $nameWrapper]);
+		$I->dontSeeElement(WrapperPage::xpathLink($nameWrapper));
 	}
 
 	/**

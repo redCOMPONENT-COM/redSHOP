@@ -54,7 +54,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(StockRoomManagerJoomla3Page::$URL);
 		$I->filterListBySearching($name, StockRoomManagerJoomla3Page::$searchField);
 		$I->wait(0.1);
-		$I->click(['link' => $name]);
+		$I->click(StockRoomManagerJoomla3Page::xpathLink($name));
 		$I->waitForElement(StockRoomManagerJoomla3Page::$stockRoomName, 30);
 		$I->fillField(StockRoomManagerJoomla3Page::$stockRoomName, $newName);
 		$I->click(StockRoomManagerJoomla3Page::$buttonSaveClose);

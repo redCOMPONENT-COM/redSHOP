@@ -788,4 +788,14 @@ abstract class AdminJ3Page
 	{
 		return 'jQuery("#' . $elementId . '").select2("search", "' . $text . '")';
 	}
+
+	/**
+	 * @param $nameLink
+	 * @return string
+	 * @since 3.0.3
+	 */
+	public function xpathLink($nameLink)
+	{
+		return "//a[contains(text(),'".$nameLink."')]";
+	}
 }

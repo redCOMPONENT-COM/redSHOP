@@ -226,8 +226,8 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$searchResultRow, 30);
 		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
-		$I->waitForElementVisible(['link' => $pluginName], 30);
-		$I->click(['link' => $pluginName]);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::xpathLink($pluginName), 30);
+		$I->click(PluginManagerJoomla3Page::xpathLink($pluginName));
 
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$merchantEmail, 30);
 		$I->fillField(PluginManagerJoomla3Page::$merchantEmail, $email);
@@ -256,8 +256,8 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$searchResultRow, 30);
 		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
-		$I->waitForElementVisible(['link' => $pluginName], 30);
-		$I->click(['link' => $pluginName]);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::xpathLink($pluginName), 30);
+		$I->click(PluginManagerJoomla3Page::xpathLink($pluginName));
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldPublicKey, 30);
 		$I->fillField(PluginManagerJoomla3Page::$fieldPublicKey, $publicKey);
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldPrivateKey, 30);
@@ -282,8 +282,8 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->searchForItem($pluginName);
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$firstCheck, 30);
 		$I->see($pluginName);
-		$I->waitForElementVisible(['link' => $pluginName], 30);
-		$I->click(['link' => $pluginName]);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::xpathLink($pluginName), 30);
+		$I->click(PluginManagerJoomla3Page::xpathLink($pluginName));
 
 		$I->waitForElementVisible( PluginManagerJoomla3Page::$fieldPaymentPrice, 30);
 		$I->fillField( PluginManagerJoomla3Page::$fieldPaymentPrice, $priceDiscount);
@@ -304,8 +304,8 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->searchForItem($pluginName);
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$firstCheck, 30);
 		$I->see($pluginName);
-		$I->waitForElementVisible(['link' => $pluginName], 30);
-		$I->click(['link' => $pluginName]);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::xpathLink($pluginName), 30);
+		$I->click(PluginManagerJoomla3Page::xpathLink($pluginName));
 
 		$I->waitForElementVisible( PluginManagerJoomla3Page::$fieldPaymentPrice, 30);
 		$I->fillField(PluginManagerJoomla3Page::$fieldPaymentPrice, '');

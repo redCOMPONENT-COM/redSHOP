@@ -119,7 +119,7 @@ class CategoryManagerJ3Page extends AdminJ3Page
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $tabAccessory = ['link' => "Accessories"];
+	public static $tabAccessory = "//a[contains(text(),'Accessories')]";
 
 	/**
 	 * @var string

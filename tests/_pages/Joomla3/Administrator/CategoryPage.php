@@ -105,7 +105,7 @@ class CategoryPage extends AdminJ3Page
 	 * @var array
 	 * @since 2.1.2
 	 */
-	public static $tabAccessory = ['link' => "Accessories"];
+	public static $tabAccessory = "//a[contains(text(),'Accessories')]";
 
 	/**
 	 * @var string

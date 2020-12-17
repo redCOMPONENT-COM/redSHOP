@@ -225,8 +225,6 @@ class UserManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $headPage = "//h1";
 
-	//button
-
 	/**
 	 * @var string
 	 * @since 2.1.3
@@ -293,8 +291,6 @@ class UserManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $addButton = "Add";
 
-	//selector
-
 	/**
 	 * @var string
 	 * @since 2.1.3
@@ -312,8 +308,6 @@ class UserManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $selectorNamePage = '.page-title';
-
-	//selector
 
 	/**
 	 * @var string
@@ -347,13 +341,11 @@ class UserManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $pageDetailSelector = '.title';
 
-	//get link user
-
 	/**
 	 * @var array
 	 * @since 2.1.3
 	 */
-	public static $linkUser = ['link' => 'ID'];
+	public static $linkUser = "//a[contains(text(),'ID')]";
 
 	/**
 	 * @var string
@@ -371,7 +363,7 @@ class UserManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $generalTab = ['link' => 'General User Information'];
+	public static $generalTab =  "//a[contains(text(),'General User Information')]";
 
 	/**
 	 * @var string

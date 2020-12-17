@@ -538,8 +538,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->dontSee($name, UserManagerJoomla3Page::$firstResultRow);
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->waitForElementVisible(['link' => 'ID'], 30);
-		$I->click(['link' => 'ID']);
+		$I->waitForElementVisible(UserManagerJoomla3Page::xpathLink('ID'), 30);
+		$I->click(UserManagerJoomla3Page::xpathLink('ID'));
 		$I->amOnPage(UserManagerJoomla3Page::$URLJoomla);
 		$I->searchForItem($name);
 
@@ -569,8 +569,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->searchUser($nameUser);
 		$I->see($nameUser, UserManagerJoomla3Page::$firstResultRow);
-		$I->waitForElementVisible(['link' => $nameUser], 30);
-		$I->click(['link' => $nameUser]);
+		$I->waitForElementVisible(UserManagerJoomla3Page::xpathLink($nameUser), 30);
+		$I->click(UserManagerJoomla3Page::xpathLink($nameUser));
 		$I->waitForElementVisible(UserManagerJoomla3Page::$btnPlaceOder, 30);
 		$I->click(UserManagerJoomla3Page::$btnPlaceOder);
 

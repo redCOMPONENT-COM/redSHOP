@@ -180,8 +180,8 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 		{
 			$I->amOnPage(CheckoutChangeQuantityProductPage::$url);
 			$I->click($promotion['category']);
-			$I->waitForElementVisible(["link" => $promotion['product']], 30);
-			$I->click(["link" => $promotion['product']]);
+			$I->waitForElementVisible(PromotionsPage::xpathLink($promotion['product']), 30);
+			$I->click(PromotionsPage::xpathLink($promotion['product']));
 
 			for ($a= 0; $a < $promotion['conditionAmount']; $a++)
 			{
@@ -292,7 +292,7 @@ class PromotionsManagementSteps extends CheckoutWithAjaxCart
 		$I->amOnPage(PromotionsPage::$url);
 		$I->waitForText(PromotionsPage::$titlePage, 30, PromotionsPage::$h1);
 		$I->filterListBySearching($promotionName);
-		$I->waitForElementVisible(['link' => $promotionName], 30);
+		$I->waitForElementVisible(PromotionsPage::xpathLink($promotionName), 30);
 		$I->click($promotionName);
 		$I->waitForElementVisible(PromotionsPage::$idFieldName, 30);
 		$I->fillField(PromotionsPage::$idFieldName, $promotionNameEdit);

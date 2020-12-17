@@ -34,7 +34,7 @@ class GiftCardCheckoutPage extends AdminJ3Page
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $addressLink = ['link' => "Add address"];
+	public static $addressLink = "//a[contains(text(),'Add address')]";
 
 	/**
 	 * @var string

@@ -34,8 +34,8 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->amOnPage(CheckoutChangeQuantityProductPage::$url);
 		$I->click($category);
-		$I->waitForElementVisible(["link" => $productName], 30);
-		$I->click(["link" => $productName]);
+		$I->waitForElementVisible($productFrontEndManagerPage->xpathLink($productName), 30);
+		$I->click($productFrontEndManagerPage->xpathLink($productName));
 		$I->waitForElementVisible(CheckoutChangeQuantityProductPage::$addToCart, 30);
 		$I->click(CheckoutChangeQuantityProductPage::$addToCart);
 		$I->amOnPage(CheckoutChangeQuantityProductPage::$cartPageUrL);

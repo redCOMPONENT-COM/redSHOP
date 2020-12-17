@@ -592,8 +592,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
 		$this->searchProduct($productName);
-		$I->waitForElementVisible(['link' => $productName], 30);
-		$I->click(['link' => $productName]);
+		$I->waitForElementVisible(ProductManagerPage::xpathLink($productName), 30);
+		$I->click(ProductManagerPage::xpathLink($productName));
 
 		$I->waitForElementVisible(ProductManagerPage::$buttonProductAttribute, 30);
 		$I->click(ProductManagerPage::$buttonProductAttribute);
@@ -734,8 +734,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
 		$this->searchProduct($productName);
-		$I->waitForElementVisible(['link' => $productName], 30);
-		$I->click(['link' => $productName]);
+		$I->waitForElementVisible(ProductManagerPage::xpathLink($productName), 30);
+		$I->click(ProductManagerPage::xpathLink($productName));
 
 		$I->waitForElementVisible(ProductManagerPage::$buttonProductAttribute, 30);
 		$I->click(ProductManagerPage::$buttonProductAttribute);
@@ -894,12 +894,12 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(ProductManagerPage::$URL);
 		$I->searchProduct($productName);
-		$I->click(['link' => $productName]);
+		$I->click(ProductManagerPage::xpathLink($productName));
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->click(ProductManagerPage::$buttonProductAttribute);
 		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
-		$I->waitForElementVisible(['link' => 'Attribute value: '.$nameAttribute], 30);
-		$I->click(['link' => 'Attribute value: '.$nameAttribute]);
+		$I->waitForElementVisible(ProductManagerPage::xpathLink('Attribute value: '.$nameAttribute), 30);
+		$I->click(ProductManagerPage::xpathLink('Attribute value: '.$nameAttribute));
 		$I->click(ProductManagerPage::$buttonDelete);
 		$I->cancelPopup();
 		$I->click(ProductManagerPage::$buttonDelete);
@@ -919,7 +919,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(ProductManagerPage::$URL);
 		$I->searchProduct($productName);
-		$I->click(['link' => $productName]);
+		$I->click(ProductManagerPage::xpathLink($productName));
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->click(ProductManagerPage::$buttonProductAttribute);
 		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
@@ -991,7 +991,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(ProductManagerPage::$URL);
 		$I->searchProduct($productName);
-		$I->click(['link' => $productName]);
+		$I->click(ProductManagerPage::xpathLink($productName));
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productNameEdit);
 		$I->click(ProductManagerPage::$buttonSaveClose);
@@ -1320,7 +1320,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(ProductManagerPage::$URL);
 		$I->searchProduct($productName);
-		$I->click(['link' => $productName]);
+		$I->click(ProductManagerPage::xpathLink($productName));
 		$I->waitForElementVisible(ProductManagerPage::$productName, 30);
 		$I->waitForElementVisible(ProductManagerPage::$additionalInformation, 30);
 		$product = new ProductManagerPage();
@@ -1380,10 +1380,9 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		{
 			if($x > 0)
 			{
-				$I->waitForElementVisible(["link" => ProductManagerPage::$addAttributeValue], 30);
 				$I->executeJS('window.scrollTo(0,0)');
-				$I->waitForElementVisible(["link" => ProductManagerPage::$addAttributeValue], 30);
-				$I->click(["link" => ProductManagerPage::$addAttributeValue]);
+				$I->waitForElementVisible(ProductManagerPage::xpathLink(ProductManagerPage::$addAttributeValue), 30);
+				$I->click(ProductManagerPage::xpathLink(ProductManagerPage::$addAttributeValue));
 			}
 
 			$attribute = $attributes[$x];
@@ -1496,7 +1495,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForText(ProductManagerPage::$namePage, 30, ProductManagerPage::$h1);
 		$this->searchProduct($productName);
-		$I->waitForElementVisible(['link' => $productName], 30);
+		$I->waitForElementVisible(ProductManagerPage::xpathLink($productName), 30);
 		$I->waitForElementVisible(ProductManagerPage::$xpathProductID, 30);
 		$idProduct = $I->grabTextFrom(ProductManagerPage::$xpathProductID);
 		return $idProduct;

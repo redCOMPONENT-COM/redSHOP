@@ -73,7 +73,7 @@ class CouponSteps extends AbstractStep
 		$I->waitForText(GiftCardCheckoutPage::$alertSuccessMessage, 60, GiftCardCheckoutPage::$selectorSuccess);
 		$I->see(GiftCardCheckoutPage::$alertSuccessMessage, GiftCardCheckoutPage::$selectorSuccess);
 		$I->amOnPage(GiftCardCheckoutPage::$cartPageUrL);
-		$I->seeElement(['link' => $productName]);
+		$I->seeElement($productFrontEndManagerPage->xpathLink($productName));
 		$I->fillField(GiftCardCheckoutPage::$couponInput, $couponCode);
 		$I->click(GiftCardCheckoutPage::$couponButton);
 		$I->waitForText(GiftCardCheckoutPage::$messageValid, 10, GiftCardCheckoutPage::$selectorSuccess);

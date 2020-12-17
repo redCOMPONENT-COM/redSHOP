@@ -182,7 +182,7 @@ class ExtensionManagerJoomla3Page extends AdminJ3Page
      * @var array
      * @since 3.0.2
      */
-	 public static $linkLocation = ['link' => 'Location'];
+	 public static $linkLocation = "//a[contains(text(),'Location')]";
 
     /**
      * @var string

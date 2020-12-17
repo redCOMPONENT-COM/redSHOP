@@ -42,7 +42,7 @@ class StockImageSteps extends AdminManagerJoomla3Steps
 		$I->click(StockImagePage::$chooseAmount);
 		$I->click(StockImagePage::$buttonSaveClose);
 		$I->waitForText(StockImagePage::$namePage, 5);
-		$I->seeElement(['link' => $name]);
+		$I->seeElement(StockImagePage::xpathLink($name));
 	}
 
 	/**
@@ -65,7 +65,7 @@ class StockImageSteps extends AdminManagerJoomla3Steps
 		$I->fillField(StockImagePage::$fieldQuantity, $newQuantity);
 		$I->click(StockImagePage::$buttonSaveClose);
 		$I->waitForText(StockImagePage::$namePage, 30);
-		$I->seeElement(['link' => $nameUpdate]);
+		$I->seeElement(StockImagePage::xpathLink($nameUpdate));
 	}
 
 	/**
@@ -102,6 +102,6 @@ class StockImageSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(StockImagePage::$search);
 		$I->fillField(StockImagePage::$search, $name);
 		$I->click(StockImagePage::$iconSearch);
-		$I->seeElement(['link' => $name]);
+		$I->seeElement(StockImagePage::xpathLink($name));
 	}
 }

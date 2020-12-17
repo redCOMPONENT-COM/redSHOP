@@ -39,7 +39,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings();
 
 		$I->wantTo("I click in the menu: $menu");
-		$I->click(array('link' => $menu));
+		$I->click(AdminJ3Page::xpathLink($menu));
 		$I->waitForText(AdminJ3Page::$menuItemsTitle, 5, AdminJ3Page::$h1);
 		$I->checkForPhpNoticesOrWarnings();
 
@@ -109,8 +109,8 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 			}
 		}
 
-		$I->waitForElementVisible(["link" => $menuItem], 30);
-		$I->click(["link" => $menuItem]);
+		$I->waitForElementVisible(AdminJ3Page::xpathLink($menuItem), 30);
+		$I->click(AdminJ3Page::xpathLink($menuItem));
 		$I->waitForText($nameProduct, 10);
 		$I->waitForText($total, 10);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
@@ -161,7 +161,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings();
 
 		$I->wantTo("I click in the menu: $menu");
-		$I->click(array('link' => $menu));
+		$I->click(AdminJ3Page::xpathLink($menu));
 		$I->waitForText(AdminJ3Page::$menuItemsTitle, 5, AdminJ3Page::$h1);
 		$I->checkForPhpNoticesOrWarnings();
 

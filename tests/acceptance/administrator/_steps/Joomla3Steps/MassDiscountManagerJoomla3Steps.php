@@ -268,7 +268,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(MassDiscountManagerPage::$URL);
 		$I->searchMassDiscount($massDiscountName);
-		$I->click(['link' => $massDiscountName]);
+		$I->click(MassDiscountManagerPage::xpathLink($massDiscountName));
 		$I->waitForElement(MassDiscountManagerPage::$name, 30);
 		$I->verifyNotices(false, $this->checkForNotices(), MassDiscountManagerPage::$pageEdit);
 		$I->fillField(MassDiscountManagerPage::$name, $massDiscountNameEdit);
@@ -301,7 +301,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(MassDiscountManagerPage::$URL);
 		$I->searchMassDiscount($massDiscountName);
-		$I->click(['link' => $massDiscountName]);
+		$I->click(MassDiscountManagerPage::xpathLink($massDiscountName));
 		$I->waitForElement(MassDiscountManagerPage::$name, 30);
 		$I->verifyNotices(false, $this->checkForNotices(), MassDiscountManagerPage::$pageEdit);
 		$I->fillField(MassDiscountManagerPage::$name, $massDiscountNameEdit);
@@ -343,7 +343,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->searchMassDiscount($massDiscountName);
 		$I->checkAllResults();
 		$I->click(MassDiscountManagerPage::$buttonCheckIn);
-		$I->click(['link' => $massDiscountName]);
+		$I->click(MassDiscountManagerPage::xpathLink($massDiscountName));
 		$I->waitForElement(MassDiscountManagerPage::$name, 30);
 		$I->verifyNotices(false, $this->checkForNotices(), MassDiscountManagerPage::$pageEdit);
 

@@ -34,7 +34,7 @@ class CheckoutWithPAYMILLPayment extends CheckoutWithAuthorizeDPMPayment
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->addToCart($categoryName, $productName);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
-		$I->waitForElementVisible(['link' => $productName], 30);
+		$I->waitForElementVisible($productFrontEndManagerPage->xpathLink($productName), 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
 		$I->wait(1);

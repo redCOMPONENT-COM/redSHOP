@@ -57,7 +57,7 @@ class QuotationManagerPage extends AdminJ3Page
 	 * @var array
 	 * @since 1.4.0
 	 */
-	public static $newProductLink = ['link' => 'New'];
+	public static $newProductLink = "//a[contains(text(),'New')]";
 
 	/**
 	 * @var string

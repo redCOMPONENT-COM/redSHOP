@@ -225,7 +225,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonReset);
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(['link' => $text], 30);
+		$I->waitForElement(AdminJ3Page::xpathLink($text), 30);
 	}
 
 	/**
@@ -240,7 +240,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(['link' => $text], 30);
+		$I->waitForElement(AdminJ3Page::xpathLink($text), 30);
 	}
 
 	/**

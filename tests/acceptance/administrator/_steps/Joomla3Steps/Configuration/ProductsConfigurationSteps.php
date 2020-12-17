@@ -219,7 +219,7 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 				$I->click($page::$addToCart);
 				$I->waitForText($page::$alertSuccessMessage, 30, $page::$selectorSuccess);
 				$I->amOnPage($page::$cartPageUrL);
-				$I->waitForElement(['link' => $productName], 30);
+				$I->waitForElement(ConfigurationPage::xpathLink($productName), 30);
 				$I->dontSee($productAccessoriesName);
 				break;
 

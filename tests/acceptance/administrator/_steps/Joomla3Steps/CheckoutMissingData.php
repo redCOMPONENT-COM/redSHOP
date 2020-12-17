@@ -114,7 +114,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
-		$I->waitForElement(['link' => $productName], 30);
+		$I->waitForElement($productFrontEndManagerPage->xpathLink($productName), 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
 		$I->comment('Business');
@@ -259,7 +259,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
-		$I->waitForElement(['link' => $productName], 30);
+		$I->waitForElement($productFrontEndManagerPage->xpathLink($productName), 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 

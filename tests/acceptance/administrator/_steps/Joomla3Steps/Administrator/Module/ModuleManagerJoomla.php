@@ -371,8 +371,8 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
 		$I->searchForItem($moduleName);
-		$I->waitForElementVisible(["link" => $moduleName], 30);
-		$I->click(["link" => $moduleName]);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::xpathLink($moduleName), 30);
+		$I->click(ModuleManagerJoomlaPage::xpathLink($moduleName));
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$tabModule, 30);
 		$I->click(ModuleManagerJoomlaPage::$tabModule);
 		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
@@ -399,8 +399,8 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
 		$I->searchForItem($moduleName);
-		$I->waitForElementVisible(["link" => $moduleName], 30);
-		$I->click(["link" => $moduleName]);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::xpathLink($moduleName), 30);
+		$I->click(ModuleManagerJoomlaPage::xpathLink($moduleName));
 		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
 		$module = new ModuleManagerJoomlaPage();
 

@@ -67,7 +67,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(CustomFieldManagerJoomla3Page::$URL);
-		$I->click(['link' => 'ID']);
+		$I->click(CustomFieldManagerJoomla3Page::xpathLink('ID'));
 		$I->see($title, CustomFieldManagerJoomla3Page::$firstResultRow);
 		$I->click(CustomFieldManagerJoomla3Page::$selectFirst);
 		$I->click(CustomFieldManagerJoomla3Page::$editButton);
@@ -77,7 +77,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 10, CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
 		$I->see($updatedTitle, CustomFieldManagerJoomla3Page::$firstResultRow);
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
+		$I->click(CustomFieldManagerJoomla3Page::xpathLink('ID'));
 	}
 
 	/**

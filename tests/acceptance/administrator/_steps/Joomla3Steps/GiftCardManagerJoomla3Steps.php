@@ -55,7 +55,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->click(GiftCardManagerPage::$buttonSaveClose);
 				$I->waitForText(GiftCardManagerPage::$messageItemSaveSuccess, 60, GiftCardManagerPage::$selectorSuccess);
 				$I->filterListBySearching($cardName);
-				$I->seeElement(['link' => $cardName]);
+				$I->seeElement(GiftCardManagerPage::xpathLink($cardName));
 				break;
 		}
 	}
@@ -170,7 +170,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(GiftCardManagerPage::$URL);
 		$I->filterListBySearching($cardName);
 
-		$I->click(['link' => $cardName]);
+		$I->click(GiftCardManagerPage::xpathLink($cardName));
 		switch ($function){
 			case 'save':
 				$I->waitForElement(GiftCardManagerPage::$giftCardName, 30);
@@ -199,11 +199,11 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(GiftCardManagerPage::$URL);
 		$I->filterListBySearching($cardName);
-		$I->click(['link' => $cardName]);
+		$I->click(GiftCardManagerPage::xpathLink($cardName));
 		$I->waitForElement(GiftCardManagerPage::$giftCardName, 30);
 		$I->click(GiftCardManagerPage::$buttonClose);
 		$I->filterListBySearching($cardName);
-		$I->seeElement(['link' => $cardName]);
+		$I->seeElement(GiftCardManagerPage::xpathLink($cardName));
 	}
 
 
@@ -248,7 +248,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->filterListBySearching($cardName);
 		$I->click(GiftCardManagerPage::$firstResult);
 		$I->click(GiftCardManagerPage::$buttonEdit);
-		$I->dontSeeElement(['link' => $cardName]);
+		$I->dontSeeElement(GiftCardManagerPage::xpathLink($cardName));
 	}
 
 	/**
@@ -265,7 +265,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I=$this;
 		$I->filterListBySearching($cardName);
-		$I->seeElement(['link' => $cardName]);
+		$I->seeElement(GiftCardManagerPage::xpathLink($cardName));
 	}
 
 	/**
@@ -281,7 +281,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(GiftCardManagerPage::$URL);
 		$I->filterListBySearching($cardName);
-		$I->seeElement(['link' => $cardName]);
+		$I->seeElement(GiftCardManagerPage::xpathLink($cardName));
 		$I->click(GiftCardManagerPage::$getCartStatus);
 	}
 

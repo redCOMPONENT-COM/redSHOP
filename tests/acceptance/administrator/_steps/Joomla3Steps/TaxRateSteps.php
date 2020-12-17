@@ -522,8 +522,8 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$I =  $this;
 		$I->amOnPage(TaxRatePage::$url);
 		$I->searchTAXRates($taxRateName);
-		$I->waitForElementVisible(["link" => $taxRateName], 30);
-		$I->click(["link" => $taxRateName]);
+		$I->waitForElementVisible(TaxRatePage::xpathLink($taxRateName), 30);
+		$I->click(TaxRatePage::xpathLink($taxRateName));
 		$I->waitForText(TaxRatePage::$editTitle, 5, TaxRatePage::$selectorPageTitle);
 		$I->click(TaxRatePage::$buttonClose);
 	}

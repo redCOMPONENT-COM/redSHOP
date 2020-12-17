@@ -51,8 +51,8 @@ class WishListSteps extends CheckoutMissingData
 				$I->waitForText(WishListPage::$messageAddWishListSuccess, 30, WishListPage::$selectorMessage);
 
 				$I->doFrontEndLogin($username, $pass);
-				$I->waitForElementVisible(["link" => $wishListMenuItem], 30);
-				$I->click(["link" => $wishListMenuItem]);
+				$I->waitForElementVisible(WishListPage::xpathLink($wishListMenuItem), 30);
+				$I->click(WishListPage::xpathLink($wishListMenuItem));
 
 				$I->waitForElementVisible(WishListPage::$saveWishListButton, 30);
 				$I->click(WishListPage::$saveWishListButton);
@@ -105,8 +105,8 @@ class WishListSteps extends CheckoutMissingData
 				break;
 		}
 
-		$I->waitForElementVisible(["link" => $wishListMenuItem], 30);
-		$I->click(["link" => $wishListMenuItem]);
+		$I->waitForElementVisible(WishListPage::xpathLink($wishListMenuItem), 30);
+		$I->click(WishListPage::xpathLink($wishListMenuItem));
 		$I->waitForElementVisible($product->wishListName($wishListName), 30);
 		$I->click($product->wishListName($wishListName));
 		$I->waitForText($productName, 60, $productFrontEndManagerPage->product($productName));
@@ -126,8 +126,8 @@ class WishListSteps extends CheckoutMissingData
 		$I->doFrontEndLogin($username, $pass);
 		$product = new WishListPage();
 		$I->amOnPage("/");
-		$I->waitForElementVisible(["link" => $wishListMenuItem], 30);
-		$I->click(["link" => $wishListMenuItem]);
+		$I->waitForElementVisible(WishListPage::xpathLink($wishListMenuItem), 30);
+		$I->click(WishListPage::xpathLink($wishListMenuItem));
 		$I->waitForElementVisible($product->wishListName($wishListName), 30);
 		$I->click($product->wishListName($wishListName));
 		$I->waitForElementVisible(WishListPage::$removeOnWishList, 30);

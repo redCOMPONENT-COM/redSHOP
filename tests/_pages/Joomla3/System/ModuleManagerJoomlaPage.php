@@ -40,7 +40,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $currentConfiguration = ['link' => "\Redshop Multi Currencies"];
+	public static $currentConfiguration = "//a[contains(text(),'\Redshop Multi Currencies')]";
 
 	/**
 	 * @var string
@@ -70,13 +70,13 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var array
 	 * @since 2.1.3
 	 */
-	public static $productTabConfiguration = ['link' => "redSHOP - Product Tab Module"];
+	public static $productTabConfiguration = "//a[contains(text(),'redSHOP - Product Tab Module')]";
 
 	/**
 	 * @var array
 	 * @since 2.1.3
 	 */
-	public static $tabModule = ['link' => "Module"];
+	public static $tabModule = "//a[contains(text(),'Module')]";
 
 	/**
 	 * @var string
@@ -102,7 +102,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var array
 	 * @since 2.1.3
 	 */
-	public static $redMassCartLink = ['link' => "redSHOP - redMASSCART"];
+	public static $redMassCartLink = "//a[contains(text(),'redSHOP - redMASSCART')]";
 
 	/**
 	 * @var string
@@ -136,7 +136,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var array
 	 * @since 2.1.3
 	 */
-	public static $redShopProductConfiguration = ['link' => "redSHOP - Products"];
+	public static $redShopProductConfiguration = "//a[contains(text(),'redSHOP - Products')]";
 
 	/**
 	 * @var string
@@ -198,7 +198,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $shopperGroupProduct = ['link' => "redSHOP - ShopperGroup Product"];
+	public static $shopperGroupProduct = "//a[contains(text(),'redSHOP - ShopperGroup Product')]";
 
 	/**
 	 * @var string
