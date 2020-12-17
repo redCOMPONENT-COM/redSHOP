@@ -380,6 +380,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(ProductManagerPage::$URL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
@@ -412,6 +413,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForText(ProductManagerPage::$buttonNew, 30);
 		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible(ProductManagerPage::$productName, 60);
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);

@@ -21,6 +21,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 	public function fillInformationBusiness($customerInformation)
 	{
 		$I = $this;
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 
 		try
 		{
@@ -31,6 +32,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioIDCompany, 30);
 			$I->wait(0.5);
 			$I->click(FrontEndProductManagerJoomla3Page::$radioIDCompany);
+			$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
 			$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
 		}
@@ -259,6 +261,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->waitForElement(['link' => $productName], 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 
 		switch ($missing)
 		{
