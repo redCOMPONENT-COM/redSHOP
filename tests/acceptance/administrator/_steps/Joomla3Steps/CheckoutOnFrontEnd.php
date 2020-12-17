@@ -318,6 +318,7 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 		$I->comment('Business');
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$radioCompany);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 
 		try
 		{
