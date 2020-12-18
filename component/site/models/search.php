@@ -624,8 +624,16 @@ class RedshopModelSearch extends RedshopModel
         $layout       = $this->getState('layout', 'default');
 
         $db    = JFactory::getDbo();
-        $total = $db->setQuery($this->_buildQuery(0, true))
-            ->loadResult();
+        $subQueryCount = clone $this->_buildQuery(0, true);
+        $subQueryCount->clear('select')->clear('group')->clear('limit')->clear('order')
+            ->select($db->qn('p.product_id'))
+            ->group($db->qn('p.product_id'));
+
+        $queryCount = $db->getQuery(true);
+        $queryCount->select('count(*)')
+            ->from($subQueryCount, 'count');
+
+        $total = $db->setQuery($queryCount)->loadResult();
 
         if ($layout == 'newproduct' || $layout == 'productonsale') {
             if ($total > $productlimit && $productlimit != "") {

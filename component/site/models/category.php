@@ -38,6 +38,8 @@ class RedshopModelCategory extends RedshopModel
 
     public $_total = 0;
 
+    public $_pagination = null;
+
     // @ToDo In feature, when class Category extends RedshopModelList, replace filter_fields in constructor
     public $filter_fields = array(
         'p.product_name',
