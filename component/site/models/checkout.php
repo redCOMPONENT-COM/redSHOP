@@ -483,6 +483,7 @@ class RedshopModelCheckout extends RedshopModel
         $row->requisition_number   = $post['requisition_number'];
         $row->ip_address           = $ip;
         $row->encr_key             = $random_gen_enc_key;
+        $row->lang_checkout        = JFactory::getLanguage()->getTag();
         $row->discount_type        = $this->discount_type;
         $row->order_id             = $app->input->getInt('order_id', 0);
         $row->barcode              = null;
