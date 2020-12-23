@@ -62,7 +62,8 @@ class RedshopModelCategory extends RedshopModel
     public function __construct()
     {
         $app    = JFactory::getApplication();
-        $input  = JFactory::getApplication()->input;
+        $input  = $app->input;
+        /** @scrutinizer ignore-call */
         $params = $app->getParams('com_redshop');
         $layout = $input->getCmd('layout', 'detail');
         $print  = $input->getCmd('print', '');

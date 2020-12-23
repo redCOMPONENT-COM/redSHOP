@@ -836,7 +836,7 @@ class RedshopModelSearch extends RedshopModel
                                         'tooltip.png',
                                         '',
                                         '',
-                                        false
+                                        ''
                                     );
                             } ?>
                         </div>
@@ -1193,6 +1193,7 @@ class RedshopModelSearch extends RedshopModel
         $manufacturers   = !empty($pk['manufacturer']) ? $pk['manufacturer'] : array();
         $keyword         = !empty($pk['keyword']) ? $pk['keyword'] : "";
         $customField     = !empty($pk['custom_field']) ? $pk['custom_field'] : "";
+        $max             = null;
 
         if (isset($pk["filterprice"])) {
             $min = $pk["filterprice"]['min'];
@@ -1402,9 +1403,9 @@ class RedshopModelSearch extends RedshopModel
         }
 
         if ($layout == 'productonsale' || $layout == 'featuredproduct') {
-            $result = $item->params->get('template_id');
+            $result = $item->params->get('template_id', 0);
 
-            if ($result != 0) {
+            if ($result !== 0) {
                 $templateid = $result;
                 $cid        = 0;
             }
