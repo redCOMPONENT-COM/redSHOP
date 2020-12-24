@@ -1945,7 +1945,7 @@ function setAddtocartForm(frmCartName, product_id) {
  *
  * @type  {Array}
  */
-var redShopAddtocartValidationJsTrigger = [];
+redSHOP.redShopAddtocartValidationJsTrigger = [];
 
 function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftcard_id, frmUserfieldName, totAttribute, totAccessory, totUserfield) {
 
@@ -2284,7 +2284,7 @@ var getExtraParamsArray = {};
  *
  * @type  {Array}
  */
-var redShopJsTrigger = [];
+redSHOP.redShopJsTrigger = [];
 
 function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_id, totAttribute, totAccessory, totUserfield) {
 	var frm = document.getElementById(frmCartName);
