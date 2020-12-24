@@ -1185,8 +1185,8 @@ class RedshopHelperOrder
             curl_setopt($ch, CURLOPT_VERBOSE, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlnew);
-            $response = curl_exec($ch);
-            curl_close($ch);
+            $response = curl_exec(/** @scrutinizer ignore-type */ $ch);
+            curl_close(/** @scrutinizer ignore-type */ $ch);
 
             $xmlResponse = JFactory::getXML($response, false);
 
@@ -1641,10 +1641,15 @@ class RedshopHelperOrder
         $orderItemId = $app->input->getInt('order_item_id', 0);
 
         // Get order detail before processing
-        $prevOrderStatus = RedshopEntityOrder::getInstance($orderId)->getItem()->order_status;
+        $orderEntity     = RedshopEntityOrder::getInstance($orderId);
+        $prevOrderStatus = $orderEntity->getItem()->order_status;
 
         if (isset($paymentStatus)) {
-            self::updateOrderPaymentStatus($orderId, $paymentStatus);
+            if ($orderEntity->isValid()) {
+                $orderEntity->set('order_payment_status', $paymentStatus)
+                    ->set('mdate', time())
+                    ->save();
+            }
         }
 
         if (!$isProduct) {
@@ -1652,7 +1657,10 @@ class RedshopHelperOrder
             self::writeOrderLog($orderId, 0, $newStatus, $paymentStatus, $customerNote);
 
             // Update customer's note
-            self::updateOrderComment($orderId, $customerNote);
+            if ($orderEntity->isValid()) {
+                $orderEntity->set('customer_note', $customerNote)
+                    ->save();
+            }
 
             $requisitionNumber = $app->input->getString('requisition_number', '');
 
@@ -2191,7 +2199,7 @@ class RedshopHelperOrder
      *
      * @param   integer  $userId  User Id
      *
-     * @return  array
+     * @return  array|bool
      *
      * @since   2.0.3
      */
@@ -2648,7 +2656,7 @@ class RedshopHelperOrder
             return;
         }
 
-        $orderDetail   = self::getOrderDetails($orderId);
+        $orderDetail   = $order = RedshopEntityOrder::getInstance($orderId)->getItem();
         $orderTemplate = RedshopHelperTemplate::getTemplate('order_print');
 
         if (count($orderTemplate) > 0 && $orderTemplate[0]->template_desc != "") {
@@ -2721,6 +2729,7 @@ class RedshopHelperOrder
         $isProduct     = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
         $productId     = (isset($post['product_id'])) ? $post['product_id'] : 0;
         $paymentStatus = $post['mass_change_payment_status'];
+        $orderEntity   = RedshopEntityOrder::getInstance($orderId);
 
         // Write order log
         self::writeOrderLog($orderId, 0, $newStatus, $paymentStatus, $customerNote);
@@ -2730,7 +2739,11 @@ class RedshopHelperOrder
 
         // Changing the status of the order
         if (isset($paymentStatus)) {
-            self::updateOrderPaymentStatus($orderId, $paymentStatus);
+            if ($orderEntity->isValid()) {
+                $orderEntity->set('order_payment_status', $paymentStatus)
+                    ->set('mdate', time())
+                    ->save();
+            }
         }
 
         if ($post['isPacsoft']) {
