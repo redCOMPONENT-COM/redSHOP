@@ -874,7 +874,7 @@ class RedshopModelSearch extends RedshopModel
                         <?php echo $type->type_name; ?>
                         <?php
                         if (strlen($type->tooltip) > 0) {
-                            echo ' ' . JHtml::tooltip($type->tooltip, $type->type_name, 'tooltip.png', '', '', false);
+                            echo ' ' . JHtml::tooltip($type->tooltip, $type->type_name, 'tooltip.png', '', '', '');
                         } ?>
                     </div>
                     <div class="typevalue <?php echo $type->type_name_css; ?>">

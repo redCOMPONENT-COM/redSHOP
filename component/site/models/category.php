@@ -778,6 +778,7 @@ class RedshopModelCategory extends RedshopModel
     protected function populateState($ordering = '', $direction = '')
     {
         $app              = JFactory::getApplication();
+        /** @scrutinizer ignore-call */
         $params           = $app->getParams('com_redshop');
         $selectedTemplate = Redshop::getConfig()->get('DEFAULT_CATEGORYLIST_TEMPLATE');
         $layout           = $app->input->getCmd('layout', 'detail');
