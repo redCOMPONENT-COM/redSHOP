@@ -54,10 +54,6 @@ class Accessory
                 $accessoryPriceVAT = \RedshopHelperProduct::getProductTax($productId, $accessoryPrice, $userId);
             }
 
-            if ($accessoryMainPrice > 0) {
-                $accessoryMainPriceVAT = \RedshopHelperProduct::getProductTax($productId, $accessoryMainPrice, $userId);
-            }
-
             // Add VAT to accessory prices
             $accessoryPrice     += $accessoryPriceVAT;
             $accessoryMainPrice += $accessoryMainPriceVAT;
