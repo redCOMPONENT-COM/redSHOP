@@ -1570,7 +1570,8 @@ class RedshopHelperOrder
             'orderid'     => JText::_('COM_REDSHOP_ORDERID'),
             'ordernumber' => JText::_('COM_REDSHOP_ORDERNUMBER'),
             'fullname'    => JText::_('COM_REDSHOP_FULLNAME'),
-            'useremail'   => JText::_('COM_REDSHOP_USEREMAIL')
+            'useremail'   => JText::_('COM_REDSHOP_USEREMAIL'),
+	        'phone'       => JText::_('COM_REDSHOP_PHONE')
         );
 
         $types[]   = JHtml::_('select.option', '', 'All');

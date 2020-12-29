@@ -118,7 +118,10 @@ class RedshopModelOrder extends RedshopModel
                 );
             } elseif ($filterBy == 'useremail') {
                 $query->where($db->qn('uf.user_email') . ' LIKE ' . $db->q('%' . $filter . '%'));
-            } // $filter_by == 'all'
+            } elseif ($filterBy == 'phone') {
+	            $filter = str_replace(array('+84', ' '), array('0', ''), $filter);
+	            $query->where("REPLACE(REPLACE(". $db->qn('uf.phone') . ", '+84', '0'), ' ', '')" . ' LIKE ' . $db->q('%' . $filter . '%'));
+	        }// $filter_by == 'all'
             else {
                 $query->where(
                     "(REPLACE(CONCAT(" . $db->qn('uf.firstname') . ", "
