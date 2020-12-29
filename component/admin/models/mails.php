@@ -71,6 +71,14 @@ class RedshopModelMails extends RedshopModelList
             $query->where($db->qn('mail_section') . ' = ' . $db->quote($section));
         }
 
+        // Filter by state
+        $state = $this->getState('filter.published', '');
+
+        if (is_numeric($state))
+        {
+            $query->where($db->qn('published') . ' = ' . $db->quote($state));
+        }
+
         // Add the list ordering clause.
         $orderCol  = $this->state->get('list.ordering', 'mail_id');
         $orderDirn = $this->state->get('list.direction', 'asc');

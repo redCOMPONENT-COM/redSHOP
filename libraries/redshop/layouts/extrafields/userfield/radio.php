@@ -38,7 +38,7 @@ extract($displayData);
                 <?php echo $required; ?>
                 <?php echo $checked; ?>
             />
-            <span><?php echo $field->field_value ?></span>
+            <span><?php echo $field->field_name ?></span>
         </label>
     </div>
 <?php endforeach; ?>
