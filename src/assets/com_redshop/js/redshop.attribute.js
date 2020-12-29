@@ -6,6 +6,13 @@
 // Only define the redSHOP namespace if not defined.
 redSHOP = window.redSHOP || {};
 
+// redSHOP custom event trigger
+redSHOP.onBeforeAjaxdisplayAdditionalImage = [];
+redSHOP.onAfterAjaxdisplayAdditionalImage = [];
+redSHOP.onDisplayAjaxCartBoxDetail = [];
+redSHOP.onAfterSubmitAjaxCartdetail = [];
+redSHOP.onDisplayAjaxCartBox = [];
+
 redSHOP.setProductTax = function (postData) {
 
 	// Setting default
@@ -57,6 +64,14 @@ redSHOP.collectExtraFields = function (extraField, productId) {
 
 	return field;
 };
+
+redSHOP.triggerCustomEvents = function(customEvent, params) {
+	if (redSHOP[customEvent].length > 0) {
+		for (var g = 0, n = redSHOP[customEvent].length; g < n; g++) {
+			new redSHOP[customEvent][g](params);
+		}
+	}
+}
 
 redSHOP.updateCartExtraFields = function (extraFields, productId, formName) {
 
@@ -403,13 +418,11 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
 			calculateTotalPrice(product_id, relatedprd_id, withoutVAT);
 
 			jQuery('select:not(".disableBootstrapChosen")').select2();
-
 			// Setting up redSHOP JavaScript onChangePropertyDropdown trigger
-			if (redSHOP.onChangePropertyDropdown.length > 0) {
-				for (var g = 0, n = redSHOP.onChangePropertyDropdown.length; g < n; g++) {
-					new redSHOP.onChangePropertyDropdown[g](allarg, propArr);
-				}
-			}
+			redSHOP.triggerCustomEvents('onChangePropertyDropdown', {
+				allarg: allarg,
+				propArr: propArr
+			});
 		}
 	};
 
@@ -1052,6 +1065,7 @@ function collectAccessory(product_id, relatedprd_id) {
 }
 
 // formatting number
+// formatting number
 function number_format(number, decimals, dec_point, thousands_sep) {
 
 	var n = number, prec = decimals;
@@ -1095,16 +1109,20 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 
 	// setting final price with currency Symbol
 	var display_price = "";
+	var position = redSHOP.RSConfig._('CURRENCY_SYMBOL_POSITION');
 
-
-	if (redSHOP.RSConfig._('CURRENCY_SYMBOL_POSITION') == 'front') {
-		display_price = redSHOP.RSConfig._('CURRENCY_SYMBOL_CONVERT') + s;
-	} else if (redSHOP.RSConfig._('CURRENCY_SYMBOL_POSITION') == 'behind') {
-		display_price = s + redSHOP.RSConfig._('CURRENCY_SYMBOL_CONVERT');
-	} else if (redSHOP.RSConfig._('CURRENCY_SYMBOL_POSITION') == 'none') {
-		display_price = s;
-	} else {
-		display_price = redSHOP.RSConfig._('CURRENCY_SYMBOL_CONVERT') + s;
+	switch (position)
+	{
+		case 'behind':
+			display_price = s + ' <span class="product-currency-symbol">' + redSHOP.RSConfig._('CURRENCY_SYMBOL_CONVERT') + '</span>';
+			break;
+		case 'none':
+			display_price = s;
+			break;
+		case 'front':
+		default:
+			display_price = '<span class="product-currency-symbol">' + redSHOP.RSConfig._('CURRENCY_SYMBOL_CONVERT') + '</span> ' + s;
+			break;
 	}
 
 	return display_price;
@@ -1370,7 +1388,11 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
 	var url = redSHOP.RSConfig._('AJAX_BASE_URL') + "&view=product&task=displayAdditionImage&redview=" + redSHOP.RSConfig._('REDSHOP_VIEW') + "&redlayout=" + redSHOP.RSConfig._('REDSHOP_LAYOUT');
 	url = url + suburl;
 
-	jQuery(redSHOP).trigger('onBeforeAjaxdisplayAdditionalImage', [url, product_id, allarg]);
+	redSHOP.triggerCustomEvents('onBeforeAjaxdisplayAdditionalImage', {
+		url: url,
+		product_id: product_id,
+		allarg: allarg
+	})
 
 	request = getHTTPObject();
 	request.onreadystatechange = function () {
@@ -1438,7 +1460,11 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
 			// preload slimbox
 			var imagehandle = {isenable: true, mainImage: false};
 			preloadSlimbox(imagehandle);
-			jQuery(redSHOP).trigger('onAfterAjaxdisplayAdditionalImage', [arrResponse, product_id, allarg]);
+			redSHOP.triggerCustomEvents('onAfterAjaxdisplayAdditionalImage', {
+				arrResponse: arrResponse,
+				product_id: product_id,
+				allarg: allarg
+			})
 		}
 	};
 	request.open("GET", url, true);
@@ -1919,7 +1945,7 @@ function setAddtocartForm(frmCartName, product_id) {
  *
  * @type  {Array}
  */
-var redShopAddtocartValidationJsTrigger = [];
+redSHOP.redShopAddtocartValidationJsTrigger = [];
 
 function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftcard_id, frmUserfieldName, totAttribute, totAccessory, totUserfield) {
 
@@ -1966,14 +1992,9 @@ function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftca
 		}
 
 		// Setting up redSHOP JavaScript Add to cart trigger
-		if (redShopAddtocartValidationJsTrigger.length > 0) {
-			for (var g = 0, n = redShopAddtocartValidationJsTrigger.length; g < n; g++) {
-				if (redShopAddtocartValidationJsTrigger[g](arguments) == false) {
-					return false;
-				}
-			}
-		}
-
+		redSHOP.triggerCustomEvents('redShopAddtocartValidationJsTrigger', {
+			arguments: arguments
+		});
 		document.getElementById(frmCartName).submit();
 
 	} else {
@@ -2011,13 +2032,9 @@ function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftca
 			}
 
 			// Setting up redSHOP JavaScript Add to cart trigger
-			if (redShopAddtocartValidationJsTrigger.length > 0) {
-				for (var g = 0, n = redShopAddtocartValidationJsTrigger.length; g < n; g++) {
-					if (redShopAddtocartValidationJsTrigger[g](arguments) == false) {
-						return;
-					}
-				}
-			}
+			redSHOP.triggerCustomEvents('redShopAddtocartValidationJsTrigger', {
+				arguments: arguments
+			});
 
 			if (ntotal > 0 && cansubmit == false) {
 				displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_id, totAttribute, totAccessory, totUserfield);
@@ -2211,7 +2228,9 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 					htmldata: responce,
 					onOpen: function() {
 						jQuery('select[id^=property_id_ajax_prd_]').select2();
-						jQuery(redSHOP).trigger('onDisplayAjaxCartBoxDetail', [params])
+						redSHOP.triggerCustomEvents('onDisplayAjaxCartBoxDetail', {
+							params: params
+						});
 					}
 				};
 				redBOX.initialize({});
@@ -2265,7 +2284,7 @@ var getExtraParamsArray = {};
  *
  * @type  {Array}
  */
-var redShopJsTrigger = [];
+redSHOP.redShopJsTrigger = [];
 
 function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_id, totAttribute, totAccessory, totUserfield) {
 	var frm = document.getElementById(frmCartName);
@@ -2362,12 +2381,10 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 
 	params = params + subscription_data + '&' + extraFieldPost;
 
-	// Setting up redSHOP JavaScript Add to cart trigger
-	if (redShopJsTrigger.length > 0) {
-		for (var g = 0, n = redShopJsTrigger.length; g < n; g++) {
-			new redShopJsTrigger[g](arguments);
-		}
-	}
+	// Setting up redSHOP Ja;vaScript Add to cart trigger
+	redSHOP.triggerCustomEvents('redShopJsTrigger', {
+		arguments: arguments
+	});
 
 	/*
 	 * getExtraParamsArray is a global JS variable to set additional add to cart parameters
@@ -2411,7 +2428,14 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 				document.getElementById('mod_cart_checkout_ajax').style.display = "";
 			}
 
-			jQuery(redSHOP).trigger('onAfterSubmitAjaxCartdetail', [responce, product_id, params, aj_flag, totAttribute, totAccessory]);
+			redSHOP.triggerCustomEvents('onAfterSubmitAjaxCartdetail', {
+				responce: responce,
+				product_id: product_id,
+				params: params,
+				aj_flag: aj_flag,
+				totAttribute: totAttribute,
+				totAccessory: totAccessory
+			});
 
 			// End
 			var newurl = redSHOP.RSConfig._('AJAX_BASE_URL') + "&view=product&pid=" + product_id + "&r_template=cartbox";
@@ -2433,7 +2457,10 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 						},
 						htmldata: responcebox,
 						onOpen: function () {
-							jQuery(redSHOP).trigger('onDisplayAjaxCartBox', [params, product_id])
+							redSHOP.triggerCustomEvents('onDisplayAjaxCartBox', {
+								params: params,
+								product_id: product_id
+							});
 							if (redSHOP.RSConfig._('AJAX_CART_DISPLAY_TIME') > 0) {
 								var fn = function () {
 									this.close();
@@ -2661,13 +2688,9 @@ function submitAjaxwishlistCartdetail(frmCartName, product_id, relatedprd_id, gi
 	var postVars = params.join('&') + '&' + extraFieldPost;
 
 	// Setting up redSHOP JavaScript Add to cart trigger
-	if (redShopJsTrigger.length > 0) {
-		for (var g = 0, n = redShopJsTrigger.length; g < n; g++) {
-			new redShopJsTrigger[g](arguments);
-		}
-		;
-	}
-	;
+	redSHOP.triggerCustomEvents('redShopJsTrigger', {
+		arguments: arguments
+	});
 
 	/*
 	 * getExtraParamsArray is a global JS variable to set additional add to cart parameters
