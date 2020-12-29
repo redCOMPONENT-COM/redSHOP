@@ -197,7 +197,7 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                     'tags.common.img_link',
                     array(
                         'link'     => $link,
-                        'linkAttr' => 'title="' . $product->product_name . '"',
+                        'linkAttr' => 'title="' . $product->product_name . '" width="' . Redshop::getConfig()->get('COMPARE_PRODUCT_THUMB_WIDTH') . '" height="' . Redshop::getConfig()->get('COMPARE_PRODUCT_THUMB_HEIGHT'). '"',
                         'src'      => $thumbUrl
                     ),
                     '',

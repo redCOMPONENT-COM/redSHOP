@@ -133,7 +133,7 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
                         ',
                         'src'      => $thumbUrl,
                         'alt'      => $alt,
-                        'imgAttr'  => 'title="' . $title . '"'
+                        'imgAttr'  => 'title="' . $title . '" width="' . Redshop::getConfig()->get('DEFAULT_WRAPPER_THUMB_WIDTH') . '" height="' . Redshop::getConfig()->get('DEFAULT_WRAPPER_THUMB_HEIGHT'). '"'
                     ),
                     '',
                     RedshopLayoutHelper::$layoutOption
