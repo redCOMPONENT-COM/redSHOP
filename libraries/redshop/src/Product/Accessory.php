@@ -47,7 +47,6 @@ class Accessory
          */
         if ($hasVAT != 1) {
             $accessoryPriceVAT     = 0;
-            $accessoryMainPriceVAT = 0;
 
             // Get vat for accessory price
             if ($accessoryPrice > 0) {
@@ -56,7 +55,6 @@ class Accessory
 
             // Add VAT to accessory prices
             $accessoryPrice     += $accessoryPriceVAT;
-            $accessoryMainPrice += $accessoryMainPriceVAT;
         }
 
         $saved = $accessoryMainPrice - $accessoryPrice;
