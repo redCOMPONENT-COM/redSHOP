@@ -50,10 +50,10 @@ class RedshopModelStatistic_Order extends RedshopModelList
      */
     public function getListQuery()
     {
-        $app = JFactory::getApplication()->input;
+        $input = JFactory::getApplication()->input;
 
-        $orderPaymentStatus = $app->getString('filter_payment_status', '');
-        $orderStatus = $app->getString('filter_order_status', '');
+        $orderPaymentStatus = $input->getString('filter_payment_status', '');
+        $orderStatus = $input->getString('filter_order_status', '');
 
         $format = $this->getDateFormat();
         $db     = $this->getDbo();

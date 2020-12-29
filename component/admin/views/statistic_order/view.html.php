@@ -46,17 +46,17 @@ class RedshopViewStatistic_Order extends RedshopViewAdmin
 
         $app = JFactory::getApplication()->input;
 
-        $filter_order_status = $app->getString('filter_order_status', '');
-        $filter_payment_status = $app->getString('filter_payment_status', '');
+        $filterOrderStatus = $app->getString('filter_order_status', '');
+        $filterPaymentStatus = $app->getString('filter_payment_status', '');
 
-        $lists['filter_order_status']         = RedshopHelperOrder::getStatusList(
+        $lists['filter_order_status'] = RedshopHelperOrder::getStatusList(
             'filter_order_status',
-            $filter_order_status,
+            $filterOrderStatus,
             'class="inputbox" size="1" onchange="document.adminForm.submit();"'
         );
         $lists['filter_payment_status'] = RedshopHelperOrder::getPaymentStatusList(
             'filter_payment_status',
-            $filter_payment_status,
+            $filterPaymentStatus,
             'class="inputbox" size="1" onchange="document.adminForm.submit();" '
         );
 
