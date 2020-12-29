@@ -19,6 +19,11 @@ defined('_JEXEC') or die;
 class RedshopViewStatistic_Order extends RedshopViewAdmin
 {
     /**
+     * @var  array
+     */
+    public $lists;
+
+    /**
      * Display the Statistic Customer view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -38,6 +43,24 @@ class RedshopViewStatistic_Order extends RedshopViewAdmin
         $this->filterForm = $model->getForm();
 
         $this->addToolbar();
+
+        $app = JFactory::getApplication()->input;
+
+        $filter_order_status = $app->getString('filter_order_status', '');
+        $filter_payment_status = $app->getString('filter_payment_status', '');
+
+        $lists['filter_order_status']         = RedshopHelperOrder::getStatusList(
+            'filter_order_status',
+            $filter_order_status,
+            'class="inputbox" size="1" onchange="document.adminForm.submit();"'
+        );
+        $lists['filter_payment_status'] = RedshopHelperOrder::getPaymentStatusList(
+            'filter_payment_status',
+            $filter_payment_status,
+            'class="inputbox" size="1" onchange="document.adminForm.submit();" '
+        );
+
+        $this->lists = $lists;
 
         parent::display($tpl);
     }

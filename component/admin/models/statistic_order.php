@@ -50,6 +50,11 @@ class RedshopModelStatistic_Order extends RedshopModelList
      */
     public function getListQuery()
     {
+        $app = JFactory::getApplication()->input;
+
+        $orderPaymentStatus = $app->getString('filter_payment_status', '');
+        $orderStatus = $app->getString('filter_order_status', '');
+
         $format = $this->getDateFormat();
         $db     = $this->getDbo();
         $query  = $db->getQuery(true)
@@ -57,9 +62,19 @@ class RedshopModelStatistic_Order extends RedshopModelList
             ->select('FROM_UNIXTIME(cdate, "%Y%m%d") AS orderdate')
             ->select('SUM(order_total) AS order_total')
             ->select('COUNT(*) AS count')
-            ->from($db->qn('#__redshop_orders'))
-            ->where($db->qn('order_payment_status') . ' = ' . $db->quote('Paid'))
-            ->group($db->qn('viewdate'));
+            ->from($db->qn('#__redshop_orders'));
+
+        if ($orderPaymentStatus !== '')
+        {
+            $query->where($db->qn('order_payment_status') . ' = ' . $db->q($orderPaymentStatus));
+        }
+
+        if ($orderStatus !== '')
+        {
+            $query->where($db->qn('order_status') . ' = ' . $db->q($orderStatus));
+        }
+
+        $query->group($db->qn('viewdate'));
 
         // Filter: Date Range
         $filterDateRange = $this->state->get('filter.date_range', '');
