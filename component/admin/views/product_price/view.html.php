@@ -47,8 +47,6 @@ class RedshopViewProduct_price extends RedshopViewAdmin
 
         $this->prices = $prices;
 
-        $this->pid = $productId;
-
         $this->request_url = $uri->toString();
 
         parent::display($tpl);
