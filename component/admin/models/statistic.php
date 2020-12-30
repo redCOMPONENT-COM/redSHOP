@@ -45,7 +45,7 @@ class RedshopModelStatistic extends RedshopModelList
     /**
      * get most popular product data for statistic
      *
-     * @return  object.
+     * @return  object
      *
      * @since   2.0.0.3
      */
@@ -85,7 +85,7 @@ class RedshopModelStatistic extends RedshopModelList
 
         $mostPopular = $this->_getList($query);
 
-        if ($this->_filteroption && $minDate != "" && $minDate != 0) {
+        if ($this->_filteroption && !empty($minDate)) {
             while ($minDate < strtotime($today)) {
                 $list   = $this->getNextInterval($today);
                 $query2 = clone $query;
@@ -228,7 +228,7 @@ class RedshopModelStatistic extends RedshopModelList
     /**
      * get product best seller data for statistic
      *
-     * @return  object.
+     * @return  object
      *
      * @since   2.0.0.3
      */
@@ -267,7 +267,7 @@ class RedshopModelStatistic extends RedshopModelList
 
         $bestSallers = $this->_getList($query);
 
-        if ($this->_filteroption && $minDate != "" && $minDate != 0) {
+        if ($this->_filteroption && !empty($minDate)) {
             while ($minDate < strtotime($today)) {
                 $list   = $this->getNextInterval($today);
                 $query2 = clone $query;
@@ -301,7 +301,7 @@ class RedshopModelStatistic extends RedshopModelList
     /**
      * get new product data for statistic
      *
-     * @return  object.
+     * @return  object
      *
      * @since   2.0.0.3
      */
@@ -332,7 +332,7 @@ class RedshopModelStatistic extends RedshopModelList
 
         $newProducts = $this->_getList($query);
 
-        if ($this->_filteroption && $minDate != "" && $minDate != 0) {
+        if ($this->_filteroption && !empty($minDate)) {
             while (strtotime($minDate) < strtotime($today)) {
                 $list   = $this->getNextInterval($today);
                 $query2 = clone $query;
@@ -366,7 +366,7 @@ class RedshopModelStatistic extends RedshopModelList
     /**
      * get new orders data for statistic
      *
-     * @return  object.
+     * @return  object
      *
      * @since   2.0.0.3
      */
@@ -401,7 +401,7 @@ class RedshopModelStatistic extends RedshopModelList
 
         $newOrders = $this->_getList($query);
 
-        if ($this->_filteroption && $minDate != "" && $minDate != 0) {
+        if ($this->_filteroption && !empty($minDate)) {
             while ($minDate < strtotime($today)) {
                 $list   = $this->getNextInterval($today);
                 $query2 = clone $query;
@@ -551,7 +551,7 @@ class RedshopModelStatistic extends RedshopModelList
     /**
      * get total turnover
      *
-     * @return  object.
+     * @return  object
      *
      * @since   2.0.0.3
      */
@@ -583,7 +583,7 @@ class RedshopModelStatistic extends RedshopModelList
 
         $turnOver = $this->_getList($query);
 
-        if ($this->_filteroption && $minDate != "" && $minDate != 0) {
+        if ($this->_filteroption && !empty($minDate)) {
             while ($minDate < strtotime($today)) {
                 $list = $this->getNextInterval($today);
 
@@ -618,7 +618,7 @@ class RedshopModelStatistic extends RedshopModelList
     /**
      * get avarage order amount
      *
-     * @return  object.
+     * @return  object
      *
      * @since   2.0.0.3
      */
