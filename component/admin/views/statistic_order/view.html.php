@@ -48,6 +48,7 @@ class RedshopViewStatistic_Order extends RedshopViewAdmin
 
         $filterOrderStatus = $app->getString('filter_order_status', '');
         $filterPaymentStatus = $app->getString('filter_payment_status', '');
+        $lists = array();
 
         $lists['filter_order_status'] = RedshopHelperOrder::getStatusList(
             'filter_order_status',
