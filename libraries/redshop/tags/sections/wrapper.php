@@ -85,6 +85,7 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
         $wObj               = new stdClass;
         $wObj->id   = 0;
         $wObj->name = JText::_('COM_REDSHOP_SELECT_WRAPPER');
+        $warray             = array();
         $warray[]           = $wObj;
         $wrapperimageDiv    = "";
         $wrapperimageDiv    .= "<table><tr>";
