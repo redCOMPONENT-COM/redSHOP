@@ -471,7 +471,7 @@ trait CartItem
 
             $wrapperName = "";
 
-            if (isset($cart[$i]['wrapper_id'])) {
+            if (!empty($cart[$i]['wrapper_id'])) {
                 $wrapper = \RedshopHelperProduct::getWrapper($productId, $cart[$i]['wrapper_id']);
 
                 if (count($wrapper) > 0) {

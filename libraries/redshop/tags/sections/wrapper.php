@@ -19,8 +19,7 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
     public $tags = array(
         '{wrapper_dropdown}',
         '{wrapper_image}',
-        '{wrapper_price}',
-        '{wrapper_add_checkbox}'
+        '{wrapper_price}'
     );
 
     /**
@@ -244,24 +243,6 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
             $this->addReplace('{wrapper_dropdown}', $lists ['wrapper_id']);
             $this->addReplace('{wrapper_image}', $wrapperimageDiv);
             $this->addReplace('{wrapper_price}', '');
-            $wrapperCheckbox = JText::_('COM_REDSHOP_Add_WRAPPER');
-
-            $checkbox = RedshopLayoutHelper::render(
-                'tags.common.input',
-                array(
-                    'name'  => 'wrapper_check',
-                    'id'    => 'wrapper_check',
-                    'type'  => 'checkbox',
-                    'value' => '1',
-                    'attr'  => 'onclick="calculateTotalPrice(' . $data->product_id . ', 0);" ',
-                    'class' => ''
-                ),
-                '',
-                RedshopLayoutHelper::$layoutOption
-            );
-
-            $wrapperCheckbox .= $checkbox;
-            $this->addReplace('{wrapper_add_checkbox}', $wrapperCheckbox);
         } else {
             return '';
         }
