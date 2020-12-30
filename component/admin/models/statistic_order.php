@@ -199,7 +199,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
     /**
      * Count product by order
      *
-     * @return  object
+     * @return  array
      *
      * @since   2.0.0.3
      */
