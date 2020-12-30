@@ -143,9 +143,6 @@ JHtml::_('behavior.formvalidation');
             resetAttributeset();
         }
 
-        $('#redSHOPAdminContainer').css("opacity", 0.2);
-        $('.wait-loading').css("z-index", 9999 );
-
         submitform(pressbutton);
     };
 
