@@ -789,12 +789,16 @@ class RedshopHelperProduct
                 )
                 ->from($db->qn('#__redshop_product_price', 'p'));
 
-            if ($userId) {
-                $query->leftJoin($db->qn('#__redshop_users_info', 'u') . ' ON u.shopper_group_id = p.shopper_group_id')
-                    ->where('u.user_id = ' . (int)$userId)
-                    ->where('u.address_type = ' . $db->quote('BT'));
-            } else {
-                $query->where('p.shopper_group_id = ' . (int)$shopperGroupId);
+            $productPrice = $db->setQuery($query)->loadAssoc();
+
+            if ($productPrice['shopper_group_id'] != 0) {
+                if ($userId) {
+                    $query->leftJoin($db->qn('#__redshop_users_info', 'u') . ' ON u.shopper_group_id = p.shopper_group_id')
+                        ->where('u.user_id = ' . (int)$userId)
+                        ->where('u.address_type = ' . $db->quote('BT'));
+                } else {
+                    $query->where('p.shopper_group_id = ' . (int)$shopperGroupId);
+                }
             }
 
             $query->where('p.product_id = ' . (int)$productId)
