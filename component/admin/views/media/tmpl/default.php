@@ -101,7 +101,7 @@ if ($showbuttons == 1) {
                     <div class="btn-wrapper input-append">
                         <input type="text" name="filter_search" id="filter_search" value="<?php echo $this->filter_search; ?>"
                                placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>"/>
-                        <button class="btn" onclick="document.adminForm.submit();"><?php echo JText::_(
+                        <button class="btn" type="submit" onclick="document.adminForm.submit();"><?php echo JText::_(
                                 'COM_REDSHOP_SEARCH'
                             ); ?></button>
                         <input type="button" value="Reset" class="btn reset" onclick="resetFilter();"/>

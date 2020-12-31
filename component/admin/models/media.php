@@ -51,12 +51,12 @@ class RedshopModelMedia extends RedshopModel
             $query->where('media_type = ' . $db->q($media_type));
         }
         
-        $filter_search = $this->getState('filter_search', null);
+        $filterSearch = $this->getState('filter_search', null);
         
-        if ($filter_search) {
+        if ($filterSearch) {
             $query->where(
-                 "(" . $db->qn('media_name') . " LIKE " . $db->q('%' . $filter_search . '%')
-               . " OR " . $db->qn('media_alternate_text') . " LIKE " . $db->q('%' . $filter_search . '%') . ")"
+                 "(" . $db->qn('media_name') . " LIKE " . $db->q('%' . $filterSearch . '%')
+               . " OR " . $db->qn('media_alternate_text') . " LIKE " . $db->q('%' . $filterSearch . '%') . ")"
             );
         }
 
@@ -297,7 +297,7 @@ class RedshopModelMedia extends RedshopModel
         $conditions = array();
         if (!isset($order) || $order == array())
         {
-            $order  = JFactory::getApplication()->input->post->get('order', array(0), 'array');
+            $order  = \JFactory::getApplication()->input->post->get('order', array(0), 'array');
         }
         
         // Update ordering values
