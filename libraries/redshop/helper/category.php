@@ -558,12 +558,13 @@ class RedshopHelperCategory
         /* query builder for product's custom fields */
         $customField = $filters['custom_field'];
         $key         = 0;
-        $subQuery    = array();
 
         foreach ($customField as $fieldId => $fieldValues) {
             if (empty($fieldValues)) {
                 continue;
             }
+
+            $subQuery = [];
 
             foreach ($fieldValues as $value) {
                 $subQuery[] = 'FIND_IN_SET("' . urldecode($value) . '", ' . $db->qn('fd' . $key . '.data_txt') . ')';
@@ -576,10 +577,10 @@ class RedshopHelperCategory
             )
                 ->where($db->qn('fd' . $key . '.fieldid') . ' = ' . $db->q((int)$fieldId));
             $key++;
-        }
 
-        if (!empty($subQuery)) {
-            $query->where('(' . implode(' OR ', $subQuery) . ')');
+            if (!empty($subQuery)) {
+                $query->where('(' . implode(' OR ', $subQuery) . ')');
+            }
         }
 
         return $query;
