@@ -618,7 +618,7 @@ class RedshopModelStatistic extends RedshopModelList
     /**
      * get avarage order amount
      *
-     * @return  string
+     * @return  array|string
      *
      * @since   2.0.0.3
      */
