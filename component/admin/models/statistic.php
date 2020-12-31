@@ -45,7 +45,7 @@ class RedshopModelStatistic extends RedshopModelList
     /**
      * get most popular product data for statistic
      *
-     * @return  object[]  An array of results.
+     * @return  array  An array of results.
      *
      * @since   2.0.0.3
      */
@@ -228,7 +228,7 @@ class RedshopModelStatistic extends RedshopModelList
     /**
      * get product best seller data for statistic
      *
-     * @return  object[]  An array of results.
+     * @return  array  An array of results.
      *
      * @since   2.0.0.3
      */
@@ -301,7 +301,7 @@ class RedshopModelStatistic extends RedshopModelList
     /**
      * get new product data for statistic
      *
-     * @return  object[]  An array of results.
+     * @return  array  An array of results.
      *
      * @since   2.0.0.3
      */
@@ -366,7 +366,7 @@ class RedshopModelStatistic extends RedshopModelList
     /**
      * get new orders data for statistic
      *
-     * @return  object[]  An array of results.
+     * @return  array  An array of results.
      *
      * @since   2.0.0.3
      */
@@ -551,7 +551,7 @@ class RedshopModelStatistic extends RedshopModelList
     /**
      * get total turnover
      *
-     * @return  object[]  An array of results.
+     * @return  array  An array of results.
      *
      * @since   2.0.0.3
      */
@@ -618,7 +618,7 @@ class RedshopModelStatistic extends RedshopModelList
     /**
      * get avarage order amount
      *
-     * @return  object[]  An array of results.
+     * @return  string
      *
      * @since   2.0.0.3
      */
