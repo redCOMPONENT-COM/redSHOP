@@ -367,4 +367,16 @@ class Helper
             $data[$field->name] = $field->data_txt;
         }
     }
+    /**
+     * @param float $discountPrice
+     * @param float $updateDiscount
+     *
+     * @return float
+     */
+    public static function totalDiscountCalculator($discountPrice = 0 , $updateDiscount = 0)
+    {
+        $totalDiscountPrice = $discountPrice + $updateDiscount;
+
+        return $totalDiscountPrice;
+    }
 }
