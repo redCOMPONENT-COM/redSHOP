@@ -132,8 +132,15 @@ class RedshopViewCheckout extends RedshopView
                 }
             }
 
+            $paymentMethods          = RedshopHelperUtility::getPlugins('redshop_payment', 1);
+            $selectedPaymentMethodId = 0;
+
+            if (count($paymentMethods) > 0) {
+                $selectedPaymentMethodId = $paymentMethods[0]->element;
+            }
+
             $shipping_rate_id = $app->input->getInt('shipping_rate_id');
-            $element          = $app->input->getCmd('payment_method_id');
+            $element          = $app->input->getCmd('payment_method_id', $selectedPaymentMethodId);
             $ccinfo           = $app->input->getInt('ccinfo');
 
             if (!isset($cart['voucher_discount'])) {
