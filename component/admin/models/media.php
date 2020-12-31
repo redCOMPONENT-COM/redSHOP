@@ -387,8 +387,10 @@ class RedshopModelMedia extends RedshopModel
             ->where($db->qn('media_id') . ' = ' . $id);
         $db->setQuery($query);
 
-        if (!$db->execute()) {
-            $this->setError($db->getErrorMsg());
+        try {
+            $db->execute();
+        } catch (\RuntimeException $e) {
+            \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_ERROR_FILE_DELETING'), 'error');
 
             return false;
         }
@@ -414,8 +416,10 @@ class RedshopModelMedia extends RedshopModel
         $fileObj->media_mimetype = $file['media_mimetype'];
         $fileObj->published      = 1;
 
-        if (!$db->insertObject('#__redshop_media', $fileObj)) {
-            $this->setError($db->getErrorMsg());
+        try {
+            $db->insertObject('#__redshop_media', $fileObj);
+        } catch (\RuntimeException $e) {
+            \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_MEDIA_CREATE_ERROR'), 'error');
 
             return false;
         }
