@@ -1498,7 +1498,7 @@ class RedshopHelperOrder
             self::$orderStatusList = self::getOrderStatusList();
         }
 
-        $types[]   = JHtml::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_STATUS_LBL') . ' -');
+        $types[]   = JHtml::_('select.option', '', '- ' . JText::_('COM_REDSHOP_SELECT_STATUS_LBL') . ' -');
         $types     = array_merge($types, self::$orderStatusList);
         $totStatus = explode(",", $selected);
 
