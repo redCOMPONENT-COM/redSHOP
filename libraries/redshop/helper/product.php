@@ -962,10 +962,9 @@ class RedshopHelperProduct
             $templateProduct = RedshopHelperTax::replaceVatInformation($templateProduct);
 
             if (strpos($templateDesc, "{subproductlimit:") !== false) {
-                $usePerPageLimit = true;
                 $perpage         = explode('{subproductlimit:', $templateDesc);
                 $perpage         = explode('}', $perpage[1]);
-                $limitProduct    = intval($perpage[0]);
+                $limitProduct    = intval($perpage[0]) > $limitProduct ? $limitProduct : intval($perpage[0]);
                 $templateDesc    = str_replace("{subproductlimit:" . intval($perpage[0]) . "}", "", $templateDesc);
             }
 

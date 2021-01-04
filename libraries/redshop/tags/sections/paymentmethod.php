@@ -181,7 +181,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
                     'checked'            => $checked,
                     'isCompany'          => $this->data['isCompany'],
                     'eanNumber'          => $this->data['eanNumber'],
-                    'logo'               => $logo,
+                    'logo'               => JUri::base() . $logo,
                     'showImage'          => $showImage,
                 ),
                 '',

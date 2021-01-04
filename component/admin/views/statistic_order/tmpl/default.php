@@ -70,6 +70,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 <?php echo $this->filterForm->getInput('date_group', 'filter') ?>
             </div>
         </div>
+        <div class="filterItem">
+            <div class="js-stools clearfix">
+                <?php echo $this->lists['filter_payment_status']; ?>
+            </div>
+        </div>
+        <div class="filterItem">
+            <div class="js-stools clearfix">
+                <?php echo $this->lists['filter_order_status']; ?>
+            </div>
+        </div>
         <div class="filterItem pull-right">
             <div class="js-stools clearfix">
                 <?php echo $this->filterForm->getInput('limit', 'list') ?>
