@@ -45,13 +45,10 @@ class RedshopHelperDiscount
 
         $result      = false;
         $currentTime = time();
-
+	    $max = null;
         $discounts = $shopperGroupDiscounts->getAll();
 
         foreach ($discounts as $discount) {
-            /** @var RedshopEntityDiscount $discount */
-            $potentialDiscount = null;
-
             // Skip if this discount is not published
             if (!$discount->get('published', false)) {
                 continue;
@@ -76,16 +73,23 @@ class RedshopHelperDiscount
                 if (($condition == 1 && $amount > $subTotal)
                     || ($condition == 2 && $amount == $subTotal)
                     || ($condition == 3 && $amount < $subTotal)) {
-                    $potentialDiscount = $discount;
+	                if ($max == null) {
+		                $max = $discount->get('amount');
+
+		                if (false === $result || $result->amount > $discount->get('amount'))
+		                {
+			                $result = $discount;
+		                }
+	                } else {
+		                if ($discount->get('amount') > $max && $max < $subTotal){
+			                $result = $discount;
+		                }
+	                }
                 } else {
                     continue;
                 }
             } else {
                 continue;
-            }
-
-            if (false === $result) {
-                $result = $potentialDiscount;
             }
         }
 

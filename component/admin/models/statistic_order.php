@@ -50,6 +50,11 @@ class RedshopModelStatistic_Order extends RedshopModelList
      */
     public function getListQuery()
     {
+        $input = JFactory::getApplication()->input;
+
+        $orderPaymentStatus = $input->getString('filter_payment_status', '');
+        $orderStatus = $input->getString('filter_order_status', '');
+
         $format = $this->getDateFormat();
         $db     = $this->getDbo();
         $query  = $db->getQuery(true)
@@ -57,9 +62,19 @@ class RedshopModelStatistic_Order extends RedshopModelList
             ->select('FROM_UNIXTIME(cdate, "%Y%m%d") AS orderdate')
             ->select('SUM(order_total) AS order_total')
             ->select('COUNT(*) AS count')
-            ->from($db->qn('#__redshop_orders'))
-            ->where($db->qn('order_payment_status') . ' = ' . $db->quote('Paid'))
-            ->group($db->qn('viewdate'));
+            ->from($db->qn('#__redshop_orders'));
+
+        if ($orderPaymentStatus !== '')
+        {
+            $query->where($db->qn('order_payment_status') . ' = ' . $db->q($orderPaymentStatus));
+        }
+
+        if ($orderStatus !== '')
+        {
+            $query->where($db->qn('order_status') . ' = ' . $db->q($orderStatus));
+        }
+
+        $query->group($db->qn('viewdate'));
 
         // Filter: Date Range
         $filterDateRange = $this->state->get('filter.date_range', '');
@@ -86,7 +101,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
     /**
      * get date Format for new statistic
      *
-     * @return  string.
+     * @return  string
      *
      * @since   2.0.0.3
      */
@@ -144,7 +159,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
     /**
      * get Order data for export
      *
-     * @return  array.
+     * @return  array
      *
      * @since   2.0.0.3
      */
@@ -184,7 +199,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
     /**
      * Count product by order
      *
-     * @return  object.
+     * @return  array
      *
      * @since   2.0.0.3
      */

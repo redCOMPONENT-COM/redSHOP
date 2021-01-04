@@ -54,6 +54,7 @@ class ShippingPostDanmark extends CheckoutMissingData
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$saveAddressOnMap, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$saveAddressOnMap);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+		$I->wait(0.5);
 		$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$termAndConditions);
