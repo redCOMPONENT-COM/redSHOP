@@ -624,8 +624,16 @@ class RedshopModelSearch extends RedshopModel
         $layout       = $this->getState('layout', 'default');
 
         $db    = JFactory::getDbo();
-        $total = $db->setQuery($this->_buildQuery(0, true))
-            ->loadResult();
+        $subQueryCount = clone $this->_buildQuery(0, true);
+        $subQueryCount->clear('select')->clear('group')->clear('limit')->clear('order')
+            ->select($db->qn('p.product_id'))
+            ->group($db->qn('p.product_id'));
+
+        $queryCount = $db->getQuery(true);
+        $queryCount->select('count(*)')
+            ->from($subQueryCount, 'count');
+
+        $total = $db->setQuery($queryCount)->loadResult();
 
         if ($layout == 'newproduct' || $layout == 'productonsale') {
             if ($total > $productlimit && $productlimit != "") {
@@ -828,7 +836,7 @@ class RedshopModelSearch extends RedshopModel
                                         'tooltip.png',
                                         '',
                                         '',
-                                        false
+                                        ''
                                     );
                             } ?>
                         </div>
@@ -866,7 +874,7 @@ class RedshopModelSearch extends RedshopModel
                         <?php echo $type->type_name; ?>
                         <?php
                         if (strlen($type->tooltip) > 0) {
-                            echo ' ' . JHtml::tooltip($type->tooltip, $type->type_name, 'tooltip.png', '', '', false);
+                            echo ' ' . JHtml::tooltip($type->tooltip, $type->type_name, 'tooltip.png', '', '', '');
                         } ?>
                     </div>
                     <div class="typevalue <?php echo $type->type_name_css; ?>">
@@ -1185,6 +1193,7 @@ class RedshopModelSearch extends RedshopModel
         $manufacturers   = !empty($pk['manufacturer']) ? $pk['manufacturer'] : array();
         $keyword         = !empty($pk['keyword']) ? $pk['keyword'] : "";
         $customField     = !empty($pk['custom_field']) ? $pk['custom_field'] : "";
+        $max             = null;
 
         if (isset($pk["filterprice"])) {
             $min = $pk["filterprice"]['min'];
@@ -1394,9 +1403,9 @@ class RedshopModelSearch extends RedshopModel
         }
 
         if ($layout == 'productonsale' || $layout == 'featuredproduct') {
-            $result = $item->params->get('template_id');
+            $result = $item->params->get('template_id', 0);
 
-            if ($result != 0) {
+            if ($result !== 0) {
                 $templateid = $result;
                 $cid        = 0;
             }

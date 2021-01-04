@@ -105,13 +105,13 @@ class CheckoutProductInManufacturerDetailCest
 		$this->customerInformation = array
 		(
 			"email"      => $this->faker->email,
-			"firstName"  => "Tester",
-			"lastName"   => "User",
-			"address"    => "Some Place in the World",
-			"postalCode" => "23456",
-			"city"       => "Ho chi Minh",
-			"country"    => "Viet Nam",
-			"state"      => "Ho chi Minh",
+			"firstName"  => $this->faker->firstName,
+			"lastName"   => $this->faker->lastName,
+			"address"    => "redWEB ApS",
+			"postalCode" => "5000",
+			"city"       => "5000 Odense C",
+			"country"    => "Denmark",
+			"state"      => "Gerthasvej",
 			"phone"      => "8787878787"
 		);
 
