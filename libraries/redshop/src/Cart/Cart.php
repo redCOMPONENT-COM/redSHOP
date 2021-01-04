@@ -139,7 +139,7 @@ class Cart
             $wrapperVat = 0;
             $wrapperPrice = 0;
 
-            if (isset($cart[$i]['wrapper_id'])) {
+            if (!empty($cart[$i]['wrapper_id'])) {
                 $wrappers = \Redshop\Wrapper\Helper::getWrapperPrice(
                     [
                         'product_id' => $cart[$i]['product_id'] ?? 0,

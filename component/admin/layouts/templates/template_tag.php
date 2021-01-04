@@ -557,7 +557,7 @@ switch ($name) {
     case 'wrapper':
         ?>
         <b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_WRAPPER_HINT'); ?></b><br/><br/>
-        {wrapper_dropdown} {wrapper_image} {wrapper_add_checkbox} {wrapper_price}
+        {wrapper_dropdown} {wrapper_image} {wrapper_price}
         <?php
         break;
 }
