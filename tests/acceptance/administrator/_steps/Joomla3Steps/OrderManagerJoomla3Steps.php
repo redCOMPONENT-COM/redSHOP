@@ -400,7 +400,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible($userOrderPage->returnXpathAttributeValue($product['size']), 30);
-		$I->wait(0.5);
+		$I->wait(1);
 		$I->seeElement($userOrderPage->returnXpathAttributeName($product['attributeName']));
 		$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
 		$I->waitForJs('return document.readyState == "complete"', 10);
