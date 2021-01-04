@@ -84,6 +84,7 @@ class Accessory
 
                         $result = \Redshop\Cart\Cart::add($cartData);
                         $cart   = \Redshop\Cart\Helper::getCart();
+                        unset($cart['AccessoryAsProduct']);
 
                         if (!is_bool($result) || !$result) {
                             $errorMessage = ($result) ? $result : \JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
