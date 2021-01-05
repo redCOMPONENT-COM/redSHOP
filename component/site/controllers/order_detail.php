@@ -305,8 +305,8 @@ class RedshopControllerOrder_Detail extends RedshopController
 
             if ($product_data->expired == 1 || $product_data->not_for_sale == 1) {
                 $app->enqueueMessage(
-                    sprintf(
-                        \JText::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'),
+                    \Joomla\CMS\Language\Text::sprintf(
+                        'COM_REDSHOP_PRODUCT_IS_EXPIRED',
                         $product_data->product_name,
                         $product_data->product_id
                     ),
