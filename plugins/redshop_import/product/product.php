@@ -613,7 +613,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                         $db->setQuery($query)->execute();
                     } else {
                         $columns = $db->qn(array_keys($media));
-                        $values  = $db->q(array_values($media));
+                        $values  = array_values($media);
 
                         $query->clear()
                             ->insert($db->qn('#__redshop_media'))
@@ -798,7 +798,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                     $db->setQuery($query)->execute();
                 } else {
                     $columns = $db->qn(array_keys($media));
-                    $values  = $db->q(array_values($media));
+                    $values  = array_values($media);
 
                     $query->clear()
                         ->insert($db->qn('#__redshop_media'))
