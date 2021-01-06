@@ -71,26 +71,19 @@ class Tableattributeprices_detail extends JTable
                 || ($xidEnd != intval($this->price_id)
                     && $xidEnd != 0))
         ) {
-            $this->_error = \Joomla\CMS\Language\Text::sprintf(
-                'WARNNAMETRYAGAIN',
-                \Joomla\CMS\Language\Text::_('COM_REDSHOP_PRICE_ALREADY_EXISTS')
-            );
+            \Joomla\CMS\Factory::getApplication()->enqueueMessage(\Joomla\CMS\Language\Text::_('COM_REDSHOP_QUANTITY_PRICE_ALREADY_EXISTS'), 'error');
 
             return false;
         }
 
         if ($this->price_quantity_start > $this->price_quantity_end) {
-            throw new \Exception(
-                \Joomla\CMS\Language\Text::_('COM_REDSHOP_PRODUCT_PRICE_QUANTITY_END_MUST_MORE_THAN_QUANTITY_START')
-            );
+            \Joomla\CMS\Factory::getApplication()->enqueueMessage(\Joomla\CMS\Language\Text::_('COM_REDSHOP_PRODUCT_PRICE_QUANTITY_END_MUST_MORE_THAN_QUANTITY_START'), 'error');
 
             return false;
         }
 
         if ($this->discount_start_date > $this->discount_end_date) {
-            throw new \Exception(
-                \Joomla\CMS\Language\Text::_('COM_REDSHOP_PRODUCT_PRICE_END_DATE_MUST_MORE_THAN_START_DATE')
-            );
+            \Joomla\CMS\Factory::getApplication()->enqueueMessage(\Joomla\CMS\Language\Text::_('COM_REDSHOP_PRODUCT_PRICE_END_DATE_MUST_MORE_THAN_START_DATE'), 'error');
 
             return false;
         }
