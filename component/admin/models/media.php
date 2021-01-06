@@ -472,8 +472,8 @@ class RedshopModelMedia extends RedshopModel
         $media_type = $this->getUserStateFromRequest($this->context . '.media_type', 'media_type', '');
         $this->setState('media_type', $media_type);
 
-        $filter_search = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
-        $this->setState('filter_search', $filter_search);
+        $filterSearch = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+        $this->setState('filter_search', $filterSearch);
 
         $folder = \Joomla\CMS\Factory::getApplication()->input->getPath('folder', '');
         $this->setState('folder', $folder);
