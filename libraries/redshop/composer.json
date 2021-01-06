@@ -12,7 +12,8 @@
     "whichbrowser/parser": "2.0.32",
     "imagine/imagine": "^0.7.1",
     "ps/image-optimizer": "^1.1.2",
-    "guzzlehttp/guzzle": "^6.5"
+    "guzzlehttp/guzzle": "^6.5",
+    "nesbot/carbon": "^2.42.0"
   },
   "autoload": {
     "psr-4": {

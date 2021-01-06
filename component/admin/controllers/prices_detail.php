@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 
 class RedshopControllerPrices_detail extends RedshopController
 {
-    use \Redshop\Model\Traits\HasDateTimeRange;
-
     public function __construct($default = array())
     {
         parent::__construct($default);
@@ -56,7 +54,7 @@ class RedshopControllerPrices_detail extends RedshopController
         $cid                      = $this->input->post->get('cid', array(0), 'array');
         $post ['price_id']        = $cid [0];
 
-        $this->handleDateTimeRange($post['discount_start_date'], $post['discount_end_date']);
+        \Redshop\DateTime\DateTime::handleDateTimeRange($post['discount_start_date'], $post['discount_end_date']);
 
         // Store current post to user state
         $context = "com_redshop.edit.product_price";

@@ -24,8 +24,6 @@ jimport('joomla.filesystem.file');
  */
 class RedshopModelProduct_Detail extends RedshopModel
 {
-    use Redshop\Model\Traits\HasDateTimeRange;
-
     protected static $childproductlist = array();
     public $id = null;
     public $data = null;
@@ -893,7 +891,7 @@ class RedshopModelProduct_Detail extends RedshopModel
             $data['product_full_image'] = $this->changeCopyImageName($data['old_image']);
         }
 
-        $this->handleDateTimeRange($data['discount_stratdate'], $data['discount_enddate']);
+        \Redshop\DateTime\DateTime::handleDateTimeRange($data['discount_stratdate'], $data['discount_enddate']);
 
         if (!$row->bind($data)) {
             $this->app->enqueueMessage(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg(), 'error');
