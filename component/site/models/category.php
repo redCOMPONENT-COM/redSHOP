@@ -38,6 +38,8 @@ class RedshopModelCategory extends RedshopModel
 
     public $_total = 0;
 
+    public $_pagination = null;
+
     // @ToDo In feature, when class Category extends RedshopModelList, replace filter_fields in constructor
     public $filter_fields = array(
         'p.product_name',
@@ -60,7 +62,8 @@ class RedshopModelCategory extends RedshopModel
     public function __construct()
     {
         $app    = JFactory::getApplication();
-        $input  = JFactory::getApplication()->input;
+        $input  = $app->input;
+        /** @scrutinizer ignore-call */
         $params = $app->getParams('com_redshop');
         $layout = $input->getCmd('layout', 'detail');
         $print  = $input->getCmd('print', '');
@@ -249,9 +252,10 @@ class RedshopModelCategory extends RedshopModel
             $db->setQuery($query, $limitstart, $endlimit);
         }
 
-        $queryCount = clone $query;
-        $queryCount->clear('select')->clear('group')->clear('limit')
-            ->select('COUNT(DISTINCT(p.product_id))');
+        $subQueryCount = clone $query;
+        $subQueryCount->clear('select')->clear('group')->clear('limit')->clear('order')
+            ->select($db->qn('p.product_id'))
+            ->group($db->qn('p.product_id'));
 
         $this->_product = array();
 
@@ -360,6 +364,10 @@ class RedshopModelCategory extends RedshopModel
             $this->_total   = count($newProduct);
             $this->_product = array_slice($newProduct, $limitstart, $endlimit);
         } else {
+            $queryCount = $db->getQuery(true);
+            $queryCount->select('count(*)')
+                ->from($subQueryCount, 'count');
+
             $db->setQuery($queryCount);
             $this->_total = $db->loadResult();
         }
@@ -770,6 +778,7 @@ class RedshopModelCategory extends RedshopModel
     protected function populateState($ordering = '', $direction = '')
     {
         $app              = JFactory::getApplication();
+        /** @scrutinizer ignore-call */
         $params           = $app->getParams('com_redshop');
         $selectedTemplate = Redshop::getConfig()->get('DEFAULT_CATEGORYLIST_TEMPLATE');
         $layout           = $app->input->getCmd('layout', 'detail');
