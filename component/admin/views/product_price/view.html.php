@@ -17,7 +17,6 @@ class RedshopViewProduct_price extends RedshopViewAdmin
         $productId = JFactory::getApplication()->input->get('pid');
 
         $db       = JFactory::getDbo();
-        $uri      = JFactory::getURI();
         $document = JFactory::getDocument();
 
         $document->setTitle(JText::_('COM_REDSHOP_PRODUCT_PRICE'));
@@ -46,8 +45,6 @@ class RedshopViewProduct_price extends RedshopViewAdmin
         $this->product = $product;
 
         $this->prices = $prices;
-
-        $this->request_url = $uri->toString();
 
         parent::display($tpl);
     }
