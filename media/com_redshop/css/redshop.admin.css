@@ -18550,6 +18550,8 @@ td .controls .checkbox {
 
 .joom-box img {
     margin-bottom: 5px;
+    max-height: 150px;
+    object-fit: cover;
 }
 
 .attrSecondRow {

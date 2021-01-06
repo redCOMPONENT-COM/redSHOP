@@ -50,6 +50,15 @@ class RedshopModelMedia extends RedshopModel
         if ($media_type = $this->getState('media_type')) {
             $query->where('media_type = ' . $db->q($media_type));
         }
+        
+        $filterSearch = $this->getState('filter_search', null);
+        
+        if ($filterSearch) {
+            $query->where(
+                 "(" . $db->qn('media_name') . " LIKE " . $db->q('%' . $filterSearch . '%')
+               . " OR " . $db->qn('media_alternate_text') . " LIKE " . $db->q('%' . $filterSearch . '%') . ")"
+            );
+        }
 
         $filterOrderDir = $this->getState('list.direction');
         $filterOrder    = $this->getState('list.ordering');
@@ -123,12 +132,12 @@ class RedshopModelMedia extends RedshopModel
         $folderList = JFolder::folders($basePath);
 
         // Iterate over the files if they exist
-        if ($fileList !== false) {
+        if (!empty($fileList)) {
             foreach ($fileList as $file) {
                 if (file_exists($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower(
                         $file
                     ) !== 'index.html') {
-                    $tmp                = new JObject;
+                    $tmp                = new stdClass;
                     $tmp->name          = $file;
                     $tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
                     $tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
@@ -198,9 +207,9 @@ class RedshopModelMedia extends RedshopModel
         }
 
         // Iterate over the folders if they exist
-        if ($folderList !== false) {
+        if (!empty($folderList)) {
             foreach ($folderList as $folder) {
-                $tmp                = new JObject;
+                $tmp                = new stdClass;
                 $tmp->name          = basename($folder);
                 $tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
                 $tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
@@ -211,7 +220,6 @@ class RedshopModelMedia extends RedshopModel
                 $folders[] = $tmp;
             }
         }
-
         $list = array('folders' => $folders, 'docs' => $docs, 'images' => $images);
 
         return $list;
@@ -274,7 +282,8 @@ class RedshopModelMedia extends RedshopModel
         $this->_db->setQuery($query);
 
         if (!$this->_db->execute()) {
-            $this->setError($this->_db->getErrorMsg());
+            /** @scrutinizer ignore-deprecated */
+            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
             return false;
         }
@@ -285,9 +294,12 @@ class RedshopModelMedia extends RedshopModel
     public function saveorder($cid = array(), $order)
     {
         $row        = $this->getTable('media_detail');
-        $order      = JFactory::getApplication()->input->post->get('order', array(0), 'array');
         $conditions = array();
-
+        if (!isset($order) || $order == array())
+        {
+            $order  = \Joomla\CMS\Factory::getApplication()->input->post->get('order', array(0), 'array');
+        }
+        
         // Update ordering values
         for ($i = 0, $in = count($cid); $i < $in; $i++) {
             $row->load((int)$cid[$i]);
@@ -375,8 +387,10 @@ class RedshopModelMedia extends RedshopModel
             ->where($db->qn('media_id') . ' = ' . $id);
         $db->setQuery($query);
 
-        if (!$db->execute()) {
-            $this->setError($db->getErrorMsg());
+        try {
+            $db->execute();
+        } catch (\RuntimeException $e) {
+            \Joomla\CMS\Factory::getApplication()->enqueueMessage(\Joomla\CMS\Language\Text::_('COM_REDSHOP_ERROR_FILE_DELETING'), 'error');
 
             return false;
         }
@@ -402,8 +416,10 @@ class RedshopModelMedia extends RedshopModel
         $fileObj->media_mimetype = $file['media_mimetype'];
         $fileObj->published      = 1;
 
-        if (!$db->insertObject('#__redshop_media', $fileObj)) {
-            $this->setError($db->getErrorMsg());
+        try {
+            $db->insertObject('#__redshop_media', $fileObj);
+        } catch (\RuntimeException $e) {
+            \Joomla\CMS\Factory::getApplication()->enqueueMessage(\Joomla\CMS\Language\Text::_('COM_REDSHOP_MEDIA_CREATE_ERROR'), 'error');
 
             return false;
         }
@@ -429,6 +445,7 @@ class RedshopModelMedia extends RedshopModel
         // Compile the store id.
         $id .= ':' . $this->getState('filter_media_section');
         $id .= ':' . $this->getState('media_type');
+        $id .= ':' . $this->getState('filter_search');
 
         return parent::getStoreId($id);
     }
@@ -455,7 +472,10 @@ class RedshopModelMedia extends RedshopModel
         $media_type = $this->getUserStateFromRequest($this->context . '.media_type', 'media_type', '');
         $this->setState('media_type', $media_type);
 
-        $folder = JFactory::getApplication()->input->getPath('folder', '');
+        $filterSearch = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
+        $this->setState('filter_search', $filterSearch);
+
+        $folder = \Joomla\CMS\Factory::getApplication()->input->getPath('folder', '');
         $this->setState('folder', $folder);
 
         $parent = str_replace("\\", "/", dirname($folder));
