@@ -251,17 +251,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
             }
         }
 
-        if (!empty($data['discount_stratdate'])) {
-            $data['discount_stratdate'] = JFactory::getDate(
-                date('d-m-Y H:i:s', strtotime($data['discount_stratdate']))
-            )->toUnix();
-        }
-
-        if (!empty($data['discount_enddate'])) {
-            $data['discount_enddate'] = JFactory::getDate(
-                date('d-m-Y H:i:s', strtotime($data['discount_enddate']))
-            )->toUnix();
-        }
+        \Redshop\DateTime\DateTime::handleDateTimeRange($data['discount_stratdate'], $data['discount_enddate']);
 
         // Setting product on sale when discount dates are set
         if (!empty($data['discount_stratdate']) || !empty($data['discount_enddate'])) {
