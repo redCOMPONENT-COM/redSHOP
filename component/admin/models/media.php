@@ -297,7 +297,7 @@ class RedshopModelMedia extends RedshopModel
         $conditions = array();
         if (!isset($order) || $order == array())
         {
-            $order  = \JFactory::getApplication()->input->post->get('order', array(0), 'array');
+            $order  = \Joomla\CMS\Factory::getApplication()->input->post->get('order', array(0), 'array');
         }
         
         // Update ordering values
@@ -390,7 +390,7 @@ class RedshopModelMedia extends RedshopModel
         try {
             $db->execute();
         } catch (\RuntimeException $e) {
-            \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_ERROR_FILE_DELETING'), 'error');
+            \Joomla\CMS\Factory::getApplication()->enqueueMessage(\Joomla\CMS\Language\Text::_('COM_REDSHOP_ERROR_FILE_DELETING'), 'error');
 
             return false;
         }
@@ -419,7 +419,7 @@ class RedshopModelMedia extends RedshopModel
         try {
             $db->insertObject('#__redshop_media', $fileObj);
         } catch (\RuntimeException $e) {
-            \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_MEDIA_CREATE_ERROR'), 'error');
+            \Joomla\CMS\Factory::getApplication()->enqueueMessage(\Joomla\CMS\Language\Text::_('COM_REDSHOP_MEDIA_CREATE_ERROR'), 'error');
 
             return false;
         }
@@ -475,7 +475,7 @@ class RedshopModelMedia extends RedshopModel
         $filter_search = $this->getUserStateFromRequest($this->context . '.filter_search', 'filter_search', '');
         $this->setState('filter_search', $filter_search);
 
-        $folder = JFactory::getApplication()->input->getPath('folder', '');
+        $folder = \Joomla\CMS\Factory::getApplication()->input->getPath('folder', '');
         $this->setState('folder', $folder);
 
         $parent = str_replace("\\", "/", dirname($folder));
