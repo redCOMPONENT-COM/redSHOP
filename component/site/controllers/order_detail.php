@@ -298,7 +298,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
             if (!isset($product_data))
             {
-                $app->enqueueMessage($row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_DOES_NOT_EXISTS"), 'warning');
+                $app->enqueueMessage($row['order_item_name'] . ": " . \Joomla\CMS\Language\Text::_("COM_REDSHOP_PRODUCT_DOES_NOT_EXISTS"), 'warning');
 
                 return;
             }
@@ -376,7 +376,7 @@ class RedshopControllerOrder_Detail extends RedshopController
             }
         } else {
             $app->enqueueMessage(
-                $row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART")
+                $row['order_item_name'] . ": " . \Joomla\CMS\Language\Text::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART")
             );
         }
     }
