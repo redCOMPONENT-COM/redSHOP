@@ -59,6 +59,12 @@ class JFormFieldRedshopCategory extends JFormFieldList
             self::$cache = RedshopHelperCategory::getCategoryListArray();
         }
 
+        $ids = array_column(self::$cache, 'id');
+        $ids = array_unique($ids);
+        self::$cache = array_filter(self::$cache, function ($key, $value) use ($ids) {
+            return in_array($value, array_keys($ids));
+        }, ARRAY_FILTER_USE_BOTH);
+
         // Build the field options.
         if (!empty(self::$cache)) {
             if ($this->multiple) {
