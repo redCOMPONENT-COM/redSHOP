@@ -32,7 +32,7 @@ class PlgRedshop_LoginFacebook extends JPlugin
             $permissions = ['email']; // Optional permissions
 
             $linkLogin =  $helper->getLoginUrl(
-                \Redshop\IO\Route::_(
+                JRoute::_(
                     \JUri::root() . 'index.php?option=com_ajax&group=redshop_login&plugin=fbLoginCallBack&format=raw'
                 ),
                 $permissions
