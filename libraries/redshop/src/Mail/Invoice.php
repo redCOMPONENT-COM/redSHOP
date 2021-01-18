@@ -41,6 +41,11 @@ class Invoice
             return false;
         }
 
+        $row      = \RedshopEntityOrder::getInstance($orderId)->getItem();
+        $language = \Redshop\Language\Helper::getInstance();
+        $language->setDefault($row->lang_checkout);
+        $language->setLanguage($row->lang_checkout);
+
         $mailSection = "invoice_mail";
         $mailBcc     = null;
         $mailInfo    = Helper::getTemplate(0, $mailSection);

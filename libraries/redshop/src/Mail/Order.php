@@ -11,6 +11,8 @@ namespace Redshop\Mail;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Registry\Registry;
 use Redshop\Order\Template;
 
@@ -39,6 +41,11 @@ class Order
             return false;
         }
 
+        $row      = \RedshopEntityOrder::getInstance($orderId)->getItem();
+        $language = \Redshop\Language\Helper::getInstance();
+        $language->setDefault($row->lang_checkout);
+        $language->setLanguage($row->lang_checkout);
+
         $mailSection = \Redshop::getConfig()->get('USE_AS_CATALOG') ? 'catalogue_order' : 'order';
         $mailInfo    = Helper::getTemplate(0, $mailSection);
 
@@ -48,8 +55,6 @@ class Order
 
         $message = $mailInfo[0]->mail_body;
         $subject = $mailInfo[0]->mail_subject;
-
-        $row = \RedshopEntityOrder::getInstance($orderId)->getItem();
 
         // It is necessary to take billing info from order user info table
         // Order mail output should reflect the checkout process"

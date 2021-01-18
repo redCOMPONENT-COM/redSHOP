@@ -9,6 +9,10 @@
 
 namespace Redshop\Language;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -17,13 +21,41 @@ defined('_JEXEC') or die;
  * @since  __DEPLOY_VERION__
  */
 
-class Helper
+class Helper extends Language
 {
     /**
-     * @return \Joomla\CMS\Language\Language|null
-     * @since  __DEPLOY_VERSION__
+     * Returns a language object.
+     *
+     * @param   string   $lang   The language to use.
+     * @param   boolean  $debug  The debug mode.
+     *
+     * @return  Language  The Language object.
+     *
+     * @since   __DEPLOY_VERSION__
      */
-    public static function getLanguage() {
-        return \Joomla\CMS\Factory::getLanguage();
+    public static function getInstance($lang = '', $debug = false)
+    {
+        $conf   = Factory::getConfig();
+        $lang = !empty($lang) ? $lang : $conf->get('language');
+
+        if ($debug === false) {
+            $debug = $conf->get('debug_lang');
+        }
+
+        if (!isset(self::$languages[$lang . $debug]))
+        {
+            self::$languages[$lang . $debug] = new Helper($lang, $debug);
+        }
+
+        return self::$languages[$lang . $debug];
+    }
+
+    public function setLanguage($lang)
+    {
+        $previous = $this->lang;
+        $this->lang = $lang;
+        $this->metadata = LanguageHelper::getMetadata($this->lang);
+
+        return $previous;
     }
 }

@@ -990,6 +990,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_orders` (
   `analytics_status` INT(1) NOT NULL,
   `tax_after_discount` DECIMAL(10,3) NOT NULL,
   `recuuring_subcription_id` VARCHAR(500) NOT NULL,
+  `lang_checkout` VARCHAR(10) NULL DEFAULT NULL,
   PRIMARY KEY (`order_id`),
   INDEX `idx_orders_user_id` (`user_id` ASC),
   INDEX `idx_orders_order_number` (`order_number` ASC),

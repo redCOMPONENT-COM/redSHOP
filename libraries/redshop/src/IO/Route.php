@@ -35,7 +35,7 @@ class Route
                              $lang = null) {
 
         if (empty($lang)) {
-            $lang = substr(\Redshop\Language\Helper::getLanguage()->getTag(), 0, 2);
+            $lang = substr(\Redshop\Language\Helper::getInstance()->getTag(), 0, 2);
         }
 
         $item = 'lang=' . $lang;
