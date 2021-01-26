@@ -314,7 +314,7 @@ switch ($name) {
         <br/>
         {product_subtotal} {shipping_excl_vat} {product_subtotal} {sub_total_vat} {discount_excl_vat} {total_excl_vat} {denotation_label} {discount_denotation} {discount_excl_vat}
         <br/>
-        {shipping_denotation} {shipping_excl_vat} {product_s_desc} {product_thumb_image} {product_old_price} {special_discount} {special_discount_amount}
+        {shipping_denotation} {shipping_excl_vat} {product_s_desc} {product_thumb_image} {product_old_price} {if special_discount} {special_discount} {special_discount_amount} {special_discount end if}
         <br/>
         {payment_extrafields_lbl} {payment_extrafields} {shipping_extrafields_lbl} {shipping_extrafields} {product_gift}
         <?php
@@ -335,7 +335,7 @@ switch ($name) {
         <br/>
         {shipping_method_lbl} {shipping_method} {if payment_discount} {payment_discount_lbl} {payment_order_discount} {payment_discount end if}
         <br/>
-        {product_userfields} {print} {special_discount} {special_discount_amount}
+        {product_userfields} {print} {if special_discount} {special_discount} {special_discount_amount} {special_discount end if}
         <?php
         break;
     case 'order_receipt':
