@@ -988,7 +988,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         if (empty($data['copy_product'])) {
             // Media: Store product full image
-            $mediaFullImage = $this->storeMedia($row, 'product_full_image');
+            $mediaFullImage = $this->storeMedia($row, 'product_full_image', $data['task']);
         }
 
         if (isset($data['back_thumb_image_delete'])) {
@@ -1650,13 +1650,14 @@ class RedshopModelProduct_Detail extends RedshopModel
      *
      * @param   object  $row         Product data
      * @param   string  $mediaField  Media field name
+     * @param   string  $data        Product detail data.
      *
      * @return  boolean|integer       Id of media row if success. False otherwise.
      * @throws  Exception
      *
      * @since   2.1.0
      */
-    protected function storeMedia($row, $mediaField = 'product_full_image')
+    protected function storeMedia($row, $mediaField = 'product_full_image', $data = '' )
     {
         $input    = JFactory::getApplication()->input;
         $dropzone = $input->post->get('dropzone', array(), 'array');
@@ -1680,15 +1681,17 @@ class RedshopModelProduct_Detail extends RedshopModel
 
                 // Delete old image.
                 $oldMediaFile = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediaTable->media_name);
-
-                if (JFile::exists($oldMediaFile)) {
-                    JFile::delete($oldMediaFile);
-                }
-
-                if (empty($value)) {
-                    $mediaTable->delete();
-
-                    continue;
+                
+                if ($data !== 'save2copy') {
+                    if (JFile::exists($oldMediaFile)) {
+                        JFile::delete($oldMediaFile);
+                    }
+    
+                    if (empty($value)) {
+                        $mediaTable->delete();
+        
+                        continue;
+                    }
                 }
             } else {
                 if (!$mediaTable->load(
