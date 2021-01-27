@@ -103,6 +103,10 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
             $cart['shipping_vat'] = (!isset($shipArr['shipping_vat'])) ? 0 : $shipArr['shipping_vat'];
         }
 
+	    if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE') && empty($usersInfoId)) {
+		    Redshop\Cart\Helper::calculateShipping($cart['shipping'], $cart['shipping_vat'], $cart, 0, JFactory::getUser()->id);
+	    }
+
         $cart = \RedshopHelperDiscount::modifyDiscount($cart);
 
         // Plugin support:  Process the shipping cart
@@ -349,16 +353,6 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
         }
 
         $this->template = $this->replaceConditionTag($this->template, $paymentAmount, 0, $paymentOprand);
-
-        if (!empty($shippingRateId) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) {
-            $shippinPriceWithVat = RedshopHelperProductPrice::formattedPrice($cart ['shipping']);
-            $shippinPrice        = RedshopHelperProductPrice::formattedPrice(
-                $cart ['shipping'] - $cart['shipping_vat']
-            );
-        } else {
-            $this->addReplace('{shipping_lbl}', '');
-            $this->addReplace('{tax_with_shipping_lbl}', '');
-        }
 
         $this->template = $this->replaceTermsConditions($this->template, $itemId);
         $this->template = $this->replaceNewsletterSubscription($this->template);

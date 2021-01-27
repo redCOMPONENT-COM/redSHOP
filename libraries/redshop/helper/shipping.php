@@ -821,8 +821,8 @@ class RedshopHelperShipping
             $zip     = trim($zip);
 
             if (strlen(str_replace($numbers, '', $zip)) == 0 && $zip != "") {
-                $zipCond = " AND ( ( " . $db->qn('shipping_rate_zip_start') . " <= " . $db->quote($zip) . " AND "
-                    . $db->qn('shipping_rate_zip_end') . " >= " . $db->quote($zip) . " )
+                $zipCond = " AND ( ( " . $db->qn('shipping_rate_zip_start') . " <= " . (int) $zip . " AND "
+                    . $db->qn('shipping_rate_zip_end') . " >= " . (int) $zip . " )
 				OR (" . $db->qn('shipping_rate_zip_start') . " = " . $db->quote(0) . " AND " . $db->qn(
                         'shipping_rate_zip_end'
                     ) . " = " . $db->quote(0) . ")
