@@ -86,7 +86,7 @@ class RedshopViewOrder_Detail extends RedshopView
             RedshopHelperOrder::getStateName($shipping->state_code, $shipping->country_code),
             $pdfTemplate
         );
-        $pdfTemplate = str_replace("{shipping_phone}", $shipping->zipcode, $pdfTemplate);
+        $pdfTemplate = str_replace("{shipping_phone}", $shipping->phone, $pdfTemplate);
 
         // If user is company than
         if ($billing->is_company && $billing->company_name != "") {
