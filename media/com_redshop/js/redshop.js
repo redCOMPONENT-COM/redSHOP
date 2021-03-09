@@ -166,10 +166,10 @@ jQuery(document).ready(function($) {
 
 function updateCartAjax($, form)
 {
-    var quantity   = form.children('[name=quantity]').val();
-    var productId  = form.children('[name=productId]').val();
-    var cart_index = form.children('[name=cart_index]').val();
-    var Itemid     = form.children('[name=Itemid]').val();
+    var quantity   = form.find('[name=quantity]').val();
+    var productId  = form.find('[name=productId]').val();
+    var cart_index = form.find('[name=cart_index]').val();
+    var Itemid     = form.find('[name=Itemid]').val();
     var token      = redSHOP.RSConfig._('AJAX_TOKEN');
 
     var url = redSHOP.RSConfig._('SITE_URL') + 'index.php?option=com_redshop&view=cart&task=update&' + token + '=1';
