@@ -58,6 +58,14 @@ redSHOP.collectExtraFields = function (extraField, productId) {
 	return field;
 };
 
+redSHOP.triggerCustomEvents = function(customEvent, params) {
+	if (redSHOP[customEvent].length > 0) {
+		for (var g = 0, n = redSHOP[customEvent].length; g < n; g++) {
+			new redSHOP[customEvent][g](params);
+		}
+	}
+}
+
 redSHOP.updateCartExtraFields = function (extraFields, productId, formName) {
 
 	jQuery.each(extraFields, function (index, extraField) {
