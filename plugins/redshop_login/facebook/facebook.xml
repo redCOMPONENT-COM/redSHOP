@@ -18,6 +18,7 @@
         <filename plugin="facebook">facebook.php</filename>
         <filename plugin="facebook">index.html</filename>
 	    <folder>library</folder>
+        <folder>element</folder>
     </files>
     <config>
         <fields name="params">
@@ -31,6 +32,21 @@
                         name="app_secret"
                         type="text"
                         label="PLG_REDSHOP_LOGIN_FACEBOOK_APP_SECRET"
+                />
+                <field addfieldpath="plugins/redshop_login/facebook/element"
+                       name="callback_url"
+                       type="callbackurl"
+                       description="Callback URL"
+                       filter="unset"
+                       value="google"
+                       readonly="true"
+                       class="readonly"
+                       label="PLG_REDSHOP_LOGIN_GOOGLE_CALLBACK_URL"
+                />
+                <field addfieldpath="plugins/redshop_login/facebook/element"
+                       name="redirectlogin"
+                       type="menuitem"
+                       label="PLG_REDSHOP_LOGIN_GOOGLE_LOGIN_REDIRECT"
                 />
             </fieldset>
         </fields>

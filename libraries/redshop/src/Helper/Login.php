@@ -26,6 +26,17 @@ class Login
     public static function loginJoomlaRedShop($data) {
         $app = \JFactory::getApplication();
         $jUser = \JUserHelper::getUserId($data['email']);
+        $pluginName = substr($app->input->get('plugin'), 0, -13);
+        if (isset($pluginName) && $pluginName == 'google') {
+            $pluginName = 'google';
+        } else {
+            $pluginName = 'facebook';
+        }
+        $plugin = \JPluginHelper::getPlugin('redshop_login', $pluginName);
+        $params = json_decode($plugin->params);
+        $returnId = $params->redirectlogin;
+        $menu = \JFactory::getApplication()->getMenu();
+        $item = $menu->getItem($returnId);
 
         if ($jUser > 0) {
             $jUser = \JFactory::getUser($jUser);
@@ -46,7 +57,13 @@ class Login
             $redUser = \RedshopHelperUser::storeRedshopUser($data, $jUser->id);
         }
 
-        $app->redirect(\JUri::root());
+        if ($item) {
+            $link = $item->link . '&Itemid=' . $returnId;
+        } else {
+            $link = \JUri::root();
+        }
+
+        $app->redirect($link);
     }
 
     /**
