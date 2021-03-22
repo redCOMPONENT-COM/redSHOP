@@ -528,6 +528,7 @@ class Helper
         $productPrice        = 0;
         $productPriceExclVat = 0;
         $quantity            = 0;
+	    $productQuantity     = 0;
         $productIds          = explode(',', $productId);
         $productIds          = \Joomla\Utilities\ArrayHelper::toInteger($productIds);
         $productQuantity     = 0;
