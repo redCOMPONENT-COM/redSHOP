@@ -59,7 +59,7 @@ defined('_JEXEC') or die;
     </div>
     <input type="hidden" name="view" value="product_price"/>
     <input type="hidden" name="task" value="saveprice"/>
-    <input type="hidden" name="pid" value="<?php echo $this->pid ?>"/>
+    <input type="hidden" name="pid" value="<?php echo $this->product->product_id ?>"/>
     <input type="hidden" name="boxchecked" value="0"/>
     <input type="hidden" name="option" value="com_redshop"/>
 </form>
