@@ -256,6 +256,10 @@ class RedshopConfig
 
     public $PRICE_DECIMAL = '2';
 
+    public $PACSOFT_SET_ADDRESS = 'shipping';
+
+    public $SET_REFERENCE = 'order_id';
+
     public $CALCULATION_PRICE_DECIMAL = '4';
 
     public $UNIT_DECIMAL = '0';
