@@ -48,6 +48,7 @@ class Cart extends BaseWorkflow
         $input = $app->input;
         $post  = $input->post->getArray();
         $ajax  = $input->getInt('ajax', 0);
+        $language = $input->get('lang', '');
 
         \Joomla\CMS\Session\Session::checkToken('get') or die(\Joomla\CMS\Language\Text::_('JINVALID_TOKEN'));
 
@@ -72,7 +73,7 @@ class Cart extends BaseWorkflow
         }
 
         $link = \Redshop\IO\Route::_(
-            'index.php?option=com_redshop&view=cart&Itemid=' . \RedshopHelperRouter::getCartItemId(),
+            'index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId().'&lang='. $language,
             false
         );
 
