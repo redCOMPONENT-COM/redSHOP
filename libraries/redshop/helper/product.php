@@ -3243,7 +3243,7 @@ class RedshopHelperProduct
 
                 if (!empty($chktag)) {
                     $accessory_price     = $attArr[$i]['accessory_price'] + $acc_vat;
-                    $accessory_vat_price = $acc_vat;
+                    $accessory_vat_price += $acc_vat;
                 }
 
                 $attchildArr = $attArr[$i]['accessory_childs'];

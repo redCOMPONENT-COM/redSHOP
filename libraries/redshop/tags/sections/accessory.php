@@ -395,7 +395,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
             $accessoryPrices = $accessoryPriceWithoutVAT;
         }
 
-        $accessoryPriceWithoutVAT = $accessoryPriceWithoutVAT[0];
+        $accessoryPriceWithoutVAT = $accessoryPriceWithoutVAT[1];
 
         $accessoryPrice      = $accessoryPrices[0];
         $accessoryMainPrice  = $accessoryPrices[1];
