@@ -128,7 +128,7 @@ class Render
                 array(
                     'src'  => $productImageDefault,
                     'alt'  => $altText,
-                    'attr' => 'id="main_image' . $commonId . '" title="' . $title . '"'
+                    'attr' => 'id="main_image' . $commonId . '" title="' . $title . '" width="' . $width . '" height="' . $height. '"'
                 ),
                 '',
                 \RedshopLayoutHelper::$layoutOption
@@ -142,7 +142,7 @@ class Render
                         'linkAttr' => 'id="a_main_image' . $commonId . '" rel="myallimg" title="' . $title . '"',
                         'src'      => $imgSource,
                         'alt'      => $altText,
-                        'imgAttr'  => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '"'
+                        'imgAttr'  => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '" width="' . $width . '" height="' . $height. '"'
                     ),
                     '',
                     \RedshopLayoutHelper::$layoutOption
@@ -156,7 +156,7 @@ class Render
                         'linkAttr' => 'id="a_main_image' . $commonId . '" rel="{handler: \'image\', size: {}}" title="' . $title . '"',
                         'src'      => $imgSource,
                         'alt'      => $altText,
-                        'imgAttr'  => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '"'
+                        'imgAttr'  => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '" width="' . $width . '" height="' . $height. '"'
                     ),
                     '',
                     \RedshopLayoutHelper::$layoutOption
@@ -169,7 +169,7 @@ class Render
                         'linkAttr' => 'id="a_main_image' . $commonId . '" title="' . $title . '"',
                         'src'      => $imgSource,
                         'alt'      => $altText,
-                        'imgAttr'  => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '"'
+                        'imgAttr'  => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '" width="' . $width . '" height="' . $height. '"'
                     ),
                     '',
                     \RedshopLayoutHelper::$layoutOption

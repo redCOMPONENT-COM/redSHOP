@@ -179,10 +179,9 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
                 $categoryImage = RedshopLayoutHelper::render(
                     'tags.common.img',
                     array(
-                        'linkAttr' => $title,
                         'src'      => $backImage,
                         'alt'      => 'back-image',
-                        'imgAttr'  => $title
+                        'attr'  => $title . ' width="' . Redshop::getConfig()->get('THUMB_WIDTH') . '" height="' . Redshop::getConfig()->get('THUMB_HEIGHT'). '"'
                     ),
                     '',
                     RedshopLayoutHelper::$layoutOption
@@ -359,7 +358,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
                     'linkAttr' => 'rel="{handler: \'image\', size: {}}" ' . $title,
                     'src'      => $productImg,
                     'alt'      => $alt,
-                    'imgAttr'  => $title
+                    'imgAttr'  => $title . ' width="' . $width . '" height="' . $height. '"'
                 ),
                 '',
                 RedshopLayoutHelper::$layoutOption
@@ -372,7 +371,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
                     'linkAttr' => $title,
                     'src'      => $productImg,
                     'alt'      => $alt,
-                    'imgAttr'  => $title
+                    'imgAttr'  => $title . ' width="' . $width . '" height="' . $height. '"'
                 ),
                 '',
                 RedshopLayoutHelper::$layoutOption

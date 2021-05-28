@@ -150,7 +150,7 @@ class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
                         'linkAttr' => 'rel="{handler: \'image\', size: {}}" title="' . $altText . '"',
                         'src'      => $imagePath,
                         'alt'      => $altText,
-                        'imgAttr'  => 'title="' . $altText . '"'
+                        'imgAttr'  => 'title="' . $altText . '" width="' . $thumbWidth . '" height="' . $thumbHeight. '"'
                     ],
                     '',
                     $this->optionLayout

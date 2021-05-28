@@ -373,7 +373,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                         'linkAttr' => 'title="' . $mainCatName . '"',
                         'src'      => $waterCatImg['abs'],
                         'alt'      => $mainCatName,
-                        'imgAttr'  => 'title="' . $mainCatName . '"'
+                        'imgAttr'  => 'title="' . $mainCatName . '" width="' . $cwThumb . '" height="' . $chThumb. '"'
                     ),
                     '',
                     RedshopLayoutHelper::$layoutOption

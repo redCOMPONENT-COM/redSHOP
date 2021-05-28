@@ -107,7 +107,7 @@ class RedshopTagsSectionsManufacturerDetail extends RedshopTagsAbstract
                             'linkAttr' => 'rel="{handler: \'image\', size: {}}" title="' . $altText . '"',
                             'src'      => $imagePath['abs'],
                             'alt'      => $altText,
-                            'imgAttr'  => 'title="' . $altText . '"'
+                            'imgAttr'  => 'title="' . $altText . '" width="' . $thumbWidth . '" height="' . $thumbHeight. '"'
                         ],
                         '',
                         $this->optionLayout
@@ -210,15 +210,16 @@ class RedshopTagsSectionsManufacturerDetail extends RedshopTagsAbstract
                         '',
                         'thumb',
                         'category',
-                        200,
-                        200,
+                        Redshop::getConfig()->get('THUMB_WIDTH'),
+                        Redshop::getConfig()->get('THUMB_HEIGHT'),
                         Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
                     );
 
                     $replaceCategory['{category_thumb_image}'] = RedshopLayoutHelper::render(
                         'tags.common.img',
                         [
-                            'src' => $thumbUrl
+                            'src' => $thumbUrl,
+                            'attr' => 'width="' . Redshop::getConfig()->get('THUMB_WIDTH') . '" height="' . Redshop::getConfig()->get('THUMB_HEIGHT'). '"',
                         ],
                         '',
                         $this->optionLayout
