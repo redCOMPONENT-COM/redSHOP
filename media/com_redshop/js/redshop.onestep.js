@@ -26,7 +26,7 @@
                 }
             },
             messages: {
-                payment_method_id: "<?php echo JText::sprintf('COM_REDSHOP_SELECT_PAYMENT_METHOD') ?>"
+                payment_method_id: "<?php echo JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD') ?>"
             },
             errorPlacement: function (error, element) {
                 if ((element.is(":radio") && element.attr('name') == "payment_method_id")) {
