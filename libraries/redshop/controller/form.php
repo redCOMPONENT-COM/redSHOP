@@ -43,6 +43,8 @@ class RedshopControllerForm extends JControllerForm
      */
     public function __construct($config = array())
     {
+        parent::__construct($config);
+
         /** JControllerLegacy */
         $this->methods     = array();
         $this->message     = null;
