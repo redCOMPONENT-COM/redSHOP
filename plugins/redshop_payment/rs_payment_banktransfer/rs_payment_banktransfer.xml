@@ -114,6 +114,52 @@
                         description="PLG_RS_PAYMENT_BANKTRANSFER_EXTRAFIELD_PAYMENT_DESC"
                 />
             </fieldset>
+            <fieldset name="advanced">
+                <field
+                        name="private_person"
+                        type="radio"
+                        default="1"
+                        class="btn-group btn-group-yesno"
+                        label="PLG_RS_PAYMENT_BANKTRANSFER_PRIVATE_PERSON_LBL">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="business"
+                        type="radio"
+                        default="1"
+                        label="PLG_RS_PAYMENT_BANKTRANSFER_BUSINESS_LBL"
+                        class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="is_show_guest"
+                        type="radio"
+                        default="1"
+                        label="PLG_RS_PAYMENT_BANKTRANSFER_IS_SHOW_GUEST_LBL"
+                        class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="is_show_member"
+                        type="radio"
+                        default="1"
+                        label="PLG_RS_PAYMENT_BANKTRANSFER_IS_SHOW_MEMBER_LBL"
+                        class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="shopper_group_id"
+                        type="shoppergrouplist"
+                        multiple="multiple"
+                        default="0"
+                        label="PLG_RS_PAYMENT_BANKTRANSFER_SHOPPER_GROUP_ID_LBL"
+                        description="PLG_RS_PAYMENT_BANKTRANSFER_SHOPPER_GROUP_ID_DESC"
+                />
+            </fieldset>
         </fields>
     </config>
 </extension>
