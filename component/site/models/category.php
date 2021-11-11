@@ -811,7 +811,7 @@ class RedshopModelCategory extends RedshopModel
                     Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=category&layout=' . $layout . '&cid=' . $this->_id . '&manufacturer_id=' . $manufacturerId
                         . '&Itemid=' . $app->input->getInt('Itemid', 0),
-                        true
+                        false
                     )
                 );
             }
