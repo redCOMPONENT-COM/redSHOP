@@ -193,9 +193,9 @@ $showbuttons = JFactory::getApplication()->input->getInt('showbuttons', 0);
                     <?php for ($j = 0, $countStockRoom = count($this->stockroom); $j < $countStockRoom; $j++) : ?>
 
                         <?php
-                        $quantity         = 0;
-                        $preorder_stock   = 0;
-                        $ordered_preorder = 0;
+                        $quantity         = "";
+                        $preorder_stock   = "";
+                        $ordered_preorder = "";
                         $section_id       = ($this->stockroom_type != 'product') ? $row->section_id : $row->product_id;
 
                         if (isset($this->quantities[$section_id . '.' . $this->stockroom[$j]->id])) {
