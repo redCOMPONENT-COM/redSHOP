@@ -44,7 +44,7 @@ $section = JFactory::getApplication()->input->get('section');
         } else if (parseInt(form.price_quantity_start.value) > parseInt(form.price_quantity_end.value)) {
             alert("<?php echo JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL', true); ?>");
             form.price_quantity_start.focus();
-        } else if (parseInt(form.discount_end_date.value) < parseInt(form.discount_start_date.value)) {
+        } else if (form.discount_end_date.value < form.discount_start_date.value) {
             alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE_END_DATE_CONDITION', true); ?>");
             form.discount_start_date.focus();
         } else {
