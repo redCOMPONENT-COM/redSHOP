@@ -29,7 +29,7 @@ $section = JFactory::getApplication()->input->get('section');
             submitform(pressbutton);
             return;
         }
-        if (form.product_price.value == "" || isNaN(form.product_price.value) || form.product_price.value == 0) {
+        if (parseInt(form.product_price.value) == "" || isNaN(parseInt(form.product_price.value)) || parseInt(form.product_price.value) == 0) {
             alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_PRICE_NOT_VALID', true); ?>");
             form.product_price.focus();
         } else if (isNaN(parseInt(form.price_quantity_start.value))) {
@@ -38,7 +38,7 @@ $section = JFactory::getApplication()->input->get('section');
         } else if (isNaN(parseInt(form.price_quantity_end.value))) {
             alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_END_QUANTITY_NOT_VALID', true); ?>");
             form.price_quantity_end.focus();
-        } else if ((parseInt(form.price_quantity_start.value) > parseInt(form.price_quantity_end.value)) && (parseInt(form.discount_end_date.value) < parseInt(form.discount_start_date.value))) {
+        } else if ((parseInt(form.price_quantity_start.value) > parseInt(form.price_quantity_end.value) && (form.discount_end_date.value < form.discount_start_date.value))) {
             alert("<?php echo JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QTY_AND_DISCOUNT_START_END_CONDITION', true); ?>");
             form.price_quantity_start.focus();
         } else if (parseInt(form.price_quantity_start.value) > parseInt(form.price_quantity_end.value)) {
