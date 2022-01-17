@@ -299,7 +299,7 @@ class RedshopModelManufacturers extends RedshopModel
             $query->where($db->qn('p.manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
         }
 
-        if ($filterBy != '0') {
+        if (!empty($filterBy)) {
             $query->where($db->qn('c.id') . ' = ' . $db->q((int)$filterBy));
         }
 
