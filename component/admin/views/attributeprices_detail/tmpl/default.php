@@ -32,16 +32,16 @@ $section = JFactory::getApplication()->input->get('section');
         if (parseFloat(form.product_price.value) == "" || isNaN(parseFloat(form.product_price.value)) || parseFloat(form.product_price.value) == 0) {
             alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_PRICE_NOT_VALID', true); ?>");
             form.product_price.focus();
-        } else if (isNaN(parseFloat(form.price_quantity_start.value))) {
+        } else if (isNaN(parseInt(form.price_quantity_start.value))) {
             alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_START_QUANTITY_NOT_VALID', true); ?>");
             form.price_quantity_start.focus();
-        } else if (isNaN(parseFloat(form.price_quantity_end.value))) {
+        } else if (isNaN(parseInt(form.price_quantity_end.value))) {
             alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_END_QUANTITY_NOT_VALID', true); ?>");
             form.price_quantity_end.focus();
-        } else if ((parseFloat(form.price_quantity_start.value) > parseFloat(form.price_quantity_end.value) && (form.discount_end_date.value < form.discount_start_date.value))) {
+        } else if ((parseInt(form.price_quantity_start.value) > parseInt(form.price_quantity_end.value) && (form.discount_end_date.value < form.discount_start_date.value))) {
             alert("<?php echo JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QTY_AND_DISCOUNT_START_END_CONDITION', true); ?>");
             form.price_quantity_start.focus();
-        } else if (parseFloat(form.price_quantity_start.value) > parseFloat(form.price_quantity_end.value)) {
+        } else if (parseInt(form.price_quantity_start.value) > parseInt(form.price_quantity_end.value)) {
             alert("<?php echo JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL', true); ?>");
             form.price_quantity_start.focus();
         } else if (form.discount_end_date.value < form.discount_start_date.value) {
