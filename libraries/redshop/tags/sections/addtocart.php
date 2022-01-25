@@ -488,7 +488,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 $this->replaceQuantity($productId, $stockId, $quantity, $template);
             } elseif ($this->isTagExists('{addtocart_quantity_increase_decrease}')) {
                 $checkTag = true;
-                $this->replaceQuantityIncreaseDecrease($productId, $cartId, $itemId, $quantity, $template);
+                $this->replaceQuantityIncreaseDecrease($productId, $cartId, $itemId, $quantity,$minQuantity, $template);
             } elseif ($this->isTagExists('{addtocart_quantity_selectbox}')) {
                 $checkTag       = true;
                 $selectBoxValue = ($product->quantity_selectbox_value) ?
@@ -676,7 +676,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
         );
     }
 
-    public function replaceQuantityIncreaseDecrease($productId, $cartId, $itemId, $quantity, &$template)
+    public function replaceQuantityIncreaseDecrease($productId, $cartId, $itemId, $quantity, $minQuantity ,&$template)
     {
         $quantityIncreaseDecrease = RedshopLayoutHelper::render(
             'tags.addtocart.quantity_increase_decrease',
@@ -684,7 +684,8 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 'productId' => $productId,
                 'cartId'    => $cartId,
                 'itemId'    => $itemId,
-                'quantity'  => $quantity
+                'quantity'  => $quantity,
+	            'minQuantity'  => $minQuantity
             ),
             '',
             RedshopLayoutHelper::$layoutOption

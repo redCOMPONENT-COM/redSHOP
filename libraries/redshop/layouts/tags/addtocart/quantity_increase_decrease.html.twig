@@ -1,6 +1,6 @@
 <input class="quantity" type="text" id="quantity{{ productId }}" name="quantity" size="1" value="{{ quantity }}"
        onkeypress="return event.keyCode!=13">
-<input type="button" class="myupbutton" value="+"
-       onClick="quantity{{ productId }}.value = (+quantity{{ productId }}.value+1);">
-<input type="button" class="mydownbutton" value="-"
-       onClick="quantity{{ productId }}.value = (quantity{{ productId }}.value); var qty1 = quantity{{ productId }}.value; if( !isNaN( qty1 ) &amp;&amp; qty1 > 1 ) quantity{{ productId }}.value--;return false;"/>
+<span class="quantity_sp01"><input type="button" class="myupbutton" value="+"
+       onClick="if({{ minQuantity }} > 0){quantity{{ productId }}.value = (+quantity{{ productId }}.value+{{ minQuantity }})}else quantity{{ productId }}.value = (+quantity{{ productId }}.value+1);"></span>
+<span  class="quantity_sp02"><input type="button" class="mydownbutton" value="-"
+       onClick="if({{ minQuantity }} > 0 &amp;&amp; quantity{{ productId }}.value >= {{ minQuantity }}){quantity{{ productId }}.value = parseInt(++quantity{{ productId }}.value) - parseInt({{ minQuantity }}) }else quantity{{ productId }}.value = (quantity{{ productId }}.value); var qty1 = quantity{{ productId }}.value; if( !isNaN( qty1 ) &amp;&amp; qty1 > 1 ) quantity{{ productId }}.value--;return false;"/></span>
