@@ -1035,9 +1035,15 @@ class RedshopHelperProductTag
                 $commonId    = $prefix . $productId . '_' . $accessoryId . '_' . $attribute->attribute_id;
                 $hiddenAttId = 'attribute_id_' . $prefix . $productId . '_' . $accessoryId;
                 $propertyId  = 'property_id_' . $commonId;
+	            $selectedProperty = 0;
 
                 foreach ($properties as $property) {
                     $attributesPropertyVat = 0;
+
+	                if ($property->setdefault_selected == 1)
+	                {
+		                $selectedProperty = $property->value;
+	                }
 
                     if ($property->property_price > 0) {
                         $propertyOprand = $property->oprand;
@@ -1109,7 +1115,7 @@ class RedshopHelperProductTag
                         . '\');" ',
                         'value',
                         'text',
-                        ''
+                        $selectedProperty
                     );
                 }
 
