@@ -1089,7 +1089,7 @@ class RedshopHelperProductTag
                 $newProperty = array_merge($tmpArray, $properties);
                 $checkList   = "";
 
-                if ($attribute->allow_multiple_selection) {
+                if ($attribute->display_type == 'radio') {
                     foreach ($properties as $property) {
                         if ($attribute->attribute_required == 1) {
                             $required = "required='" . $attribute->attribute_required . "'";
@@ -1097,11 +1097,21 @@ class RedshopHelperProductTag
                             $required = "";
                         }
 
-                        $checkList .= "<br /><input type='checkbox' value='" . $property->value . "' name='"
-                            . $propertyId . "[]' id='" . $propertyId . "' class='inputbox' attribute_name='"
-                            . $attribute->attribute_name . "' required='" . $required
-                            . "' onchange='javascript:changeOfflinePropertyDropdown(\"" . $productId . "\",\"" . $accessoryId
-                            . "\",\"" . $attribute->attribute_id . "\",\"" . $uniqueId . "\");'  />&nbsp;" . $property->text;
+	                    $attributeListType = ($attribute->allow_multiple_selection) ? 'redshopselect.checklist' : 'redshopselect.radiolist';
+
+	                    $checkList = JHtml::_(
+		                    $attributeListType,
+		                    $properties,
+		                    $propertyId . '[]',
+		                    'id="' . $propertyId
+		                    . '"  class="inputbox" size="1" style="display:inline-block !important; vertical-align: sub;" attribute_name="' . $attribute->attribute_name . '" required="'
+		                    . $attribute->attribute_required . '" onclick="javascript:changeOfflinePropertyDropdown(\''
+		                    . $productId . '\',\'' . $accessoryId . '\',\'' . $attribute->attribute_id . '\',\'' . $uniqueId
+		                    . '\');" ',
+		                    'value',
+		                    'text',
+		                    $selectedProperty
+	                    );
                     }
                 } else {
                     $checkList = JHtml::_(
