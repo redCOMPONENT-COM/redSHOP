@@ -1097,21 +1097,14 @@ class RedshopHelperProductTag
                             $required = "";
                         }
 
-	                    $attributeListType = ($attribute->allow_multiple_selection) ? 'redshopselect.checklist' : 'redshopselect.radiolist';
+	                    $inputType = ($attribute->allow_multiple_selection) ? 'checkbox' : 'radio';
+	                    $checked = ($property->setdefault_selected) ? 'checked' : '';
 
-	                    $checkList = JHtml::_(
-		                    $attributeListType,
-		                    $properties,
-		                    $propertyId . '[]',
-		                    'id="' . $propertyId
-		                    . '"  class="inputbox" size="1" style="display:inline-block !important; vertical-align: sub;" attribute_name="' . $attribute->attribute_name . '" required="'
-		                    . $attribute->attribute_required . '" onclick="javascript:changeOfflinePropertyDropdown(\''
-		                    . $productId . '\',\'' . $accessoryId . '\',\'' . $attribute->attribute_id . '\',\'' . $uniqueId
-		                    . '\');" ',
-		                    'value',
-		                    'text',
-		                    $selectedProperty
-	                    );
+	                    $checkList .= "<br /><input type='".$inputType."' value='" . $property->value . "' name='"
+		                    . $propertyId . "[]' id='" . $propertyId . "' class='inputbox' attribute_name='"
+		                    . $attribute->attribute_name . "' ".$checked." required='" . $required
+		                    . "' onchange='javascript:changeOfflinePropertyDropdown(\"" . $productId . "\",\"" . $accessoryId
+		                    . "\",\"" . $attribute->attribute_id . "\",\"" . $uniqueId . "\");'  />&nbsp;" . $property->text;
                     }
                 } else {
                     $checkList = JHtml::_(
