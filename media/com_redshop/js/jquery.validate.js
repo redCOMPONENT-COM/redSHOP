@@ -1132,6 +1132,7 @@
 
             // http://jqueryvalidation.org/email-method/
             email: function (value, element) {
+                value = value.trim();
                 // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
                 // Retrieved 2014-01-14
                 // If you have a problem with this implementation, report a bug against the above spec
