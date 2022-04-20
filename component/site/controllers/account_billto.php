@@ -82,6 +82,7 @@ class RedshopControllerAccount_Billto extends RedshopController
 
         if (isset($user->username)) {
             $post['username'] = $user->username;
+
         }
 
         /** @var RedshopModelAccount_billto $model */
