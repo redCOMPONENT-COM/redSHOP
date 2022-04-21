@@ -798,29 +798,11 @@ class RedshopModelCategory extends RedshopModel
             $selectedTemplate,
             'int'
         );
-        $this->setState('category_template', $categoryTemplate);
-
-        if ($_POST) {
-            $manufacturerId = $app->input->post->getInt('manufacturer_id', 0);
-
-            if ($manufacturerId != $app->getUserState(
-                    $this->context . '.manufacturer_id',
-                    $app->input->get->getInt('manufacturer_id', 0)
-                )) {
-                $app->redirect(
-                    Redshop\IO\Route::_(
-                        'index.php?option=com_redshop&view=category&layout=' . $layout . '&cid=' . $this->_id . '&manufacturer_id=' . $manufacturerId
-                        . '&Itemid=' . $app->input->getInt('Itemid', 0),
-                        true
-                    )
-                );
-            }
-        } else {
-            $manufacturerId = $app->input->getInt('manufacturer_id', 0);
-            $app->setUserState($this->context . '.manufacturer_id', $manufacturerId);
-        }
 
         $categoryId = $app->input->post->getInt('category_id', 0);
+        $manufacturerId = $app->input->getInt('manufacturer_id', 0);
+
+        $this->setState('category_template', $categoryTemplate);
         $this->setState('category_id', $categoryId);
         $this->setState('manufacturer_id', $manufacturerId);
 

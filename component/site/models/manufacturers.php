@@ -244,8 +244,57 @@ class RedshopModelManufacturers extends RedshopModel
         $limitstart     = JFactory::getApplication()->input->getInt('limitstart', 0);
         $query          = $this->_buildProductQuery($template_data);
         $this->products = $this->_getList($query, $limitstart, $limit);
+        $countProduct   = count($this->products);
+        $orderBy = $this->_buildProductOrderBy();
+
+        if (strpos($orderBy, "p.product_price ASC") !== false) {
+            for ($i = 0; $i < $countProduct; $i++) {
+                $productPrices = RedshopHelperProductPrice::getNetPrice($this->products[$i]->product_id);
+
+                $this->products[$i]->productPrice = $productPrices['product_price'];
+            }
+
+            $this->products = $this->columnSort($this->products, 'productPrice', 'ASC');
+        } elseif (strpos($orderBy, "p.product_price DESC") !== false) {
+            for ($i = 0; $i < $countProduct; $i++) {
+                $productPrices = RedshopHelperProductPrice::getNetPrice($this->products[$i]->product_id);
+
+                $this->products[$i]->productPrice = $productPrices['product_price'];
+            }
+
+            $this->products = $this->columnSort($this->products, 'productPrice', 'DESC');
+        }
 
         return $this->products;
+    }
+
+    public function columnSort($unsorted, $column, $sort)
+    {
+        $sorted = $unsorted;
+
+        if ($sort == "ASC") {
+            for ($i = 0; $i < count($sorted) - 1; $i++) {
+                for ($j = 0; $j < count($sorted) - 1 - $i; $j++) {
+                    if ($sorted[$j]->$column > $sorted[$j + 1]->$column) {
+                        $tmp            = $sorted[$j];
+                        $sorted[$j]     = $sorted[$j + 1];
+                        $sorted[$j + 1] = $tmp;
+                    }
+                }
+            }
+        } else {
+            for ($i = 0; $i < count($sorted) - 1; $i++) {
+                for ($j = 0; $j < count($sorted) - 1 - $i; $j++) {
+                    if ($sorted[$j]->$column < $sorted[$j + 1]->$column) {
+                        $tmp            = $sorted[$j];
+                        $sorted[$j]     = $sorted[$j + 1];
+                        $sorted[$j + 1] = $tmp;
+                    }
+                }
+            }
+        }
+
+        return $sorted;
     }
 
     public function getProductLimit()
@@ -299,7 +348,7 @@ class RedshopModelManufacturers extends RedshopModel
             $query->where($db->qn('p.manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
         }
 
-        if ($filterBy != '0') {
+        if (!empty($filterBy)) {
             $query->where($db->qn('c.id') . ' = ' . $db->q((int)$filterBy));
         }
 
