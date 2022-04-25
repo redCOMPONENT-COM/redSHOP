@@ -72,9 +72,8 @@ trait TermsConditions
                     }
                 }
 
-                $url        = \JURI::base();
-                $articleUrl = $url . "index.php?option=com_content&amp;view=article&amp;id=" . \Redshop::getConfig(
-                    )->get('TERMS_ARTICLE_ID') . "&Itemid=" . $itemId . "&tmpl=component";
+                $articleUrl = \ContentHelperRoute::getArticleRoute(\Redshop::getConfig(
+                )->get('TERMS_ARTICLE_ID'), 0, 0, '');
 
                 $termsCondition = \RedshopLayoutHelper::render(
                     'tags.common.terms_and_conditions',
