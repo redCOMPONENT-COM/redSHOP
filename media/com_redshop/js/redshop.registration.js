@@ -69,8 +69,9 @@ if (typeof(window['jQuery']) != "undefined") {
                 },
                 address: {
                     required: function() {
-                        return redSHOP.RSConfig._('REQUIRED_ADDRESS') == 1
-                    }
+                        return redSHOP.RSConfig._('REQUIRED_ADDRESS') == 1 || rs("#private-address").length;
+                    },
+                    minlength: 9,
                 },
                 vat_number: {
                     required: function () {
@@ -128,7 +129,16 @@ if (typeof(window['jQuery']) != "undefined") {
                 },
                 zipcode: {
                     zipcodeValidation: true,
-                    required: redSHOP.RSConfig._('REQUIRED_POSTAL_CODE') == 1 ? true : false
+                    required: redSHOP.RSConfig._('REQUIRED_POSTAL_CODE') == 1 ? true : false,
+                    minlength: 9,
+                    maxlength: 9,
+                    number: true
+                },
+                city: {
+                    required: function() {
+                        return redSHOP.RSConfig._('REQUIRED_CITY') == 1 || rs("#city").length;
+                    },
+                    minlength: 9,
                 },
                 phone: {
                     required: function () {
@@ -200,6 +210,19 @@ if (typeof(window['jQuery']) != "undefined") {
                     number: Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT')
                 }
             },
+            address: {
+                minlength: Joomla.JText._('COM_REDSHOP_ADDRESS_MIN_CHARACTER_LIMIT')
+                //minlength: JText::script('COM_REDSHOP_ADDRESS_MIN_CHARACTER_LIMIT')
+            },
+            zipcode: {
+                minlength: Joomla.JText._('COM_REDSHOP_ZIPCODE_MIN_CHARACTER_LIMIT'),
+                maxlength: Joomla.JText._('COM_REDSHOP_ZIPCODE_MIN_CHARACTER_LIMIT'),
+                number: Joomla.JText._('COM_REDSHOP_ZIPCODE_MIN_CHARACTER_LIMIT')
+            },
+            city: {
+                minlength: Joomla.JText._('COM_REDSHOP_CITY_MIN_CHARACTER_LIMIT')
+            },
+
            /* invalidHandler: function(e,validator) {
                 //validator.errorList contains an array of objects, where each object has properties "element" and "message".  element is the actual HTML Input.
                 for (var i=0;i<validator.errorList.length;i++){
