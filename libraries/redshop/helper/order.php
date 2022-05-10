@@ -1162,7 +1162,7 @@ class RedshopHelperOrder
 				</shipment>
 				</unifaunonline>';
 
-        $postURL = "https://www.pacsoftonline.com/ufoweb/order?session=po_DK"
+        $postURL = "https://www.unifaunonline.com/ufoweb/order?session=ufo_DK"
             . "&user=" . Redshop::getConfig()->get('POSTDK_CUSTOMER_NO')
             . "&pin=" . Redshop::getConfig()->get('POSTDK_CUSTOMER_PASSWORD')
             . "&developerid=000000075"
