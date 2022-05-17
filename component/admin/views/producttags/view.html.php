@@ -16,7 +16,7 @@ class RedshopViewProducttags extends RedshopViewAdmin
     {
         $context = 't.tags_id';
 
-        $uri      = JFactory::getURI();
+        $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $app      = JFactory::getApplication();
         $document = JFactory::getDocument();
 

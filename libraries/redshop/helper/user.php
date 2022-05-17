@@ -76,13 +76,6 @@ class RedshopHelperUser
         // Set the query and load the result.
         $total = $db->setQuery($query)->loadResult();
 
-        // Check for a database error.
-        if ($db->getErrorNum()) {
-            JError::raiseWarning(500, $db->getErrorMsg());
-
-            return null;
-        }
-
         if (!$total) {
             $total = 0;
         }
@@ -495,7 +488,7 @@ class RedshopHelperUser
         } else {
             $data['password'] = $app->input->post->get('password1', '', 'RAW');
 
-            $isAdmin = $app->isAdmin();
+            $isAdmin = $app->isClient('administrator');
 
             /*
              * Set user shopper group in case:

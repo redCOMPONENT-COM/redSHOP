@@ -958,11 +958,8 @@ INSERT IGNORE INTO `#__redshop_shipping_rate` (`shipping_rate_id`, `shipping_rat
 INSERT IGNORE INTO `#__redshop_shipping_boxes` (`shipping_box_id`, `shipping_box_name`, `shipping_box_length`, `shipping_box_width`, `shipping_box_height`, `shipping_box_priority`, `published`) VALUES
 	(1, 'Box1', 1.00, 1.00, 1.00, 1, 1);
 
-LOCK TABLES `#__redshop_category` WRITE;
-ALTER TABLE `#__redshop_category` DISABLE KEYS;
-INSERT INTO `#__redshop_category` VALUES (NULL, 'ROOT', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', 1, '0000-00-00 00:00:00', 0, '', '', 0, 'append', 'root', '', 0, 0, 0, 0, 1, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '');
-ALTER TABLE `#__redshop_category` ENABLE KEYS;
-UNLOCK TABLES;
+INSERT INTO `#__redshop_category` (`name`, `short_description`, `description`, `template`, `more_template`, `products_per_page`, `category_thumb_image`, `category_full_image`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `category_pdate`, `ordering`, `canonical_url`, `category_back_full_image`, `compare_template_id`, `append_to_global_seo`, `alias`, `path`, `asset_id`, `parent_id`, `level`, `lft`, `rgt`, `checked_out`, `checked_out_time`, `created_date`, `created_by`, `modified_by`, `modified_date`, `publish_up`, `publish_down`, `product_filter_params`)
+VALUES ('ROOT', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', 1, '0000-00-00 00:00:00', 0, '', '', 0, 'append', 'root', '', 0, 0, 0, 0, 1, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '');
 
 INSERT IGNORE INTO `#__content_types`
 (`type_title`, `type_alias`, `table`, `rules`, `field_mappings`, `router`, `content_history_options`)

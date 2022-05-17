@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Behat\Transliterator\Transliterator;
+use Joomla\CMS\Factory;
 
 /**
  * Utility functions for redSHOP
@@ -806,20 +807,44 @@ class RedshopHelperUtility
         return $orderBy;
     }
 
-    /**
-     * Get the event dispatcher
-     *
-     * @return  JEventDispatcher
-     */
-    public static function getDispatcher()
-    {
-        if (!self::$dispatcher) {
-            self::$dispatcher = version_compare(JVERSION, '3.0', 'lt') ? JDispatcher::getInstance(
-            ) : JEventDispatcher::getInstance();
-        }
+	/**
+	 * Get the event dispatcher
+	 *
+	 * @return  JEventDispatcher
+	 */
+	public static function getDispatcher()
+	{
+		if (!self::$dispatcher)
+		{
+			if (version_compare(JVERSION, '3.0', 'lt'))
+			{
+				self::$dispatcher = JDispatcher::getInstance();
+			}
+			elseif (version_compare(JVERSION, '4.0', 'lt'))
+			{
+				self::$dispatcher = JEventDispatcher::getInstance();
+			}
+			else
+			{
+				self::$dispatcher = new class {
+					/**
+					 * @param   string  $name  Name
+					 * @param   array   $attr  Attr
+					 *
+					 * @return array
+					 * @since  __DEPLOY_VERSION__
+					 */
+					public function trigger(string $name, array $attr = [])
+					{
+						return Factory::getApplication()
+							->triggerEvent($name, $attr);
+					}
+				};
+			}
+		}
 
-        return self::$dispatcher;
-    }
+		return self::$dispatcher;
+	}
 
     /**
      * Prepare order by object for ordering from string.

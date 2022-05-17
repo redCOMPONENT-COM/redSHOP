@@ -42,13 +42,13 @@ class RedshopViewCategory extends RedshopViewForm
     public function display($tpl = null)
     {
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+        RHtml::script('com_redshop/redshop.validation.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.fields.min.js', false, true);
+        RHtml::script('com_redshop/redshop.fields.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/json.min.js', false, true);
+        RHtml::script('com_redshop/json.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/json.min.js', false, true);
+        RHtml::script('com_redshop/json.min.js', false, true);
 
         $model = $this->getModel('category');
 

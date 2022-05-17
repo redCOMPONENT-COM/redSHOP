@@ -33,15 +33,15 @@ class RedshopViewAddquotation_detail extends RedshopViewAdmin
         $document->setTitle(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'));
 
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/json.min.js', false, true);
+        RHtml::script('com_redshop/json.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+        RHtml::script('com_redshop/redshop.validation.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.order.min.js', false, true);
+        RHtml::script('com_redshop/redshop.order.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.admin.common.min.js', false, true);
+        RHtml::script('com_redshop/redshop.admin.common.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/ajaxupload.min.js', false, true);
+        RHtml::script('com_redshop/ajaxupload.min.js', false, true);
         $session = JFactory::getSession();
         $uri     = JUri::getInstance();
 

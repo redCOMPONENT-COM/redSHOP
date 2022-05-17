@@ -8,11 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-JHtml::_('behavior.modal');
+JHtml::_('rbootstrap.modal');
 /** @scrutinizer ignore-deprecated */
-JHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
+RHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
 /** @scrutinizer ignore-deprecated */
-JHtml::script('com_redshop/redshop.onestep.min.js', false, true);
+RHtml::script('com_redshop/redshop.onestep.min.js', false, true);
 /** @var RedshopModelCheckout $model */
 $model = $this->getModel('checkout');
 

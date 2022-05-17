@@ -34,7 +34,7 @@ class RedshopModelAccount extends RedshopModel
     public $_table_prefix = null;
 
     /**
-     * @var  JPagination
+     * @var  \RPagination
      */
     public $_pagination;
 
@@ -190,7 +190,7 @@ class RedshopModelAccount extends RedshopModel
     /**
      * Method for get pagination
      *
-     * @return JPagination
+     * @return \RPagination
      * @throws Exception
      */
     public function getPagination()
@@ -203,7 +203,7 @@ class RedshopModelAccount extends RedshopModel
         if (empty($this->_pagination)) {
             JLoader::import('joomla.html.pagination');
 
-            $this->_pagination = new JPagination($this->getTotal(), $start, $limit);
+            $this->_pagination = new \RPagination($this->getTotal(), $start, $limit);
         }
 
         return $this->_pagination;

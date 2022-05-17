@@ -4,8 +4,8 @@ DROP TABLE IF EXISTS `#__redshop_accessmanager`;
 
 CALL redSHOP_Column_Update('#__redshop_category', 'category_id', 'id', "INT(11) NOT NULL AUTO_INCREMENT");
 CALL redSHOP_Column_Update('#__redshop_category', 'category_name', 'name', "VARCHAR(255) NOT NULL DEFAULT ''");
-CALL redSHOP_Column_Update('#__redshop_category', 'category_short_description', 'short_description', "TEXT NOT NULL DEFAULT ''");
-CALL redSHOP_Column_Update('#__redshop_category', 'category_description', 'description', "TEXT NOT NULL DEFAULT ''");
+CALL redSHOP_Column_Update('#__redshop_category', 'category_short_description', 'short_description', "TEXT NOT NULL");
+CALL redSHOP_Column_Update('#__redshop_category', 'category_description', 'description', "TEXT NOT NULL");
 CALL redSHOP_Column_Update('#__redshop_category', 'published', 'published', "TINYINT(4) NOT NULL DEFAULT 0");
 CALL redSHOP_Column_Update('#__redshop_category', 'category_template', 'template', "INT(11) NOT NULL DEFAULT 0");
 CALL redSHOP_Column_Update('#__redshop_category', 'category_more_template', 'more_template', "VARCHAR(255) NOT NULL DEFAULT ''");

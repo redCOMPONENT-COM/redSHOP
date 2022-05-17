@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('redshopjquery.framework');
-JHtml::_('behavior.framework', true);
+JHtml::_('rjquery.framework', true);
 JHtml::_(
     'redshopjquery.select2',
     'select:not(".disableBootstrapChosen")',
@@ -18,13 +18,13 @@ JHtml::_(
 );
 
 /** @scrutinizer ignore-deprecated */
-JHtml::script('com_redshop/redshop.attribute.min.js', false, true);
+RHtml::script('com_redshop/redshop.attribute.min.js', false, true);
 /** @scrutinizer ignore-deprecated */
-JHtml::script('com_redshop/redshop.common.min.js', false, true);
+RHtml::script('com_redshop/redshop.common.min.js', false, true);
 /** @scrutinizer ignore-deprecated */
-JHtml::script('com_redshop/redshop.redbox.min.js', false, true);
+RHtml::script('com_redshop/redshop.redbox.min.js', false, true);
 /** @scrutinizer ignore-deprecated */
-JHtml::script('com_redshop/bootstrap.min.js', false, true);
+RHtml::script('com_redshop/bootstrap.min.js', false, true);
 
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;

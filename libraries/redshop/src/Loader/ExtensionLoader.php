@@ -61,7 +61,7 @@ abstract class ExtensionLoader extends FilesystemLoader
      */
     protected function getBaseAppPath(): string
     {
-        if (Factory::getApplication()->isAdmin()) {
+        if (Factory::getApplication()->isClient('administrator')) {
             return JPATH_ADMINISTRATOR;
         }
 

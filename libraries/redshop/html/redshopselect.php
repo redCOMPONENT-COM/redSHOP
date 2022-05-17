@@ -304,7 +304,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
                 $options['list.attr']['class'] = 'searchSelect2';
             }
 
-            $attribs = JArrayHelper::toString($options['list.attr']);
+            $attribs = \Joomla\Utilities\ArrayHelper::toString($options['list.attr']);
 
             if ($attribs != '') {
                 $attribs = ' ' . $attribs;
@@ -435,7 +435,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
                 $options['list.attr']['class'] = 'searchSelect2';
             }
 
-            $attribs = JArrayHelper::toString($options['list.attr']);
+            $attribs = \Joomla\Utilities\ArrayHelper::toString($options['list.attr']);
 
             if ($attribs != '') {
                 $attribs = ' ' . $attribs;

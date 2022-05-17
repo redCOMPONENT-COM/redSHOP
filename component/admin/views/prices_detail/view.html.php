@@ -51,7 +51,7 @@ class RedshopViewPrices_detail extends RedshopViewAdmin
             array((int)$this->detail->shopper_group_id)
         );
 
-        $this->request_url = JFactory::getURI()->toString();
+        $this->request_url = \Joomla\CMS\Uri\Uri::getInstance()->toString();
 
         parent::display($tpl);
     }

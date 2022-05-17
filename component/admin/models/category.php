@@ -63,7 +63,7 @@ class RedshopModelCategory extends RedshopModelForm
     public function getExtraFields($item)
     {
         $templateDesc = RedshopHelperTemplate::getTemplate('category', $item->template, '');
-        $template     = $templateDesc[0]->template_desc;
+        $template     = $templateDesc[0]->template_desc ?? '';
         $regex        = '/{rs_[\w]{1,}\}/';
         preg_match_all($regex, $template, $matches);
 
@@ -215,9 +215,13 @@ class RedshopModelCategory extends RedshopModelForm
             $row->setOption('media', $dropzoneMedia);
         }
 
-        if (!$row->store()) {
-            return false;
-        }
+		if (!$row->store())
+		{
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+
+			return false;
+		}
 
         $data['id'] = $row->id;
 

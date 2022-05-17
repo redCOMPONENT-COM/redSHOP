@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 class RedshopModelSearch extends RedshopModel
 {
     /**
-     * @var  JPagination
+     * @var  \RPagination
      */
     public $pagination;
 
@@ -417,7 +417,7 @@ class RedshopModelSearch extends RedshopModel
         }
 
         JPluginHelper::importPlugin('redshop_product');
-        JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, 0));
+        RedshopHelperUtility::getDispatcher()->trigger('onFilterProduct', array(&$query, 0));
 
         return $query;
     }
@@ -1093,7 +1093,7 @@ class RedshopModelSearch extends RedshopModel
         );
 
         JPluginHelper::importPlugin('redshop_product');
-        JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, $pk));
+        RedshopHelperUtility::getDispatcher()->trigger('onFilterProduct', array(&$query, $pk));
 
         $data = $db->setQuery($query, 0, $limit)->loadObjectList();
 
@@ -1329,7 +1329,7 @@ class RedshopModelSearch extends RedshopModel
         }
 
         JPluginHelper::importPlugin('redshop_product');
-        JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, $pk));
+        RedshopHelperUtility::getDispatcher()->trigger('onFilterProduct', array(&$query, $pk));
 
         return $query;
     }
@@ -1337,13 +1337,13 @@ class RedshopModelSearch extends RedshopModel
     /**
      * Get pagination.
      *
-     * @return  JPagination
+     * @return  \RPagination
      */
     public function getFilterPagination()
     {
         $endlimit         = $this->getState('list.limit');
         $limitstart       = $this->getState('list.start');
-        $this->pagination = new JPagination($this->getFilterTotal(), $limitstart, $endlimit);
+        $this->pagination = new \RPagination($this->getFilterTotal(), $limitstart, $endlimit);
 
         return $this->pagination;
     }

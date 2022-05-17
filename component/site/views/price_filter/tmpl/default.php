@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.modal');
+JHTML::_('rbootstrap.modal');
 
 $app = JFactory::getApplication();
 

@@ -34,7 +34,7 @@ class RedshopViewUser_Detail extends RedshopViewAdmin
     public $lists;
 
     /**
-     * @var  JPagination
+     * @var  \RPagination
      */
     public $pagination;
 
@@ -63,9 +63,9 @@ class RedshopViewUser_Detail extends RedshopViewAdmin
         $this->dispatcher = RedshopHelperUtility::getDispatcher();
 
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/json.min.js', false, true);
+        RHtml::script('com_redshop/json.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+        RHtml::script('com_redshop/redshop.validation.min.js', false, true);
 
         $this->setLayout('default');
 

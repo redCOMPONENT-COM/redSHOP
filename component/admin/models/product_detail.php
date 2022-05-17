@@ -134,11 +134,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         // ToDo: This is potentially unsafe because $_POST elements are not sanitized.
         $data                               = $this->input->post->getArray();
-        $data['product_desc']               = JFilterInput::getInstance(null, null, 1, 1)->clean(
+        $data['product_desc']               = JFilterInput::getInstance([], [], 1, 1)->clean(
             $this->input->get('product_desc', '', 'RAW'),
             'html'
         );
-        $data['product_s_desc']             = JFilterInput::getInstance(null, null, 1, 1)->clean(
+        $data['product_s_desc']             = JFilterInput::getInstance([], [], 1, 1)->clean(
             $this->input->get('product_s_desc', '', 'RAW'),
             'html'
         );

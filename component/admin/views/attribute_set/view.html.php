@@ -30,7 +30,7 @@ class RedshopViewAttribute_set extends RedshopViewAdmin
         JToolBarHelper::publishList();
         JToolBarHelper::unpublishList();
 
-        $uri = JFactory::getURI();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         $filter_order     = $app->getUserStateFromRequest(
             $context . 'filter_order',

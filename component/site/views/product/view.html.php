@@ -99,7 +99,7 @@ class RedshopViewProduct extends RedshopView
          */
         $this->dispatcher->trigger('stopProductRedshopJQuery', array($this->data, $layout));
 
-        JHtml::stylesheet('com_redshop/scrollable-navig.min.css', array(), true);
+        RHtml::stylesheet('com_redshop/scrollable-navig.min.css', array(), true);
 
         if ($layout == "downloadproduct") {
             $this->setLayout('downloadproduct');
@@ -220,7 +220,7 @@ class RedshopViewProduct extends RedshopView
                 }
             }
 
-            $uri    = JFactory::getURI();
+            $uri    = \Joomla\CMS\Uri\Uri::getInstance();
             $scheme = $uri->getScheme();
             $host   = $uri->getHost();
 

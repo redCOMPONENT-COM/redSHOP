@@ -9,7 +9,7 @@
  */
 defined('_JEXEC') or die;
 JPluginHelper::importPlugin('redshop_category');
-JDispatcher::getInstance()->trigger('onRenderCategoryExtraFields', array($this->item->id));
+RedshopHelperUtility::getDispatcher()->trigger('onRenderCategoryExtraFields', array($this->item->id));
 ?>
 <div class="row">
     <div class="col-sm-12">

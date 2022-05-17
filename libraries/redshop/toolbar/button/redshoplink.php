@@ -80,7 +80,7 @@ class JButtonRedshopLink extends JButton
      */
     public function fetchId($type = 'RedshopLink', $name = '')
     {
-        return $this->_parent->getName() . '-' . $name;
+        return $this->getParent()->getName() . '-' . $name;
     }
 }
 

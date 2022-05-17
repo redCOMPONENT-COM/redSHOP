@@ -9,7 +9,7 @@
  */
 defined('_JEXEC') or die;
 
-/** @var JPaginationObject $item */
+/** @var \RPaginationObject $item */
 $item = $displayData['data'];
 
 $display = $item->text;
@@ -76,7 +76,7 @@ if ($displayData['active']) {
     $href    = trim($item->link);
 
     // Still using javascript approach in backend
-    if (JFactory::getApplication()->isAdmin()) {
+    if (JFactory::getApplication()->isClient('administrator')) {
         $onClick = 'onclick="document.adminForm.' . $item->prefix . $limit
             . '; Joomla.submitform(document.forms[\'' . $item->formName . '\'].task.value, document.forms[\'' . $item->formName . '\']);return false;"';
         $href    = '#';

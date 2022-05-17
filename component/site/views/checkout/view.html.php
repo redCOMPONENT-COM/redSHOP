@@ -43,21 +43,21 @@ class RedshopViewCheckout extends RedshopView
         }
 
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('system/validate.js', true, false);
+        RHtml::script('system/validate.js', true, false);
         JHtml::_('redshopjquery.framework');
-        JHtml::_('behavior.framework', true);
+        JHtml::_('rjquery.framework', true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/jquery.validate.min.js', false, true);
+        RHtml::script('com_redshop/jquery.validate.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.common.min.js', false, true);
+        RHtml::script('com_redshop/redshop.common.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/jquery.metadata.min.js', false, true);
+        RHtml::script('com_redshop/jquery.metadata.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.registration.min.js', false, true);
+        RHtml::script('com_redshop/redshop.registration.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
+        RHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.redbox.min.js', false, true);
+        RHtml::script('com_redshop/redshop.redbox.min.js', false, true);
 
         JPluginHelper::importPlugin('redshop_vies_registration');
 

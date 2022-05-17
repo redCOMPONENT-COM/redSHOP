@@ -207,7 +207,7 @@ class RedshopModelList extends JModelList
     protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
     {
         // Handle the optional arguments.
-        $options['control'] = JArrayHelper::getValue($options, 'control', false);
+        $options['control'] = \Joomla\Utilities\ArrayHelper::getValue($options, 'control', false);
 
         // Create a signature hash.
         $hash = md5($source . serialize($options));
@@ -309,9 +309,9 @@ class RedshopModelList extends JModelList
     }
 
     /**
-     * Method to get a JPagination object for the data set.
+     * Method to get a \RPagination object for the data set.
      *
-     * @return  JPagination  A JPagination object for the data set.
+     * @return  \RPagination  A \RPagination object for the data set.
      */
     public function getPagination()
     {
@@ -325,7 +325,7 @@ class RedshopModelList extends JModelList
 
         // Create the pagination object.
         $limit = (int)$this->getState('list.limit') - (int)$this->getState('list.links');
-        $page  = new JPagination($this->getTotal(), $this->getStart(), $limit, $this->paginationPrefix);
+        $page  = new \RPagination($this->getTotal(), $this->getStart(), $limit, $this->paginationPrefix);
 
         // Set the name of the HTML form associated
         $page->set('formName', $this->htmlFormName);
@@ -422,7 +422,7 @@ class RedshopModelList extends JModelList
         $inputFilter = JFilterInput::getInstance();
 
         // Load the parameters for frontend.
-        $params = $app->isSite() ? $app->getParams() : null;
+        $params = $app->isClient('site') ? $app->getParams() : null;
 
         // Receive & set filters
         if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array')) {

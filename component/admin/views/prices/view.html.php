@@ -16,7 +16,7 @@ class RedshopViewPrices extends RedshopViewAdmin
     {
         global $context;
 
-        $uri      = JFactory::getURI();
+        $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $app      = JFactory::getApplication();
         $document = JFactory::getDocument();
 
@@ -36,7 +36,7 @@ class RedshopViewPrices extends RedshopViewAdmin
         $media     = $this->get('Data');
         $productId = $this->get('ProductId');
 
-        $pagination = new JPagination($total, (int) $limitstart, (int) $limit);
+        $pagination = new \RPagination($total, (int) $limitstart, (int) $limit);
         $this->user = JFactory::getUser();
 
         $this->media       = $media;

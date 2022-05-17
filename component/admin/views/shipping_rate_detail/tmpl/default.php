@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$editor = JFactory::getEditor();
+$editor = \Joomla\CMS\Editor\Editor::getInstance();
 ?>
 
 <script language="javascript" type="text/javascript">

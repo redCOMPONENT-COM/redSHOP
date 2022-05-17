@@ -29,16 +29,16 @@ class RedshopViewStatistic_Quotation extends RedshopViewAdmin
     {
         global $context;
 
-        $uri      = JFactory::getURI();
+        $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $app      = JFactory::getApplication();
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_STATISTIC_QUOTATION'));
         /** @scrutinizer ignore-deprecated */
-        JHtml::stylesheet('com_redshop/daterangepicker.min.css', array(), true);
+        RHtml::stylesheet('com_redshop/daterangepicker.min.css', array(), true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/moment.min.js', false, true);
+        RHtml::script('com_redshop/moment.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/daterangepicker.min.js', false, true);
+        RHtml::script('com_redshop/daterangepicker.min.js', false, true);
 
         $this->quotations      = $this->get('Quotations');
         $this->filterStartDate = $app->input->getString('filter_start_date', '');

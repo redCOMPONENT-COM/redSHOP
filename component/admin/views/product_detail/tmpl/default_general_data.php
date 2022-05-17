@@ -9,13 +9,13 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal', 'a.joom-box');
+JHtml::_('rbootstrap.modal', 'a.joom-box');
 /** @scrutinizer ignore-deprecated */
-JHtml::script('com_redshop/jquery.inputmask.min.js', false, true);
+RHtml::script('com_redshop/jquery.inputmask.min.js', false, true);
 
 $priceDecimal   = Redshop::getConfig()->get('PRICE_DECIMAL', '.');
 $priceThousand  = Redshop::getConfig()->get('THOUSAND_SEPERATOR', ',');
-$editor         = JFactory::getEditor();
+$editor         = \Joomla\CMS\Editor\Editor::getInstance();
 $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
 $config         = JFactory::getConfig();
 $tz             = new \DateTimeZone($config->get('offset'));

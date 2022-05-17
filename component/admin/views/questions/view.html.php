@@ -45,7 +45,7 @@ class RedshopViewQuestions extends RedshopViewAdmin
     /**
      * Pagination
      *
-     * @var   JPagination
+     * @var   \RPagination
      *
      * @since 2.0.3
      */

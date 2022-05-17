@@ -32,7 +32,7 @@ class PlgSystemRedSHOP extends JPlugin
      */
     public function onAfterDispatch()
     {
-        if (!JFactory::getApplication()->isSite()) {
+        if (!JFactory::getApplication()->isClient('site')) {
             return;
         }
 

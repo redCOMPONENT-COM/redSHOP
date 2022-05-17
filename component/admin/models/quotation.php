@@ -162,14 +162,6 @@ class RedshopModelQuotation extends RedshopModelList
 
         $items = $this->_getList($query);
 
-        // Check for a database error.
-        if (/** @scrutinizer ignore-deprecated */ $this->_db->getErrorNum()) {
-            /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-            return false;
-        }
-
         if ($items) {
             foreach ($items as $key => $item) {
                 $items[$key]->quotation_status    = RedshopHelperQuotation::getQuotationStatusName(

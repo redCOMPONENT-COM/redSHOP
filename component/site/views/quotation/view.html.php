@@ -17,7 +17,7 @@ class RedshopViewQuotation extends RedshopView
         $app = JFactory::getApplication();
 
         $redconfig = Redconfiguration::getInstance();
-        $uri       = JFactory::getURI();
+        $uri       = \Joomla\CMS\Uri\Uri::getInstance();
 
         $Itemid  = $app->input->getInt('Itemid');
         $session = JFactory::getSession();
@@ -31,7 +31,7 @@ class RedshopViewQuotation extends RedshopView
         }
 
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+        RHtml::script('com_redshop/redshop.validation.min.js', false, true);
 
         $model = $this->getModel('quotation');
 

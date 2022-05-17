@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JHtml::_('behavior.modal', 'a.joom-box');
+JHtml::_('rbootstrap.modal', 'a.joom-box');
 JHTML::_('behavior.tooltip');
 echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' => $this));
 

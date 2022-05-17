@@ -53,7 +53,7 @@ class JFormFieldProducts extends JFormField
 
         $link = 'index.php?option=com_redshop&amp;view=product&amp;layout=element&amp;tmpl=component&amp;object=' . $name;
 
-        JHTML::_('behavior.modal', 'a.modal');
+        JHTML::_('rbootstrap.modal', 'a.modal');
 
         $value         = htmlspecialchars($product->product_name, ENT_QUOTES, 'UTF-8');
         $attributes [] = 'style="background: #ffffff;"';

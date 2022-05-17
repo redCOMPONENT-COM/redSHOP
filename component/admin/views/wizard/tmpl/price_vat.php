@@ -9,7 +9,7 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal', 'a.joom-box');
+JHtml::_('rbootstrap.modal', 'a.joom-box');
 ?>
 
 <table class="admintable table">

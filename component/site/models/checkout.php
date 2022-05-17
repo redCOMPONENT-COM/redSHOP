@@ -1126,7 +1126,7 @@ class RedshopModelCheckout extends RedshopModel
 
         // For authorize status
         JPluginHelper::importPlugin('redshop_payment');
-        JDispatcher::getInstance()->trigger(
+        RedshopHelperUtility::getDispatcher()->trigger(
             'onAuthorizeStatus_' . $paymentMethod->element,
             array($paymentMethod->element, $orderId)
         );

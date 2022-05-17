@@ -13,7 +13,7 @@ class RedshopViewSample_catalog extends RedshopViewAdmin
 {
     public function display($tpl = null)
     {
-        $uri = JFactory::getURI();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
         $this->setLayout('default');
         $detail = $this->get('data');
         $model  = $this->getModel('sample_catalog');

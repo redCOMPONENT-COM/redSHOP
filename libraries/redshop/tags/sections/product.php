@@ -555,7 +555,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
 // Google I like Button
         if ($this->isTagExists('{googleplus1}')) {
-            JHTML::script('https://apis.google.com/js/plusone.js');
+            RHtml::script('https://apis.google.com/js/plusone.js');
             $this->addReplace('{googleplus1}', '<g:plusone></g:plusone>');
         }
 

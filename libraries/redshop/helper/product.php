@@ -4273,7 +4273,7 @@ class RedshopHelperProduct
         $subproperty     = array();
 
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.thumbscroller.min.js', false, true);
+        RHtml::script('com_redshop/redshop.thumbscroller.min.js', false, true);
         $chkvatArr = JFactory::getSession()->get('chkvat');
         $chktag    = $chkvatArr['chkvat'];
 

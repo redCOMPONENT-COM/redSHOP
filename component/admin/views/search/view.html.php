@@ -19,9 +19,9 @@ class RedshopViewSearch extends RedshopViewAdmin
     public function display($tpl = null)
     {
         /** @scrutinizer ignore-deprecated */
-        JHtml::stylesheet('com_redshop/redshop.search.min.css', array(), true);
+        RHtml::stylesheet('com_redshop/redshop.search.min.css', array(), true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.search.min.js', false, true);
+        RHtml::script('com_redshop/redshop.search.min.js', false, true);
 
         $this->detail = $this->get('data');
 

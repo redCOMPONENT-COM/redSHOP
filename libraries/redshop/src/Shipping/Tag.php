@@ -426,7 +426,7 @@ class Tag
 
         $shippingRateId = \RedshopTagsSectionsShippingMethod::$shipping_rate_id;
         \Joomla\CMS\Plugin\PluginHelper::importPlugin('redshop_checkout');
-        \JDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$templateDesc));
+        \RedshopHelperUtility::getDispatcher()->trigger('onRenderShippingMethod', array(&$templateDesc));
 
         return array("template_desc" => $templateDesc, "shipping_rate_id" => $shippingRateId);
     }

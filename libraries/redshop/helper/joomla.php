@@ -84,7 +84,7 @@ class RedshopHelperJoomla
         $userParams = JComponentHelper::getParams('com_users');
 
         // Prevent front-end user to change user group in the form and then being able to register on any Joomla! user group.
-        if ($app->isSite()) {
+        if ($app->isClient('site')) {
             $data['groups'] = array($userParams->get('new_usertype', 2));
         }
 
@@ -202,8 +202,8 @@ class RedshopHelperJoomla
     {
         $app = JFactory::getApplication();
 
-        if ((!$app->isAdmin() && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || $data['user_id'] < 0))
-            || $app->isAdmin() && $data['user_id'] < 0 && isset($data['users_info_id'])) {
+        if ((!$app->isClient('administrator') && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || $data['user_id'] < 0))
+            || $app->isClient('administrator') && $data['user_id'] < 0 && isset($data['users_info_id'])) {
             $reduser     = new stdClass;
             $reduser->id = $data['user_id'];
 
