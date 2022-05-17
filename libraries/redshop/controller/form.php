@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Doctrine\Common\Inflector\Inflector;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Input\Input;
 
 jimport('joomla.application.component.controllerform');
 
@@ -32,146 +35,33 @@ class RedshopControllerForm extends JControllerForm
      */
     protected $name;
 
-    /**
-     * Constructor.
-     *
-     * @param   array  $config  An optional associative array of configuration settings.
-     *                          Recognized key values include 'name', 'default_task', 'model_path', and
-     *                          'view_path' (this list is not meant to be comprehensive).
-     *
-     * @throws  Exception
-     */
-    public function __construct($config = array())
-    {
-        /** JControllerLegacy */
-        $this->methods     = array();
-        $this->message     = null;
-        $this->messageType = 'message';
-        $this->paths       = array();
-        $this->redirect    = null;
-        $this->taskMap     = array();
+	/**
+	 * Constructor.
+	 *
+	 * @param   array                 $config       An optional associative array of configuration settings.
+	 *                                              Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                                              'view_path' (this list is not meant to be comprehensive).
+	 * @param   MVCFactoryInterface   $factory      The factory.
+	 * @param   CMSApplication        $app          The Application for the dispatcher
+	 * @param   Input                 $input        Input
+	 * @param   FormFactoryInterface  $formFactory  The form factory.
+	 *
+	 * @since   3.0
+	 */
+	public function __construct(
+		$config = [],
+		MVCFactoryInterface $factory = null,
+		?CMSApplication $app = null,
+		?Input $input = null,
+		FormFactoryInterface $formFactory = null
+	)
+	{
+		parent::__construct($config, $factory, $app, $input, $formFactory);
 
-        if (defined('JDEBUG') && JDEBUG) {
-            JLog::addLogger(array('text_file' => 'jcontroller.log.php'), JLog::ALL, array('controller'));
-        }
-
-        $this->input = JFactory::getApplication()->input;
-
-        // Determine the methods to exclude from the base class.
-        $xMethods = get_class_methods('JControllerLegacy');
-
-        // Get the public methods in this class using reflection.
-        $r        = new ReflectionClass($this);
-        $rMethods = $r->getMethods(ReflectionMethod::IS_PUBLIC);
-
-        foreach ($rMethods as $rMethod) {
-            $mName = $rMethod->getName();
-
-            // Add default display method if not explicitly declared.
-            if (!in_array($mName, $xMethods) || $mName == 'display') {
-                $this->methods[] = strtolower($mName);
-
-                // Auto register the methods as tasks.
-                $this->taskMap[strtolower($mName)] = $mName;
-            }
-        }
-
-        // Set the view name
-        if (empty($this->name)) {
-            if (array_key_exists('name', $config)) {
-                $this->name = $config['name'];
-            } else {
-                $this->name = $this->getName();
-            }
-        }
-
-        // Set a base path for use by the controller
-        if (array_key_exists('base_path', $config)) {
-            $this->basePath = $config['base_path'];
-        } else {
-            $this->basePath = JPATH_COMPONENT;
-        }
-
-        // If the default task is set, register it as such
-        if (array_key_exists('default_task', $config)) {
-            $this->registerDefaultTask($config['default_task']);
-        } else {
-            $this->registerDefaultTask('display');
-        }
-
-        // Set the models prefix
-        if (empty($this->model_prefix)) {
-            if (array_key_exists('model_prefix', $config)) {
-                // User-defined prefix
-                $this->model_prefix = $config['model_prefix'];
-            } else {
-                $this->model_prefix = $this->name . 'Model';
-            }
-        }
-
-        // Set the default model search path
-        if (array_key_exists('model_path', $config)) {
-            // User-defined dirs
-            $this->addModelPath($config['model_path'], $this->model_prefix);
-        } else {
-            $this->addModelPath($this->basePath . '/models', $this->model_prefix);
-        }
-
-        // Set the default view search path
-        if (array_key_exists('view_path', $config)) {
-            // User-defined dirs
-            $this->setPath('view', $config['view_path']);
-        } else {
-            $this->setPath('view', $this->basePath . '/views');
-        }
-
-        // Set the default view.
-        if (array_key_exists('default_view', $config)) {
-            $this->default_view = $config['default_view'];
-        } elseif (empty($this->default_view)) {
-            $this->default_view = $this->getName();
-        }
-
-        /** JControllerForm */
-        // Guess the option as com_NameOfController
-        if (empty($this->option)) {
-            $this->option = 'com_' . strtolower($this->getName());
-        }
-
-        // Guess the JText message prefix. Defaults to the option.
-        if (empty($this->text_prefix)) {
-            $this->text_prefix = strtoupper($this->option);
-        }
-
-        // Guess the context as the suffix, eg: OptionControllerContent.
-        if (empty($this->context)) {
-            $r = null;
-
-            if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r)) {
-                throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-            }
-
-            $this->context = strtolower($r[2]);
-        }
-
-        // Apply, Save & New, and Save As copy should be standard on forms.
-        $this->registerTask('apply', 'save');
-        $this->registerTask('save2new', 'save');
-        $this->registerTask('save2copy', 'save');
-
-        /** Custom */
-        // Guess the item view as the context.
-        if (empty($this->view_item)) {
-            $this->view_item = $this->context;
-        }
-
-        if (empty($this->view_list)) {
-            $this->view_list = Inflector::pluralize($this->view_item);
-        }
-
-        if (!property_exists($this, 'input') || empty($this->input)) {
-            $this->input = JFactory::getApplication()->input;
-        }
+		if (empty($this->view_list))
+		{
+			$this->view_list = RInflector::pluralize($this->view_item);
+		}
     }
 
     /**

@@ -9,7 +9,7 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal', '.joom-box');
+JHtml::_('rbootstrap.modal', '.joom-box');
 
 $uri              = JURI::getInstance();
 $url              = $uri->root();

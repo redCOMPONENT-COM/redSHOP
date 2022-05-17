@@ -31,7 +31,7 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
         $uri = JUri::getInstance();
 
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.admin.media.min.js', false, true);
+        RHtml::script('com_redshop/redshop.admin.media.min.js', false, true);
 
         $this->setLayout('default');
 

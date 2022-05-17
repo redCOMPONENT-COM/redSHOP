@@ -85,7 +85,7 @@ class RedshopViewCheckout extends RedshopView
 
         if (@$is_creditcard == 1) {
             /** @scrutinizer ignore-deprecated */
-            JHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
+            RHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
         }
 
         if ($is_subscription) {

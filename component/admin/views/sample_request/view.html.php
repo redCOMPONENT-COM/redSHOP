@@ -16,7 +16,7 @@ class RedshopViewSample_request extends RedshopViewAdmin
     {
         $context = "request_id";
 
-        $uri      = JFactory::getURI();
+        $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $app      = JFactory::getApplication();
         $document = JFactory::getDocument();
 

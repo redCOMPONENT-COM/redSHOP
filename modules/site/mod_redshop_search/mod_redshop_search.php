@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 
 require_once dirname(__FILE__) . '/helper.php';
 JLoader::import('redshop.library');
-JHtml::script('modules/mod_redshop_search/js/search.min.js');
+RHtml::script('modules/mod_redshop_search/js/search.min.js');
 
 $app      = JFactory::getApplication();
 $input    = $app->input;
@@ -55,9 +55,9 @@ if ($modSearchItemid != "") {
 
 if ($enableAjaxsearch) {
     /** @scrutinizer ignore-deprecated */
-    JHtml::script('com_redshop/redshop.search.min.js', false, true);
+    RHtml::script('com_redshop/redshop.search.min.js', false, true);
     /** @scrutinizer ignore-deprecated */
-    JHtml::stylesheet('com_redshop/redshop.search.min.css', array(), true);
+    RHtml::stylesheet('com_redshop/redshop.search.min.css', array(), true);
     $javaFun = "makeUrl();";
 }
 

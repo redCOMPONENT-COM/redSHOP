@@ -308,9 +308,9 @@ class RedshopModel extends JModelLegacy
     }
 
     /**
-     * Method to get a JPagination object for the data set.
+     * Method to get a \RPagination object for the data set.
      *
-     * @return  JPagination  A JPagination object for the data set.
+     * @return  \RPagination  A \RPagination object for the data set.
      *
      * @since   1.5
      */
@@ -327,7 +327,7 @@ class RedshopModel extends JModelLegacy
         // Create the pagination object.
         jimport('joomla.html.pagination');
         $limit = (int)$this->getState('limit') - (int)$this->getState('list.links');
-        $page  = new JPagination($this->getTotal(), $this->getStart(), $limit);
+        $page  = new \RPagination($this->getTotal(), $this->getStart(), $limit);
 
         // Add the object to the internal cache.
         $this->cache[$store] = $page;

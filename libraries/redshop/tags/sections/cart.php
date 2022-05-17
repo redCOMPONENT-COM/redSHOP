@@ -312,7 +312,7 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
     {
         JHtml::_('redshopjquery.framework');
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.common.min.js', false, true);
+        RHtml::script('com_redshop/redshop.common.min.js', false, true);
 
         $countries            = RedshopHelperWorld::getCountryList();
         $post['country_code'] = $countries['country_code'];

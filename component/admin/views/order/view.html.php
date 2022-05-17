@@ -39,7 +39,7 @@ class RedshopViewOrder extends RedshopViewAdmin
     public $orders;
 
     /**
-     * @var  JPagination
+     * @var  \RPagination
      */
     public $pagination;
 

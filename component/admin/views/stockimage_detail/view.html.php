@@ -22,7 +22,7 @@ class RedshopViewStockimage_detail extends RedshopViewAdmin
     public function display($tpl = null)
     {
         JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKIMAGE_MANAGEMENT_DETAIL'), 'redshop_stockroom48');
-        $uri = JFactory::getURI();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
         $this->setLayout('default');
 
         $lists = array();

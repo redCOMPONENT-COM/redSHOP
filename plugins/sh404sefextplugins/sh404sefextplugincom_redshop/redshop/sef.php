@@ -724,7 +724,7 @@ switch ($view) {
 }
 
 JPluginHelper::importPlugin('sh404sefextplugins');
-$dispatcher = JDispatcher::getInstance();
+$dispatcher = RedshopHelperUtility::getDispatcher();
 $dispatcher->trigger('onBeforeParseLinkSh404sef', array(&$title, $view, $layout, $task, $msg, $requestId));
 
 if ($limitstart) {

@@ -28,7 +28,7 @@ class RedshopViewList extends AbstractView
     public $items;
 
     /**
-     * @var  JPagination
+     * @var  \RPagination
      */
     public $pagination;
 

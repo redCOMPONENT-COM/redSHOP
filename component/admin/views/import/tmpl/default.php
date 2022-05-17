@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 JHtml::_('redshopjquery.ui');
 /** @scrutinizer ignore-deprecated */
-JHtml::script('com_redshop/jquery.iframe-transport.min.js', false, true);
+RHtml::script('com_redshop/jquery.iframe-transport.min.js', false, true);
 /** @scrutinizer ignore-deprecated */
-JHtml::script('com_redshop/jquery.fileupload.min.js', false, true);
+RHtml::script('com_redshop/jquery.fileupload.min.js', false, true);
 
 $allowFileTypes      = explode(',', Redshop::getConfig()->get('IMPORT_FILE_MIME', 'text/csv,application/vnd.ms-excel'));
 $allowMaxFileSize    = (int)Redshop::getConfig()->get('IMPORT_MAX_FILE_SIZE', 2000000);

@@ -575,7 +575,7 @@ class RedshopHelperShipping
     public static function listShippingRates($shippingClass, $usersInfoId, &$data)
     {
         $app            = JFactory::getApplication();
-        $isAdmin        = $app->isAdmin();
+        $isAdmin        = $app->isClient('administrator');
         $orderSubtotal  = $data['order_subtotal'];
         $totalDimention = self::getCartItemDimension();
         $weightTotal    = $totalDimention['totalweight'];

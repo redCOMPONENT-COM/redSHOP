@@ -101,7 +101,7 @@ global.getGlobExtensionPattern = function getGlobExtensionPattern(extensionType,
  */
 global.executeComposer = function executeComposer(composerPath) {
     log("Composer found: ", colors.blue(composerPath));
-    composer({cwd: composerPath, bin: 'php ./composer.phar'});
+    composer({cwd: composerPath});
 }
 
 gulp.task("composer", function (cb) {
@@ -112,7 +112,7 @@ gulp.task("composer", function (cb) {
             // Make sure this is not composer.json inside vendor library
             if (composerPath.indexOf("vendor") == -1 && composerPath != '.') {
                 log("Composer found: ", colors.blue(composerPath));
-                composer({cwd: composerPath, bin: 'php ./composer.phar'}).on('end', cb);
+                composer({cwd: composerPath}).on('end', cb);
             }
         }
     });

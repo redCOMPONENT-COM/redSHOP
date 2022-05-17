@@ -29,15 +29,15 @@ class RedshopViewRegistration extends RedshopView
         $params = $app->getParams('com_redshop');
         JHtml::_('redshopjquery.framework');
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/jquery.validate.min.js', false, true);
+        RHtml::script('com_redshop/jquery.validate.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.common.min.js', false, true);
+        RHtml::script('com_redshop/redshop.common.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/jquery.metadata.min.js', false, true);
+        RHtml::script('com_redshop/jquery.metadata.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.registration.min.js', false, true);
+        RHtml::script('com_redshop/redshop.registration.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
+        RHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
 
         JPluginHelper::importPlugin('redshop_vies_registration');
 

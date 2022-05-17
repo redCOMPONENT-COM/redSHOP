@@ -21,7 +21,7 @@ use Redshop\Table\Traits\HasInstancePrefix;
  *
  * @since  3.2.3
  */
-abstract class AbstractTable extends \JTable implements TableInterface
+abstract class AbstractTable extends \RTable implements TableInterface
 {
     use HasAutoEvents;
     use HasInstanceName;
@@ -92,7 +92,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
             $this->generateEventsConfig();
         }
 
-        parent::__construct($this->_tbl, $key, $db);
+        parent::__construct($db);
     }
 
     /**
@@ -311,13 +311,6 @@ abstract class AbstractTable extends \JTable implements TableInterface
 
         $this->_db->setQuery($query);
         $this->_db->execute();
-
-        // Check for a database error.
-        if ($this->_db->getErrorNum()) {
-            $this->setError($this->_db->getErrorMsg());
-
-            return false;
-        }
 
         return true;
     }

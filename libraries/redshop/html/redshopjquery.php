@@ -43,8 +43,8 @@ abstract class JHtmlRedshopjquery
         self::framework();
 
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/flexslider.min.js', false, true);
-        JHtml::stylesheet('com_redshop/flexslider/flexslider.min.css', array(), true);
+        RHtml::script('com_redshop/flexslider.min.js', false, true);
+        RHtml::stylesheet('com_redshop/flexslider/flexslider.min.css', array(), true);
 
         $options = static::options2Jregistry($options);
 
@@ -87,7 +87,7 @@ abstract class JHtmlRedshopjquery
                 $debug  = (boolean)$config->get('debug');
             }
 
-            JHtml::script('com_redshop/jquery.min.js', false, true, false, false, $debug);
+            RHtml::script('com_redshop/jquery.min.js', false, true, false, false, $debug);
 
             // Check if we are loading in noConflict
             if ($noConflict) {
@@ -214,11 +214,11 @@ abstract class JHtmlRedshopjquery
         self::framework();
 
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/select2.min.js', false, true);
-        JHtml::stylesheet('com_redshop/select2/select2.css', array(), true);
+        RHtml::script('com_redshop/select2.min.js', false, true);
+        RHtml::stylesheet('com_redshop/select2/select2.css', array(), true);
 
         if (version_compare(JVERSION, '3.0', '>=')) {
-            JHtml::stylesheet('com_redshop/select2/select2-bootstrap.css', array(), true);
+            RHtml::stylesheet('com_redshop/select2/select2-bootstrap.css', array(), true);
         }
 
         $prefix = '';
@@ -273,14 +273,14 @@ abstract class JHtmlRedshopjquery
             return;
         }
 
-        JHtml::stylesheet('com_redshop/jquery-ui/jquery-ui.min.css', array(), true);
+        RHtml::stylesheet('com_redshop/jquery-ui/jquery-ui.min.css', array(), true);
         self::framework();
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/jquery-ui.min.js', false, true, false, false);
+        RHtml::script('com_redshop/jquery-ui.min.js', false, true, false, false);
 
         if (version_compare(JVERSION, '3.0', '>=')) {
             // Check includes and remove core joomla jquery.ui script
-            JHtml::_('jquery.ui', array('core'));
+            JHtml::_('rjquery.ui', array('core'));
             $document = JFactory::getDocument();
             $headData = $document->getHeadData();
 

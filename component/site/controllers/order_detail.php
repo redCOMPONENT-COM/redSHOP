@@ -409,7 +409,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
                 if ($isCreditcard) {
                     /** @scrutinizer ignore-deprecated */
-                    JHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
+                    RHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
                     ?>
 
                     <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout', false) ?>"

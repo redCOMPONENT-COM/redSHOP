@@ -10,6 +10,8 @@ use Joomla\CMS\Installer\Adapter\ComponentAdapter;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
 
+use Joomla\CMS\Installer\Adapter\ComponentAdapter;
+
 defined('_JEXEC') or die;
 
 /**
@@ -60,14 +62,14 @@ class Com_RedshopInstallerScript
     /**
      * Install the package libraries
      *
-     * @param   object  $parent  Class calling this method
+     * @param   ComponentAdapter  $parent  Class calling this method
      *
      * @return  void
      */
     protected function installLibraries($parent)
     {
         // Required objects
-        $manifest = $parent->get('manifest');
+        $manifest = $parent->getManifest();
         $src      = $parent->getParent()->getPath('source');
 
         if ($nodes = $manifest->libraries->library) {
@@ -135,14 +137,14 @@ class Com_RedshopInstallerScript
     /**
      * Install the package modules
      *
-     * @param   object  $parent  Class calling this method
+     * @param   ComponentAdapter  $parent  Class calling this method
      *
      * @return  void
      */
     protected function installModules($parent)
     {
         // Required objects
-        $manifest = $parent->get('manifest');
+        $manifest = $parent->getManifest();
         $src      = $parent->getParent()->getPath('source');
 
         if ($nodes = $manifest->modules->module) {
@@ -171,7 +173,7 @@ class Com_RedshopInstallerScript
     protected function installPlugins($parent)
     {
         // Required objects
-        $manifest = $parent->get('manifest');
+        $manifest = $parent->getManifest();
         $src      = $parent->getParent()->getPath('source');
 
         if ($nodes = $manifest->plugins->plugin) {
@@ -405,7 +407,7 @@ class Com_RedshopInstallerScript
     /**
      * method to uninstall the component
      *
-     * @param   object  $parent  Class calling this method
+     * @param   ComponentAdapter  $parent  Class calling this method
      *
      * @return  void
      */
@@ -420,14 +422,14 @@ class Com_RedshopInstallerScript
     /**
      * Uninstall the package plugins
      *
-     * @param   object  $parent  Class calling this method
+     * @param   ComponentAdapter  $parent  Class calling this method
      *
      * @return  void
      */
     protected function uninstallPlugins($parent)
     {
         // Required objects
-        $manifest = $parent->get('manifest');
+        $manifest = $parent->getManifest();
 
         if ($nodes = $manifest->plugins->plugin) {
             $installer = $this->getInstaller();
@@ -446,14 +448,14 @@ class Com_RedshopInstallerScript
     /**
      * Uninstall the package modules
      *
-     * @param   object  $parent  Class calling this method
+     * @param   ComponentAdapter  $parent  Class calling this method
      *
      * @return  void
      */
     protected function uninstallModules($parent)
     {
         // Required objects
-        $manifest = $parent->get('manifest');
+        $manifest = $parent->getManifest();
 
         if ($nodes = $manifest->modules->module) {
             foreach ($nodes as $node) {
@@ -470,14 +472,14 @@ class Com_RedshopInstallerScript
     /**
      * Uninstall the package libraries
      *
-     * @param   object  $parent  Class calling this method
+     * @param   ComponentAdapter  $parent  Class calling this method
      *
      * @return  void
      */
     protected function uninstallLibraries($parent)
     {
         // Required objects
-        $manifest = $parent->get('manifest');
+        $manifest = $parent->getManifest();
 
         if ($nodes = $manifest->libraries->library) {
             foreach ($nodes as $node) {
@@ -493,7 +495,7 @@ class Com_RedshopInstallerScript
     /**
      * Method to update the component
      *
-     * @param   object  $parent  Class calling this method
+     * @param   ComponentAdapter  $parent  Class calling this method
      *
      * @return  void
      */

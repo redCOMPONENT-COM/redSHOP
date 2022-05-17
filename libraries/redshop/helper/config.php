@@ -112,7 +112,7 @@ class RedshopHelperConfig
 
         // Load redshop script
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.min.js', false, true);
+        RHtml::script('com_redshop/redshop.min.js', false, true);
 
         JFactory::getDocument()->addScriptDeclaration(
             '

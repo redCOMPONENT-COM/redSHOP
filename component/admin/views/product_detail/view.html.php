@@ -293,27 +293,27 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
         if (!$loadedFromAPlugin) {
             /** @scrutinizer ignore-deprecated */
-            JHtml::script('com_redshop/redshop.fields.min.js', false, true);
+            RHtml::script('com_redshop/redshop.fields.min.js', false, true);
         }
 
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/json.min.js', false, true);
+        RHtml::script('com_redshop/json.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+        RHtml::script('com_redshop/redshop.validation.min.js', false, true);
 
         if (version_compare(JVERSION, '3.0', '<')) {
             /** @scrutinizer ignore-deprecated */
-            JHtml::stylesheet('com_redshop/redshop.update.min.css', array(), true);
+            RHtml::stylesheet('com_redshop/redshop.update.min.css', array(), true);
         }
 
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.attribute-manipulation.min.js', false, true);
+        RHtml::script('com_redshop/redshop.attribute-manipulation.min.js', false, true);
 
         if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder.css')) {
             $document->addStyleSheet('components/com_redproductfinder/helpers/redproductfinder.css');
         }
 
-        $uri = JFactory::getURI();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         $layout = $this->input->getString('layout', '');
 

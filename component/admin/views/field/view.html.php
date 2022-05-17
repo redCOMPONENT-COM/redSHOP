@@ -33,7 +33,7 @@ class RedshopViewField extends RedshopViewForm
     public function beforeDisplay(&$tpl)
     {
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.fields.min.js', false, true);
+        RHtml::script('com_redshop/redshop.fields.min.js', false, true);
 
         // Initialise variables.
         $this->form  = $this->get('Form');

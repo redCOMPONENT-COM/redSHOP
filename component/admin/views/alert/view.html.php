@@ -43,7 +43,7 @@ class RedshopViewAlert extends RedshopViewAdmin
             true
         );
 
-        $uri         = JFactory::getURI();
+        $uri         = \Joomla\CMS\Uri\Uri::getInstance();
         $this->state = $this->get('State');
 
         $optiontype   = array();

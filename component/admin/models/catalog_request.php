@@ -81,7 +81,7 @@ class RedshopModelCatalog_request extends RedshopModel
     {
         if (empty($this->_pagination)) {
             jimport('joomla.html.pagination');
-            $this->_pagination = new JPagination(
+            $this->_pagination = new \RPagination(
                 $this->getTotal(),
                 $this->getState('limitstart'),
                 $this->getState('limit')

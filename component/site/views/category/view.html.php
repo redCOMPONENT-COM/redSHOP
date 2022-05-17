@@ -82,7 +82,7 @@ class RedshopViewCategory extends RedshopView
         }
 
         $document = JFactory::getDocument();
-        JHtml::stylesheet('com_redshop/redshop.priceslider.min.css', array(), true);
+        RHtml::stylesheet('com_redshop/redshop.priceslider.min.css', array(), true);
 
         $lists   = array();
         $minmax  = array(0, 0);

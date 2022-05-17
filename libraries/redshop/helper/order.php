@@ -175,14 +175,6 @@ class RedshopHelperOrder
         // Set the query and load the result.
         $fields = $db->setQuery($query)->loadObjectList();
 
-        // Check for a database error.
-        if (/** @scrutinizer ignore-deprecated */ $db->getErrorNum()) {
-            /** @scrutinizer ignore-deprecated */
-            JError::raiseWarning(500, /** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
-
-            return null;
-        }
-
         $fieldsData = array();
 
         if (!empty($fields)) {
@@ -1538,14 +1530,6 @@ class RedshopHelperOrder
         // Set the query and load the result.
         $db->setQuery($query);
         self::$allStatus = $db->loadObjectList();
-
-        // Check for a database error.
-        if (/** @scrutinizer ignore-deprecated */ $db->getErrorNum()) {
-            /** @scrutinizer ignore-deprecated */
-            JError::raiseWarning(500, /** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
-
-            return null;
-        }
 
         return self::$allStatus;
     }

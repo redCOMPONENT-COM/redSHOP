@@ -73,7 +73,7 @@ class RedshopTable extends AbstractTable
         $prefix        = $componentName . 'Table';
 
         if (is_null($client)) {
-            $client = (int)JFactory::getApplication()->isAdmin();
+            $client = (int)JFactory::getApplication()->isClient('administrator');
         }
 
         // Admin

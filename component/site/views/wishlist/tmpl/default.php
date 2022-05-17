@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.framework');
+JHtml::_('rjquery.framework');
 
 $url         = JUri::base();
 $input       = JFactory::getApplication()->input;

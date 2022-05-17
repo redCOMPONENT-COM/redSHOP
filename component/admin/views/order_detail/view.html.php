@@ -56,15 +56,15 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 
         $layout = $input->getCmd('layout', '');
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.order.min.js', false, true);
+        RHtml::script('com_redshop/redshop.order.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.admin.common.min.js', false, true);
+        RHtml::script('com_redshop/redshop.admin.common.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+        RHtml::script('com_redshop/redshop.validation.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/json.min.js', false, true);
+        RHtml::script('com_redshop/json.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/ajaxupload.min.js', false, true);
+        RHtml::script('com_redshop/ajaxupload.min.js', false, true);
 
         $lists = array();
 

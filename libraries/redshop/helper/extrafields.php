@@ -1025,7 +1025,7 @@ class RedshopHelperExtrafields
                     $dataTxt = \JFilterInput::getInstance()->clean($data[$row->name]);
                 } elseif ($row->type == self::TYPE_WYSIWYG) {
                     $inputField = JFactory::getApplication()->input->post->get($row->name, '', 'raw');
-                    $dataTxt    = \JFilterInput::getInstance(null, null, 1, 1)->clean($inputField, 'html');
+                    $dataTxt    = \JFilterInput::getInstance([], [], 1, 1)->clean($inputField, 'html');
                 } else {
                     $dataTxt = $data[$row->name];
                 }
@@ -1569,7 +1569,7 @@ class RedshopHelperExtrafields
         $uniqueId = ''
     ) {
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.attribute.min.js', false, true);
+        RHtml::script('com_redshop/redshop.attribute.min.js', false, true);
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true);
 

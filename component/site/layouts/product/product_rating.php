@@ -23,7 +23,7 @@ $Itemid      = $app->input->getInt('Itemid', 0);
 $category_id = $app->input->getInt('cid', 0);
 
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('redshopjquery.radiobutton');
 
 $user = JFactory::getUser();

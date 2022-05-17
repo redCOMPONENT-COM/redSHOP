@@ -46,7 +46,7 @@ $params = JFactory::getApplication()->input->get('params', '', 'raw');
                     $doc->addScriptDeclaration($js);
 
                     $link = 'index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=jSelectArticle_terms_article_id';
-                    JHtml::_('behavior.modal', 'a.joom-box');
+                    JHtml::_('rbootstrap.modal', 'a.joom-box');
                     $html = "\n" . '<div class="fltlft"><input type="text" id="terms_article_id_name" value="' . htmlspecialchars(
                             $article->title,
                             ENT_QUOTES,

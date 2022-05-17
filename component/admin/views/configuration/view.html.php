@@ -40,7 +40,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
         $document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+        RHtml::script('com_redshop/redshop.validation.min.js', false, true);
 
         /** @var RedshopModelConfiguration $model */
         $model         = $this->getModel('configuration');

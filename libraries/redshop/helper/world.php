@@ -159,13 +159,6 @@ class RedshopHelperWorld
                 $db->setQuery($query);
 
                 self::$countries = RedshopHelperUtility::convertLanguageString($db->loadObjectList());
-
-                // Check for a database error.
-                if ($db->getErrorNum()) {
-                    JError::raiseWarning(500, $db->getErrorMsg());
-
-                    return null;
-                }
             }
         }
 
@@ -290,13 +283,6 @@ class RedshopHelperWorld
         // Set the query and load the result.
         $db->setQuery($query);
         $states = $db->loadObjectList();
-
-        // Check for a database error.
-        if ($db->getErrorNum()) {
-            JError::raiseWarning(500, $db->getErrorMsg());
-
-            return null;
-        }
 
         // Store in states array
         self::$states[$key] = $states;

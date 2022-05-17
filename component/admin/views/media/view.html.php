@@ -23,7 +23,7 @@ class RedshopViewMedia extends RedshopViewAdmin
     /**
      * The pagination object.
      *
-     * @var  JPagination
+     * @var  \RPagination
      */
     public $pagination;
 
@@ -36,11 +36,11 @@ class RedshopViewMedia extends RedshopViewAdmin
 
     public function display($tpl = null)
     {
-        $uri      = JFactory::getURI();
+        $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $document = JFactory::getDocument();
 
         /** @scrutinizer ignore-deprecated */
-        JHtml::stylesheet('com_redshop/redshop.medialist-thumbs.min.css', array(), true);
+        RHtml::stylesheet('com_redshop/redshop.medialist-thumbs.min.css', array(), true);
 
         JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'camera redshop_media48');
         JToolbarHelper::addNew();

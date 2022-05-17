@@ -33,7 +33,7 @@ class Utility
     {
         $default = \JFactory::getConfig()->get('captcha');
 
-        if (\JFactory::getApplication()->isSite()) {
+        if (\JFactory::getApplication()->isClient('site')) {
             $default = \JFactory::getApplication()->getParams()->get('captcha', \JFactory::getConfig()->get('captcha'));
         }
 

@@ -63,7 +63,7 @@ class PlgTwigCache extends BaseTwigPlugin
         $cacheFolder = Factory::getConfig()->get('cache_path', JPATH_CACHE) . '/twig';
 
         if ($cacheFolder !== JPATH_CACHE) {
-            $cacheFolder .= '/' . (Factory::getApplication()->isSite() ? 'site' : 'admin');
+            $cacheFolder .= '/' . (Factory::getApplication()->isClient('site') ? 'site' : 'admin');
         }
 
         $options['cache'] = $cacheFolder;

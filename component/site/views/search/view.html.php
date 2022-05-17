@@ -136,7 +136,7 @@ class RedshopViewSearch extends RedshopView
             $model = $this->getModel('search');
             $total = $model->getTotal();
 
-            JHTML::_('behavior.modal');
+            JHTML::_('rbootstrap.modal');
             $url = JURI::base();
 
             if ($this->params->get('page_title') != "") {
@@ -862,7 +862,7 @@ class RedshopViewSearch extends RedshopView
                 $template_org = str_replace("{pagination}", "", $template_org);
             }
 
-            $pagination = new JPagination($total_product, $start, $endlimit);
+            $pagination = new \RPagination($total_product, $start, $endlimit);
 
             if (strstr($template_org, "{pagination}")) {
                 $template_org = str_replace("{pagination}", $pagination->getPagesLinks(), $template_org);

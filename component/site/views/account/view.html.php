@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class RedshopViewAccount extends RedshopView
 {
     /**
-     * @var  JPagination
+     * @var  \RPagination
      */
     public $pagination;
 
@@ -178,7 +178,7 @@ class RedshopViewAccount extends RedshopView
 
         $limitstart       = $this->input->getInt('limitstart', 0, '', 'int');
         $total            = $this->get('total');
-        $pagination       = new JPagination($total, $limitstart, $limit);
+        $pagination       = new \RPagination($total, $limitstart, $limit);
         $this->pagination = $pagination;
 
         $twigParams = [
@@ -246,7 +246,7 @@ class RedshopViewAccount extends RedshopView
 
         $limitstart       = $this->input->getInt('limitstart', 0, '', 'int');
         $total            = $this->get('total');
-        $pagination       = new JPagination($total, $limitstart, $limit);
+        $pagination       = new \RPagination($total, $limitstart, $limit);
         $this->pagination = $pagination;
         $displayWishlist  = $mail == 0 ? $this->wishlistTemplate() : $this->wishlistMailTemplate();
 

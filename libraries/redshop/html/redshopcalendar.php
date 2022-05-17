@@ -54,15 +54,15 @@ abstract class JHtmlRedshopcalendar
         }
 
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/moment.min.js', false, true);
+        RHtml::script('com_redshop/moment.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/moment-timezone-with-data.min.js', false, true);
+        RHtml::script('com_redshop/moment-timezone-with-data.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/bootstrap-datetimepicker.min.js', false, true, false, false);
+        RHtml::script('com_redshop/bootstrap-datetimepicker.min.js', false, true, false, false);
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/jquery.inputmask.min.js', false, true);
+        RHtml::script('com_redshop/jquery.inputmask.min.js', false, true);
         /** @scrutinizer ignore-deprecated */
-        JHtml::stylesheet('com_redshop/bootstrap-datetimepicker.min.css', array(), true);
+        RHtml::stylesheet('com_redshop/bootstrap-datetimepicker.min.css', array(), true);
 
         $momentValue = false;
 

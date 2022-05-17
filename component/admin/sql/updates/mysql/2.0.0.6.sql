@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_wishlist_product_item` (
 
 CALL redSHOP_Column_Update('#__redshop_supplier', 'supplier_id', 'id', "INT(11) NOT NULL AUTO_INCREMENT");
 CALL redSHOP_Column_Update('#__redshop_supplier', 'supplier_name', 'name', "VARCHAR(255) NOT NULL DEFAULT ''");
-CALL redSHOP_Column_Update('#__redshop_supplier', 'supplier_desc', 'description', "TEXT NOT NULL DEFAULT ''");
+CALL redSHOP_Column_Update('#__redshop_supplier', 'supplier_desc', 'description', "TEXT NOT NULL");
 CALL redSHOP_Column_Update('#__redshop_supplier', 'supplier_email', 'email', "VARCHAR(255) NOT NULL DEFAULT ''");
 CALL redSHOP_Column_Update('#__redshop_supplier', 'published', 'published', "TINYINT(4) NOT NULL DEFAULT 0");
 CALL redSHOP_Column_Update('#__redshop_supplier', 'checked_out', 'checked_out', "INT(11) NULL DEFAULT NULL AFTER `published`");

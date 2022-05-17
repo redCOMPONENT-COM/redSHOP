@@ -61,7 +61,7 @@ class RedshopModelRatings extends RedshopModel
     {
         if (empty($this->_pagination)) {
             JLoader::import('joomla.html.pagination');
-            $this->_pagination = new JPagination(
+            $this->_pagination = new \RPagination(
                 $this->getTotal(),
                 $this->getState('limitstart'),
                 $this->getState('limit')
