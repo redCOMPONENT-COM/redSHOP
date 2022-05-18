@@ -107,13 +107,7 @@ class RedshopModelCatalog_request extends RedshopModel
             $cids = implode(',', $cid);
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'catalog_request WHERE catalog_user_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         return true;
@@ -127,13 +121,7 @@ class RedshopModelCatalog_request extends RedshopModel
             $query = 'UPDATE ' . $this->_table_prefix . 'catalog_request'
                 . ' SET block = ' . intval($publish)
                 . ' WHERE catalog_user_id 	 IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         return true;

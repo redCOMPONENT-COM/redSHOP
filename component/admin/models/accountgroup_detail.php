@@ -120,13 +120,13 @@ class RedshopModelAccountgroup_detail extends RedshopModel
         $row = $this->getTable();
 
         if (!$row->bind($data)) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }

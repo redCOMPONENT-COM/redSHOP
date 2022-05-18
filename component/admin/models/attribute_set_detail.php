@@ -100,29 +100,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                 }
 
                 $attr_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute WHERE attribute_id =' . $imagename->attribute_id;
-                $this->_db->setQuery($attr_delete);
-
-                if (!$this->_db->execute()) {
-                    /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-                }
+                $this->_db->setQuery($attr_delete)->execute();
 
                 $prop_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_property WHERE attribute_id =' . $imagename->attribute_id;
-                $this->_db->setQuery($prop_delete);
-
-                if (!$this->_db->execute()) {
-                    /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-                }
+                $this->_db->setQuery($prop_delete)->execute();
             }
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'attribute_set WHERE attribute_set_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         return true;
@@ -135,14 +120,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
             $query = 'UPDATE ' . $this->_table_prefix . 'attribute_set'
                 . ' SET published = ' . intval($publish)
                 . ' WHERE attribute_set_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         return true;
@@ -282,25 +260,11 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute WHERE attribute_id IN ( ' . $cids . ' )';
 
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_property WHERE attribute_id IN ( ' . $cids . ' )';
 
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
     }
 
@@ -333,24 +297,10 @@ class RedshopModelAttribute_set_detail extends RedshopModel
             }
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_property WHERE property_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
+            $this->_db->setQuery($query)->execute();
 
-            if (!$this->_db->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                return false;
-            } else {
-                $query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE subattribute_id IN (' . $cids . ' )';
-                $this->_db->setQuery($query);
-
-                if (!$this->_db->execute()) {
-                    /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                    return false;
-                }
-            }
+			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE subattribute_id IN (' . $cids . ' )';
+			$this->_db->setQuery($query)->execute();
         }
     }
 
@@ -377,14 +327,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_property WHERE attribute_id IN ( ' . $cids . ' )';
 
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
     }
 
@@ -394,14 +337,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
             return false;
         }
@@ -416,7 +359,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
         if (!$row->bind($data) || !$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
             return false;
         }
@@ -433,14 +376,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
             return false;
         }
@@ -466,14 +409,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
                 $query = "UPDATE " . $this->_table_prefix . "product_attribute_property SET property_main_image = '"
                     . $main_name . "' WHERE property_id ='" . $post['section_id'] . "' ";
-                $this->_db->setQuery($query);
-
-                if (!$this->_db->execute()) {
-                    /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                    return false;
-                }
+                $this->_db->setQuery($query)->execute();
             }
         }
 
@@ -500,14 +436,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                     $query = "INSERT INTO " . $this->_table_prefix . "media
 								(`media_id`,`media_name`,`media_section`,`section_id`,`media_type`,`media_mimetype`,`published`)
 								VALUES ('','" . $sub_name . "','property','" . $post['section_id'] . "','images','" . $sub_type . "','1') ";
-                    $this->_db->setQuery($query);
-
-                    if (!$this->_db->execute()) {
-                        /** @scrutinizer ignore-deprecated */
-                        $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                        return false;
-                    }
+                    $this->_db->setQuery($query)->execute();
                 }
             }
         }
@@ -533,14 +462,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
         $query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id = ' . $mediaid;
 
-        $this->_db->setQuery($query);
-
-        if (!$this->_db->execute()) {
-            /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-            return false;
-        }
+        $this->_db->setQuery($query)->execute();
 
         return true;
     }
@@ -588,14 +510,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                             $sub_name . "',`subattribute_id` = '" . $post['section_id'] . "' WHERE subattribute_color_id = '" . $post['subattribute_color_id'][$i] . "'";
                     }
 
-                    $this->_db->setQuery($query);
-
-                    if (!$this->_db->execute()) {
-                        /** @scrutinizer ignore-deprecated */
-                        $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                        return false;
-                    }
+                    $this->_db->setQuery($query)->execute();
                 }
             } else {
                 if ($post['property_sub_img_tmp'][$i] != "" && $sub_img['name'][$i] == "") {
@@ -604,14 +519,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                         $post['property_sub_img_tmp'][$i] . "',`subattribute_id` = '" . $post['section_id'] . "'
 								WHERE subattribute_color_id = '" . $post['subattribute_color_id'][$i] . "'";
 
-                    $this->_db->setQuery($query);
-
-                    if (!$this->_db->execute()) {
-                        /** @scrutinizer ignore-deprecated */
-                        $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                        return false;
-                    }
+                    $this->_db->setQuery($query)->execute();
                 }
             }
         }
@@ -637,14 +545,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE subattribute_color_id = "'
                 . $diff->subattribute_color_id . '"';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         return true;
@@ -814,14 +715,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                         // Bind and save data into 'product_attribute'
                         if (!$row->bind($attribute)) {
                             /** @scrutinizer ignore-deprecated */
-                            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
                             return false;
                         }
 
                         if (!$row->store()) {
                             /** @scrutinizer ignore-deprecated */
-                            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
                             return false;
                         }
@@ -896,14 +797,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                                 // Bind and save data into 'product_attribute_property'
                                 if (!$row->bind($attribute_properties)) {
                                     /** @scrutinizer ignore-deprecated */
-                                    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                                    $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
                                     return false;
                                 }
 
                                 if (!$row->store()) {
                                     /** @scrutinizer ignore-deprecated */
-                                    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                                    $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
                                     return false;
                                 }
@@ -1019,7 +920,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                                         if (!$row->bind($sub_attribute_properties)) {
                                             /** @scrutinizer ignore-deprecated */
                                             $this->setError(
-                                            /** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg()
+                                            /** @scrutinizer ignore-deprecated */ $row->getError()
                                             );
 
                                             return false;
@@ -1028,7 +929,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                                         if (!$row->store()) {
                                             /** @scrutinizer ignore-deprecated */
                                             $this->setError(
-                                            /** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg()
+                                            /** @scrutinizer ignore-deprecated */ $row->getError()
                                             );
 
                                             return false;
@@ -1100,14 +1001,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
             return false;
         }
@@ -1131,7 +1032,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
         if (!$rowmedia->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $rowmedia->getError());
 
             return false;
         }
@@ -1143,7 +1044,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
         if (!$rowmedia->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $rowmedia->getError());
 
             return false;
         }
@@ -1181,14 +1082,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
         // Bind and save data into 'attributeprices_detail'
         if (!$row->bind($attribute)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
             return false;
         }

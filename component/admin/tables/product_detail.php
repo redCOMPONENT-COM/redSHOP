@@ -146,7 +146,7 @@ class TableProduct_Detail extends JTable
     /**
      * @var  integer
      */
-    public $product_parent_id;
+    public $product_parent_id = 0;
 
     /**
      * @var  string
@@ -223,4 +223,43 @@ class TableProduct_Detail extends JTable
 
         return true;
     }
+
+	/**
+	 * @param   array|object  $src     Data
+	 * @param   array|string  $ignore  Ignore
+	 *
+	 * @return boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function bind($src, $ignore = [])
+	{
+		if (is_object($src))
+		{
+			$src = get_object_vars($src);
+		}
+
+		if (is_array($src))
+		{
+			$setZeroIfEmpty = [
+				'discount_price',
+				'attribute_set_id',
+				'max_order_product_quantity',
+				'product_parent_id',
+				'discount_stratdate',
+				'discount_enddate',
+				'product_tax_group_id',
+			];
+
+			foreach ($setZeroIfEmpty as $fieldName)
+			{
+				if (array_key_exists($fieldName, $src)
+					&& empty($src[$fieldName]))
+				{
+					$src[$fieldName] = 0;
+				}
+			}
+		}
+
+		return parent::bind($src, $ignore);
+	}
 }

@@ -103,7 +103,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
         $row                           = $this->getTable();
 
         if (!$row->bind($data)) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
@@ -115,7 +115,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
         $row->published = $data['xmlpublished'];
 
         if (!$row->store()) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
@@ -172,33 +172,15 @@ class RedshopModelXmlexport_detail extends RedshopModel
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_log '
                 . 'WHERE xmlexport_id IN (' . $cids . ')';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_ipaddress '
                 . 'WHERE xmlexport_id IN (' . $cids . ')';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export '
                 . 'WHERE xmlexport_id IN (' . $cids . ')';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         return true;
@@ -208,13 +190,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
     {
         $query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_ipaddress '
             . 'WHERE xmlexport_ip_id IN (' . $xmlexport_ip_id . ')';
-        $this->_db->setQuery($query);
-
-        if (!$this->_db->execute()) {
-            $this->setError($this->_db->getErrorMsg());
-
-            return false;
-        }
+        $this->_db->setQuery($query)->execute();
 
         return true;
     }
@@ -227,13 +203,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
             $query = 'UPDATE ' . $this->_table_prefix . 'xml_export '
                 . ' SET auto_sync = ' . intval($publish)
                 . ' WHERE xmlexport_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         return true;
@@ -247,13 +217,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
             $query = 'UPDATE ' . $this->_table_prefix . 'xml_export '
                 . ' SET use_to_all_users = ' . intval($publish)
                 . ' WHERE xmlexport_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         return true;
@@ -273,13 +237,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
             $query = ' UPDATE ' . $this->_table_prefix . 'xml_export '
                 . ' SET published = ' . intval($publish)
                 . ' WHERE xmlexport_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         return true;

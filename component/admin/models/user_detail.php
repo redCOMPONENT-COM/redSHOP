@@ -305,14 +305,7 @@ class RedshopModelUser_detail extends RedshopModel
                 }
             }
 
-            $db->setQuery($queryDefault);
-
-            if (!$db->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
-
-                return false;
-            }
+            $db->setQuery($queryDefault)->execute();
         }
 
         return true;
@@ -326,14 +319,7 @@ class RedshopModelUser_detail extends RedshopModel
             $query = 'UPDATE ' . $this->_table_prefix . 'users_info '
                 . 'SET approved=' . intval($publish) . ' '
                 . 'WHERE user_id IN ( ' . $cids . ' ) ';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         return true;

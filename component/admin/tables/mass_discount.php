@@ -351,12 +351,7 @@ class RedshopTableMass_Discount extends RedshopTable
                 ->set($db->qn('product_on_sale') . ' = 0')
                 ->where($db->qn('product_id') . ' IN (' . implode(',', $productIds) . ')');
 
-            if (!$db->setQuery($query)->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
-
-                return false;
-            }
+			$db->setQuery($query)->execute();
         }
 
         $newDiffCategories = array_diff($newCategories, $categories);
@@ -393,12 +388,7 @@ class RedshopTableMass_Discount extends RedshopTable
                     ->set($db->qn('discount_enddate') . ' = ' . $this->end_date)
                     ->where($db->qn('product_id') . ' = ' . $product->product_id);
 
-                if (!$db->setQuery($query)->execute()) {
-                    /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
-
-                    return false;
-                }
+				$db->setQuery($query)->execute();
             }
         }
 
@@ -426,12 +416,7 @@ class RedshopTableMass_Discount extends RedshopTable
                 ->set($db->qn('product_on_sale') . ' = 0')
                 ->where($db->qn('manufacturer_id') . ' IN (' . implode(',', $diffManufacturers) . ')');
 
-            if (!$db->setQuery($query)->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
-
-                return false;
-            }
+            $db->setQuery($query)->execute();
         }
 
         $newDiffManufacturers = array_diff($newManufacturers, $manufacturers);
@@ -474,12 +459,7 @@ class RedshopTableMass_Discount extends RedshopTable
                     ->set($db->qn('discount_enddate') . ' = ' . $this->end_date)
                     ->where($db->qn('product_id') . ' = ' . $productData->product_id);
 
-                if (!$db->setQuery($query)->execute()) {
-                    /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
-
-                    return false;
-                }
+                $db->setQuery($query)->execute();
             }
         }
 
@@ -522,12 +502,7 @@ class RedshopTableMass_Discount extends RedshopTable
                 ->set($db->qn('product_on_sale') . ' = 0')
                 ->where($db->qn('product_id') . ' IN (' . implode(',', $diffProducts) . ')');
 
-            if (!$db->setQuery($query)->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
-
-                return false;
-            }
+            $db->setQuery($query)->execute();
         }
 
         $newDiffProducts = array_diff($newDiscountProducts, $discountProducts);
@@ -575,14 +550,7 @@ class RedshopTableMass_Discount extends RedshopTable
                     $db->qn('product_id') . ' = ' . (int)$newDiffProduct
                 );
                 $query->update($db->qn('#__redshop_product'))->set($update)->where($conditions);
-                $db->setQuery($query);
-
-                if (!$db->execute()) {
-                    /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                    return false;
-                }
+                $db->setQuery($query)->execute();
             } catch (Exception $e) {
                 /** @scrutinizer ignore-deprecated */
                 $this->/** @scrutinizer ignore-call */ setError($e->getMessage(), 'error');

@@ -152,11 +152,7 @@ class RedshopTableField extends RedshopTable
             ->delete($db->qn('#__redshop_fields_value'))
             ->where($db->qn($field) . ' IN (' . $ids . ')');
 
-        if (!$db->setQuery($query)->execute()) {
-            $this->setError($db->getErrorMsg());
-
-            return false;
-        }
+		$db->setQuery($query)->execute();
 
         return true;
     }
@@ -281,11 +277,7 @@ class RedshopTableField extends RedshopTable
             ->delete($db->qn('#__redshop_fields_data'))
             ->where($db->qn('fieldid') . ' IN (' . $pk . ')');
 
-        $db->setQuery($query);
-
-        if (!$db->execute()) {
-            $this->setError($db->getErrorMsg());
-        }
+        $db->setQuery($query)->execute();
 
         return true;
     }

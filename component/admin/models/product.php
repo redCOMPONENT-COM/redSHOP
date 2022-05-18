@@ -366,14 +366,7 @@ class RedshopModelProduct extends RedshopModel
             $cids  = implode(',', $cid);
             $query = 'UPDATE #__redshop_product' . ' SET `product_template` = "'
                 . intval($product_template) . '" ' . ' WHERE product_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         return true;

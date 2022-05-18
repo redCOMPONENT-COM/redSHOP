@@ -122,7 +122,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
         $row = $this->getTable();
 
         if (!$row->bind($data)) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
@@ -152,7 +152,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
         }
 
         if (!$row->store()) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
@@ -166,13 +166,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
             $cids = implode(',', $cid);
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'shipping_rate WHERE shipping_rate_id  IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         return true;

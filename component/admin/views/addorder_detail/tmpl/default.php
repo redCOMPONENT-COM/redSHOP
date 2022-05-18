@@ -156,7 +156,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
             validateUserDetail();
             return false;
         }
-        submitform(pressbutton);
+		Joomla.submitform(pressbutton);
     }
 
     function validateUserDetail() {
@@ -279,7 +279,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
         if (validateExtrafield(form) == false) {
             return false;
         }
-        submitform('guestuser');
+		Joomla.submitform('guestuser');
     }
 </script>
 

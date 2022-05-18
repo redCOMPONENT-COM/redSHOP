@@ -124,19 +124,19 @@ class RedshopModelPrices_detail extends RedshopModel
         $row = $this->getTable();
 
         if (!$row->bind($data)) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
 
         if (!$row->check()) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
@@ -153,7 +153,7 @@ class RedshopModelPrices_detail extends RedshopModel
             $this->_db->setQuery($query);
 
             if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
+                $this->setError($row->getError());
 
                 return false;
             }

@@ -236,13 +236,13 @@ class RedshopModelMedia extends RedshopModel
         $row = $this->getTable('media_download');
 
         if (!$row->bind($data)) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
@@ -271,13 +271,7 @@ class RedshopModelMedia extends RedshopModel
         }
 
         $query = "DELETE FROM `#__redshop_media_download` WHERE `id`='" . $fileId . "' ";
-        $this->_db->setQuery($query);
-
-        if (!$this->_db->execute()) {
-            $this->setError($this->_db->getErrorMsg());
-
-            return false;
-        }
+        $this->_db->setQuery($query)->execute();
 
         return true;
     }
@@ -297,7 +291,7 @@ class RedshopModelMedia extends RedshopModel
                 $row->ordering = $order[$i];
 
                 if (!$row->store()) {
-                    $this->setError($this->_db->getErrorMsg());
+                    $this->setError($row->getError());
 
                     return false;
                 }
@@ -373,13 +367,7 @@ class RedshopModelMedia extends RedshopModel
         $query = $db->getQuery(true)
             ->delete($db->qn('#__redshop_media'))
             ->where($db->qn('media_id') . ' = ' . $id);
-        $db->setQuery($query);
-
-        if (!$db->execute()) {
-            $this->setError($db->getErrorMsg());
-
-            return false;
-        }
+        $db->setQuery($query)->execute();
 
         return true;
     }
@@ -402,11 +390,7 @@ class RedshopModelMedia extends RedshopModel
         $fileObj->media_mimetype = $file['media_mimetype'];
         $fileObj->published      = 1;
 
-        if (!$db->insertObject('#__redshop_media', $fileObj)) {
-            $this->setError($db->getErrorMsg());
-
-            return false;
-        }
+        $db->insertObject('#__redshop_media', $fileObj);
 
         return $db->insertid();
     }

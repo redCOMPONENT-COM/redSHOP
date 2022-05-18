@@ -22,7 +22,7 @@ $url           = $uri->root(); ?>
         if (form.element_name.value == "") {
             alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_XMLEXPORT_CHILD_ELEMENT_NAME', true); ?>");
         } else {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
     }
 </script>
