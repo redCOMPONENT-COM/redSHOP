@@ -43,12 +43,12 @@ if ($this->pagination->limitstart > 0) {
         var form = document.adminForm;
 
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
         if (pressbutton == 'order') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
@@ -60,7 +60,7 @@ if ($this->pagination->limitstart > 0) {
         } else if (form.lastname.value == "") {
             alert("<?php echo JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME', true);?>");
         } else {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
         <?php else: ?>
         if ((form.email.value) == "") {
@@ -128,7 +128,7 @@ if ($this->pagination->limitstart > 0) {
             }
         }
 
-        submitform(pressbutton);
+		Joomla.submitform(pressbutton);
     }
 </script>
 

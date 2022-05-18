@@ -47,13 +47,7 @@ class RedshopModelAlert_detail extends RedshopModel
                 ->delete($db->qn('#__redshop_alerts'))
                 ->where($conditions);
 
-            $db->setQuery($query);
-
-            if (!$db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
-
-                return false;
-            }
+            $db->setQuery($query)->execute();
         }
 
         return true;
@@ -79,13 +73,7 @@ class RedshopModelAlert_detail extends RedshopModel
                 ->set($fields)
                 ->where($conditions);
 
-            $db->setQuery($query);
-
-            if (!$db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
-
-                return false;
-            }
+            $db->setQuery($query)->execute();
         }
 
         return true;

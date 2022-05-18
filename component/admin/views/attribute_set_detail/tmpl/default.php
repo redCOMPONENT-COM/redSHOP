@@ -16,7 +16,7 @@ $url = JURI::getInstance()->root();
         var form = document.adminForm;
 
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
@@ -27,7 +27,7 @@ $url = JURI::getInstance()->root();
                 ?>");
         } else {
 
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
     }
 

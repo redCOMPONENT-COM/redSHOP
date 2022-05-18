@@ -15,14 +15,14 @@ $now = JFactory::getDate();
     Joomla.submitbutton = function (pressbutton) {
         var form = document.adminForm;
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
         if (form.tags_name.value == "") {
             alert("<?php echo JText::_('COM_REDSHOP_TAGS_NAME_MUST_FILLED', true); ?>");
         } else {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
     }
 </script>

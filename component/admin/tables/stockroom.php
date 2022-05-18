@@ -48,20 +48,14 @@ class RedshopTableStockroom extends RedshopTable
 				->delete($db->qn('#__redshop_product_stockroom_xref'))
 				->where($db->qn('stockroom_id') . ' = ' . $db->q($stockId));
 
-			if (!$db->setQuery($queryProduct)->execute()) {
-				$this->setError($db->getErrorMsg());
-				return false;
-			}
+			$db->setQuery($queryProduct)->execute();
 
 			//Delete stock of product stock
 			$queryProductAttribute = $db->getQuery(true)
 				->delete($db->qn('#__redshop_product_attribute_stockroom_xref'))
 				->where($db->qn('stockroom_id') . ' = ' . $db->q($stockId));
 
-			if (!$db->setQuery($queryProductAttribute)->execute()) {
-				$this->setError($db->getErrorMsg());
-				return false;
-			}
+			$db->setQuery($queryProductAttribute)->execute();
 		}
 
 		return parent::doDelete($pk);

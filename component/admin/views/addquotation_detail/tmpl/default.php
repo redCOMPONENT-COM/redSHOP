@@ -77,7 +77,7 @@ $DEFAULT_QUANTITY = Redshop::getConfig()->get('DEFAULT_QUANTITY');
         var form = document.adminForm;
 
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
@@ -101,7 +101,7 @@ $DEFAULT_QUANTITY = Redshop::getConfig()->get('DEFAULT_QUANTITY');
                 return false;
             }
         }
-        submitform(pressbutton);
+		Joomla.submitform(pressbutton);
     }
 
     function validateUserDetail() {

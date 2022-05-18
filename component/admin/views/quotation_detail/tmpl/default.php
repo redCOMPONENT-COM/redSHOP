@@ -32,7 +32,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
     Joomla.submitbutton = submitbutton = function (pressbutton) {
         var form = document.adminForm;
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
         if (pressbutton == 'add') {
@@ -47,7 +47,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
                 return false;
             }
 
-            submitform('newQuotationItem');
+			Joomla.submitform('newQuotationItem');
             return;
         }
         if ((pressbutton == 'save') || (pressbutton == 'send') || (pressbutton == 'aplly')) {
@@ -66,7 +66,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
                 }
             }
         }
-        submitform(pressbutton);
+		Joomla.submitform(pressbutton);
     }
 
     function validateProductQuantity() {

@@ -73,11 +73,7 @@ class RedshopModelCategories extends RedshopModelList
                 ->set($fields)
                 ->where($conditions);
 
-            if (!$db->setQuery($query)->execute()) {
-                $this->setError($this->_db->getErrorMsg());
-
-                return false;
-            }
+			$db->setQuery($query)->execute();
         }
 
         return true;

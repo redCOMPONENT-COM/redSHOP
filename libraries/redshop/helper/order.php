@@ -2003,14 +2003,7 @@ class RedshopHelperOrder
             $query->where($db->qn('order_item_id') . ' = ' . (int)$orderItemId);
         }
 
-        $db->setQuery($query);
-
-        if (!$db->execute()) {
-            JFactory::getApplication()->enqueueMessage(
-            /** @scrutinizer ignore-deprecated */ $db->getErrorMsg(),
-                                                  'error'
-            );
-        }
+        $db->setQuery($query)->execute();
     }
 
     /**

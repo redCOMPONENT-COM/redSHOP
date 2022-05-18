@@ -35,7 +35,7 @@ $mainImage = $mainImage[0];
 
         submitbutton = function (pressbutton) {
             if (pressbutton == 'save') {
-                submitform('property_more_img');
+				Joomla.submitform('property_more_img');
             }
         }
     </script>

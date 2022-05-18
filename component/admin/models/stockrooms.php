@@ -118,12 +118,7 @@ class RedshopModelStockrooms extends RedshopModelList
 				->update($this->_db->qn('#__redshop_stockroom'))
 				->set($this->_db->qn('show_in_front') . ' = ' . $this->_db->q(intval($publish)))
 				->where($this->_db->qn('id') . ' = ' . $this->_db->q((int) $cid));
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
+			$this->_db->setQuery($query)->execute();
 		}
 
 		return true;

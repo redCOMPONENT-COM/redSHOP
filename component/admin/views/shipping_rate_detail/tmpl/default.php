@@ -19,7 +19,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
     Joomla.submitbutton = function (pressbutton) {
         var form = document.adminForm;
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
@@ -27,7 +27,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
         if (form.shipping_rate_name.value === "") {
             alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_LOCATION_NAME_MUST_HAVE_A_NAME', true); ?>");
         } else {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
         <?php else : ?>
         if (form.shipping_rate_name.value === "") {
@@ -37,7 +37,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
         } else if (parseInt(form.shipping_rate_zip_end.value) < parseInt(form.shipping_rate_zip_start.value)) {
             alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_ZIP_END_MUST_MORE', true); ?>");
         } else {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
         <?php endif ?>
     }

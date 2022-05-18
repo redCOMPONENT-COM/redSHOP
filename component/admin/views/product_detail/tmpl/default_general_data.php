@@ -45,7 +45,7 @@ foreach ($media->getAll() as $mediaItem) {
                 dataType: "json",
                 success: function (data) {
                     document.formvalidator.setHandler("productNumber", function (value) {
-                        return !data.contains(value);
+                        return !data.includes(value);
                     });
                 }
             });
@@ -99,19 +99,19 @@ foreach ($media->getAll() as $mediaItem) {
                 "removeMaskOnSubmit": true
             });
 
-            SqueezeBox.presets.onClose = function (e) {
-                if (this.options.classWindow == 'additional-media-popup') {
-                    var reloading_img = '<div class="image" style="text-align: center;"><img src="' + redSHOP.RSConfig._('SITE_URL') + '/media/com_redshop/images/reloading.gif" alt="" border="0" ></div>';
-
-                    <?php JFactory::getApplication()->setUserState(
-                    'com_redshop.product_detail.selectedTabPosition',
-                    'general_data'
-                )  ?>
-
-                    $('#general_data').html(reloading_img);
-                    window.location.reload();
-                }
-            };
+            //SqueezeBox.presets.onClose = function (e) {
+            //    if (this.options.classWindow == 'additional-media-popup') {
+            //        var reloading_img = '<div class="image" style="text-align: center;"><img src="' + redSHOP.RSConfig._('SITE_URL') + '/media/com_redshop/images/reloading.gif" alt="" border="0" ></div>';
+			//
+            //        <?php //JFactory::getApplication()->setUserState(
+            //        'com_redshop.product_detail.selectedTabPosition',
+            //        'general_data'
+            //    )  ?>
+			//
+            //        $('#general_data').html(reloading_img);
+            //        window.location.reload();
+            //    }
+            //};
         });
     })(jQuery);
 </script>

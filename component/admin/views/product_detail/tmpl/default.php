@@ -73,18 +73,18 @@ JHtml::_('behavior.formvalidator');
         }
 
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
         if (pressbutton == 'prices') {
             document.adminForm.view.value = 'prices';
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
         if (pressbutton == 'wrapper') {
             document.adminForm.view.value = 'wrapper';
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
@@ -143,7 +143,7 @@ JHtml::_('behavior.formvalidator');
             resetAttributeset();
         }
 
-        submitform(pressbutton);
+		Joomla.submitform(pressbutton);
     };
 
     function oprand_check(s) {

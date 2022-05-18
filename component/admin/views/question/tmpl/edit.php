@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
         if ((pressbutton != 'question.cancel') && (form.jform_product_id.value == 0)) {
             alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_PRODUCT_NAME', true); ?>");
         } else {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
     }
 
