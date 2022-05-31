@@ -9,7 +9,7 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('rbootstrap.modal', 'a.joom-box');
+JHtml::_('bootstrap.modal', 'a.joom-box');
 
 $model = $this->getModel('xmlexport_detail');
 

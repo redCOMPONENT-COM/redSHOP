@@ -14,7 +14,7 @@ class RedshopViewProduct extends RedshopViewAdmin
     /**
      * The pagination object.
      *
-     * @var  \RPagination
+     * @var  JPagination
      */
     public $pagination;
 

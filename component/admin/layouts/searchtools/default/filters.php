@@ -49,7 +49,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
             <?php
             $showOn = '';
             if ($showOnData = $field->getAttribute('dataShowOn')) {
-                JHtml::_('jquery.framework');
+                JHtml::_('redshopjquery.framework');
                 JHtml::_('script', 'jui/cms.js', false, true);
                 $showOn = " data-showon='" . $showOnData . "'";
             }

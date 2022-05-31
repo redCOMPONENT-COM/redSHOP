@@ -287,11 +287,9 @@ $showbuttons = JFactory::getApplication()->input->getInt('showbuttons', 0);
             <?php if (!$showbuttons) : ?>
                 <tfoot>
                 <td colspan="<?php echo $colspan + (2 * count($this->stockroom)); ?>">
-                    <?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-                        <div class="redShopLimitBox">
-                            <?php echo $this->pagination->getLimitBox(); ?>
-                        </div>
-                    <?php endif; ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
                     <?php echo $this->pagination->getListFooter(); ?>
                 </td>
                 </tfoot>

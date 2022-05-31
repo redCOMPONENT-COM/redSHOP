@@ -7,9 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die;
 
-JHtml::_('rbootstrap.modal', 'a.joom-box');
+use Joomla\CMS\HTML\HTMLHelper;
+
+defined('_JEXEC') or die;
 
 $app              = JFactory::getApplication();
 $extraFieldHelper = extra_field::getInstance();
@@ -382,22 +383,29 @@ JHtml::_('redshopjquery.framework');
                     <?php endforeach; ?>
 
                     <td align="center">
-                        <a class="joom-box"
-                           href="index.php?option=com_redshop&view=media&section_id=<?php echo $product->product_id; ?>&showbuttons=1&media_section=product&section_name=<?php echo $product->product_name; ?>&tmpl=component"
-                           rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""> <img
+                        <button
+								class="joom-box btn btn-link"
+								type="button"
+								id="ModalSelectMediaButton<?php echo $index ?>"
+								data-bs-target="#ModalSelectMedia<?php echo $index ?>"
+								data-bs-toggle="modal">
+                           <img
                                     src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
-                                    alt="media"> (<?php echo count($model->MediaDetail($product->product_id)); ?>)</a>
+                                    alt="media"> (<?php echo count($model->MediaDetail($product->product_id)); ?>)</button>
                     </td>
                     <td align="center">
                         <?php $wrapper = RedshopHelperProduct::getWrapper($product->product_id, 0, 1); ?>
-                        <a class="joom-box"
-                           href="index.php?option=com_redshop&showall=1&view=wrapper&product_id=<?php echo $product->product_id; ?>&tmpl=component"
-                           rel="{handler: 'iframe', size: {x: 700, y: 450}}">
-                            <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
-                                 alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>"> <?php echo "(" . count(
-                                    $wrapper
-                                ) . ")"; ?>
-                        </a>
+						<button
+								class="joom-box btn btn-link"
+								type="button"
+								id="ModalSelectWrapperButton<?php echo $index ?>"
+								data-bs-target="#ModalSelectWrapper<?php echo $index ?>"
+								data-bs-toggle="modal">
+							<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
+															alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>"> <?php echo "(" . count(
+									$wrapper
+								) . ")"; ?>
+						</button>
                     </td>
                     <td align="center">
                         <?php echo $product->visited; ?>
@@ -449,3 +457,26 @@ JHtml::_('redshopjquery.framework');
     <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
     <?php echo JHtml::_('form.token'); ?>
 </form>
+<?php foreach ($this->products as $index => $product):
+	echo HTMLHelper::_(
+		'bootstrap.renderModal',
+		'ModalSelectMedia' . $index,
+		array(
+			'url'         => 'index.php?option=com_redshop&view=media&section_id='
+				. $product->product_id . '&showbuttons=1&media_section=product&section_name='
+				. $product->product_name .'&tmpl=component',
+			'height'      => '450px',
+			'width'       => '1050px',
+		)
+	);
+
+	echo HTMLHelper::_(
+		'bootstrap.renderModal',
+		'ModalSelectWrapper' . $index,
+		array(
+			'url'         => 'index.php?option=com_redshop&showall=1&view=wrapper&layout=edit&tmpl=component&product_id=' . $product->product_id,
+			'height'      => '450px',
+			'width'       => '700px',
+		)
+	);
+endforeach;

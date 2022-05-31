@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('rbootstrap.modal');
+JHTML::_('bootstrap.modal');
 JHtml::_('script', 'com_redshop/jquery.validate.min.js', array('version' => 'auto', 'relative' => true));
 
 $dispatcher = RedshopHelperUtility::getDispatcher();

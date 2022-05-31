@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
+JHTML::_('bootstrap.tooltip');
 extract($displayData);
 $fieldSet = 'conditions';
 $fields = $form->getFieldset($fieldSet);

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -408,8 +410,7 @@ class RedshopControllerOrder_Detail extends RedshopController
                 $isCreditcard  = $paymentParams->get('is_creditcard', 0);
 
                 if ($isCreditcard) {
-                    /** @scrutinizer ignore-deprecated */
-                    RHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
+					HTMLHelper::script('com_redshop/redshop.creditcard.min.js', ['relative' => true]);
                     ?>
 
                     <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout', false) ?>"

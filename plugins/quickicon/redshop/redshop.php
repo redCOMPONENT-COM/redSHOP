@@ -39,20 +39,16 @@ class PlgQuickiconRedshop extends JPlugin
             return array();
         }
 
-        if (version_compare(JVERSION, '3.0', '>=')) {
-            $image    = 'quickIconRedshop';
-            $document = JFactory::getDocument();
-            $document->addStyleDeclaration(
-                '
+		$image    = 'quickIconRedshop';
+		$document = JFactory::getDocument();
+		$document->addStyleDeclaration(
+			'
 				.icon-' . $image . ' {
 					background-image: url(' . JUri::base() . 'components/com_redshop/assets/images/redshopcart16.png);
 					background-size: 14px;
 					background-repeat: no-repeat;
 				}'
-            );
-        } else {
-            $image = JUri::base() . 'components/com_redshop/assets/images/redshopcart48.png';
-        }
+		);
 
         return array(
             array(

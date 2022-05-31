@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Redshop\Helper\ExtraFields;
 
 defined('_JEXEC') or die;
@@ -1569,7 +1570,7 @@ class RedshopHelperExtrafields
         $uniqueId = ''
     ) {
         /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/redshop.attribute.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.attribute.min.js', ['relative' => true]);
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true);
 

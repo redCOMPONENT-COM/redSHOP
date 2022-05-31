@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') || die;
 
 /**
@@ -555,7 +557,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
 // Google I like Button
         if ($this->isTagExists('{googleplus1}')) {
-            RHtml::script('https://apis.google.com/js/plusone.js');
+			HTMLHelper::script('https://apis.google.com/js/plusone.js');
             $this->addReplace('{googleplus1}', '<g:plusone></g:plusone>');
         }
 

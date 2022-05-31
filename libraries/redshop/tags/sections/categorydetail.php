@@ -1393,7 +1393,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
             $paginationList  = '';
             $usePerPageLimit = false;
 
-            $pagination = new \RPagination($this->model->_total, $start, $endLimit);
+            $pagination = new JPagination($this->model->_total, $start, $endLimit);
 
             if ($this->productPriceSliderEnable) {
                 $pagination->setAdditionalUrlParam('texpricemin', $texPriceMin);

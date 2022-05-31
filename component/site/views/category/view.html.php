@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -82,7 +84,7 @@ class RedshopViewCategory extends RedshopView
         }
 
         $document = JFactory::getDocument();
-        RHtml::stylesheet('com_redshop/redshop.priceslider.min.css', array(), true);
+		HTMLHelper::stylesheet('com_redshop/redshop.priceslider.min.css', ['relative' => true]);
 
         $lists   = array();
         $minmax  = array(0, 0);

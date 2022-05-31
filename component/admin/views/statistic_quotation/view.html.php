@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -33,12 +35,9 @@ class RedshopViewStatistic_Quotation extends RedshopViewAdmin
         $app      = JFactory::getApplication();
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_STATISTIC_QUOTATION'));
-        /** @scrutinizer ignore-deprecated */
-        RHtml::stylesheet('com_redshop/daterangepicker.min.css', array(), true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/moment.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/daterangepicker.min.js', false, true);
+		HTMLHelper::stylesheet('com_redshop/daterangepicker.min.css', ['relative' => true]);
+		HTMLHelper::script('com_redshop/moment.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/daterangepicker.min.js', ['relative' => true]);
 
         $this->quotations      = $this->get('Quotations');
         $this->filterStartDate = $app->input->getString('filter_start_date', '');

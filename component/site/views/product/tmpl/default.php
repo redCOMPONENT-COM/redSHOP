@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('rbootstrap.modal');
+JHtml::_('bootstrap.modal');
 
 $watched = $this->session->get('watched_product', array());
 

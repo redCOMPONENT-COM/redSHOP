@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('rbootstrap.modal');
+JHTML::_('bootstrap.modal');
 
 // Page Title Start
 $pageTitle = JText::_('COM_REDSHOP_MANUFACTURER');

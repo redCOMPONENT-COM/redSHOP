@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -42,9 +44,7 @@ abstract class JHtmlRedshopjquery
 
         self::framework();
 
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/flexslider.min.js', false, true);
-        RHtml::stylesheet('com_redshop/flexslider/flexslider.min.css', array(), true);
+		HTMLHelper::script('com_redshop/flexslider.min.js', ['relative' => true]);
 
         $options = static::options2Jregistry($options);
 
@@ -80,31 +80,16 @@ abstract class JHtmlRedshopjquery
             return;
         }
 
-        if (version_compare(JVERSION, '3.0', '<')) {
-            // If no debugging value is set, use the configuration setting
-            if ($debug === null) {
-                $config = JFactory::getConfig();
-                $debug  = (boolean)$config->get('debug');
-            }
-
-            RHtml::script('com_redshop/jquery.min.js', false, true, false, false, $debug);
-
-            // Check if we are loading in noConflict
-            if ($noConflict) {
-                JHtml::_('script', 'com_redshop/jquery-noconflict.js', false, true, false, false, false);
-            }
-
-            // Check if we are loading Migrate
-            if ($migrate) {
-                JHtml::_('script', 'com_redshop/jquery-migrate.min.js', false, true, false, false, $debug);
-            }
-        } else {
+        if ((version_compare(JVERSION, '4.0', '<')))
+		{
             JHtml::_('jquery.framework', $noConflict, $debug, $migrate);
         }
+		else
+		{
+			JHtml::_('bootstrap.framework', $noConflict, $debug, $migrate);
+		}
 
         static::$loaded[__METHOD__] = true;
-
-        return;
     }
 
     /**
@@ -143,11 +128,6 @@ abstract class JHtmlRedshopjquery
         }
 
         static::$loaded[__METHOD__] = true;
-
-        // Loads only for joomla 3
-        if (version_compare(JVERSION, '3.0', '<')) {
-            return;
-        }
 
         self::framework();
 
@@ -213,12 +193,11 @@ abstract class JHtmlRedshopjquery
 
         self::framework();
 
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/select2.min.js', false, true);
-        RHtml::stylesheet('com_redshop/select2/select2.css', array(), true);
+		HTMLHelper::script('com_redshop/select2.min.js', ['relative' => true]);
+		HTMLHelper::stylesheet('com_redshop/select2/select2.css', ['relative' => true]);
 
         if (version_compare(JVERSION, '3.0', '>=')) {
-            RHtml::stylesheet('com_redshop/select2/select2-bootstrap.css', array(), true);
+			HTMLHelper::stylesheet('com_redshop/select2/select2-bootstrap.css', ['relative' => true]);
         }
 
         $prefix = '';
@@ -273,33 +252,33 @@ abstract class JHtmlRedshopjquery
             return;
         }
 
-        RHtml::stylesheet('com_redshop/jquery-ui/jquery-ui.min.css', array(), true);
+		HTMLHelper::stylesheet('com_redshop/jquery-ui/jquery-ui.min.css', ['relative' => true]);
         self::framework();
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/jquery-ui.min.js', false, true, false, false);
 
-        if (version_compare(JVERSION, '3.0', '>=')) {
-            // Check includes and remove core joomla jquery.ui script
-            JHtml::_('rjquery.ui', array('core'));
-            $document = JFactory::getDocument();
-            $headData = $document->getHeadData();
+		HTMLHelper::script('com_redshop/jquery-ui.min.js', ['relative' => true]);
 
-            if (isset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.min.js'])) {
-                unset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.min.js']);
-            }
+		// Check includes and remove core joomla jquery.ui script only for Joomla 3
+		if (version_compare(JVERSION, '4.0', '<'))
+		{
+			JHtml::_('jquery.ui', array('core'));
 
-            if (JFactory::getConfig()->get('debug')) {
-                if (isset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.js'])) {
-                    unset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.js']);
-                }
-            }
+			$document = JFactory::getDocument();
+			$headData = $document->getHeadData();
 
-            $document->setHeadData($headData);
-        }
+			if (isset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.min.js'])) {
+				unset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.min.js']);
+			}
+
+			if (JFactory::getConfig()->get('debug')) {
+				if (isset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.js'])) {
+					unset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.js']);
+				}
+			}
+
+			$document->setHeadData($headData);
+		}
 
         static::$loaded[__METHOD__] = true;
-
-        return;
     }
 
     /**

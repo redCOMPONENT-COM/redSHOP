@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 
@@ -42,22 +44,16 @@ class RedshopViewCheckout extends RedshopView
             $language->load($extension, $base_dir);
         }
 
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('system/validate.js', true, false);
+		HTMLHelper::script('system/validate.js', ['relative' => true]);
+
         JHtml::_('redshopjquery.framework');
-        JHtml::_('rjquery.framework', true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/jquery.validate.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/redshop.common.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/jquery.metadata.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/redshop.registration.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/redshop.redbox.min.js', false, true);
+
+		HTMLHelper::script('com_redshop/jquery.validate.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/jquery.metadata.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.registration.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.redbox.min.js', ['relative' => true]);
+		HTMLHelper::stylesheet('com_redshop/redshop.validation.min.css', ['relative' => true]);
 
         JPluginHelper::importPlugin('redshop_vies_registration');
 

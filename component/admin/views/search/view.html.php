@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 class RedshopViewSearch extends RedshopViewAdmin
@@ -18,10 +20,8 @@ class RedshopViewSearch extends RedshopViewAdmin
      */
     public function display($tpl = null)
     {
-        /** @scrutinizer ignore-deprecated */
-        RHtml::stylesheet('com_redshop/redshop.search.min.css', array(), true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/redshop.search.min.js', false, true);
+		HTMLHelper::stylesheet('com_redshop/redshop.search.min.css', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.search.min.js', ['relative' => true]);
 
         $this->detail = $this->get('data');
 

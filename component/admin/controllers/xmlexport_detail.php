@@ -104,7 +104,7 @@ class RedshopControllerXmlexport_detail extends RedshopController
 
     function setChildElement()
     {
-        JHtml::_('rbootstrap.modal');
+        JHtml::_('bootstrap.modal');
 
         $xmlhelper    = new xmlHelper;
         $post         = $this->input->post->getArray();

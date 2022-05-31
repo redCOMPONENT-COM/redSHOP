@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 
@@ -30,8 +32,7 @@ class RedshopViewQuotation extends RedshopView
             }
         }
 
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
 
         $model = $this->getModel('quotation');
 

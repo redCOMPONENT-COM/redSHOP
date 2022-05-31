@@ -100,7 +100,7 @@ class RedshopModelProduct_mini extends RedshopModel
     }
 
     /**
-     * @return \RPagination|null
+     * @return JPagination|null
      */
     public function getPagination()
     {

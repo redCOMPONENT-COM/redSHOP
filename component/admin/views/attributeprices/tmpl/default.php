@@ -78,11 +78,9 @@ $message = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIS
             } ?>
             <tfoot>
             <td colspan="8">
-                <?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-                    <div class="redShopLimitBox">
-                        <?php echo $this->pagination->getLimitBox(); ?>
-                    </div>
-                <?php endif; ?>
+				<div class="redShopLimitBox">
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
                 <?php echo $this->pagination->getListFooter(); ?></td>
             </tfoot>
         </table>
