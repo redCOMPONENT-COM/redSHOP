@@ -62,7 +62,11 @@ class JFormFieldRedshopCategory extends JFormFieldList
         // Build the field options.
         if (!empty(self::$cache)) {
             if ($this->multiple) {
-                $options[] = JHtml::_('select.optgroup', JText::_('COM_REDSHOP_SELECT_CATEGORY'));
+				$obj = new stdClass;
+				$obj->value = '<OPTGROUP>';
+				$obj->text = JText::_('COM_REDSHOP_SELECT_CATEGORY');
+
+                $options[] = $obj;
             }
 
             foreach (self::$cache as $item) {
@@ -70,7 +74,11 @@ class JFormFieldRedshopCategory extends JFormFieldList
             }
 
             if ($this->multiple) {
-                $options[] = JHtml::_('select.optgroup', JText::_('COM_REDSHOP_SELECT_CATEGORY'));
+				$obj = new stdClass;
+				$obj->value = '</OPTGROUP>';
+				$obj->text = JText::_('COM_REDSHOP_SELECT_CATEGORY');
+
+                $options[] = $obj;
             }
         }
 

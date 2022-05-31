@@ -21959,6 +21959,9 @@ table th[class*="span"],
 .fade.in, .fade.show {
     opacity: 1;
 }
+.hide.fade.in {
+    display: block !important;
+}
 
 .collapse {
     position: relative;
