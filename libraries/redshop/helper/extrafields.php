@@ -1036,6 +1036,18 @@ class RedshopHelperExtrafields
                 $files = $_FILES[$row->name]['name'];
                 $texts = $data['text_' . $row->name];
 
+                if (count($texts) > 1)
+                {
+                    for ($i = 0; $i < count($texts); $i++)
+                    {
+                        $texts[$i] = $i;
+                    }
+                }
+                else
+                {
+                    $texts[0] = 0;
+                }
+
                 $documentsValue = array();
 
                 if (isset($data[$row->name])) {
