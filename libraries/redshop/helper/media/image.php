@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -86,15 +88,14 @@ class RedshopHelperMediaImage
      */
     public static function requireDependencies()
     {
-        RHtml::stylesheet('com_redshop/dropzone.min.css', array(), true);
-        RHtml::stylesheet('com_redshop/cropper.min.css', array(), true);
-        RHtml::stylesheet('com_redshop/lightbox2/css/lightbox.min.css', array(), true);
-        RHtml::stylesheet('com_redshop/redshop.media.min.css', array(), true);
-
-        RHtml::script('com_redshop/dropzone.min.js', false, true);
-        RHtml::script('com_redshop/cropper.min.js', false, true);
-        RHtml::script('com_redshop/lightbox2.min.js', false, true);
-        RHtml::script('com_redshop/redshop.media.min.js', false, true);
+		HTMLHelper::stylesheet('com_redshop/dropzone.min.css', ['relative' => true]);
+		HTMLHelper::stylesheet('com_redshop/cropper.min.css', ['relative' => true]);
+		HTMLHelper::stylesheet('com_redshop/lightbox2/css/lightbox.min.css', ['relative' => true]);
+		HTMLHelper::stylesheet('com_redshop/redshop.media.min.css', ['relative' => true]);
+		HTMLHelper::script('com_redshop/dropzone.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/cropper.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/lightbox2.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.media.min.js', ['relative' => true]);
 
         return true;
     }

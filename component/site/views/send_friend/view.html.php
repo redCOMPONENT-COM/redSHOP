@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -31,7 +33,7 @@ class RedshopViewSend_Friend extends RedshopView
      */
     public function display($tpl = null)
     {
-        RHtml::stylesheet('com_redshop/scrollable-navig.min.css', array(), true);
+		HTMLHelper::stylesheet('com_redshop/scrollable-navig.min.css', ['relative' => true]);
 
         parent::display($tpl);
     }

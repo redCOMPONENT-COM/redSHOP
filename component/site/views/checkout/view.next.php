@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 
@@ -84,8 +86,7 @@ class RedshopViewCheckout extends RedshopView
         $is_subscription = $paymentparams->get('is_subscription', 0);
 
         if (@$is_creditcard == 1) {
-            /** @scrutinizer ignore-deprecated */
-            RHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
+			HTMLHelper::script('com_redshop/redshop.creditcard.min.js', ['relative' => true]);
         }
 
         if ($is_subscription) {

@@ -84,16 +84,14 @@ class JButtonRedshopLink extends JButton
     }
 }
 
-if (version_compare(JVERSION, '3.0', '>=')) {
-    /**
-     * Renders a link button
-     *
-     * @package     RedSHOP.Library
-     * @subpackage  Toolbar
-     * @since       1.5
-     */
-    class JToolbarButtonRedshopLink extends JButtonRedshopLink
-    {
-        protected $joomlaSuffix = 'j3';
-    }
+/**
+ * Renders a link button
+ *
+ * @package     RedSHOP.Library
+ * @subpackage  Toolbar
+ * @since       1.5
+ */
+class JToolbarButtonRedshopLink extends JButtonRedshopLink
+{
+	protected $joomlaSuffix = 'j3';
 }

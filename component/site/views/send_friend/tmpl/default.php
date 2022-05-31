@@ -7,11 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
-JHtml::_('rbootstrap.modal');
+JHtml::_('bootstrap.modal');
 JHtml::_('redshopjquery.framework');
-RHtml::script('com_redshop/jquery.tools.min.js', false, true);
+HTMLHelper::script('com_redshop/jquery.tools.min.js', ['relative' => true]);
 
 $user = JFactory::getUser();
 ?>

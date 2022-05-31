@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('rbootstrap.modal');
+JHtml::_('bootstrap.modal');
 
 $manufacturerTemplate = RedshopHelperTemplate::getTemplate('manufacturer_detail');
 

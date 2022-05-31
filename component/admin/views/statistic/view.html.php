@@ -21,7 +21,7 @@ jimport('joomla.html.pagination');
 class RedshopViewStatistic extends RedshopViewAdmin
 {
     /**
-     * @var  \RPagination
+     * @var  JPagination
      */
     public $pagination;
 
@@ -156,7 +156,7 @@ class RedshopViewStatistic extends RedshopViewAdmin
 
         $document->setTitle(JText::_('COM_REDSHOP_STATISTIC'));
 
-        $pagination       = new \RPagination($total, $limitstart, $limit);
+        $pagination       = new JPagination($total, $limitstart, $limit);
         $this->pagination = $pagination;
 
         $this->startdate = $startdate;

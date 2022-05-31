@@ -92,10 +92,10 @@ if (Redshop::getConfig()->get('PORTAL_SHOP') == 1) {
 // Don't create div for AJAX call and GA code.
 if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format) {
     // Container CSS class definition
-    if (version_compare(JVERSION, '3.0', '<')) {
-        $redSHOPCSSContainerClass = ' isJ25';
-    } else {
+    if (version_compare(JVERSION, '4.0', '<')) {
         $redSHOPCSSContainerClass = ' isJ30';
+    } else {
+		$redSHOPCSSContainerClass = ' isJ40';
     }
 
     echo '<div id="redshopcomponent" class="redshop redSHOPSiteView' . ucfirst(
@@ -121,11 +121,7 @@ if (strpos($command, '.') === false) {
 // Perform the Request task
 $controller = JControllerLegacy::getInstance('Redshop');
 
-if (version_compare(JVERSION, '3.0', '<')) {
-    $task = $app->input->getCmd('task');
-} else {
-    $task = $app->input->get('task', '');
-}
+$task = $app->input->get('task', '');
 
 $controller->execute($task);
 

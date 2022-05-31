@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-JHTML::_('rbootstrap.modal');
+JHTML::_('bootstrap.modal');
 
 // Define array to store product detail for ajax cart display
 $cartData = $this->data[0]->template_desc;

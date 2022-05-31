@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 class RedshopModelSearch extends RedshopModel
 {
     /**
-     * @var  \RPagination
+     * @var  JPagination
      */
     public $pagination;
 
@@ -1337,13 +1337,13 @@ class RedshopModelSearch extends RedshopModel
     /**
      * Get pagination.
      *
-     * @return  \RPagination
+     * @return  JPagination
      */
     public function getFilterPagination()
     {
         $endlimit         = $this->getState('list.limit');
         $limitstart       = $this->getState('list.start');
-        $this->pagination = new \RPagination($this->getFilterTotal(), $limitstart, $endlimit);
+        $this->pagination = new JPagination($this->getFilterTotal(), $limitstart, $endlimit);
 
         return $this->pagination;
     }

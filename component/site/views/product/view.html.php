@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -99,7 +101,7 @@ class RedshopViewProduct extends RedshopView
          */
         $this->dispatcher->trigger('stopProductRedshopJQuery', array($this->data, $layout));
 
-        RHtml::stylesheet('com_redshop/scrollable-navig.min.css', array(), true);
+		HTMLHelper::stylesheet('com_redshop/scrollable-navig.min.css', ['relative' => true]);
 
         if ($layout == "downloadproduct") {
             $this->setLayout('downloadproduct');

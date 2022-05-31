@@ -37,7 +37,7 @@ class RedshopViewAttributeprices extends RedshopViewAdmin
 
         $total      = $this->get('Total');
         $data       = $this->get('Data');
-        $pagination = new \RPagination($total, $limitstart, $limit);
+        $pagination = new JPagination($total, $limitstart, $limit);
 
         $this->user        = JFactory::getUser();
         $this->data        = $data;

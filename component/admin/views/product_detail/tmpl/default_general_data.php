@@ -7,11 +7,13 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
-JHtml::_('rbootstrap.modal', 'a.joom-box');
-/** @scrutinizer ignore-deprecated */
-RHtml::script('com_redshop/jquery.inputmask.min.js', false, true);
+JHtml::_('bootstrap.modal', 'a.joom-box');
+HTMLHelper::script('com_redshop/jquery.inputmask.min.js', ['relative' => true]);
 
 $priceDecimal   = Redshop::getConfig()->get('PRICE_DECIMAL', '.');
 $priceThousand  = Redshop::getConfig()->get('THOUSAND_SEPERATOR', ',');

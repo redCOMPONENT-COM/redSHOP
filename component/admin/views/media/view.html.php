@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 
@@ -23,7 +25,7 @@ class RedshopViewMedia extends RedshopViewAdmin
     /**
      * The pagination object.
      *
-     * @var  \RPagination
+     * @var  JPagination
      */
     public $pagination;
 
@@ -39,8 +41,7 @@ class RedshopViewMedia extends RedshopViewAdmin
         $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $document = JFactory::getDocument();
 
-        /** @scrutinizer ignore-deprecated */
-        RHtml::stylesheet('com_redshop/redshop.medialist-thumbs.min.css', array(), true);
+		HTMLHelper::stylesheet('com_redshop/redshop.medialist-thumbs.min.css', ['relative' => true]);
 
         JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'camera redshop_media48');
         JToolbarHelper::addNew();
@@ -102,8 +103,6 @@ class RedshopViewMedia extends RedshopViewAdmin
         $this->media       = $media;
         $this->pagination  = $pagination;
         $this->request_url = $uri->toString();
-
-        $this->assign('baseURL', JURI::root());
 
         if (JFactory::getApplication()->input->get('layout') == 'thumbs') {
             $this->images    = $this->get('images');

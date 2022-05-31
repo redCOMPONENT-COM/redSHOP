@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('rbootstrap.modal', 'a.joom-box');
+JHtml::_('bootstrap.modal', 'a.joom-box');
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -323,11 +323,9 @@ if ($showbuttons == 1) {
             <tfoot>
             <tr>
                 <td colspan="<?php echo $countTd; ?>">
-                    <?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-                        <div class="redShopLimitBox">
-                            <?php echo $this->pagination->getLimitBox(); ?>
-                        </div>
-                    <?php endif; ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
                     <?php echo $this->pagination->getListFooter(); ?>
                 </td>
             </tr>

@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -53,16 +54,11 @@ abstract class JHtmlRedshopcalendar
             $tz = date_default_timezone_get();
         }
 
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/moment.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/moment-timezone-with-data.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/bootstrap-datetimepicker.min.js', false, true, false, false);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/jquery.inputmask.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::stylesheet('com_redshop/bootstrap-datetimepicker.min.css', array(), true);
+		HTMLHelper::script('com_redshop/moment.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/moment-timezone-with-data.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/bootstrap-datetimepicker.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/jquery.inputmask.min.js', ['relative' => true]);
+		HTMLHelper::stylesheet('com_redshop/bootstrap-datetimepicker.min.css', ['relative' => true]);
 
         $momentValue = false;
 

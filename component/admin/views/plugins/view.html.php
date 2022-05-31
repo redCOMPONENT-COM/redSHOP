@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('rbootstrap.modal');
+JHTML::_('bootstrap.modal');
 
 /**
  * View Categories

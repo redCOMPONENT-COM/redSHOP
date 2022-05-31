@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
+JHTML::_('bootstrap.tooltip');
 
 echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' => $this));
 

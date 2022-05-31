@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -52,8 +54,7 @@ class RedshopViewCart extends RedshopView
         }
 
         JHtml::_('redshopjquery.framework');
-        /** @scrutinizer ignore-deprecated */
-        \RHtml::script('com_redshop/redshop.common.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
 
         if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1)) {
             $cartData = RedshopHelperTemplate::getTemplate("empty_cart");

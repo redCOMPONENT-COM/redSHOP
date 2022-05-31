@@ -44,7 +44,6 @@ class RedshopControllerProduct extends RedshopController
             $lang = JFactory::getLanguage();
             $lang->load('com_redshop', JPATH_ADMINISTRATOR);
 
-            JHtml::_('rjquery.framework');
             JHtml::_('redshopjquery.framework');
 
             $document = JFactory::getDocument();

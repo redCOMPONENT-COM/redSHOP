@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -62,14 +64,12 @@ class RedshopViewAccount_Billto extends RedshopView
         $document        = JFactory::getDocument();
         $document->addScriptOptions('account_billto', $accountBilltoJs);
 
-        JHtml::_('rjquery.framework');
         JHtml::_('redshopjquery.framework');
         JHtml::_('script', 'com_redshop/jquery.validate.min.js', false, true);
         JHtml::_('script', 'com_redshop/redshop.common.min.js', false, true);
         JHtml::_('script', 'com_redshop/redshop.registration.min.js', false, true);
         JHtml::_('script', 'com_redshop/account/billto.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
+		HTMLHelper::stylesheet('com_redshop/redshop.validation.min.css', ['relative' => true]);
 
         // Preform security checks
         if ($user->id == 0 && $auth['users_info_id'] == 0) {

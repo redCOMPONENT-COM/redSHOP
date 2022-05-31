@@ -40,7 +40,7 @@ if (count($this->search) > 0) {
     $model = $this->getModel('search');
     $total = $model->getTotal();
 
-    JHTML::_('rbootstrap.modal');
+    JHTML::_('bootstrap.modal');
     $url = JURI::base();
 
     if ($this->params->get('page_title') != "") {
@@ -757,7 +757,7 @@ if (count($this->search) > 0) {
         $template_org = str_replace("{pagination}", "", $template_org);
     }
 
-    $pagination = new \RPagination($total_product, $start, $endlimit);
+    $pagination = new JPagination($total_product, $start, $endlimit);
 
     if (strstr($template_org, "{pagination}")) {
         $template_org = str_replace("{pagination}", $pagination->getPagesLinks(), $template_org);

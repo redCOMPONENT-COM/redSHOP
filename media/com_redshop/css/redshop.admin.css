@@ -5383,7 +5383,7 @@ button.close {
     transition: transform 0.1s ease-out;
 }
 
-.modal.in .modal-dialog {
+.modal.in .modal-dialog, .modal.show .modal-dialog {
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);
     -o-transform: translate(0, 0);
@@ -21956,7 +21956,7 @@ table th[class*="span"],
     transition: opacity .15s linear;
 }
 
-.fade.in {
+.fade.in, .fade.show {
     opacity: 1;
 }
 

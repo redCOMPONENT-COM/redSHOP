@@ -7,12 +7,13 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
-JHtml::_('rbootstrap.modal');
-/** @scrutinizer ignore-deprecated */
-RHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
-/** @scrutinizer ignore-deprecated */
-RHtml::script('com_redshop/redshop.onestep.min.js', false, true);
+JHtml::_('bootstrap.modal');
+HTMLHelper::script('com_redshop/redshop.creditcard.min.js', ['relative' => true]);
+HTMLHelper::script('com_redshop/redshop.onestep.min.js', ['relative' => true]);
 /** @var RedshopModelCheckout $model */
 $model = $this->getModel('checkout');
 

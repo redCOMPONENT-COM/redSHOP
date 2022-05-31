@@ -7,13 +7,14 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 JHtml::_('redshopjquery.ui');
-/** @scrutinizer ignore-deprecated */
-RHtml::script('com_redshop/jquery.iframe-transport.min.js', false, true);
-/** @scrutinizer ignore-deprecated */
-RHtml::script('com_redshop/jquery.fileupload.min.js', false, true);
+HTMLHelper::script('com_redshop/jquery.iframe-transport.min.js', ['relative' => true]);
+HTMLHelper::script('com_redshop/jquery.fileupload.min.js', ['relative' => true]);
 
 $allowFileTypes      = explode(',', Redshop::getConfig()->get('IMPORT_FILE_MIME', 'text/csv,application/vnd.ms-excel'));
 $allowMaxFileSize    = (int)Redshop::getConfig()->get('IMPORT_MAX_FILE_SIZE', 2000000);

@@ -7,6 +7,9 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 require_once 'components/com_redshop/views/configuration/view.html.php';
@@ -52,12 +55,9 @@ class RedshopViewWizard extends RedshopViewAdmin
         $document = JFactory::getDocument();
 
         $document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/redshop.validation.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::stylesheet('com_redshop/redshop.min.css', array(), true);
-        /** @scrutinizer ignore-deprecated */
-        RHtml::stylesheet('com_redshop/redshop.wizard.min.css', array(), true);
+		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.min.css', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.wizard.min.css', ['relative' => true]);
 
         // Shop country
         $q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";

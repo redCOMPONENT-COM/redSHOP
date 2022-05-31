@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('rjquery.framework');
+JHtml::_('redshopjquery.framework');
 
 $url         = JUri::base();
 $input       = JFactory::getApplication()->input;

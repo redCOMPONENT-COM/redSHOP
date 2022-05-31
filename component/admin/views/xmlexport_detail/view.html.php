@@ -7,6 +7,9 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 
@@ -30,8 +33,7 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
         $childelement = $session->get('childelement');
         $document     = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_xmlexport'));
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/redshop.xmlfunc.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.xmlfunc.min.js', ['relative' => true]);
 
         $uri                  = JUri::getInstance();
         $lists                = array();

@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Registry\Registry;
 
 defined('_JEXEC') or die;
@@ -15,7 +16,7 @@ defined('_JEXEC') or die;
 
 require_once dirname(__FILE__) . '/helper.php';
 JLoader::import('redshop.library');
-RHtml::script('modules/mod_redshop_search/js/search.min.js');
+HTMLHelper::script('modules/mod_redshop_search/js/search.min.js');
 
 $app      = JFactory::getApplication();
 $input    = $app->input;
@@ -54,10 +55,8 @@ if ($modSearchItemid != "") {
 }
 
 if ($enableAjaxsearch) {
-    /** @scrutinizer ignore-deprecated */
-    RHtml::script('com_redshop/redshop.search.min.js', false, true);
-    /** @scrutinizer ignore-deprecated */
-    RHtml::stylesheet('com_redshop/redshop.search.min.css', array(), true);
+	HTMLHelper::script('com_redshop/redshop.search.min.js', ['relative' => true]);
+	HTMLHelper::stylesheet('com_redshop/redshop.search.min.css', ['relative' => true]);
     $javaFun = "makeUrl();";
 }
 

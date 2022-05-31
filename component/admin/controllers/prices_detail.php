@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 
@@ -52,7 +54,7 @@ class RedshopControllerPrices_detail extends RedshopController
         $type                     = 'error';
         $productId                = $this->input->getInt('product_id');
         $post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
-        $post['cdate']            = time();
+        $post['cdate']            = Factory::getDate()->format('Y-m-d');
         $cid                      = $this->input->post->get('cid', array(0), 'array');
         $post ['price_id']        = $cid [0];
 
@@ -67,8 +69,6 @@ class RedshopControllerPrices_detail extends RedshopController
 
         $row = $model->store($post);
 
-        $msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL');
-
         if ($row) {
             $type = '';
             $msg  = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
@@ -77,6 +77,10 @@ class RedshopControllerPrices_detail extends RedshopController
         } elseif ($post['discount_start_date'] > $post['discount_end_date']) {
             $msg = JText::_('COM_REDSHOP_PRODUCT_PRICE_END_DATE_MUST_MORE_THAN_START_DATE');
         }
+		else
+		{
+			$msg = $model->getError();
+		}
 
         if ($apply == 0) {
             $this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $productId, $msg, $type);

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 class RedshopViewConfiguration extends RedshopViewAdmin
@@ -39,8 +41,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         }
 
         $document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
-        /** @scrutinizer ignore-deprecated */
-        RHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
 
         /** @var RedshopModelConfiguration $model */
         $model         = $this->getModel('configuration');

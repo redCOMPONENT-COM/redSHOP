@@ -9,7 +9,7 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('rbootstrap.modal', 'a.joom-box');
+JHtml::_('bootstrap.modal', 'a.joom-box');
 
 $editor = \Joomla\CMS\Editor\Editor::getInstance();
 $jinput = JFactory::getApplication()->input;

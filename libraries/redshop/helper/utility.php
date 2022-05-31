@@ -816,11 +816,7 @@ class RedshopHelperUtility
 	{
 		if (!self::$dispatcher)
 		{
-			if (version_compare(JVERSION, '3.0', 'lt'))
-			{
-				self::$dispatcher = JDispatcher::getInstance();
-			}
-			elseif (version_compare(JVERSION, '4.0', 'lt'))
+			if (version_compare(JVERSION, '4.0', 'lt'))
 			{
 				self::$dispatcher = JEventDispatcher::getInstance();
 			}
