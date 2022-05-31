@@ -388,6 +388,8 @@ JHtml::_('redshopjquery.framework');
 								type="button"
 								id="ModalSelectMediaButton<?php echo $index ?>"
 								data-bs-target="#ModalSelectMedia<?php echo $index ?>"
+								data-target="#ModalSelectMedia<?php echo $index ?>"
+								data-toggle="modal"
 								data-bs-toggle="modal">
                            <img
                                     src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
@@ -400,6 +402,8 @@ JHtml::_('redshopjquery.framework');
 								type="button"
 								id="ModalSelectWrapperButton<?php echo $index ?>"
 								data-bs-target="#ModalSelectWrapper<?php echo $index ?>"
+								data-target="#ModalSelectWrapper<?php echo $index ?>"
+								data-toggle="modal"
 								data-bs-toggle="modal">
 							<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
 															alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>"> <?php echo "(" . count(
