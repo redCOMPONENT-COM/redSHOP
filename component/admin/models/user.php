@@ -18,9 +18,12 @@ class RedshopModelUser extends RedshopModel
     {
         parent::__construct();
 
-        $array = JFactory::getApplication()->input->get('user_id', 0, 'array');
+		$array = JFactory::getApplication()->input->get('user_id', [], 'array');
 
-        $this->setId((int)$array[0]);
+		if (array_key_exists(0, $array))
+		{
+			$this->setId((int) $array[0]);
+		}
     }
 
     public function setId($id)

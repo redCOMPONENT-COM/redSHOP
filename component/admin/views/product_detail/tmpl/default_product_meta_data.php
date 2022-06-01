@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
+
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 ?>
 
 <div class="row">
@@ -24,10 +28,7 @@ defined('_JEXEC') or die;
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_APPEND_TO_GLOBAL_SEO_LBL'),
                             JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO_LBL'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -40,10 +41,7 @@ defined('_JEXEC') or die;
                         <?php echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PAGE_TITLE'),
                             JText::_('COM_REDSHOP_PAGE_TITLE'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         ); ?>
                     </label>
                     <input class="form-control" type="text" name="pagetitle" id="pagetitle" size="75"
@@ -56,10 +54,7 @@ defined('_JEXEC') or die;
                         <?php echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PAGE_HEADING'),
                             JText::_('COM_REDSHOP_PAGE_HEADING'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         ); ?>
                     </label>
                     <input class="form-control" type="text" name="pageheading" id="pageheading" size="75"
@@ -72,10 +67,7 @@ defined('_JEXEC') or die;
                         <?php echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_SEF_URL'),
                             JText::_('COM_REDSHOP_SEF_URL'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         ); ?>
                     </label>
                     <input class="form-control" type="text" name="sef_url" id="sef_url" size="75"
@@ -89,10 +81,7 @@ defined('_JEXEC') or die;
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_CANONICAL_URL_PRODUCT'),
                             JText::_('COM_REDSHOP_CANONICAL_URL_PRODUCT'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                         <br/>
@@ -124,10 +113,7 @@ defined('_JEXEC') or die;
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_SELECT_CATEGORY_TO_USEIN_SEF'),
                             JText::_('COM_REDSHOP_SELECT_CATEGORY_TO_USEIN_SEF'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -146,10 +132,7 @@ defined('_JEXEC') or die;
                         <?php echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_META_KEYWORDS'),
                             JText::_('COM_REDSHOP_META_KEYWORDS'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         ); ?>
                     </label>
                     <textarea class="text_area" name="metakey" id="metakey" rows="4"
@@ -163,10 +146,7 @@ defined('_JEXEC') or die;
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_META_DESCRIPTION'),
                             JText::_('COM_REDSHOP_META_DESCRIPTION'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -181,10 +161,7 @@ defined('_JEXEC') or die;
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_META_LANG_SETTING'),
                             JText::_('COM_REDSHOP_META_LANG_SETTING'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -202,10 +179,7 @@ defined('_JEXEC') or die;
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_META_ROBOT_INFO'),
                             JText::_('COM_REDSHOP_META_ROBOT_INFO'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>

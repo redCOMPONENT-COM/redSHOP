@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
+
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 ?>
 
 <div class="row">
@@ -35,10 +39,7 @@ defined('_JEXEC') or die;
                                         echo JHtml::tooltip(
                                             JText::_('COM_REDSHOP_TOOLTIP_ECONOMIC_ACCOUNTGROUP_LBL'),
                                             JText::_('COM_REDSHOP_ECONOMIC_ACCOUNTGROUP_LBL'),
-                                            'tooltip.png',
-                                            '',
-                                            '',
-                                            false
+                                            'com_redshop/tooltip.png'
                                         );
                                         ?>
                                     </td>
@@ -64,10 +65,7 @@ defined('_JEXEC') or die;
                                         echo JHtml::tooltip(
                                             JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL'),
                                             JText::_('COM_REDSHOP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL'),
-                                            'tooltip.png',
-                                            '',
-                                            '',
-                                            false
+                                            'com_redshop/tooltip.png'
                                         );
                                         ?>
                                     </td>

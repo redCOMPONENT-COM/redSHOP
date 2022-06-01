@@ -225,9 +225,10 @@ abstract class RedshopTagsAbstract
         $dispatcher = $this->getDispatcher();
 
         // Trigger event and cancel addReplace if event return false
-        if ($dispatcher->trigger('onBeforeAddReplaceTag', array(&$tag, &$value) === false)) {
-            return false;
-        }
+		if (in_array(false, $dispatcher->trigger('onBeforeAddReplaceTag', [&$tag, &$value]), true))
+		{
+			return false;
+		}
 
         // Make sure this tag is exists before adding replace
         if ($this->isTagExists($tag) === false || $this->isTagRegistered($tag) === false) {

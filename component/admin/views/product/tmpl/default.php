@@ -428,7 +428,7 @@ JHtml::_('redshopjquery.framework');
                         ); ?>
                     </td>
                     <td>
-                        <a href="index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=0&pid=<?php echo $product->product_id ?>"><?php echo JText::_(
+                        <a href="index.php?option=com_redshop&view=rating&task=edit&cid[]=0&pid=<?php echo $product->product_id ?>"><?php echo JText::_(
                                 'COM_REDSHOP_ADD_REVIEW'
                             ); ?></a>
                     </td>

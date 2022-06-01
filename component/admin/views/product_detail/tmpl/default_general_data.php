@@ -12,7 +12,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal', 'a.joom-box');
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+HTMLHelper::_('bootstrap.modal', 'a.joom-box');
 HTMLHelper::script('com_redshop/jquery.inputmask.min.js', ['relative' => true]);
 
 $priceDecimal   = Redshop::getConfig()->get('PRICE_DECIMAL', '.');
@@ -147,10 +148,7 @@ foreach ($media->getAll() as $mediaItem) {
                                 <?php echo JHtml::tooltip(
                                     JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'),
                                     JText::_('COM_REDSHOP_PRODUCT_NUMBER'),
-                                    'tooltip.png',
-                                    '',
-                                    '',
-                                    false
+                                    'com_redshop/tooltip.png'
                                 ); ?>
                             </label>
                             <input class="form-control validate-productNumber"
@@ -168,10 +166,7 @@ foreach ($media->getAll() as $mediaItem) {
                                 echo JHtml::tooltip(
                                     JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_CATEGORY'),
                                     JText::_('COM_REDSHOP_PRODUCT_CATEGORY'),
-                                    'tooltip.png',
-                                    '',
-                                    '',
-                                    false
+                                    'com_redshop/tooltip.png'
                                 );
                                 ?>
                             </label>
@@ -185,10 +180,7 @@ foreach ($media->getAll() as $mediaItem) {
                                 echo JHtml::tooltip(
                                     JText::_('COM_REDSHOP_PRODUCT_TYPE_TIP'),
                                     JText::_('COM_REDSHOP_PRODUCT_TYPE'),
-                                    'tooltip.png',
-                                    '',
-                                    '',
-                                    false
+                                    'com_redshop/tooltip.png'
                                 );
                                 ?>
                             </label>
@@ -203,10 +195,7 @@ foreach ($media->getAll() as $mediaItem) {
                                 echo JHtml::tooltip(
                                     JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TEMPLATE'),
                                     JText::_('COM_REDSHOP_PRODUCT_TEMPLATE'),
-                                    'tooltip.png',
-                                    '',
-                                    '',
-                                    false
+                                    'com_redshop/tooltip.png'
                                 );
                                 ?>
                             </label>
@@ -220,10 +209,7 @@ foreach ($media->getAll() as $mediaItem) {
                                 echo JHtml::tooltip(
                                     JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MANUFACTURER'),
                                     JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'),
-                                    'tooltip.png',
-                                    '',
-                                    '',
-                                    false
+                                    'com_redshop/tooltip.png'
                                 );
                                 ?>
                             </label>
@@ -243,10 +229,7 @@ foreach ($media->getAll() as $mediaItem) {
                                 echo JHtml::tooltip(
                                     JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PRICE'),
                                     JText::_('COM_REDSHOP_PRODUCT_PRICE'),
-                                    'tooltip.png',
-                                    '',
-                                    '',
-                                    false
+                                    'com_redshop/tooltip.png'
                                 );
                                 ?>
                             </label>
@@ -267,10 +250,7 @@ foreach ($media->getAll() as $mediaItem) {
                                 echo JHtml::tooltip(
                                     JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TAX'),
                                     JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP'),
-                                    'tooltip.png',
-                                    '',
-                                    '',
-                                    false
+                                    'com_redshop/tooltip.png'
                                 );
                                 ?>
                             </label>
@@ -284,10 +264,7 @@ foreach ($media->getAll() as $mediaItem) {
                                 echo JHtml::tooltip(
                                     JText::_('COM_REDSHOP_TOOLTIP_DISCOUNT_PRICE'),
                                     JText::_('COM_REDSHOP_DISCOUNT_PRICE'),
-                                    'tooltip.png',
-                                    '',
-                                    '',
-                                    false
+                                    'com_redshop/tooltip.png'
                                 );
                                 ?>
                             </label>
@@ -378,10 +355,7 @@ foreach ($media->getAll() as $mediaItem) {
                                 echo JHtml::tooltip(
                                     JText::_('JTAG'),
                                     JText::_('JTAG_DESC'),
-                                    'tooltip.png',
-                                    '',
-                                    '',
-                                    false
+                                    'com_redshop/tooltip.png'
                                 );
                                 ?>
                             </label>
@@ -492,10 +466,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_VOLUME'),
                             JText::_('COM_REDSHOP_PRODUCT_VOLUME'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -517,10 +488,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_LENGTH'),
                             JText::_('COM_REDSHOP_PRODUCT_LENGTH'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -542,10 +510,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_WIDTH'),
                             JText::_('COM_REDSHOP_PRODUCT_WIDTH'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -567,10 +532,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_HEIGHT'),
                             JText::_('COM_REDSHOP_PRODUCT_HEIGHT'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -592,10 +554,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DIAMETER'),
                             JText::_('COM_REDSHOP_PRODUCT_DIAMETER'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -617,10 +576,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_WEIGHT'),
                             JText::_('COM_REDSHOP_WEIGHT_LBL'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -648,10 +604,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_SUPPLIER'),
                             JText::_('COM_REDSHOP_SUPPLIER'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -665,10 +618,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PARENT_PRODUCT'),
                             JText::_('COM_REDSHOP_PARENT_PRODUCT'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -697,10 +647,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL'),
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL_LBL'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -714,10 +661,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED'),
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED_LBL'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -731,10 +675,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE'),
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_LBL'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -748,10 +689,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_SHOWPRICE'),
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_SHOWPRICE_LBL'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -765,10 +703,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREORDER'),
                             JText::_('COM_REDSHOP_PRODUCT_PREORDER'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -782,10 +717,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_MINIMUM_PER_PRODUCT_TOTAL'),
                             JText::_('COM_REDSHOP_MINIMUM_PER_PRODUCT_TOTAL_LBL'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -808,10 +740,7 @@ foreach ($media->getAll() as $mediaItem) {
                             echo JHtml::tooltip(
                                 JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_AVAILABILITY_DATE'),
                                 JText::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL'),
-                                'tooltip.png',
-                                '',
-                                '',
-                                false
+                                'com_redshop/tooltip.png'
                             );
                             ?>
                         </label>
@@ -841,10 +770,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_MINIMUM_ORDER_PRODUCT_QUANTITY'),
                             JText::_('COM_REDSHOP_MINIMUM_ORDER_PRODUCT_QUANTITY_LBL'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -867,10 +793,7 @@ foreach ($media->getAll() as $mediaItem) {
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_MAXIMUM_ORDER_PRODUCT_QUANTITY'),
                             JText::_('COM_REDSHOP_TOOLTIP_MAXIMUM_ORDER_PRODUCT_QUANTITY'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
