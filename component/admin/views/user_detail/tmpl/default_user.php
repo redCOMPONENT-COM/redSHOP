@@ -7,7 +7,13 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die; ?>
+
+use Joomla\CMS\HTML\HTMLHelper;
+
+defined('_JEXEC') or die;
+
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+?>
 <div class="col50">
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_REDSHOP_USER_DETAIL'); ?></legend>
@@ -23,10 +29,7 @@ defined('_JEXEC') or die; ?>
                         <?php echo JHTML::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_USERNAME'),
                             JText::_('COM_REDSHOP_USERNAME'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         ); ?>
                         <span id="user_valid">*</span>
                     </td>
@@ -38,10 +41,7 @@ defined('_JEXEC') or die; ?>
                         <?php echo JHTML::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PASSWORD'),
                             JText::_('COM_REDSHOP_NEW_PASSWORD_LBL'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         ); ?>
                         <span id="user_valid">*</span>
                     </td>
@@ -52,10 +52,7 @@ defined('_JEXEC') or die; ?>
                     <td><input class="inputbox" type="password" name="password2" id="password2" autocomplete="new-password" size="20" value=""/>                        <?php echo JHTML::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PASSWORD'),
                             JText::_('COM_REDSHOP_VERIFIED_PASSWORD_LBL'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         ); ?>
                         <span id="user_valid">*</span>
                     </td>
@@ -69,10 +66,7 @@ defined('_JEXEC') or die; ?>
                     <?php echo JHTML::tooltip(
                         JText::_('COM_REDSHOP_TOOLTIP_EMAIL'),
                         JText::_('COM_REDSHOP_EMAIL'),
-                        'tooltip.png',
-                        '',
-                        '',
-                        false
+                        'com_redshop/tooltip.png'
                     ); ?>
                     <span id="email_valid">*</span>
                 </td>
@@ -83,10 +77,7 @@ defined('_JEXEC') or die; ?>
                     <?php echo JHTML::tooltip(
                         JText::_('COM_REDSHOP_TOOLTIP_GROUP'),
                         JText::_('COM_REDSHOP_GROUP'),
-                        'tooltip.png',
-                        '',
-                        '',
-                        false
+                        'com_redshop/tooltip.png'
                     ); ?>
                     <span id="user_valid">*</span>
                 </td>
@@ -99,10 +90,7 @@ defined('_JEXEC') or die; ?>
                         <?php echo JHTML::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_GROUP'),
                             JText::_('COM_REDSHOP_GROUP'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         ); ?>
                         <span id="user_valid">*</span>
                     </td>

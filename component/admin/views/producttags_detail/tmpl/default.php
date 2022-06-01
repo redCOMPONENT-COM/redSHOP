@@ -7,7 +7,12 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
+
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 $now = JFactory::getDate();
 ?>
@@ -45,10 +50,7 @@ $now = JFactory::getDate();
                         <?php echo JHTML::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_TAGS_NAME'),
                             JText::_('COM_REDSHOP_TAGS_NAME'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         ); ?>
                     </td>
                 </tr>

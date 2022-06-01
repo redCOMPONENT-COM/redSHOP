@@ -26,8 +26,12 @@ class RedshopModelMedia_detail extends RedshopModel
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
-        $array               = JFactory::getApplication()->input->get('cid', 0, 'array');
-        $this->setId((int)$array[0]);
+		$array               = JFactory::getApplication()->input->get('cid', [], 'array');
+
+		if (array_key_exists(0, $array))
+		{
+			$this->setId((int) $array[0]);
+		}
     }
 
     public function setId($id)

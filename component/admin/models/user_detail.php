@@ -34,7 +34,7 @@ class RedshopModelUser_detail extends RedshopModel
         $this->_table_prefix = '#__redshop_';
         $this->_context      = 'order_id';
 
-        $array      = $app->input->get('cid', 0, 'array');
+        $array      = $app->input->get('cid', [], 'array');
         $this->_uid = $app->input->get('user_id', 0);
 
         $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
@@ -42,7 +42,11 @@ class RedshopModelUser_detail extends RedshopModel
 
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
-        $this->setId((int)$array[0]);
+
+		if (array_key_exists(0, $array))
+		{
+			$this->setId((int) $array[0]);
+		}
     }
 
     public function setId($id)

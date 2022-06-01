@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
+
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 $accosiation_id = 0;
 $ordering       = 1;
@@ -24,10 +28,7 @@ if (!empty($this->getassociation)) {
             <td><?php echo JHTML::tooltip(
                     JText::_('COM_REDSHOP_TAG_NAME_TIP'),
                     JText::_('COM_REDSHOP_TAG_NAME'),
-                    'tooltip.png',
-                    '',
-                    '',
-                    false
+                    'com_redshop/tooltip.png'
                 ); ?><?php echo JText::_('COM_REDSHOP_TAG_NAME'); ?> </td>
             <td><?php echo $this->lists['tags']; ?> </td>
         </tr>

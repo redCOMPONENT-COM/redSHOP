@@ -41,7 +41,7 @@ class Install
         $firstCatId = $categoryTable->id;
 
         // Category insert
-        $categoryTable->reset();
+		$categoryTable = \RedshopTable::getAdminInstance('Category');
         $categoryTable->id                   = null;
         $categoryTable->name                 = 'CCK and e-Commerce';
         $categoryTable->template             = 5;
@@ -55,7 +55,7 @@ class Install
         $secondCatId = $categoryTable->id;
 
         // Category insert
-        $categoryTable->reset();
+		$categoryTable = \RedshopTable::getAdminInstance('Category');
         $categoryTable->id                   = null;
         $categoryTable->name                 = 'Templates';
         $categoryTable->template             = 8;

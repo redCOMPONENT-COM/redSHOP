@@ -7,7 +7,12 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
+
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 ?>
 
 <div class="row">
@@ -24,10 +29,7 @@ defined('_JEXEC') or die;
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_THUMB_IMAGE'),
                             JText::_('COM_REDSHOP_PRODUCT_THUMB_IMAGE'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -52,10 +54,7 @@ defined('_JEXEC') or die;
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_BACK_THUMB_IMAGE'),
                             JText::_('COM_REDSHOP_PRODUCT_BACK_THUMB_IMAGE'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -80,10 +79,7 @@ defined('_JEXEC') or die;
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREVIEW_IMAGE'),
                             JText::_('COM_REDSHOP_PRODUCT_PREVIEW_IMAGE'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>
@@ -108,10 +104,7 @@ defined('_JEXEC') or die;
                         echo JHtml::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREVIEW_BACK_IMAGE'),
                             JText::_('COM_REDSHOP_PRODUCT_PREVIEW_BACK_IMAGE'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         );
                         ?>
                     </label>

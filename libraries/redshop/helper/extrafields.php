@@ -945,8 +945,9 @@ class RedshopHelperExtrafields
                     if (trim($customField->desc) == '') {
                         $exField .= '<td valign="top"></td>';
                     } else {
+						HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                         $exField .= '<td valign="top">&nbsp; '
-                            . JHtml::tooltip($customField->desc, $customField->name, 'tooltip.png', '', '') . '</td>';
+                            . JHtml::tooltip($customField->desc, $customField->name, 'com_redshop/tooltip.png', '', '') . '</td>';
                     }
                 }
 
@@ -1729,8 +1730,9 @@ class RedshopHelperExtrafields
             }
 
             if (trim($rowData[$i]->desc) != '' && $fieldType != 'hidden') {
+				HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                 $exField .= '<div class="userfield_tooltip">&nbsp; '
-                    . JHtml::tooltip($rowData[$i]->desc, $rowData[$i]->name, 'tooltip.png', '', '', false)
+                    . JHtml::tooltip($rowData[$i]->desc, $rowData[$i]->name, 'com_redshop/tooltip.png', '', '', false)
                     . '</div>';
             }
         }

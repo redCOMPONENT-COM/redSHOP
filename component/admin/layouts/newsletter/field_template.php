@@ -7,7 +7,12 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
+
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 /**
  * Layout variables
@@ -23,13 +28,10 @@ echo $htmlField;
 <div class="form-group row-fluid">
     <div class="col-md-offset-2 col-md-10">
         <?php
-        echo JHTML::tooltip(
+        echo HTMLHelper::tooltip(
             JText::_('COM_REDSHOP_TOOLTIP_TEMPLATE'),
             JText::_('COM_REDSHOP_TEMPLATE'),
-            'tooltip.png',
-            '',
-            '',
-            false
+            'com_redshop/tooltip.png'
         )
         ?>
         <a href="index.php?option=com_redshop&task=template.edit&id=<?php echo $item->template_id ?>"

@@ -7,9 +7,13 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal', 'a.joom-box');
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+HTMLHelper::_('bootstrap.modal', 'a.joom-box');
 
 $editor = \Joomla\CMS\Editor\Editor::getInstance();
 $jinput = JFactory::getApplication()->input;
@@ -209,13 +213,10 @@ if ($showbuttons) {
                                         ); ?>
 										?</span></td>
                                 <td><span
-                                            id="bulk"><?php echo $this->lists['bulk']; ?></span>&nbsp;&nbsp;&nbsp;<?php echo JHTML::tooltip(
+                                            id="bulk"><?php echo $this->lists['bulk']; ?></span>&nbsp;&nbsp;&nbsp;<?php echo HTMLHelper::tooltip(
                                         JText::_('COM_REDSHOP_TOOLTIP_YOU_WANT_TO_UPLOAD_ZIP_FILE'),
                                         JText::_('COM_REDSHOP_YOU_WANT_TO_UPLOAD_ZIP_FILE'),
-                                        'tooltip.png',
-                                        '',
-                                        '',
-                                        false
+                                        'com_redshop/tooltip.png'
                                     ); ?>
                                 </td>
 
@@ -400,10 +401,7 @@ if ($showbuttons) {
                             <?php echo JHTML::tooltip(
                                 JText::_('COM_REDSHOP_TOOLTIP_MEDIA_TYPE'),
                                 JText::_('COM_REDSHOP_MEDIA_TYPE'),
-                                'tooltip.png',
-                                '',
-                                '',
-                                false
+                                'com_redshop/tooltip.png'
                             ); ?>
                         </td>
                         <?php
@@ -428,10 +426,7 @@ if ($showbuttons) {
                         <?php echo JHTML::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_MEDIA_YOUTUBE_ID'),
                             JText::_('COM_REDSHOP_MEDIA_YOUTUBE_ID'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         ); ?>
                     </td>
                 </tr>
@@ -446,10 +441,7 @@ if ($showbuttons) {
                         <?php echo JHTML::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_MEDIA_ALTERNATE_TEXT'),
                             JText::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         ); ?>
                     </td>
                 </tr>
@@ -475,10 +467,7 @@ if ($showbuttons) {
                         <?php echo JHTML::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_MEDIA_SECTION'),
                             JText::_('COM_REDSHOP_MEDIA_SECTION'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         ); ?>
                     </td>
                 </tr>
@@ -531,10 +520,7 @@ if ($showbuttons) {
                         echo JHTML::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_SECTION_NAME'),
                             JText::_('COM_REDSHOP_SECTION_NAME'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            'com_redshop/tooltip.png'
                         ); ?>
                     </td>
                 </tr>

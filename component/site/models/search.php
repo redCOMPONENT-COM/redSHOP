@@ -8,6 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -830,10 +831,12 @@ class RedshopModelSearch extends RedshopModel
                             <?php echo $type->type_name; ?>
                             <?php
                             if (strlen($type->tooltip) > 0) {
+								HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+
                                 echo ' ' . JHtml::tooltip(
                                         $type->tooltip,
                                         $type->type_name,
-                                        'tooltip.png',
+                                        'com_redshop/tooltip.png',
                                         '',
                                         '',
                                         ''
@@ -874,7 +877,8 @@ class RedshopModelSearch extends RedshopModel
                         <?php echo $type->type_name; ?>
                         <?php
                         if (strlen($type->tooltip) > 0) {
-                            echo ' ' . JHtml::tooltip($type->tooltip, $type->type_name, 'tooltip.png', '', '', '');
+							HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+                            echo ' ' . JHtml::tooltip($type->tooltip, $type->type_name, 'com_redshop/tooltip.png', '', '', '');
                         } ?>
                     </div>
                     <div class="typevalue <?php echo $type->type_name_css; ?>">
