@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -90,10 +92,7 @@ class RedshopModelQuotation extends RedshopModel
         $usersConfig->set('allowUserRegistration', 1);
 
         if ($usersConfig->get('allowUserRegistration') == '0') {
-            /** @scrutinizer ignore-deprecated */
-            JError::raiseError(403, JText::_('COM_REDSHOP_ACCESS_FORBIDDEN'));
-
-            return;
+            throw new \Exception(JText::_('COM_REDSHOP_ACCESS_FORBIDDEN'));
         }
 
         // Initialize new usertype setting
@@ -105,8 +104,7 @@ class RedshopModelQuotation extends RedshopModel
 
         // Bind the post array to the user object
         if (!$user->bind($app->input->post->getArray(), 'usertype')) {
-            /** @scrutinizer ignore-deprecated */
-            JError::raiseError(500, /** @scrutinizer ignore-deprecated */ $user->getError());
+			throw new \Exception($user->getError());
         }
 
         // Set some initial user values
@@ -146,8 +144,7 @@ class RedshopModelQuotation extends RedshopModel
 
         // If there was an error with registration, set the message and display form
         if (!$user->save()) {
-            /** @scrutinizer ignore-deprecated */
-            JError::raiseWarning('', JText::_(/** @scrutinizer ignore-deprecated */ $user->getError()));
+			Factory::getApplication()->enqueueMessage($user->getError(), 'warning');
 
             return false;
         }

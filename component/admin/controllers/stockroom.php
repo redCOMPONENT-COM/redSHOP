@@ -56,11 +56,6 @@ class RedshopControllerStockroom extends RedshopControllerForm
 				} else {
 					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_STOCK_FROM_ECONOMIC');
 
-					if (JError::isError(JError::getError())) {
-						$error  = JError::getError();
-						$errmsg = $error->getMessage();
-					}
-
 					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
 				}
 

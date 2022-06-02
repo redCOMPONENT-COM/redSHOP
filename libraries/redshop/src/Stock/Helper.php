@@ -9,6 +9,8 @@
 
 namespace Redshop\Stock;
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -92,9 +94,10 @@ class Helper
 
         if ($productData->min_order_product_quantity > 0 && $productData->min_order_product_quantity > $newQuantity) {
             $msg = $productData->product_name . " " . \JText::_('COM_REDSHOP_WARNING_MSG_MINIMUM_QUANTITY');
-            $msg = sprintf($msg, $productData->min_order_product_quantity);
-            /** @scrutinizer ignore-deprecated */
-            \JError::raiseWarning('', $msg);
+			Factory::getApplication()->enqueueMessage(
+				sprintf($msg, $productData->min_order_product_quantity),
+				'warning'
+			);
             $newQuantity = $productData->min_order_product_quantity;
         }
 
@@ -132,9 +135,10 @@ class Helper
 
             if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newQuantity) {
                 $msg = $productData->product_name . " " . \JText::_('COM_REDSHOP_WARNING_MSG_MAXIMUM_QUANTITY');
-                $msg = sprintf($msg, $productData->max_order_product_quantity);
-                /** @scrutinizer ignore-deprecated */
-                \JError::raiseWarning('', $msg);
+				Factory::getApplication()->enqueueMessage(
+					sprintf($msg, $productData->max_order_product_quantity),
+					'warning'
+				);
                 $newQuantity = $productData->max_order_product_quantity;
             }
 

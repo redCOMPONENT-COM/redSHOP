@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -169,10 +171,10 @@ class RedshopHelperClickatell
             if ($send[0] == "ID") {
                 echo "success message ID: " . $send[1];
             } else {
-                JError::raiseWarning(21, "send message failed: ");
+				Factory::getApplication()->enqueueMessage("send message failed: ", 'warning');
             }
         } else {
-            JError::raiseWarning(21, "Authentication failure: " . $result[0]);
+			Factory::getApplication()->enqueueMessage("Authentication failure: " . $result[0], 'warning');
         }
     }
 

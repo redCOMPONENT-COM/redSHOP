@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 
@@ -194,8 +196,7 @@ class RedshopModelUser_detail extends RedshopModel
 
         if ($post['createaccount']) {
             if ($post['user_id'] == 0 && ($post['password'] == '' || $post['password2'] == '')) {
-                /** @scrutinizer ignore-deprecated */
-                JError::raiseWarning('', JText::_('COM_REDSHOP_PLEASE_ENTER_PASSWORD'));
+				Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PLEASE_ENTER_PASSWORD'), 'warning');
 
                 return false;
             }

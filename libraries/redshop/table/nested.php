@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 defined('_JEXEC') or die;
@@ -755,7 +756,10 @@ class RedshopTableNested extends JTableNested
         try {
             $db->query();
         } catch (RuntimeException $e) {
-            JError::raiseWarning(500, $e->getMessage());
+			Factory::getApplication()->enqueueMessage(
+				$e->getMessage(),
+				'warning'
+			);
 
             return false;
         }

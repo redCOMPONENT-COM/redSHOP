@@ -9,6 +9,8 @@
 
 namespace Redshop\Mail;
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -382,8 +384,10 @@ class Quotation
                 $mailSection,
                 func_get_args()
             )) {
-                /** @scrutinizer ignore-deprecated */
-                \JError::raiseWarning(21, \JText::_('ERROR_SENDING_QUOTATION_MAIL'));
+				Factory::getApplication()->enqueueMessage(
+					\JText::_('ERROR_SENDING_QUOTATION_MAIL'),
+					'warning'
+				);
             }
         }
 

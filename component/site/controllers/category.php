@@ -136,11 +136,10 @@ class RedshopControllerCategory extends RedshopController
             $filepath = JPATH_COMPONENT_SITE . "/assets/xmlfile/export/" . $filename;
 
             if (!JFile::exists($filepath)) {
-                JError::raiseError(500, "Oops. File not found");
-                JFactory::getApplication()->close();
+				throw new \Exception("Oops. File not found");
             }
         } else {
-            JError::raiseError(500, "File name not specified");
+			throw new \Exception("File name not specified");
         }
 
         session_write_close();
@@ -155,7 +154,7 @@ class RedshopControllerCategory extends RedshopController
         }
 
         if (!$this->downloadFile($filepath)) {
-            JError::raiseError('', 'The file transfer failed');
+			throw new \Exception('The file transfer failed');
         }
 
         die();
@@ -238,8 +237,7 @@ class RedshopControllerCategory extends RedshopController
 
         // Check to ensure it is not an empty file so the feof does not get stuck in an infinte loop.
         if ($size == 0) {
-            JError::raiseError(500, 'ERROR.ZERO_BYE_FILE');
-            JFactory::getApplication()->close();
+			throw new \Exception('ERROR.ZERO_BYE_FILE');
         }
 
         if (version_compare(PHP_VERSION, '5.3.0', '<')) {

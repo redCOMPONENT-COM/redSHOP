@@ -9,6 +9,8 @@
 
 namespace Redshop\Cart;
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -611,23 +613,26 @@ class Helper
             $productId = $product->product_id;
 
             if ($product->published == 0) {
-                $msg = sprintf(\JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $product->product_name, $productId);
-                /** @scrutinizer ignore-deprecated */
-                \JError::raiseWarning(20, $msg);
+				Factory::getApplication()->enqueueMessage(
+					sprintf(\JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $product->product_name, $productId),
+					'error'
+				);
                 continue;
             }
 
             if ($product->not_for_sale > 0) {
-                $msg = sprintf(\JText::_('COM_REDSHOP_PRODUCT_IS_NOT_FOR_SALE'), $product->product_name, $productId);
-                /** @scrutinizer ignore-deprecated */
-                \JError::raiseWarning(20, $msg);
+				Factory::getApplication()->enqueueMessage(
+					sprintf(\JText::_('COM_REDSHOP_PRODUCT_IS_NOT_FOR_SALE'), $product->product_name, $productId),
+					'warning'
+				);
                 continue;
             }
 
             if ($product->expired == 1) {
-                $msg = sprintf(\JText::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'), $product->product_name, $productId);
-                /** @scrutinizer ignore-deprecated */
-                \JError::raiseWarning(20, $msg);
+				Factory::getApplication()->enqueueMessage(
+					sprintf(\JText::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'), $product->product_name, $productId),
+					'warning'
+				);
                 continue;
             }
 

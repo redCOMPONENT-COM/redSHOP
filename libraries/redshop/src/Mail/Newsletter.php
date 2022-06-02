@@ -9,6 +9,8 @@
 
 namespace Redshop\Mail;
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -148,7 +150,10 @@ class Newsletter
                 $mailSection,
                 func_get_args()
             )) {
-                \JError::raiseWarning(21, \JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+				Factory::getApplication()->enqueueMessage(
+					\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
+					'warning'
+				);
             }
         }
 

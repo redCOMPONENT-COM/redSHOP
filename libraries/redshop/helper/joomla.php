@@ -101,39 +101,39 @@ class RedshopHelperJoomla
         }
 
         if (trim($data['email']) == "") {
-            JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_EMAIL'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_EMPTY_EMAIL'), 'warning');
 
             return false;
         }
 
         if (trim($data['username']) == "") {
-            JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_USERNAME'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_EMPTY_USERNAME'), 'warning');
 
             return false;
         }
 
         if (RedshopHelperUser::validateUser($data['username']) > 0) {
-            JError::raiseWarning('', JText::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'), 'warning');
 
             return false;
         }
 
         if (RedshopHelperUser::validateEmail($data['email']) > 0) {
-            JError::raiseWarning('', JText::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'), 'warning');
 
             return false;
         }
 
         // Check: Password is empty
         if (trim($data['password']) == "") {
-            JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_PASSWORD'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_EMPTY_PASSWORD'), 'warning');
 
             return false;
         }
 
         // Check: Password not match
         if ($data['password'] != $data['password2']) {
-            JError::raiseWarning('', JText::_('COM_REDSHOP_PASSWORDS_DO_NOT_MATCH'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_PASSWORDS_DO_NOT_MATCH'), 'warning');
 
             return false;
         }
@@ -146,9 +146,7 @@ class RedshopHelperJoomla
 
         // If user registration is not allowed, show 403 not authorized.
         if (!$user->bind($data)) {
-            JError::raiseError(500, $user->getError());
-
-            return false;
+			throw new \Exception($user->getError());
         }
 
         $date = JFactory::getDate();
@@ -168,7 +166,7 @@ class RedshopHelperJoomla
 
         // If there was an error with registration, set the message and display form
         if (!$user->save()) {
-            JError::raiseWarning('', JText::_($user->getError()));
+			$app->enqueueMessage(JText::_($user->getError()), 'warning');
 
             return false;
         }
@@ -216,28 +214,28 @@ class RedshopHelperJoomla
 
         // Check: Username is not empty
         if (trim($data['username']) == "") {
-            JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_USERNAME'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_EMPTY_USERNAME'), 'warning');
 
             return false;
         }
 
         // Check: Validate username.
         if (RedshopHelperUser::validateUser($data['username'], $data['user_id'])) {
-            JError::raiseWarning('', JText::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'), 'warning');
 
             return false;
         }
 
         // Check: Email not empty.
         if (trim($data['email']) == "") {
-            JError::raiseWarning('', JText::_('EMPTY_EMAIL'));
+			$app->enqueueMessage(JText::_('EMPTY_EMAIL'), 'warning');
 
             return false;
         }
 
         // Check: Validate email
         if (RedshopHelperUser::validateEmail($data['email'], $data['user_id'])) {
-            JError::raiseWarning('', JText::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'));
+			$app->enqueueMessage(JText::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'), 'warning');
 
             return false;
         }
@@ -246,9 +244,7 @@ class RedshopHelperJoomla
         $user = new JUser($data['user_id']);
 
         if (!$user->bind($data)) {
-            JError::raiseError(500, $user->getError());
-
-            return false;
+			throw new \Exception($user->getError());
         }
 
         // Initialise variables;
@@ -279,7 +275,7 @@ class RedshopHelperJoomla
 
         // If there was an error with registration, set the message and display form
         if (!$user->save()) {
-            JError::raiseWarning('', JText::_($user->getError()));
+			$app->enqueueMessage(JText::_($user->getError()), 'warning');
 
             return false;
         }

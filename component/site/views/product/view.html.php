@@ -121,15 +121,11 @@ class RedshopViewProduct extends RedshopView
             $prodhelperobj_array_main = RedshopHelperProductPrice::getNetPrice($this->data->product_id);
 
             if ($this->data->published == 0) {
-                /** @scrutinizer ignore-deprecated */
-                JError::raiseError(
-                    404,
-                    sprintf(
-                        JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'),
-                        $this->data->product_name,
-                        $this->data->product_number
-                    )
-                );
+				throw new \Exception(sprintf(
+					JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'),
+					$this->data->product_name,
+					$this->data->product_number
+				));
             }
 
             $productTemplate = $this->model->getProductTemplate();

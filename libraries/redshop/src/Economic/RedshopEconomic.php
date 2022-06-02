@@ -1680,11 +1680,7 @@ class RedshopEconomic
 
 						$bookInvoicePdf = \RedshopHelperUtility::getDispatcher()->trigger('bookInvoice', array($eco));
 
-						if (/** @scrutinizer ignore-deprecated */ \JError::isError(/** @scrutinizer ignore-deprecated */ \JError::getError()))
-						{
-							return $file;
-						}
-						elseif (!empty($bookInvoicePdf))
+						if (!empty($bookInvoicePdf))
 						{
 							$bookInvoicePdf = $bookInvoicePdf[0];
 

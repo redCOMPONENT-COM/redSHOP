@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Redshop\Economic\RedshopEconomic;
 
 /**
@@ -192,18 +193,6 @@ class RedshopControllerCheckout extends RedshopController
                 && Redshop::getConfig()->get('REQUIRED_EAN_NUMBER')
                 && trim($billingAddresses->ean_number) != '') {
                 RedshopEconomic::createUserInEconomic($billingAddresses);
-
-                if (/** @scrutinizer ignore-deprecated */ JError::isError(
-                /** @scrutinizer ignore-deprecated */ JError::getError()
-                )) {
-                    $return = 1;
-                    $error  = /** @scrutinizer ignore-deprecated */
-                        JError::getError();
-                    $msg    = $error->getMessage();
-                    \JFactory::getApplication()->enqueueMessage($msg, 'error');
-
-                    return $return;
-                }
             }
         }
 
@@ -577,9 +566,7 @@ class RedshopControllerCheckout extends RedshopController
                     $this->setRedirect($link);
                 }
             } else {
-                $errorMsg = $model->getError();
-                /** @scrutinizer ignore-deprecated */
-                JError::raiseWarning(21, $errorMsg);
+				Factory::getApplication()->enqueueMessage($model->getError(), 'warning');
                 $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false));
             }
         } else {

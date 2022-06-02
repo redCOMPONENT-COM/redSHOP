@@ -90,14 +90,6 @@ class Accessory
 
                             $app->enqueueMessage($errorMessage, 'error');
 
-                            if (/** @scrutinizer ignore-deprecated */ \JError::isError(
-                            /** @scrutinizer ignore-deprecated */ \JError::getError()
-                            )) {
-                                $error = /** @scrutinizer ignore-deprecated */ \JError::getError();
-                                $errorMessage = $error->getMessage();
-                                $app->enqueueMessage($errorMessage, 'error');
-                            }
-
                             if (\Redshop::getConfig()->getBool('AJAX_CART_BOX')) {
                                 echo '`0`' . $errorMessage;
                                 $app->close();

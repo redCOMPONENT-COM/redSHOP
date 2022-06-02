@@ -381,10 +381,10 @@ class Com_RedshopInstallerScript
      */
     public function postflight($type, $parent)
     {
-        if ($type == 'uninstall')
-        {
-            return;
-        }
+		if ($type == 'uninstall')
+		{
+			return;
+		}
 
         // Respond json for ajax request and redirect with standard request
         if (
@@ -520,10 +520,10 @@ class Com_RedshopInstallerScript
     {
         $this->type = $type;
 
-        if ($type != 'uninstall')
-        {
-            $this->implementProcedure();
-        }
+		if ($type != 'uninstall')
+		{
+			$this->implementProcedure();
+		}
 
         if ($type == 'update' || $type == 'discover_install') {
             if (!class_exists('RedshopHelperJoomla')) {
