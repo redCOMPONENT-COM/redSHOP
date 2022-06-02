@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.calendar');
 JHtml::_('bootstrap.modal');
 
 JPluginHelper::importPlugin('redshop_shipping');

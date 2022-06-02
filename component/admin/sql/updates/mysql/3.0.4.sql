@@ -51,3 +51,13 @@ ALTER TABLE `#__redshop_mass_discount` CHANGE `category_id` `category_id` LONGTE
 ALTER TABLE `#__redshop_mass_discount` CHANGE `manufacturer_id` `manufacturer_id` LONGTEXT NOT NULL;
 ALTER TABLE `#__redshop_supplier` CHANGE `description` `description` TEXT NOT NULL;
 ALTER TABLE `#__redshop_textlibrary` CHANGE `content` `content` TEXT NOT NULL;
+
+ALTER TABLE `#__redshop_users_info` CHANGE `vat_number` `vat_number` VARCHAR(250) NULL;
+ALTER TABLE `#__redshop_users_info` CHANGE `country_code` `country_code` VARCHAR(11) NULL;
+ALTER TABLE `#__redshop_users_info` CHANGE `state_code` `state_code` VARCHAR(11) NULL;
+ALTER TABLE `#__redshop_users_info` CHANGE `ean_number` `ean_number` VARCHAR(250) NULL;
+ALTER TABLE `#__redshop_users_info` CHANGE `braintree_vault_number` `braintree_vault_number` VARCHAR(255) NULL;
+ALTER TABLE `#__redshop_users_info` CHANGE `veis_vat_number` `veis_vat_number` VARCHAR(255) NULL;
+ALTER TABLE `#__redshop_users_info` CHANGE `veis_status` `veis_status` VARCHAR(255) NULL;
+ALTER TABLE `#__redshop_users_info` CHANGE `company_name` `company_name` VARCHAR(255) NULL;
+ALTER TABLE `#__redshop_users_info` CHANGE requesting_tax_exempt` `requesting_tax_exempt` TINYINT(4) NOT NULL DEFAULT '0';

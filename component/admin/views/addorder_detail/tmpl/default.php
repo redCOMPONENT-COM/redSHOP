@@ -9,8 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.calendar');
-
 $app       = JFactory::getApplication();
 $redconfig = Redconfiguration::getInstance();
 
