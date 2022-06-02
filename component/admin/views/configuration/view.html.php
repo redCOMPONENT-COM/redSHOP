@@ -1012,7 +1012,49 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             }
         }
 
-        $script                     .= "function changeStateList()
+        $script                     .= "window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
+		var select = document.createElement('select');
+		var params = selectParams.split(' ');
+
+		for (var l = 0; l < params.length; l++) {
+			var par = params[l].split('=');
+
+			// make sure the attribute / content can not be used for scripting
+			if (par[0].trim().substr(0, 2).toLowerCase() === \"on\"
+				|| par[0].trim().toLowerCase() === \"href\") {
+				continue;
+			}
+
+			select.setAttribute(par[0], par[1].replace(/\\\"/g, ''));
+		}
+
+		var hasSelection = key == orig_key, i, selected, item;
+
+		for (i = 0; i < source.length; i++) {
+			item = source[i];
+
+			if (item[0] != key) { continue; }
+
+			selected = hasSelection ? orig_val == item[1] : i === 0;
+
+			var el = document.createElement('option');
+			el.setAttribute('value', item[1]);
+			el.innerText = item[2];
+
+			if (selected) {
+				el.setAttribute('selected', 'selected');
+			}
+
+			select.appendChild(el);
+		}
+
+		if (element) {
+			element.appendChild(select);
+		} else {
+			document.body.appendChild(select);
+		}
+	};
+	function changeStateList()
 					{
 						var selected_country = null;
 						for (var i=0; i<document.adminForm.default_vat_country.length; i++)

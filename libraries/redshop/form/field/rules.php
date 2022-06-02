@@ -49,7 +49,15 @@ class RedshopFormFieldRules extends JFormField
         $isGlobalConfig = $component === 'root.1';
 
         // Get the actions for the asset.
-        $actions = JAccess::getActions($component, $section);
+        $actions = JAccess::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			"/access/section[@name='" . $section . "']/"
+		);
+
+		if (empty($actions))
+		{
+			$actions = [];
+		}
 
         // Iterate over the children and add to the actions.
         foreach ($this->element->children() as $el) {

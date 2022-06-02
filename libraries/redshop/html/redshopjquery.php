@@ -405,7 +405,7 @@ abstract class JHtmlRedshopjquery
         // Include Bootstrap framework
         static::framework();
 
-        $opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
+        $opt['animation'] = isset($params['animation']) ? $params['animation'] : true;
         $opt['html']      = isset($params['html']) ? $params['html'] : true;
         $opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
         $opt['selector']  = isset($params['selector']) ? $params['selector'] : null;
@@ -415,7 +415,7 @@ abstract class JHtmlRedshopjquery
         $opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
         $opt['container'] = isset($params['container']) ? $params['container'] : 'body';
 
-        $options = json_encode($opt);
+        $options = json_encode(array_filter($opt));
 
         // Attach the popover to the document
         JFactory::getDocument()->addScriptDeclaration(
