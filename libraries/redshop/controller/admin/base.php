@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Doctrine\Common\Inflector\Inflector;
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::import('joomla.application.component.controlleradmin');
@@ -409,7 +410,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
             $model->copy($pks);
             $this->setMessage(JText::plural('COM_REDSHOP_N_ITEMS_COPIED', count($pks)));
         } catch (Exception $e) {
-            JError::raiseWarning(500, $e->getMessage());
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
         }
 
         $this->setRedirect($this->getRedirectToListRoute());

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 jimport('joomla.installer.installer');
@@ -149,7 +151,7 @@ class RedshopModelZip_import extends RedshopModel
         // Did you give us a URL?
 
         if (!$url) {
-            JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_PLEASE_ENTER_A_URL'));
+			Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PLEASE_ENTER_A_URL'), 'warning');
             ?>
             <script type='text/javascript' language='javascript'>
                 window.location = "index.php?option=com_redshop&view=zip_import&msg=err";
@@ -162,7 +164,7 @@ class RedshopModelZip_import extends RedshopModel
 
         // Was the package downloaded?
         if (!$p_file) {
-            JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_INVALID_URL'));
+			Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_INVALID_URL'), 'warning');
 
             ?>
             <script type='text/javascript' language='javascript'>
@@ -221,7 +223,7 @@ class RedshopModelZip_import extends RedshopModel
 
         // Did you give us a valid directory?
         if (!is_dir($p_dir)) {
-            JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_PLEASE_ENTER_A_PACKAGE_DIRECTORY'));
+			Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PLEASE_ENTER_A_PACKAGE_DIRECTORY'), 'warning');
 
             return false;
         }
@@ -231,7 +233,7 @@ class RedshopModelZip_import extends RedshopModel
 
         // Did you give us a valid package?
         if (!$type) {
-            JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'));
+			Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'), 'warning');
 
             return false;
         }

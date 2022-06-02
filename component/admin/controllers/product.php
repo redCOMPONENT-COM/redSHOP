@@ -60,11 +60,6 @@ class RedshopControllerProduct extends RedshopController
                 } else {
                     $errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_PRODUCT_TO_ECONOMIC');
 
-                    if (JError::isError(JError::getError())) {
-                        $error  = JError::getError();
-                        $errmsg = $error->getMessage();
-                    }
-
                     $responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
                 }
 
@@ -127,11 +122,6 @@ class RedshopControllerProduct extends RedshopController
                 } else {
                     $errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC');
 
-                    if (JError::isError(JError::getError())) {
-                        $error  = JError::getError();
-                        $errmsg = $error->getMessage();
-                    }
-
                     $responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
                 }
 
@@ -167,11 +157,6 @@ class RedshopControllerProduct extends RedshopController
                         ) . "</span>";
                 } else {
                     $errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC');
-
-                    if (JError::isError(JError::getError())) {
-                        $error  = JError::getError();
-                        $errmsg = $error->getMessage();
-                    }
 
                     $responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
                 }

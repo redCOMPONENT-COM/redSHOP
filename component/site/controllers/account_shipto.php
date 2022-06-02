@@ -84,7 +84,7 @@ class RedshopControllerAccount_Shipto extends RedshopController
         $model = $this->getModel('account_shipto');
 
         if (!$infoId) {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+			throw new \Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         if (!$model->delete($infoId)) {

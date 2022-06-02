@@ -8,6 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 defined('_JEXEC') or die;
@@ -2582,8 +2583,7 @@ class RedshopModelProduct_Detail extends RedshopModel
             } else {
                 if ($preorder_stock < $ordered_preorder && $preorder_stock != "" && $ordered_preorder != "") {
                     $msg = JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED');
-                    /** @scrutinizer ignore-deprecated */
-                    JError::raiseWarning('', $msg);
+					Factory::getApplication()->enqueueMessage($msg, 'warning');
 
                     return false;
                 } else {

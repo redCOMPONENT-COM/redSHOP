@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -185,7 +187,7 @@ class RedshopModelStockroom_Listing extends RedshopModelList
             } else {
                 if (($preorder_stock < $ordered_preorder) && $preorder_stock != "" && $ordered_preorder != "") {
                     $msg = JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED');
-                    JError::raiseWarning('', $msg);
+					Factory::getApplication()->enqueueMessage($msg, 'warning');
 
                     return false;
                 } else {
@@ -198,7 +200,7 @@ class RedshopModelStockroom_Listing extends RedshopModelList
         } else {
             if ($preorder_stock < $ordered_preorder && $preorder_stock != "" && $ordered_preorder != "") {
                 $msg = JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED') . "for Stockroom ";
-                JError::raiseWarning('', $msg);
+				Factory::getApplication()->enqueueMessage($msg, 'warning');
 
                 return false;
             } else {

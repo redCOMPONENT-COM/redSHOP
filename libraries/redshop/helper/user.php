@@ -582,14 +582,23 @@ class RedshopHelperUser
                 }
             }
 
-            RedshopEconomic::createUserInEconomic($row);
+			try
+			{
+				RedshopEconomic::createUserInEconomic($row);
+			}
+			catch (\Throwable $e)
+			{
+				if ($row->is_company && trim($row->ean_number) != '')
+				{
+					$app->enqueueMessage(JText::_('PLEASE_ENTER_EAN_NUMBER'), 'warning');
+				}
+				else
+				{
+					$app->enqueueMessage($e->getMessage(), 'warning');
+				}
 
-            if ($row->is_company && trim($row->ean_number) != '' && JError::isError(JError::getError())) {
-                $msg = JText::_('PLEASE_ENTER_EAN_NUMBER');
-                JError::raiseWarning('', $msg);
-
-                return false;
-            }
+				return false;
+			}
         }
 
         $session = JFactory::getSession();

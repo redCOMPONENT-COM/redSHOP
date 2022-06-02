@@ -365,14 +365,7 @@ class RedshopControllerOrder_Detail extends RedshopController
                 $Itemid = RedshopHelperRouter::getItemId($row['product_id']);
             }
 
-            $errorMessage = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
-
-            if (/** @scrutinizer ignore-deprecated */ JError::isError(
-            /** @scrutinizer ignore-deprecated */ JError::getError()
-            )) {
-                $errorMessage = /** @scrutinizer ignore-deprecated */
-                    JError::getError()->getMessage();
-            }
+            $errorMessage = ($result) ?: JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
             $app->redirect(
                 Redshop\IO\Route::_(
