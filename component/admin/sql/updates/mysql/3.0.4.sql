@@ -60,4 +60,4 @@ ALTER TABLE `#__redshop_users_info` CHANGE `braintree_vault_number` `braintree_v
 ALTER TABLE `#__redshop_users_info` CHANGE `veis_vat_number` `veis_vat_number` VARCHAR(255) NULL;
 ALTER TABLE `#__redshop_users_info` CHANGE `veis_status` `veis_status` VARCHAR(255) NULL;
 ALTER TABLE `#__redshop_users_info` CHANGE `company_name` `company_name` VARCHAR(255) NULL;
-ALTER TABLE `#__redshop_users_info` CHANGE requesting_tax_exempt` `requesting_tax_exempt` TINYINT(4) NOT NULL DEFAULT '0';
+ALTER TABLE `#__redshop_users_info` CHANGE `requesting_tax_exempt` `requesting_tax_exempt` TINYINT(4) NOT NULL DEFAULT '0';

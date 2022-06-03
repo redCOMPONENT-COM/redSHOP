@@ -33,7 +33,7 @@ class Helper
             $query->where($db->qn('code') . ' IN (' . $db->q($currencyCode) . ')');
         }
 
-        $query->select($db->qn('code', 'value'), $db->qn('name' . 'text'))
+        $query->select([$db->qn('code', 'value'), $db->qn('name', 'text')])
             ->from($db->qn('#__redshop_currency'))
             ->order($db->qn('name') . ' ASC');
 

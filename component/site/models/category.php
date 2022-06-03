@@ -94,9 +94,9 @@ class RedshopModelCategory extends RedshopModel
         $app           = JFactory::getApplication();
         $menu          = $app->getMenu();
         $item          = $menu->getActive();
-        $limit         = (isset($item)) ? intval($item->params->get('maxproduct')) : 0;
+        $limit         = (isset($item)) ? intval($item->getParams()->get('maxproduct')) : 0;
         $db            = $this->getDbo();
-        $orderBySelect = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : 'p.product_name ASC';
+        $orderBySelect = (isset($item)) ? $item->getParams()->get('order_by', 'p.product_name ASC') : 'p.product_name ASC';
         $orderByMethod = $app->getUserStateFromRequest($this->context . '.order_by', 'order_by', $orderBySelect);
         $orderBy       = RedshopHelperUtility::prepareOrderBy($orderByMethod);
 
@@ -364,12 +364,11 @@ class RedshopModelCategory extends RedshopModel
             $this->_total   = count($newProduct);
             $this->_product = array_slice($newProduct, $limitstart, $endlimit);
         } else {
-            $queryCount = $db->getQuery(true);
-            $queryCount->select('count(*)')
-                ->from($subQueryCount, 'count');
+			$subQueryCount->clear('select')
+				->select('count(*)');
 
-            $db->setQuery($queryCount);
-            $this->_total = $db->loadResult();
+            $this->_total = $db->setQuery($subQueryCount)
+				->loadResult();
         }
 
         return $this->_product;
@@ -520,7 +519,7 @@ class RedshopModelCategory extends RedshopModel
         if ($layout == "categoryproduct") {
             $menu        = $app->getMenu();
             $item        = $menu->getActive();
-            $endlimit    = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
+            $endlimit    = (isset($item)) ? intval($item->getParams()->get('maxcategory')) : 0;
             $this->_data = $this->_getList($query, $limitstart, $endlimit);
 
             return $this->_data;
@@ -559,7 +558,7 @@ class RedshopModelCategory extends RedshopModel
         $app             = JFactory::getApplication();
         $menu            = $app->getMenu();
         $item            = $menu->getActive();
-        $manufacturer_id = (isset($item)) ? intval($item->params->get('manufacturer_id')) : 0;
+        $manufacturer_id = (isset($item)) ? intval($item->getParams()->get('manufacturer_id')) : 0;
         $manufacturer_id = $app->input->getInt('manufacturer_id', $manufacturer_id, '', 'int');
         $layout          = $app->input->getCmd('layout');
 
@@ -639,7 +638,7 @@ class RedshopModelCategory extends RedshopModel
         $app      = JFactory::getApplication();
         $menu     = $app->getMenu();
         $item     = $menu->getActive();
-        $endlimit = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
+        $endlimit = (isset($item)) ? intval($item->getParams()->get('maxcategory')) : 0;
 
         $limitstart        = $this->getState('list.start');
         $this->_pagination = new JPagination($this->getTotal(), $limitstart, $endlimit);
@@ -867,7 +866,7 @@ class RedshopModelCategory extends RedshopModel
                 }
 
                 if (!$limit && $item) {
-                    $limit = (int)$item->params->get('maxproduct', 0);
+                    $limit = (int)$item->getParams()->get('maxproduct', 0);
                 }
 
                 if (!$limit) {
