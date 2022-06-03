@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die;
 
 /**
@@ -111,7 +113,7 @@ class RedshopControllerWizard extends RedshopController
 
         // Convert array to JRegistry before saving
         $configHelper = \Redshop::getConfig();
-        $config       = new \Registry;
+        $config       = new Registry;
         $config->loadArray($session->get('redshop.wizard'));
 
         if ($configHelper->save($config)) {

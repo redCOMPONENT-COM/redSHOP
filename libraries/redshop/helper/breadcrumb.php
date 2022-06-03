@@ -94,11 +94,9 @@ class RedshopHelperBreadcrumb
             case "product":
                 $menu = RedshopHelperProduct::getMenuInformation($itemId);
 
-                if (!is_null($menu)
-                    && (strpos($menu->params, "manufacturer") !== false && strpos(
-                            $menu->params,
-                            '"manufacturer_id":"0"'
-                        ) === false)) {
+				if (!is_null($menu)
+					&& $menu->getParams()->get('manufacturer_id'))
+				{
                     $customPathways = array();
                     $menu           = RedshopHelperProduct::getMenuDetail(
                         "index.php?option=com_redshop&view=manufacturers"
