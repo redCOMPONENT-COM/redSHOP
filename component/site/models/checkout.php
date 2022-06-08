@@ -258,7 +258,8 @@ class RedshopModelCheckout extends RedshopModel
 
         if ($cart['idx'] < 1) {
             $msg = JText::_('COM_REDSHOP_EMPTY_CART');
-            $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&Itemid=' . $Itemid), $msg);
+			$app->enqueueMessage($msg);
+            $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&Itemid=' . $Itemid));
         }
 
         $shipping_rate_id = '';

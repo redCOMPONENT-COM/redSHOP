@@ -658,7 +658,6 @@ class RedshopModelAddorder_detail extends RedshopModel
         }
 
         $rowpayment->order_id             = $row->order_id;
-        $rowpayment->payment_method_id    = $postdata['payment_method_class'];
         $rowpayment->order_payment_amount = $row->order_total;
         $rowpayment->order_payment_name   = $postdata['order_payment_name'];
         $rowpayment->payment_method_class = $postdata['payment_method_class'];

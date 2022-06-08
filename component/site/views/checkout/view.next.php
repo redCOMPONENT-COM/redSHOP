@@ -58,7 +58,8 @@ class RedshopViewCheckout extends RedshopView
                 $link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
                     . $usersInfoId . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
                     . $payment_method_id;
-                $app->redirect(Redshop\IO\Route::_($link), $msg);
+				$app->enqueueMessage($msg);
+                $app->redirect(Redshop\IO\Route::_($link));
             }
 
             if ($shipping_rate_id == '' && $cart['free_shipping'] != 1) {
@@ -66,7 +67,8 @@ class RedshopViewCheckout extends RedshopView
                 $link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
                     . $usersInfoId . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
                     . $payment_method_id;
-                $app->redirect(Redshop\IO\Route::_($link), $msg);
+				$app->enqueueMessage($msg);
+                $app->redirect(Redshop\IO\Route::_($link));
             }
         }
 
@@ -75,7 +77,8 @@ class RedshopViewCheckout extends RedshopView
             $link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
                 . $usersInfoId . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
                 . $payment_method_id;
-            $app->redirect(Redshop\IO\Route::_($link), $msg, 'error');
+			$app->enqueueMessage($msg, 'error');
+            $app->redirect(Redshop\IO\Route::_($link));
         }
 
         $paymentinfo     = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);

@@ -47,9 +47,9 @@ class RedshopViewCart extends RedshopView
         $itemId = $app->input->getInt('Itemid');
 
         if ($app->input->getString('quotemsg') != "") {
+			$app->enqueueMessage($app->input->getString('quotemsg'));
             $app->redirect(
-                Redshop\IO\Route::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false),
-                $app->input->getString('quotemsg')
+                Redshop\IO\Route::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false)
             );
         }
 

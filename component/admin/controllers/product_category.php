@@ -29,7 +29,8 @@ class RedshopControllerProduct_category extends RedshopController
             $msg = JText::_('COM_REDSHOP_ERROR_WHILE_ASSIGNING_CATEGORY_TO_PRODUCT');
         }
 
-        $app->redirect("index.php?option=com_redshop&view=product", $msg);
+		$app->enqueueMessage($msg);
+        $app->redirect("index.php?option=com_redshop&view=product");
     }
 
     public function removeProduct_Category()
@@ -43,6 +44,7 @@ class RedshopControllerProduct_category extends RedshopController
             $msg = JText::_('COM_REDSHOP_ERROR_WHILE_REMOVING_CATEGORY_FROM_PRODUCT');
         }
 
-        $app->redirect("index.php?option=com_redshop&view=product", $msg);
+		$app->enqueueMessage($msg);
+        $app->redirect("index.php?option=com_redshop&view=product");
     }
 }

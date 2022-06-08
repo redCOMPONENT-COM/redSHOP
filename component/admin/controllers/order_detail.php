@@ -479,12 +479,13 @@ class RedshopControllerOrder_detail extends RedshopController
         // Update order payment table with  credit card details
         $model->update_ccdata($request['order_id'], $paymentResponse->transaction_id);
 
-        $app->redirect(
-            Redshop\IO\Route::_(
-                JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['order_id']
-            ),
-            $paymentResponse->message
-        );
+		$app->enqueueMessage($paymentResponse->message);
+
+		$app->redirect(
+			Redshop\IO\Route::_(
+				JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['order_id']
+			)
+		);
     }
 
     public function send_invoicemail()

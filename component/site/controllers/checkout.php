@@ -130,7 +130,8 @@ class RedshopControllerCheckout extends RedshopController
 
         if ($errorMsg != "") {
             $link = \Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false);
-            $app->redirect($link, $errorMsg);
+			$app->enqueueMessage($errorMsg);
+            $app->redirect($link);
         } else {
             $view = $this->getView('checkout', 'next');
             parent::display();
@@ -431,7 +432,8 @@ class RedshopControllerCheckout extends RedshopController
 
             if ($shipping_rate_id == '' && $cart['free_shipping'] != 1) {
                 $msg = JText::_('LIB_REDSHOP_SELECT_SHIP_METHOD');
-                $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false), $msg);
+				$app->enqueueMessage($msg);
+                $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false));
             }
         }
 
@@ -472,9 +474,9 @@ class RedshopControllerCheckout extends RedshopController
                     $errorMsg = $this->setCreditCardInfo();
 
                     if ($errorMsg != "") {
+						$app->enqueueMessage($errorMsg);
                         $app->redirect(
-                            Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId),
-                            $errorMsg
+                            Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId)
                         );
 
                         return;
@@ -571,10 +573,9 @@ class RedshopControllerCheckout extends RedshopController
             }
         } else {
             $msg = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
+			$app->enqueueMessage($msg, 'error');
             $app->redirect(
-                Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false),
-                $msg,
-                'error'
+                Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false)
             );
         }
     }

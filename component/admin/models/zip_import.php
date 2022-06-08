@@ -40,7 +40,8 @@ class RedshopModelZip_import extends RedshopModel
         session_unregister("filename");
         session_unregister("zipno");
         $msg = JText::_('COM_REDSHOP_REDSHOP_REMOTLY_UPDATED');
-        $app->redirect(JURI::base() . 'index.php?option=com_redshop', $msg);
+		$app->enqueueMessage($msg);
+        $app->redirect(JURI::base() . 'index.php?option=com_redshop');
     }
 
     public function getzipfilenames()
@@ -94,7 +95,8 @@ class RedshopModelZip_import extends RedshopModel
         if (!$package) {
             $this->setState('message', 'Unable to find install package');
             $msg = JText::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
-            $app->redirect(JURI::base() . "index.php?option=com_redshop", $msg);
+			$app->enqueueMessage($msg);
+            $app->redirect(JURI::base() . "index.php?option=com_redshop");
         }
 
         // Get an installer instance
@@ -109,7 +111,8 @@ class RedshopModelZip_import extends RedshopModel
             <?php
         } else {
             $msg = JText::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
-            $app->redirect(JURI::base() . "index.php?option=com_redshop", $msg);
+			$app->enqueueMessage($msg);
+            $app->redirect(JURI::base() . "index.php?option=com_redshop");
         }
 
         // Set some model state values
