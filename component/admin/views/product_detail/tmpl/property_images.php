@@ -48,7 +48,7 @@ $mainImage = $mainImage[0];
     <fieldset class="adminform">
 
         <div>
-            <button type="button" onclick="submitbutton('save');">
+            <button type="button" onclick="Joomla.submitbutton('save');">
                 <?php echo JText::_('COM_REDSHOP_SAVE'); ?>
             </button>
             <button type="button" onclick="window.parent.SqueezeBox.close();">

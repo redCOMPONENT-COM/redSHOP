@@ -424,10 +424,11 @@ foreach ($media->getAll() as $mediaItem) {
                     <?php $ilink = 'index.php?tmpl=component&option=com_redshop&view=media&section_id='
                         . $this->detail->product_id . '&showbuttons=1&media_section=product'; ?>
                     <div class="form-group">
-                        <a class="joom-box btn btn-primary" title="Image" href="<?php echo Redshop\IO\Route::_($ilink, false) ?>"
-                           rel="{handler: 'iframe', size: {x: 950, y: 500}, classWindow: 'additional-media-popup'}">
+                        <button type="button"
+								class="joom-box btn btn-primary ModalProductDetailButton"
+								data-url="<?php echo Redshop\IO\Route::_($ilink, false) ?>">
                             <?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES'); ?>
-                        </a>
+                        </button>
                     </div>
                 <?php endif; ?>
             </div>

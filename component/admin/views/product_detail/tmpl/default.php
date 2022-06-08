@@ -7,6 +7,9 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
@@ -186,7 +189,7 @@ JHtml::_('behavior.formvalidator');
 <?php if ($this->input->getBool('showbuttons', false)) : ?>
     <fieldset>
         <div style="float: right">
-            <button type="button" onclick="submitbutton('save');"> <?php echo JText::_('COM_REDSHOP_SAVE'); ?> </button>
+            <button type="button" onclick="Joomla.submitbutton('save');"> <?php echo JText::_('COM_REDSHOP_SAVE'); ?> </button>
             <button type="button"
                     onclick="window.parent.SqueezeBox.close();"> <?php echo JText::_('COM_REDSHOP_CANCEL'); ?> </button>
         </div>
@@ -324,4 +327,29 @@ JHtml::_('behavior.formvalidator');
             }
         }
     }
+
+	(function($){
+		$(document).ready(function () {
+			$('.ModalProductDetailButton').on('click', function () {
+				var modal = $('#ModalProductDetail');
+				var frame = modal.find('iframe');
+				if (frame.length) {
+					frame.remove();
+				}
+				modal.find('.modal-body').append('<iframe height="400px" width="800px" src="'+$(this).data('url')+'" />')
+				modal.modal('show');
+			});
+		});
+	})(jQuery);
 </script>
+<?php
+echo HTMLHelper::_(
+	'bootstrap.renderModal',
+	'ModalProductDetail',
+	[
+		'height'     => '500px',
+		'width'      => '950px',
+		'bodyHeight' => 70,
+		'modalWidth' => 80,
+	]
+);

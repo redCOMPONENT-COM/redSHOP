@@ -9,6 +9,7 @@
  */
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 
 defined('_JEXEC') or die;
 
@@ -384,13 +385,12 @@ JHtml::_('redshopjquery.framework');
 
                     <td align="center">
                         <button
-								class="joom-box btn btn-link"
+								class="joom-box btn btn-link ModalSelectButton"
 								type="button"
 								id="ModalSelectMediaButton<?php echo $index ?>"
-								data-bs-target="#ModalSelectMedia<?php echo $index ?>"
-								data-target="#ModalSelectMedia<?php echo $index ?>"
-								data-toggle="modal"
-								data-bs-toggle="modal">
+								data-url="<?php echo 'index.php?option=com_redshop&view=media&section_id='
+									. $product->product_id . '&showbuttons=1&media_section=product&section_name='
+									. $product->product_name .'&tmpl=component' ?>">
                            <img
                                     src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
                                     alt="media"> (<?php echo count($model->MediaDetail($product->product_id)); ?>)</button>
@@ -398,13 +398,10 @@ JHtml::_('redshopjquery.framework');
                     <td align="center">
                         <?php $wrapper = RedshopHelperProduct::getWrapper($product->product_id, 0, 1); ?>
 						<button
-								class="joom-box btn btn-link"
+								class="joom-box btn btn-link ModalSelectButton"
 								type="button"
 								id="ModalSelectWrapperButton<?php echo $index ?>"
-								data-bs-target="#ModalSelectWrapper<?php echo $index ?>"
-								data-target="#ModalSelectWrapper<?php echo $index ?>"
-								data-toggle="modal"
-								data-bs-toggle="modal">
+								data-url="<?php echo 'index.php?option=com_redshop&showall=1&view=wrapper&layout=edit&tmpl=component&product_id=' . $product->product_id ?>">
 							<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
 															alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>"> <?php echo "(" . count(
 									$wrapper
@@ -443,11 +440,9 @@ JHtml::_('redshopjquery.framework');
             <?php endforeach; ?>
             <tfoot>
             <td colspan="14">
-                <?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-                    <div class="redShopLimitBox">
-                        <?php echo $this->pagination->getLimitBox(); ?>
-                    </div>
-                <?php endif; ?>
+				<div class="redShopLimitBox">
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
                 <?php echo $this->pagination->getListFooter(); ?>
             </td>
             </tfoot>
@@ -461,26 +456,30 @@ JHtml::_('redshopjquery.framework');
     <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
     <?php echo JHtml::_('form.token'); ?>
 </form>
-<?php foreach ($this->products as $index => $product):
-	echo HTMLHelper::_(
-		'bootstrap.renderModal',
-		'ModalSelectMedia' . $index,
-		array(
-			'url'         => 'index.php?option=com_redshop&view=media&section_id='
-				. $product->product_id . '&showbuttons=1&media_section=product&section_name='
-				. $product->product_name .'&tmpl=component',
-			'height'      => '450px',
-			'width'       => '1050px',
-		)
-	);
+<script>
+	(function($){
+		$(document).ready(function () {
+			$('.ModalSelectButton').on('click', function () {
+				var modal = $('#ModalSelect');
+				var frame = modal.find('iframe');
+				if (frame.length) {
+					frame.remove();
+				}
+				modal.find('.modal-body').append('<iframe height="400px" width="800px" src="'+$(this).data('url')+'" />');
+				modal.modal('show');
+			});
+		});
+	})(jQuery);
+</script>
+<?php
 
-	echo HTMLHelper::_(
-		'bootstrap.renderModal',
-		'ModalSelectWrapper' . $index,
-		array(
-			'url'         => 'index.php?option=com_redshop&showall=1&view=wrapper&layout=edit&tmpl=component&product_id=' . $product->product_id,
-			'height'      => '450px',
-			'width'       => '700px',
-		)
-	);
-endforeach;
+echo HTMLHelper::_(
+	'bootstrap.renderModal',
+	'ModalSelect',
+	[
+		'height'     => '400px',
+		'width'      => '800px',
+		'bodyHeight' => 70,
+		'modalWidth' => 80,
+	]
+);

@@ -376,7 +376,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
                                              src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.png"
                                              title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
                                              alt="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
-                                             onclick="submitbutton('deleteitem');">
+                                             onclick="Joomla.submitbutton('deleteitem');">
                                     </a></td>
                                 <td><?php echo $product_title; ?><input type="hidden"
                                                                         name="quotation_item_idp<?php echo $unq; ?>"

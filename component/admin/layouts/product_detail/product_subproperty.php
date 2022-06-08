@@ -108,23 +108,26 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
             <input class="text-center input-xmini" type="text" name="<?php echo $subPropPref; ?>[order]"
                    value="<?php echo $subProperty->ordering; ?>">
 
-            <a class="btn joom-box" rel="{handler: 'iframe', size: {x: 950, y: 500}}" title=""
-               href="<?php echo Redshop\IO\Route::_(
+            <button type="button"
+					class="btn joom-box btn-default ModalProductDetailButton"
+					data-url="<?php echo Redshop\IO\Route::_(
                    'index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId . '&section=subproperty'
                ); ?>">
                 <img
                         src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>discountmanagmenet16.png"
                         alt=""/><?php echo JText::_('COM_REDSHOP_ADD_PRICE_LBL'); ?>
-            </a>
+            </button>
             <?php if (Redshop::getConfig()->get('USE_STOCKROOM')): ?>
-                <a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}" href="<?php echo Redshop\IO\Route::_(
+                <button type="button"
+						class="joom-box btn btn-default ModalProductDetailButton"
+						data-url="<?php echo Redshop\IO\Route::_(
                     'index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId
                 ); ?>&layout=productstockroom&property=subproperty">
                     <img
                             src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>stockroom16.png"/><?php echo JText::_(
                         'COM_REDSHOP_ACTION_MANAGE_STOCKROOM'
                     ); ?>
-                </a>
+                </button>
             <?php endif; ?>
         </div>
 
@@ -176,16 +179,16 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
 
                     ?>
 
-                    <a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}"
-                       title=""
-                       href="<?php echo Redshop\IO\Route::_(
+                    <button type="button"
+							class="joom-box btn btn-default ModalProductDetailButton"
+							data-url="<?php echo Redshop\IO\Route::_(
                            'index.php?tmpl=component&option=com_redshop&view=media&section_id='
                            . $subProperty->subattribute_color_id . '&showbuttons=1&media_section=subproperty'
                        ); ?>">
                         <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>media16.png" alt=""/><?php echo JText::_(
                             'COM_REDSHOP_UPLOAD'
                         ); ?>
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
