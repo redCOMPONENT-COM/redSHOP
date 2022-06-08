@@ -13,7 +13,7 @@ $section = JFactory::getApplication()->input->get('section');
 ?>
 <fieldset>
     <div style="float: right">
-        <button type="button" class="btn btn-small" onclick="submitbutton('save');">
+        <button type="button" class="btn btn-small" onclick="Joomla.submitbutton('save');">
             <?php echo JText::_('COM_REDSHOP_SAVE'); ?>
         </button>
         <button type="button" class="btn btn-small" onclick="window.parent.location.reload();">

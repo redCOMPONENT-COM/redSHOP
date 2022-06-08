@@ -21,7 +21,7 @@ $lists['discount_calc_oprand'] = str_replace($removeFormat['format.indent'], "",
 $lists['discount_calc_oprand'] = str_replace($removeFormat['format.eol'], "", $lists['discount_calc_oprand']);
 
 $app = JFactory::getApplication();
-$cId = $app->input->getInt('cid');
+$cId = $app->input->get('cid', [], 'array')[0] ?? 0;
 
 unset($options);
 

@@ -2280,7 +2280,7 @@ class RedshopModelProduct_Detail extends RedshopModel
         $ordered_preorder = 0
     ) {
         $query = 'INSERT INTO ' . $this->table_prefix . 'product_stockroom_xref (product_id,stockroom_id,quantity,preorder_stock,ordered_preorder)
-				  VALUE("' . $productId . '","' . $stockroom_id . '","' . $quantiy . '","' . $preorder_stock . '","' . $ordered_preorder . '")';
+				  VALUE("' . (int) $productId . '","' . (int) $stockroom_id . '","' . (int) $quantiy . '","' . (int) $preorder_stock . '","' . (int) $ordered_preorder . '")';
         $this->_db->setQuery($query);
 
 		$this->_db->execute();
