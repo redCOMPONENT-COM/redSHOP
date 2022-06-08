@@ -120,7 +120,8 @@ class RedshopControllerWishlist extends RedshopController
             $msg = JText::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZE_TO_DELETE');
         }
 
-        $app->redirect($link, $msg);
+		$app->enqueueMessage($msg);
+        $app->redirect($link);
     }
 
     /**

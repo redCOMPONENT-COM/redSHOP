@@ -93,12 +93,12 @@ class RedshopControllerAccount_Billto extends RedshopController
 
         if ($return != "") {
             if ($setExit) {
+				$app->enqueueMessage($msg);
                 $app->redirect(
                     Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=account_billto&tmpl=component&is_edit=1&return=' . $return,
                         false
-                    ),
-                    $msg
+                    )
                 );
             }
 

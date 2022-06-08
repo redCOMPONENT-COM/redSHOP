@@ -76,9 +76,9 @@ class RedshopViewAccount extends RedshopView
         $this->userdata = $this->model->getUserAccountInfo($this->user->id);
 
         if (empty($this->userdata) && $layout != 'mywishlist') {
+			$app->enqueueMessage(JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER'));
             $this->app->redirect(
-                Redshop\IO\Route::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $itemId),
-                JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER')
+                Redshop\IO\Route::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $itemId)
             );
         }
 

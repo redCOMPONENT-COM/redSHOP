@@ -69,7 +69,8 @@ class RedshopViewCheckout extends RedshopView
         if ($cart['idx'] < 1) {
             $msg  = JText::_('COM_REDSHOP_EMPTY_CART');
             $link = 'index.php?option=com_redshop&Itemid=' . $Itemid;
-            $app->redirect(Redshop\IO\Route::_($link, false), $msg);
+			$app->enqueueMessage($msg);
+            $app->redirect(Redshop\IO\Route::_($link, false));
         }
 
         $lists = array();

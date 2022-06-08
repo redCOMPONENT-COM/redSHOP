@@ -138,9 +138,9 @@ class RedshopControllerAccount extends RedshopController
 
             $app->logout(null, $options);
 
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCOUNT_DELETED_SUCCESSFULLY'));
             $app->redirect(
-                Redshop\IO\Route::_('index.php?option=com_users&view=login', false),
-                JText::_('COM_REDSHOP_ACCOUNT_DELETED_SUCCESSFULLY')
+                Redshop\IO\Route::_('index.php?option=com_users&view=login', false)
             );
         } else {
             $this->setRedirect(

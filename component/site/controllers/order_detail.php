@@ -147,7 +147,8 @@ class RedshopControllerOrder_Detail extends RedshopController
         $model->resetcart();
 
         $link = 'index.php?option=com_redshop&view=order_detail&Itemid=' . $Itemid . '&oid=' . $request['order_id'];
-        $app->redirect(Redshop\IO\Route::_($link, false), $paymentResponse->message);
+		$app->enqueueMessage($paymentResponse->message);
+        $app->redirect(Redshop\IO\Route::_($link, false));
     }
 
     /**
@@ -367,12 +368,12 @@ class RedshopControllerOrder_Detail extends RedshopController
 
             $errorMessage = ($result) ?: JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
+			$app->enqueueMessage($errorMessage);
             $app->redirect(
                 Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product&pid=' . $row['product_id'] . '&Itemid=' . $Itemid,
                     false
-                ),
-                $errorMessage
+                )
             );
         }
     }

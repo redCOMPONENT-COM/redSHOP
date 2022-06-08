@@ -1771,19 +1771,19 @@ class RedshopHelperOrder
         $isArchive = ($app->input->getInt('isarchive')) ? '&isarchive=1' : '';
 
         if ($return == 'order') {
-            $app->redirect('index.php?option=com_redshop&view=' . $return . '' . $isArchive . '', $msg);
+			$app->enqueueMessage($msg);
+            $app->redirect('index.php?option=com_redshop&view=' . $return . '' . $isArchive);
         } else {
             $tmpl = $app->input->getCmd('tmpl');
+			$app->enqueueMessage($msg);
 
-            if ('' != $tmpl) {
+			if ('' != $tmpl) {
                 $app->redirect(
-                    'index.php?option=com_redshop&view=' . $return . '&cid[]=' . $orderId . '&tmpl=' . $tmpl . '' . $isArchive . '',
-                    $msg
+                    'index.php?option=com_redshop&view=' . $return . '&cid[]=' . $orderId . '&tmpl=' . $tmpl . $isArchive
                 );
             } else {
                 $app->redirect(
-                    'index.php?option=com_redshop&view=' . $return . '&cid[]=' . $orderId . '' . $isArchive . '',
-                    $msg
+                    'index.php?option=com_redshop&view=' . $return . '&cid[]=' . $orderId . $isArchive
                 );
             }
         }

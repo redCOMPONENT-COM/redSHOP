@@ -57,10 +57,10 @@ class RedshopControllerAccount_Shipto extends RedshopController
             );
 
             if (!isset($setExit) || $setExit != 0) {
+				$app->enqueueMessage($msg);
                 $app->redirect(
                     'index.php?option=com_redshop&view=account_shipto&tmpl=component&is_edit=1&return='
-                    . $return . '&Itemid=' . $itemId,
-                    $msg
+                    . $return . '&Itemid=' . $itemId
                 );
             }
         }
