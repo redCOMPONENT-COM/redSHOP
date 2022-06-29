@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\String\Inflector;
+use Doctrine\Common\Inflector\Inflector;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -59,7 +59,8 @@ class RedshopControllerForm extends JControllerForm
 	{
 		parent::__construct($config, $factory, $app, $input, $formFactory);
 
-		if (empty($this->view_list))
+		if (empty($this->view_list)
+			|| $this->view_list == $this->view_item)
 		{
 			$this->view_list = Inflector::pluralize($this->view_item);
 		}
