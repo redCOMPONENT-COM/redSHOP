@@ -327,29 +327,12 @@ JHtml::_('behavior.formvalidator');
             }
         }
     }
-
-	(function($){
-		$(document).ready(function () {
-			$('.ModalProductDetailButton').on('click', function () {
-				var modal = $('#ModalProductDetail');
-				var frame = modal.find('iframe');
-				if (frame.length) {
-					frame.remove();
-				}
-				modal.find('.modal-body').append('<iframe height="400px" width="800px" src="'+$(this).data('url')+'" />')
-				modal.modal('show');
-			});
-		});
-	})(jQuery);
 </script>
 <?php
-echo HTMLHelper::_(
-	'bootstrap.renderModal',
-	'ModalProductDetail',
+echo RedshopLayoutHelper::render(
+	'modal.iframe',
 	[
-		'height'     => '500px',
-		'width'      => '950px',
-		'bodyHeight' => 70,
-		'modalWidth' => 80,
+		'modalButton' => '.ModalProductDetailButton',
+		'modalFrame' => 'ModalProductDetail',
 	]
 );

@@ -26,10 +26,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                     <label for="product_thumb_image">
                         <?php echo JText::_('COM_REDSHOP_PRODUCT_THUMB_IMAGE'); ?>
                         <?php
-                        echo JHtml::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_THUMB_IMAGE'),
-                            JText::_('COM_REDSHOP_PRODUCT_THUMB_IMAGE'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_PRODUCT_THUMB_IMAGE')
                         );
                         ?>
                     </label>
@@ -51,10 +50,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                     <label for="product_back_thumb_image">
                         <?php echo JText::_('COM_REDSHOP_PRODUCT_BACK_THUMB_IMAGE'); ?>
                         <?php
-                        echo JHtml::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_BACK_THUMB_IMAGE'),
-                            JText::_('COM_REDSHOP_PRODUCT_BACK_THUMB_IMAGE'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_PRODUCT_BACK_THUMB_IMAGE')
                         );
                         ?>
                     </label>
@@ -76,10 +74,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                     <label for="product_preview_image">
                         <?php echo JText::_('COM_REDSHOP_PRODUCT_PREVIEW_IMAGE'); ?>
                         <?php
-                        echo JHtml::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREVIEW_IMAGE'),
-                            JText::_('COM_REDSHOP_PRODUCT_PREVIEW_IMAGE'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_PRODUCT_PREVIEW_IMAGE')
                         );
                         ?>
                     </label>
@@ -101,10 +98,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                     <label for="product_preview_image">
                         <?php echo JText::_('COM_REDSHOP_PRODUCT_PREVIEW_BACK_IMAGE'); ?>
                         <?php
-                        echo JHtml::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREVIEW_BACK_IMAGE'),
-                            JText::_('COM_REDSHOP_PRODUCT_PREVIEW_BACK_IMAGE'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_PRODUCT_PREVIEW_BACK_IMAGE')
                         );
                         ?>
                     </label>

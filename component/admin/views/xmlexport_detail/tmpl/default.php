@@ -9,8 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal', 'a.joom-box');
-
 $model = $this->getModel('xmlexport_detail');
 
 $orderstyle   = "none";

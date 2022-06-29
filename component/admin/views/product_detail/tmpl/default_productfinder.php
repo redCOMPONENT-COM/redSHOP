@@ -25,10 +25,9 @@ if (!empty($this->getassociation)) {
 <div class="col50">
     <table class="adminform">
         <tr>
-            <td><?php echo JHTML::tooltip(
+            <td><?php echo JHtml::_('redshop.tooltip',
                     JText::_('COM_REDSHOP_TAG_NAME_TIP'),
-                    JText::_('COM_REDSHOP_TAG_NAME'),
-                    'com_redshop/tooltip.png'
+                    JText::_('COM_REDSHOP_TAG_NAME')
                 ); ?><?php echo JText::_('COM_REDSHOP_TAG_NAME'); ?> </td>
             <td><?php echo $this->lists['tags']; ?> </td>
         </tr>

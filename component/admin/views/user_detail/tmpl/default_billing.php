@@ -34,10 +34,9 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
             </td>
             <td><input class="text_area" type="text" name="firstname" id="firstname"
                        value="<?php echo $this->detail->firstname; ?>" size="20" maxlength="250"/>
-                <?php echo HTMLHelper::tooltip(
+                <?php echo HTMLHelper::_('redshop.tooltip',
                     JText::_('COM_REDSHOP_TOOLTIP_FIRST_NAME'),
-                    JText::_('COM_REDSHOP_FIRST_NAME'),
-					'com_redshop/tooltip.png'
+                    JText::_('COM_REDSHOP_FIRST_NAME')
                 ); ?>
                 <span id="user_valid">*</span>
             </td>
@@ -46,10 +45,9 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_LAST_NAME'); ?>:</td>
             <td><input class="text_area" type="text" name="lastname" id="lastname"
                        value="<?php echo $this->detail->lastname; ?>" size="20" maxlength="250"/>
-                <?php echo HTMLHelper::tooltip(
+                <?php echo HTMLHelper::_('redshop.tooltip',
                     JText::_('COM_REDSHOP_TOOLTIP_LAST_NAME'),
-                    JText::_('COM_REDSHOP_LAST_NAME'),
-                    'com_redshop/tooltip.png'
+                    JText::_('COM_REDSHOP_LAST_NAME')
                 ); ?>
                 <span id="user_valid">*</span>
             </td>
@@ -63,10 +61,9 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</td>
             <td><input class="text_area" type="text" name="address" id="address"
                        value="<?php echo $this->detail->address; ?>" size="20" maxlength="250"/>
-                <?php echo HTMLHelper::tooltip(
+                <?php echo HTMLHelper::_('redshop.tooltip',
                     JText::_('COM_REDSHOP_TOOLTIP_ADDRESS'),
-                    JText::_('COM_REDSHOP_ADDRESS'),
-                    'com_redshop/tooltip.png'
+                    JText::_('COM_REDSHOP_ADDRESS')
                 ); ?>
             </td>
         </tr>
@@ -74,20 +71,18 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_CITY'); ?>:</td>
             <td><input class="text_area" type="text" name="city" id="city" value="<?php echo $this->detail->city; ?>"
                        size="20" maxlength="250"/>
-                <?php echo HTMLHelper::tooltip(
+                <?php echo HTMLHelper::_('redshop.tooltip',
                     JText::_('COM_REDSHOP_TOOLTIP_CITY'),
-                    JText::_('COM_REDSHOP_CITY'),
-                    'com_redshop/tooltip.png'
+                    JText::_('COM_REDSHOP_CITY')
                 ); ?>
             </td>
         </tr>
         <tr <?php echo $countryStyle; ?>>
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
             <td><?php echo $this->lists['country_code']; ?>
-                <?php echo HTMLHelper::tooltip(
+                <?php echo HTMLHelper::_('redshop.tooltip',
                     JText::_('COM_REDSHOP_TOOLTIP_COUNTRY'),
-                    JText::_('COM_REDSHOP_Country'),
-                    'com_redshop/tooltip.png'
+                    JText::_('COM_REDSHOP_Country')
                 ); ?></td>
         </tr>
         <tr <?php echo $countryStyle; ?>>
@@ -96,10 +91,9 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
             </td>
             <td>
                 <div id="div_state_txt" <?php echo $stateStyle; ?>><?php echo $this->lists['state_code']; ?>
-                    <?php echo HTMLHelper::tooltip(
+                    <?php echo HTMLHelper::_('redshop.tooltip',
                         JText::_('COM_REDSHOP_TOOLTIP_STATE'),
-                        JText::_('COM_REDSHOP_State'),
-                        'com_redshop/tooltip.png'
+                        JText::_('COM_REDSHOP_State')
                     ); ?></div>
             </td>
         </tr>
@@ -107,10 +101,9 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
             <td><input class="inputbox" type="text" name="phone" id="phone" size="20"
                        value="<?php echo $this->detail->phone; ?>"/>
-                <?php echo HTMLHelper::tooltip(
+                <?php echo HTMLHelper::_('redshop.tooltip',
                     JText::_('COM_REDSHOP_TOOLTIP_PHONE'),
-                    JText::_('COM_REDSHOP_PHONE'),
-                    'com_redshop/tooltip.png'
+                    JText::_('COM_REDSHOP_PHONE')
                 ); ?>
             </td>
         </tr>
@@ -118,10 +111,9 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_ZIPCODE'); ?>:</td>
             <td><input class="inputbox" type="text" name="zipcode" id="zipcode" size="20"
                        value="<?php echo $this->detail->zipcode; ?>"/>
-                <?php echo HTMLHelper::tooltip(
+                <?php echo HTMLHelper::_('redshop.tooltip',
                     JText::_('COM_REDSHOP_TOOLTIP_ZIPCODES'),
-                    JText::_('COM_REDSHOP_ZIPCODE'),
-                    'com_redshop/tooltip.png'
+                    JText::_('COM_REDSHOP_ZIPCODE')
                 ); ?>
             </td>
         </tr>
@@ -137,38 +129,34 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                 <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_VAT_NUMBER'); ?>:</td>
                 <td><input class="text_area" type="text" name="vat_number" id="vat_number"
                            value="<?php echo $this->detail->vat_number; ?>" size="20" maxlength="250"/>
-                    <?php echo HTMLHelper::tooltip(
+                    <?php echo HTMLHelper::_('redshop.tooltip',
                         JText::_('COM_REDSHOP_TOOLTIP_VAT_NUMBER'),
-                        JText::_('COM_REDSHOP_VAT_NUMBER'),
-                        'com_redshop/tooltip.png'
+                        JText::_('COM_REDSHOP_VAT_NUMBER')
                     ); ?>
                 </td>
             </tr>
             <tr style="display: none;" id="trTaxExempt" <?php echo $allowCompany; ?>>
                 <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT'); ?>:</td>
                 <td><?php echo $this->lists['tax_exempt'];
-                    echo HTMLHelper::tooltip(
+                    echo HTMLHelper::_('redshop.tooltip',
                         JText::_('COM_REDSHOP_TOOLTIP_TAX_EXEMPT'),
-                        JText::_('COM_REDSHOP_TAX_EXEMPT'),
-                        'com_redshop/tooltip.png'
+                        JText::_('COM_REDSHOP_TAX_EXEMPT')
                     ); ?></td>
             </tr>
             <tr id="trTaxExemptRequest" <?php echo $allowCompany; ?>>
                 <td valign="top" class="key"><?php echo JText::_('COM_REDSHOP_USER_REQUEST_TAX_EXEMPT_LBL'); ?>:</td>
                 <td><?php echo $this->lists['requesting_tax_exempt']; ?>
-                    <?php echo HTMLHelper::tooltip(
+                    <?php echo HTMLHelper::_('redshop.tooltip',
                         JText::_('COM_REDSHOP_TOOLTIP_USER_REQUEST_TAX_EXEMPT'),
-                        JText::_('COM_REDSHOP_USER_REQUEST_TAX_EXEMPT_LBL'),
-                        'com_redshop/tooltip.png'
+                        JText::_('COM_REDSHOP_USER_REQUEST_TAX_EXEMPT_LBL')
                     ); ?></td>
             </tr>
             <tr id="trTaxExemptApproved" <?php echo $allowCompany; ?>>
                 <td valign="top" class="key"><?php echo JText::_('COM_REDSHOP_TEX_EXEMPT_APPROVED'); ?>:</td>
                 <td><?php echo $this->lists['tax_exempt_approved']; ?>
-                    <?php echo HTMLHelper::tooltip(
+                    <?php echo HTMLHelper::_('redshop.tooltip',
                         JText::_('COM_REDSHOP_TOOLTIP_TEX_EXEMPT_APPROVED'),
-                        JText::_('COM_REDSHOP_TEX_EXEMPT_APPROVED'),
-                        'com_redshop/tooltip.png'
+                        JText::_('COM_REDSHOP_TEX_EXEMPT_APPROVED')
                     ); ?>
                     <input type="hidden" name="tax_exempt_approved_id"
                            value="<?php echo $this->detail->tax_exempt_approved; ?>"/></td>

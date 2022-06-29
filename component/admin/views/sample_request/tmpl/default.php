@@ -9,8 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal', 'a.joom-box');
-
 $config = Redconfiguration::getInstance();
 ?>
 <script language="javascript" type="text/javascript">

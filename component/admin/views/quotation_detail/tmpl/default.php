@@ -9,8 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal', 'a.joom-box');
-
 $quotationHelper = quotationHelper::getInstance();
 
 $order_functions = order_functions::getInstance();

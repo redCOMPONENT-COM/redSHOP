@@ -9,7 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal', 'a.joom-box');
 ?>
 
 <table class="admintable table">

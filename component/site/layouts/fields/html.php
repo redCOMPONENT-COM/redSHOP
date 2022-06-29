@@ -32,7 +32,7 @@ extract($displayData);
     <?php endif; ?>
     <?php if (trim($fieldHandle->description) != '') : ?>
         <?php
-        echo '&nbsp; ' . JHTML::tooltip($fieldHandle->description, '', 'com_redshop/tooltip.png');
+        echo '&nbsp; ' . JHtml::_('redshop.tooltip', $fieldHandle->description);
         ?>
     <?php endif; ?>
 </div>

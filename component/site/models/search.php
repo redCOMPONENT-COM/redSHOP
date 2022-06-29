@@ -833,13 +833,9 @@ class RedshopModelSearch extends RedshopModel
                             if (strlen($type->tooltip) > 0) {
 								HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
-                                echo ' ' . JHtml::tooltip(
+                                echo ' ' . JHtml::_('redshop.tooltip',
                                         $type->tooltip,
-                                        $type->type_name,
-                                        'com_redshop/tooltip.png',
-                                        '',
-                                        '',
-                                        ''
+                                        $type->type_name
                                     );
                             } ?>
                         </div>
@@ -878,7 +874,7 @@ class RedshopModelSearch extends RedshopModel
                         <?php
                         if (strlen($type->tooltip) > 0) {
 							HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
-                            echo ' ' . JHtml::tooltip($type->tooltip, $type->type_name, 'com_redshop/tooltip.png', '', '', '');
+                            echo ' ' . JHtml::_('redshop.tooltip',$type->tooltip, $type->type_name);
                         } ?>
                     </div>
                     <div class="typevalue <?php echo $type->type_name_css; ?>">

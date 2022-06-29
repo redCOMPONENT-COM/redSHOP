@@ -9,8 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal', '.joom-box');
-
 $url = JUri::root();
 $link_path = "/components/com_redshop/assets/images/";
 

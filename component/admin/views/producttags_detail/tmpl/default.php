@@ -47,10 +47,9 @@ $now = JFactory::getDate();
                     <td>
                         <input class="text_area" type="text" name="tags_name" id="tags_name" size="32" maxlength="250"
                                value="<?php echo $this->detail->tags_name; ?>"/>
-                        <?php echo JHTML::tooltip(
+                        <?php echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_TAGS_NAME'),
-                            JText::_('COM_REDSHOP_TAGS_NAME'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_TAGS_NAME')
                         ); ?>
                     </td>
                 </tr>

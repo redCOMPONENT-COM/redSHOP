@@ -9,6 +9,5 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal', '.joom-box');
 
 echo RedshopLayoutHelper::render('view.list', array('data' => $this));

@@ -9,7 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal', 'a.joom-box');
 JHtml::_('behavior.formvalidator');
 
 $model = $this->getModel('product');

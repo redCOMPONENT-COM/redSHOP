@@ -8,9 +8,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Layout\LayoutHelper;
-
 defined('_JEXEC') or die;
 
 $app              = JFactory::getApplication();
@@ -456,30 +453,12 @@ JHtml::_('redshopjquery.framework');
     <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
     <?php echo JHtml::_('form.token'); ?>
 </form>
-<script>
-	(function($){
-		$(document).ready(function () {
-			$('.ModalSelectButton').on('click', function () {
-				var modal = $('#ModalSelect');
-				var frame = modal.find('iframe');
-				if (frame.length) {
-					frame.remove();
-				}
-				modal.find('.modal-body').append('<iframe height="400px" width="800px" src="'+$(this).data('url')+'" />');
-				modal.modal('show');
-			});
-		});
-	})(jQuery);
-</script>
 <?php
 
-echo HTMLHelper::_(
-	'bootstrap.renderModal',
-	'ModalSelect',
+echo RedshopLayoutHelper::render(
+	'modal.iframe',
 	[
-		'height'     => '400px',
-		'width'      => '800px',
-		'bodyHeight' => 70,
-		'modalWidth' => 80,
+		'modalButton' => '.ModalSelectButton',
+		'modalFrame' => 'ModalSelect',
 	]
 );
