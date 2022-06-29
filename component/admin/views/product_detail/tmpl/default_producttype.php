@@ -7,14 +7,18 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
+
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 $td_style = ($this->detail->product_download_infinite == 0) ? 'style="display:table-row;"' : 'style="display:none;"';
 
 $optionPeriod = array();
-?>
 
-<?php // Subscription
+// Subscription
 $subscription        = RedshopHelperProduct::getSubscription($this->detail->product_id);
 $renewal_detail      = $this->model->getSubscriptionrenewal();
 $productSerialDetail = $this->productSerialDetail;
@@ -187,26 +191,18 @@ $total_serial        = count($productSerialDetail);
                                 <th>
                                     <?php
                                     echo JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD') . " ";
-                                    echo JHtml::tooltip(
+                                    echo JHtml::_('redshop.tooltip',
                                         JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD_TIP'),
-                                        JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD'),
-                                        'tooltip.png',
-                                        '',
-                                        '',
-                                        false
+                                        JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD')
                                     );
                                     ?>
                                 </th>
                                 <th>
                                     <?php echo JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE'); ?>
                                     <?php
-                                    echo JHtml::tooltip(
+                                    echo JHtml::_('redshop.tooltip',
                                         JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE_TIP'),
-                                        JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE'),
-                                        'tooltip.png',
-                                        '',
-                                        '',
-                                        false
+                                        JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE')
                                     );
                                     ?>
                                 </th>

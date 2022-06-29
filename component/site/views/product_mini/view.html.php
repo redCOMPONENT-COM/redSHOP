@@ -20,7 +20,7 @@ class RedshopViewProduct_mini extends RedshopView
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));
 
-        $uri = JFactory::getURI();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         $filterOrder    = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'p.product_id');
         $filterOrderDir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');

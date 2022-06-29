@@ -127,11 +127,9 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 
             <tfoot>
             <td colspan="6">
-                <?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-                    <div class="redShopLimitBox">
-                        <?php echo $this->pagination->getLimitBox(); ?>
-                    </div>
-                <?php endif; ?>
+				<div class="redShopLimitBox">
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
                 <?php echo $this->pagination->getListFooter(); ?>
             </td>
             </tfoot>

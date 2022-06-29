@@ -13,7 +13,7 @@ defined('_JEXEC') or die; ?>
         var form = document.adminForm;
 
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
         if ((form.accountgroup_name.value) == "") {
@@ -41,7 +41,7 @@ defined('_JEXEC') or die; ?>
             alert("<?php echo JText::_('COM_REDSHOP_ENTER_PRODUCT_GROUP_FOR_SHIPPING', true); ?>");
             return false;
         } else {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
     }
 </script>

@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 
 if (!empty($displayData['options']['showonEnabled'])) {
-    JHtml::_('jquery.framework');
+    JHtml::_('redshopjquery.framework');
     JHtml::_('script', 'jui/cms.js', false, true);
 }
 

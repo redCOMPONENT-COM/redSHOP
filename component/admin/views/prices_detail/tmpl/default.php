@@ -15,7 +15,7 @@ $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')
     Joomla.submitbutton = function (pressbutton) {
         var form = document.adminForm;
         if (pressbutton == "cancel") {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
         if (parseFloat(form.price_quantity_start.value) > parseFloat(form.price_quantity_end.value)) {
@@ -31,7 +31,7 @@ $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')
             form.product_price.focus();
             return;
         }
-        submitform(pressbutton);
+		Joomla.submitform(pressbutton);
     };
 </script>
 <form action="<?php echo Redshop\IO\Route::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"

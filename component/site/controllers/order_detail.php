@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -145,7 +147,8 @@ class RedshopControllerOrder_Detail extends RedshopController
         $model->resetcart();
 
         $link = 'index.php?option=com_redshop&view=order_detail&Itemid=' . $Itemid . '&oid=' . $request['order_id'];
-        $app->redirect(Redshop\IO\Route::_($link, false), $paymentResponse->message);
+		$app->enqueueMessage($paymentResponse->message);
+        $app->redirect(Redshop\IO\Route::_($link, false));
     }
 
     /**
@@ -363,21 +366,14 @@ class RedshopControllerOrder_Detail extends RedshopController
                 $Itemid = RedshopHelperRouter::getItemId($row['product_id']);
             }
 
-            $errorMessage = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
+            $errorMessage = ($result) ?: JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
-            if (/** @scrutinizer ignore-deprecated */ JError::isError(
-            /** @scrutinizer ignore-deprecated */ JError::getError()
-            )) {
-                $errorMessage = /** @scrutinizer ignore-deprecated */
-                    JError::getError()->getMessage();
-            }
-
+			$app->enqueueMessage($errorMessage);
             $app->redirect(
                 Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product&pid=' . $row['product_id'] . '&Itemid=' . $Itemid,
                     false
-                ),
-                $errorMessage
+                )
             );
         }
     }
@@ -408,8 +404,7 @@ class RedshopControllerOrder_Detail extends RedshopController
                 $isCreditcard  = $paymentParams->get('is_creditcard', 0);
 
                 if ($isCreditcard) {
-                    /** @scrutinizer ignore-deprecated */
-                    JHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
+					HTMLHelper::script('com_redshop/redshop.creditcard.min.js', ['relative' => true]);
                     ?>
 
                     <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout', false) ?>"

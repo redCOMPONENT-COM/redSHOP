@@ -27,7 +27,7 @@ $thumbUrl = RedshopHelperMedia::getImagePath(
     Joomla.submitbutton = function (pressbutton) {
         var form = document.adminForm;
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
@@ -40,7 +40,7 @@ $thumbUrl = RedshopHelperMedia::getImagePath(
         } else if (isNaN(form.stock_quantity.value) || form.stock_quantity.value < 0) {
             alert("<?php echo JText::_('COM_REDSHOP_STOCKIMAGE_QUANTITY_INVALID_INPUT_MSG', true); ?>");
         } else {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
     }
 </script>

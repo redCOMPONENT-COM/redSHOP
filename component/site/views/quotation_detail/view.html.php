@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -47,7 +49,7 @@ class RedshopViewQuotation_Detail extends RedshopView
         $quotationDetail = RedshopHelperQuotation::getQuotationDetail($quoid);
 
         if (empty($quotationDetail)) {
-            JError::raiseWarning(404, JText::_('COM_REDSHOP_NOACCESS_QUOTATION'));
+			Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_NOACCESS_QUOTATION'), 'warning');
             echo JText::_('COM_REDSHOP_NOACCESS_QUOTATION');
 
             return;
@@ -59,7 +61,7 @@ class RedshopViewQuotation_Detail extends RedshopView
                 $authorization = $model->checkAuthorization($quoid, $encr);
 
                 if (!$authorization) {
-                    JError::raiseWarning(404, JText::_('COM_REDSHOP_QUOTATION_ENCKEY_FAILURE'));
+					Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_QUOTATION_ENCKEY_FAILURE'), 'warning');
                     echo JText::_('COM_REDSHOP_QUOTATION_ENCKEY_FAILURE');
 
                     return false;
@@ -73,7 +75,7 @@ class RedshopViewQuotation_Detail extends RedshopView
             }
         } else {
             if (isset($quotationDetail->user_id) && $quotationDetail->user_id != $user->id) {
-                JError::raiseWarning(404, JText::_('COM_REDSHOP_NOACCESS_QUOTATION'));
+				Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_NOACCESS_QUOTATION'), 'warning');
                 echo JText::_('COM_REDSHOP_NOACCESS_QUOTATION');
 
                 return;

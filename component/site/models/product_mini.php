@@ -105,7 +105,7 @@ class RedshopModelProduct_mini extends RedshopModel
     public function getPagination()
     {
         if (empty($this->_pagination)) {
-            $this->_pagination = new \JPagination(
+            $this->_pagination = new \\RPagination(
                 $this->getTotal(),
                 $this->getState('limitstart'), $this->getState('limit')
             );

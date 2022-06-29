@@ -39,7 +39,7 @@ class PlgSystemRedGoogleAnalytics extends JPlugin
     {
         $app = JFactory::getApplication();
 
-        if (!$app->isSite()) {
+        if (!$app->isClient('site')) {
             return;
         }
 
@@ -70,7 +70,7 @@ class PlgSystemRedGoogleAnalytics extends JPlugin
     {
         $app = JFactory::getApplication();
 
-        if (!$app->isSite()) {
+        if (!$app->isClient('site')) {
             return;
         }
 

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -34,16 +36,10 @@ class JHtmlRedshopGrid extends JHtmlJGrid
         $tip = 'JGLOBAL_CHECK_ALL',
         $action = 'Joomla.checkAll(this)'
     ) {
-        if (version_compare(JVERSION, '3.0', '>=')) {
-            JHtml::_('bootstrap.tooltip');
+		JHtml::_('bootstrap.tooltip');
 
-            return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="'
-                . JHtml::tooltipText($tip) . '" onclick="' . $action . '" />';
-        } else {
-            return '<input type="checkbox" name="' . $name . '" value="" title="' . JText::_(
-                    $tip
-                ) . '" onclick="' . $action . '" />';
-        }
+		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="'
+			. JHtml::tooltipText($tip) . '" onclick="' . $action . '" />';
     }
 
     /**
@@ -95,7 +91,7 @@ class JHtmlRedshopGrid extends JHtmlJGrid
             return $value;
         }
 
-        JHtml::script('com_redshop/redshop.inline.min.js', false, true, false, false);
+		HTMLHelper::script('com_redshop/redshop.inline.min.js', ['relative' => true]);
         JText::script('COM_REDSHOP_SUCCESS');
         JText::script('COM_REDSHOP_DATA_UPDATE_SUCCESS');
         JText::script('COM_REDSHOP_FAIL');

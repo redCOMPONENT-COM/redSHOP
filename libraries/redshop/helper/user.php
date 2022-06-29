@@ -76,13 +76,6 @@ class RedshopHelperUser
         // Set the query and load the result.
         $total = $db->setQuery($query)->loadResult();
 
-        // Check for a database error.
-        if ($db->getErrorNum()) {
-            JError::raiseWarning(500, $db->getErrorMsg());
-
-            return null;
-        }
-
         if (!$total) {
             $total = 0;
         }
@@ -495,7 +488,7 @@ class RedshopHelperUser
         } else {
             $data['password'] = $app->input->post->get('password1', '', 'RAW');
 
-            $isAdmin = $app->isAdmin();
+            $isAdmin = $app->isClient('administrator');
 
             /*
              * Set user shopper group in case:
@@ -589,14 +582,23 @@ class RedshopHelperUser
                 }
             }
 
-            RedshopEconomic::createUserInEconomic($row);
+			try
+			{
+				RedshopEconomic::createUserInEconomic($row);
+			}
+			catch (\Throwable $e)
+			{
+				if ($row->is_company && trim($row->ean_number) != '')
+				{
+					$app->enqueueMessage(JText::_('PLEASE_ENTER_EAN_NUMBER'), 'warning');
+				}
+				else
+				{
+					$app->enqueueMessage($e->getMessage(), 'warning');
+				}
 
-            if ($row->is_company && trim($row->ean_number) != '' && JError::isError(JError::getError())) {
-                $msg = JText::_('PLEASE_ENTER_EAN_NUMBER');
-                JError::raiseWarning('', $msg);
-
-                return false;
-            }
+				return false;
+			}
         }
 
         $session = JFactory::getSession();

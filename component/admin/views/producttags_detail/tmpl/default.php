@@ -7,7 +7,12 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
+
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 $now = JFactory::getDate();
 ?>
@@ -15,14 +20,14 @@ $now = JFactory::getDate();
     Joomla.submitbutton = function (pressbutton) {
         var form = document.adminForm;
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
         if (form.tags_name.value == "") {
             alert("<?php echo JText::_('COM_REDSHOP_TAGS_NAME_MUST_FILLED', true); ?>");
         } else {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
     }
 </script>
@@ -42,13 +47,9 @@ $now = JFactory::getDate();
                     <td>
                         <input class="text_area" type="text" name="tags_name" id="tags_name" size="32" maxlength="250"
                                value="<?php echo $this->detail->tags_name; ?>"/>
-                        <?php echo JHTML::tooltip(
+                        <?php echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_TAGS_NAME'),
-                            JText::_('COM_REDSHOP_TAGS_NAME'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            JText::_('COM_REDSHOP_TAGS_NAME')
                         ); ?>
                     </td>
                 </tr>

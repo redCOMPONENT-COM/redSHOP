@@ -9,6 +9,7 @@
 
 namespace Redshop\Fields;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Redshop\Helper\ExtraFields;
 
 defined('_JEXEC') or die;
@@ -527,12 +528,10 @@ class SiteHelper
             }
 
             if (trim($data->desc) != '' && $fieldType != 'hidden') {
-                $exField .= '<div class="userfield_tooltip">&nbsp; ' . \JHtml::tooltip(
+				HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+                $exField .= '<div class="userfield_tooltip">&nbsp; ' . \JHtml::_('redshop.tooltip',
                         $data->desc,
-                        $data->name,
-                        'tooltip.png',
-                        '',
-                        ''
+                        $data->name
                     ) . '</div>';
             }
         }

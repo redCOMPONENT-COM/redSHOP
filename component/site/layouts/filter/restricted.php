@@ -23,7 +23,7 @@ extract($displayData);
 											<?php if (in_array($cat->id, $formData['redform']['categories'])) : ?>
                                                 <?php echo "checked='checked'"; ?>
                                             <?php endif; ?>
-                                               onchange="javascript:submitform(this)"
+                                               onchange="javascript:Joomla.submitform(this)"
                                         />
 										<span class='tagname'><?php echo $cat->name; ?></span>
 									</span>
@@ -54,7 +54,7 @@ extract($displayData);
 									<?php if (in_array($manu->id, $manufacturersValue)) : ?>
                                         <?php echo "checked='checked'"; ?>
                                     <?php endif; ?>
-                                       onchange="javascript:submitform(this)"
+                                       onchange="javascript:Joomla.submitform(this)"
                                 >
 								</span>
                                 <span class='tagname'><?php echo $manu->name; ?></span>
@@ -83,7 +83,7 @@ extract($displayData);
                                                     <?php echo "checked='checked'"; ?>
                                                 <?php endif; ?>
                                             <?php endforeach; ?>
-                                               onchange="javascript:submitform(this)"
+                                               onchange="javascript:Joomla.submitform(this)"
                                         />
 										<span class='tagname'><?php echo $name; ?></span>
 									</span>

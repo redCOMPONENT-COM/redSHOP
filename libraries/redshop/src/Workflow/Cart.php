@@ -172,13 +172,15 @@ class Cart extends BaseWorkflow
         if (!\JSession::checkToken()) {
             $msg  = \JText::_('COM_REDSHOP_TOKEN_VARIFICATION');
             $redMassCartLink = base64_decode($post["rurl"]);
-            $app->redirect($redMassCartLink, $msg);;
+			$app->enqueueMessage($msg);
+            $app->redirect($redMassCartLink);
         }
 
         if ($post["numbercart"] == "") {
             $msg  = \JText::_('COM_REDSHOP_PLEASE_ENTER_PRODUCT_NUMBER');
             $redMassCartLink = base64_decode($post["rurl"]);
-            $app->redirect($redMassCartLink, $msg);
+			$app->enqueueMessage($msg);
+            $app->redirect($redMassCartLink);
         }
 
         \Redshop\Cart\Helper::redMassCart($post);

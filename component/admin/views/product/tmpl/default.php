@@ -7,9 +7,8 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal', 'a.joom-box');
+defined('_JEXEC') or die;
 
 $app              = JFactory::getApplication();
 $extraFieldHelper = extra_field::getInstance();
@@ -382,22 +381,29 @@ JHtml::_('redshopjquery.framework');
                     <?php endforeach; ?>
 
                     <td align="center">
-                        <a class="joom-box"
-                           href="index.php?option=com_redshop&view=media&section_id=<?php echo $product->product_id; ?>&showbuttons=1&media_section=product&section_name=<?php echo $product->product_name; ?>&tmpl=component"
-                           rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""> <img
+                        <button
+								class="joom-box btn btn-link ModalSelectButton"
+								type="button"
+								id="ModalSelectMediaButton<?php echo $index ?>"
+								data-url="<?php echo 'index.php?option=com_redshop&view=media&section_id='
+									. $product->product_id . '&showbuttons=1&media_section=product&section_name='
+									. $product->product_name .'&tmpl=component' ?>">
+                           <img
                                     src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
-                                    alt="media"> (<?php echo count($model->MediaDetail($product->product_id)); ?>)</a>
+                                    alt="media"> (<?php echo count($model->MediaDetail($product->product_id)); ?>)</button>
                     </td>
                     <td align="center">
                         <?php $wrapper = RedshopHelperProduct::getWrapper($product->product_id, 0, 1); ?>
-                        <a class="joom-box"
-                           href="index.php?option=com_redshop&showall=1&view=wrapper&product_id=<?php echo $product->product_id; ?>&tmpl=component"
-                           rel="{handler: 'iframe', size: {x: 700, y: 450}}">
-                            <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
-                                 alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>"> <?php echo "(" . count(
-                                    $wrapper
-                                ) . ")"; ?>
-                        </a>
+						<button
+								class="joom-box btn btn-link ModalSelectButton"
+								type="button"
+								id="ModalSelectWrapperButton<?php echo $index ?>"
+								data-url="<?php echo 'index.php?option=com_redshop&showall=1&view=wrapper&layout=edit&tmpl=component&product_id=' . $product->product_id ?>">
+							<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
+															alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>"> <?php echo "(" . count(
+									$wrapper
+								) . ")"; ?>
+						</button>
                     </td>
                     <td align="center">
                         <?php echo $product->visited; ?>
@@ -416,7 +422,7 @@ JHtml::_('redshopjquery.framework');
                         ); ?>
                     </td>
                     <td>
-                        <a href="index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=0&pid=<?php echo $product->product_id ?>"><?php echo JText::_(
+                        <a href="index.php?option=com_redshop&view=rating&task=edit&cid[]=0&pid=<?php echo $product->product_id ?>"><?php echo JText::_(
                                 'COM_REDSHOP_ADD_REVIEW'
                             ); ?></a>
                     </td>
@@ -431,11 +437,9 @@ JHtml::_('redshopjquery.framework');
             <?php endforeach; ?>
             <tfoot>
             <td colspan="14">
-                <?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-                    <div class="redShopLimitBox">
-                        <?php echo $this->pagination->getLimitBox(); ?>
-                    </div>
-                <?php endif; ?>
+				<div class="redShopLimitBox">
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
                 <?php echo $this->pagination->getListFooter(); ?>
             </td>
             </tfoot>
@@ -449,3 +453,12 @@ JHtml::_('redshopjquery.framework');
     <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
     <?php echo JHtml::_('form.token'); ?>
 </form>
+<?php
+
+echo RedshopLayoutHelper::render(
+	'modal.iframe',
+	[
+		'modalButton' => '.ModalSelectButton',
+		'modalFrame' => 'ModalSelect',
+	]
+);

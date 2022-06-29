@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
@@ -32,8 +34,7 @@ class RedshopViewField extends RedshopViewForm
      */
     public function beforeDisplay(&$tpl)
     {
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.fields.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.fields.min.js', ['relative' => true]);
 
         // Initialise variables.
         $this->form  = $this->get('Form');

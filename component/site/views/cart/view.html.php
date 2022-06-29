@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -45,15 +47,14 @@ class RedshopViewCart extends RedshopView
         $itemId = $app->input->getInt('Itemid');
 
         if ($app->input->getString('quotemsg') != "") {
+			$app->enqueueMessage($app->input->getString('quotemsg'));
             $app->redirect(
-                Redshop\IO\Route::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false),
-                $app->input->getString('quotemsg')
+                Redshop\IO\Route::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false)
             );
         }
 
         JHtml::_('redshopjquery.framework');
-        /** @scrutinizer ignore-deprecated */
-        \JHtml::script('com_redshop/redshop.common.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
 
         if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1)) {
             $cartData = RedshopHelperTemplate::getTemplate("empty_cart");

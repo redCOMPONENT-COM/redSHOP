@@ -132,10 +132,10 @@ class RedshopControllerProduct_Detail extends RedshopController
         $selectedTabPosition = $this->input->get('selectedTabPosition');
         $this->app->setUserState('com_redshop.product_detail.selectedTabPosition', $selectedTabPosition);
 
-        if (is_array($post['product_category'])
-            && !in_array($post['cat_in_sefurl'], $post['product_category'])) {
-            $post['cat_in_sefurl'] = $post['product_category'][0];
-        }
+		if (is_array($post['product_category'])
+			&& (empty($post['cat_in_sefurl']) || !in_array($post['cat_in_sefurl'], $post['product_category']))) {
+			$post['cat_in_sefurl'] = $post['product_category'][0];
+		}
 
         $this->checkTask($post);
 

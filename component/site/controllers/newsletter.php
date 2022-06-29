@@ -107,7 +107,7 @@ class RedshopControllerNewsletter extends RedshopController
         $trackerId = $this->input->getInt('tracker_id', 0);
 
         if (!$trackerId) {
-            JError::raiseError(500, 'No Tracking Id found.');
+            throw new \Exception('No Tracking Id found.');
         }
 
         // Mark Newsletter as read

@@ -9,8 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal', '.joom-box');
-
 echo RedshopLayoutHelper::render(
     'config.config',
     array(
@@ -60,19 +58,19 @@ if ($article_id) {
 $js = "function jSelectArticle_terms_article_id(id, title, catid) {
     document.getElementById('terms_article_id_id').value = id;
     document.getElementById('terms_article_id_name').value = title;
-    SqueezeBox.close();
+    (function($){
+		$('#ModalConfigDetail').modal('hide');
+	})(jQuery);
 }";
 $doc->addScriptDeclaration($js);
 $link = 'index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=jSelectArticle_terms_article_id';
 $html = '<div class="input-group">'
-    . '<input type="text" id="terms_article_id_name" class="form-control"'
-    . ' value="' . htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8') . '" disabled="disabled"/>'
-    . '<span class="input-group-btn">'
-    . '<a class="joom-box btn btn-default" title="' . JText::_('COM_CONTENT_SELECT_AN_ARTICLE') . '"'
-    . 'href="' . $link . '" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">' . JText::_(
-        'COM_REDSHOP_Select'
-    ) . '</a>'
-    . '</span></div><input type="hidden" id="terms_article_id_id" name="terms_article_id" value="' . $article_id . '"/>';
+	. '<input type="text" id="terms_article_id_name" class="form-control"'
+	. ' value="' . htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8') . '" disabled="disabled"/>'
+	. '<span class="input-group-btn">'
+	. '<button type="button" class="joom-box btn btn-default ModalConfigDetailButton"'
+	. ' data-url="' . $link . '">' . JText::_('COM_REDSHOP_Select') . '</button>'
+	. '</span></div><input type="hidden" id="terms_article_id_id" name="terms_article_id" value="' . $article_id . '"/>';
 
 echo RedshopLayoutHelper::render(
     'config.config',

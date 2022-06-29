@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -96,8 +98,8 @@ abstract class JHtmlRedshopSortable
         // Depends on jQuery UI
         JHtml::_('redshopjquery.ui', array('core', 'sortable'));
 
-        JHtml::script('com_redshop/sortablelist.min.js', false, true, false, false);
-        JHtml::stylesheet('com_redshop/sortablelist.min.css', false, true, false, false);
+		HTMLHelper::script('com_redshop/sortablelist.min.js', ['relative' => true]);
+		HTMLHelper::stylesheet('com_redshop/sortablelist.min.css', ['relative' => true]);
 
         static::$loaded[__METHOD__] = true;
 

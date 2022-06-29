@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Redshop\Helper\ExtraFields;
 
 defined('_JEXEC') or die;
@@ -944,8 +945,9 @@ class RedshopHelperExtrafields
                     if (trim($customField->desc) == '') {
                         $exField .= '<td valign="top"></td>';
                     } else {
+						HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                         $exField .= '<td valign="top">&nbsp; '
-                            . JHtml::tooltip($customField->desc, $customField->name, 'tooltip.png', '', '') . '</td>';
+                            . JHtml::_('redshop.tooltip',$customField->desc, $customField->name) . '</td>';
                     }
                 }
 
@@ -1025,7 +1027,7 @@ class RedshopHelperExtrafields
                     $dataTxt = \JFilterInput::getInstance()->clean($data[$row->name]);
                 } elseif ($row->type == self::TYPE_WYSIWYG) {
                     $inputField = JFactory::getApplication()->input->post->get($row->name, '', 'raw');
-                    $dataTxt    = \JFilterInput::getInstance(null, null, 1, 1)->clean($inputField, 'html');
+                    $dataTxt    = \JFilterInput::getInstance([], [], 1, 1)->clean($inputField, 'html');
                 } else {
                     $dataTxt = $data[$row->name];
                 }
@@ -1557,7 +1559,7 @@ class RedshopHelperExtrafields
         $uniqueId = ''
     ) {
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.attribute.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.attribute.min.js', ['relative' => true]);
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true);
 
@@ -1716,8 +1718,9 @@ class RedshopHelperExtrafields
             }
 
             if (trim($rowData[$i]->desc) != '' && $fieldType != 'hidden') {
+				HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                 $exField .= '<div class="userfield_tooltip">&nbsp; '
-                    . JHtml::tooltip($rowData[$i]->desc, $rowData[$i]->name, 'tooltip.png', '', '', false)
+                    . JHtml::_('redshop.tooltip',$rowData[$i]->desc, $rowData[$i]->name)
                     . '</div>';
             }
         }

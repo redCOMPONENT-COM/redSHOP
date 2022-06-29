@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Class Redshop Helper Product
@@ -4273,7 +4274,7 @@ class RedshopHelperProduct
         $subproperty     = array();
 
         /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.thumbscroller.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.thumbscroller.min.js', ['relative' => true]);
         $chkvatArr = JFactory::getSession()->get('chkvat');
         $chktag    = $chkvatArr['chkvat'];
 

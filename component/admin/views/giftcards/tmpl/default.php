@@ -9,8 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal', 'a.joom-box');
-
 // Create product Helper object
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -219,11 +217,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
             </tbody>
             <tfoot>
             <td colspan="14">
-                <?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-                    <div class="redShopLimitBox">
-                        <?php echo $this->pagination->getLimitBox(); ?>
-                    </div>
-                <?php endif; ?>
+				<div class="redShopLimitBox">
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
                 <?php echo $this->pagination->getListFooter(); ?>
             </td>
             </tfoot>

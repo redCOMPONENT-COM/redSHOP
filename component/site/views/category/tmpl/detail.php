@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal');
+JHtml::_('bootstrap.modal');
 
 $slide            = $this->input->getInt('ajaxslide', null);
 $filterBy         = $this->input->getInt('manufacturer_id', $this->params->get('manufacturer_id'));

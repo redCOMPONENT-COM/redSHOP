@@ -40,7 +40,7 @@ if (count($this->search) > 0) {
     $model = $this->getModel('search');
     $total = $model->getTotal();
 
-    JHTML::_('behavior.modal');
+    JHTML::_('bootstrap.modal');
     $url = JURI::base();
 
     if ($this->params->get('page_title') != "") {

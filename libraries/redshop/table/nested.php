@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 defined('_JEXEC') or die;
@@ -468,9 +469,11 @@ class RedshopTableNested extends JTableNested
             }
         }
 
-        if (!array_key_exists('alias', $this) || (empty($this->alias) && !empty($this->name))) {
-            $this->alias = JFilterOutput::stringURLSafe($this->name);
-        }
+		if (!property_exists($this, 'alias')
+			|| (empty($this->alias) && !empty($this->name)))
+		{
+			$this->alias = JFilterOutput::stringURLSafe($this->name);
+		}
 
         return true;
     }
@@ -753,7 +756,10 @@ class RedshopTableNested extends JTableNested
         try {
             $db->query();
         } catch (RuntimeException $e) {
-            JError::raiseWarning(500, $e->getMessage());
+			Factory::getApplication()->enqueueMessage(
+				$e->getMessage(),
+				'warning'
+			);
 
             return false;
         }

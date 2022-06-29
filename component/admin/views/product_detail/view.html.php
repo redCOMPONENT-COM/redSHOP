@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 
@@ -108,7 +110,8 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         // Fail if checked out not by 'me'
         if ($model->isCheckedOut($user->get('id'))) {
             $msg = JText::_('COM_REDSHOP_PRODUCT_BEING_EDITED');
-            $app->redirect('index.php?option=com_redshop&view=product', $msg);
+			$app->enqueueMessage($msg);
+            $app->redirect('index.php?option=com_redshop&view=product');
         }
 
         // Check redproductfinder is installed
@@ -293,27 +296,18 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
         if (!$loadedFromAPlugin) {
             /** @scrutinizer ignore-deprecated */
-            JHtml::script('com_redshop/redshop.fields.min.js', false, true);
+			HTMLHelper::script('com_redshop/redshop.fields.min.js', ['relative' => true]);
         }
 
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/json.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
-
-        if (version_compare(JVERSION, '3.0', '<')) {
-            /** @scrutinizer ignore-deprecated */
-            JHtml::stylesheet('com_redshop/redshop.update.min.css', array(), true);
-        }
-
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.attribute-manipulation.min.js', false, true);
+		HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.attribute-manipulation.min.js', ['relative' => true]);
 
         if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder.css')) {
             $document->addStyleSheet('components/com_redproductfinder/helpers/redproductfinder.css');
         }
 
-        $uri = JFactory::getURI();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         $layout = $this->input->getString('layout', '');
 

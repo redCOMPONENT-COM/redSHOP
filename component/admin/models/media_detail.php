@@ -26,8 +26,12 @@ class RedshopModelMedia_detail extends RedshopModel
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
-        $array               = JFactory::getApplication()->input->get('cid', 0, 'array');
-        $this->setId((int)$array[0]);
+		$array               = JFactory::getApplication()->input->get('cid', [], 'array');
+
+		if (array_key_exists(0, $array))
+		{
+			$this->setId((int) $array[0]);
+		}
     }
 
     public function setId($id)
@@ -129,14 +133,14 @@ class RedshopModelMedia_detail extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
             return false;
         }
@@ -251,14 +255,7 @@ class RedshopModelMedia_detail extends RedshopModel
                 }
 
                 $query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id IN ( ' . $mediadata->media_id . ' )';
-                $this->_db->setQuery($query);
-
-                if (!$this->_db->execute()) {
-                    /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                    return false;
-                }
+                $this->_db->setQuery($query)->execute();
             }
         }
 
@@ -273,14 +270,7 @@ class RedshopModelMedia_detail extends RedshopModel
             $query = 'UPDATE ' . $this->_table_prefix . 'media'
                 . ' SET published = ' . intval($publish)
                 . ' WHERE media_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         return true;
@@ -303,40 +293,19 @@ class RedshopModelMedia_detail extends RedshopModel
                             $query = "UPDATE `" . $this->_table_prefix . "product` "
                                 . "SET `product_thumb_image` = '', `product_full_image` = '" . $rs->media_name . "' "
                                 . "WHERE `product_id`='" . $section_id . "' ";
-                            $this->_db->setQuery($query);
-
-                            if (!$this->_db->execute()) {
-                                /** @scrutinizer ignore-deprecated */
-                                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                                return false;
-                            }
+                            $this->_db->setQuery($query)->execute();
                             break;
                         case "property":
                             $query = "UPDATE `" . $this->_table_prefix . "product_attribute_property` "
                                 . "SET `property_main_image` = '" . $rs->media_name . "' "
                                 . "WHERE `property_id`='" . $section_id . "' ";
-                            $this->_db->setQuery($query);
-
-                            if (!$this->_db->execute()) {
-                                /** @scrutinizer ignore-deprecated */
-                                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                                return false;
-                            }
+                            $this->_db->setQuery($query)->execute();
                             break;
                         case "subproperty":
                             $query = "UPDATE `" . $this->_table_prefix . "product_subattribute_color` "
                                 . "SET `subattribute_color_main_image` = '" . $rs->media_name . "' "
                                 . "WHERE `subattribute_color_id`='" . $section_id . "' ";
-                            $this->_db->setQuery($query);
-
-                            if (!$this->_db->execute()) {
-                                /** @scrutinizer ignore-deprecated */
-                                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                                return false;
-                            }
+                            $this->_db->setQuery($query)->execute();
                             break;
                     }
                 } else {
@@ -381,7 +350,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
                 if (!$row->store()) {
                     /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                    $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
                     return false;
                 }

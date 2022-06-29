@@ -13,7 +13,7 @@ $section = JFactory::getApplication()->input->get('section');
 ?>
 <fieldset>
     <div style="float: right">
-        <button type="button" class="btn btn-small" onclick="submitbutton('save');">
+        <button type="button" class="btn btn-small" onclick="Joomla.submitbutton('save');">
             <?php echo JText::_('COM_REDSHOP_SAVE'); ?>
         </button>
         <button type="button" class="btn btn-small" onclick="window.parent.location.reload();">
@@ -26,7 +26,7 @@ $section = JFactory::getApplication()->input->get('section');
     Joomla.submitbutton = function (pressbutton) {
         var form = document.adminForm;
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
         if (form.product_price.value == "" || isNaN(form.product_price.value) || form.product_price.value == 0) {
@@ -48,7 +48,7 @@ $section = JFactory::getApplication()->input->get('section');
             alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE_END_DATE_CONDITION', true); ?>");
             form.discount_start_date.focus();
         } else {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
     }
 </script>

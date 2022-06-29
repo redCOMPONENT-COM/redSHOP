@@ -17,7 +17,7 @@ class RedshopViewProduct_price extends RedshopViewAdmin
         $productId = JFactory::getApplication()->input->get('pid');
 
         $db       = JFactory::getDbo();
-        $uri      = JFactory::getURI();
+        $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $document = JFactory::getDocument();
 
         $document->setTitle(JText::_('COM_REDSHOP_PRODUCT_PRICE'));

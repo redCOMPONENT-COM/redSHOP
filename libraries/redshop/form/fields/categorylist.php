@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 JFormHelper::loadFieldClass('list');
@@ -272,7 +273,7 @@ class JFormFieldCategoryList extends JFormFieldList
         try {
             $options = $db->loadObjectList();
         } catch (RuntimeException $e) {
-            JError::raiseWarning(500, $e->getMessage());
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
         }
 
         // Pad the option text with spaces using depth level as a multiplier.

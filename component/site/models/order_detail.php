@@ -165,7 +165,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
         // This is ccv code
         $order_payment_ccv      = base64_encode($ccdata['credit_card_code']);
-        $order_payment_expire   = $ccdata['order_payment_expire_month'] . $ccdata['order_payment_expire_year'];
+        $order_payment_expire   = (int) ($ccdata['order_payment_expire_month'] . $ccdata['order_payment_expire_year']);
         $order_payment_trans_id = $payment_transaction_id;
 
         $payment_update = "UPDATE " . $this->_table_prefix . "order_payment "

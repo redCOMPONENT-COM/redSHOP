@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.framework');
+JHtml::_('redshopjquery.framework');
 
 $url         = JUri::base();
 $input       = JFactory::getApplication()->input;
@@ -127,7 +127,7 @@ $itemId      = $input->getInt('Itemid', 0);
                             <td colspan="3" align="center">
                                 <input type="button" class="btn btn-primary"
                                        value="<?php echo JText::_('COM_REDSHOP_ADD_TO_WISHLIST'); ?>"
-                                       onclick="submitform();"/>&nbsp;
+                                       onclick="Joomla.submitform();"/>&nbsp;
                                 <input type="button" class="btn" value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"
                                        onclick="window.parent.redBOX.close();"/>
                             </td>

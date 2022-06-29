@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') || die;
 
 /**
@@ -420,12 +422,10 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
 
             if (strpos($attributeTable, '{attribute_tooltip}') !== false) {
                 if (!empty($attribute->attribute_description)) {
-                    $replaceAttr['{attribute_tooltip}'] = JHTML::tooltip(
+					HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+                    $replaceAttr['{attribute_tooltip}'] = JHtml::_('redshop.tooltip',
                         $attribute->attribute_description,
-                        $attribute->attribute_description,
-                        'tooltip.png',
-                        '',
-                        ''
+                        $attribute->attribute_description
                     );
                 } else {
                     $replaceAttr['{attribute_tooltip}'] = '';

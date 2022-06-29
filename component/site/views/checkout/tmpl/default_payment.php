@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.modal');
+JHTML::_('bootstrap.modal');
 
 $redTemplate     = Redtemplate::getInstance();
 $model           = $this->getModel('checkout');

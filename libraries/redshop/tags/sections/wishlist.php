@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -110,7 +112,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
                 return;
             }
 
-            JHtml::script('com_redshop/redshop.wishlist.min.js', false, true);
+			HTMLHelper::script('com_redshop/redshop.wishlist.min.js', ['relative' => true]);
 
             $productId = $this->data['productId'];
             $formId    = $this->data['formId'];

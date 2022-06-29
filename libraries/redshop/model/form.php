@@ -106,7 +106,7 @@ class RedshopModelForm extends JModelAdmin
         $prefix        = $componentName . 'Model';
 
         if (is_null($client)) {
-            $client = (int)JFactory::getApplication()->isAdmin();
+            $client = (int)JFactory::getApplication()->isClient('administrator');
         }
 
         // Admin

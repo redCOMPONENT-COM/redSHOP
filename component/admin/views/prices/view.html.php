@@ -16,7 +16,7 @@ class RedshopViewPrices extends RedshopViewAdmin
     {
         global $context;
 
-        $uri      = JFactory::getURI();
+        $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $app      = JFactory::getApplication();
         $document = JFactory::getDocument();
 

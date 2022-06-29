@@ -9,8 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal', 'a.joom-box');
-
 $model = $this->getModel('xmlexport_detail');
 
 $orderstyle   = "none";
@@ -32,7 +30,7 @@ switch ($this->detail->section_type) {
     Joomla.submitbutton = function (pressbutton) {
         var form = document.adminForm;
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
         if (form.display_filename.value == "") {
@@ -42,7 +40,7 @@ switch ($this->detail->section_type) {
         } else if (form.section_type.value == "" || form.section_type.value == 0) {
             alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_XMLEXPORT_SECTION_TYPE', true); ?>");
         } else {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
     }
 </script>

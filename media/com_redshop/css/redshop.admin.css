@@ -2257,7 +2257,8 @@ input[type="search"] {
     margin-left: 10px;
 }
 
-.form-group span.hasTooltip img {
+.form-group span.hasTooltip img,
+.form-group span.hasPopover img {
     max-width: 14px;
 }
 
@@ -5383,7 +5384,7 @@ button.close {
     transition: transform 0.1s ease-out;
 }
 
-.modal.in .modal-dialog {
+.modal.in .modal-dialog, .modal.show .modal-dialog {
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);
     -o-transform: translate(0, 0);
@@ -21956,8 +21957,11 @@ table th[class*="span"],
     transition: opacity .15s linear;
 }
 
-.fade.in {
+.fade.in, .fade.show {
     opacity: 1;
+}
+.hide.fade.in {
+    display: block !important;
 }
 
 .collapse {

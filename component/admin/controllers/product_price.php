@@ -97,7 +97,7 @@ class RedshopControllerProduct_Price extends RedshopController
                 if ($xid && $xid != $priceId[$i]) {
                     echo $xid;
 
-                    $this->setError(JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRICE_ALREADY_EXISTS')));
+                    $this->setMessage(JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRICE_ALREADY_EXISTS')), 'error');
                 }
 
                 if (!empty($priceId[$i])) {

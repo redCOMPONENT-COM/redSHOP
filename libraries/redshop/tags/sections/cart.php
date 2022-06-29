@@ -9,6 +9,7 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Redshop\Traits\Replace;
 
 /**
@@ -311,8 +312,7 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
     public function shippingRateCalc()
     {
         JHtml::_('redshopjquery.framework');
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.common.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
 
         $countries            = RedshopHelperWorld::getCountryList();
         $post['country_code'] = $countries['country_code'];

@@ -7,11 +7,14 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal', 'a.joom-box');
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
-$editor = JFactory::getEditor();
+$editor = \Joomla\CMS\Editor\Editor::getInstance();
 $jinput = JFactory::getApplication()->input;
 $post   = $jinput->post->getArray();
 
@@ -101,7 +104,7 @@ if ($showbuttons) {
     ?>
     <fieldset>
         <div style="float: right">
-            <button type="button" class="btn btn-small" onclick="submitbutton('save');">
+            <button type="button" class="btn btn-small" onclick="Joomla.submitbutton('save');">
                 <?php echo JText::_('COM_REDSHOP_SAVE'); ?>
             </button>
             <button type="button" class="btn btn-small" onclick="goback();">
@@ -209,13 +212,9 @@ if ($showbuttons) {
                                         ); ?>
 										?</span></td>
                                 <td><span
-                                            id="bulk"><?php echo $this->lists['bulk']; ?></span>&nbsp;&nbsp;&nbsp;<?php echo JHTML::tooltip(
+                                            id="bulk"><?php echo $this->lists['bulk']; ?></span>&nbsp;&nbsp;&nbsp;<?php echo HTMLHelper::_('redshop.tooltip',
                                         JText::_('COM_REDSHOP_TOOLTIP_YOU_WANT_TO_UPLOAD_ZIP_FILE'),
-                                        JText::_('COM_REDSHOP_YOU_WANT_TO_UPLOAD_ZIP_FILE'),
-                                        'tooltip.png',
-                                        '',
-                                        '',
-                                        false
+                                        JText::_('COM_REDSHOP_YOU_WANT_TO_UPLOAD_ZIP_FILE')
                                     ); ?>
                                 </td>
 
@@ -397,13 +396,9 @@ if ($showbuttons) {
                         <td>
                             <?php echo $this->lists['type']; ?><input type="hidden" name="oldtype"
                                                                       value="<?php echo $this->detail->media_type; ?>"/>
-                            <?php echo JHTML::tooltip(
+                            <?php echo JHtml::_('redshop.tooltip',
                                 JText::_('COM_REDSHOP_TOOLTIP_MEDIA_TYPE'),
-                                JText::_('COM_REDSHOP_MEDIA_TYPE'),
-                                'tooltip.png',
-                                '',
-                                '',
-                                false
+                                JText::_('COM_REDSHOP_MEDIA_TYPE')
                             ); ?>
                         </td>
                         <?php
@@ -425,13 +420,9 @@ if ($showbuttons) {
                     </td>
                     <td><input type="text" value="<?php echo $this->detail->media_name; ?>"
                                name="youtube_id">
-                        <?php echo JHTML::tooltip(
+                        <?php echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_MEDIA_YOUTUBE_ID'),
-                            JText::_('COM_REDSHOP_MEDIA_YOUTUBE_ID'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            JText::_('COM_REDSHOP_MEDIA_YOUTUBE_ID')
                         ); ?>
                     </td>
                 </tr>
@@ -443,13 +434,9 @@ if ($showbuttons) {
                     </td>
                     <td><input type="text" value="<?php echo $this->detail->media_alternate_text; ?>"
                                name="media_alternate_text">
-                        <?php echo JHTML::tooltip(
+                        <?php echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_MEDIA_ALTERNATE_TEXT'),
-                            JText::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            JText::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT')
                         ); ?>
                     </td>
                 </tr>
@@ -472,13 +459,9 @@ if ($showbuttons) {
 
                         echo $this->lists['section'];
                         ?>
-                        <?php echo JHTML::tooltip(
+                        <?php echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_MEDIA_SECTION'),
-                            JText::_('COM_REDSHOP_MEDIA_SECTION'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            JText::_('COM_REDSHOP_MEDIA_SECTION')
                         ); ?>
                     </td>
                 </tr>
@@ -528,13 +511,9 @@ if ($showbuttons) {
                                 'list.attr'           => $listAttributes
                             )
                         );
-                        echo JHTML::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_SECTION_NAME'),
-                            JText::_('COM_REDSHOP_SECTION_NAME'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            JText::_('COM_REDSHOP_SECTION_NAME')
                         ); ?>
                     </td>
                 </tr>

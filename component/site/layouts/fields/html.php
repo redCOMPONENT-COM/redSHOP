@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
+
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 /**
  * $displayData extract
@@ -28,7 +32,7 @@ extract($displayData);
     <?php endif; ?>
     <?php if (trim($fieldHandle->description) != '') : ?>
         <?php
-        echo '&nbsp; ' . JHTML::tooltip($fieldHandle->description, '', 'tooltip.png', '', '', false);
+        echo '&nbsp; ' . JHtml::_('redshop.tooltip', $fieldHandle->description);
         ?>
     <?php endif; ?>
 </div>

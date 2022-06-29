@@ -23,6 +23,24 @@ if ($app->input->getInt('dashboard', 0)) {
 
 ?>
 <script language="javascript" type="text/javascript">
+	window.radioGetCheckedValue = function ( radioObj ) {
+		if ( !radioObj ) { return ''; }
+
+		var n = radioObj.length,
+			i;
+
+		if ( n === undefined ) {
+			return radioObj.checked ? radioObj.value : '';
+		}
+
+		for ( i = 0; i < n; i++ ) {
+			if ( radioObj[ i ].checked ) {
+				return radioObj[ i ].value;
+			}
+		}
+
+		return '';
+	};
     Joomla.submitbutton = function (pressbutton) {
         // Find the position of selected tab
         var allTabsNames = document.querySelectorAll('.tabconfig a');
@@ -201,3 +219,12 @@ if ($app->input->getInt('dashboard', 0)) {
         return xhr;
     }
 </script>
+<?php
+echo RedshopLayoutHelper::render(
+	'modal.iframe',
+	[
+		'modalButton' => '.ModalConfigDetailButton',
+		'modalFrame' => 'ModalConfigDetail',
+	]
+);
+

@@ -41,21 +41,20 @@ $params = JFactory::getApplication()->input->get('params', '', 'raw');
 		function jSelectArticle_terms_article_id(id, title, catid) {
 			document.getElementById('terms_article_id_id').value = id;
 			document.getElementById('terms_article_id_name').value = title;
-			SqueezeBox.close();
+			(function($){
+				$('#ModalConfigDetail').modal('hide');
+			})(jQuery);
 		}";
                     $doc->addScriptDeclaration($js);
 
                     $link = 'index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=jSelectArticle_terms_article_id';
-                    JHtml::_('behavior.modal', 'a.joom-box');
                     $html = "\n" . '<div class="fltlft"><input type="text" id="terms_article_id_name" value="' . htmlspecialchars(
                             $article->title,
                             ENT_QUOTES,
                             'UTF-8'
                         ) . '" disabled="disabled" /></div>';
-                    $html .= '<div class="button2-left"><div class="blank"><a class="joom-box" title="' . JText::_(
-                            'COM_CONTENT_SELECT_AN_ARTICLE'
-                        ) . '"  href="' . $link . '" 
-rel="{handler: \'iframe\', size: {x: 650, y: 375}}">' . JText::_('COM_REDSHOP_Select') . '</a></div></div>' . "\n";
+                    $html .= '<div class="button2-left"><div class="blank"><button type="button" class="joom-box btn btn-default ModalConfigDetailButton"'
+	. ' data-url="' . $link . '">' . JText::_('COM_REDSHOP_Select') . '</button></div></div>' . "\n";
                     $html .= "\n" . '<input type="hidden" id="terms_article_id_id" name="terms_article_id" value="' . $article_id . '" />';
 
                     echo $html;
@@ -88,3 +87,12 @@ rel="{handler: \'iframe\', size: {x: 650, y: 375}}">' . JText::_('COM_REDSHOP_Se
         </table>
     </form>
 </div>
+<?php
+echo RedshopLayoutHelper::render(
+	'modal.iframe',
+	[
+		'modalButton' => '.ModalConfigDetailButton',
+		'modalFrame' => 'ModalConfigDetail',
+	]
+);
+

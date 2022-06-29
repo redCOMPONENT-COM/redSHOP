@@ -9,8 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal', 'a.joom-box');
-
 $quotationHelper = quotationHelper::getInstance();
 
 $order_functions = order_functions::getInstance();
@@ -32,7 +30,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
     Joomla.submitbutton = submitbutton = function (pressbutton) {
         var form = document.adminForm;
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
         if (pressbutton == 'add') {
@@ -47,7 +45,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
                 return false;
             }
 
-            submitform('newQuotationItem');
+			Joomla.submitform('newQuotationItem');
             return;
         }
         if ((pressbutton == 'save') || (pressbutton == 'send') || (pressbutton == 'aplly')) {
@@ -66,7 +64,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
                 }
             }
         }
-        submitform(pressbutton);
+		Joomla.submitform(pressbutton);
     }
 
     function validateProductQuantity() {
@@ -376,7 +374,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
                                              src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.png"
                                              title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
                                              alt="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
-                                             onclick="submitbutton('deleteitem');">
+                                             onclick="Joomla.submitbutton('deleteitem');">
                                     </a></td>
                                 <td><?php echo $product_title; ?><input type="hidden"
                                                                         name="quotation_item_idp<?php echo $unq; ?>"

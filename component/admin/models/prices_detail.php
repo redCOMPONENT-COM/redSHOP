@@ -93,8 +93,6 @@ class RedshopModelPrices_detail extends RedshopModel
             } else {
                 $detail                       = new stdClass;
                 $detail->price_id             = 0;
-                $detail->product_id           = $this->_prodid;
-                $detail->product_name         = $this->_prodname;
                 $detail->product_price        = 0.00;
                 $detail->product_currency     = null;
                 $detail->shopper_group_id     = 0;
@@ -105,6 +103,9 @@ class RedshopModelPrices_detail extends RedshopModel
                 $detail->discount_start_date  = 0;
                 $detail->discount_end_date    = 0;
             }
+
+			$detail->product_id   = $this->_prodid;
+			$detail->product_name = $this->_prodname;
 
             $this->_data = $detail;
 
@@ -124,19 +125,19 @@ class RedshopModelPrices_detail extends RedshopModel
         $row = $this->getTable();
 
         if (!$row->bind($data)) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
 
         if (!$row->check()) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
@@ -153,7 +154,7 @@ class RedshopModelPrices_detail extends RedshopModel
             $this->_db->setQuery($query);
 
             if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
+                $this->setError($row->getError());
 
                 return false;
             }

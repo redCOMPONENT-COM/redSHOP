@@ -57,10 +57,10 @@ class RedshopControllerAccount_Shipto extends RedshopController
             );
 
             if (!isset($setExit) || $setExit != 0) {
+				$app->enqueueMessage($msg);
                 $app->redirect(
                     'index.php?option=com_redshop&view=account_shipto&tmpl=component&is_edit=1&return='
-                    . $return . '&Itemid=' . $itemId,
-                    $msg
+                    . $return . '&Itemid=' . $itemId
                 );
             }
         }
@@ -84,7 +84,7 @@ class RedshopControllerAccount_Shipto extends RedshopController
         $model = $this->getModel('account_shipto');
 
         if (!$infoId) {
-            JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+			throw new \Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         if (!$model->delete($infoId)) {

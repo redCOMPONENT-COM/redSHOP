@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 
@@ -30,8 +32,7 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
     {
         $uri = JUri::getInstance();
 
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.admin.media.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.admin.media.min.js', ['relative' => true]);
 
         $this->setLayout('default');
 

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -99,7 +101,7 @@ class RedshopViewProduct extends RedshopView
          */
         $this->dispatcher->trigger('stopProductRedshopJQuery', array($this->data, $layout));
 
-        JHtml::stylesheet('com_redshop/scrollable-navig.min.css', array(), true);
+		HTMLHelper::stylesheet('com_redshop/scrollable-navig.min.css', ['relative' => true]);
 
         if ($layout == "downloadproduct") {
             $this->setLayout('downloadproduct');
@@ -119,15 +121,11 @@ class RedshopViewProduct extends RedshopView
             $prodhelperobj_array_main = RedshopHelperProductPrice::getNetPrice($this->data->product_id);
 
             if ($this->data->published == 0) {
-                /** @scrutinizer ignore-deprecated */
-                JError::raiseError(
-                    404,
-                    sprintf(
-                        JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'),
-                        $this->data->product_name,
-                        $this->data->product_number
-                    )
-                );
+				throw new \Exception(sprintf(
+					JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'),
+					$this->data->product_name,
+					$this->data->product_number
+				));
             }
 
             $productTemplate = $this->model->getProductTemplate();
@@ -220,7 +218,7 @@ class RedshopViewProduct extends RedshopView
                 }
             }
 
-            $uri    = JFactory::getURI();
+            $uri    = \Joomla\CMS\Uri\Uri::getInstance();
             $scheme = $uri->getScheme();
             $host   = $uri->getHost();
 

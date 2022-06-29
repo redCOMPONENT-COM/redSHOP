@@ -7,7 +7,12 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
+
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -35,7 +40,7 @@ $mainImage = $mainImage[0];
 
         submitbutton = function (pressbutton) {
             if (pressbutton == 'save') {
-                submitform('property_more_img');
+				Joomla.submitform('property_more_img');
             }
         }
     </script>
@@ -43,7 +48,7 @@ $mainImage = $mainImage[0];
     <fieldset class="adminform">
 
         <div>
-            <button type="button" onclick="submitbutton('save');">
+            <button type="button" onclick="Joomla.submitbutton('save');">
                 <?php echo JText::_('COM_REDSHOP_SAVE'); ?>
             </button>
             <button type="button" onclick="window.parent.SqueezeBox.close();">
@@ -73,13 +78,9 @@ $mainImage = $mainImage[0];
                     <td>
                         <input type="file" name="property_main_img" id="property_main_img" value="" size="75"/>
                         <?php
-                        echo JHtml::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_PROPERTY_MAIN_IMAGE'),
-                            JText::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            JText::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE')
                         );
                         ?>
                     </td>
@@ -101,13 +102,9 @@ $mainImage = $mainImage[0];
                                onclick="addNewRowOfProp('admintable');"
                         />
                         <?php
-                        echo JHtml::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_PROPERTY_SUB_IMAGE'),
-                            JText::_('COM_REDSHOP_PROPERTY_SUB_IMAGE'),
-                            'tooltip.png',
-                            '',
-                            '',
-                            false
+                            JText::_('COM_REDSHOP_PROPERTY_SUB_IMAGE')
                         );
                         ?>
                     </td>

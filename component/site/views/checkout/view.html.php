@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 
@@ -42,22 +44,16 @@ class RedshopViewCheckout extends RedshopView
             $language->load($extension, $base_dir);
         }
 
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('system/validate.js', true, false);
+		HTMLHelper::script('system/validate.js', ['relative' => true]);
+
         JHtml::_('redshopjquery.framework');
-        JHtml::_('behavior.framework', true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/jquery.validate.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.common.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/jquery.metadata.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.registration.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.redbox.min.js', false, true);
+
+		HTMLHelper::script('com_redshop/jquery.validate.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/jquery.metadata.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.registration.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.redbox.min.js', ['relative' => true]);
+		HTMLHelper::stylesheet('com_redshop/redshop.validation.min.css', ['relative' => true]);
 
         JPluginHelper::importPlugin('redshop_vies_registration');
 
@@ -73,7 +69,8 @@ class RedshopViewCheckout extends RedshopView
         if ($cart['idx'] < 1) {
             $msg  = JText::_('COM_REDSHOP_EMPTY_CART');
             $link = 'index.php?option=com_redshop&Itemid=' . $Itemid;
-            $app->redirect(Redshop\IO\Route::_($link, false), $msg);
+			$app->enqueueMessage($msg);
+            $app->redirect(Redshop\IO\Route::_($link, false));
         }
 
         $lists = array();

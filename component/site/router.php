@@ -168,7 +168,7 @@ class RedshopRouter extends JComponentRouterBase
         }
 
         if (is_object($menuItem)) {
-            $myParams = new Registry($menuItem->params);
+			$myParams = $menuItem->getParams();
         } else {
             $menuItem        = new stdClass;
             $menuItem->title = '';

@@ -49,11 +49,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
         $form = $model->getForm();
 
         if (!$form) {
-            /** @scrutinizer ignore-deprecated */
-            JError::raiseError(500, $model->getError());
-            $this->setRedirect(Redshop\IO\Route::_($link, false));
-
-            return false;
+			throw new \Exception($model->getError());
         }
 
         // Save the data in the session.

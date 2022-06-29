@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
+
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 $billing      = $this->billing;
 $isCompany    = $billing->is_company;
@@ -207,13 +211,9 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                                 ); ?>:</label></td>
                         <td><input class="text_area" type="text" name="vat_number" id="vat_number"
                                    value="<?php echo $billing->vat_number; ?>" size="20" maxlength="250"/>
-                            <?php echo JHTML::tooltip(
+                            <?php echo JHtml::_('redshop.tooltip',
                                 JText::_('COM_REDSHOP_TOOLTIP_VAT_NUMBER'),
-                                JText::_('COM_REDSHOP_VAT_NUMBER'),
-                                'tooltip.png',
-                                '',
-                                '',
-                                false
+                                JText::_('COM_REDSHOP_VAT_NUMBER')
                             ); ?>
                         </td>
                     </tr>
@@ -222,13 +222,9 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                                     'COM_REDSHOP_TAX_EXEMPT'
                                 ); ?>:</label></td>
                         <td><?php echo $this->lists['tax_exempt'];
-                            echo JHTML::tooltip(
+                            echo JHtml::_('redshop.tooltip',
                                 JText::_('COM_REDSHOP_TOOLTIP_TAX_EXEMPT'),
-                                JText::_('COM_REDSHOP_TAX_EXEMPT'),
-                                'tooltip.png',
-                                '',
-                                '',
-                                false
+                                JText::_('COM_REDSHOP_TAX_EXEMPT')
                             ); ?></td>
                     </tr>
                     <tr id="trTaxExemptRequest" <?php echo $allowCompany; ?>>
@@ -236,26 +232,18 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                                     'COM_REDSHOP_USER_REQUEST_TAX_EXEMPT_LBL'
                                 ); ?>:</label></td>
                         <td><?php echo $this->lists['requesting_tax_exempt']; ?>
-                            <?php echo JHTML::tooltip(
+                            <?php echo JHtml::_('redshop.tooltip',
                                 JText::_('COM_REDSHOP_TOOLTIP_USER_REQUEST_TAX_EXEMPT'),
-                                JText::_('COM_REDSHOP_USER_REQUEST_TAX_EXEMPT_LBL'),
-                                'tooltip.png',
-                                '',
-                                '',
-                                false
+                                JText::_('COM_REDSHOP_USER_REQUEST_TAX_EXEMPT_LBL')
                             ); ?></td>
                     </tr>
                     <tr id="trTaxExemptApproved" <?php echo $allowCompany; ?>>
                         <td valign="top" class="key"><label><?php echo JText::_('COM_REDSHOP_TEX_EXEMPT_APPROVED'); ?>
                                 :</label></td>
                         <td><?php echo $this->lists['tax_exempt_approved']; ?>
-                            <?php echo JHTML::tooltip(
+                            <?php echo JHtml::_('redshop.tooltip',
                                 JText::_('COM_REDSHOP_TOOLTIP_TEX_EXEMPT_APPROVED'),
-                                JText::_('COM_REDSHOP_TEX_EXEMPT_APPROVED'),
-                                'tooltip.png',
-                                '',
-                                '',
-                                false
+                                JText::_('COM_REDSHOP_TEX_EXEMPT_APPROVED')
                             ); ?></td>
                     </tr>
                     <?php

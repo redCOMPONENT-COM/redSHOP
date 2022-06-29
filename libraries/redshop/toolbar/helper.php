@@ -32,13 +32,24 @@ abstract class RedshopToolbarHelper extends JToolbarHelper
     public static function link($link = '', $icon = '', $alt = '', $target = '_self')
     {
         $bar = RedshopToolbar::getInstance();
-        $bar->addButtonPath(__DIR__ . '/button');
 
-        // Strip extension.
-        $icon = preg_replace('#\.[^.]*$#', '', $icon);
+		if (version_compare(JVERSION, '4.0', '>='))
+		{
+			$bar->linkButton('link', $alt)
+				->url($link)
+				->attributes(['target' => $target])
+				->icon('icon-' . $icon);
+		}
+		else
+		{
+			$bar->addButtonPath(__DIR__ . '/button');
 
-        // Add a standard button.
-        $bar->appendButton('RedshopLink', $icon, $alt, $link, $target);
+			// Strip extension.
+			$icon = preg_replace('#\.[^.]*$#', '', $icon);
+
+			// Add a standard button.
+			$bar->appendButton('RedshopLink', $icon, $alt, $link, $target);
+		}
     }
 
     /**

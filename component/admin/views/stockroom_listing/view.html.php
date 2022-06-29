@@ -23,7 +23,7 @@ class RedshopViewStockroom_listing extends RedshopViewAdmin
 
     public function display($tpl = null)
     {
-        $uri      = JFactory::getURI();
+        $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $document = JFactory::getDocument();
 
         $document->setTitle(JText::_('COM_REDSHOP_STOCKROOM_LISTING'));

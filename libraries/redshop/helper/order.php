@@ -175,14 +175,6 @@ class RedshopHelperOrder
         // Set the query and load the result.
         $fields = $db->setQuery($query)->loadObjectList();
 
-        // Check for a database error.
-        if (/** @scrutinizer ignore-deprecated */ $db->getErrorNum()) {
-            /** @scrutinizer ignore-deprecated */
-            JError::raiseWarning(500, /** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
-
-            return null;
-        }
-
         $fieldsData = array();
 
         if (!empty($fields)) {
@@ -1539,14 +1531,6 @@ class RedshopHelperOrder
         $db->setQuery($query);
         self::$allStatus = $db->loadObjectList();
 
-        // Check for a database error.
-        if (/** @scrutinizer ignore-deprecated */ $db->getErrorNum()) {
-            /** @scrutinizer ignore-deprecated */
-            JError::raiseWarning(500, /** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
-
-            return null;
-        }
-
         return self::$allStatus;
     }
 
@@ -1787,19 +1771,19 @@ class RedshopHelperOrder
         $isArchive = ($app->input->getInt('isarchive')) ? '&isarchive=1' : '';
 
         if ($return == 'order') {
-            $app->redirect('index.php?option=com_redshop&view=' . $return . '' . $isArchive . '', $msg);
+			$app->enqueueMessage($msg);
+            $app->redirect('index.php?option=com_redshop&view=' . $return . '' . $isArchive);
         } else {
             $tmpl = $app->input->getCmd('tmpl');
+			$app->enqueueMessage($msg);
 
-            if ('' != $tmpl) {
+			if ('' != $tmpl) {
                 $app->redirect(
-                    'index.php?option=com_redshop&view=' . $return . '&cid[]=' . $orderId . '&tmpl=' . $tmpl . '' . $isArchive . '',
-                    $msg
+                    'index.php?option=com_redshop&view=' . $return . '&cid[]=' . $orderId . '&tmpl=' . $tmpl . $isArchive
                 );
             } else {
                 $app->redirect(
-                    'index.php?option=com_redshop&view=' . $return . '&cid[]=' . $orderId . '' . $isArchive . '',
-                    $msg
+                    'index.php?option=com_redshop&view=' . $return . '&cid[]=' . $orderId . $isArchive
                 );
             }
         }
@@ -2019,14 +2003,7 @@ class RedshopHelperOrder
             $query->where($db->qn('order_item_id') . ' = ' . (int)$orderItemId);
         }
 
-        $db->setQuery($query);
-
-        if (!$db->execute()) {
-            JFactory::getApplication()->enqueueMessage(
-            /** @scrutinizer ignore-deprecated */ $db->getErrorMsg(),
-                                                  'error'
-            );
-        }
+        $db->setQuery($query)->execute();
     }
 
     /**

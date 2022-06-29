@@ -7,6 +7,9 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 require_once 'components/com_redshop/views/configuration/view.html.php';
@@ -52,12 +55,9 @@ class RedshopViewWizard extends RedshopViewAdmin
         $document = JFactory::getDocument();
 
         $document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::stylesheet('com_redshop/redshop.min.css', array(), true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::stylesheet('com_redshop/redshop.wizard.min.css', array(), true);
+		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.min.css', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.wizard.min.css', ['relative' => true]);
 
         // Shop country
         $q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
@@ -316,6 +316,48 @@ class RedshopViewWizard extends RedshopViewAdmin
         }
 
         $script                     .= "
+        window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
+		var select = document.createElement('select');
+		var params = selectParams.split(' ');
+
+		for (var l = 0; l < params.length; l++) {
+			var par = params[l].split('=');
+
+			// make sure the attribute / content can not be used for scripting
+			if (par[0].trim().substr(0, 2).toLowerCase() === \"on\"
+				|| par[0].trim().toLowerCase() === \"href\") {
+				continue;
+			}
+
+			select.setAttribute(par[0], par[1].replace(/\\\"/g, ''));
+		}
+
+		var hasSelection = key == orig_key, i, selected, item;
+
+		for (i = 0; i < source.length; i++) {
+			item = source[i];
+
+			if (item[0] != key) { continue; }
+
+			selected = hasSelection ? orig_val == item[1] : i === 0;
+
+			var el = document.createElement('option');
+			el.setAttribute('value', item[1]);
+			el.innerText = item[2];
+
+			if (selected) {
+				el.setAttribute('selected', 'selected');
+			}
+
+			select.appendChild(el);
+		}
+
+		if (element) {
+			element.appendChild(select);
+		} else {
+			document.body.appendChild(select);
+		}
+	};
 		function changeStateList() {
 		  var selected_country = null;
 

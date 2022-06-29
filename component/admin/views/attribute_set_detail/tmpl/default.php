@@ -7,7 +7,12 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
+
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 $url = JURI::getInstance()->root();
 ?>
@@ -16,7 +21,7 @@ $url = JURI::getInstance()->root();
         var form = document.adminForm;
 
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
@@ -27,7 +32,7 @@ $url = JURI::getInstance()->root();
                 ?>");
         } else {
 
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
     }
 
@@ -115,13 +120,9 @@ echo Redshop\IO\Route::_($this->request_url) ?>" method="post"
                                            size="32" maxlength="250"
                                            value="<?php echo $this->detail->attribute_set_name; ?>"/>
                                     <?php
-                                    echo JHTML::tooltip(
+                                    echo HTMLHelper::_('redshop.tooltip',
                                         JText::_('COM_REDSHOP_TOOLTIP_ATTRIBUTE_SET_NAME'),
-                                        JText::_('COM_REDSHOP_ATTRIBUTE_SET_NAME'),
-                                        'tooltip.png',
-                                        '',
-                                        '',
-                                        false
+                                        JText::_('COM_REDSHOP_ATTRIBUTE_SET_NAME')
                                     );
                                     ?>                </td>
                             </tr>

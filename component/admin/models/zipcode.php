@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -45,10 +47,7 @@ class RedshopModelZipcode extends RedshopModelForm
             $data['zipcode'] = is_numeric($data['zipcode']) ? $i : $data['zipcode'];
 
             if (!$table->bind($data) || !$table->docheck()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(JText::_('COM_REDSHOP_ZIPCODE_ALREADY_EXISTS') . ": " . $data['zipcode']);
-                /** @scrutinizer ignore-deprecated */
-                JError::raiseWarning('', /** @scrutinizer ignore-deprecated */ $this->getError());
+				Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_ZIPCODE_ALREADY_EXISTS') . ": " . $data['zipcode'], 'warning');
 
                 continue;
             }

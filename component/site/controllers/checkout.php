@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Redshop\Economic\RedshopEconomic;
 
 /**
@@ -129,7 +130,8 @@ class RedshopControllerCheckout extends RedshopController
 
         if ($errorMsg != "") {
             $link = \Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false);
-            $app->redirect($link, $errorMsg);
+			$app->enqueueMessage($errorMsg);
+            $app->redirect($link);
         } else {
             $view = $this->getView('checkout', 'next');
             parent::display();
@@ -192,18 +194,6 @@ class RedshopControllerCheckout extends RedshopController
                 && Redshop::getConfig()->get('REQUIRED_EAN_NUMBER')
                 && trim($billingAddresses->ean_number) != '') {
                 RedshopEconomic::createUserInEconomic($billingAddresses);
-
-                if (/** @scrutinizer ignore-deprecated */ JError::isError(
-                /** @scrutinizer ignore-deprecated */ JError::getError()
-                )) {
-                    $return = 1;
-                    $error  = /** @scrutinizer ignore-deprecated */
-                        JError::getError();
-                    $msg    = $error->getMessage();
-                    \JFactory::getApplication()->enqueueMessage($msg, 'error');
-
-                    return $return;
-                }
             }
         }
 
@@ -442,7 +432,8 @@ class RedshopControllerCheckout extends RedshopController
 
             if ($shipping_rate_id == '' && $cart['free_shipping'] != 1) {
                 $msg = JText::_('LIB_REDSHOP_SELECT_SHIP_METHOD');
-                $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false), $msg);
+				$app->enqueueMessage($msg);
+                $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false));
             }
         }
 
@@ -483,9 +474,9 @@ class RedshopControllerCheckout extends RedshopController
                     $errorMsg = $this->setCreditCardInfo();
 
                     if ($errorMsg != "") {
+						$app->enqueueMessage($errorMsg);
                         $app->redirect(
-                            Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId),
-                            $errorMsg
+                            Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId)
                         );
 
                         return;
@@ -577,17 +568,14 @@ class RedshopControllerCheckout extends RedshopController
                     $this->setRedirect($link);
                 }
             } else {
-                $errorMsg = $model->getError();
-                /** @scrutinizer ignore-deprecated */
-                JError::raiseWarning(21, $errorMsg);
+				Factory::getApplication()->enqueueMessage($model->getError(), 'warning');
                 $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false));
             }
         } else {
             $msg = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
+			$app->enqueueMessage($msg, 'error');
             $app->redirect(
-                Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false),
-                $msg,
-                'error'
+                Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false)
             );
         }
     }

@@ -11,6 +11,7 @@ namespace Redshop\Mail;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Redshop\Order\Template;
 
 /**
@@ -114,7 +115,10 @@ class Invoice
                 $mailSection,
                 func_get_args()
             )) {
-                \JError::raiseWarning(21, \JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+				Factory::getApplication()->enqueueMessage(
+					\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
+					'warning'
+				);
 
                 return false;
             }
@@ -140,7 +144,10 @@ class Invoice
                 $mailSection,
                 func_get_args()
             )) {
-                \JError::raiseWarning(21, \JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+				Factory::getApplication()->enqueueMessage(
+					\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
+					'warning'
+				);
 
                 return false;
             }

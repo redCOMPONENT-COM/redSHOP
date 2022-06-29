@@ -7,10 +7,13 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 
 ?>
 
@@ -73,18 +76,18 @@ JHtml::_('behavior.formvalidation');
         }
 
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
         if (pressbutton == 'prices') {
             document.adminForm.view.value = 'prices';
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
         if (pressbutton == 'wrapper') {
             document.adminForm.view.value = 'wrapper';
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
@@ -143,7 +146,7 @@ JHtml::_('behavior.formvalidation');
             resetAttributeset();
         }
 
-        submitform(pressbutton);
+		Joomla.submitform(pressbutton);
     };
 
     function oprand_check(s) {
@@ -186,7 +189,7 @@ JHtml::_('behavior.formvalidation');
 <?php if ($this->input->getBool('showbuttons', false)) : ?>
     <fieldset>
         <div style="float: right">
-            <button type="button" onclick="submitbutton('save');"> <?php echo JText::_('COM_REDSHOP_SAVE'); ?> </button>
+            <button type="button" onclick="Joomla.submitbutton('save');"> <?php echo JText::_('COM_REDSHOP_SAVE'); ?> </button>
             <button type="button"
                     onclick="window.parent.SqueezeBox.close();"> <?php echo JText::_('COM_REDSHOP_CANCEL'); ?> </button>
         </div>
@@ -325,3 +328,11 @@ JHtml::_('behavior.formvalidation');
         }
     }
 </script>
+<?php
+echo RedshopLayoutHelper::render(
+	'modal.iframe',
+	[
+		'modalButton' => '.ModalProductDetailButton',
+		'modalFrame' => 'ModalProductDetail',
+	]
+);

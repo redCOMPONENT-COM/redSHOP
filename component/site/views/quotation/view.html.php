@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 
@@ -17,7 +19,7 @@ class RedshopViewQuotation extends RedshopView
         $app = JFactory::getApplication();
 
         $redconfig = Redconfiguration::getInstance();
-        $uri       = JFactory::getURI();
+        $uri       = \Joomla\CMS\Uri\Uri::getInstance();
 
         $Itemid  = $app->input->getInt('Itemid');
         $session = JFactory::getSession();
@@ -30,8 +32,7 @@ class RedshopViewQuotation extends RedshopView
             }
         }
 
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
 
         $model = $this->getModel('quotation');
 

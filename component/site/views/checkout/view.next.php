@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 
@@ -56,7 +58,8 @@ class RedshopViewCheckout extends RedshopView
                 $link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
                     . $usersInfoId . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
                     . $payment_method_id;
-                $app->redirect(Redshop\IO\Route::_($link), $msg);
+				$app->enqueueMessage($msg);
+                $app->redirect(Redshop\IO\Route::_($link));
             }
 
             if ($shipping_rate_id == '' && $cart['free_shipping'] != 1) {
@@ -64,7 +67,8 @@ class RedshopViewCheckout extends RedshopView
                 $link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
                     . $usersInfoId . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
                     . $payment_method_id;
-                $app->redirect(Redshop\IO\Route::_($link), $msg);
+				$app->enqueueMessage($msg);
+                $app->redirect(Redshop\IO\Route::_($link));
             }
         }
 
@@ -73,7 +77,8 @@ class RedshopViewCheckout extends RedshopView
             $link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
                 . $usersInfoId . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
                 . $payment_method_id;
-            $app->redirect(Redshop\IO\Route::_($link), $msg, 'error');
+			$app->enqueueMessage($msg, 'error');
+            $app->redirect(Redshop\IO\Route::_($link));
         }
 
         $paymentinfo     = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
@@ -84,8 +89,7 @@ class RedshopViewCheckout extends RedshopView
         $is_subscription = $paymentparams->get('is_subscription', 0);
 
         if (@$is_creditcard == 1) {
-            /** @scrutinizer ignore-deprecated */
-            JHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
+			HTMLHelper::script('com_redshop/redshop.creditcard.min.js', ['relative' => true]);
         }
 
         if ($is_subscription) {

@@ -9,8 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal', '.joom-box');
-
 $uri              = JURI::getInstance();
 $url              = $uri->root();
 $cat_path         = "/components/com_redshop/assets/images/category/";

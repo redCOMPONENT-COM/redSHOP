@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
+JHTML::_('bootstrap.tooltip');
 JPluginHelper::importPlugin('redshop_promotion');
 $dispatcher = \RedshopHelperUtility::getDispatcher();
 $fields = $this->form->getFieldset('details');

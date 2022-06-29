@@ -183,11 +183,9 @@ $model  = $this->getModel('user');
             ?>
             <tfoot>
             <td colspan="11">
-                <?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-                    <div class="redShopLimitBox">
-                        <?php echo $this->pagination->getLimitBox(); ?>
-                    </div>
-                <?php endif; ?>
+				<div class="redShopLimitBox">
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
                 <?php echo $this->pagination->getListFooter(); ?>
             </td>
             </tfoot>

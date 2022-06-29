@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
         var form = document.adminForm;
 
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
     }

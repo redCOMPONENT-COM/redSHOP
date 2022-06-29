@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -62,10 +64,8 @@ class RedshopViewUser_Detail extends RedshopViewAdmin
         JPluginHelper::importPlugin('redshop_product');
         $this->dispatcher = RedshopHelperUtility::getDispatcher();
 
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/json.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
 
         $this->setLayout('default');
 

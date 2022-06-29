@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
@@ -41,14 +43,10 @@ class RedshopViewCategory extends RedshopViewForm
      */
     public function display($tpl = null)
     {
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.fields.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/json.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/json.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.fields.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
 
         $model = $this->getModel('category');
 

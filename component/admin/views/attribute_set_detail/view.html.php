@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 
@@ -36,17 +38,9 @@ class RedshopViewAttribute_set_detail extends RedshopViewAdmin
 		"
         );
 
-        if (version_compare(JVERSION, '3.0', '<')) {
-            /** @scrutinizer ignore-deprecated */
-            JHtml::stylesheet('com_redshop/redshop.update.min.css', array(), true);
-        }
-
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.attribute-manipulation.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.fields.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.attribute-manipulation.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.fields.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
 
         $uri = JUri::getInstance();
 

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.framework');
+JHtml::_('redshopjquery.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_(
     'redshopjquery.select2',

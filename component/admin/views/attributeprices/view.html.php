@@ -30,7 +30,7 @@ class RedshopViewAttributeprices extends RedshopViewAdmin
         JToolbarHelper::addNew();
         JToolbarHelper::EditList();
         JToolBarHelper::deleteList();
-        $uri = JFactory::getURI();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         $limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
         $limit      = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');

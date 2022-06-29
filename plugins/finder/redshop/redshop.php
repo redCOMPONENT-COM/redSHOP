@@ -177,11 +177,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
         FinderIndexerHelper::getContentExtras($item);
 
         // Index the item.
-        if (version_compare(JVERSION, '3.0', 'ge')) {
-            $this->indexer->index($item);
-        } else {
-            FinderIndexer::getInstance()->index($item);
-        }
+		$this->indexer->index($item);
     }
 
     /**

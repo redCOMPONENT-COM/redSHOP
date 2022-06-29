@@ -7,10 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 JHtml::_('redshopjquery.framework');
-/** @scrutinizer ignore-deprecated */
-JHtml::script('com_redshop/ajaxupload.min.js', false, true);
+HTMLHelper::script('com_redshop/ajaxupload.min.js', ['relative' => true]);
 
 /**
  * $displayData extract

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -111,8 +112,7 @@ class RedshopHelperConfig
         }
 
         // Load redshop script
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.min.js', ['relative' => true]);
 
         JFactory::getDocument()->addScriptDeclaration(
             '

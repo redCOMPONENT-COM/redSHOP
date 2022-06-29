@@ -8,6 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -417,7 +418,7 @@ class RedshopModelSearch extends RedshopModel
         }
 
         JPluginHelper::importPlugin('redshop_product');
-        JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, 0));
+        RedshopHelperUtility::getDispatcher()->trigger('onFilterProduct', array(&$query, 0));
 
         return $query;
     }
@@ -830,13 +831,11 @@ class RedshopModelSearch extends RedshopModel
                             <?php echo $type->type_name; ?>
                             <?php
                             if (strlen($type->tooltip) > 0) {
-                                echo ' ' . JHtml::tooltip(
+								HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+
+                                echo ' ' . JHtml::_('redshop.tooltip',
                                         $type->tooltip,
-                                        $type->type_name,
-                                        'tooltip.png',
-                                        '',
-                                        '',
-                                        ''
+                                        $type->type_name
                                     );
                             } ?>
                         </div>
@@ -874,7 +873,8 @@ class RedshopModelSearch extends RedshopModel
                         <?php echo $type->type_name; ?>
                         <?php
                         if (strlen($type->tooltip) > 0) {
-                            echo ' ' . JHtml::tooltip($type->tooltip, $type->type_name, 'tooltip.png', '', '', '');
+							HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+                            echo ' ' . JHtml::_('redshop.tooltip',$type->tooltip, $type->type_name);
                         } ?>
                     </div>
                     <div class="typevalue <?php echo $type->type_name_css; ?>">
@@ -1093,7 +1093,7 @@ class RedshopModelSearch extends RedshopModel
         );
 
         JPluginHelper::importPlugin('redshop_product');
-        JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, $pk));
+        RedshopHelperUtility::getDispatcher()->trigger('onFilterProduct', array(&$query, $pk));
 
         $data = $db->setQuery($query, 0, $limit)->loadObjectList();
 
@@ -1329,7 +1329,7 @@ class RedshopModelSearch extends RedshopModel
         }
 
         JPluginHelper::importPlugin('redshop_product');
-        JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, $pk));
+        RedshopHelperUtility::getDispatcher()->trigger('onFilterProduct', array(&$query, $pk));
 
         return $query;
     }

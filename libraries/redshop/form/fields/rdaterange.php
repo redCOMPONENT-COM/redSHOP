@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
@@ -53,11 +55,9 @@ class JFormFieldRdaterange extends JFormField
         $onChange   = (isset($this->element['onChange'])) ? (string)$this->element['onChange'] : '';
         $phpFormat  = (isset($this->element['phpFormat'])) ? (string)$this->element['phpFormat'] : 'd/m/Y';
 
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/moment.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/daterangepicker.min.js', false, true);
-        JHtml::stylesheet('com_redshop/daterangepicker.min.css', false, true);
+		HTMLHelper::script('com_redshop/moment.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/daterangepicker.min.js', ['relative' => true]);
+		HTMLHelper::stylesheet('com_redshop/daterangepicker.min.css', ['relative' => true]);
 
         return RedshopLayoutHelper::render(
             'field.date_range',

@@ -23,7 +23,7 @@ class RedshopViewProducttags_detail extends RedshopViewAdmin
     {
         JToolBarHelper::title(JText::_('COM_REDSHOP_TAGS_MANAGEMENT_DETAIL'), 'redshop_textlibrary48');
 
-        $uri = JFactory::getURI();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         $this->setLayout('default');
 

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('JPATH_BASE') or die;
 
 JFormHelper::loadFieldClass('list');
@@ -82,7 +84,7 @@ class JFormFieldCategoriesParent extends JFormFieldList
         try {
             $options = $db->loadObjectList();
         } catch (RuntimeException $e) {
-            JError::raiseWarning(500, $e->getMessage());
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
         }
 
         // Pad the option text with spaces using depth level as a multiplier.

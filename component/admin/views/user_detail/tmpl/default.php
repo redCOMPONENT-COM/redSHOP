@@ -43,12 +43,12 @@ if ($this->pagination->limitstart > 0) {
         var form = document.adminForm;
 
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
         if (pressbutton == 'order') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
 
@@ -60,7 +60,7 @@ if ($this->pagination->limitstart > 0) {
         } else if (form.lastname.value == "") {
             alert("<?php echo JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME', true);?>");
         } else {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
         <?php else: ?>
         if ((form.email.value) == "") {
@@ -128,50 +128,82 @@ if ($this->pagination->limitstart > 0) {
             }
         }
 
-        submitform(pressbutton);
+		Joomla.submitform(pressbutton);
     }
 </script>
 
 <form action="<?php echo Redshop\IO\Route::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
     <?php
-    echo JHtml::_('tabs.start', 'user-pane', array('startOffset' => $tab));
+	$tabMenu = new RedshopMenu;
 
-    if (!$this->shipping) {
-        // Create 1st Tab
-        echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_GENERAL_USER_INFO'), 'tab1');
-        echo $this->loadTemplate('user');
-    }
+	$tabMenu->section('tab');
 
-    $title = ($this->shipping == 1) ? JText::_('COM_REDSHOP_SHIPPING_INFORMATION') : JText::_(
-        'COM_REDSHOP_BILLING_INFORMATION'
-    );
-    echo JHtml::_('tabs.panel', $title, 'tab2');
-    echo $this->loadTemplate('billing');
+	if (!$this->shipping)
+	{
+		$tabMenu->addItem(
+			'#user',
+			'COM_REDSHOP_GENERAL_USER_INFO',
+			$tab == 0,
+			'user'
+		);
+	}
 
-    if (!$this->shipping && $this->detail->user_id != 0 || $cancel == 1) {
-        echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_SHIPPING_INFORMATION'), 'tab3');
-        echo $this->loadTemplate('shipping');
-    }
+	$tabMenu->addItem(
+		'#billing',
+		($this->shipping == 1) ? 'COM_REDSHOP_SHIPPING_INFORMATION' : 'COM_REDSHOP_BILLING_INFORMATION',
+		$tab == 1,
+		'billing'
+	);
 
-    $this->userorders = $this->model->userOrders();
+	if (!$this->shipping && $this->detail->user_id != 0 || $cancel == 1)
+	{
+		$tabMenu->addItem(
+			'#shipping',
+			'COM_REDSHOP_SHIPPING_INFORMATION',
+			$tab == 2,
+			'shipping'
+		);
+	}
 
-    if ($this->detail->user_id && count($this->userorders) > 0) {
-        echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ORDER_INFORMATION'), 'tab4');
-        echo $this->loadTemplate('order');
-    }
+	$this->userorders = $this->model->userOrders();
 
-    if ($this->lists['extra_field'] != "") {
-        echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_EXTRA_FIELD'), 'tab5'); ?>
-        <div class="col50"><?php echo $this->lists ['extra_field']; ?></div><?php
-    } else {
-        echo '<input type="hidden" name="noextra_field" value="1">';
-        echo '<input type="hidden" name="tab5" value="tab5">';
-    }
+	if ($this->detail->user_id && count($this->userorders) > 0)
+	{
+		$tabMenu->addItem(
+			'#order',
+			'COM_REDSHOP_ORDER_INFORMATION',
+			$tab == 3,
+			'order'
+		);
+	}
+
+	if ($this->lists['extra_field'] != "")
+	{
+		$tabMenu->addItem(
+			'#extrafield',
+			'COM_REDSHOP_EXTRA_FIELD',
+			$tab == 4,
+			'extrafield'
+		);
+	}
+	else
+	{
+		echo '<input type="hidden" name="noextra_field" value="1">';
+		echo '<input type="hidden" name="tab5" value="tab5">';
+	}
+
+	$this->dispatcher->trigger('onDisplayUserTabMenu', [$tabMenu, $tab]);
+
+	echo RedshopLayoutHelper::render(
+		'component.full.tab.main',
+		array(
+			'view' => $this,
+			'tabMenu' => $tabMenu->getData('tab')->items,
+		)
+	);
 
     // Echo plugin tabs.
     $this->dispatcher->trigger('onDisplayUserTabs', array($this->detail));
-
-    echo JHtml::_('tabs.end');
 
     if ($this->shipping) {
         $info_id = $jinput->getString('info_id', '');

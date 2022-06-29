@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Toolbar
  * @since       1.5
  */
-class JButtonRedshopLink extends JButton
+class JToolbarButtonRedshopLink extends JButton
 {
     /**
      * Button type
@@ -24,7 +24,7 @@ class JButtonRedshopLink extends JButton
      */
     protected $_name = 'RedshopLink';
 
-    protected $joomlaSuffix = 'j2';
+    protected $joomlaSuffix = 'j3';
 
     /**
      * Fetch the HTML for the button
@@ -45,27 +45,13 @@ class JButtonRedshopLink extends JButton
         $options           = array();
         $options['text']   = JText::_($text);
         $options['class']  = $this->fetchIconClass($name);
-        $options['doTask'] = $this->_getCommand($url);
+        $options['doTask'] = $url;
         $options['target'] = $target;
 
         // Instantiate a new JLayoutFile instance and render the layout
         $layout = new RedshopLayoutFile('toolbar.redshoplink', null, array('suffixes' => array($this->joomlaSuffix)));
 
         return $layout->render($options);
-    }
-
-    /**
-     * Get the JavaScript command for the button
-     *
-     * @param   object  $url  Button definition
-     *
-     * @return  string  JavaScript command string
-     *
-     * @since   1.5
-     */
-    protected function _getCommand($url)
-    {
-        return $url;
     }
 
     /**
@@ -80,20 +66,7 @@ class JButtonRedshopLink extends JButton
      */
     public function fetchId($type = 'RedshopLink', $name = '')
     {
-        return $this->_parent->getName() . '-' . $name;
-    }
-}
-
-if (version_compare(JVERSION, '3.0', '>=')) {
-    /**
-     * Renders a link button
-     *
-     * @package     RedSHOP.Library
-     * @subpackage  Toolbar
-     * @since       1.5
-     */
-    class JToolbarButtonRedshopLink extends JButtonRedshopLink
-    {
-        protected $joomlaSuffix = 'j3';
+        return (method_exists($this, 'getParent') ? $this->getParent() : $this->_parent)->getName()
+			. '-' . $name;
     }
 }

@@ -74,7 +74,7 @@ $editor = JEditor::getInstance();
 
             document.getElementById("jform_section").disabled = false;
 
-            submitform(task);
+			Joomla.submitform(task);
         }
     };
 

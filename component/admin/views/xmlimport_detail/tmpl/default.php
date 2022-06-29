@@ -133,7 +133,7 @@ switch ($this->detail->section_type) {
     submitbutton = function (pressbutton) {
         var form = document.adminForm;
         if (pressbutton == 'cancel') {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
             return;
         }
         if (document.getElementsByName("xmlfiletag[]")) {
@@ -277,7 +277,7 @@ switch ($this->detail->section_type) {
         } else if (form.cntxmlfiletag.value == 0) {
             alert("<?php echo JText::_('COM_REDSHOP_NO_DATA_TO_IMPORT', true); ?>");
         } else {
-            submitform(pressbutton);
+			Joomla.submitform(pressbutton);
         }
     }
 </script>

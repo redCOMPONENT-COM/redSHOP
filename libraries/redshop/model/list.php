@@ -207,7 +207,7 @@ class RedshopModelList extends JModelList
     protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
     {
         // Handle the optional arguments.
-        $options['control'] = JArrayHelper::getValue($options, 'control', false);
+        $options['control'] = \Joomla\Utilities\ArrayHelper::getValue($options, 'control', false);
 
         // Create a signature hash.
         $hash = md5($source . serialize($options));
@@ -327,9 +327,6 @@ class RedshopModelList extends JModelList
         $limit = (int)$this->getState('list.limit') - (int)$this->getState('list.links');
         $page  = new JPagination($this->getTotal(), $this->getStart(), $limit, $this->paginationPrefix);
 
-        // Set the name of the HTML form associated
-        $page->set('formName', $this->htmlFormName);
-
         // Add the object to the internal cache.
         $this->cache[$store] = $page;
 
@@ -422,7 +419,7 @@ class RedshopModelList extends JModelList
         $inputFilter = JFilterInput::getInstance();
 
         // Load the parameters for frontend.
-        $params = $app->isSite() ? $app->getParams() : null;
+        $params = $app->isClient('site') ? $app->getParams() : null;
 
         // Receive & set filters
         if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array')) {

@@ -9,7 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtmlBehavior::modal('a.joom-box');
 $data           = $displayData['this'];
 $productId      = 0;
 $attributeSetId = 0;

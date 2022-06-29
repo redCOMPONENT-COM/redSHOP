@@ -9,10 +9,8 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal', 'a.joom-box');
-
 JPluginHelper::importPlugin('redshop_shipping');
-$dispatcher = JDispatcher::getInstance();
+$dispatcher = RedshopHelperUtility::getDispatcher();
 
 $orderFunctions   = order_functions::getInstance();
 $extraFieldHelper = extra_field::getInstance();

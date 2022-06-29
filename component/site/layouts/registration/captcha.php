@@ -13,7 +13,7 @@ $app = JFactory::getApplication();
 
 $default = JFactory::getConfig()->get('captcha');
 
-if ($app->isSite()) {
+if ($app->isClient('site')) {
     $default = $app->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
 }
 ?>

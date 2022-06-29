@@ -7,24 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 JHtml::_('redshopjquery.framework');
-JHtml::_('behavior.framework', true);
 JHtml::_(
     'redshopjquery.select2',
     'select:not(".disableBootstrapChosen")',
     array("width" => "auto", "dropdownAutoWidth" => "auto")
 );
 
-/** @scrutinizer ignore-deprecated */
-JHtml::script('com_redshop/redshop.attribute.min.js', false, true);
-/** @scrutinizer ignore-deprecated */
-JHtml::script('com_redshop/redshop.common.min.js', false, true);
-/** @scrutinizer ignore-deprecated */
-JHtml::script('com_redshop/redshop.redbox.min.js', false, true);
-/** @scrutinizer ignore-deprecated */
-JHtml::script('com_redshop/bootstrap.min.js', false, true);
+HTMLHelper::script('com_redshop/redshop.attribute.min.js', ['relative' => true]);
+HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
+HTMLHelper::script('com_redshop/redshop.redbox.min.js', ['relative' => true]);
+HTMLHelper::script('com_redshop/bootstrap.min.js', ['relative' => true]);
 
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;

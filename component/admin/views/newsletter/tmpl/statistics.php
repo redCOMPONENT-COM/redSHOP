@@ -62,7 +62,7 @@ $data    .= "[$rowData]";
 	Joomla.submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
-			submitform(pressbutton);
+			Joomla.submitform(pressbutton);
 			return;
 		}
 	}

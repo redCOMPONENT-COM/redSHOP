@@ -25,7 +25,7 @@ $images     = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $sect
     submitbutton = function (pressbutton) {
 
         if (pressbutton == 'save') {
-            submitform('subattribute_color');
+			Joomla.submitform('subattribute_color');
         }
 
     }
@@ -33,7 +33,7 @@ $images     = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $sect
 
 <fieldset class="adminform">
     <div style="float: right">
-        <button type="button" onclick="submitbutton('save');">
+        <button type="button" onclick="Joomla.submitbutton('save');">
             <?php
             echo JText::_('COM_REDSHOP_SAVE');
             ?>

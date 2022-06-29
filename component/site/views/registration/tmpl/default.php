@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 $url = JURI::base();
 $app = JFactory::getApplication();
-JHtml::_('behavior.calendar');
 $Itemid = $app->input->getInt('Itemid');
 $post   = $app->input->post->getArray();
 

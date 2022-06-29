@@ -933,11 +933,7 @@ class RedshopModelImport_Vm extends RedshopModel
                 . 'VALUES (' . $table->product_id . ',' . Redshop::getConfig()->get(
                     'DEFAULT_STOCKROOM'
                 ) . ',' . $productInStock . ')';
-            $db->setQuery($stockQuery);
-
-            if ( ! $db->execute()) {
-                $this->setError($db->getErrorMsg());
-            }
+            $db->setQuery($stockQuery)->execute();
         }
 
         // Product images

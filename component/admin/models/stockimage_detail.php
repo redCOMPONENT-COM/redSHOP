@@ -98,13 +98,13 @@ class RedshopModelStockimage_detail extends RedshopModel
         }
 
         if (!$row->bind($data)) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
-            $this->setError($this->_db->getErrorMsg());
+            $this->setError($row->getError());
 
             return false;
         }
@@ -132,13 +132,7 @@ class RedshopModelStockimage_detail extends RedshopModel
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'stockroom_amount_image '
                 . 'WHERE stock_amount_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         return true;

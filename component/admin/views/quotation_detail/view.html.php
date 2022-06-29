@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 
@@ -26,14 +28,10 @@ class RedshopViewQuotation_detail extends RedshopViewAdmin
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_REDSHOP_QUOTATION'));
 
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.order.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.admin.common.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/json.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/ajaxupload.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.order.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/redshop.admin.common.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
+		HTMLHelper::script('com_redshop/ajaxupload.min.js', ['relative' => true]);
 
         $uri   = JUri::getInstance();
         $lists = array();

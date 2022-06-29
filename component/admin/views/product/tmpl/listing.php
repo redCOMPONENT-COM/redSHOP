@@ -9,7 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal', 'a.joom-box');
 JHtml::_('behavior.formvalidator');
 
 $model = $this->getModel('product');
@@ -178,11 +177,9 @@ $model = $this->getModel('product');
             <tfoot>
             <tr>
                 <td colspan="6">
-                    <?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-                        <div class="redShopLimitBox">
-                            <?php echo $this->pagination->getLimitBox() ?>
-                        </div>
-                    <?php endif; ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox() ?>
+					</div>
                     <?php echo $this->pagination->getListFooter() ?>
                 </td>
             </tr>

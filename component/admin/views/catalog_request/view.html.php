@@ -26,7 +26,7 @@ class RedshopViewCatalog_request extends RedshopViewAdmin
         JToolBarHelper::publishList();
         JToolBarHelper::unpublishList();
 
-        $uri = JFactory::getURI();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'catalog_user_id');
         $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');

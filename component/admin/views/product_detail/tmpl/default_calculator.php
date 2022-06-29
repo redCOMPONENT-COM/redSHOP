@@ -21,7 +21,7 @@ $lists['discount_calc_oprand'] = str_replace($removeFormat['format.indent'], "",
 $lists['discount_calc_oprand'] = str_replace($removeFormat['format.eol'], "", $lists['discount_calc_oprand']);
 
 $app = JFactory::getApplication();
-$cId = $app->input->getInt('cid');
+$cId = $app->input->get('cid', [], 'array')[0] ?? 0;
 
 unset($options);
 
@@ -188,7 +188,7 @@ $stockrooms = $model->StockRoomList();
 									</tr>
 
 									<?php
-										$calcData = \Redshop\Promotion\Discount::getDiscountCalcData(0, $cId[0], 0);
+										$calcData = \Redshop\Promotion\Discount::getDiscountCalcData(0, $cId, 0);
 
 										// ToDo: This should be in view.html.php?
 										for ($i = 0, $in = count($calcData); $i < $in; $i++)
@@ -263,7 +263,7 @@ $stockrooms = $model->StockRoomList();
 									</tr>
 
 									<?php
-										$calcData = \Redshop\Promotion\Discount::getDiscountCalcDataExtra('', $cId[0]);
+										$calcData = \Redshop\Promotion\Discount::getDiscountCalcDataExtra('', $cId);
 
 										for ($i = 0, $in = count($calcData); $i < $in; $i++)
 										{

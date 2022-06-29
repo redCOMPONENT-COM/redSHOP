@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 
@@ -30,8 +32,7 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
         $id       = (int)$app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
         $shipping = RedshopHelperShipping::getShippingMethodById($id);
 
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.admin.common.min.js', false, true);
+		HTMLHelper::script('com_redshop/redshop.admin.common.min.js', ['relative' => true]);
 
         // Load language file of the shipping plugin
         JFactory::getLanguage()->load(

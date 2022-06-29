@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -38,7 +40,7 @@ class RedshopControllerTemplates extends RedshopControllerAdmin
             $model->duplicate($pks);
             $this->setMessage(JText::plural('COM_REDSHOP_N_SUPPLIERS_DUPLICATED', count($pks)));
         } catch (Exception $e) {
-            JError::raiseWarning(500, $e->getMessage());
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=templates');

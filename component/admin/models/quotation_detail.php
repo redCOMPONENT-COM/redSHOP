@@ -147,14 +147,14 @@ class RedshopModelQuotation_detail extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
             return false;
         }
@@ -168,14 +168,14 @@ class RedshopModelQuotation_detail extends RedshopModel
 
                 if (!$rowitem->bind($quotation_item[$i])) {
                     /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                    $this->setError(/** @scrutinizer ignore-deprecated */ $rowitem->getError());
 
                     return false;
                 }
 
                 if (!$rowitem->store()) {
                     /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                    $this->setError(/** @scrutinizer ignore-deprecated */ $rowitem->getError());
 
                     return false;
                 }
@@ -202,58 +202,23 @@ class RedshopModelQuotation_detail extends RedshopModel
         for ($i = 0, $in = count($items); $i < $in; $i++) {
             $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_accessory_item '
                 . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_attribute_item '
                 . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data '
                 . 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
-            $this->_db->setQuery($query);
-
-            if (!$this->_db->execute()) {
-                /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-                return false;
-            }
+            $this->_db->setQuery($query)->execute();
         }
 
         $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item '
             . 'WHERE quotation_id IN ( ' . $cids . ' )';
-        $this->_db->setQuery($query);
-
-        if (!$this->_db->execute()) {
-            /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-            return false;
-        }
+        $this->_db->setQuery($query)->execute();
 
         $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation WHERE quotation_id IN ( ' . $cids . ' )';
-        $this->_db->setQuery($query);
-
-        if (!$this->_db->execute()) {
-            /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-            return false;
-        }
+        $this->_db->setQuery($query)->execute();
 
         return true;
     }
@@ -262,47 +227,19 @@ class RedshopModelQuotation_detail extends RedshopModel
     {
         $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data '
             . 'WHERE quotation_item_id IN ( ' . $cids . ' ) ';
-        $this->_db->setQuery($query);
-
-        if (!$this->_db->execute()) {
-            /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-            return false;
-        }
+        $this->_db->setQuery($query)->execute();
 
         $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_accessory_item '
             . 'WHERE quotation_item_id IN ( ' . $cids . ' )';
-        $this->_db->setQuery($query);
-
-        if (!$this->_db->execute()) {
-            /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-            return false;
-        }
+        $this->_db->setQuery($query)->execute();
 
         $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_attribute_item '
             . 'WHERE quotation_item_id IN ( ' . $cids . ' )';
-        $this->_db->setQuery($query);
-
-        if (!$this->_db->execute()) {
-            /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-            return false;
-        }
+        $this->_db->setQuery($query)->execute();
 
         $query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item '
             . 'WHERE quotation_item_id IN ( ' . $cids . ' )';
-        $this->_db->setQuery($query);
-
-        if (!$this->_db->execute()) {
-            /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-            return false;
-        }
+        $this->_db->setQuery($query)->execute();
 
         // Update Quotation Record
         $QuotationData = $this->getTable('quotation_detail');
@@ -424,7 +361,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
             if (!$qitemdata->store()) {
                 /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                $this->setError(/** @scrutinizer ignore-deprecated */ $qitemdata->getError());
 
                 return false;
             }
@@ -467,7 +404,7 @@ class RedshopModelQuotation_detail extends RedshopModel
                         if ($attributeId > 0) {
                             if (!$rowattitem->store()) {
                                 /** @scrutinizer ignore-deprecated */
-                                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                                $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
 
                                 return false;
                             }
@@ -510,7 +447,7 @@ class RedshopModelQuotation_detail extends RedshopModel
                             if ($propertyId > 0) {
                                 if (!$rowattitem->store()) {
                                     /** @scrutinizer ignore-deprecated */
-                                    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                                    $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
 
                                     return false;
                                 }
@@ -551,7 +488,7 @@ class RedshopModelQuotation_detail extends RedshopModel
                                     if (!$rowattitem->store()) {
                                         /** @scrutinizer ignore-deprecated */
                                         $this->setError(
-                                        /** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg()
+                                        /** @scrutinizer ignore-deprecated */ $rowattitem->getError()
                                         );
 
                                         return false;
@@ -584,7 +521,7 @@ class RedshopModelQuotation_detail extends RedshopModel
                     if ($accessoryId > 0) {
                         if (!$rowaccitem->store()) {
                             /** @scrutinizer ignore-deprecated */
-                            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                            $this->setError(/** @scrutinizer ignore-deprecated */ $rowaccitem->getError());
 
                             return false;
                         }
@@ -611,7 +548,7 @@ class RedshopModelQuotation_detail extends RedshopModel
                     if ($attributeId > 0) {
                         if (!$rowattitem->store()) {
                             /** @scrutinizer ignore-deprecated */
-                            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                            $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
 
                             return false;
                         }
@@ -654,7 +591,7 @@ class RedshopModelQuotation_detail extends RedshopModel
                         if ($propertyId > 0) {
                             if (!$rowattitem->store()) {
                                 /** @scrutinizer ignore-deprecated */
-                                $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                                $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
 
                                 return false;
                             }
@@ -697,7 +634,7 @@ class RedshopModelQuotation_detail extends RedshopModel
                             if ($subPropertyId > 0) {
                                 if (!$rowattitem->store()) {
                                     /** @scrutinizer ignore-deprecated */
-                                    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                                    $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
 
                                     return false;
                                 }
@@ -795,7 +732,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
             return false;
         }
@@ -839,7 +776,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
                 if (!$rowItem->store()) {
                     /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+                    $this->setError(/** @scrutinizer ignore-deprecated */ $rowItem->getError());
 
                     return false;
                 }
@@ -852,7 +789,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
         if (!$orderUser->bind($userRow)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $orderUser->getError());
 
             return false;
         }
@@ -862,7 +799,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
         if (!$orderUser->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+            $this->setError(/** @scrutinizer ignore-deprecated */ $orderUser->getError());
 
             return false;
         }

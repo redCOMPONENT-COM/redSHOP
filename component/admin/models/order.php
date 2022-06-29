@@ -149,7 +149,7 @@ class RedshopModelOrder extends RedshopModel
         $query->order($db->escape($filterOrder . ' ' . $filterOrderDir));
 
         // Get the dispatcher and load the users plugins.
-        $dispatcher = JEventDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
         JPluginHelper::importPlugin('redshop');
 
         // Trigger the data preparation event.
