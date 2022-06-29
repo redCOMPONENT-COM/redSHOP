@@ -78,10 +78,9 @@ $mainImage = $mainImage[0];
                     <td>
                         <input type="file" name="property_main_img" id="property_main_img" value="" size="75"/>
                         <?php
-                        echo JHtml::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_PROPERTY_MAIN_IMAGE'),
-                            JText::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE')
                         );
                         ?>
                     </td>
@@ -103,10 +102,9 @@ $mainImage = $mainImage[0];
                                onclick="addNewRowOfProp('admintable');"
                         />
                         <?php
-                        echo JHtml::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_PROPERTY_SUB_IMAGE'),
-                            JText::_('COM_REDSHOP_PROPERTY_SUB_IMAGE'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_PROPERTY_SUB_IMAGE')
                         );
                         ?>
                     </td>

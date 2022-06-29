@@ -529,12 +529,9 @@ class SiteHelper
 
             if (trim($data->desc) != '' && $fieldType != 'hidden') {
 				HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
-                $exField .= '<div class="userfield_tooltip">&nbsp; ' . \JHtml::tooltip(
+                $exField .= '<div class="userfield_tooltip">&nbsp; ' . \JHtml::_('redshop.tooltip',
                         $data->desc,
-                        $data->name,
-                        'com_redshop/tooltip.png',
-                        '',
-                        ''
+                        $data->name
                     ) . '</div>';
             }
         }

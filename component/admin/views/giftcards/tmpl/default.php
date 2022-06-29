@@ -9,8 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal', 'a.joom-box');
-
 // Create product Helper object
 
 $listOrder = $this->escape($this->state->get('list.ordering'));

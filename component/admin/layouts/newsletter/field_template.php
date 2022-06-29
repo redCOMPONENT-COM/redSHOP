@@ -28,10 +28,9 @@ echo $htmlField;
 <div class="form-group row-fluid">
     <div class="col-md-offset-2 col-md-10">
         <?php
-        echo HTMLHelper::tooltip(
+        echo HTMLHelper::_('redshop.tooltip',
             JText::_('COM_REDSHOP_TOOLTIP_TEMPLATE'),
-            JText::_('COM_REDSHOP_TEMPLATE'),
-            'com_redshop/tooltip.png'
+            JText::_('COM_REDSHOP_TEMPLATE')
         )
         ?>
         <a href="index.php?option=com_redshop&task=template.edit&id=<?php echo $item->template_id ?>"

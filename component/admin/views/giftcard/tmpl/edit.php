@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidator');
-JHtml::_('bootstrap.modal', 'a.joom-box');
 
 if ($this->item->giftcard_id) {
     $this->form->setValue('giftcard_price', null, RedshopHelperProduct::redpriceDecimal($this->item->giftcard_price));

@@ -25,10 +25,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                     <label for="append_to_global_seo">
                         <?php echo JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO_LBL'); ?>
                         <?php
-                        echo JHtml::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_APPEND_TO_GLOBAL_SEO_LBL'),
-                            JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO_LBL'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO_LBL')
                         );
                         ?>
                     </label>
@@ -38,10 +37,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                 <div class="form-group">
                     <label for="pagetitle">
                         <?php echo JText::_('COM_REDSHOP_PAGE_TITLE'); ?>
-                        <?php echo JHtml::tooltip(
+                        <?php echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_PAGE_TITLE'),
-                            JText::_('COM_REDSHOP_PAGE_TITLE'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_PAGE_TITLE')
                         ); ?>
                     </label>
                     <input class="form-control" type="text" name="pagetitle" id="pagetitle" size="75"
@@ -51,10 +49,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                 <div class="form-group">
                     <label for="pageheading">
                         <?php echo JText::_('COM_REDSHOP_PAGE_HEADING'); ?>
-                        <?php echo JHtml::tooltip(
+                        <?php echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_PAGE_HEADING'),
-                            JText::_('COM_REDSHOP_PAGE_HEADING'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_PAGE_HEADING')
                         ); ?>
                     </label>
                     <input class="form-control" type="text" name="pageheading" id="pageheading" size="75"
@@ -64,10 +61,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                 <div class="form-group">
                     <label for="sef_url">
                         <?php echo JText::_('COM_REDSHOP_SEF_URL'); ?>
-                        <?php echo JHtml::tooltip(
+                        <?php echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_SEF_URL'),
-                            JText::_('COM_REDSHOP_SEF_URL'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_SEF_URL')
                         ); ?>
                     </label>
                     <input class="form-control" type="text" name="sef_url" id="sef_url" size="75"
@@ -78,10 +74,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                     <label for="canonical_url">
                         <?php echo JText::_('COM_REDSHOP_CANONICAL_URL_PRODUCT'); ?>
                         <?php
-                        echo JHtml::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_CANONICAL_URL_PRODUCT'),
-                            JText::_('COM_REDSHOP_CANONICAL_URL_PRODUCT'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_CANONICAL_URL_PRODUCT')
                         );
                         ?>
                         <br/>
@@ -110,10 +105,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                     <label for="cat_in_sefurl">
                         <?php echo JText::_('COM_REDSHOP_SELECT_CATEGORY_TO_USEIN_SEF'); ?>
                         <?php
-                        echo JHtml::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_SELECT_CATEGORY_TO_USEIN_SEF'),
-                            JText::_('COM_REDSHOP_SELECT_CATEGORY_TO_USEIN_SEF'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_SELECT_CATEGORY_TO_USEIN_SEF')
                         );
                         ?>
                     </label>
@@ -129,10 +123,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                 <div class="form-group">
                     <label for="metakey">
                         <?php echo JText::_('COM_REDSHOP_META_KEYWORDS'); ?>
-                        <?php echo JHtml::tooltip(
+                        <?php echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_META_KEYWORDS'),
-                            JText::_('COM_REDSHOP_META_KEYWORDS'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_META_KEYWORDS')
                         ); ?>
                     </label>
                     <textarea class="text_area" name="metakey" id="metakey" rows="4"
@@ -143,10 +136,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                     <label for="metadesc">
                         <?php echo JText::_('COM_REDSHOP_META_DESCRIPTION'); ?>
                         <?php
-                        echo JHtml::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_META_DESCRIPTION'),
-                            JText::_('COM_REDSHOP_META_DESCRIPTION'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_META_DESCRIPTION')
                         );
                         ?>
                     </label>
@@ -158,10 +150,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                     <label for="metalanguage_setting">
                         <?php echo JText::_('COM_REDSHOP_META_LANG_SETTING'); ?>
                         <?php
-                        echo JHtml::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_META_LANG_SETTING'),
-                            JText::_('COM_REDSHOP_META_LANG_SETTING'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_META_LANG_SETTING')
                         );
                         ?>
                     </label>
@@ -176,10 +167,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                     <label for="metarobot_info">
                         <?php echo JText::_('COM_REDSHOP_META_ROBOT_INFO'); ?>
                         <?php
-                        echo JHtml::tooltip(
+                        echo JHtml::_('redshop.tooltip',
                             JText::_('COM_REDSHOP_TOOLTIP_META_ROBOT_INFO'),
-                            JText::_('COM_REDSHOP_META_ROBOT_INFO'),
-                            'com_redshop/tooltip.png'
+                            JText::_('COM_REDSHOP_META_ROBOT_INFO')
                         );
                         ?>
                     </label>

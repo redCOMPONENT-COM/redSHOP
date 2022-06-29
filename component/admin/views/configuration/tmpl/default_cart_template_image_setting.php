@@ -9,8 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal', 'a.joom-box');
-
 $url = JUri::root();
 $addToCartPath = "/components/com_redshop/assets/images/";
 ?>

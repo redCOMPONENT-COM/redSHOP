@@ -120,10 +120,9 @@ echo Redshop\IO\Route::_($this->request_url) ?>" method="post"
                                            size="32" maxlength="250"
                                            value="<?php echo $this->detail->attribute_set_name; ?>"/>
                                     <?php
-                                    echo HTMLHelper::tooltip(
+                                    echo HTMLHelper::_('redshop.tooltip',
                                         JText::_('COM_REDSHOP_TOOLTIP_ATTRIBUTE_SET_NAME'),
-                                        JText::_('COM_REDSHOP_ATTRIBUTE_SET_NAME'),
-                                        'com_redshop/tooltip.png'
+                                        JText::_('COM_REDSHOP_ATTRIBUTE_SET_NAME')
                                     );
                                     ?>                </td>
                             </tr>

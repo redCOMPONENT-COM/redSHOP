@@ -219,3 +219,12 @@ if ($app->input->getInt('dashboard', 0)) {
         return xhr;
     }
 </script>
+<?php
+echo RedshopLayoutHelper::render(
+	'modal.iframe',
+	[
+		'modalButton' => '.ModalConfigDetailButton',
+		'modalFrame' => 'ModalConfigDetail',
+	]
+);
+

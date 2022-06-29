@@ -9,7 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal', 'a.joom-box');
 $data           = $displayData['this'];
 $productId      = 0;
 $attributeSetId = 0;

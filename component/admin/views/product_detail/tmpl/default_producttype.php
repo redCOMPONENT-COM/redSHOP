@@ -191,20 +191,18 @@ $total_serial        = count($productSerialDetail);
                                 <th>
                                     <?php
                                     echo JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD') . " ";
-                                    echo JHtml::tooltip(
+                                    echo JHtml::_('redshop.tooltip',
                                         JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD_TIP'),
-                                        JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD'),
-                                        'com_redshop/tooltip.png'
+                                        JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD')
                                     );
                                     ?>
                                 </th>
                                 <th>
                                     <?php echo JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE'); ?>
                                     <?php
-                                    echo JHtml::tooltip(
+                                    echo JHtml::_('redshop.tooltip',
                                         JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE_TIP'),
-                                        JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE'),
-                                        'com_redshop/tooltip.png'
+                                        JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE')
                                     );
                                     ?>
                                 </th>

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal', 'a.joom-box');
-
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 

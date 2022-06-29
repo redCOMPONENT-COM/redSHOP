@@ -2257,7 +2257,8 @@ input[type="search"] {
     margin-left: 10px;
 }
 
-.form-group span.hasTooltip img {
+.form-group span.hasTooltip img,
+.form-group span.hasPopover img {
     max-width: 14px;
 }
 

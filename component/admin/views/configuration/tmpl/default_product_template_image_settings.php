@@ -9,7 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal', 'a.joom-box');
 $ord_path = "/components/com_redshop/assets/images/";
 
 echo RedshopLayoutHelper::render(

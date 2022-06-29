@@ -36,10 +36,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                                     </td>
                                     <td>
                                         <?php
-                                        echo JHtml::tooltip(
+                                        echo JHtml::_('redshop.tooltip',
                                             JText::_('COM_REDSHOP_TOOLTIP_ECONOMIC_ACCOUNTGROUP_LBL'),
-                                            JText::_('COM_REDSHOP_ECONOMIC_ACCOUNTGROUP_LBL'),
-                                            'com_redshop/tooltip.png'
+                                            JText::_('COM_REDSHOP_ECONOMIC_ACCOUNTGROUP_LBL')
                                         );
                                         ?>
                                     </td>
@@ -62,10 +61,9 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                                     </td>
                                     <td>
                                         <?php
-                                        echo JHtml::tooltip(
+                                        echo JHtml::_('redshop.tooltip',
                                             JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL'),
-                                            JText::_('COM_REDSHOP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL'),
-                                            'com_redshop/tooltip.png'
+                                            JText::_('COM_REDSHOP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL')
                                         );
                                         ?>
                                     </td>

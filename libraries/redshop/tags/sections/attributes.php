@@ -423,12 +423,9 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             if (strpos($attributeTable, '{attribute_tooltip}') !== false) {
                 if (!empty($attribute->attribute_description)) {
 					HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
-                    $replaceAttr['{attribute_tooltip}'] = JHTML::tooltip(
+                    $replaceAttr['{attribute_tooltip}'] = JHtml::_('redshop.tooltip',
                         $attribute->attribute_description,
-                        $attribute->attribute_description,
-                        'com_redshop/tooltip.png',
-                        '',
-                        ''
+                        $attribute->attribute_description
                     );
                 } else {
                     $replaceAttr['{attribute_tooltip}'] = '';
