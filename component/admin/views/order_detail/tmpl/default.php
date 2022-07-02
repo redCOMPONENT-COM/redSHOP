@@ -480,6 +480,12 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                         </div>
                         <div class="box-body">
                             <table class="adminlist table table-striped no-margin">
+                                <?php if ($isCompany) { ?>
+                                    <tr>
+                                        <td align="right"><?php echo JText::_('COM_REDSHOP_COMPANY'); ?>:</td>
+                                        <td><?php echo(!empty($billing->company_name) ? $billing->company_name : ''); ?></td>
+                                    </tr>
+                                <?php } ?>
                                 <tr>
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:</td>
                                     <td><?php echo(!empty($billing->firstname) ? $billing->firstname : ''); ?></td>
@@ -488,12 +494,6 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</td>
                                     <td><?php echo(!empty($billing->lastname) ? $billing->lastname : ''); ?></td>
                                 </tr>
-                                <?php if ($isCompany) { ?>
-                                    <tr>
-                                        <td align="right"><?php echo JText::_('COM_REDSHOP_COMPANY'); ?>:</td>
-                                        <td><?php echo(!empty($billing->company_name) ? $billing->company_name : ''); ?></td>
-                                    </tr>
-                                <?php } ?>
                                 <tr>
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</td>
                                     <td><?php echo(!empty($billing->address) ? $billing->address : ''); ?></td>
