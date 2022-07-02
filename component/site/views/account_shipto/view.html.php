@@ -110,6 +110,7 @@ class RedshopViewAccount_Shipto extends RedshopView
                 $shippingAddresses->users_info_id
             );
             $post                             = [];
+            $post['company_name_ST']          = $shippingAddresses->company_name;
             $post['firstname_ST']             = $shippingAddresses->firstname;
             $post['lastname_ST']              = $shippingAddresses->lastname;
             $post['address_ST']               = $shippingAddresses->address;
@@ -120,6 +121,12 @@ class RedshopViewAccount_Shipto extends RedshopView
             $post['state_code_ST']            = $shippingAddresses->state_code;
             $layout                           = 'form';
 
+            if (!empty($post['company_name_ST'])) {
+                $isCompanyVal = 1;
+            } else {
+                $isCompanyVal = 0;
+            }
+
             $dispatcher = RedshopHelperUtility::getDispatcher();
             JPluginHelper::importPlugin('redshop_shipping');
             $dispatcher->trigger('onRenderCustomField', array($infoId));
@@ -129,7 +136,7 @@ class RedshopViewAccount_Shipto extends RedshopView
                 '',
                 array(
                     'data'      => $post,
-                    'isCompany' => $billingAddress->is_company,
+                    'isCompany' => $isCompanyVal,
                     'lists'     => $lists
                 )
             );
