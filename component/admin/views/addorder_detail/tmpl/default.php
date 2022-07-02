@@ -500,6 +500,19 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                             <div id="order_shipping_div" style="display:<?php echo $shippingblock; ?>;">
                                 <table class="adminlist" border="0" width="100%" align="center">
                                     <tr>
+                                        <td width="100" align="right"><?php echo JText::_('COM_REDSHOP_REGISTER_AS'); ?>
+                                            :
+                                        </td>
+                                        <td><?php echo $this->lists['is_company'];?></td>
+                                    </tr>
+                                    <tr>
+										<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>
+                                            :
+                                        </td>
+                                        <td><input class="inputbox" type="text" name="company_name_ST" maxlength="250"
+                                                    value="<?php echo $shipping->company_name; ?>"/></td>
+                                    </tr>
+                                    <tr>
                                         <td width="100" align="right"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>
                                             :
                                         </td>
