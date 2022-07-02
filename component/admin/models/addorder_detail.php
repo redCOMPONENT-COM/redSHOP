@@ -150,8 +150,13 @@ class RedshopModelAddorder_detail extends RedshopModel
                 $data['requesting_tax_exempt'] = $reduser->requesting_tax_exempt;
                 $data['shopper_group_id']      = $reduser->shopper_group_id;
                 $data['tax_exempt_approved']   = $reduser->tax_exempt_approved;
-                $data['company_name']          = $reduser->company_name;
                 $data['vat_number']            = $reduser->vat_number;
+
+                $data['is_company_ST']         = ($data['company_name_ST'] != "") ? 1 : 0;
+
+                if ($data['company_name_ST'] == "") {
+                    $data['company_name_ST'] = $data['company_name'];
+                }
 
                 if ($data['firstname_ST'] == "") {
                     $data['firstname_ST'] = $data['firstname'];
@@ -815,7 +820,27 @@ class RedshopModelAddorder_detail extends RedshopModel
         $states                 = RedshopHelperWorld::getStateList((array)$shipping, "state_code_ST", "ST");
         $lists['state_code_ST'] = $states['state_dropdown'];
 
+        $isCompanySt           = array();
+        $isCompanySt[0]        = new stdClass;
+        $isCompanySt[0]->value = 0;
+        $isCompanySt[0]->text  = JText::_('COM_REDSHOP_USER_CUSTOMER');
+        $isCompanySt[1]        = new stdClass;
+        $isCompanySt[1]->value = 1;
+        $isCompanySt[1]->text  = JText::_('COM_REDSHOP_USER_COMPANY');
+        $lists['is_company_ST'] = JHTML::_(
+            'select.genericlist',
+            $isCompanySt,
+            'is_company_ST',
+            'class="inputbox" ',
+            'value',
+            'text'
+        );
+
         $html = '<table class="adminlist" border="0" width="100%">';
+        $html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_REGISTER_AS') . ':</td>';
+        $html .= '<td>' . $lists['is_company_ST'] . '</td></tr>';
+        $html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_COMPANY_NAME') . ':</td>';
+        $html .= '<td><input class="inputbox" type="text" name="company_name_ST" maxlength="250" value="' . $shipping->company_name . '" /></td></tr>';
         $html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_FIRSTNAME') . ':</td>';
         $html .= '<td><input class="inputbox" type="text" name="firstname_ST" maxlength="250" value="' . $shipping->firstname . '" /></td></tr>';
         $html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_LASTNAME') . ':</td>';
@@ -846,6 +871,7 @@ class RedshopModelAddorder_detail extends RedshopModel
         $detail                = new stdClass;
         $detail->billisship    = (isset($post['billisship'])) ? $post['billisship'] : 1;
         $detail->users_info_id = (isset($post['users_info_id'])) ? $post['users_info_id'] : 0;
+        $detail->company_name  = (isset($post['company_name_ST'])) ? $post['company_name_ST'] : null;
         $detail->firstname     = (isset($post['firstname_ST'])) ? $post['firstname_ST'] : null;
         $detail->lastname      = (isset($post['lastname_ST'])) ? $post['lastname_ST'] : null;
         $detail->country_code  = (isset($post['country_code_ST'])) ? $post['country_code_ST'] : null;
