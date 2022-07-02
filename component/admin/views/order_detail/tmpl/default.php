@@ -585,6 +585,12 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                         </div>
                         <div class="box-body">
                             <table class="adminlist table table-striped no-margin">
+                                <?php if ($shipping->is_company == 1) { ?>
+                                    <tr>
+                                        <td align="right"><?php echo JText::_('COM_REDSHOP_COMPANY'); ?>:</td>
+                                        <td><?php echo(!empty($shipping->company_name) ? $shipping->company_name : ''); ?></td>
+                                    </tr>
+                                <?php } ?>
                                 <tr>
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:</td>
                                     <td><?php echo(!empty($shipping->firstname) ? $shipping->firstname : ''); ?></td>
