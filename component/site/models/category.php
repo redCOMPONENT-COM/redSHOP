@@ -142,6 +142,7 @@ class RedshopModelCategory extends RedshopModel
     {
         JPluginHelper::importPlugin('redshop_product');
 
+        $app     = JFactory::getApplication();
         $db      = JFactory::getDbo();
         $user    = JFactory::getUser();
         $orderBy = $this->buildProductOrderBy();
@@ -155,7 +156,7 @@ class RedshopModelCategory extends RedshopModel
 
         $query = $db->getQuery(true);
 
-        $manufacturerId = $this->getState('manufacturer_id');
+        $manufacturerId = $app->input->get('filter_by');
         $endlimit       = $this->getState('list.limit');
         $limitstart     = $this->getState('list.start');
         $sort           = "";
