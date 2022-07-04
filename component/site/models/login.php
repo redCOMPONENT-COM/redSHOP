@@ -31,9 +31,10 @@ class RedshopModelLogin extends RedshopModel
         $credentials             = array();
         $credentials['username'] = $username;
         $credentials['password'] = $password;
+        $options['remember']    = $app->input->getBool('remember', false);
 
         // Perform the login action
-        $error = $app->login($credentials);
+        $error = $app->login($credentials, $options);
 
         if ($error instanceof JException && !empty($error->getMessage())) {
             $msg = "<a href='" . Redshop\IO\Route::_('index.php?option=com_users&view=reset') . "'>" . JText::_(

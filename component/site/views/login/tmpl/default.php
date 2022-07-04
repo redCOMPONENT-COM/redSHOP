@@ -40,6 +40,10 @@ $thirdPartyLogin = Redshop\Helper\Login::getThirdPartyLogin();
         </div>
 
         <div class="form-group">
+            <div>
+                <input id="modlgn-remember" type="checkbox" name="remember" class="col-sm-offset-3" value="1"/>
+                <label for="modlgn-remember" class="control-label f-merri fw-300"><?php echo JText::_('COM_REDSHOP_REMEMBER_ME'); ?></label>
+            </div>
             <div class="col-sm-offset-3 col-sm-9">
                 <a href="<?php echo Redshop\IO\Route::_($newuser_link); ?>">
                     <?php echo JText::_('COM_REDSHOP_CREATE_USER_LINK'); ?></a>&nbsp;/&nbsp;<a
