@@ -296,6 +296,26 @@ class RedshopControllerOrder_Detail extends RedshopController
         } else {
             $product_data = \Redshop\Product\Product::getProductById($row['product_id']);
 
+            if (!isset($product_data))
+            {
+                $app->enqueueMessage($row['order_item_name'] . ": " . \Joomla\CMS\Language\Text::_("COM_REDSHOP_PRODUCT_DOES_NOT_EXISTS"), 'warning');
+
+                return;
+            }
+
+            if ($product_data->expired == 1 || $product_data->not_for_sale == 1) {
+                $app->enqueueMessage(
+                    \Joomla\CMS\Language\Text::sprintf(
+                        'COM_REDSHOP_PRODUCT_IS_EXPIRED',
+                        $product_data->product_name,
+                        $product_data->product_id
+                    ),
+                    'warning'
+                );
+
+                return;
+            }
+
             if ($product_data->product_type == 'subscription') {
                 $productSubscription = RedshopHelperProduct::getUserProductSubscriptionDetail($row['order_item_id']);
 
@@ -355,29 +375,8 @@ class RedshopControllerOrder_Detail extends RedshopController
                 );
             }
         } else {
-            $ItemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $row['product_id']);
-
-            if (count($ItemData) > 0) {
-                $Itemid = $ItemData->id;
-            } else {
-                $Itemid = RedshopHelperRouter::getItemId($row['product_id']);
-            }
-
-            $errorMessage = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
-
-            if (/** @scrutinizer ignore-deprecated */ JError::isError(
-            /** @scrutinizer ignore-deprecated */ JError::getError()
-            )) {
-                $errorMessage = /** @scrutinizer ignore-deprecated */
-                    JError::getError()->getMessage();
-            }
-
-            $app->redirect(
-                Redshop\IO\Route::_(
-                    'index.php?option=com_redshop&view=product&pid=' . $row['product_id'] . '&Itemid=' . $Itemid,
-                    false
-                ),
-                $errorMessage
+            $app->enqueueMessage(
+                $row['order_item_name'] . ": " . \Joomla\CMS\Language\Text::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART")
             );
         }
     }
