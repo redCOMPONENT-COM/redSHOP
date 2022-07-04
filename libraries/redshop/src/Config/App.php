@@ -509,6 +509,8 @@ class App
             "RATING_REVIEW_LOGIN_REQUIRED"                 => $data["rating_review_login_required"],
             "WEBPACK_ENABLE_SMS"                           => $data["webpack_enable_sms"],
             "WEBPACK_ENABLE_EMAIL_TRACK"                   => $data["webpack_enable_email_track"],
+            'PACSOFT_SET_ADDRESS'                          => $data['pacsoft_set_address'],
+            'SET_REFERENCE'                                => $data['set_reference'],
             "STATISTICS_ENABLE"                            => $data["statistics_enable"],
             "NEWSLETTER_ENABLE"                            => $data["newsletter_enable"],
             "NEWSLETTER_CONFIRMATION"                      => $data["newsletter_confirmation"],
