@@ -1035,9 +1035,15 @@ class RedshopHelperProductTag
                 $commonId    = $prefix . $productId . '_' . $accessoryId . '_' . $attribute->attribute_id;
                 $hiddenAttId = 'attribute_id_' . $prefix . $productId . '_' . $accessoryId;
                 $propertyId  = 'property_id_' . $commonId;
+	            $selectedProperty = 0;
 
                 foreach ($properties as $property) {
                     $attributesPropertyVat = 0;
+
+	                if ($property->setdefault_selected == 1)
+	                {
+		                $selectedProperty = $property->value;
+	                }
 
                     if ($property->property_price > 0) {
                         $propertyOprand = $property->oprand;
@@ -1083,7 +1089,7 @@ class RedshopHelperProductTag
                 $newProperty = array_merge($tmpArray, $properties);
                 $checkList   = "";
 
-                if ($attribute->allow_multiple_selection) {
+                if ($attribute->display_type == 'radio') {
                     foreach ($properties as $property) {
                         if ($attribute->attribute_required == 1) {
                             $required = "required='" . $attribute->attribute_required . "'";
@@ -1091,11 +1097,14 @@ class RedshopHelperProductTag
                             $required = "";
                         }
 
-                        $checkList .= "<br /><input type='checkbox' value='" . $property->value . "' name='"
-                            . $propertyId . "[]' id='" . $propertyId . "' class='inputbox' attribute_name='"
-                            . $attribute->attribute_name . "' required='" . $required
-                            . "' onchange='javascript:changeOfflinePropertyDropdown(\"" . $productId . "\",\"" . $accessoryId
-                            . "\",\"" . $attribute->attribute_id . "\",\"" . $uniqueId . "\");'  />&nbsp;" . $property->text;
+	                    $inputType = ($attribute->allow_multiple_selection) ? 'checkbox' : 'radio';
+	                    $checked = ($property->setdefault_selected) ? 'checked' : '';
+
+	                    $checkList .= "<br /><input type='".$inputType."' value='" . $property->value . "' name='"
+		                    . $propertyId . "[]' id='" . $propertyId . "' class='inputbox' attribute_name='"
+		                    . $attribute->attribute_name . "' ".$checked." required='" . $required
+		                    . "' onchange='javascript:changeOfflinePropertyDropdown(\"" . $productId . "\",\"" . $accessoryId
+		                    . "\",\"" . $attribute->attribute_id . "\",\"" . $uniqueId . "\");'  />&nbsp;" . $property->text;
                     }
                 } else {
                     $checkList = JHtml::_(
@@ -1109,7 +1118,7 @@ class RedshopHelperProductTag
                         . '\');" ',
                         'value',
                         'text',
-                        ''
+                        $selectedProperty
                     );
                 }
 

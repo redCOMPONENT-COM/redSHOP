@@ -142,6 +142,7 @@ class RedshopModelCategory extends RedshopModel
     {
         JPluginHelper::importPlugin('redshop_product');
 
+        $app     = JFactory::getApplication();
         $db      = JFactory::getDbo();
         $user    = JFactory::getUser();
         $orderBy = $this->buildProductOrderBy();
@@ -155,7 +156,7 @@ class RedshopModelCategory extends RedshopModel
 
         $query = $db->getQuery(true);
 
-        $manufacturerId = $this->getState('manufacturer_id');
+        $manufacturerId = $app->input->get('filter_by');
         $endlimit       = $this->getState('list.limit');
         $limitstart     = $this->getState('list.start');
         $sort           = "";
@@ -811,7 +812,7 @@ class RedshopModelCategory extends RedshopModel
                     Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=category&layout=' . $layout . '&cid=' . $this->_id . '&manufacturer_id=' . $manufacturerId
                         . '&Itemid=' . $app->input->getInt('Itemid', 0),
-                        true
+                        false
                     )
                 );
             }

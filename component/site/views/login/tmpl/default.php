@@ -31,15 +31,19 @@ $thirdPartyLogin = Redshop\Helper\Login::getThirdPartyLogin();
         <p><?php echo JText::_('COM_REDSHOP_LOGIN_DESCRIPTION'); ?></p>
         <div class="form-group">
             <label class="col-sm-3 control-label"><?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:</label>
-            <div class="col-sm-9"><input class="inputbox" type="text" id="username" name="username"/></div>
+            <div class="col-sm-9"><input class="inputbox" type="text" id="username" name="username" autocomplete="username"/></div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-3 control-label"><?php echo JText::_('COM_REDSHOP_PASSWORD'); ?>:</label>
-            <div class="col-sm-9"><input class="inputbox" id="password" name="password" type="password"/></div>
+            <div class="col-sm-9"><input class="inputbox" id="password" name="password" type="password" autocomplete="current-password"/></div>
         </div>
 
         <div class="form-group">
+            <div>
+                <input id="modlgn-remember" type="checkbox" name="remember" class="col-sm-offset-3" value="1"/>
+                <label for="modlgn-remember" class="control-label f-merri fw-300"><?php echo JText::_('COM_REDSHOP_REMEMBER_ME'); ?></label>
+            </div>
             <div class="col-sm-offset-3 col-sm-9">
                 <a href="<?php echo Redshop\IO\Route::_($newuser_link); ?>">
                     <?php echo JText::_('COM_REDSHOP_CREATE_USER_LINK'); ?></a>&nbsp;/&nbsp;<a

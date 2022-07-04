@@ -323,7 +323,7 @@ class RedshopViewCategory extends RedshopView
             $disabled = "disabled";
         }
 
-        $manufacturerId = $model->getState('manufacturer_id');
+        $manufacturerId = $this->app->input->get('filter_by');
 
         $lists['category_template'] = "";
         $lists['manufacturer']      = "";
@@ -339,7 +339,7 @@ class RedshopViewCategory extends RedshopView
             $lists['manufacturer'] = JHtml::_(
                 'select.genericlist',
                 $manufacturers,
-                'manufacturer_id',
+                'filter_by',
                 'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
                 'id',
                 'name',

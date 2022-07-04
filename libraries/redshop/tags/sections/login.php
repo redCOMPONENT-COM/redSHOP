@@ -36,10 +36,11 @@ class RedshopTagsSectionsLogin extends RedshopTagsAbstract
         $txtUsername = RedshopLayoutHelper::render(
             'tags.common.input',
             array(
-                'id'    => 'username',
-                'name'  => 'username',
-                'class' => 'inputbox',
-                'type'  => 'text'
+                'id'           => 'username',
+                'name'         => 'username',
+                'class'        => 'inputbox',
+                'autocomplete' => 'username',
+                'type'         => 'text'
             ),
             '',
             $layoutOption
@@ -63,10 +64,11 @@ class RedshopTagsSectionsLogin extends RedshopTagsAbstract
         $txtPassword = RedshopLayoutHelper::render(
             'tags.common.input',
             array(
-                'id'    => 'password',
-                'name'  => 'password',
-                'class' => 'inputbox',
-                'type'  => 'password'
+                'id'           => 'password',
+                'name'         => 'password',
+                'class'        => 'inputbox',
+                'autocomplete' => 'current-password',
+                'type'         => 'password'
             ),
             '',
             $layoutOption
