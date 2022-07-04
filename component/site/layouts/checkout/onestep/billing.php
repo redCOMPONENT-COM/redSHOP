@@ -65,12 +65,12 @@ $input = JFactory::getApplication()->input;
         <div class="form-group">
             <label><?php echo JText::_('COM_REDSHOP_PASSWORD_REGISTER') ?></label>
             <input class="inputbox form-control required" type="password" name="password1"
-                   id="password1" size="32" maxlength="250" value=""/>
+                   id="password1" autocomplete="new-password" size="32" maxlength="250" value=""/>
         </div>
         <div class="form-group">
             <label><?php echo JText::_('COM_REDSHOP_CONFIRM_PASSWORD') ?></label>
             <input class="inputbox form-control required" type="password" name="password2"
-                   id="password2" size="32" maxlength="250" value=""/>
+                   id="password2" autocomplete="new-password" size="32" maxlength="250" value=""/>
         </div>
         <hr/>
     </div>
