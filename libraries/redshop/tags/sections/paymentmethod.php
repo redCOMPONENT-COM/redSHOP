@@ -11,6 +11,7 @@ use Joomla\Utilities\ArrayHelper;
 
 defined('_JEXEC') || die;
 
+use \Joomla\CMS\Factory;
 /**
  * Tags replacer abstract class
  *
@@ -33,7 +34,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
      */
     public function replace()
     {
-        $userId = JFactory::getUser()->id;
+        $userId = Factory::getUser()->id;
 
         $paymentMethods = RedshopHelperPayment::info();
 
@@ -161,15 +162,25 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
             $displayPayment  = "";
             include_once JPATH_SITE . '/plugins/redshop_payment/' . $oneMethod->name . '/' . $oneMethod->name . '.php';
 
-            $lang = JFactory::getLanguage();
+            $lang = Factory::getLanguage();
             $lang->load('plg_redshop_payment_' . $oneMethod->name, JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
-            $privatePerson = $oneMethod->params->get('private_person', '');
-            $business      = $oneMethod->params->get('business', '');
-            $isCreditCard  = (boolean)$oneMethod->params->get('is_creditcard', 0);
-            $checked       = $this->data['paymentMethodId'] === $oneMethod->name || $totalPaymentMethod <= 1;
-            $logo          = $oneMethod->params->get('logo', '');
-            $showImage     = (!empty($logo) && JFile::exists(JPATH_ROOT . '/' . $logo)) ? 1 : 0;
+            $privatePerson  = $oneMethod->params->get('private_person', '');
+            $business       = $oneMethod->params->get('business', '');
+            $isCreditCard   = (boolean)$oneMethod->params->get('is_creditcard', 0);
+            $checked        = $this->data['paymentMethodId'] === $oneMethod->name || $totalPaymentMethod <= 1;
+            $logo           = $oneMethod->params->get('logo', '');
+            $showImage      = ( ! empty($logo) && JFile::exists(JPATH_ROOT.'/'.$logo)) ? 1 : 0;
+            $isShowOnGuest  = $oneMethod->params->get('is_show_guest', 1);
+            $isShowOnMember = $oneMethod->params->get('is_show_member', 1);
+
+            if (
+                (!$isShowOnGuest && Factory::getUser()->guest == 1) ||
+                (!$isShowOnMember && Factory::getUser()->guest == 0)
+            )
+            {
+                return '';
+            }
 
             $paymentRadioOutput = RedshopLayoutHelper::render(
                 'tags.payment_method.payment_radio',
@@ -227,7 +238,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
             if ($isCreditCard) {
                 $cardInformation = '<div id="divcardinfo_' . $oneMethod->name . '">';
 
-                $cart = JFactory::getSession()->get('cart');
+                $cart = Factory::getSession()->get('cart');
 
                 if ($checked && Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE') && $cart['total'] > 0) {
                     $cardInformation .= \Redshop\Payment\Helper::replaceCreditCardInformation($oneMethod->name);
