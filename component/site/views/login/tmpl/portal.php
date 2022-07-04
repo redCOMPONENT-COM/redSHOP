@@ -78,7 +78,7 @@ if ($shoppergroupid != 0) {
                 <label for="username">
                     <?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:
                 </label>
-                <input class="inputbox" type="text" id="username" name="username"/>
+                <input class="inputbox" type="text" id="username" name="username" autocomplete="username"/>
             </td>
         </tr>
         <tr>
@@ -86,7 +86,7 @@ if ($shoppergroupid != 0) {
                 <label for="password">
                     <?php echo JText::_('COM_REDSHOP_PASSWORD'); ?>:
                 </label>
-                <input class="inputbox" id="password" name="password" type="password"/>
+                <input class="inputbox" id="password" name="password" type="password" autocomplete="current-password"/>
             </td>
         </tr>
         <tr>
