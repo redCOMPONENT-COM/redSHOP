@@ -92,6 +92,7 @@ class RedshopHelperCartDiscount
             $couponId     = $coupon->id;
             $couponType   = $coupon->effect;
             $couponUser   = $coupon->userid;
+	        $couponSubtotal = $coupon->subtotal;
             $userType     = false;
             $return       = true;
             $counter      = 0;
@@ -255,6 +256,7 @@ class RedshopHelperCartDiscount
                 $coupons['coupon'][$couponIndex]['coupon_value']              = $couponValue;
                 $coupons['coupon'][$couponIndex]['remaining_coupon_discount'] = $couponRemaining;
                 $coupons['coupon'][$couponIndex]['transaction_coupon_id']     = $transactionCouponId;
+	            $coupons['coupon'][$couponIndex]['coupon_subtotal']           = $couponSubtotal;
 
                 $coupons['coupon'] = array_merge($coupons['coupon'], $oldCoupons);
 
