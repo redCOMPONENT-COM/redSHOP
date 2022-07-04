@@ -34,7 +34,7 @@ defined('_JEXEC') or die; ?>
                 <tr>
                     <td valign="top" align="right"
                         class="key"><?php echo JText::_('COM_REDSHOP_NEW_PASSWORD_LBL'); ?></td>
-                    <td><input class="inputbox" type="password" name="password" id="password" size="20" value=""/>
+                    <td><input class="inputbox" type="password" name="password" id="password" autocomplete="new-password" size="20" value=""/>
                         <?php echo JHTML::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PASSWORD'),
                             JText::_('COM_REDSHOP_NEW_PASSWORD_LBL'),
@@ -49,7 +49,7 @@ defined('_JEXEC') or die; ?>
                 <tr>
                     <td valign="top" align="right"
                         class="key"><?php echo JText::_('COM_REDSHOP_VERIFIED_PASSWORD_LBL'); ?></td>
-                    <td><input class="inputbox" type="password" name="password2" id="password2" size="20" value=""/>                        <?php echo JHTML::tooltip(
+                    <td><input class="inputbox" type="password" name="password2" id="password2" autocomplete="new-password" size="20" value=""/>                        <?php echo JHTML::tooltip(
                             JText::_('COM_REDSHOP_TOOLTIP_PASSWORD'),
                             JText::_('COM_REDSHOP_VERIFIED_PASSWORD_LBL'),
                             'tooltip.png',
