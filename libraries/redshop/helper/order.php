@@ -861,7 +861,7 @@ class RedshopHelperOrder
             $search[]  = "{order_track_no}";
             $replace[] = trim($orderDetail->track_no);
 
-            $orderTrackURL = 'http://www.pacsoftonline.com/ext.po.dk.dk.track?key=' . Redshop::getConfig()->get(
+            $orderTrackURL = 'https://www.unifaunonline.com/ext.uo.dk.track?key=' . Redshop::getConfig()->get(
                     'POSTDK_CUSTOMER_NO'
                 ) . '&order=' . $orderId;
 
@@ -1162,7 +1162,7 @@ class RedshopHelperOrder
 				</shipment>
 				</unifaunonline>';
 
-        $postURL = "https://www.pacsoftonline.com/ufoweb/order?session=po_DK"
+        $postURL = "https://www.unifaunonline.com/ufoweb/order?session=ufo_DK"
             . "&user=" . Redshop::getConfig()->get('POSTDK_CUSTOMER_NO')
             . "&pin=" . Redshop::getConfig()->get('POSTDK_CUSTOMER_PASSWORD')
             . "&developerid=000000075"
