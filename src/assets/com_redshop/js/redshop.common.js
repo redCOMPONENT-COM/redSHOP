@@ -1,6 +1,11 @@
 // Only define the redSHOP namespace if not defined.
 redSHOP = window.redSHOP || {};
 
+// redSHOP custom event trigger
+redSHOP.AfterGetBillingTemplate = [];
+redSHOP.onBeforeOneStepCheckoutProcess = [];
+redSHOP.onAfterOneStepCheckoutProcess = [];
+
 redSHOP.compareAction = function(ele, command){
 
 	if (!ele.length) {return;}
@@ -698,7 +703,7 @@ function showCompanyOrCustomer(obj)
 
 		jQuery('select:not(".disableBootstrapChosen")').select2();
 
-		jQuery(document).trigger("AfterGetBillingTemplate");
+		redSHOP.triggerCustomEvents('AfterGetBillingTemplate');
 	})
 	.fail(function() {
 		console.warn("error");
@@ -720,7 +725,7 @@ function getBillingTemplate(el)
 			jQuery('#wrapper-billing').html('');
 			jQuery('#wrapper-billing').append(html);
 			jQuery('#wrapper-billing select:not(".disableBootstrapChosen")').select2();
-			jQuery(document).trigger("AfterGetBillingTemplate");
+			redSHOP.triggerCustomEvents('AfterGetBillingTemplate');
 
 			var event = {};
 			handleAjaxOnestep(event);
@@ -969,7 +974,9 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 			anonymous: anonymous
 		};
 
-		jQuery(redSHOP).trigger("onBeforeOneStepCheckoutProcess", [postParams]);
+		redSHOP.triggerCustomEvents('onBeforeOneStepCheckoutProcess', {
+			postParams: postParams
+		});
 
 		var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component';
 
@@ -1036,11 +1043,13 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 				});
 			}
 
-			jQuery(redSHOP).trigger("onAfterOneStepCheckoutProcess", [postParams]);
-		})
-		.fail(function() {
-			console.warn("onestepCheckoutProcess Error");
-		});
+				redSHOP.triggerCustomEvents('onAfterOneStepCheckoutProcess', {
+					postParams: postParams
+				});
+			})
+			.fail(function() {
+				console.warn("onestepCheckoutProcess Error");
+			});
 	}
 
 	if (jQuery('.extrafield_payment').length)

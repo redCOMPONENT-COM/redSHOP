@@ -1124,6 +1124,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         if ($data['task'] === 'save2copy') {
             $this->storeMediaSave2Copy($data, $row);
+	        $this->storeAdditionalPriceSave2Copy($data, $row);
         }
 
         // Upgrade media reference Id if needed
@@ -1645,6 +1646,59 @@ class RedshopModelProduct_Detail extends RedshopModel
 	    }
     }
 
+	/**
+	 * Function storeAdditionalPriceSave2Copy.
+	 *
+	 * @param   array   $data  data
+	 * @param   array  $row     row
+	 *
+	 * @since   3.0.3
+	 */
+	public function storeAdditionalPriceSave2Copy($data, $row)
+	{
+		$oldProductId = $data['cid']['0'];
+		$priceDatas = $this->getProductPriceDetail($oldProductId);
+
+		if ($priceDatas)
+		{
+			foreach ($priceDatas as $priceData)
+			{
+				$db = JFactory::getDbo();
+				$values = array($row->product_id, $priceData['product_price'], $priceData['product_currency'], $priceData['cdate'], $priceData['shopper_group_id'], $priceData['price_quantity_start'],
+					$priceData['price_quantity_end'], $priceData['discount_price'], $priceData['discount_start_date'], $priceData['discount_end_date']
+				);
+				$columns = array('product_id', 'product_price', 'product_currency', 'cdate', 'shopper_group_id', 'price_quantity_start', 'price_quantity_end', 'discount_price', 'discount_start_date', 'discount_end_date');
+
+				$query = $db->getQuery(true);
+				$query->insert($db->qn('#__redshop_product_price'))
+					->columns($db->qn($columns))
+					->values(implode(',', $db->q($values)));
+
+				$db->setQuery($query)->execute();
+			}
+		}
+	}
+
+	/**
+	 * Function getProductPriceDetail.
+	 *
+	 * @param   int   $oldProductId  oldproductID
+	 *
+	 * @return  object      records of price row if success. False otherwise.
+	 *
+	 * @since   3.0.3
+	 */
+	public function getProductPriceDetail($oldProductId)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_product_price'))
+			->where($db->qn('product_id') . ' = ' . $db->q($oldProductId));
+
+		return $db->setQuery($query)->loadAssocList();
+	}
+
     /**
      * Method for store media.
      *
@@ -1677,19 +1731,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 
             if (strpos($key, 'media-') !== false) {
                 $mediaTable->load(str_replace('media-', '', $key));
-
-                // Delete old image.
-                $oldMediaFile = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediaTable->media_name);
-
-                if (JFile::exists($oldMediaFile)) {
-                    JFile::delete($oldMediaFile);
-                }
-
-                if (empty($value)) {
-                    $mediaTable->delete();
-
-                    continue;
-                }
             } else {
                 if (!$mediaTable->load(
                     array(
