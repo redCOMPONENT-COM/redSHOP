@@ -96,7 +96,7 @@ class RedshopViewOrder_Detail extends RedshopView
                 $app->redirect(
                     Redshop\IO\Route::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid'), false)
                 );
-            } elseif ((int)$auth['users_info_id'] !== (int)$orderDetail->user_info_id) {
+            } elseif ((int)$auth['users_info_id'] !== (int)$orderDetail->user_info_id && $orderPayment[0]->payment_method_class !== 'rs_payment_paypal') {
                 throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
             }
         }
