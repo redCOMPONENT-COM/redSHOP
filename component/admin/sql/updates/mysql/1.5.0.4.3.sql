@@ -1,5 +1,0 @@
-SET FOREIGN_KEY_CHECKS = 0;
-
-DROP TABLE IF EXISTS `#__redshop_product_navigator`;
-
-SET FOREIGN_KEY_CHECKS = 1;
