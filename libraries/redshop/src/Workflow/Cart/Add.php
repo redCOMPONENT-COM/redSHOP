@@ -49,7 +49,7 @@ class Add
          * Check if required userfield are filled or not if not than redirect to product detail page...
          * Get product userfield from selected product template...
          */
-        if (!\Redshop::getConfig()->get('AJAX_CART_BOX')) {
+        if (!\Redshop::getConfig()->get('AJAX_CART_BOX') && \JFactory::getApplication()->input->getString('task') !== 'reorder') {
             $fieldRequired = \Redshop\User\Helper::userFieldValidation($data, $dataAdd, $section);
 
             if ($fieldRequired != "") {
