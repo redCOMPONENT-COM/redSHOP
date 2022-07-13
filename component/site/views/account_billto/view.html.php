@@ -62,6 +62,9 @@ class RedshopViewAccount_Billto extends RedshopView
         $document        = JFactory::getDocument();
         $document->addScriptOptions('account_billto', $accountBilltoJs);
 
+        JText::script('COM_REDSHOP_ADDRESS_MIN_CHARACTER_LIMIT');
+        JText::script('COM_REDSHOP_ZIPCODE_MIN_CHARACTER_LIMIT');
+        JText::script('COM_REDSHOP_CITY_MIN_CHARACTER_LIMIT');
         JHtml::_('behavior.framework');
         JHtml::_('redshopjquery.framework');
         JHtml::_('script', 'com_redshop/jquery.validate.min.js', false, true);
