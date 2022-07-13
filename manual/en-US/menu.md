@@ -1,7 +1,7 @@
 - [Introduction](chapters/introduccion.md)
 - [Download redSHOP](https://github.com/redCOMPONENT-COM/redSHOP/releases)
 - [Source Code](https://github.com/redCOMPONENT-COM/redSHOP/)
-- [**Category**](chapters/Category/overview-category.md)
+- [**Category**](chapters/category/overview-category.md)
     - [Working With Redshop Categories](chapters/category/working-with-redshop-categories.md)
 - [Changelog]()
 - [E-conomic Integration]()

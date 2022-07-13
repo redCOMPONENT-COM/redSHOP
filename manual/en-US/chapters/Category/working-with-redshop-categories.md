@@ -24,15 +24,15 @@ Categories are at the heart of organizing your product catalog within redSHOP. B
 
 Firstly you have one web-site use Joomla and installed redSHOP component. Access your web-site by administrator page by (username/password) has been provided
 
-<img src="./manual/en-US/chapters/Category/img/administrator.png" class="example"/>
+<img src="./manual/en-US/chapters/category/img/administrator.png" class="example"/>
 
 Secondly you click on Component on main menu and select on "redSHOP"
 
-<img src="./manual/en-US/chapters/Category/img/img1.png" class="example"/>
+<img src="./manual/en-US/chapters/category/img/img1.png" class="example"/>
 
 Finally webpage will display overview page administrator of redSHOP and click on Category tab 
 
-<img src="./manual/en-US/chapters/Category/img/img2.png" class="example"/>
+<img src="./manual/en-US/chapters/category/img/img2.png" class="example"/>
 
 To access the category section, click on the category button on redSHOP's main menu or click on the category list link on the left-hand side navigation panel when you're looking at the listing view anywhere else within redSHOP. You will end up directly on the category management screen, where you will see details listed for all the categories that are currently available.
 
@@ -48,7 +48,7 @@ To access the category section, click on the category button on redSHOP's main m
 
 <hr>
 
-<img src="./manual/en-US/chapters/Category/img/img3.png" class="example"/>
+<img src="./manual/en-US/chapters/category/img/img3.png" class="example"/>
 
 <h4 id="field1">Field</h4>
 
@@ -66,7 +66,7 @@ To access the category section, click on the category button on redSHOP's main m
 
 <h4 id="action1">Action</h4>
 
-<img src="./manual/en-US/chapters/Category/img/img4.png" class="example"/>
+<img src="./manual/en-US/chapters/category/img/img4.png" class="example"/>
 
 <b>New - </b>appears when adding a new category
 
@@ -98,7 +98,7 @@ To access the category section, click on the category button on redSHOP's main m
 
 <h4 id="informationTab">Category Information tab</h4>
 
-<img src="./manual/en-US/chapters/Category/img/img5.png" class="example"/>
+<img src="./manual/en-US/chapters/category/img/img5.png" class="example"/>
 
 <h4>Field</h4>
 
@@ -122,7 +122,7 @@ To access the category section, click on the category button on redSHOP's main m
 
 <h4 id="imagesTab">Category Images tab</h4>
 
-<img src="./manual/en-US/chapters/Category/img/img6.png" class="example"/>
+<img src="./manual/en-US/chapters/category/img/img6.png" class="example"/>
 
 <h4>Field</h4>
 
@@ -134,7 +134,7 @@ To access the category section, click on the category button on redSHOP's main m
 
 <h4 id="seoTab">SEO tab</h4>
 
-<img src="./manual/en-US/chapters/Category/img/img7.png" class="example"/>
+<img src="./manual/en-US/chapters/category/img/img7.png" class="example"/>
 
 <h4>Field</h4>
 
@@ -156,7 +156,7 @@ To access the category section, click on the category button on redSHOP's main m
 
 <h4 id="fieldsTab">Custom Fields tab</h4>
 
-<img src="./manual/en-US/chapters/Category/img/img8.png" class="example"/>
+<img src="./manual/en-US/chapters/category/img/img8.png" class="example"/>
 
 This is the space where all custom category fields that are relevant to this category will appear. More information on what custom fields are and how they work and are used is available in the custom fields section, but in general to assign custom fields to a category you need to set the relevant custom fields to belong in the category section and that the tags for those fields appear somewhere in the category template that is currently assigned to that category.
 
@@ -171,7 +171,7 @@ This is the space where all custom category fields that are relevant to this cat
 
 With this feature, you can assign accessory products for all products within this category as well as their price conditions. The accessories that you assign to this category will appear as accessories on the product pages of the products within, even if they have not been assigned to the product specifically. If an accessory has been assigned to a product twice, that is in the category accessories tab and the product accessories tab, the price rules stored in the product accessories tab will be the ones redSHOP uses.
 
-<img src="./manual/en-US/chapters/Category/img/img9.png" class="example"/>
+<img src="./manual/en-US/chapters/category/img/img9.png" class="example"/>
 
 <hr>
 
@@ -195,7 +195,7 @@ With this feature, you can assign accessory products for all products within thi
 
 <h4 id="action2">Action</h4>
 
-<img src="./manual/en-US/chapters/Category/img/img10.png" class="example"/>
+<img src="./manual/en-US/chapters/category/img/img10.png" class="example"/>
 
 <b>Save - </b>saves changes made and refreshes the page 
 
@@ -218,19 +218,19 @@ An elaborate product catalog can benefit from a well structured category system;
 
 <ul>
 <li>Go to backend page of REDSHOP and select "Categories" tab
-<img src="./manual/en-US/chapters/Category/img/img11.png" class="example"/><br><br>
+<img src="./manual/en-US/chapters/category/img/img11.png" class="example"/><br><br>
 
 <li>Category page will display Overview of Category Listings screen. Click on "New" button to create item
-<img src="./manual/en-US/chapters/Category/img/img12.png" class="example"/><br><br>
+<img src="./manual/en-US/chapters/category/img/img12.png" class="example"/><br><br>
 
 <li>User fill in some field as: Category, No. of Products per Page, Templates, Category Images
-<img src="./manual/en-US/chapters/Category/img/img13.png" class="example"/><br><br>
+<img src="./manual/en-US/chapters/category/img/img13.png" class="example"/><br><br>
 
 <li>Fill in SEO page title, SEO page heading.
-<img src="./manual/en-US/chapters/Category/img/img14.png" class="example"/><br><br>
+<img src="./manual/en-US/chapters/category/img/img14.png" class="example"/><br><br>
 
 <li>Click on Save button
-<img src="./manual/en-US/chapters/Category/img/img15.png" class="example"/><br><br>
+<img src="./manual/en-US/chapters/category/img/img15.png" class="example"/><br><br>
 </ul>
 
 Video for create Category items: <a href="https://redshop.fleeq.io/l/c9vh9e92pn-uibe25l1fp">Click here</a>
@@ -254,16 +254,16 @@ To assign a product to a category, head over to the product listing page within 
 
 <ul>
 <li>Go to backend page of redSHOP and click Products then select "Product Management" tab. After webpage display Product management, user click on New button
-<img src="./manual/en-US/chapters/Category/img/img16.png" class="example"/><br><br>
+<img src="./manual/en-US/chapters/category/img/img16.png" class="example"/><br><br>
 
 <li>User fill in some field as: name, product number, product category, product price, product image, ... => Click "Save" button
-<img src="./manual/en-US/chapters/Category/img/img17.png" class="example"/><br><br>
+<img src="./manual/en-US/chapters/category/img/img17.png" class="example"/><br><br>
 
 <li>After save item, click on "Preview" button go to front-end view product detail and see it in category "Dress"
-<img src="./manual/en-US/chapters/Category/img/img18.png" class="example"/><br><br>
+<img src="./manual/en-US/chapters/category/img/img18.png" class="example"/><br><br>
 
 <li>Go to front-end view product detail and see it in category "Dress"
-<img src="./manual/en-US/chapters/Category/img/img19.png" class="example"/><br><br>
+<img src="./manual/en-US/chapters/category/img/img19.png" class="example"/><br><br>
 </ul>
 
 Video for add category in Product Category when user create new product: <a href="https://redshop.fleeq.io/l/su81e6uu6h-3lhiqlbx4q">Click here</a>
