@@ -1,2 +1,2 @@
 ## Category
-- [Working With redSHOP Categories](/manual/en-US/chapters/categories/redshop_categories.md)
+- [Working With redSHOP Categories](chapters/categories/redshop_categories.md)
