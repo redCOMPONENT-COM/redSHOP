@@ -5,8 +5,6 @@ Categories are at the heart of organizing your product catalog within redSHOP. B
 
 ### In this article you will fine
 
-<hr>
-
 <ul>
 <li><a href="#listingScreen">Overview of Category Listing screen</a>
 <li><a href="#detailsScreen">Overview of Category Details screen</a>
