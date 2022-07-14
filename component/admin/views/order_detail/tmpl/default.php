@@ -513,12 +513,13 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                             RedshopHelperOrder::getCountryName($billing->country_code)
                                         ) : ''; ?></td>
                                 </tr>
-                                <tr>
-                                    <td align="right"><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
-                                    <td><?php echo (!empty($billing->state_code)) ? RedshopHelperOrder::getStateName(
+                                <?php $state = ($billing->state_code) ? RedshopHelperOrder::getStateName(
                                             $billing->state_code,
                                             $billing->country_code
-                                        ) : ''; ?></td>
+                                        ) : ''; ?>
+                                <tr <?php if (empty($state)) {echo "style='display:none;'";} ?> >
+                                    <td align="right"><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
+                                    <td><?php echo $state; ?></td>
                                 </tr>
                                 <tr>
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
@@ -611,12 +612,13 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                             RedshopHelperOrder::getCountryName($shipping->country_code)
                                         ) : ''); ?></td>
                                 </tr>
-                                <tr>
-                                    <td align="right"><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
-                                    <td><?php echo(!empty($shipping->state_code) ? RedshopHelperOrder::getStateName(
+                                <?php $state_ST = ($shipping->state_code) ? RedshopHelperOrder::getStateName(
                                             $shipping->state_code,
                                             $shipping->country_code
-                                        ) : ''); ?></td>
+                                        ) : ''; ?>
+                                <tr <?php if (empty($state_ST)) {echo "style='display:none;'";} ?> >
+                                    <td align="right"><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
+                                    <td><?php echo $state_ST; ?></td>
                                 </tr>
                                 <tr>
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
