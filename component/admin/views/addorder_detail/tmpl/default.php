@@ -534,8 +534,8 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                                         <td><?php echo $this->lists['state_code_ST']; ?></td>
                                     </tr>
                                     <script type="text/javascript" language="javascript">
-                                        if (document.getElementById('state_code_ST')) {
-                                            if (document.getElementById('state_code_ST').options[1] == undefined) {
+                                        if (document.getElementById('rs_state_state_code_ST')) {
+                                            if (document.getElementById('rs_state_state_code_ST').options[1] == undefined) {
                                                 document.getElementById('div_state_st_txt').style.display = 'none';
                                             }
                                         }
