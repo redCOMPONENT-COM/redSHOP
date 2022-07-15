@@ -864,9 +864,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                                                            size="10">
                                                                 </div>
                                                             </td>
-                                                            <td width="5%"><?php echo Redshop::getConfig()->get(
-                                                                        'REDCURRENCY_SYMBOL'
-                                                                    ) . " " . $vat; ?></td>
+                                                            <td width="5%"><?php echo RedshopHelperProductPrice::formattedPrice($vat); ?></td>
                                                             <td width="10%"><?php echo RedshopHelperProductPrice::formattedPrice(
                                                                         $products[$i]->product_item_price
                                                                     ) . " " . JText::_('COM_REDSHOP_INCL_VAT'); ?></td>
@@ -877,10 +875,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                                             </td>
                                                             <td align="right" width="10%">
                                                                 <?php
-                                                                echo Redshop::getConfig()->get(
-                                                                        'REDCURRENCY_SYMBOL'
-                                                                    ) . "&nbsp;";
-                                                                echo RedshopHelperProduct::redpriceDecimal(
+                                                                echo RedshopHelperProductPrice::formattedPrice(
                                                                     $products[$i]->product_final_price
                                                                 );
                                                                 ?>
