@@ -6,8 +6,7 @@ redCOMPONENT is pleased to announce the immediate availability of redSHOP 2.0.4 
 <hr>
 
 ### Install and UPDATE instructions
-<!-- We need change the url -->
-To install or update redSHOP check the instructions page: <a href="https://docs.redcomponent.com/article/125-updating-redshop">Click here</a>
+To install or update redSHOP check the instructions page: [Updating redSHOP](chapters/getting-started-general/updating-redshop.md)
 
 <hr>
 

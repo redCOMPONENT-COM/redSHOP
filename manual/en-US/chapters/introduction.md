@@ -1,16 +1,18 @@
 ## Introduction
 redSHOP is an open source e-commerce solution that fits every requirement for a successful webshop. Compatible with Joomla! 3 , redSHOP has a valued and extensive catalogue of accessible features.
 
-- [Order Status List]()
-- [redSHOP 2]()
-- [Working with redSHOP Categories]()
-- [redSHOP 3.0.1]()
-- [redSHOP Configuration Wizard]()
-- [redSHOP 2.0.7]()
-- [redSHOP 3.0]()
-- [Working with Products in redSHOP]()
-- [redSHOP 3.0.2]()
-- [Updating redSHOP]()
+- [Order Status List](chapters/orders/order-status-list.md)
+- [redSHOP 2](chapters/changelog/redshop-2.md)
+- [Working With Redshop Categories](chapters/categories/redshop-categories.md)
+- [redSHOP 3.0.1](chapters/changelog/redshop-3.0.1.md)
+- [redSHOP Configuration Wizard](chapters/getting-started-general/redshop-configuration-wizard.md)
+- [redSHOP 2.0.7](chapters/changelog/redshop-2.0.7.md)
+- [redSHOP 3.0](chapters/changelog/redshop-3.0.md)
+- [Working with Products in redSHOP](chapters/product-management/products-redshop.md)
+- [redSHOP 3.0.2](chapters/changelog/redshop-3.0.2.md)
+- [Updating redSHOP](chapters/getting-started-general/updating-redshop.md)
+
+<hr>
 
 ## About this documentation
 
