@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Redshop\Economic\RedshopEconomic;
+use Redshop\Billy\RedshopBilly;
 
 /**
  * Class Redshop Helper Stock Room
@@ -597,6 +598,10 @@ class RedshopHelperUser
 
                 return false;
             }
+        }
+
+        if (JPluginHelper::isEnabled('billy')) {
+            RedshopBilly::createUserInBilly($row);
         }
 
         $session = JFactory::getSession();
