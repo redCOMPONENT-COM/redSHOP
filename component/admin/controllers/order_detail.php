@@ -492,11 +492,23 @@ class RedshopControllerOrder_detail extends RedshopController
         $cid  = $this->input->get->get('cid', array(0), 'array');
         $tmpl = $this->input->getCmd('tmpl', '');
 
-        if (Redshop\Mail\Invoice::sendMail($cid[0])) {
-            $msg = JText::_('COM_REDSHOP_INVOICE_MAIL_HAS_BEEN_SENT');
-        } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_INVOICE_MAIL_FAIL');
-        }
+		if (JPluginHelper::isEnabled('billy')) {
+			$resendInvoice = RedshopBilly::ReSend_Invoice($cid[0]);
+
+			if ($resendInvoice) {
+				$msg = JText::_('COM_REDSHOP_BILLY_INVOICE_MAIL_HAS_BEEN_RE_SENT') . $cid[0];
+				$msgType = 'message';
+			} else {
+				$msg = JText::_('COM_REDSHOP_ERROR_INVOICE_MAIL_FAIL') . " " . $cid[0];
+				$msgType = 'error';
+			}
+		} else if (Redshop\Mail\Invoice::sendMail($cid[0])) {
+			$msg = JText::_('COM_REDSHOP_INVOICE_MAIL_HAS_BEEN_SENT');
+			$msgType = 'message';
+		} else {
+			$msg = JText::_('COM_REDSHOP_ERROR_INVOICE_MAIL_FAIL');
+			$msgType = 'error';
+		}
 
         if ($tmpl) {
             $this->setRedirect(
