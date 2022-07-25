@@ -13,6 +13,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Redshop\DB\Tool as RedshopDbTool;
 use Redshop\Economic\RedshopEconomic;
+use Redshop\Billy\RedshopBilly;
 use Redshop\Order\Template;
 
 /**
@@ -1377,7 +1378,7 @@ class RedshopHelperOrder
      *
      * @since   2.0.3
      */
-    public static function createBookInvoice($orderId, $orderStatus)
+    public static function createBookInvoice($orderId, $orderStatus, $billyBookdate = 0)
     {
         // Economic Integration start for invoice generate and book current invoice
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get(
@@ -1422,6 +1423,21 @@ class RedshopHelperOrder
                 Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
             }
         }
+ 
+		$plugin                 = JPluginHelper::getPlugin('billy', 'billy');
+		$pluginParams           = new JRegistry($plugin->params);
+		$billyInvoiceDraft      = $pluginParams->get('billy_invoice_draft','0');
+		$billyBookStatus        = $pluginParams->get('billy_book_status');
+
+		if (JPluginHelper::isEnabled('billy') &&
+                ($billyInvoiceDraft != 1 || in_array($orderStatus, $billyBookStatus) )) {
+
+			if ($billyInvoiceDraft == 2 && in_array($orderStatus, $billyBookStatus)) {
+				RedshopBilly::createInvoiceInBilly($orderId);
+			}
+
+			RedshopBilly::bookInvoiceInBilly($orderId, $billyInvoiceDraft, 0, $billyBookdate,$data= array());
+		}
     }
 
     /**
@@ -1625,6 +1641,8 @@ class RedshopHelperOrder
         $customerNote = $app->input->get('customer_note', array(), 'array');
         $customerNote = stripslashes($customerNote[0]);
 
+        $billyBookdate  = $app->input->get('billy_bookdate');
+
         $oid     = $app->input->get('order_id', array(), 'method', 'array');
         $orderId = (int)$oid[0];
 
@@ -1714,6 +1732,16 @@ class RedshopHelperOrder
                     RedshopHelperProduct::makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
                 }
 
+                if (JPluginHelper::isEnabled('billy')) {
+                    $orderData      = self::getOrderDetails($orderId);
+                    $deletedInBilly = $billy->deleteInvoiceInBilly($orderData);
+                    
+                    if ($deletedInBilly) {
+                        $msg = JText::_(
+                            'COM_REDSHOP_BILLY_SUCCESSFULLY_DELETED_INVOICE_IN_BILLY') . " " . $orderId;
+                    }
+                }
+
                 break;
 
             // Returned
@@ -1780,7 +1808,7 @@ class RedshopHelperOrder
             self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
         }
 
-        self::createBookInvoice($orderId, $newStatus);
+        self::createBookInvoice($orderId, $newStatus, $billyBookdate);
 
         $msg = JText::_('COM_REDSHOP_ORDER_STATUS_SUCCESSFULLY_SAVED_FOR_ORDER_ID') . " " . $orderId;
 
@@ -1874,6 +1902,9 @@ class RedshopHelperOrder
             // Economic Integration start for invoice generate and book current invoice
             if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
                 RedshopEconomic::renewInvoiceInEconomic($order->getItem());
+            }
+            if (JPluginHelper::isEnabled('billy')) {
+                RedshopBilly::renewInvoiceInBilly($order->getItem());
             }
         }
     }
