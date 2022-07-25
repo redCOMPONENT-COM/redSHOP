@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Redshop\Economic\RedshopEconomic;
+use Redshop\Billy\RedshopBilly;
 
 
 class RedshopControllerOrder extends RedshopController
@@ -181,6 +182,113 @@ class RedshopControllerOrder extends RedshopController
         $this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
     }
 
+    public function billybookInvoice()
+    {
+        $post             = $this->input->post->getArray();
+        $bookInvoiceDate  = $post['bookInvoiceDate'];
+        $orderId          = $this->input->getInt('order_id');
+
+        if (JPluginHelper::isEnabled('billy')) {
+            if (!empty($post)) {
+                // Get order details from the redshop library order helper
+                $orderDetail = RedshopHelperOrder::getOrderDetails($orderId);
+
+                if ($post['onlycashbook'] == 1 && $orderDetail->is_billy_booked == 1
+                        && $orderDetail->is_billy_cashbook == 0) {
+                    RedshopBilly::createCashbookEntry($orderId, $orderDetail, $post);
+                    $ecomsg = JText::_('COM_REDSHOP_BILLY_SUCCESSFULLY_CASHBOOKED_INVOICE_IN_BILLY')
+                                 . $orderId . '';
+                    $msgType = 'message';
+                    $this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
+                }
+            }
+
+            $bookinvoicepdf = RedshopBilly::bookInvoiceInBilly($orderId, 0, 0, $bookInvoiceDate, $post);
+
+            if (JFile::exists($bookinvoicepdf)) {
+                $ecomsg  = JText::_('COM_REDSHOP_BILLY_SUCCESSFULLY_BOOKED_INVOICE_IN_BILLY')
+                             . $orderId . '';
+                $msgType = 'message';
+                RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookinvoicepdf);
+            }
+        }
+
+        $this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
+    }
+
+	public function getInvoiceTimelines() {
+		$billyInvoiceNo = $this->input->getInt('billy_invoice_no');
+		
+		if (JPluginHelper::isEnabled('billy')) {
+			$timelines = RedshopBilly::getInvoiceTimelines($billyInvoiceNo);
+			echo $timelines;
+            exit;
+		}
+	}
+
+	public function sendReminder()
+	{
+		$post			= $this->input->post->getArray();
+		$fee_amount		= $post->get('billy_reminder_fee_amount_hide');
+		$billyInvoiceNo = $this->input->getInt('billy_invoice_no');
+		$orderId		= $this->input->getInt('order_id');
+		
+		if (JPluginHelper::isEnabled('billy')) {
+			$reminderSent = RedshopBilly::sendReminder($orderId, $billyInvoiceNo);
+		}
+		if ($reminderSent) {
+			$ecomsg  = JText::_('COM_REDSHOP_BILLY_SUCCESSFULLY_SENT_REMINDER_IN_BILLY') . $orderId . '';
+			$msgType = 'message';
+			$this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
+		
+			$orderItemInfo = RedshopHelperOrder::getOrderItemDetail($orderId);
+
+			$db     = JFactory::getDbo();
+			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
+			$orderItem = JTable::getInstance('order_item_detail', 'Table');			
+			$orderItem->load($orderItemInfo[0]->order_item_id);
+
+			$orderItem->order_item_id               = 0;
+			$orderItem->product_id                  = 3626;
+			$orderItem->order_item_sku              = 'rykkergebyr';
+			$orderItem->order_item_name             = 'Rykkergebyr';
+			$orderItem->product_quantity            = 1;
+			$orderItem->product_item_price          = $fee_amount;
+			$orderItem->product_item_old_price      = $fee_amount;
+			$orderItem->product_item_price_excl_vat = $fee_amount;
+			$orderItem->product_final_price         = $fee_amount;
+			$orderItem->order_item_currency         = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
+			$orderItem->order_status                = 'P';
+			$orderItem->customer_note               = '';
+			$orderItem->cdate                       = time();
+			$orderItem->mdate                       = time();
+			$orderItem->product_attribute           = '';
+			$orderItem->discount_calc_data          = '';
+			$orderItem->product_accessory           = '';
+			$orderItem->delivery_time               = 0;
+			$orderItem->stockroom_id                = 0;
+			$orderItem->stockroom_quantity          = 0;
+			$orderItem->wrapper_id                  = 0;
+			$orderItem->wrapper_price               = 0.00;
+			$orderItem->is_giftcard                 = 0;
+			$orderItem->product_purchase_price      = 0.0000;
+			$orderItem->store();
+
+			$orderdata = JTable::getInstance('order_detail', 'Table');
+			$orderdata->load($orderId);
+
+			// Adding fee price in total and subtotal
+			$orderdata->order_total += $fee_amount;
+			$orderdata->order_subtotal += $fee_amount;
+			$orderdata->store();
+
+		} else {
+			$this->setMessage(JText::_('COM_REDSHOP_BILLY_ISSUE_IN_SENT_REMINDER_IN_BILLY'), 'error');
+			$this->setRedirect('index.php?option=com_redshop&view=order');			
+		}
+		
+	}
+
     public function createInvoice()
     {
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get(
@@ -217,6 +325,23 @@ class RedshopControllerOrder extends RedshopController
                 }
             }
         }
+
+		$plugin            = JPluginHelper::getPlugin('billy', 'billy');
+		$pluginParams      = new JRegistry($plugin->params);
+		$billyInvoiceDraft = $pluginParams->get('billy_invoice_draft','0');
+
+		if (JPluginHelper::isEnabled('billy') && $billyInvoiceDraft != 2) {
+			$orderId       = $this->input->getInt('order_id');
+			$invoiceHandle = RedshopBilly::createInvoiceInBilly($orderId);
+
+			if ($billyInvoiceDraft == 0) {
+				$bookinvoicepdf = RedshopBilly::bookInvoiceInBilly($orderId, 1);
+
+				if (JFile::exists($bookinvoicepdf)) {
+					$ret = RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookinvoicepdf);
+				}
+			}
+		}
 
         $this->setRedirect('index.php?option=com_redshop&view=order');
     }
