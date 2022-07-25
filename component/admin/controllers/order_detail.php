@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Billy\RedshopBilly;
+
 /**
  * Redshop Order Detail Controller
  *
@@ -249,12 +251,23 @@ class RedshopControllerOrder_detail extends RedshopController
         $cid  = $this->input->post->get('cid', array(0), 'array');
 
         if (\Redshop\Order\Helper::updateOrderPaymentMethod($post)) {
-            $msg = JText::_('COM_REDSHOP_PAYMENT_METHOD_UPDATED');
+            $orderData = RedshopHelperOrder::getOrderDetails($cid[0]);
+
+            if (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 0) {
+                RedshopBilly::renewInvoiceInBilly($cid[0]);
+            }
+            else if (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 1) {
+                JFactory::getApplication(administrator)->enqueueMessage(
+                    JText::_('COM_REDSHOP_BILLY_ORDER_IS_ALREADY_BOOKED_ERROR') . $cid[0], 'error');
+            }
+            $msg     = JText::_('COM_REDSHOP_PAYMENT_METHOD_UPDATED');
+            $msgType = 'message';
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_UPDATING_PAYMENT_METHOD');
+            $msg     = JText::_('COM_REDSHOP_ERROR_UPDATING_PAYMENT_METHOD');
+            $msgType = 'error';
         }
 
-        $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
+        $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg, $msgType);
     }
 
     public function updateShippingAdd()
@@ -491,22 +504,26 @@ class RedshopControllerOrder_detail extends RedshopController
     {
         $cid  = $this->input->get->get('cid', array(0), 'array');
         $tmpl = $this->input->getCmd('tmpl', '');
+        $orderData = RedshopHelperOrder::getOrderDetails($cid[0]);
 
-        if (JPluginHelper::isEnabled('billy')) {
+        if (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 1) {
             $resendInvoice = RedshopBilly::ReSendInvoice($cid[0]);
 
             if ($resendInvoice) {
-                $msg = JText::_('COM_REDSHOP_BILLY_INVOICE_MAIL_HAS_BEEN_RE_SENT') . $cid[0];
+                $msg     = JText::_('COM_REDSHOP_BILLY_INVOICE_MAIL_HAS_BEEN_RE_SENT') . $cid[0];
                 $msgType = 'message';
             } else {
-                $msg = JText::_('COM_REDSHOP_ERROR_INVOICE_MAIL_FAIL') . " " . $cid[0];
+                $msg     = JText::_('COM_REDSHOP_ERROR_INVOICE_MAIL_FAIL');
                 $msgType = 'error';
             }
+        } else if (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 0) {
+            $msg     = JText::_('COM_REDSHOP_BILLY_ORDER_IS_NOT_BOOKED_ERROR') . $cid[0];
+            $msgType = 'error';
         } else if (Redshop\Mail\Invoice::sendMail($cid[0])) {
-            $msg = JText::_('COM_REDSHOP_INVOICE_MAIL_HAS_BEEN_SENT');
+            $msg     = JText::_('COM_REDSHOP_INVOICE_MAIL_HAS_BEEN_SENT');
             $msgType = 'message';
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_INVOICE_MAIL_FAIL');
+            $msg     = JText::_('COM_REDSHOP_ERROR_INVOICE_MAIL_FAIL');
             $msgType = 'error';
         }
 
