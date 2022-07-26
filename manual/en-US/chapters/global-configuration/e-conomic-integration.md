@@ -40,6 +40,8 @@ To get it all set up follow these steps:
     </ul>
 </ul>
 
+<hr>
+
 ### E-Conomic Setting Options
 
 <ul>
