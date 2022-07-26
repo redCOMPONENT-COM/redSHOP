@@ -22,6 +22,7 @@ $addlink = Redshop\IO\Route::_(
     <table class="adminlist table table-striped">
         <thead>
         <tr>
+            <th><?php echo JText::_('COM_REDSHOP_COMPANY_NAME');?></th>
             <th class="title"><?php echo JText::_('COM_REDSHOP_FIRST_NAME'); ?></th>
             <th><?php echo JText::_('COM_REDSHOP_LAST_NAME'); ?></th>
             <th><?php echo JText::_('COM_REDSHOP_ID'); ?></th>
@@ -39,6 +40,7 @@ $addlink = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=user_detail&task=remove&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=' . $row->users_info_id
             ); ?>
             <tr class="<?php echo "row$x"; ?>">
+                <td align="center"><?php echo $row->company_name;?></td>
                 <td align="center"><a href="<?php echo $link; ?>"
                                       title="<?php echo JText::_(
                                           'COM_REDSHOP_EDIT_USER'
