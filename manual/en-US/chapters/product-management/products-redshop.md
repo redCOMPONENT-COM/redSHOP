@@ -339,7 +339,7 @@ If you have built up an attribute set in the attribute profile section in redSHO
 
 <img src="./manual/en-US/chapters/product-management/img/img18.png" class="example"/><br><br>
 
-On Frontend
+On Frontend<br><br>
 
 <img src="./manual/en-US/chapters/product-management/img/img19.png" class="example"/>
 
@@ -413,7 +413,7 @@ Video for Product Attribute: <a href="https://redshop.fleeq.io/l/fpqxp94vze-iu3m
 
 <img src="./manual/en-US/chapters/product-management/img/img20.png" class="example"/><br><br>
 
-On frontend 
+On Frontend 
 
 <img src="./manual/en-US/chapters/product-management/img/img21.png" class="example"/><br><br>
 
@@ -441,7 +441,7 @@ With this feature, you can assign accessory products to be offered together with
 
 <img src="./manual/en-US/chapters/product-management/img/img22.png" class="example"/><br><br>
 
-On frontend 
+On Frontend 
 
 <img src="./manual/en-US/chapters/product-management/img/img23.png" class="example"/>
 
