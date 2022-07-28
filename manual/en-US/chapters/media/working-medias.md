@@ -24,7 +24,7 @@ Medias in redSHOP is a way for users can add more images, videos, documents, you
 
 <ul>
 <li>Firstly you have one web-site use Joomla and installed redSHOP component. Access your web-site by administrator page by (username/password) has been provided
-<img src="./manual/en-US/chapters/media/img/img1.png" class="example"/><br><br>
+<img src="./manual/en-US/chapters/media/img/administrator.png" class="example"/><br><br>
 
 <li>Secondly you access your web-site by administrator page (username/password). Then you click on Component on main menu and select on "redSHOP"
 <img src="./manual/en-US/chapters/media/img/img2.png" class="example"/><br><br>

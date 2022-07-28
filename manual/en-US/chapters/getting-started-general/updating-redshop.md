@@ -23,7 +23,7 @@ Updating redSHOP will enhance the features and the performance of the software. 
 <li>Download the latest version of redSHOP from: https://github.com/redCOMPONENT-COM/redSHOP/releases
 
 <li>Go to your Joomla site and login into your Administrator
-<img src="./manual/en-US/chapters/getting-started-general/img/img1.png" class="example"/><br><br>
+<img src="./manual/en-US/chapters/getting-started-general/img/administrator.png" class="example"/><br><br>
 
 <li>Click on: Extensions -> Manage <br>
 

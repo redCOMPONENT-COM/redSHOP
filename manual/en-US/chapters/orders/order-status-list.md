@@ -38,7 +38,7 @@ By using Payment Status and Shipping Status you can set up automations to help k
 <hr>
 
 Firstly you have one web-site use Joomla and installed redSHOP component. Access your web-site by administrator page by (username/password) has been provided
-<img src="./manual/en-US/chapters/orders/img/img2.png" class="example"/><br><br>
+<img src="./manual/en-US/chapters/orders/img/administrator.png" class="example"/><br><br>
 
 Secondly you click on Component on main menu and select on "redSHOP"
 <img src="./manual/en-US/chapters/orders/img/img3.png" class="example"/><br><br>

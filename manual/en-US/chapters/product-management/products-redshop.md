@@ -46,7 +46,7 @@ To access the product management section, click on the product but in the main m
 
 Firstly you have one web-site use Joomla and installed redSHOP component. Access your web-site by administrator page by (username/password) has been provided
 
-<img src="./manual/en-US/chapters/product-management/img/img1.png" class="example"/><br><br>
+<img src="./manual/en-US/chapters/product-management/img/administrator.png" class="example"/><br><br>
 
 Secondly you click on Component on main menu and select on "redSHOP"
 
