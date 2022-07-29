@@ -514,19 +514,17 @@ class RedshopControllerCheckout extends RedshopController
                 JPluginHelper::importPlugin('redshop_alert');
                 $data = $dispatcher->trigger('getStockroomStatus', array($order_id));
 
-                $labelClass = '';
-
-                if ($orderresult->order_payment_status == 'Paid') {
-                    $labelClass = 'label-success';
-                }
+				if ($billingAddresses->is_company == 1) {
+					$companyNameAlert = '<b>' . $billingAddresses->company_name . '</b> - ';
+				}
 
                 $message = JText::sprintf(
                     'COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY',
                     $order_id,
-                    $billingAddresses->firstname . ' ' . $billingAddresses->lastname,
+                    $companyNameAlert . $billingAddresses->firstname . ' ' . $billingAddresses->lastname,
                     RedshopHelperProductPrice::formattedPrice($orderresult->order_total),
-                    $labelClass,
-                    $orderresult->order_payment_status
+                    '',
+                    ''
                 );
                 $dispatcher->trigger('storeAlert', array($message));
 
