@@ -18,4 +18,27 @@
         <language tag="en-GB">en-GB/en-GB.plg_redshop_alert_alert.ini</language>
         <language tag="en-GB">en-GB/en-GB.plg_redshop_alert_alert.sys.ini</language>
     </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="plg_redshop_alert_alert_for_registration" type="radio" class="btn-group" default="1"
+                    label ="PLG_REDSHOP_ALERT_ALERT_FOR_REGISTRATION_LBL" description="PLG_REDSHOP_ALERT_ALERT_FOR_REGISTRATION_LBL">
+                        <option value="0">JNO</option>
+                        <option value="1">JYES</option>
+                </field>
+                <field name="plg_redshop_alert_alert_for_order" type="radio" class="btn-group" default="1"
+                    label ="PLG_REDSHOP_ALERT_ALERT_FOR_ORDER_LBL" description="PLG_REDSHOP_ALERT_ALERT_FOR_ORDER_LBL">
+                        <option value="0">JNO</option>
+                        <option value="1">JYES</option>
+                </field>
+                <field name="plg_redshop_alert_alert_for_stockroom" type="radio" class="btn-group" default="1"
+                    label ="PLG_REDSHOP_ALERT_ALERT_FOR_STOCKROOM_LBL" description="PLG_REDSHOP_ALERT_ALERT_FOR_STOCKROOM_LBL">
+                        <option value="0">JNO</option>
+                        <option value="1">JYES</option>
+                </field>
+                <field name="plg_redshop_alert_show_x_alerts" type="text" default=""
+                    label="PLG_REDSHOP_ALERT_SHOW_X_ALERTS_LBL" description="PLG_REDSHOP_ALERT_SHOW_X_ALERTS_DESC"/>            
+            </fieldset>
+        </fields>
+    </config>
 </extension>
