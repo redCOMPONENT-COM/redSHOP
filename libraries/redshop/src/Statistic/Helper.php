@@ -36,13 +36,13 @@ class Helper
 
         // Orders
         $q1 = $db->getQuery(true);
-        $q1->select($db->qn('order_id'))
+        $q1->select('COUNT(' . $db->qn('order_id') . ')')
             ->from($db->qn('#__redshop_orders'));
         $query->unionALl($q1);
 
         // User info
         $q2 = $db->getQuery(true);
-        $q2->select($db->qn('users_info_id'))
+        $q2->select('COUNT(' . $db->qn('users_info_id') . ')')
             ->from($db->qn('#__redshop_users_info'));
         $query->unionALl($q2);
 
