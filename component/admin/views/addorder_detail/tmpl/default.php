@@ -503,7 +503,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                                         <td width="100" align="right"><?php echo JText::_('COM_REDSHOP_REGISTER_AS'); ?>
                                             :
                                         </td>
-                                        <td><?php echo $this->lists['is_company'];?></td>
+                                        <td><?php echo $this->lists['is_company_ST'];?></td>
                                     </tr>
                                     <tr>
 										<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>
