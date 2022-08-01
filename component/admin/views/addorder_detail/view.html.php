@@ -181,15 +181,6 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
             JText::_('COM_REDSHOP_USER_CUSTOMER')
         );
 
-        $lists['is_company_ST'] = JHTML::_(
-            'select.booleanlist',
-            'is_company_ST',
-            'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ',
-            $shipping->is_company,
-            JText::_('COM_REDSHOP_USER_COMPANY'),
-            JText::_('COM_REDSHOP_USER_CUSTOMER')
-        );
-
         $lists['customer_field']          = RedshopHelperExtrafields::listAllField(7, $billing->users_info_id);
         $lists['company_field']           = RedshopHelperExtrafields::listAllField(8, $billing->users_info_id);
         $lists['shipping_customer_field'] = RedshopHelperExtrafields::listAllField(14, $shippinginfo[0]->users_info_id);
