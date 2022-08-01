@@ -16,7 +16,7 @@ $section = JFactory::getApplication()->input->get('section');
         <button type="button" class="btn btn-small" onclick="submitbutton('save');">
             <?php echo JText::_('COM_REDSHOP_SAVE'); ?>
         </button>
-        <button type="button" class="btn btn-small" onclick="window.parent.location.reload();">
+        <button type="button" class="btn btn-small" onclick="window.history.back();">
             <?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
         </button>
     </div>

@@ -29,7 +29,7 @@ $message = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIS
                 onclick="if (document.adminForm.boxchecked.value==0) {<?php echo $message; ?>} else {Joomla.submitbutton('remove');}">
             <?php echo JText::_('COM_REDSHOP_DELETE'); ?>
         </button>
-        <button type="button" class="btn btn-small" onclick="window.parent.location.reload();">
+        <button type="button" class="btn btn-small" onclick="window.parent.SqueezeBox.close()">
             <?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
         </button>
     </div>
