@@ -39,6 +39,13 @@ class RedshopModelCoupon extends RedshopModelForm
 
             return false;
         }
+	
+		if (empty($data['value'])) {
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(JText::_('COM_REDSHOP_COUPON_ENTER_FIELD_VALUE'));
+			
+			return false;
+		}
 
         if (!empty($data['start_date'])) {
             $data['start_date'] = \JFactory::getDate($data['start_date'])->toSql();
