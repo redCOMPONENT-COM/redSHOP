@@ -533,7 +533,7 @@ class RedshopControllerCheckout extends RedshopController
                         'COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', 
                         $order_id,
                         $today . ' | ' . $companyNameAlert,
-                        $producthelper->getProductFormattedPrice($orderresult->order_total)
+                        RedshopHelperProductPrice::formattedPrice($orderresult->order_total)
                     );
                     $dispatcher->trigger('storeAlert', array($message));
                 }
