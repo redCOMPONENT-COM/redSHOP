@@ -38,3 +38,7 @@ To install or update redSHOP check the instructions page: [Updating redSHOP](cha
 <li>RT-15 Product list (frontend) compare product no show name product on tooltip compare
 <li>REDSHOP-5655 Sample Edit - Save, Save &amp; Close , Save &amp; New button working incorrect
 </ul>
+
+<hr>
+
+<h6>Last updated on February 4, 2020</h6>

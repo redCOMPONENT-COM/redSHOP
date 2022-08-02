@@ -55,3 +55,7 @@ Updating redSHOP will enhance the features and the performance of the software. 
 <li>Once you finish that operation you can upgrade to Joomla 3 see: https://docs.joomla.org/Joomla_2.5_to_3.x_Step_by_Step_Migration
 <img src="./manual/en-US/chapters/getting-started-general/img/img7.png" class="example"/><br><br>
 </ul>
+
+<hr>
+
+<h6>Last updated on December 31, 2015</h6>

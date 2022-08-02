@@ -1,9 +1,9 @@
-## Working with redSHOP Categories
+## Working With redSHOP Categories
 Categories are at the heart of organizing your product catalog within redSHOP. By grouping and segmenting your products into logically defined categories, you make it easier for your customers to better understand the range of your offerings. You have total control over the design and feel of the category pages that your customers see, and the ability to set different individual templates for each category and even offer different layouts for your product displays to make it easier to show your products in the best light. Categories can also be useful when you want to restrict certain products for certain people or companies, which can be done with shopper groups, as well as assigning mass discounts, product wrapping options and shipping rates for specific grouped products.
 
 <hr>
 
-### In this article you will fine
+### In this article you will fine:
 
 <ul>
 <li><a href="#listingScreen">Overview of Category Listing screen</a>
@@ -608,3 +608,7 @@ Video for Show category detail on frontend: <a href="https://redshop.fleeq.io/l/
 </ul>
 
 Video for Show category detail on frontend: <a href="https://redshop.fleeq.io/l/72wzb54goi-eg93z4t9gd">Click here</a>
+
+<hr>
+
+<h6>Last updated on September 11, 2019</h6>

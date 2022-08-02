@@ -296,3 +296,7 @@ To install or update redSHOP check the instructions page: [Updating redSHOP](cha
 <li>[REDSHOP-2588] - Add TestStatistics extension
 <li>[REDSHOP-2708] - Avoid false positive when filling category filter
 </ul>
+
+<hr>
+
+<h6>Last updated on January 13, 2016</h6>

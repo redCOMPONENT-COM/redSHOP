@@ -44,7 +44,11 @@ h5 {
 }
 
 h6 {
-    font-size: 11.9px;
+    font-size: 12px;
+    text-align: right;
+    color: #c0c0c0;
+    font-style: italic;
+    font-family: Georgia,"Times New Roman",Times,serif;
 }
 
 h1 small {

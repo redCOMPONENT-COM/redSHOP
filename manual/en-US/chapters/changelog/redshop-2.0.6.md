@@ -64,3 +64,7 @@ Improve search function with keyword and fix the return wrong result when multi-
 <li>[Plugin] Generate Google microdata for product. Auto-generate Google Microdata tag with 3 types (JSON, Microdata tag and RDFa) for product
 <li>[Module] redSHOP Products: Add new param for “Watched products” displaying
 </ul>
+
+<hr>
+
+<h6>Last updated on June 7, 2017</h6>

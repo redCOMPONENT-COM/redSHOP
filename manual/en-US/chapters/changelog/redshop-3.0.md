@@ -136,3 +136,7 @@ To install or update redSHOP check the instructions page: [Updating redSHOP](cha
 <li>RSC-345 nielsbo - 71766 - Change display sequence not possible
 <li>YI-148 Shipping/Billing address - Show broken layout popup
 </ul>
+
+<hr>
+
+<h6>Last updated on March 3, 2020</h6>

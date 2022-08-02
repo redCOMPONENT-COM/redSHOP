@@ -63,3 +63,7 @@ List of the Stockroom links under the Stockroom menu will take you to the Stockr
 <li><b>Print Data - </b>print review all the data of stockrooms.
 <img src="./manual/en-US/chapters/stockroom/img/img7.png" class="example"/><br><br>
 </ul>
+
+<hr>
+
+<h6>Last updated on October 9, 2019</h6>

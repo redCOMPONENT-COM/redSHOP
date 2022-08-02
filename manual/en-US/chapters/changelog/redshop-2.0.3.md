@@ -233,3 +233,7 @@ To install or update redSHOP check the instructions page: [Updating redSHOP](cha
 <li>[REDSHOP-3505] - Fix Locators in Wrapper Administrator Cest
 <li>[REDSHOP-3769] - Replace JRequest with JInput in component/admin/controllers
 </ul>
+
+<hr>
+
+<h6>Last updated on March 22, 2017</h6>

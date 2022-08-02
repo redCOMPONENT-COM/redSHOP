@@ -735,3 +735,7 @@ Video for Mass discount on redSHOP: <a href="https://redshop.fleeq.io/l/00a0a21o
 </ul>
 
 Video work for Product Price Discount in redSHOP: <a href="https://redshop.fleeq.io/l/hel72wexuy-5meywvcffk">Click here</a>
+
+<hr>
+
+<h6>Last updated on September 10, 2019</h6>

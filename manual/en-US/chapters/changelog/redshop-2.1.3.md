@@ -216,3 +216,7 @@ To install or update redSHOP check the instructions page: [Updating redSHOP](cha
 <li>REDSHOP-5293: Wrong calculation when applying coupon/voucher at cart page Priority WIP</li>
 <li>REDSHOP-4871 - Update icons COPY on for tool bar copy button</li>
 </ul>
+
+<hr>
+
+<h6>Last updated on November 29, 2019</h6>

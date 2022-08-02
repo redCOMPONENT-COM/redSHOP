@@ -80,3 +80,7 @@ Select whether you want product attributes to be added / synced in e-conomic as 
 <li><b>Short error messages</li></b>
 If set to Yes a SOAP exception message will be shown directly, otherwise it will show simple short error messages.
 </ul>
+
+<hr>
+
+<h6>Last updated on July 19, 2019</h6>

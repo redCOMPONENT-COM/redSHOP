@@ -63,3 +63,7 @@ To install or update redSHOP check the instructions page: [Updating redSHOP](cha
 <li>[REDSHOP-3225] - Remove Configuration Wizard from Dashboard view
 <li>[REDSHOP-3265] - This text box should only be visible if both start and end date data is entered - see image
 </ul>
+
+<hr>
+
+<h6>Last updated on June 7, 2017

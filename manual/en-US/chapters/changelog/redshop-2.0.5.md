@@ -7,3 +7,7 @@ redCOMPONENT is pleased to announce the immediate availability of redSHOP 2.0.5 
 
 ### Install and UPDATE instructions
 To install or update redSHOP check the instructions page: [Updating redSHOP](chapters/getting-started-general/updating-redshop.md)
+
+<hr>
+
+<h6>Last updated on June 7, 2017</h6>

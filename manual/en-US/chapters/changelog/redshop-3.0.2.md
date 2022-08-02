@@ -144,3 +144,7 @@ To install or update redSHOP check the instructions page: [Updating redSHOP](cha
 <li>Merge pull request <a href="https://github.com/redCOMPONENT-COM/redSHOP/pull/5290">#5290</a> from anhredweb/REDSHOP-5952 
 <li>Merge pull request <a href="https://github.com/redCOMPONENT-COM/redSHOP/pull/5285">#5285</a> from anhredweb/REDSHOP-5952
 </ul>
+
+<hr>
+
+<h6>Last updated on July 7, 2020</h6>

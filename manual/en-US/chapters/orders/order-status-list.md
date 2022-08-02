@@ -211,3 +211,7 @@ Video work for Create order statuses: <a href="https://redshop.fleeq.io/l/wr0j5t
 </ul>
 
 Video work for "Change Order Statuses created: <a href="https://redshop.fleeq.io/l/trpz7kiisr-pexd6q3iww">Click here</a>
+
+<hr>
+
+<h6>Last updated on September 14, 2020</h6>

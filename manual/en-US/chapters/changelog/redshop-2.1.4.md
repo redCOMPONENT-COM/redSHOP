@@ -38,3 +38,7 @@ To install or update redSHOP check the instructions page: [Updating redSHOP](cha
 <li>REDSHOP-5595 Improvement rating product
 <li>REDSHOP-4346 Export CSV - Progress Bar still running even though no section (export part) is chosen
 </ul>
+
+<hr>
+
+<h6>Last updated on January 2, 2020</h6>

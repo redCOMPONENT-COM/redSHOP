@@ -47,3 +47,7 @@ To install or update redSHOP check the instructions page: [Updating redSHOP](cha
 <li>REDSHOP-5553 Configuration - Orders - Reset Orders Id not work ( 965873f ) 
 <li>more...
 </ul>
+
+<hr>
+
+<h6>Last updated on November 29, 2019</h6>

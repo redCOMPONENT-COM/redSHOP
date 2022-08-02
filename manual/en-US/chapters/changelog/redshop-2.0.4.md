@@ -73,3 +73,7 @@ To install or update redSHOP check the instructions page: [Updating redSHOP](cha
 <ul>
 <li>[REDSHOP-3409] - Fix Locators for Mail Center
 </ul>
+
+<hr>
+
+<h6>Last updated on June 7, 2017</h6>

@@ -165,3 +165,7 @@ At this point, redSHOP has collected enough details to configure the store for b
 The shop administrator can now use the "Previous" button to backtrack through the Configuration Wizard sections to ensure all details are confirmed correct, or click on the "Save Changes" button to complete the wizard. A checkbox is available to install "demo content", the same sample data that gets installed upon clicking the "Install sample data" button post-install, and it can be installed by checking the box before clicking on "Save Changes".
 
 #### Completing the wizard will redirect the admin to redSHOP's Main Menu.
+
+<hr>
+
+<h6>Last updated on January 4, 2016</h6>

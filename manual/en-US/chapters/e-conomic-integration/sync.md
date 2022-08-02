@@ -17,3 +17,7 @@ https://api.e-conomic.com/secure/api1/EconomicWebService.asmx?op=ProductGroup_Cr
 
 https://api.e-conomic.com/secure/api1/EconomicWebService.asmx?op=Product_UpdateFromData
 </ul>
+
+<hr>
+
+<h6>Last updated on August 14, 2020</h6>

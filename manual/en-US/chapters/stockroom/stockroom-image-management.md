@@ -111,3 +111,7 @@ Images of stockroom should be saved and managed in a system. This page help user
 </ul>
 
 Video for Stockroom Image Management  <a href="https://redshop.fleeq.io/l/meoqc3afcu-tkqwsf26ui">Click here</a>
+
+<hr>
+
+<h6>Last updated on October 16, 2019</h6>

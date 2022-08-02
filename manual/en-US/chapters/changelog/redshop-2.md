@@ -338,3 +338,7 @@ To install or update redSHOP check the instructions page: [Updating redSHOP](cha
 <li>redgoogleanalytics
 <li>redshop
 </ul>
+
+<hr>
+
+<h6>Last updated on September 14, 2016

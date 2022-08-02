@@ -579,3 +579,7 @@ To install or update redSHOP check the instructions page: [Updating redSHOP](cha
 <li>Move to layout ( 1f5d2c001 ) 
 <li>REDSHOP-3398: add JHtml::_("redshopmedia.show", ...); ( 71e61f40d )
 </ul>
+
+<hr>
+
+<h6>Last updated on October 25, 2017</h6>

@@ -104,3 +104,7 @@ The Stockroom List manages all stockrooms in redSHOP. Here you will see overview
 </ul>
 
 Video for Stockroom management: <a href="https://redshop.fleeq.io/l/w5wm48cdzi-wg68toznp4">Click here</a>
+
+<hr>
+
+<h6>Last updated on July 29, 2020</h6>

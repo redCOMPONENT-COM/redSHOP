@@ -359,3 +359,7 @@ Video for Create Media on Manufactures: <a href="https://redshop.fleeq.io/l/6ocj
 </ul>
 
 Video for Use Media: <a href="https://redshop.fleeq.io/l/al3ekx0ueh-odi3vpe8lp">Click here</a>
+
+<hr>
+
+<h6>Last updated on September 11, 2019</h6>
