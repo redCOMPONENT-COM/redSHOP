@@ -36,7 +36,7 @@ To get it all set up follow these steps:
     <li>Go to the Integration tab:
     <img src="./manual/en-US/chapters/e-conomic-integration/img/img6.png" class="example"/><br><br>
     <li>Set your preferences:
-    <img src="./manual/en-US/chapters/e-conomic-integration/img/img7.png" class="example"/><br><br>
+    <img src="./manual/en-US/chapters/e-conomic-integration/img/img7.png" class="example"/>
     </ul>
 </ul>
 
