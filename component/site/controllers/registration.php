@@ -35,12 +35,16 @@ class RedshopControllerRegistration extends RedshopController
         $model   = $this->getModel('registration');
         $success = $model->store($post);
 
+JFactory::getApplication(administrator)->enqueueMessage("registration file - before succes: <br><b>" . $post->firstname . "</b>", 'error');
+
         if ($success) {
             $plugin               = JPluginHelper::getPlugin('redshop_alert', 'alert');
             $pluginParams         = new JRegistry($plugin->params);
             $alertForRegistration = $pluginParams->get('plg_redshop_alert_alert_for_registration');
             $today                = RedshopHelperDatetime::convertDateFormat($input->getInt('cdate'));
-            
+
+JFactory::getApplication(administrator)->enqueueMessage("registration file - inside succes: <br><b>" . $post->lastname . "</b>", 'error');
+
             // Alert for registration
             if ($alertForRegistration == 1) {
                 if ($billingAddresses->is_company == 1) {
