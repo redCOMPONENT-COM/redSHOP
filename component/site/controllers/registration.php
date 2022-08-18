@@ -40,14 +40,14 @@ class RedshopControllerRegistration extends RedshopController
             $pluginParams         = new JRegistry($plugin->params);
             $alertForRegistration = $pluginParams->get('plg_redshop_alert_alert_for_registration');
             $today                = RedshopHelperDatetime::convertDateFormat($input->getInt('cdate'));
-
+            ['username']
             // Alert for registration
             if ($alertForRegistration == 1) {
-                if ($post->is_company == 1) {
-                    $companyNameAlert = '<b>' . $post->company_name . '</b> - ' . 
-                    $post->firstname . ' ' . $post->lastname;
+                if ($post['is_company'] == 1) {
+                    $companyNameAlert = '<b>' . $post['company_name'] . '</b> - ' . 
+                    $post['firstname'] . ' ' . $post['lastname'];
                 } else {
-                    $companyNameAlert = '<b>' . $post->firstname . ' ' . $post->lastname . '</b> - ';
+                    $companyNameAlert = '<b>' . $post['firstname'] . ' ' . $post['lastname'] . '</b> - ';
                 }
 
                 $message = JText::sprintf(
