@@ -35,23 +35,19 @@ class RedshopControllerRegistration extends RedshopController
         $model   = $this->getModel('registration');
         $success = $model->store($post);
 
-JFactory::getApplication(administrator)->enqueueMessage("registration file - before succes: <br><b>" . $post->firstname . "</b>", 'error');
-
         if ($success) {
             $plugin               = JPluginHelper::getPlugin('redshop_alert', 'alert');
             $pluginParams         = new JRegistry($plugin->params);
             $alertForRegistration = $pluginParams->get('plg_redshop_alert_alert_for_registration');
             $today                = RedshopHelperDatetime::convertDateFormat($input->getInt('cdate'));
 
-JFactory::getApplication(administrator)->enqueueMessage("registration file - inside succes: <br><b>" . $post->lastname . "</b>", 'error');
-
             // Alert for registration
             if ($alertForRegistration == 1) {
-                if ($billingAddresses->is_company == 1) {
-                    $companyNameAlert = '<b>' . $billingAddresses->company_name . '</b> - ' . 
-                    $billingAddresses->firstname . ' ' . $billingAddresses->lastname;
+                if ($post->is_company == 1) {
+                    $companyNameAlert = '<b>' . $post->company_name . '</b> - ' . 
+                    $post->firstname . ' ' . $post->lastname;
                 } else {
-                    $companyNameAlert = '<b>' . $billingAddresses->firstname . ' ' . $billingAddresses->lastname . '</b> - ';
+                    $companyNameAlert = '<b>' . $post->firstname . ' ' . $post->lastname . '</b> - ';
                 }
 
                 $message = JText::sprintf(
