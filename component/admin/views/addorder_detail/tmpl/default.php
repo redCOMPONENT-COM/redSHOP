@@ -511,7 +511,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                                         <td><?php echo $this->lists['is_company_ST'];?></td>
                                     </tr>
                                     <tr <?php echo $allowCompany_ST; ?>>
-										<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>
+                                        <td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>
                                             :
                                         </td>
                                         <td><input class="inputbox" type="text" name="company_name_ST" maxlength="250"

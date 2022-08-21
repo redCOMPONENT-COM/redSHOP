@@ -819,7 +819,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
         $states                 = RedshopHelperWorld::getStateList((array)$shipping, "state_code_ST", "ST");
         $lists['state_code_ST'] = $states['state_dropdown'];
-
+/*
         $isCompanySt           = array();
         $isCompanySt[0]        = new stdClass;
         $isCompanySt[0]->value = 0;
@@ -834,6 +834,15 @@ class RedshopModelAddorder_detail extends RedshopModel
             'class="inputbox" ',
             'value',
             'text'
+        );
+*/
+        $lists['is_company_ST'] = JHTML::_(
+            'select.booleanlist',
+            'is_company',
+            'class="inputbox" onchange="showOfflineCompanyOrCustomerST(this.value);" ',
+            $shipping->is_company,
+            JText::_('COM_REDSHOP_USER_COMPANY'),
+            JText::_('COM_REDSHOP_USER_CUSTOMER')
         );
 
         $html = '<table class="adminlist" border="0" width="100%">';

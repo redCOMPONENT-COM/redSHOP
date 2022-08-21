@@ -84,7 +84,8 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                         </label>
                     </td>
                     <td>
-                        <input class="inputbox" type="text" name="company_name" size="32" maxlength="250" value="<?php echo $shipping->company_name; ?>" />
+                        <input class="inputbox" type="text" name="company_name" size="32" maxlength="250" 
+                               value="<?php echo $shipping->company_name; ?>" />
                     </td>
                 </tr>
                 <tr>
@@ -95,7 +96,7 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                     </td>
                     <td>
                         <input class="form-control" type="text" name="firstname" size="32" maxlength="250"
-                               value="<?php echo $shipping->firstname; ?>"/>
+                                value="<?php echo $shipping->firstname; ?>"/>
                     </td>
                 </tr>
                 <tr>

@@ -185,7 +185,7 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
             'select.booleanlist',
             'is_company',
             'class="inputbox" onchange="showOfflineCompanyOrCustomerST(this.value);" ',
-            $billing->is_company,
+            $shipping->is_company,
             JText::_('COM_REDSHOP_USER_COMPANY'),
             JText::_('COM_REDSHOP_USER_CUSTOMER')
         );
