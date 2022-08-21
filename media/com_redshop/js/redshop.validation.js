@@ -518,6 +518,33 @@ function showOfflineCompanyOrCustomer(isCompany) {
     }
 }
 
+// User ST registration related function
+function showOfflineCompanyOrCustomerST(isCompanyST) {
+    if (isCompanyST == 1)
+    {
+        if (document.getElementById('trCompanyNameST')) {
+            document.getElementById('trCompanyNameST').style.display = '';
+        }
+        if (document.getElementById('exCompanyFieldST')) {
+            document.getElementById('exCompanyFieldST').style.display = '';
+        }
+        if (document.getElementById('exCustomerFieldST')) {
+            document.getElementById('exCustomerFieldST').style.display = 'none';
+        }
+    } else // For Customer
+    {
+        if (document.getElementById('trCompanyNameST')) {
+            document.getElementById('trCompanyNameST').style.display = 'none';
+        }
+        if (document.getElementById('exCompanyFieldST')) {
+            document.getElementById('exCompanyFieldST').style.display = 'none';
+        }
+        if (document.getElementById('exCustomerFieldST')) {
+            document.getElementById('exCustomerFieldST').style.display = '';
+        }
+    }
+}
+
 // wizrad
 function getvatremove(vattax_rate_id) {
     document.installform.vattax_rate_id.value = vattax_rate_id;
