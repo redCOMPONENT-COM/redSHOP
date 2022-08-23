@@ -766,7 +766,7 @@ class RedshopModelAddorder_detail extends RedshopModel
                 $bookinvoicepdf = RedshopBilly::bookInvoiceInBilly($row->order_id, $checkOrderStatus);
 
                 if (JFile::exists($bookinvoicepdf)) {
-                    RedshopHelperMail::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
+                    Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
                 }
             }
         }
