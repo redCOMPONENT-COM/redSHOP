@@ -204,11 +204,40 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
             $item = (array)$item;
 
             foreach ($item as $column => $value) {
-                if ($column == 'category_full_image' && $value != "") {
-                    if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $value)) {
-                        $item[$column] = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $value;
-                    } else {
-                        $item[$column] = "";
+                $idCate = $item['id'];
+                $db = JFactory::getDbo();
+                if ($column == 'category_thumb_image' || $column == 'category_full_image') {
+                    if ($item['category_full_image'] == "") {
+                        $sqlFullImage = $this->db->getQuery(true)
+                            ->select($this->db->qn(array('media_name')))
+                            ->from($this->db->qn('#__redshop_media'))
+                            ->where($this->db->qn('section_id') . ' = ' . $idCate)
+                            ->where($this->db->qn('media_section') . ' = ' . $db->quote('category'))
+                            ->where($this->db->qn('scope') . ' = ' . $db->quote('full'));
+                        $db->setQuery($sqlFullImage);
+                        $results = $db->loadObjectList();
+                        $imageName = $results[0]->media_name;
+                        if (is_null($imageName)) {
+                            $item['category_full_image'] = '';
+                        } else {
+                            $item['category_full_image'] = $imageName;
+                        }
+                    }
+                    if ($item['category_thumb_image'] == "") {
+                        $sqlThumbImage = $this->db->getQuery(true)
+                            ->select($this->db->qn(array('media_name')))
+                            ->from($this->db->qn('#__redshop_media'))
+                            ->where($this->db->qn('section_id') . ' = ' . $idCate)
+                            ->where($this->db->qn('media_section') . ' = ' . $db->quote('category'))
+                            ->where($this->db->qn('scope') . ' = ' . $db->quote('back'));
+                        $db->setQuery($sqlThumbImage);
+                        $results = $db->loadObjectList();
+                        $imageName = $results[0]->media_name;
+                        if (is_null($imageName)) {
+                            $item['category_thumb_image'] = '';
+                        } else {
+                            $item['category_thumb_image'] = $imageName;
+                        }
                     }
                 } else {
                     $item[$column] = str_replace(array("\n", "\r"), "", $value);
