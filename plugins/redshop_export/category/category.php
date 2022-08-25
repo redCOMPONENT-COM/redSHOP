@@ -207,39 +207,32 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
                 $idCate = $item['id'];
                 $db = JFactory::getDbo();
 
-                //using Media helper libraries
-                $redMediaHelper = JPATH_SITE . "/libraries/redshop/helper/media.php";
-                if (file_exists($redMediaHelper)) {
-                    include_once $redMediaHelper;
-                    $redmedia_helper = new RedshopHelperMedia;
-                    if ($item['category_full_image'] == "") {
-                        $fullImage = $redmedia_helper->getMedia('category',$idCate,'full','images');
-                        $fullImageName = $fullImage[0]->media_name;
-                        if (is_null($fullImageName)) {
-                            $item['category_full_image'] = '';
-                        } else {
-                            for($i = 0; $i <= 50; $i++) {
-                                if (file_exists(JPATH_SITE . '/media/com_redshop/images/category/' . $i .'/'.$fullImageName)) {
-                                    $item['category_full_image'] = $fullImageName;
-                                    if ($item['category_full_image'] != '') {
-                                        break;
-                                    }
-                                } else {
-                                    $item['category_full_image'] = "";
-                                }
-                            }
-                        }
-                    } elseif ($item['category_thumb_image'] == "") {
-                        $thumbImage = $redmedia_helper->getMedia('category',$idCate,'back','images');
-                        $thumbImageName = $thumbImage[0]->media_name;
-                        if (is_null($thumbImageName)) {
-                            $item['category_thumb_image'] = '';
-                        } else {
-                            $item['category_thumb_image'] = $thumbImageName;
-                        }
+                if ($item['category_full_image'] == "") {
+                    $fullImage = RedshopHelperMedia::getMedia('category',$idCate,'full','images');
+                    $fullImageName = $fullImage[0]->media_name;
+                    if (is_null($fullImageName)) {
+                        $item['category_full_image'] = '';
                     } else {
-                        $item[$column] = str_replace(array("\n", "\r"), "", $value);
+                        if (file_exists(JPATH_SITE . '/media/com_redshop/images/category/' . $idCate .'/'.$fullImageName)) {
+                            $item['category_full_image'] = $fullImageName;
+                        } else {
+                            $item['category_full_image'] = "";
+                        }
                     }
+                } elseif ($item['category_thumb_image'] == "") {
+                    $thumbImage = RedshopHelperMedia::getMedia('category',$idCate,'back','images');
+                    $thumbImageName = $thumbImage[0]->media_name;
+                    if (is_null($thumbImageName)) {
+                        $item['category_thumb_image'] = '';
+                    } else {
+                        if (file_exists(JPATH_SITE . '/media/com_redshop/images/category/' . $idCate .'/'.$thumbImageName)) {
+                            $item['category_thumb_image'] = $thumbImageName;
+                        } else {
+                            $item['category_thumb_image'] = "";
+                        }
+                    }
+                } else {
+                    $item[$column] = str_replace(array("\n", "\r"), "", $value);
                 }
             }
 
