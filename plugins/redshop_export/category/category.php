@@ -206,41 +206,35 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
             foreach ($item as $column => $value) {
                 $idCate = $item['id'];
                 $db = JFactory::getDbo();
-                if ($column == 'category_thumb_image' || $column == 'category_full_image') {
+
+                //using Media helper libraries
+                $redMediaHelper = JPATH_SITE . "/libraries/redshop/helper/media.php";
+                if (file_exists($redMediaHelper)) {
+                    include_once $redMediaHelper;
+                    $redmedia_helper = new RedshopHelperMedia;
                     if ($item['category_full_image'] == "") {
-                        $sqlFullImage = $this->db->getQuery(true)
-                            ->select($this->db->qn(array('media_name')))
-                            ->from($this->db->qn('#__redshop_media'))
-                            ->where($this->db->qn('section_id') . ' = ' . $idCate)
-                            ->where($this->db->qn('media_section') . ' = ' . $db->quote('category'))
-                            ->where($this->db->qn('scope') . ' = ' . $db->quote('full'));
-                        $db->setQuery($sqlFullImage);
-                        $results = $db->loadObjectList();
-                        $imageName = $results[0]->media_name;
-                        if (is_null($imageName)) {
+                        $fullImage = $redmedia_helper->getMedia('category',$idCate,'full','images');
+                        $fullImageName = $fullImage[0]->media_name;
+                        if (is_null($fullImageName)) {
                             $item['category_full_image'] = '';
                         } else {
-                            $item['category_full_image'] = $imageName;
+                            //if (JFile::exists(glob('components/com_redshop/assets/images/product/thumb/'.$fullImageName))) {
+                            $item['category_full_image'] = $fullImageName;
+                            //} else {
+                            //$item['category_full_image'] = '';
+                            //}
                         }
-                    }
-                    if ($item['category_thumb_image'] == "") {
-                        $sqlThumbImage = $this->db->getQuery(true)
-                            ->select($this->db->qn(array('media_name')))
-                            ->from($this->db->qn('#__redshop_media'))
-                            ->where($this->db->qn('section_id') . ' = ' . $idCate)
-                            ->where($this->db->qn('media_section') . ' = ' . $db->quote('category'))
-                            ->where($this->db->qn('scope') . ' = ' . $db->quote('back'));
-                        $db->setQuery($sqlThumbImage);
-                        $results = $db->loadObjectList();
-                        $imageName = $results[0]->media_name;
-                        if (is_null($imageName)) {
+                    } elseif ($item['category_thumb_image'] == "") {
+                        $thumbImage = $redmedia_helper->getMedia('category',$idCate,'back','images');
+                        $thumbImageName = $thumbImage[0]->media_name;
+                        if (is_null($thumbImageName)) {
                             $item['category_thumb_image'] = '';
                         } else {
-                            $item['category_thumb_image'] = $imageName;
+                            $item['category_thumb_image'] = $thumbImageName;
                         }
+                    } else {
+                        $item[$column] = str_replace(array("\n", "\r"), "", $value);
                     }
-                } else {
-                    $item[$column] = str_replace(array("\n", "\r"), "", $value);
                 }
             }
 
