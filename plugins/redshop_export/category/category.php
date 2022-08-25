@@ -218,11 +218,16 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
                         if (is_null($fullImageName)) {
                             $item['category_full_image'] = '';
                         } else {
-                            //if (JFile::exists(glob('components/com_redshop/assets/images/product/thumb/'.$fullImageName))) {
-                            $item['category_full_image'] = $fullImageName;
-                            //} else {
-                            //$item['category_full_image'] = '';
-                            //}
+                            for($i = 0; $i <= 50; $i++) {
+                                if (file_exists(JPATH_SITE . '/media/com_redshop/images/category/' . $i .'/'.$fullImageName)) {
+                                    $item['category_full_image'] = $fullImageName;
+                                    if ($item['category_full_image'] != '') {
+                                        break;
+                                    }
+                                } else {
+                                    $item['category_full_image'] = "";
+                                }
+                            }
                         }
                     } elseif ($item['category_thumb_image'] == "") {
                         $thumbImage = $redmedia_helper->getMedia('category',$idCate,'back','images');
