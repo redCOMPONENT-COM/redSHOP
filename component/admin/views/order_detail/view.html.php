@@ -103,21 +103,22 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
             $showcountry = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 0 : 1;
             $showstate   = ($statearray['is_states'] <= 0) ? 0 : 1;
 
-            $isCompany           = array();
-            $isCompany[0]        = new stdClass;
-            $isCompany[0]->value = 0;
-            $isCompany[0]->text  = JText::_('COM_REDSHOP_USER_CUSTOMER');
-            $isCompany[1]        = new stdClass;
-            $isCompany[1]->value = 1;
-            $isCompany[1]->text  = JText::_('COM_REDSHOP_USER_COMPANY');
             $lists['is_company'] = JHTML::_(
-                'select.genericlist',
-                $isCompany,
+                'select.booleanlist',
                 'is_company',
                 'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ',
-                'value',
-                'text',
-                $billing->is_company
+                $billing->is_company,
+                JText::_('COM_REDSHOP_USER_COMPANY'),
+                JText::_('COM_REDSHOP_USER_CUSTOMER')
+            );
+
+            $lists['is_company_ST'] = JHTML::_(
+                'select.booleanlist',
+                'is_company',
+                'class="inputbox" onchange="showOfflineCompanyOrCustomerST(this.value);" ',
+                $shipping->is_company,
+                JText::_('COM_REDSHOP_USER_COMPANY'),
+                JText::_('COM_REDSHOP_USER_CUSTOMER')
             );
 
             $lists['tax_exempt']            = JHTML::_(

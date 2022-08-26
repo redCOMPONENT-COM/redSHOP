@@ -19,13 +19,13 @@ if (!isset($shipping->order_info_id)) {
     $shipping->order_info_id = 0;
 }
 
-$allowCustomer = '';
-$allowCompany  = '';
+$allowCustomerST = '';
+$allowCompanyST  = '';
 
-if ($is_company == 1) {
-	$allowCustomer = 'style="display:none;"';
+if ($shipping->is_company == 1) {
+	$allowCustomerST = 'style="display:none;"';
 } else {
-	$allowCompany = 'style="display:none;"';
+	$allowCompanyST = 'style="display:none;"';
 }
 
 $Itemid = JFactory::getApplication()->input->get('Itemid');
@@ -77,7 +77,7 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                     <td width="30%" align="right"><?php echo JText::_('COM_REDSHOP_REGISTER_AS'); ?>:</td>
                     <td><?php echo $this->lists['is_company_ST'];?></td>
                 </tr>
-                <tr id="trCompanyName" <?php echo $allowCompany;?>>
+                <tr id="trCompanyNameST" <?php echo $allowCompanyST;?>>
                     <td width="100" align="right" class="key">
                        <label>
                             <?php echo JText::_('COM_REDSHOP_COMPANY_NAME' ); ?>:
