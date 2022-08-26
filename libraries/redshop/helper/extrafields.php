@@ -1514,7 +1514,7 @@ class RedshopHelperExtrafields
                             'component' => 'com_redshop'
                         )
                     );
-                    break;gits tatus
+                    break;
             }
 
             if (trim($templateDesc) != '') {
