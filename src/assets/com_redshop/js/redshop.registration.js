@@ -99,7 +99,12 @@ if (typeof(window['jQuery']) != "undefined") {
                     number: true
                 },
                 email1: {
-                    email: true
+                    email: true,
+                    required: function() {
+                        emailString = rs("input[name='email1']").val();
+                        emailStringTrim = trim(emailString);
+                        rs("input[name='email1']").val(emailStringTrim);
+                    }
                 },
                 email2: {
                     required: true,
@@ -200,17 +205,17 @@ if (typeof(window['jQuery']) != "undefined") {
                     number: Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT')
                 }
             },
-           /* invalidHandler: function(e,validator) {
-                //validator.errorList contains an array of objects, where each object has properties "element" and "message".  element is the actual HTML Input.
-                for (var i=0;i<validator.errorList.length;i++){
-                    console.log(validator.errorList[i]);
-                }
+            /* invalidHandler: function(e,validator) {
+                 //validator.errorList contains an array of objects, where each object has properties "element" and "message".  element is the actual HTML Input.
+                 for (var i=0;i<validator.errorList.length;i++){
+                     console.log(validator.errorList[i]);
+                 }
 
-                //validator.errorMap is an object mapping input names -> error messages
-                for (var i in validator.errorMap) {
-                    console.log(i, ":", validator.errorMap[i]);
-                }
-            },*/
+                 //validator.errorMap is an object mapping input names -> error messages
+                 for (var i in validator.errorMap) {
+                     console.log(i, ":", validator.errorMap[i]);
+                 }
+             },*/
 
             focusInvalid: false,
             invalidHandler: function (form, validator) {
