@@ -28,9 +28,7 @@
             <input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,'');"
                    name="users_info_id" value="{{ shippingAddress.users_info_id }}" {{ shippingCheck }} />
             {% if shippingAddress.company_name %}
-                <b>{{ shippingAddress.company_name }}</b> - 
-            {% else %}
-                <b>{{ jtext('COM_REDSHOP_USER_REGISTRATION') }}</b> - 
+                <b>{{ shippingAddress.company_name }}</b> -  
             {% endif %} 
             {{ shippingAddress.firstname }} {{ shippingAddress.lastname }}
         </label>

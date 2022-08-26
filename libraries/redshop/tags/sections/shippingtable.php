@@ -85,7 +85,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
                 'name'  => 'company_name_ST',
                 'type'  => 'text',
                 'value' => !empty($data["company_name_ST"]) ? $data["company_name_ST"] : '',
-                'class' => 'inputbox form-control billingRequired valid',
+                'class' => 'inputbox form-control valid',
                 'attr'  => 'size="32" maxlength="250" data-msg="' . JText::_(
                     'COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME'
                     ) . '"'
