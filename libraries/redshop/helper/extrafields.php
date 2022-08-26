@@ -1500,12 +1500,13 @@ class RedshopHelperExtrafields
                 // 12 :- Date Picker
                 case self::TYPE_DATE_PICKER:
                     $extraFieldValue = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
-                    $extraFieldValueDateFormat = RedshopHelperDatetime::convertDateFormat('$extraFieldValue');
+                    $extraFieldValueDateFormat = strtotime($extraFieldValue);
+                    $extraFieldValueDateFormatByConfig = RedshopHelperDatetime::convertDateFormat($extraFieldValueDateFormat);
                     $exField         .= RedshopLayoutHelper::render(
                         'field_display.datepicker',
                         array(
                             'extraFieldLabel' => $extraFieldLabel,
-                            'extraFieldValue' => $extraFieldValueDateFormat,
+                            'extraFieldValue' => $extraFieldValueDateFormatByConfig,
                             'sendMail'        => $sendmail
                         ),
                         '',
@@ -1513,7 +1514,7 @@ class RedshopHelperExtrafields
                             'component' => 'com_redshop'
                         )
                     );
-                    break;
+                    break;gits tatus
             }
 
             if (trim($templateDesc) != '') {
