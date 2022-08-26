@@ -39,8 +39,16 @@ $addlink = Redshop\IO\Route::_(
             $link_delete = Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=user_detail&task=remove&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=' . $row->users_info_id
             ); ?>
+
             <tr class="<?php echo "row$x"; ?>">
-                <td align="center"><?php echo $row->company_name;?></td>
+                <?php
+                if (!empty($row->company_name)) { 
+                    $companyNameST = $row->company_name;
+                } else {
+                    $companyNameST = JText::_('COM_REDSHOP_USER_CUSTOMER');
+                } ?>
+
+                <td align="center"><?php echo $companyNameST; ?></td>
                 <td align="center"><a href="<?php echo $link; ?>"
                                       title="<?php echo JText::_(
                                           'COM_REDSHOP_EDIT_USER'
