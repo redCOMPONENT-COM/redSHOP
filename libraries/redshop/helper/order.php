@@ -1423,21 +1423,21 @@ class RedshopHelperOrder
                 Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
             }
         }
- 
-		$plugin                 = JPluginHelper::getPlugin('billy', 'billy');
-		$pluginParams           = new JRegistry($plugin->params);
-		$billyInvoiceDraft      = $pluginParams->get('billy_invoice_draft','0');
-		$billyBookStatus        = $pluginParams->get('billy_book_status');
 
-		if (JPluginHelper::isEnabled('billy') &&
+        if (JPluginHelper::isEnabled('billy') &&
                 ($billyInvoiceDraft != 1 || in_array($orderStatus, $billyBookStatus) )) {
 
-			if ($billyInvoiceDraft == 2 && in_array($orderStatus, $billyBookStatus)) {
-				RedshopBilly::createInvoiceInBilly($orderId);
-			}
+            $plugin            = JPluginHelper::getPlugin('billy', 'billy');
+            $billyParams       = new JRegistry($plugin->params);
+            $billyInvoiceDraft = $billyParams->get('billy_invoice_draft','0');
+            $billyBookStatus   = $billyParams->get('billy_book_status');
 
-			RedshopBilly::bookInvoiceInBilly($orderId, $billyInvoiceDraft, 0, $billyBookdate,$data= array());
-		}
+            if ($billyInvoiceDraft == 2 && in_array($orderStatus, $billyBookStatus)) {
+                RedshopBilly::createInvoiceInBilly($orderId);
+            }
+
+            RedshopBilly::bookInvoiceInBilly($orderId, $billyInvoiceDraft, 0, $billyBookdate,$data = array());
+        }
     }
 
     /**
@@ -1641,7 +1641,7 @@ class RedshopHelperOrder
         $customerNote = $app->input->get('customer_note', array(), 'array');
         $customerNote = stripslashes($customerNote[0]);
 
-        $billyBookdate  = $app->input->get('billy_bookdate');
+        $billyBookdate = $app->input->get('billy_bookdate');
 
         $oid     = $app->input->get('order_id', array(), 'method', 'array');
         $orderId = (int)$oid[0];
@@ -1734,7 +1734,7 @@ class RedshopHelperOrder
 
                 if (JPluginHelper::isEnabled('billy')) {
                     $orderData      = self::getOrderDetails($orderId);
-                    $deletedInBilly = $billy->deleteInvoiceInBilly($orderData);
+                    $deletedInBilly = RedshopBilly::deleteInvoiceInBilly($orderData);
                     
                     if ($deletedInBilly) {
                         $msg = JText::_(
@@ -1903,6 +1903,7 @@ class RedshopHelperOrder
             if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
                 RedshopEconomic::renewInvoiceInEconomic($order->getItem());
             }
+
             if (JPluginHelper::isEnabled('billy')) {
                 RedshopBilly::renewInvoiceInBilly($order->getItem());
             }
