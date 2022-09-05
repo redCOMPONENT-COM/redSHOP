@@ -110,4 +110,4 @@ This section of the "About" tab displays all the redSHOP payment plugins, develo
 
 <hr>
 
-<h6>Last updated on August 6, 2022
+<h6>Last updated on August 6, 2022</h6>
