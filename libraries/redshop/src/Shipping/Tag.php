@@ -203,7 +203,7 @@ class Tag
         $ShipData      = \Redshop\Shipping\Rate::decrypt($OrderData->ship_method_id);
 
         if (null !== $shippingAddress && $shippingAddress !== new \stdClass && $shippingEnable 
-                && $ShipData[0] !== plgredshop_shippingself_pickup) {
+                && $ShipData[0] !== 'plgredshop_shippingself_pickup') {
             $extraSection = $shippingAddress->is_company == 1 ?
                 \RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS : \RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS;
 
@@ -325,7 +325,7 @@ class Tag
                 $shippingData
             );
         } elseif (null !== $shippingAddress && $shippingAddress !== new \stdClass && $shippingEnable 
-                    && $ShipData[0] == plgredshop_shippingself_pickup) {
+                    && $ShipData[0] == 'plgredshop_shippingself_pickup') {
 			self::replaceTag(
 				$shippingData,
 				$ShipData[2],
