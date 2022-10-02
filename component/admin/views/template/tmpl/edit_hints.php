@@ -68,6 +68,8 @@ $newShippingTags = array(
     'state'                  => '',
     'phone_lbl'              => '',
     'phone'                  => '',
+    'postnord_shop_name'     => '',
+    'self_pickup'            => '',
     'shipping_extrafield'    => '',
     'shipping_address_end'   => ''
 )
