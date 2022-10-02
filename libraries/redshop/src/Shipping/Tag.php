@@ -304,12 +304,12 @@ class Tag
                 );				
             }
 
-			self::replaceTag(
-				$shippingData,
-				$ShipData[2],
-				array('{self_pickup}'),
-				array("")
-			);
+            self::replaceTag(
+                $shippingData,
+                $ShipData[2],
+                array('{self_pickup}'),
+                array("")
+            );
 
             $shippingData = str_replace(
                 '{shipping_extrafield}',
@@ -326,12 +326,12 @@ class Tag
             );
         } elseif (null !== $shippingAddress && $shippingAddress !== new \stdClass && $shippingEnable 
                     && $ShipData[0] == 'plgredshop_shippingself_pickup') {
-			self::replaceTag(
-				$shippingData,
-				$ShipData[2],
-				array('{self_pickup}'),
-				array($ShipData[2])
-			);
+            self::replaceTag(
+                $shippingData,
+                $ShipData[2],
+                array('{self_pickup}'),
+                array($ShipData[2])
+            );
 
             $shippingData = str_replace(
                 array(
@@ -353,7 +353,7 @@ class Tag
                     '{state_lbl}',
                     '{phone}',
                     '{phone_lbl}',
-					'{postnord_shop_name}',
+                    '{postnord_shop_name}',
                     '{shipping_extrafield}'
                 ),
                 '',
