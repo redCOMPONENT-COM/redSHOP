@@ -199,11 +199,11 @@ class Tag
         $templateStart = explode('{shipping_address_start}', $templateHtml);
         $templateEnd   = explode('{shipping_address_end}', $templateStart[1]);
         $shippingData  = $shippingEnable ? $templateEnd[0] : '';
-        $OrderData     = \RedshopEntityOrder::getInstance($shippingAddress->order_id);
-        $ShipData      = \Redshop\Shipping\Rate::decrypt($OrderData->ship_method_id);
+        $orderData     = \RedshopEntityOrder::getInstance($shippingAddress->order_id);
+        $shipData      = \Redshop\Shipping\Rate::decrypt($orderData->ship_method_id);
 
         if (null !== $shippingAddress && $shippingAddress !== new \stdClass && $shippingEnable 
-                && $ShipData[0] !== 'plgredshop_shippingself_pickup') {
+                && $shipData[0] !== 'plgredshop_shippingself_pickup') {
             $extraSection = $shippingAddress->is_company == 1 ?
                 \RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS : \RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS;
 
@@ -284,15 +284,14 @@ class Tag
                 array($shippingAddress->phone, \JText::_('COM_REDSHOP_PHONE'))
             );
 
-            $shopId     = \RedshopEntityOrder::getInstance($shippingAddress->order_id);
-            $shopIdTrim = explode("|", $shopId->shop_id);
+            $shopIdTrim = explode("|", $orderData->shop_id);
 			
-            if (!empty($OrderData->shop_id)) {
+            if (!empty($orderData->shop_id)) {
                 self::replaceTag(
                     $shippingData,
                     $shopIdTrim,
                     array('{postnord_shop_name}'),
-                    array('<div style="border-bottom: 1px solid #d5d5d5;">
+                    array('<div style="postnord-name">
                             ' . $shopIdTrim[1] . ' - ' . $shopIdTrim[2] . ' - ' . $shopIdTrim[4] . '</div>')
                 );
             } else {
@@ -306,7 +305,7 @@ class Tag
 
             self::replaceTag(
                 $shippingData,
-                $ShipData[2],
+                $shipData[2],
                 array('{self_pickup}'),
                 array("")
             );
@@ -325,12 +324,12 @@ class Tag
                 $shippingData
             );
         } elseif (null !== $shippingAddress && $shippingAddress !== new \stdClass && $shippingEnable 
-                    && $ShipData[0] == 'plgredshop_shippingself_pickup') {
+                    && $shipData[0] == 'plgredshop_shippingself_pickup') {
             self::replaceTag(
                 $shippingData,
-                $ShipData[2],
+                $shipData[2],
                 array('{self_pickup}'),
-                array($ShipData[2])
+                array($shipData[2])
             );
 
             $shippingData = str_replace(
