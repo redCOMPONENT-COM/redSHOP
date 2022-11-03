@@ -18,8 +18,6 @@ defined('_JEXEC') or die;
  */
 class RedshopModelVoucher extends RedshopModelForm
 {
-    use Redshop\Model\Traits\HasDateTimeRange;
-
     /**
      * Method to save the form data.
      *
@@ -31,7 +29,7 @@ class RedshopModelVoucher extends RedshopModelForm
      */
     public function save($data)
     {
-        $this->handleDateTimeRange($data['start_date'], $data['end_date']);
+        \Redshop\DateTime\DateTime::handleDateTimeRange($data['start_date'], $data['end_date']);
 
         if ($data['start_date'] > $data['end_date']) {
             /** @scrutinizer ignore-deprecated */

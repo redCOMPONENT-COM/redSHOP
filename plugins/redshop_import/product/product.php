@@ -251,17 +251,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
             }
         }
 
-        if (!empty($data['discount_stratdate'])) {
-            $data['discount_stratdate'] = JFactory::getDate(
-                date('d-m-Y H:i:s', strtotime($data['discount_stratdate']))
-            )->toUnix();
-        }
-
-        if (!empty($data['discount_enddate'])) {
-            $data['discount_enddate'] = JFactory::getDate(
-                date('d-m-Y H:i:s', strtotime($data['discount_enddate']))
-            )->toUnix();
-        }
+        \Redshop\DateTime\DateTime::handleDateTimeRange($data['discount_stratdate'], $data['discount_enddate']);
 
         // Setting product on sale when discount dates are set
         if (!empty($data['discount_stratdate']) || !empty($data['discount_enddate'])) {
@@ -623,7 +613,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                         $db->setQuery($query)->execute();
                     } else {
                         $columns = $db->qn(array_keys($media));
-                        $values  = $db->q(array_values($media));
+                        $values  = array_values($media);
 
                         $query->clear()
                             ->insert($db->qn('#__redshop_media'))
@@ -808,7 +798,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                     $db->setQuery($query)->execute();
                 } else {
                     $columns = $db->qn(array_keys($media));
-                    $values  = $db->q(array_values($media));
+                    $values  = array_values($media);
 
                     $query->clear()
                         ->insert($db->qn('#__redshop_media'))
