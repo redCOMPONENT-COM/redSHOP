@@ -3092,6 +3092,9 @@ class RedshopHelperProduct
             $propertyPrices = self::makeTotalPriceByOprand($productPrice, $propertiesOperator, $propertiesPriceWithVat);
             $productPrice   = $propertyPrices[1];
 
+            //Apply massdiscount with product attribute
+            $productPrice = self::calculateProductApplyMassDiscount($productId, $productPrice);
+
             $propertyOldPriceVats = self::makeTotalPriceByOprand(
                 $productOldprice,
                 $propertiesOperator,
@@ -5132,5 +5135,39 @@ class RedshopHelperProduct
         return '';
     }
 
+    /**
+     * @param   integer    $productId     Product ID
+     * @param   float    $productPrice  Product price
+     *
+     * @return  float
+     *
+     */
+    public function calculateProductApplyMassDiscount($productId, $productPrice)
+    {
+        $productId = (int)$productId;
+
+        if (!$productId) {
+            return '';
+        }
+        $product = Redshop\Product\Product::getProductById($productId);
+
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true)
+            ->select('*')
+            ->from($db->qn('#__redshop_mass_discount'))
+            ->where(' FIND_IN_SET(' . (int)$productId . ',' . $db->quoteName('discount_product') . ')');
+
+        // Set the query and load the result.
+        $massDiscountProduct =  $db->setQuery($query)->loadObject();
+
+        //Check condition product on sale
+        if($product->product_on_sale) {
+            $productPrice = $massDiscountProduct->type == 1 ?
+                $productPrice - ($productPrice * $massDiscountProduct->amount / 100) :
+                $productPrice - $massDiscountProduct->amount;
+        }
+
+        return $productPrice;
+    }
 
 }
