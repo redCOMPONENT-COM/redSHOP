@@ -18,6 +18,46 @@ defined('_JEXEC') or die;
  */
 class RedshopUpdate303 extends RedshopInstallUpdate
 {
+	/**
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function installShopperGroup()
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('tr.*')
+			->from($db->qn('#__redshop_tax_rate', 'tr'))
+			->leftJoin(
+				$db->qn('#__redshop_tax_shoppergroup_xref', 'tsx')
+				. ' ON ' . $db->qn('tr.id') . ' = ' . $db->qn('tsx.tax_rate_id')
+			)
+			->where($db->qn('tsx.shopper_group_id') . 'IS NULL');
+
+		$taxRates = \Redshop\DB\Tool::safeSelect($db, $query, true);
+
+		if (!empty($taxRates) && $taxRates) {
+			foreach ($taxRates as $taxRate) {
+				$query = $db->getQuery(true)
+					->select('id')
+					->from($db->qn('#__redshop_shopper_group'));
+
+				$shopperGroups = \Redshop\DB\Tool::safeSelect($db, $query, true);
+
+				if (!empty($shopperGroups)) {
+					foreach ($shopperGroups as $shopperGroup) {
+						$obTaxShopperGroup = new stdClass();
+						$obTaxShopperGroup->tax_rate_id = $taxRate->id;
+						$obTaxShopperGroup->shopper_group_id = $shopperGroup->id;
+						$db->insertObject('#__redshop_tax_shoppergroup_xref', $obTaxShopperGroup, 'id');
+					}
+				}
+			}
+		}
+	}
+
     /**
      * Return list of old files for clean
      *
