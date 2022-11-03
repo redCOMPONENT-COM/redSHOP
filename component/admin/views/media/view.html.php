@@ -21,6 +21,11 @@ class RedshopViewMedia extends RedshopViewAdmin
     public $state;
 
     /**
+     * @var  string
+     */
+    public $filter_search;
+
+    /**
      * The pagination object.
      *
      * @var  JPagination
@@ -36,7 +41,7 @@ class RedshopViewMedia extends RedshopViewAdmin
 
     public function display($tpl = null)
     {
-        $uri      = JFactory::getURI();
+        $uri      = JUri::getInstance();
         $document = JFactory::getDocument();
 
         /** @scrutinizer ignore-deprecated */
@@ -53,6 +58,7 @@ class RedshopViewMedia extends RedshopViewAdmin
 
         $media_type           = $this->state->get('media_type', 0);
         $filter_media_section = $this->state->get('filter_media_section', 0);
+        $this->filter_search  = $this->state->get('filter_search', '');
 
         $optiontype   = array();
         $optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -119,7 +125,7 @@ class RedshopViewMedia extends RedshopViewAdmin
         if (isset($this->folders[$index])) {
             $this->_tmp_folder = $this->folders[$index];
         } else {
-            $this->_tmp_folder = new JObject;
+            $this->_tmp_folder = new stdClass;
         }
     }
 
@@ -128,7 +134,7 @@ class RedshopViewMedia extends RedshopViewAdmin
         if (isset($this->images[$index])) {
             $this->_tmp_img = $this->images[$index];
         } else {
-            $this->_tmp_img = new JObject;
+            $this->_tmp_img = new stdClass;
         }
     }
 
@@ -137,7 +143,7 @@ class RedshopViewMedia extends RedshopViewAdmin
         if (isset($this->documents[$index])) {
             $this->_tmp_doc = $this->documents[$index];
         } else {
-            $this->_tmp_doc = new JObject;
+            $this->_tmp_doc = new stdClass;
         }
     }
 }
