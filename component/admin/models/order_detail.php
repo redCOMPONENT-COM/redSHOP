@@ -132,8 +132,8 @@ class RedshopModelOrder_detail extends RedshopModel
 
             if (JPluginHelper::isEnabled('billy')) {
                 for ($i = 0, $in = count($cid); $i < $in; $i++) {
-                    $orderdata = $this->getTable('order_detail');
-                    $orderdata->load($cid[$i]);
+                    $orderData = $this->getTable('order_detail');
+                    $orderData->load($cid[$i]);
                     RedshopBilly::deleteInvoiceInBilly($orderdata);
                 }
             }
