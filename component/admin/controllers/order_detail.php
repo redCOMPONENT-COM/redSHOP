@@ -254,14 +254,15 @@ class RedshopControllerOrder_detail extends RedshopController
             $orderData = RedshopHelperOrder::getOrderDetails($cid[0]);
 
             if (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 0) {
-                RedshopBilly::renewInvoiceInBilly($cid[0]);
+                RedshopBilly::renewInvoiceInBilly($orderData);
             }
             else if (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 1) {
                 JFactory::getApplication(administrator)->enqueueMessage(
                     JText::_('COM_REDSHOP_BILLY_ORDER_IS_ALREADY_BOOKED_ERROR') . $cid[0], 'error');
             }
-            $msg     = JText::_('COM_REDSHOP_PAYMENT_METHOD_UPDATED');
+            $msg     = JText::_('COM_REDSHOP_PAYMENT_METHOD_UPDATED') . $cid[0];
             $msgType = 'message';
+
         } else {
             $msg     = JText::_('COM_REDSHOP_ERROR_UPDATING_PAYMENT_METHOD');
             $msgType = 'error';
