@@ -23,7 +23,7 @@ $user      = JFactory::getUser();
     </li>
 
     <li>
-        <a title="Joomla" href="<?php echo Redshop\IO\Route::_('index.php') ?>"><i class="fa fa-joomla"></i></a>
+        <a title="Joomla" href="<?php echo Redshop\IO\Route::_('index.php') ?>"><i class="fab fa-joomla"></i></a>
     </li>
 
     <li>
