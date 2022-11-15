@@ -229,7 +229,6 @@ class RedshopControllerOrder extends RedshopController
 	public function sendReminder()
 	{
 		$post			= $this->input->post->getArray();
-		$fee_amount		= $post->get('billy_reminder_fee_amount_hide');
 		$billyInvoiceNo = $this->input->getInt('billy_invoice_no');
 		$orderId		= $this->input->getInt('order_id');
 		
@@ -240,48 +239,6 @@ class RedshopControllerOrder extends RedshopController
 			$ecomsg  = JText::_('COM_REDSHOP_BILLY_SUCCESSFULLY_SENT_REMINDER_IN_BILLY') . $orderId . '';
 			$msgType = 'message';
 			$this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
-		
-			$orderItemInfo = RedshopHelperOrder::getOrderItemDetail($orderId);
-
-			$db     = JFactory::getDbo();
-			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
-			$orderItem = JTable::getInstance('order_item_detail', 'Table');			
-			$orderItem->load($orderItemInfo[0]->order_item_id);
-
-			$orderItem->order_item_id               = 0;
-			$orderItem->product_id                  = 3626;
-			$orderItem->order_item_sku              = 'rykkergebyr';
-			$orderItem->order_item_name             = 'Rykkergebyr';
-			$orderItem->product_quantity            = 1;
-			$orderItem->product_item_price          = $fee_amount;
-			$orderItem->product_item_old_price      = $fee_amount;
-			$orderItem->product_item_price_excl_vat = $fee_amount;
-			$orderItem->product_final_price         = $fee_amount;
-			$orderItem->order_item_currency         = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
-			$orderItem->order_status                = 'P';
-			$orderItem->customer_note               = '';
-			$orderItem->cdate                       = time();
-			$orderItem->mdate                       = time();
-			$orderItem->product_attribute           = '';
-			$orderItem->discount_calc_data          = '';
-			$orderItem->product_accessory           = '';
-			$orderItem->delivery_time               = 0;
-			$orderItem->stockroom_id                = 0;
-			$orderItem->stockroom_quantity          = 0;
-			$orderItem->wrapper_id                  = 0;
-			$orderItem->wrapper_price               = 0.00;
-			$orderItem->is_giftcard                 = 0;
-			$orderItem->product_purchase_price      = 0.0000;
-			$orderItem->store();
-
-			$orderdata = JTable::getInstance('order_detail', 'Table');
-			$orderdata->load($orderId);
-
-			// Adding fee price in total and subtotal
-			$orderdata->order_total += $fee_amount;
-			$orderdata->order_subtotal += $fee_amount;
-			$orderdata->store();
-
 		} else {
 			$this->setMessage(JText::_('COM_REDSHOP_BILLY_ISSUE_IN_SENT_REMINDER_IN_BILLY'), 'error');
 			$this->setRedirect('index.php?option=com_redshop&view=order');			
