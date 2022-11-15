@@ -1710,8 +1710,10 @@ class RedshopHelperOrder
         }
 
         self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
-        RedshopHelperClickatell::clickatellSMS($orderId);
-
+        if ($app->input->getCmd('order_sendordersms') == 'true') {
+            RedshopHelperClickatell::clickatellSMS($orderId);
+        }
+        
         switch ($newStatus) {
             // Cancel & return
             case 'X':
