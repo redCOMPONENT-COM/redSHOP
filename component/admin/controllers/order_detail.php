@@ -260,7 +260,7 @@ class RedshopControllerOrder_detail extends RedshopController
                 JFactory::getApplication(administrator)->enqueueMessage(
                     JText::_('COM_REDSHOP_BILLY_ORDER_IS_ALREADY_BOOKED_ERROR') . $cid[0], 'error');
             }
-            $msg     = JText::_('COM_REDSHOP_PAYMENT_METHOD_UPDATED') . $cid[0];
+            $msg     = JText::_('COM_REDSHOP_PAYMENT_METHOD_UPDATED');
             $msgType = 'message';
 
         } else {
