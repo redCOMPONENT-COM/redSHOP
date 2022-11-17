@@ -407,7 +407,8 @@ JPluginHelper::importPlugin('redshop_product');
                                                         ); ?></label>
                                                     <textarea class="form-control"
                                                               name="customer_note<?php echo $row->order_id ?>"
-                                                              style="resize: none;"><?php echo $row->customer_note ?></textarea>
+                                                              style="resize: none;">
+                                                              <?php echo $row->customer_note ?></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -421,9 +422,11 @@ JPluginHelper::importPlugin('redshop_product');
                                                     </label>
                                             <?php   if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) { ?>
 													<label>
-														<input type="checkbox" <?php echo $send_sms_to_customer;?>  value=""
+														<input type="checkbox" 
+                                                                <?php echo $send_sms_to_customer;?>  value=""
 															   name="sendordersms<?php echo $row->order_id ?>"/> 
-                                                               <?php echo JText::_('COM_REDSHOP_SEND_ORDER_SMS'); ?>
+                                                               <?php echo JText::_('
+                                                               COM_REDSHOP_SEND_ORDER_SMS'); ?>
 													</label>
 											<?php   } ?>
                                                 </div>
@@ -431,10 +434,12 @@ JPluginHelper::importPlugin('redshop_product');
                                             <div class="col-md-6" style="text-align: right">
                                                 <hr/>
                                                 <div class="form-group"> <?php
-                                                    echo $shipping_name = Redshop\Shipping\Tag::replaceShippingMethod(
+                                                    echo $shipping_name = 
+                                                            Redshop\Shipping\Tag::replaceShippingMethod(
                                                         $row, "{shipping_method}"); ?>
                                                     <br />									
-												    <i class="fa-solid fa-mobile-screen-button"></i>&nbsp;&nbsp;<?php echo $billing->phone; ?>
+												    <i class="fa-solid fa-mobile-screen-button"></i>
+                                                    &nbsp;&nbsp;<?php echo $billing->phone; ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -456,9 +461,58 @@ JPluginHelper::importPlugin('redshop_product');
                             </div>
                         </div>
                     </div>
-
                     <?php echo $data->highlight->toHighlightGrid; ?>
                     <br>
+                    <?php   if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) { ?>
+                    <a style="width:55px" class="label order_status_btn" data-toggle="modal" data-target="#sms_form<?php echo $row->id ?>">
+                        <i class="fa fa-edit"></i>&nbsp;<?php echo JText::_('SMS') ?>
+                    </a>
+                    <div class="modal fade" id="sms_form<?php echo $row->id ?>" role="dialog"
+                         aria-labelledby="sms_form_label_<?php echo $row->id ?>">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                                aria-hidden="true">&times;</span></button>
+                                    <h3 class="modal-title" id="sms_form_label_<?php echo $row->id ?>">
+										<?php echo JText::_('COM_REDSHOP_ORDER') . ': ' . $row->id ?>
+                                    </h3>
+                                </div>
+								<div class="modal-body">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+										        <div class="form-group">
+											        <label>Prefix : </label>
+											        <input type="text" name="prefix<?php echo $row->order_id ?>" value="<?php echo Redshop::getConfig()->get('CLICKATELL_COUNTRY_PREFIX');?>" />
+                                               </div>
+                                            </div>
+                                            <div class="col-md-6">
+										        <div class="form-group">     
+                                                    <label>Modtager : </label>
+											        <input type="text" name="to<?php echo $row->order_id ?>" value="<?php echo $billing->phone;?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+										<div class="form-group">
+											<label>Besked : </label>
+											<textarea class="form-control" name="message<?php echo $row->order_id ?>" />Hej <?php echo $row->firstname ?>. Vi har netop sendt en reminder for faktura <?php echo $row->order_id ?> pr mail. Tjek evt dit spamfilter. Hilsen Ronni - sms kan ikke besvares.</textarea>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<div class="form-group">
+										<input class="button btn btn-success btn-block btn-small"
+											type="button" 
+											name="send_message" 
+											onclick="location.href = '<?php echo $smsupdate; ?>&order_number=<?php echo $row->order_id; ?>&message='+encodeURIComponent(document.adminForm.message<?php echo $row->order_id; ?>.value)+'&to_phone_number='+document.adminForm.to<?php echo $row->order_id; ?>.value;"   
+											value="Send sms" />
+									</div>
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php   } ?>
                     <?php if (RedshopHelperPdf::isAvailablePdfPlugins()): ?>
                         <a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>"
                            target="_blank">
@@ -469,7 +523,8 @@ JPluginHelper::importPlugin('redshop_product');
                     <?php endif; ?>
                 </td>
                 <td>
-                    <?php $paymentStatusClass = 'label order_payment_status_' . strtolower($row->order_payment_status); ?>
+                    <?php $paymentStatusClass = 'label order_payment_status_' . strtolower(
+                        $row->order_payment_status); ?>
                     <span class="<?php echo $paymentStatusClass ?>" style="margin-bottom:3px;width:266px">
 			            <?php if ($row->order_payment_status == 'Paid'): ?>
                             <?php  echo JText::_($paymentDetail->order_payment_name);?> - 
@@ -477,7 +532,8 @@ JPluginHelper::importPlugin('redshop_product');
                         <?php elseif ($row->order_payment_status == 'Unpaid'): ?>
                             <?php  echo JText::_($paymentDetail->order_payment_name);?> - 
                             <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID') ?>
-                        <?php elseif ($row->order_payment_status == 'Partial Paid' || $row->order_payment_status == 'PartialPaid'): ?>
+                        <?php elseif ($row->order_payment_status == 'Partial Paid' || 
+                                $row->order_payment_status == 'PartialPaid'): ?>
                             <?php  echo JText::_($paymentDetail->order_payment_name);?> - 
                             <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID') ?>
                         <?php endif; ?>
@@ -485,7 +541,8 @@ JPluginHelper::importPlugin('redshop_product');
 
                     <?php 
                     // Economic section START
-                    if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2
+                    if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && 
+                            Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2
                             && $row->invoice_no && $row->is_booked == 1 && $row->bookinvoice_number): ?>
                         <?php echo $row->bookinvoice_number ?>
                     <?php endif; ?>
@@ -522,10 +579,12 @@ JPluginHelper::importPlugin('redshop_product');
                             <?php echo RedshopHelperDatetime::convertDateFormat($row->bookinvoice_date) ?>
                         <?php endif; ?>
                     <?php endif; 
-                    // Economic section END ?>
+                    // Economic section END
+                    // Billy section START
 
 
 
+                    // Billy section END ?>
                 </td>
                 <td>
                     <?php
@@ -607,8 +666,6 @@ JPluginHelper::importPlugin('redshop_product');
                     }
                     ?>
                 </td>
-
-
                 <?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1) : ?>
                     <?php
                     $orderItems   = RedshopHelperOrder::getOrderItemDetail($row->order_id);
