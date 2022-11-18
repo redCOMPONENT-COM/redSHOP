@@ -165,19 +165,14 @@ class RedshopHelperClickatell
         // Split our response. return string is on first line of the data returned
         $session = explode(":", $result[0]);
 
-        if (!empty($prefix)) {
-            $url       = $baseUrl . '/http/sendmsg?session_id=
-                ' . $sessionId . '&to=' . $prefix . $to . '&from=' . $from . '&text=' . $text;
-        } else {
-            $url       = $baseUrl . '/http/sendmsg?session_id=
-                ' . $sessionId . '&to=' . $to . '&from=' . $from . '&text=' . $text;
-        }
-
         if ($session[0] == "OK") {
             // Remove any whitespace
             $sessionId = trim($session[1]);
-            $url       = $baseUrl . '/http/sendmsg?session_id=
-                ' . $sessionId . '&to=' . $to . '&from=' . $from . '&text=' . $text;
+            if (!empty($prefix)) {
+                $url = $baseUrl . '/http/sendmsg?session_id=' . $sessionId . '&to=' . $prefix . $to . '&from=' . $from . '&text=' . $text;
+            } else {
+                $url = $baseUrl . '/http/sendmsg?session_id=' . $sessionId . '&to=' . $to . '&from=' . $from . '&text=' . $text;
+            }
 
             // Do send sms call
             $result  = file($url);
@@ -185,8 +180,8 @@ class RedshopHelperClickatell
             $orderId = JFactory::getApplication()->input->get('order_id');
 
             if ($send[0] == "ID") {
-				JFactory::getApplication('administrator')->enqueueMessage('
-                    COM_REDSHOP_CLICKATELL_SENT_SUCCESS '. $orderId[0], 'message');
+				JFactory::getApplication('administrator')->enqueueMessage(
+                    JText::_('COM_REDSHOP_CLICKATELL_SENT_SUCCESS') . $orderId[0], 'message');
             } else {
                 JError::raiseWarning(21, "Clickatell send sms message failed: ");
             }
@@ -207,24 +202,27 @@ class RedshopHelperClickatell
      *
      * @since   2.0.6
      */
-    public static function sendCustomMessage($text, $to)
+    public static function sendCustomMessage()
     {
-        // ClickATell username
         $app = JFactory::getApplication();
-        
+
+        // ClickATell username      
         $user = Redshop::getConfig()->get('CLICKATELL_USERNAME');
 
         // ClickATell password
         $password = Redshop::getConfig()->get('CLICKATELL_PASSWORD');
 
+        // ClickATell to
+        $to = $app->input->get('to');
+
+        // ClickATell prefix
+        $prefix = $app->input->get('prefix');
+
+        // ClickATell message
+        $text = $app->input->getString('customer_note');
+
         // ClickATell sender id
         $from = Redshop::getConfig()->get('CLICKATELL_SENDER_ID');
-
-        // ClickATell sender id
-        $to = $app->input->getInt('to');
-
-        // ClickATell country prefix
-        $prefix = $app->input->getInt('prefix');
 
         // Clickatell_api_id
         $clickATellAPI = Redshop::getConfig()->get('CLICKATELL_API_ID');
@@ -239,19 +237,14 @@ class RedshopHelperClickatell
         // Split our response. return string is on first line of the data returned
         $session = explode(":", $result[0]);
 
-        if (!empty($prefix)) {
-            $url       = $baseUrl . '/http/sendmsg?session_id=
-                ' . $sessionId . '&to=' . $prefix . $to . '&from=' . $from . '&text=' . $text;
-        } else {
-            $url       = $baseUrl . '/http/sendmsg?session_id=
-                ' . $sessionId . '&to=' . $to . '&from=' . $from . '&text=' . $text;
-        }
-
         if ($session[0] == "OK") {
             // Remove any whitespace
             $sessionId = trim($session[1]);
-            $url       = $baseUrl . '/http/sendmsg?session_id=
-                ' . $sessionId . '&to=' . $to . '&from=' . $from . '&text=' . $text;
+            if (!empty($prefix)) {
+                $url = $baseUrl . '/http/sendmsg?session_id=' . $sessionId . '&to=' . $prefix . $to . '&from=' . $from . '&text=' . urlencode(utf8_decode($text));
+            } else {
+                $url = $baseUrl . '/http/sendmsg?session_id=' . $sessionId . '&to=' . $to . '&from=' . $from . '&text=' . urlencode(utf8_decode($text));
+            }
 
             // Do send sms call
             $result  = file($url);
@@ -259,14 +252,20 @@ class RedshopHelperClickatell
             $orderId = JFactory::getApplication()->input->get('order_id');
 
             if ($send[0] == "ID") {
-				JFactory::getApplication('administrator')->enqueueMessage('
-                    COM_REDSHOP_CLICKATELL_SENT_SUCCESS '. $orderId[0], 'message');
+                $msg     = JText::_('COM_REDSHOP_CLICKATELL_SENT_SUCCESS') . " " . $orderId[0];
+                $msgType = 'message';
+
             } else {
-                JError::raiseWarning(21, "Clickatell send sms message failed: ");
+                $msg     = JText::_('Clickatell send sms message failed:') . " " . $orderId[0];
+                $msgType = 'error';
+
             }
         } else {
-            JError::raiseWarning(21, "Authentication failure: " . $result[0]);
+            $msg     = JText::_('Authentication failure:') . " " . $result[0];
+            $msgType = 'error';
         }
+
+        $app->redirect('index.php?option=com_redshop&view=order', $msg, $msgType);
     }
 
     /**
@@ -304,8 +303,6 @@ class RedshopHelperClickatell
         $message = str_replace('{order_comment}', $orderData->customer_note, $message);
         $message = str_replace('{shipping_method}', $shippingMethod, $message);
         $message = str_replace('{payment_method}', $paymentName, $message);
-        $message = str_replace('{customer_note}', mb_convert_encoding(
-            $orderData->customer_note, "ISO-8859-1", "UTF-8"), $message);
 
         return $message;
     }

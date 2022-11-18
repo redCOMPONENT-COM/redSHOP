@@ -90,6 +90,11 @@ class RedshopControllerOrder extends RedshopController
         RedshopHelperOrder::updateStatus();
     }
 
+    public function custom_sms()
+    {
+        RedshopHelperClickatell::sendCustomMessage();
+    }
+
     /**
      * Update All Order status using AJAX without generating pacsoft label
      *

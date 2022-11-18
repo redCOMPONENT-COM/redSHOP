@@ -355,7 +355,7 @@ JPluginHelper::importPlugin('redshop_product');
                 <?php
                     $linkUpdate = 'index.php?option=com_redshop&view=order&task=update_status&return=order&order_id[]=' . $row->order_id;
                     ?>
-                    <button type="button" class="btn btn-default" style="195px" data-toggle="modal"
+                    <button type="button" class="btn btn-default" style="width:195px" data-toggle="modal"
                             data-target="#order_status_form<?php echo $row->id ?>">
                         <i class="fa fa-pencil-square-o"></i>&nbsp;</i> <?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON') ?>
                     </button>
@@ -407,8 +407,7 @@ JPluginHelper::importPlugin('redshop_product');
                                                         ); ?></label>
                                                     <textarea class="form-control"
                                                               name="customer_note<?php echo $row->order_id ?>"
-                                                              style="resize: none;">
-                                                              <?php echo $row->customer_note ?></textarea>
+                                                              style="resize: none;"><?php echo $row->customer_note ?></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -422,11 +421,10 @@ JPluginHelper::importPlugin('redshop_product');
                                                     </label>
                                             <?php   if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) { ?>
 													<label>
-														<input type="checkbox" 
-                                                                <?php echo $send_sms_to_customer;?>  value=""
+														<input type="checkbox" <?php echo $send_sms_to_customer;?>
+                                                               value="1"
 															   name="sendordersms<?php echo $row->order_id ?>"/> 
-                                                               <?php echo JText::_('
-                                                               COM_REDSHOP_SEND_ORDER_SMS'); ?>
+                                                               <?php echo JText::_('COM_REDSHOP_SEND_ORDER_SMS') ?>
 													</label>
 											<?php   } ?>
                                                 </div>
@@ -453,7 +451,7 @@ JPluginHelper::importPlugin('redshop_product');
                                             onclick="location.href='<?php echo Redshop\IO\Route::_(
                                                 $linkUpdate,
                                                 false
-                                            ) ?>&status='+document.adminForm.order_status<?php echo $row->order_id ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id ?>.value;"
+                                            ) ?>&status='+document.adminForm.order_status<?php echo $row->order_id ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id ?>.checked+'&order_sendordersms='+document.adminForm.sendordersms<?php echo $row->order_id ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id ?>.value;"
                                             value="<?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON'); ?>">
                                         <?php echo JText::_('JTOOLBAR_SAVE') ?>
                                     </button>
@@ -463,10 +461,12 @@ JPluginHelper::importPlugin('redshop_product');
                     </div>
                     <?php echo $data->highlight->toHighlightGrid; ?>
                     <br>
-                    <?php if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) { ?>
-                    <a style="width:55px" class="label order_status_btn" data-toggle="modal" data-target="#sms_form<?php echo $row->id ?>">
-                        <i class="fa fa-edit"></i>&nbsp;<?php echo JText::_('SMS') ?>
-                    </a>
+                    <?php if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) {
+                    $linkCustomSms = 'index.php?option=com_redshop&view=order&task=custom_sms&return=order&order_id[]=' . $row->order_id; ?>
+                    <button type="button" class="label order_status_btn" style="width:55px" data-toggle="modal"
+                            data-target="#sms_form<?php echo $row->id ?>">
+                        <i class="fa fa-edit"></i>&nbsp;</i> <?php echo JText::_('SMS') ?>
+                    </button>
                     <div class="modal fade" id="sms_form<?php echo $row->id ?>" role="dialog"
                          aria-labelledby="sms_form_label_<?php echo $row->id ?>">
                         <div class="modal-dialog" role="document">
@@ -484,30 +484,38 @@ JPluginHelper::importPlugin('redshop_product');
                                             <div class="col-md-6">
 										        <div class="form-group">
 											        <label>Prefix : </label>
-											        <input type="text" name="prefix<?php echo $row->order_id ?>" value="<?php echo Redshop::getConfig()->get('CLICKATELL_COUNTRY_PREFIX');?>" />
+											        <input type="text" name="prefix<?php echo $row->order_id ?>" 
+                                                        value="<?php echo Redshop::getConfig()->get('CLICKATELL_COUNTRY_PREFIX');?>" />
                                                </div>
                                             </div>
                                             <div class="col-md-6">
 										        <div class="form-group">     
                                                     <label>Modtager : </label>
-											        <input type="text" name="to<?php echo $row->order_id ?>" value="<?php echo $billing->phone;?>" />
+											        <input type="text" name="to<?php echo $row->order_id ?>" 
+                                                        value="<?php echo $billing->phone;?>" />
                                                 </div>
                                             </div>
                                         </div>
 										<div class="form-group">
 											<label>Besked : </label>
-											<textarea class="form-control" name="message<?php echo $row->order_id ?>" /><?php echo Redshop::getConfig()->get('CLICKATELL_CUSTOM_MESSAGE'); ?></textarea>
+											<textarea class="form-control" name="message<?php echo $row->order_id ?>" /><?php 
+                                                echo Redshop::getConfig()->get('CLICKATELL_CUSTOM_MESSAGE'); ?></textarea>
 										</div>
 									</div>
 								</div>
 								<div class="modal-footer">
-									<div class="form-group">
-										<input class="button btn btn-success btn-block btn-small"
-											type="button" 
-											name="send_message" 
-											onclick="location.href = '<?php echo $smsupdate; ?>&order_number=<?php echo $row->order_id; ?>&message='+encodeURIComponent(document.adminForm.message<?php echo $row->order_id; ?>.value)+'&to_phone_number='+document.adminForm.to<?php echo $row->order_id; ?>.value;"   
-											value="Send sms" />
-									</div>
+
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                        <?php echo JText::_('JTOOLBAR_CANCEL') ?>
+                                    </button>
+                                    <button type="button" class="button btn btn-primary"
+                                            onclick="location.href='<?php echo Redshop\IO\Route::_(
+                                                $linkCustomSms,
+                                                false
+                                            ) ?>&status='+document.adminForm.order_status<?php echo $row->order_id ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.message<?php echo $row->order_id ?>.value)+'&to='+document.adminForm.to<?php echo $row->order_id ?>.value+'&prefix='+document.adminForm.prefix<?php echo $row->order_id ?>.value;"
+                                            value="<?php echo JText::_('Send sms'); ?>">
+                                        <?php echo JText::_('Send sms') ?>
+                                    </button>
 								</div>
                             </div>
                         </div>
