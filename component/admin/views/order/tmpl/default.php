@@ -463,7 +463,7 @@ JPluginHelper::importPlugin('redshop_product');
                     </div>
                     <?php echo $data->highlight->toHighlightGrid; ?>
                     <br>
-                    <?php   if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) { ?>
+                    <?php if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) { ?>
                     <a style="width:55px" class="label order_status_btn" data-toggle="modal" data-target="#sms_form<?php echo $row->id ?>">
                         <i class="fa fa-edit"></i>&nbsp;<?php echo JText::_('SMS') ?>
                     </a>
@@ -496,7 +496,7 @@ JPluginHelper::importPlugin('redshop_product');
                                         </div>
 										<div class="form-group">
 											<label>Besked : </label>
-											<textarea class="form-control" name="message<?php echo $row->order_id ?>" />Hej <?php echo $row->firstname ?>. Vi har netop sendt en reminder for faktura <?php echo $row->order_id ?> pr mail. Tjek evt dit spamfilter. Hilsen Ronni - sms kan ikke besvares.</textarea>
+											<textarea class="form-control" name="message<?php echo $row->order_id ?>" /><?php echo Redshop::getConfig()->get('CLICKATELL_CUSTOM_MESSAGE'); ?></textarea>
 										</div>
 									</div>
 								</div>

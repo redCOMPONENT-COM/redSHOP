@@ -64,3 +64,42 @@ echo RedshopLayoutHelper::render(
         'field'  => $this->lists['clickatell_order_status']
     )
 );
+
+echo RedshopLayoutHelper::render(
+    'config.config',
+    array(
+        'title'  => JText::_('COM_REDSHOP_CLICKATELL_SENDER_ID_LBL'),
+        'desc'   => JText::_('COM_REDSHOP_TOOLTIP_CLICKATELL_SENDER_ID_LBL'),
+        'id'     => 'clickatell_sender_id',
+        'showOn' => 'clickatell_enable:1',
+        'field'  => '<input type="text" name="clickatell_sender_id" id="clickatell_sender_id"
+            value="' . $this->config->get('CLICKATELL_SENDER_ID') . '" 
+            class="form-control" />'
+    )
+);
+
+echo RedshopLayoutHelper::render(
+    'config.config',
+    array(
+        'title'  => JText::_('COM_REDSHOP_CLICKATELL_COUNTRY_PREFIX'),
+        'desc'   => JText::_('COM_REDSHOP_TOOLTIP_CLICKATELL_COUNTRY_PREFIX'),
+        'id'     => 'clickatell_country_prefix',
+        'showOn' => 'clickatell_enable:1',
+        'field'  => '<input type="text" name="clickatell_country_prefix" id="clickatell_country_prefix"
+            value="' . $this->config->get('CLICKATELL_COUNTRY_PREFIX') . '" 
+            class="form-control" />'
+    )
+);
+
+echo RedshopLayoutHelper::render(
+    'config.config',
+    array(
+        'title'  => JText::_('COM_REDSHOP_CLICKATELL_CUSTOM_MESSAGE'),
+        'desc'   => JText::_('COM_REDSHOP_TOOLTIP_CLICKATELL_CUSTOM_MESSAGE'),
+        'id'     => 'clickatell_custom_message',
+        'showOn' => 'clickatell_enable:1',
+        'field'  => '<input type="text" name="clickatell_custom_message" id="clickatell_custom_message"
+            value="' . $this->config->get('CLICKATELL_CUSTOM_MESSAGE') . '" 
+            class="form-control" />'
+    )
+);
