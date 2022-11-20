@@ -1378,7 +1378,7 @@ class RedshopHelperOrder
      *
      * @since   2.0.3
      */
-    public static function createBookInvoice($orderId, $orderStatus, $billyBookdate = 0)
+    public static function createBookInvoice($orderId, $orderStatus, $billyBookDate = 0)
     {
         // Economic Integration start for invoice generate and book current invoice
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get(
@@ -1435,8 +1435,8 @@ class RedshopHelperOrder
             if ($billyInvoiceDraft == 2 && in_array($orderStatus, $billyBookStatus)) {
                 RedshopBilly::createInvoiceInBilly($orderId);
             }
-
-            RedshopBilly::bookInvoiceInBilly($orderId, $billyInvoiceDraft, 0, $billyBookdate,$data = array());
+            
+            RedshopBilly::bookInvoiceInBilly($orderId, $billyInvoiceDraft, 0, $billyBookDate, $data = array());
         }
     }
 
@@ -1641,7 +1641,7 @@ class RedshopHelperOrder
         $customerNote = $app->input->get('customer_note', array(), 'array');
         $customerNote = stripslashes($customerNote[0]);
 
-        $billyBookdate = $app->input->get('billy_bookdate');
+        $billyBookDate = $app->input->get('billy_bookdate');
 
         $oid     = $app->input->get('order_id', array(), 'method', 'array');
         $orderId = (int)$oid[0];
@@ -1810,7 +1810,7 @@ class RedshopHelperOrder
             self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
         }
 
-        self::createBookInvoice($orderId, $newStatus, $billyBookdate);
+        self::createBookInvoice($orderId, $newStatus, $billyBookDate);
 
         $msg = JText::_('COM_REDSHOP_ORDER_STATUS_SUCCESSFULLY_SAVED_FOR_ORDER_ID') . " " . $orderId;
 

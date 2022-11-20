@@ -13,13 +13,13 @@ use Redshop\Billy\RedshopBilly;
 
 global $context;
 
-$app             = JFactory::getApplication();
-$config          = Redconfiguration::getInstance();
-$calendarFormat  = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
-$lists           = $this->lists;
-$model           = $this->getModel('order');
-$stockroomHelper = rsstockroomhelper::getInstance();
-$dispatcher      = RedshopHelperUtility::getDispatcher();
+$app              = JFactory::getApplication();
+$config           = Redconfiguration::getInstance();
+$calendarFormat   = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
+$lists            = $this->lists;
+$model            = $this->getModel('order');
+$stockroomHelper  = rsstockroomhelper::getInstance();
+$dispatcher       = RedshopHelperUtility::getDispatcher();
 JPluginHelper::importPlugin('redshop_product');
 ?>
 <style type="text/css">
@@ -257,7 +257,7 @@ JPluginHelper::importPlugin('redshop_product');
                 ); ?>
             </th>
             <th>
-                <?php echo JText::_('COM_REDSHOP_NOTIFY_CUSTOMER_MSG'); ?>
+                <?php echo JText::_('COM_REDSHOP_NOTIFY_CUSTOMER_HEADING'); ?>
             </th>
             <th width="290px">
                 <?php echo JHTML::_(
@@ -451,7 +451,7 @@ JPluginHelper::importPlugin('redshop_product');
                                             onclick="location.href='<?php echo Redshop\IO\Route::_(
                                                 $linkUpdate,
                                                 false
-                                            ) ?>&status='+document.adminForm.order_status<?php echo $row->order_id ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id ?>.checked+'&order_sendordersms='+document.adminForm.sendordersms<?php echo $row->order_id ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id ?>.value;"
+                                            ) ?>&status='+document.adminForm.order_status<?php echo $row->order_id ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id ?>.checked+'&order_sendordersms='+document.adminForm.sendordersms<?php echo $row->order_id ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id ?>.value+'&billy_bookdate='+document.getElementById(`billybookDate<?php echo $i; ?>`).value;"
                                             value="<?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON'); ?>">
                                         <?php echo JText::_('JTOOLBAR_SAVE') ?>
                                     </button>
@@ -483,21 +483,27 @@ JPluginHelper::importPlugin('redshop_product');
                                         <div class="row">
                                             <div class="col-md-6">
 										        <div class="form-group">
-											        <label>Prefix : </label>
+											        <label>
+                                                        <?php echo JText::_('COM_REDSHOP_CLICKATELL_COUNTRY_PREFIX') . ': ' ?>    
+                                                    </label>
 											        <input type="text" name="prefix<?php echo $row->order_id ?>" 
                                                         value="<?php echo Redshop::getConfig()->get('CLICKATELL_COUNTRY_PREFIX');?>" />
                                                </div>
                                             </div>
                                             <div class="col-md-6">
 										        <div class="form-group">     
-                                                    <label>Modtager : </label>
+                                                    <label>
+                                                        <?php echo JText::_('COM_REDSHOP_PHONE') . ': ' ?>
+                                                    </label>
 											        <input type="text" name="to<?php echo $row->order_id ?>" 
                                                         value="<?php echo $billing->phone;?>" />
                                                 </div>
                                             </div>
                                         </div>
 										<div class="form-group">
-											<label>Besked : </label>
+											<label>
+                                                <?php echo JText::_('COM_REDSHOP_ALERT_MESSAGE') . ': ' ?>
+                                            </label>
 											<textarea class="form-control" name="message<?php echo $row->order_id ?>" /><?php 
                                                 echo Redshop::getConfig()->get('CLICKATELL_CUSTOM_MESSAGE'); ?></textarea>
 										</div>
@@ -589,7 +595,174 @@ JPluginHelper::importPlugin('redshop_product');
                     <?php endif; 
                     // Economic section END
                     // Billy section START
+					if (JPluginHelper::isEnabled('billy')) {	
+                        $billyPlugin 		    = JPluginHelper::getPlugin('billy', 'billy');
+                        $billyPluginParams 	    = new JRegistry($billyPlugin->params);
+						$billySendInvoiceMethod = $billyPluginParams->get('billy_send_invoice_method','0');
+                        $invoice                = RedshopBilly::getInvoiceData($row->billy_invoice_no);
+				
+						if ($row->billy_invoice_no != '' && ($row->order_payment_status == 'Paid' && $row->is_billy_cashbook == 0) || ($row->order_payment_status == 'Unpaid' && $row->is_billy_booked == 0)) {
+							if (($row->is_billy_booked == 0 && $row->billy_bookinvoice_date <= 0) || ($row->order_payment_status == 'Paid' && $row->is_billy_cashbook == 0) || ($row->order_payment_status == 'Unpaid' && $row->is_billy_booked == 0) || ($row->order_payment_status == 'Unpaid' && $row->is_billy_booked == 1 && $row->is_billy_cashbook == 0)) {
+								$confirm = 'if(confirm(\'' . JText::_('COM_REDSHOP_CONFIRM_BOOK_INVOICE') . '\')) { document.binvoice.order_id.value=\'' . $row->order_id . '\';document.binvoice.bookInvoiceDate.value=document.getElementById(\'billybookDate' . $i . '\').value;document.binvoice.submit(); }';
+								if ($row->order_payment_status == 'Paid' && $row->is_billy_booked == 0 && $row->order_status !== 'X' && $row->billy_bookinvoice_date <= 0) {
+									$confirm = 'document.binvoice.onlycashbook.value=0;document.binvoice.onlybook.value=0;document.binvoice.bookwithCashbook.value=1;document.binvoice.order_id.value=\'' . $row->order_id . '\';document.binvoice.bookInvoiceDate.value=document.getElementById(\'billybookDate' . $i . '\').value;document.binvoice.submit();';
+									echo JHTML::_('calendar', date('Y-m-d'), 'billybookDate' . $i, 'billybookDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox billy-cal-box', 'size' => '15', 'maxlength' => '19')); ?>
+									<input type="button" class="btn btn-default" value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE"); ?>" onclick="javascript:<?php echo $confirm; ?>"><br/>
+									<?php
+								} else if ($row->order_status !== 'X' &&  $row->is_billy_booked == 0 && $row->order_payment_status !== 'Paid') {
+									if ($row->is_company == 1 && $row->ean_number != "" && (int) $billySendInvoiceMethod == 1) {
+										echo JText::_('COM_REDSHOP_MANUALLY_BOOK_INVOICE_FROM_BILLY');
+										echo "<input type='hidden' name='billybookDate".$i."' id='billybookDate".$i."' value='0' >";
+									} else {
+										$confirm = 'document.binvoice.onlycashbook.value=0;document.binvoice.onlybook.value=1;document.binvoice.bookwithCashbook.value=0;document.binvoice.order_id.value=\'' . $row->order_id . '\';document.binvoice.bookInvoiceDate.value=document.getElementById(\'billybookDate' . $i . '\').value;document.binvoice.submit();';
+										echo JHTML::_('calendar', date('Y-m-d'), 'billybookDate' . $i, 'billybookDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox billy-cal-box', 'size' => '15', 'maxlength' => '19'));
+										?>
+										<input type="button" class="btn btn-default" value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE"); ?>" onclick="javascript:<?php echo $confirm; ?>"><br/>
+										<?php
+									}
+								} else if ($row->order_status !== 'X' && $row->order_payment_status !== 'Paid' && ($row->order_status == 'S' || $row->order_status == 'RD')  && $invoice->isPaid == '1') {
+									echo "<span style='font-size:12px'>" . JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . ($row->billy_bookinvoice_date) . "</span><br />";
+									echo "<span class='btn btn-small btn-success' style='width:247px'>" . JText::_('COM_REDSHOP_BILLY_PAID_IN_BILLY') . "</span><br />";
+								} else if($row->order_status !== 'X' && $row->is_billy_booked == 1 && $row->is_billy_cashbook == 0 && $row->order_payment_status == 'Paid' && !$invoice->isPaid == '1') {
+									$confirm = 'document.binvoice.onlycashbook.value=1;document.binvoice.onlybook.value=0;document.binvoice.bookwithCashbook.value=0;document.binvoice.order_id.value=\'' . $row->order_id . '\';document.binvoice.bookInvoiceDate.value=document.getElementById(\'billybookDate' . $i . '\').value;document.binvoice.submit();';
+									echo "<span style='font-size:12px'>" . JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . ($row->billy_bookinvoice_date) . "</span><br />";
+									echo JHTML::_('calendar', date('Y-m-d'), 'billybookDate' . $i, 'billybookDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox billy-cal-box', 'size' => '15', 'maxlength' => '19'));
+									?>
+									<input type="button" class="btn btn-default" style="margin-right:15px" value="<?php echo JText::_("COM_REDSHOP_BILLY_MAKE_CASHBOOK"); ?>"
+										onclick="javascript:<?php echo $confirm; ?>"><br/>
+									<?php
+								} else if($row->order_status !== 'X' && $row->order_payment_status == 'Paid' && $row->is_billy_cashbook == 0) {
+									echo "<span style='font-size:11px;font-weight:bold'>" . JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . date("d-m-Y", strtotime($row->billy_bookinvoice_date)) . "</span><br />";
+								} else if($row->order_status !== 'X' && $row->is_billy_booked == 1 && $row->is_billy_cashbook == 0 && $row->order_payment_status !== 'Paid') {
+									$confirm = 'if(confirm(\'' . JText::_('Invoice is booked but you can not make cashbook yet as Order is not Paid') . '\')) { return false; }';
+									echo "<span style='font-size:11px;font-weight:bold'>" . JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . date("d-m-Y", strtotime($row->billy_bookinvoice_date)) . "</span><br />";
+									echo JHTML::_('calendar', date('Y-m-d'), 'billybookDate' . $i, 'billybookDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox billy-cal-box', 'size' => '15', 'maxlength' => '19'));
+									echo "<span style='margin-right:15px'></span>";
+								}	
+							} else if ($row->billy_bookinvoice_date > 0) {
+								echo "<input type='hidden' name='billybookDate".$i."' id='billybookDate".$i."' value='0' >";
+								echo "<span style='font-size:11px;font-weight:bold'>" . JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . date("d-m-Y", strtotime($row->billy_bookinvoice_date)) . "</span><br />";
+							}
+							echo "<input type='hidden' name='billybookDate".$i."' id='billybookDate".$i."' value='0' >";
+						}
+						if ((int) $billySendInvoiceMethod == 2 && $row->order_status !== 'X') {
+							if(isset($invoice->sentState)) {
+								if ($invoice->sentState == 'sent' || $invoice->sentState == 'opened' || $invoice->sentState == 'viewed' || $invoice->sentState == 'printed') { ?>
+									<a href="<?php echo $invoice->downloadUrl; ?>" class="hasPopover fa fa-download" style="color:#b7b7b7; margin-top:7px" target="_blank" title data-content="Download invoice as pdf" data-original-title="Billy invoice"></a>&nbsp;
+						<?php	} else { ?>
+									<a href="<?php echo $invoice->downloadUrl; ?>?layout=packing-list" class="hasPopover far fa-circle-down" style="color:#b7b7b7; margin-top:7px" target="_blank" title data-content="Download packing list as pdf" data-original-title="Billy package list"></a>&nbsp;
+						<?php	} 
+							}					
+							if ($row->is_billy_booked == 1 && $row->order_status !== 'X') {
+								if (isset($invoice->sentState)) {
+									if ($invoice->sentState == 'sent') { ?>
+										<span class="hasPopover far fa-envelope" style="color:#b7b7b7; margin-top:7px" title data-content="Invoice sent as email, but not opened by customer" data-original-title="Billy invoice status"></span>&nbsp;
+							<?php	}
+									if (isset($invoice->sentState) && $invoice->sentState == 'opened') { ?>
+										<span class="hasPopover far fa-envelope-open" style="color:#b7b7b7; margin-top:7px" title data-content="Email viewed by customer" data-original-title="Billy invoice status"></span>&nbsp;
+							<?php	}
+									if (isset($invoice->sentState) && ($invoice->sentState == 'viewed' || $invoice->sentState == 'printed')) { ?>
+										<span class="hasPopover far fa-search-plus" style="color:#b7b7b7; margin-top:7px" title data-content="Invoice opened by customer" data-original-title="Billy invoice status"></span>&nbsp;
+							<?php	}
+								}
+								if ((Redshop::getConfig()->get('POSTDK_INTEGRATION')) && $row->order_label_create) { ?>
+									<a href="https://www.unifaunonline.com/ext.uo.dk.track?key=290000004&order=<?php echo $row->order_id; ?>" class="hasPopover fa-solid fa-location-dot" style="color:#b7b7b7; margin-top:7px" target="_blank" title data-content="Open tracking in new windwow" data-original-title="Order shipped"></a>&nbsp;
+						<?php	}	
+							} ?>
+							<a href="index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=<?php 
+                                echo $row->order_id; ?>" class="hasPopover fa fa-tag" 
+                                style="color:#b7b7b7; margin-top:7px" target="_blank" 
+                                title data-content="Download forsendelses pdf i A5 format" 
+                                data-original-title="Download forsendelses pdf">
+                            </a>&nbsp;
+				<?php	}
 
+						if ($row->is_billy_booked == 0 && ($row->order_status == 'S' || $row->order_status == 'RD' || $row->order_status == 'RD1')) { ?>
+							<span class="label order_payment_status_paid" style="margin-bottom:3px;width:266px;color:#ffffff;background-color:#e83026">
+								<b>Fejl i Book faktura</b>
+							</span>
+				<?php	} 
+						if ($row->is_billy_booked == 1 && $row->order_payment_status == 'Unpaid' && ($row->order_status == 'S' || $row->order_status == 'RD' || $row->order_status == 'RD1' || $row->order_status == 'APP') && $row->overdue_days > 0) {
+						//	$overdueDays = $billy->calulateOverdueDays($row->billy_invoice_no);
+							if ($row->overdue_days > 0 && $row->order_payment_status == 'Unpaid') { ?>
+								<br>
+								<span class="label order_status_x" style="margin-top:8px;width:266px"> 
+						<?php		echo JText::_('COM_REDSHOP_BILLY_INVOICE_OVERDUE_WITH');
+									echo JText::_($row->overdue_days.' d.'); ?>
+								</span>
+					<?php	}
+					
+							$billy_reminder = $billyPluginParams->get('billy_reminder','0');
+							if ($row->order_payment_status == 'Unpaid' && $row->billy_invoice_no != '' && ($billy_reminder && $row->overdue_limit > 0 && $row->is_billy_booked && !$invoice->isPaid)) { ?>
+								<br />
+								<div class="panel-body panel panel-default" style="max-width:265px;margin-bottom:0px!important;margin-top: 10px!important">
+									<input style="width:233px" class="hasPopover" type="text" title data-content="Note : You can only fill Amount or Procent, not both." data-original-title="Fee in amount" name="billy_reminder_fee_amount<?php echo $row->order_id ?>" id="billy_reminder_fee_amount<?php echo $row->order_id ?>" value="<?php echo $billyPluginParams->get('billy_reminder_fee_amount');?>" placeholder="Fee as amount" />
+									<input style="margin-top:3px;width:233px" class="hasPopover" type="text" title data-content="Note : You can only fill Amount or Procent, not both." data-original-title="Fee in procent" name="billy_reminder_fee_procent<?php echo $row->order_id ?>" id="billy_reminder_fee_procent<?php echo $row->order_id ?>" value="<?php echo $billyPluginParams->get('billy_reminder_fee_procent');?>" placeholder="Fee in procent" />
+									<br/>
+									<select style="margin-top:3px;width:233px" name="billy_reminder_email_subject<?php echo $row->order_id ?>" id="billy_reminder_email_subject<?php echo $row->order_id ?>" onChange="updateEmailBody(this.value, '<?php echo $row->order_id; ?>');">
+										<option  value="1" /><?php echo $billyPluginParams->get('billy_reminder_email_subject_1');?> #<?php echo $row->order_id ?></option>
+										<option  value="2" /><?php echo $billyPluginParams->get('billy_reminder_email_subject_2');?> #<?php echo $row->order_id ?></option>
+										<option  value="3" /><?php echo $billyPluginParams->get('billy_reminder_email_subject_3');?> #<?php echo $row->order_id ?></option>
+									</select> <?php
+							    	$rconfirm = 'document.reminder.order_id.value=\'' . $row->order_id . '\';document.reminder.billy_invoice_no.value=\'' . $row->billy_invoice_no . '\';document.reminder.billy_reminder_fee_amount_hide.value=document.getElementById(\'billy_reminder_fee_amount' . $row->order_id  . '\').value;document.reminder.billy_reminder_fee_procent_hide.value=document.getElementById(\'billy_reminder_fee_procent' . $row->order_id  . '\').value;document.reminder.billy_reminder_email_subject_hide.value=document.getElementById(\'billy_reminder_email_subject' . $row->order_id  . '\').value;document.reminder.billy_reminder_email_body_hide.value=document.getElementById(\'billy_reminder_email_subject' . $row->order_id  . '\').value;document.reminder.submit();'; ?>
+									<input type="button" class="btn btn-small btn-warning" style="margin-top:5px" value="<?php echo JText::_("COM_REDSHOP_BILLY_SEND_REMINDER"); ?>"
+									onclick="javascript:<?php echo $rconfirm; ?>">
+								</div> <?php
+					    	}
+
+							$reminders = $billy->getSentReminders($row->billy_invoice_no);
+							if ($reminders) {
+								echo '<br><span style="font-size:11px">' . JText::_('COM_REDSHOP_BILLY_REMINDER_SENDT_DATE') . '</span><br>';
+								foreach($reminders as $reminder) {
+									echo '<span class="label order_status_btn" style="width:266px;margin-bottom:5px">';
+									echo '<b>' . $reminder->emailSubject . '</b><br>';
+									echo date("d M Y - H:i", strtotime($reminder->createdTime));
+									echo ' | ';
+									echo JText::_('COM_REDSHOP_BILLY_REMINDER_FEE') . ' ' . $reminder->flatFee.' / '.$reminder->percentageFee.'%';
+									echo '</span>';
+									echo '<br>';
+								}
+							}
+							if ($row->overdue_limit < 0 && $row->order_payment_status !== 'Paid') {
+								echo '<span style="font-size:11px"><b>' . JText::_('COM_REDSHOP_BILLY_NEXT_REMINDER_IN_DAYS') . ' ' . $row->overdue_limit . ' ' . JText::_('COM_REDSHOP_DAYS') . '</b></span>';
+							}
+						} ?>
+						<a style="width:78px" 
+                            onclick="javascript: callTimeline('<?php echo $row->billy_invoice_no; ?>','<?php 
+                            echo $row->id ?>');" class="label order_status_btn" data-toggle="modal" 
+                            data-target="#billy_timeline<?php echo $row->id ?>">
+							<i class="far fa-hourglass-half"></i>&nbsp;<?php echo JText::_('COM_REDSHOP_BILLY_TIMELINE') ?>
+						</a>
+						<div class="modal fade" id="billy_timeline<?php echo $row->id ?>" role="dialog" aria-labelledby="billy_timeline_label_<?php echo $row->id ?>">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" style="">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h3 class="modal-title" id="sms_form_rykker_label_<?php echo $row->id ?>">
+											<?php echo JText::_('COM_REDSHOP_BILLY_TIMELINE') . ': ' . $row->id ?>
+										</h3>
+									</div>
+							<style type="text/css">
+							.timeline-entries::before {
+								z-index: 1;
+								content: "";
+								position: absolute;
+								top: 0;
+								bottom: 0;
+								left: 17px;
+								width: 2px;
+								background: #dde1e3;
+							}
+							</style>
+									<div class="modal-body" style="text-align:center">
+										<div class="timeline-entries" id="invoiceTimeLine<?php echo $row->id ?>" style="position: relative;padding-top: 15px;margin-left: 5px"></div>
+									</div>
+								</div>
+							</div>
+						</div> <?php
+                    }
 
 
                     // Billy section END ?>
@@ -760,7 +933,28 @@ JPluginHelper::importPlugin('redshop_product');
     <input name="task" value="bookInvoice" type="hidden">
     <input name="bookInvoiceDate" value="" type="hidden">
 </form>
-
+<form name='binvoice' method="post">
+	<input name="view" value="order" type="hidden">
+	<input name="order_id" value="" type="hidden">
+	<input name="option" value="com_redshop" type="hidden">
+	<input name="task" value="billybookInvoice" type="hidden">
+	<input name="onlycashbook" value="" type="hidden">
+	<input name="bookwithCashbook" value="" type="hidden">
+	<input name="onlybook" value="" type="hidden">
+	<input name="bookInvoiceDate" value="" type="hidden">
+</form>
+<form name='reminder' method="post">
+	<input name="view" value="order" type="hidden">
+	<input name="order_id" value="" type="hidden">
+	<input name="billy_invoice_no" value="" type="hidden">
+	<input name="option" value="com_redshop" type="hidden">
+	<input name="task" value="sendReminder" type="hidden">
+	<input name="billy_reminder_fee_amount_hide" value="" type="hidden">
+	<input name="billy_reminder_fee_procent_hide" value="" type="hidden">
+	<input name="billy_reminder_email_subject_hide" value="" type="hidden">
+	<input name="billy_reminder_email_body_hide" value="" type="hidden">
+	<input name="sendReminder" value="" type="hidden">
+</form>
 <form name='parcelFrm' method="post">
     <input name="specifiedSendDate" value="" type="hidden">
     <input name="view" value="order" type="hidden">
@@ -969,4 +1163,21 @@ JPluginHelper::importPlugin('redshop_product');
             }
         });
     });
+</script>
+<script type="text/javascript">
+	function updateEmailBody(subject_number, order_id) {
+		if(subject_number && order_id) {
+			document.getElementById('billy_reminder_email_body'+order_id).value=subject_number;
+		}
+	}
+</script>
+<script type="text/javascript">
+	function callTimeline(billy_invoice_no,row_id) {
+		jQuery.ajax({
+			data: { task: "getInvoiceTimelines", billy_invoice_no:billy_invoice_no },
+			success: function(result, status, xhr) { 
+				jQuery("#invoiceTimeLine"+row_id).html(result); },
+			error: function() { console.log('ajax call for Billy timeline failed'); },
+		});
+	}
 </script>
