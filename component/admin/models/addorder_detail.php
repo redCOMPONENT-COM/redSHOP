@@ -757,13 +757,13 @@ class RedshopModelAddorder_detail extends RedshopModel
 
         $plugin              = JPluginHelper::getPlugin('billy', 'billy');
         $billyParams         = new JRegistry($plugin->params);
-        $billy_invoice_draft = $billyParams->get('billy_invoice_draft','0');
+        $billyInvoiceDraft = $billyParams->get('billy_invoice_draft','0');
 
         if (JPluginHelper::isEnabled('billy')) {
             RedshopBilly::createInvoiceInBilly($row->order_id);
 
-            if ($billy_invoice_draft == 0) {
-                $bookinvoicepdf = RedshopBilly::bookInvoiceInBilly($row->order_id, $checkOrderStatus);
+            if ($billyInvoiceDraft == 0) {
+                $bookinvoicepdf = RedshopBilly::bookInvoiceInBilly($row->order_id);
 
                 if (JFile::exists($bookinvoicepdf)) {
                     Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);

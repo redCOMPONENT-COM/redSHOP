@@ -189,26 +189,24 @@ class RedshopControllerOrder extends RedshopController
 
     public function billybookInvoice()
     {
-        $post             = $this->input->post->getArray();
-        $bookInvoiceDate  = $post['bookInvoiceDate'];
-        $orderId          = $this->input->getInt('order_id');
+        $post    = $this->input->post->getArray();
+        $orderId = $this->input->getInt('order_id');
 
         if (JPluginHelper::isEnabled('billy')) {
             if (!empty($post)) {
                 // Get order details from the redshop library order helper
                 $orderDetail = RedshopHelperOrder::getOrderDetails($orderId);
 
-                if ($post['onlycashbook'] == 1 && $orderDetail->is_billy_booked == 1
-                        && $orderDetail->is_billy_cashbook == 0) {
+                if ($post['onlycashbook'] == 1 && $orderDetail->is_billy_booked == 1 && $orderDetail->is_billy_cashbook == 0) {
                     RedshopBilly::createCashbookEntry($orderId, $orderDetail, $post);
-                    $ecomsg = JText::_('COM_REDSHOP_BILLY_SUCCESSFULLY_CASHBOOKED_INVOICE_IN_BILLY')
+                    $msg = JText::_('COM_REDSHOP_BILLY_SUCCESSFULLY_CASHBOOKED_INVOICE_IN_BILLY')
                                  . $orderId . '';
                     $msgType = 'message';
-                    $this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
+                    $this->setRedirect('index.php?option=com_redshop&view=order', $msg, $msgType);
                 }
             }
 
-            $bookinvoicepdf = RedshopBilly::bookInvoiceInBilly($orderId, 0, 0, $bookInvoiceDate, $post);
+            $bookinvoicepdf = RedshopBilly::bookInvoiceInBilly($orderId, $post);
 
             if (JFile::exists($bookinvoicepdf)) {
                 $ecomsg  = JText::_('COM_REDSHOP_BILLY_SUCCESSFULLY_BOOKED_INVOICE_IN_BILLY')
@@ -222,31 +220,32 @@ class RedshopControllerOrder extends RedshopController
     }
 
 	public function getInvoiceTimelines() {
-		$billyInvoiceNo = $this->input->getInt('billy_invoice_no');
-		
+		$billyInvoiceNo = $this->input->get('billy_invoice_no');
+
 		if (JPluginHelper::isEnabled('billy')) {
 			$timelines = RedshopBilly::getInvoiceTimelines($billyInvoiceNo);
-			echo $timelines;
+			echo "$timelines";
             exit;
 		}
 	}
 
 	public function sendReminder()
 	{
-		$post			= $this->input->post->getArray();
-		$billyInvoiceNo = $this->input->getInt('billy_invoice_no');
-		$orderId		= $this->input->getInt('order_id');
+		$billyInvoiceNo = $this->input->get('billy_invoice_no');
+		$orderId		= $this->input->get('order_id');
 		
 		if (JPluginHelper::isEnabled('billy')) {
 			$reminderSent = RedshopBilly::sendReminder($orderId, $billyInvoiceNo);
 		}
+
 		if ($reminderSent) {
 			$ecomsg  = JText::_('COM_REDSHOP_BILLY_SUCCESSFULLY_SENT_REMINDER_IN_BILLY') . $orderId . '';
 			$msgType = 'message';
 			$this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
 		} else {
-			$this->setMessage(JText::_('COM_REDSHOP_BILLY_ISSUE_IN_SENT_REMINDER_IN_BILLY'), 'error');
-			$this->setRedirect('index.php?option=com_redshop&view=order');			
+			$ecomsg  = JText::_('COM_REDSHOP_BILLY_ISSUE_IN_SENT_REMINDER_IN_BILLY') . $orderId . '';
+			$msgType = 'error';
+			$this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);			
 		}
 		
 	}

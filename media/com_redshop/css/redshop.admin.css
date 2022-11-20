@@ -1886,11 +1886,14 @@ th {
 }
 
 .table-striped > tbody > tr:nth-of-type(even) {
-    background-color: #f9fafc !important;
+    background-color: #f7f7f7 !important;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) {
     background-color: transparent !important;
+    border-bottom: 1px solid #ddd;
 }
 
 .table-hover > tbody > tr:hover {
@@ -12046,6 +12049,9 @@ a:focus {
 .table > tfoot > tr > td {
     border-top: 1px solid #f4f4f4;
 }
+
+.table > tbody > tr > td {
+    vertical-align: top}
 
 .table > thead > tr > th {
     border-bottom: 2px solid #f4f4f4;
@@ -29109,6 +29115,14 @@ body.modal-open {
     background-color: #f39c12;
 }
 
+.label.order_status_btn {
+    background-color: #f5f5f5;
+    color: #544847;
+    border: 1px solid #bbbbbb;
+    text-shadow: none;
+    font-weight: normal;
+}
+
 .label.order_payment_status_paid {
     background-color: #00a65a;
 }
@@ -29494,4 +29508,27 @@ div.modal.jviewport-width100 {
 
 .table-striped tbody > tr > td.day.active {
     background-color: #337ab7 !important;
+}
+
+.billy-timeline-entries {
+    position: relative;
+    padding-top: 15px;
+    margin-left: 5px;
+}
+
+.billy-timeline-entries::before {
+    z-index: 1;
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 17px;
+    width: 2px;
+    background: #dde1e3;
+}
+
+.billy-timeline {
+    width: 252px;
+    margin-bottom: 5px;
+    margin-top: 5px
 }
