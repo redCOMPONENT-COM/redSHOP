@@ -2772,7 +2772,7 @@ fieldset[disabled] a.btn {
 .btn-default {
     color: #333;
     background-color: #fff;
-    border-color: #d2d2d4;
+    border-color: #bbbbbb;
 }
 
 .btn-default:focus,
@@ -29104,15 +29104,58 @@ body.modal-open {
 }
 
 .label.order_status_s {
-    background-color: #00a65a;
+    background-color: #bcf2b5;
+    color: #00a65a;
+    border: 1px solid #00a65a;
+    text-shadow: none
 }
 
 .label.order_status_c {
-    background-color: #337ab7;
+    color: #337ab7;
+    background-color: #fff;
+    border: 1px solid #337ab7;
+    text-shadow: none
 }
 
 .label.order_status_p {
-    background-color: #f39c12;
+    background-color: #fbd9a4;
+    color: #f39c12;
+    border: 1px solid #f49c12;
+    text-shadow: none
+}
+
+.label.order_payment_status_unpaid {
+    background-color: #ffffff;
+    border: 1px solid #f00;
+    color: #f00;
+    text-shadow: none;
+}
+.label.order_payment_status_x {
+    background-color: #fbe5e5;
+    border: 1px solid #f00;
+    color: #f00;
+    text-shadow: none;
+}
+
+.label.order_status_rd1 {
+    background-color: #bcf2b5;
+    color: #00a65a;
+    border: 1px solid #00a65a;
+    text-shadow: none;
+}
+
+.label.order_status_app, .order_status_mob {
+    color: #f39c12;
+    background-color: #fbd9a4;
+    border: 1px solid #f39c12;
+    text-shadow: none;
+}
+
+.label.order_status_x {
+    background-color: #fbe5e5;
+    border: 1px solid #f00;
+    color: #f00;
+    text-shadow: none;
 }
 
 .label.order_status_btn {
@@ -29124,7 +29167,10 @@ body.modal-open {
 }
 
 .label.order_payment_status_paid {
-    background-color: #00a65a;
+    color: #00a65a;
+    background-color: #fff;
+    border: 1px solid #00a65a;
+    text-shadow: none;
 }
 
 .delete_item, .update_price {
