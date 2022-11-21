@@ -29576,5 +29576,22 @@ div.modal.jviewport-width100 {
 .billy-timeline {
     width: 252px;
     margin-bottom: 5px;
-    margin-top: 5px
+    margin-top: 5px;
 }
+
+.billy-reminder-block {
+    max-width:265px;
+    margin-bottom:0px;
+    margin-top: 10px;
+}
+
+.billy-order-icons {
+    color:#b7b7b7;
+    margin-top:7px;
+}
+
+.order-payment-row {
+    margin-bottom:3px;
+    width:266px;
+}
+
