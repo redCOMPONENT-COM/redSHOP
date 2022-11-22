@@ -355,7 +355,7 @@ JPluginHelper::importPlugin('redshop_product');
                 <?php
                     $linkUpdate = 'index.php?option=com_redshop&view=order&task=update_status&return=order&order_id[]=' . $row->order_id;
                     ?>
-                    <button type="button" class="btn btn-default" style="width:195px" data-toggle="modal"
+                    <button type="button" class="btn btn-default order-row-200px" data-toggle="modal"
                             data-target="#order_status_form<?php echo $row->id ?>">
                         <i class="fa fa-pencil-square-o"></i>&nbsp;</i> <?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON') ?>
                     </button>
@@ -456,8 +456,7 @@ JPluginHelper::importPlugin('redshop_product');
                         </div>
                     </div>
                     <br>
-                    <span style="width:195px;margin-bottom:4px;margin-top: 3px" 
-                            class="label order_status_<?php echo strtolower($row->order_status) ?>">
+                    <span class="label order_status_<?php echo strtolower($row->order_status) ?> order-row-200px">
                         <?php echo $row->order_status_name ?>
                     </span>
                     <?php echo $data->highlight->toHighlightGrid; ?>
@@ -585,15 +584,18 @@ JPluginHelper::importPlugin('redshop_product');
                                 );
                                 ?>
                                 <br/>
-                                <input type="button" class="button"
+                                <input type="button" class="btn btn-default order-payment-row"
                                        value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE"); ?>"
                                        onclick="javascript:<?php echo $confirm; ?>"><br/>
                             <?php endif; ?>
                         <?php elseif ($row->bookinvoice_date > 0): ?>
-                            <?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') ?><br/>
-                            <?php echo RedshopHelperDatetime::convertDateFormat($row->bookinvoice_date) ?>
+                                <br/>
+                                <span class="label order_payment_status_paid order-payment-row"> 
+                                    <?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . 
+                                        RedshopHelperDatetime::convertDateFormat($row->bookinvoice_date); ?>
+                                </span><br />
                         <?php endif; ?>
-                    <?php endif; 
+                    <?php endif;
                     // Economic section END
                     // Billy section START
 					if (JPluginHelper::isEnabled('billy')) {	
@@ -772,7 +774,7 @@ JPluginHelper::importPlugin('redshop_product');
 								<br>
 								<span class="label order_status_x order-payment-row" style="margin-top:5px">
                                     <?php echo JText::_('COM_REDSHOP_BILLY_INVOICE_OVERDUE_WITH'); ?>
-									<?php echo JText::_($overdueDays . ' d.'); ?>
+                                    <?php echo $overdueDays . ' ' . JText::_('COM_REDSHOP_DAYS') ?>
 								</span> <?php
 					    	}
                             // && $row->overdue_limit > 0
@@ -781,33 +783,106 @@ JPluginHelper::importPlugin('redshop_product');
                                     && ($billy_reminder && $row->is_billy_booked == 1 
                                     && !$invoice->isPaid) && $overdueDays > 0) { ?>
 								<br />
-								<div class="panel-body panel panel-default billy-reminder-block">
-									<input style="width:233px" class="hasPopover" type="text" 
-                                        title data-content="Note : You can only fill Amount or Procent, not both." 
-                                        data-original-title="Fee in amount" 
+                                <?php if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) {
+                                $linkCustomSmsReminder = 'index.php?option=com_redshop&view=order&task=custom_sms_reminder&return=order&order_id[]=' . $row->order_id; ?>
+                                <button type="button" class="label order_status_btn order-payment-row" data-toggle="modal"
+                                        data-target="#sms_reminder_form<?php echo $row->id ?>">
+                                    <i class="fa fa-edit"></i>&nbsp;</i> <?php echo JText::_('COM_REDSHOP_SEND_SMS_REMINDER') ?>
+                                </button>
+                                <div class="modal fade" id="sms_reminder_form<?php echo $row->id ?>" role="dialog"
+                                        aria-labelledby="sms_reminder_form_label_<?php echo $row->id ?>">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h3 class="modal-title" id="sms_reminder_form_label_<?php echo $row->id ?>">
+										            <?php echo JText::_('COM_REDSHOP_ORDER') . ': ' . $row->id ?>
+                                                </h3>
+                                            </div>
+			        					    <div class="modal-body">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+										                    <div class="form-group">
+											                    <label>
+                                                                    <?php echo JText::_('COM_REDSHOP_CLICKATELL_COUNTRY_PREFIX') . ': ' ?>
+                                                                </label>
+											                    <input type="text" 
+                                                                    name="prefix<?php echo $row->order_id ?>" 
+                                                                    value="<?php echo Redshop::getConfig()->get('CLICKATELL_COUNTRY_PREFIX');?>" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+										                    <div class="form-group">     
+                                                                <label>
+                                                                    <?php echo JText::_('COM_REDSHOP_PHONE') . ': ' ?>
+                                                                </label>
+											                    <input type="text" name="to<?php echo $row->order_id ?>" 
+                                                                    value="<?php echo $billing->phone;?>" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+										            <div class="form-group">
+											            <label>
+                                                            <?php echo JText::_('COM_REDSHOP_ALERT_MESSAGE') . ': ' ?>
+                                                        </label>
+											            <textarea class="form-control" name="message<?php echo $row->order_id ?>" /><?php 
+                                                            echo Redshop::getConfig()->get('CLICKATELL_CUSTOM_MESSAGE') ?>
+                                                        </textarea>
+										            </div>
+									            </div>
+								            </div>
+								            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                    <?php echo JText::_('JTOOLBAR_CANCEL') ?>
+                                                </button>
+                                                <button type="button" class="button btn btn-primary"
+                                                        onclick="location.href='<?php echo Redshop\IO\Route::_(
+                                                        $linkCustomSmsReminder,
+                                                        false
+                                                        ) ?>&status='+document.adminForm.order_status<?php echo $row->order_id ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.message<?php echo $row->order_id ?>.value)+'&to='+document.adminForm.to<?php echo $row->order_id ?>.value+'&prefix='+document.adminForm.prefix<?php echo $row->order_id ?>.value;"
+                                                        value="<?php echo JText::_('COM_REDSHOP_SEND_SMS_REMINDER') ?>">
+                                                    <?php echo JText::_('COM_REDSHOP_SEND_SMS_REMINDER') ?>
+                                                </button>
+								            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php   } ?>
+                                <div class="panel-body panel panel-default billy-reminder-block">
+									<input class="hasPopover order-row-235px" type="text" 
+                                        title data-content="<?php echo JText::_("COM_REDSHOP_BILLY_REMINDER_FEE_NOTE"); ?>" 
+                                        data-original-title="<?php echo JText::_("COM_REDSHOP_BILLY_REMINDER_FEE_AMOUNT"); ?>" 
                                         name="billy_reminder_fee_amount<?php echo $row->order_id ?>" 
                                         id="billy_reminder_fee_amount<?php echo $row->order_id ?>" 
                                         value="<?php echo $billyPluginParams->get('billy_reminder_fee_amount');?>" 
-                                        placeholder="Fee as amount" />
-									<input style="margin-top:3px;width:233px" class="hasPopover" type="text" 
-                                        title data-content="Note : You can only fill Amount or Procent, not both." 
-                                        data-original-title="Fee in procent" 
+                                        placeholder="<?php echo JText::_("COM_REDSHOP_BILLY_REMINDER_FEE_AMOUNT"); ?>" />
+									<input class="hasPopover order-row-235px" type="text" 
+                                        title data-content="<?php echo JText::_("COM_REDSHOP_BILLY_REMINDER_FEE_NOTE"); ?>" 
+                                        data-original-title="<?php echo JText::_("COM_REDSHOP_BILLY_REMINDER_FEE_PROCENT"); ?>" 
                                         name="billy_reminder_fee_procent<?php echo $row->order_id ?>" 
                                         id="billy_reminder_fee_procent<?php echo $row->order_id ?>" 
                                         value="<?php echo $billyPluginParams->get('billy_reminder_fee_procent');?>" 
-                                        placeholder="Fee in procent" />
+                                        placeholder="<?php echo JText::_("COM_REDSHOP_BILLY_REMINDER_FEE_PROCENT"); ?>" />
 									<br/>
-									<select style="margin-top:3px;width:233px" 
+									<select class="order-row-235px" 
                                             name="billy_reminder_email_subject<?php echo $row->order_id ?>" 
                                             id="billy_reminder_email_subject<?php echo $row->order_id ?>" 
                                             onChange="updateEmailBody(this.value, '<?php echo $row->order_id; ?>');">
-										<option  value="1" /><?php echo $billyPluginParams->get('billy_reminder_email_subject_1');?> #<?php echo $row->order_id ?></option>
-										<option  value="2" /><?php echo $billyPluginParams->get('billy_reminder_email_subject_2');?> #<?php echo $row->order_id ?></option>
-										<option  value="3" /><?php echo $billyPluginParams->get('billy_reminder_email_subject_3');?> #<?php echo $row->order_id ?></option>
+										<option value="1" />
+                                            <?php echo $billyPluginParams->get('billy_reminder_email_subject_1');?> #<?php echo $row->order_id ?>
+                                        </option>
+										<option value="2" />
+                                            <?php echo $billyPluginParams->get('billy_reminder_email_subject_2');?> #<?php echo $row->order_id ?>
+                                        </option>
+										<option value="3" />
+                                            <?php echo $billyPluginParams->get('billy_reminder_email_subject_3');?> #<?php echo $row->order_id ?>
+                                        </option>
 									</select> <?php
 							    	$rconfirm = 'document.reminder.order_id.value=\'' . $row->order_id . '\';document.reminder.billy_invoice_no.value=\'' . $row->billy_invoice_no . '\';document.reminder.billy_reminder_fee_amount_hide.value=document.getElementById(\'billy_reminder_fee_amount' . $row->order_id  . '\').value;document.reminder.billy_reminder_fee_procent_hide.value=document.getElementById(\'billy_reminder_fee_procent' . $row->order_id  . '\').value;document.reminder.billy_reminder_email_subject_hide.value=document.getElementById(\'billy_reminder_email_subject' . $row->order_id  . '\').value;document.reminder.billy_reminder_email_body_hide.value=document.getElementById(\'billy_reminder_email_subject' . $row->order_id  . '\').value;document.reminder.submit();'; ?>
-									<input type="button" class="btn btn-small btn-warning" 
-                                        style="margin-top:5px" 
+									<input type="button" class="btn btn-small btn-warning order-row-235px" 
                                         value="<?php echo JText::_("COM_REDSHOP_BILLY_SEND_REMINDER"); ?>"
 									    onclick="javascript:<?php echo $rconfirm; ?>">
 								</div> <?php
