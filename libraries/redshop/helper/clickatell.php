@@ -269,6 +269,84 @@ class RedshopHelperClickatell
     }
 
     /**
+     * Method for send message
+     *
+     * @param   string  $text    Message text
+     * @param   string  $to      Phone number for send
+     * @param   string  $from    Sender id
+     * @param   string  $prefix  Country prefix
+     *
+     * @return  void
+     *
+     * @since   2.0.6
+     */
+    public static function sendCustomMessageReminder()
+    {
+        $app = JFactory::getApplication();
+
+        // ClickATell username      
+        $user = Redshop::getConfig()->get('CLICKATELL_USERNAME');
+
+        // ClickATell password
+        $password = Redshop::getConfig()->get('CLICKATELL_PASSWORD');
+
+        // ClickATell to
+        $to = $app->input->get('to');
+
+        // ClickATell prefix
+        $prefix = $app->input->get('prefix');
+
+        // ClickATell message
+        $text = $app->input->getString('customer_note');
+
+        // ClickATell sender id
+        $from = Redshop::getConfig()->get('CLICKATELL_SENDER_ID');
+
+        // Clickatell_api_id
+        $clickATellAPI = Redshop::getConfig()->get('CLICKATELL_API_ID');
+        $baseUrl       = "https://api.clickatell.com";
+
+        // Auth call
+        $url = $baseUrl . '/http/auth?user=' . $user . '&password=' . $password . '&api_id=' . $clickATellAPI;
+
+        // Do auth call
+        $result = file($url);
+
+        // Split our response. return string is on first line of the data returned
+        $session = explode(":", $result[0]);
+
+        if ($session[0] == "OK") {
+            // Remove any whitespace
+            $sessionId = trim($session[1]);
+            if (!empty($prefix)) {
+                $url = $baseUrl . '/http/sendmsg?session_id=' . $sessionId . '&to=' . $prefix . $to . '&from=' . $from . '&text=' . urlencode(utf8_decode($text));
+            } else {
+                $url = $baseUrl . '/http/sendmsg?session_id=' . $sessionId . '&to=' . $to . '&from=' . $from . '&text=' . urlencode(utf8_decode($text));
+            }
+
+            // Do send sms call
+            $result  = file($url);
+            $send    = explode(":", $result[0]);
+            $orderId = JFactory::getApplication()->input->get('order_id');
+
+            if ($send[0] == "ID") {
+                $msg     = JText::_('COM_REDSHOP_CLICKATELL_SENT_SUCCESS') . " " . $orderId[0];
+                $msgType = 'message';
+
+            } else {
+                $msg     = JText::_('Clickatell send sms message failed:') . " " . $orderId[0];
+                $msgType = 'error';
+
+            }
+        } else {
+            $msg     = JText::_('Authentication failure:') . " " . $result[0];
+            $msgType = 'error';
+        }
+
+        $app->redirect('index.php?option=com_redshop&view=order', $msg, $msgType);
+    }
+
+    /**
      * Method for replace message
      *
      * @param   string  $message      Message text

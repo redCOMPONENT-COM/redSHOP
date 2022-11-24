@@ -29595,6 +29595,21 @@ div.modal.jviewport-width100 {
     margin-bottom:3px;
 }
 
+.order-sms-row {
+    width:180px!important;
+    margin-right:4px;
+}
+
+.order-timeline-row {
+    width:133px!important;
+    margin-right:4px;
+}
+
+.order-update-row {
+    width: 200px!important;
+    margin-bottom: 4px;
+}
+
 .order-row-200px {
     width: 200px!important;
     margin-bottom: 4px;

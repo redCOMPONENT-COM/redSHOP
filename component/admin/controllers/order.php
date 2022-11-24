@@ -95,6 +95,11 @@ class RedshopControllerOrder extends RedshopController
         RedshopHelperClickatell::sendCustomMessage();
     }
 
+    public function custom_sms_reminder()
+    {
+        RedshopHelperClickatell::sendCustomMessageReminder();
+    }
+
     /**
      * Update All Order status using AJAX without generating pacsoft label
      *
@@ -219,36 +224,36 @@ class RedshopControllerOrder extends RedshopController
         $this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
     }
 
-	public function getInvoiceTimelines() {
-		$billyInvoiceNo = $this->input->get('billy_invoice_no');
+    public function getInvoiceTimelines() {
+        $billyInvoiceNo = $this->input->get('billy_invoice_no');
 
-		if (JPluginHelper::isEnabled('billy')) {
-			$timelines = RedshopBilly::getInvoiceTimelines($billyInvoiceNo);
-			echo "$timelines";
+        if (JPluginHelper::isEnabled('billy')) {
+            $timelines = RedshopBilly::getInvoiceTimelines($billyInvoiceNo);
+            echo "$timelines";
             exit;
-		}
-	}
+        }
+    }
 
-	public function sendReminder()
-	{
-		$billyInvoiceNo = $this->input->get('billy_invoice_no');
-		$orderId		= $this->input->get('order_id');
-		
-		if (JPluginHelper::isEnabled('billy')) {
-			$reminderSent = RedshopBilly::sendReminder($orderId, $billyInvoiceNo);
-		}
+    public function sendReminder()
+    {
+        $billyInvoiceNo = $this->input->get('billy_invoice_no');
+        $orderId		= $this->input->get('order_id');
+        
+        if (JPluginHelper::isEnabled('billy')) {
+            $reminderSent = RedshopBilly::sendReminder($orderId, $billyInvoiceNo);
+        }
 
-		if ($reminderSent) {
-			$ecomsg  = JText::_('COM_REDSHOP_BILLY_SUCCESSFULLY_SENT_REMINDER_IN_BILLY') . $orderId . '';
-			$msgType = 'message';
-			$this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
-		} else {
-			$ecomsg  = JText::_('COM_REDSHOP_BILLY_ISSUE_IN_SENT_REMINDER_IN_BILLY') . $orderId . '';
-			$msgType = 'error';
-			$this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);			
-		}
-		
-	}
+        if ($reminderSent) {
+            $ecomsg  = JText::_('COM_REDSHOP_BILLY_SUCCESSFULLY_SENT_REMINDER_IN_BILLY') . $orderId . '';
+            $msgType = 'message';
+            $this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
+        } else {
+            $ecomsg  = JText::_('COM_REDSHOP_BILLY_ISSUE_IN_SENT_REMINDER_IN_BILLY') . $orderId . '';
+            $msgType = 'error';
+            $this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);			
+        }
+        
+    }
 
     public function createInvoice()
     {
@@ -287,22 +292,22 @@ class RedshopControllerOrder extends RedshopController
             }
         }
 
-		$plugin            = JPluginHelper::getPlugin('billy', 'billy');
-		$pluginParams      = new JRegistry($plugin->params);
-		$billyInvoiceDraft = $pluginParams->get('billy_invoice_draft','0');
+        $plugin            = JPluginHelper::getPlugin('billy', 'billy');
+        $pluginParams      = new JRegistry($plugin->params);
+        $billyInvoiceDraft = $pluginParams->get('billy_invoice_draft','0');
 
-		if (JPluginHelper::isEnabled('billy') && $billyInvoiceDraft != 2) {
-			$orderId       = $this->input->getInt('order_id');
-			$invoiceHandle = RedshopBilly::createInvoiceInBilly($orderId);
+        if (JPluginHelper::isEnabled('billy') && $billyInvoiceDraft != 2) {
+            $orderId       = $this->input->getInt('order_id');
+            $invoiceHandle = RedshopBilly::createInvoiceInBilly($orderId);
 
-			if ($billyInvoiceDraft == 0) {
-				$bookinvoicepdf = RedshopBilly::bookInvoiceInBilly($orderId, 1);
+            if ($billyInvoiceDraft == 0) {
+                $bookinvoicepdf = RedshopBilly::bookInvoiceInBilly($orderId, 1);
 
-				if (JFile::exists($bookinvoicepdf)) {
-					$ret = RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookinvoicepdf);
-				}
-			}
-		}
+                if (JFile::exists($bookinvoicepdf)) {
+                    $ret = RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookinvoicepdf);
+                }
+            }
+        }
 
         $this->setRedirect('index.php?option=com_redshop&view=order');
     }
