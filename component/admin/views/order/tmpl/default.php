@@ -636,9 +636,8 @@ JPluginHelper::importPlugin('redshop_product');
                                         date("d-m-Y", strtotime($row->billy_bookinvoice_date)); ?>
                                     </span>
                                     <span class="btn btn-small btn-success order-payment-row"> 
-                                        <?php echo JText::_('COM_REDSHOP_BILLY_PAID_IN_BILLY') . " " . 
-                                        date("d-m-Y", strtotime($row->billy_bookinvoice_date)); ?>
-                                    </span><br /> <?php
+                                        <?php echo JText::_('COM_REDSHOP_BILLY_PAID_IN_BILLY') ?>
+                                    </span><br /> <?php 
                                 } else if ($row->is_billy_booked == 1 && $row->is_billy_cashbook == 0 
                                         && $row->order_payment_status == 'Paid' && !$invoice->isPaid == '1') {
                                     $confirm = 'document.binvoice.onlycashbook.value=1;document.binvoice.onlybook.value=0;document.binvoice.bookwithCashbook.value=0;document.binvoice.order_id.value=\'' . $row->order_id . '\';document.binvoice.submit();';
@@ -1116,7 +1115,7 @@ JPluginHelper::importPlugin('redshop_product');
     <input name="view" value="order" type="hidden">
     <input name="order_id" value="" type="hidden">
     <input name="option" value="com_redshop" type="hidden">
-    <input name="task" value="billybookInvoice" type="hidden">
+    <input name="task" value="billyBookInvoice" type="hidden">
     <input name="onlycashbook" value="" type="hidden">
     <input name="bookwithCashbook" value="" type="hidden">
     <input name="onlybook" value="" type="hidden">
@@ -1126,12 +1125,12 @@ JPluginHelper::importPlugin('redshop_product');
     <input name="order_id" value="" type="hidden">
     <input name="billy_invoice_no" value="" type="hidden">
     <input name="option" value="com_redshop" type="hidden">
-    <input name="task" value="sendReminder" type="hidden">
+    <input name="task" value="sendBillyReminder" type="hidden">
     <input name="billy_reminder_fee_amount_hide" value="" type="hidden">
     <input name="billy_reminder_fee_procent_hide" value="" type="hidden">
     <input name="billy_reminder_email_subject_hide" value="" type="hidden">
     <input name="billy_reminder_email_body_hide" value="" type="hidden">
-    <input name="sendReminder" value="" type="hidden">
+    <input name="sendBillyReminder" value="" type="hidden">
 </form>
 <form name='parcelFrm' method="post">
     <input name="specifiedSendDate" value="" type="hidden">
@@ -1352,7 +1351,7 @@ JPluginHelper::importPlugin('redshop_product');
 <script type="text/javascript">
     function callTimeline(billy_invoice_no,row_id) {
         jQuery.ajax({
-            data: { task: "getInvoiceTimelines", billy_invoice_no:billy_invoice_no },
+            data: { task: "getBillyInvoiceTimelines", billy_invoice_no:billy_invoice_no },
             success: function(result, status, xhr) { 
                 jQuery("#invoiceTimeLine"+row_id).html(result); },
             error: function() { console.log('ajax call for Billy timeline failed'); },
