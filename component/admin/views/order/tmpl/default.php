@@ -529,11 +529,22 @@ JPluginHelper::importPlugin('redshop_product');
                     <?php if (RedshopHelperPdf::isAvailablePdfPlugins()): ?>
                         <a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>"
                            target="_blank">
-                            <i class="fa fa-file-pdf-o" style="color:#b7b7b7"></i>
+                            <i class="fa fa-file-pdf-o billy-order-icons"></i>
                         </a>
                     <?php else: ?>
-                        <span class="disabled" style="color:#b7b7b7"><i class="fa fa-file-pdf-o"></i></span>
-                    <?php endif; ?>
+                        <span class="disabled billy-order-icons"><i class="fa fa-file-pdf-o"></i></span>
+                    <?php endif;
+                    if ((Redshop::getConfig()->get('POSTDK_INTEGRATION')) 
+                            && $row->order_label_create == 1) { ?>
+                        <a href="https://www.unifaunonline.com/ext.uo.dk.track?key=290000004&order=<?php echo $row->order_id; ?>" 
+                                class="hasPopover billy-order-icons" target="_blank" 
+                                title data-content="<?php 
+                                    echo JText::_('COM_REDSHOP_OPEN_PACSOFT_TRACKING') ?>" 
+                                data-original-title="<?php 
+                                    echo JText::_('COM_REDSHOP_ORDER_SHIPPED') ?>">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </a>&nbsp; <?php	
+                    } ?>
                 </td>
                 <td>
                     <?php $paymentStatusClass = 'label order_payment_status_' . strtolower(
@@ -718,35 +729,32 @@ JPluginHelper::importPlugin('redshop_product');
                                 if (isset($invoice->sentState)) {
                                     if ($invoice->sentState == 'sent') { ?>
                                         <span class="hasPopover billy-order-icons" 
-                                                title data-content="Invoice sent as email, but not opened by customer" 
-                                                data-original-title="Billy invoice status">
+                                                title data-content="<?php 
+                                                echo JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_SENT') ?>" 
+                                                data-original-title="<?php 
+                                                echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
                                             <i class="far fa-envelope"></i>
                                         </span>&nbsp; <?php
                                     }
                                     if (isset($invoice->sentState) && $invoice->sentState == 'opened') { ?>
                                         <span class="hasPopover billy-order-icons" 
-                                                title data-content="Email viewed by customer" 
-                                                data-original-title="Billy invoice status">
+                                                title data-content="<?php 
+                                                echo JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_OPEN') ?>"" 
+                                                data-original-title="<?php 
+                                                echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
                                             <i class="far fa-envelope-open"></i>
                                         </span>&nbsp; <?php
                                     }
                                     if (isset($invoice->sentState) && ($invoice->sentState == 'viewed' 
                                             || $invoice->sentState == 'printed')) { ?>
                                         <span class="hasPopover billy-order-icons" 
-                                                title data-content="Invoice opened by customer" 
-                                                data-original-title="Billy invoice status">
+                                                title data-content="<?php 
+                                                echo JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_VIEWED') ?>" 
+                                                data-original-title="<?php 
+                                                echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
                                             <i class="far fa-search-plus"></i>
                                         </span>&nbsp; <?php
                                     }
-                                }
-                                if ((Redshop::getConfig()->get('POSTDK_INTEGRATION')) 
-                                        && $row->order_label_create) { ?>
-                                    <a href="https://www.unifaunonline.com/ext.uo.dk.track?key=290000004&order=<?php echo $row->order_id; ?>" 
-                                            class="hasPopover billy-order-icons" target="_blank" 
-                                            title data-content="Open tracking in new windwow" 
-                                            data-original-title="Order shipped">
-                                        <i class="fa-solid fa-location-dot"></i>
-                                    </a>&nbsp; <?php	
                                 }	
                             } ?>
                             <a href="index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=<?php 
@@ -766,16 +774,21 @@ JPluginHelper::importPlugin('redshop_product');
                                     <?php echo JText::_('COM_REDSHOP_BILLY_ERROR_IN_BOOK_INVOICE'); ?>
                                 </b>
                             </span> <?php
-                        } 
+                        }
+
+                        $billyReminderEnabled = $billyPluginParams->get('billy_reminder_enabled','0');
                         if ($row->is_billy_booked == 1 && $row->order_payment_status == 'Unpaid' 
+                                && $billyReminderEnabled == 1 && !$invoice->isPaid
                                 && ($row->order_status == 'S' || $row->order_status == 'RD' 
                                 || $row->order_status == 'RD1')) {
                             if (!empty($row->overdue_days)) {
-                                $overdueDays = $row->overdue_days;
+                                $overdueDays  = $row->overdue_days;
+                                $overdueLimit = $row->overdue_limit;
                             } else {
-                                $overdueDays = RedshopBilly::calulateOverdueDays($row->billy_invoice_no);
+                                $overdueDays  = RedshopBilly::calulateOverdueDays($row->billy_invoice_no);
+                                $overdueLimit = RedshopBilly::calulateOverdueLimits($row->billy_invoice_no);
                             }
-                            if ($overdueDays > 0 && $row->order_payment_status == 'Unpaid') { ?>
+                            if ($overdueDays > 0) { ?>
                                 <br>
                                 <span class="label order_status_x order-payment-row" style="margin-top:5px">
                                     <?php echo JText::_('COM_REDSHOP_BILLY_INVOICE_OVERDUE_WITH'); ?>
@@ -783,15 +796,7 @@ JPluginHelper::importPlugin('redshop_product');
                                 </span> <?php
                             }
 
-                            if (!empty($row->overdue_limit)) {
-                                $overdueLimit = $row->overdue_limit;
-                            } else {
-                                $overdueLimit = RedshopBilly::calulateOverdueLimits($row->billy_invoice_no);
-                            }
-                            $billy_reminder = $billyPluginParams->get('billy_reminder','0');
-                            if ($row->order_payment_status == 'Unpaid' && $row->billy_invoice_no != '' 
-                                    && ($billy_reminder && $row->is_billy_booked == 1 
-                                    && !$invoice->isPaid) && $overdueDays > 0 && $overdueLimit > 0) { ?>
+                            if ($overdueDays > 0 && $overdueLimit > 0) { ?>
                                 <br />
                                 <?php if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) {
                                 $linkCustomSmsReminder = 'index.php?option=com_redshop&view=order&task=custom_sms_reminder&return=order&order_id[]=' . $row->order_id; ?>
@@ -932,11 +937,10 @@ JPluginHelper::importPlugin('redshop_product');
                                     <br> <?php
                                 }
                             }
-                            if ($row->overdue_limit < 0 && $row->order_payment_status !== 'Paid'
-                                    && $overdueDays > 0) { ?>
+                            if ($overdueLimit < 0 && $overdueDays > 0) { ?>
                                 <span style="font-size:11px"> 
                                     <?php echo JText::_('COM_REDSHOP_BILLY_NEXT_REMINDER_IN_DAYS') . 
-                                    ' <b>'.$row->overdue_limit . ' ' . JText::_('COM_REDSHOP_DAYS').'</b>'; ?>
+                                    ' <b>' . $overdueLimit . ' ' . JText::_('COM_REDSHOP_DAYS') . '</b>'; ?>
                                 </span> <?php
                             }
                         }
