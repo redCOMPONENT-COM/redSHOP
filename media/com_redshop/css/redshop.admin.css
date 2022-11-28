@@ -29161,9 +29161,18 @@ body.modal-open {
 .label.order_status_btn {
     background-color: #f5f5f5;
     color: #544847;
-    border: 1px solid #bbbbbb;
+    border: 1px solid #ddd;
     text-shadow: none;
     font-weight: normal;
+}
+
+.label.order_reminder_btn {
+    background-color: #ffe7c5;
+    color: #544847;
+    border: 1px solid #ddd;
+    text-shadow: none;
+    font-weight: normal;
+    margin-bottom: 5px;
 }
 
 .label.order_payment_status_paid {
@@ -29580,29 +29589,31 @@ div.modal.jviewport-width100 {
 }
 
 .billy-reminder-block {
-    max-width:265px;
-    margin-bottom:5px;
+    max-width: 265px;
+    margin-bottom: 5px;
     margin-top: 10px;
 }
 
 .billy-order-icons {
-    color:#b7b7b7;
-    margin-top:7px;
+    color: #b7b7b7;
+    margin-top: 7px;
+    margin-right: 5px;
 }
 
 .order-payment-row {
-    width:266px!important;
-    margin-bottom:3px;
+    width: 266px!important;
+    margin-bottom: 3px;
 }
 
 .order-sms-row {
-    width:165px!important;
-    margin-right:4px;
+    width: 160px!important;
+    margin-right: 5px;
 }
 
 .order-timeline-row {
-    width:175px!important;
-    margin-right:4px;
+    width: 195px!important;
+    margin-right: 5px;
+    margin-bottom: 5px;
 }
 
 .order-update-row {

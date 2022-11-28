@@ -319,14 +319,13 @@ JPluginHelper::importPlugin('redshop_product');
                     <?php echo JHtml::_('grid.id', $i, $row->id); ?>
                 </td>
                 <td align="center">
-                    <a style="margin-bottom:7px;background:#7f7f7f;color:#fff" class="btn btn-default" href="<?php echo $link ?>"
-                       title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER') ?>">
+                    <a class="btn btn-default" href="<?php echo $link ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER') ?>">
                        <i class="fa fa-edit"></i>&nbsp;&nbsp;<?php echo $row->order_id ?>
                     </a>
                     <br>
                     <?php echo RedshopHelperDatetime::convertDateFormat($row->cdate); ?>
                     <br>
-                    <b style="font-size:15px">
+                    <b id="product_attribute">
                         <?php echo RedshopHelperProductPrice::formattedPrice($row->order_total); ?>
                     </b>
                 </td>
@@ -425,7 +424,7 @@ JPluginHelper::importPlugin('redshop_product');
                                             <?php   } ?>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6" style="text-align: right">
+                                            <div class="col-md-6 text-right">
                                                 <hr/>
                                                 <div class="form-group"> <?php
                                                     echo $shipping_name = 
@@ -528,8 +527,8 @@ JPluginHelper::importPlugin('redshop_product');
                     <?php   } ?>
                     <?php if (RedshopHelperPdf::isAvailablePdfPlugins()): ?>
                         <a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>"
-                           target="_blank">
-                            <i class="fa fa-file-pdf-o billy-order-icons"></i>
+                           class="billy-order-icons" target="_blank">
+                            <i class="fa fa-file-pdf-o"></i>
                         </a>
                     <?php else: ?>
                         <span class="disabled billy-order-icons"><i class="fa fa-file-pdf-o"></i></span>
@@ -543,7 +542,7 @@ JPluginHelper::importPlugin('redshop_product');
                                 data-original-title="<?php 
                                     echo JText::_('COM_REDSHOP_ORDER_SHIPPED') ?>">
                             <i class="fa-solid fa-location-dot"></i>
-                        </a>&nbsp; <?php	
+                        </a> <?php	
                     } ?>
                 </td>
                 <td>
@@ -651,9 +650,13 @@ JPluginHelper::importPlugin('redshop_product');
                                     </span><br /> <?php 
                                 } else if ($row->is_billy_booked == 1 && $row->is_billy_cashbook == 0 
                                         && $row->order_payment_status == 'Paid' && !$invoice->isPaid == '1') {
-                                    $confirm = 'document.binvoice.onlycashbook.value=1;document.binvoice.onlybook.value=0;document.binvoice.bookwithCashbook.value=0;document.binvoice.order_id.value=\'' . $row->order_id . '\';document.binvoice.submit();';
-                                    echo "<span style='font-size:12px'>" . JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . ($row->billy_bookinvoice_date) . "</span><br />"; ?>
-                                    <input type="button" class="btn btn-default" style="margin-right:15px" value="<?php echo JText::_("COM_REDSHOP_BILLY_MAKE_CASHBOOK"); ?>"
+                                    $confirm = 'document.binvoice.onlycashbook.value=1;document.binvoice.onlybook.value=0;document.binvoice.bookwithCashbook.value=0;document.binvoice.order_id.value=\'' . $row->order_id . '\';document.binvoice.submit();'; ?>
+                                    <span class="label order_payment_status_paid order-payment-row"> 
+                                    <?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . 
+                                        date("d-m-Y", strtotime($row->billy_bookinvoice_date)); ?>
+                                    </span><br />
+                                    <input type="button" class="btn btn-default order-payment-row" 
+                                        value="<?php echo JText::_("COM_REDSHOP_BILLY_MAKE_CASHBOOK"); ?>"
                                         onclick="javascript:<?php echo $confirm; ?>"><br/> <?php
                                 } else if ($row->is_billy_booked == 1) { ?>
                                     <br/>
@@ -682,7 +685,7 @@ JPluginHelper::importPlugin('redshop_product');
                         <div class="modal fade" id="billy_timeline<?php echo $row->id ?>" role="dialog" 
                                 aria-labelledby="billy_timeline_label_<?php echo $row->id ?>">
                             <div class="modal-dialog" role="document">
-                                <div class="modal-content" style="">
+                                <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" 
                                                 aria-label="Close">
@@ -693,7 +696,7 @@ JPluginHelper::importPlugin('redshop_product');
                                             <?php echo JText::_('COM_REDSHOP_BILLY_TIMELINE').': '.$row->id ?>
                                         </h3>
                                     </div>
-                                    <div class="modal-body" style="text-align:center">
+                                    <div class="modal-body text-center">
                                         <div class="billy-timeline-entries" 
                                                 id="invoiceTimeLine<?php echo $row->id ?>">
                                         </div>
@@ -713,7 +716,7 @@ JPluginHelper::importPlugin('redshop_product');
                                             data-original-title="<?php 
                                             echo JText::_('COM_REDSHOP_BILLY_INVOICE') ?>">
                                         <i class="fa fa-download"></i>
-                                    </a>&nbsp; <?php
+                                    </a> <?php
                                 } else { ?>
                                     <a href="<?php echo $invoice->downloadUrl; ?>?layout=packing-list" 
                                             class="hasPopover billy-order-icons" target="_blank" 
@@ -722,7 +725,7 @@ JPluginHelper::importPlugin('redshop_product');
                                             data-original-title="<?php 
                                             echo JText::_('COM_REDSHOP_BILLY_PACKAGE_LIST_OPEN') ?>">
                                         <i class="far fa-circle-down"></i>
-                                    </a>&nbsp; <?php
+                                    </a> <?php
                                 } 
                             }					
                             if ($row->is_billy_booked == 1 && $row->order_status !== 'X') {
@@ -734,7 +737,7 @@ JPluginHelper::importPlugin('redshop_product');
                                                 data-original-title="<?php 
                                                 echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
                                             <i class="far fa-envelope"></i>
-                                        </span>&nbsp; <?php
+                                        </span> <?php
                                     }
                                     if (isset($invoice->sentState) && $invoice->sentState == 'opened') { ?>
                                         <span class="hasPopover billy-order-icons" 
@@ -743,7 +746,7 @@ JPluginHelper::importPlugin('redshop_product');
                                                 data-original-title="<?php 
                                                 echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
                                             <i class="far fa-envelope-open"></i>
-                                        </span>&nbsp; <?php
+                                        </span> <?php
                                     }
                                     if (isset($invoice->sentState) && ($invoice->sentState == 'viewed' 
                                             || $invoice->sentState == 'printed')) { ?>
@@ -753,7 +756,7 @@ JPluginHelper::importPlugin('redshop_product');
                                                 data-original-title="<?php 
                                                 echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
                                             <i class="far fa-search-plus"></i>
-                                        </span>&nbsp; <?php
+                                        </span> <?php
                                     }
                                 }	
                             } ?>
@@ -763,13 +766,12 @@ JPluginHelper::importPlugin('redshop_product');
                                     title data-content="Download forsendelses pdf i A5 format" 
                                     data-original-title="Download forsendelses pdf">
                                 <i class="fa fa-tag"></i>
-                            </a>&nbsp; <?php
+                            </a> <?php
                         }
 
                         if ($row->is_billy_booked == 0 && ($row->order_status == 'S' 
                                 || $row->order_status == 'RD' || $row->order_status == 'RD1')) { ?>
-                            <span class="label order_payment_status_paid order-payment-row" 
-                                    style="color:#ffffff;background-color:#e83026">
+                            <span class="label order_payment_status_paid order-payment-row btn-warning">
                                 <b>
                                     <?php echo JText::_('COM_REDSHOP_BILLY_ERROR_IN_BOOK_INVOICE'); ?>
                                 </b>
@@ -790,7 +792,7 @@ JPluginHelper::importPlugin('redshop_product');
                             }
                             if ($overdueDays > 0) { ?>
                                 <br>
-                                <span class="label order_status_x order-payment-row" style="margin-top:5px">
+                                <span class="label order_status_x order-payment-row">
                                     <?php echo JText::_('COM_REDSHOP_BILLY_INVOICE_OVERDUE_WITH'); ?>
                                     <?php echo $overdueDays . ' ' . JText::_('COM_REDSHOP_DAYS') ?>
                                 </span> <?php
@@ -921,11 +923,10 @@ JPluginHelper::importPlugin('redshop_product');
                             }
                             $reminders = RedshopBilly::getSentReminders($row->billy_invoice_no);
                             if ($reminders && $overdueDays > 0) { ?>
-                                <span style="font-size:11px"> 
-                                    <?php echo JText::_('COM_REDSHOP_BILLY_REMINDER_PREVIOUS_SENT'); ?>
-                                </span><br> <?php
+                                <?php echo JText::_('COM_REDSHOP_BILLY_REMINDER_PREVIOUS_SENT'); ?>
+                                <br> <?php
                                 foreach($reminders as $reminder) { ?>
-                                    <span class="label order_status_btn order-payment-row">
+                                    <span class="label order_reminder_btn order-payment-row">
                                     <b>
                                         <?php echo $reminder->emailSubject; ?>
                                     </b><br>
@@ -937,11 +938,9 @@ JPluginHelper::importPlugin('redshop_product');
                                     <br> <?php
                                 }
                             }
-                            if ($overdueLimit < 0 && $overdueDays > 0) { ?>
-                                <span style="font-size:11px"> 
-                                    <?php echo JText::_('COM_REDSHOP_BILLY_NEXT_REMINDER_IN_DAYS') . 
-                                    ' <b>' . $overdueLimit . ' ' . JText::_('COM_REDSHOP_DAYS') . '</b>'; ?>
-                                </span> <?php
+                            if ($overdueLimit < 0 && $overdueDays > 0) { ?> 
+                                <?php echo JText::_('COM_REDSHOP_BILLY_NEXT_REMINDER_IN_DAYS') . 
+                                ' <b>' . $overdueLimit . ' ' . JText::_('COM_REDSHOP_DAYS') . '</b>'; ?> <?php
                             }
                         }
                     }
@@ -951,10 +950,10 @@ JPluginHelper::importPlugin('redshop_product');
                     <?php
                     if ($shippingDetail[0] !== 'plgredshop_shippingself_pickup') {
                         $shipping = RedshopEntityOrder::getInstance($row->order_id)->getShipping(); 
-                        if ($row->shop_id) {
-                            $shop_id_trim = explode("|", $row->shop_id); ?>
-                            <div style="font-weight:bold">
-                                <?php echo $shop_id_trim[1]; ?>
+                        if (!empty($row->shop_id)) {
+                            $shopIdTrim = explode("|", $row->shop_id); ?>
+                            <div class="ui-priority-primary">
+                                <?php echo $shopIdTrim[1]; ?>
                             </div> <?php
                         }
                         if (!empty($shipping->company_name)) { ?>					
@@ -980,8 +979,7 @@ JPluginHelper::importPlugin('redshop_product');
                 </td>
                 <td>
                     <b>
-                        <?php echo $shipping_name = 
-                            Redshop\Shipping\Tag::replaceShippingMethod($row, "{shipping_method}"); ?>
+                        <?php echo $shippingDetail[2] ?>
                     </b>
                     <br /> <?php
                     if (Redshop::getConfig()->get('POSTDK_INTEGRATION')) {
@@ -1004,7 +1002,8 @@ JPluginHelper::importPlugin('redshop_product');
                             ));
 
                         if ($allowPacsoftLabel) {
-                            if ($row->order_label_create) {
+                            if ($row->order_label_create) { ?>
+                                <i class="fa-regular fa-square-check"></i> <?php
                                 echo JTEXT::_("COM_REDSHOP_XML_ALREADY_GENERATED");
                             } else { ?>
                                 <span style="display:none"> <?php
