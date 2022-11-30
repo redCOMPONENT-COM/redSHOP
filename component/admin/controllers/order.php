@@ -212,13 +212,6 @@ class RedshopControllerOrder extends RedshopController
             }
 
             $bookinvoicepdf = RedshopBilly::bookInvoiceInBilly($orderId, $post);
-
-            if (JFile::exists($bookinvoicepdf)) {
-                $ecomsg  = JText::_('COM_REDSHOP_BILLY_SUCCESSFULLY_BOOKED_INVOICE_IN_BILLY')
-                             . $orderId . '';
-                $msgType = 'message';
-                RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookinvoicepdf);
-            }
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
@@ -421,14 +414,10 @@ class RedshopControllerOrder extends RedshopController
 
         if (JPluginHelper::isEnabled('billy') && $billyInvoiceDraft != 2) {
             $orderId       = $this->input->getInt('order_id');
-            $invoiceHandle = RedshopBilly::createInvoiceInBilly($orderId);
+            RedshopBilly::createInvoiceInBilly($orderId);
 
             if ($billyInvoiceDraft == 0) {
-                $bookinvoicepdf = RedshopBilly::bookInvoiceInBilly($orderId, 1);
-
-                if (JFile::exists($bookinvoicepdf)) {
-                    $ret = RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookinvoicepdf);
-                }
+                RedshopBilly::bookInvoiceInBilly($orderId, 1);
             }
         }
 

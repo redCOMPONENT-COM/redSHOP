@@ -1239,11 +1239,7 @@ class RedshopModelCheckout extends RedshopModel
             RedshopBilly::createInvoiceInBilly($row->order_id);
 
             if ($billyInvoiceDraft == 0) {
-                $bookInvoicePdf = RedshopBilly::bookInvoiceInBilly($row->order_id);
-
-                if (JFile::exists($bookinvoicepdf)) {
-                    Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($row->order_id, $bookInvoicePdf);
-                }
+                RedshopBilly::bookInvoiceInBilly($row->order_id);
             }
         }
 

@@ -2,7 +2,7 @@
 {% set checked = checked ? 'checked="checked"' : '' %}
 
 <div id="{{ oneMethod.name }}" class="{{ checkedClass }}">
-    <label class="radio" for="{{ oneMethod.name ~ index }}">
+    <label class="radio payment_label" for="{{ oneMethod.name ~ index }}">
         <input
                 type="radio"
                 name="payment_method_id"
