@@ -1424,19 +1424,19 @@ class RedshopHelperOrder
             }
         }
 
-        $plugin            = JPluginHelper::getPlugin('billy', 'billy');
-        $billyParams       = new JRegistry($plugin->params);
-        $billyInvoiceDraft = $billyParams->get('billy_invoice_draft','0');
-        $billyBookStatus   = $billyParams->get('billy_book_status');
-
         if (JPluginHelper::isEnabled('billy') &&
                 ($billyInvoiceDraft != 1 || in_array($orderStatus, $billyBookStatus) )) {
+
+            $plugin            = JPluginHelper::getPlugin('billy', 'billy');
+            $billyParams       = new JRegistry($plugin->params);
+            $billyInvoiceDraft = $billyParams->get('billy_invoice_draft','0');
+            $billyBookStatus   = $billyParams->get('billy_book_status');
 
             if ($billyInvoiceDraft == 2 && in_array($orderStatus, $billyBookStatus)) {
                 RedshopBilly::createInvoiceInBilly($orderId);
             }
-            
-            RedshopBilly::bookInvoiceInBilly($orderId, $data = array());
+
+            RedshopBilly::bookInvoiceInBilly($orderId);
         }
     }
 

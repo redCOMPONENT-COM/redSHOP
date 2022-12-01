@@ -417,7 +417,7 @@ class RedshopControllerOrder extends RedshopController
             RedshopBilly::createInvoiceInBilly($orderId);
 
             if ($billyInvoiceDraft == 0) {
-                RedshopBilly::bookInvoiceInBilly($orderId, 1);
+                RedshopBilly::bookInvoiceInBilly($orderId);
             }
         }
 

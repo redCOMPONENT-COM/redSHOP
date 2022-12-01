@@ -1829,7 +1829,7 @@ class RedshopBilly
             $bil['order_transfee']  = $paymentInfo->order_transfee;
 
             // Change Email subject and body depeding of payment plugin
-            if (count($paymentInfo) > 0) {
+            if (!empty($paymentInfo)) {
                 $paymentName = $paymentInfo->payment_method_class;
                 if ($paymentName == 'rs_payment_epayv2') {
                     $billyInvoiceEmailSubject = $billyPluginParams->get('billy_invoice_email_subject_creditcard');
@@ -1879,7 +1879,7 @@ class RedshopBilly
                 if (count($bookhandle) > 0 && isset($bookhandle[0]->id)) {
                     $defaultBillyAccountGroup = $billyPluginParams->get('default_billy_account_group','');
                             
-                    if ($default_billy_account_group != '') {
+                    if (!empty($default_billy_account_group)) {
                         $accountgroup = self::getAllAccountsFromBilly($defaultBillyAccountGroup);
                     } else {
                         $d['group_type'] = 'liability';
@@ -1890,7 +1890,7 @@ class RedshopBilly
                     $bil['cashAccountId'] = $cashAccountId;
                     $bil['contactId'] 	  = $bookhandle[0]->contactId;
 
-                    if (count($paymentInfo) > 0) {
+                    if (!empty($paymentInfo)) {
                         $paymentName = $paymentInfo->payment_method_class;							
 
                         if ($paymentName == 'rs_payment_banktransfer') {
@@ -1932,7 +1932,8 @@ class RedshopBilly
                 }
             }
             
-            if ($orderdetail->is_billy_booked == 0 && $paymentName == 'rs_payment_eantransfer' && $billyBookEanInvoice == 1 && !empty($paymentMethodEan)) {
+            if ($orderdetail->is_billy_booked == 0 && $paymentName == 'rs_payment_eantransfer' && $billyBookEanInvoice == 1 
+                    && !empty($paymentMethodEan)) {
                 $resEan = \RedshopHelperUtility::getDispatcher()->trigger('bookEan', $billy_invoice_no);
             }
         }
