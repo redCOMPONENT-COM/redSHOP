@@ -379,7 +379,9 @@
                 // in Internet Explorer
                 'direction' : 'ltr',
                 //Max zIndex supported by Opera 9.0-9.2
-                'zIndex': 2147483583
+            // Tweak by Ronni - Display Tooltip on userfield
+            //  'zIndex': 2147483583
+                'zIndex': -1
             });
 
             // Make sure that element opacity exists.
@@ -704,6 +706,58 @@ function removeAjaxUpload(removeData)
             jQuery(removedItem).remove();
             jQuery("#" + removeData.ajaxFlag + removeData.uniqueOl).val(uploadFiles);
             jQuery("#" + removeData.fieldName).val(uploadFiles);
+
+            // Tweak by Ronni START - Reset upload button when delete file
+            jQuery(".rsFileUpload").css("pointer-events","unset");
+            jQuery(".rsFileUpload").css("opacity","1");
+            jQuery(".file_ext_error").css("display","none");
+            jQuery(".file_uploaded_correct").css("display","none");
+            jQuery(".dropAddClass").empty();
+            // Tweak by Ronni END - Reset upload button when delete file
         }
     });
 }
+
+// Tweak by Ronni START - File upload
+/* Probertly unused
+jQuery(document).ready(function() {
+    jQuery("#rs_fil_link").css("display","none");
+});
+*/
+// Tweak by Ronni END - File upload
+
+// Tweak by Ronni START - Reset Dropbox upload button when delete file
+/**
+ * Function to remove Extra Field AJAX upload data drp, Dropbox
+ *
+ * @param   {json}  removeData  Parameter json Object
+ *
+ * @return  {void}
+ */
+function removeDropboxURL(unique)
+{
+    jQuery(".rsFileUpload").css("pointer-events","unset");
+    jQuery(".rsFileUpload").css("opacity","1");
+    jQuery(".file_ext_error").css("display","none");
+    jQuery(".file_uploaded_correct").css("display","none");
+    jQuery(".dropAddClass").empty();
+}
+// Tweak by Ronni END - Reset Dropbox upload button when delete file
+
+// Tweak by Ronni START - Reset Onedrive upload button when delete file
+/**
+ * Function to remove Extra Field AJAX upload data oned, Onedrive
+ *
+ * @param   {json}  removeData  Parameter json Object
+ *
+ * @return  {void}
+ */
+ function removeOnedriveURL(unique)
+ {
+     jQuery(".rsFileUpload").css("pointer-events","unset");
+     jQuery(".rsFileUpload").css("opacity","1");
+     jQuery(".file_ext_error").css("display","none");
+     jQuery(".file_uploaded_correct").css("display","none");
+     jQuery(".dropAddClass").empty();
+ }
+ // Tweak by Ronni END - Reset Dropbox upload button when delete file
