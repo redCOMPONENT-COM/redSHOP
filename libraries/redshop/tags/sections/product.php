@@ -488,6 +488,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
          * {if product_special} This is a special product {product_special end if} // OUTPUT : This is a special product
          * NO : // OUTPUT : Display blank
          */
+        /*  // Tweak by Ronni START - Remove manufac link
         $this->template   = RedshopHelperProduct::getSpecialProductComment($this->product, $this->template);
         $manufacturerLink = RedshopLayoutHelper::render(
             'tags.common.link',
@@ -531,7 +532,8 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         {
 	        $this->addReplace('{manufacturer_name}', $this->product->manufacturer_name);
         }
-
+        // Tweak by Ronni END - Remove manufac link
+        */
         $supplierName = '';
 
         if ($this->product->supplier_id) {
