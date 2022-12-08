@@ -200,6 +200,26 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
             $this->addReplace('{back_link}', $backLink);
         }
 
+        // Tweak by Ronni START - Product Minimum alert box on-page message
+        $product = \Redshop\Product\Product::getProductById($this->product->product_id);
+        $minimumProductTotal = $product->minimum_per_product_total;
+
+        if ($this->isTagExists('{minimum_product_total}') && !empty($minimumProductTotal)) {
+	        $message 	   = "<div class='price_box' style='font-size:12px'>
+			        		  <b>" . JText::_('COM_REDSHOP_MINIMUM_PRODUCT_TOTAL') . "". $minimumProductTotal 
+                                .",-</b>
+					          <span class='hasPopover' 
+                                    title='" . \JText::_('COM_REDSHOP_MINIMUM_PRODUCT_TOTAL') . "' 
+                                    data-content='" . \JText::_('COM_REDSHOP_MINIMUM_PRODUCT_TOTAL_TIP') . "'>
+						        <span class='popover_link'>info</span>
+					          </span>
+					        </div>";
+            $this->replacements['{minimum_product_total}'] = $message;
+        } else {
+            $this->replacements['{minimum_product_total}'] = '';
+        }
+        // Tweak by Ronni END - Product Minimum alert box on-page message
+
         $returnToCategoryLink = strstr($this->template, '{returntocategory_link}');
         $returnToCategoryName = strstr($this->template, '{returntocategory_name}');
         $returnToCategoryStr  = strstr($this->template, '{returntocategory}');

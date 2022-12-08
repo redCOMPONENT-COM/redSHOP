@@ -34,8 +34,7 @@ if ($isAtt > 0) {
     $unique = $rowData->name;
 }
 
-?>
-
+// Tweak by Ronni START - Change button ?>
 <div class="userfield_input rsFileUpload hasPopover" title="<?php echo \JText::_('COM_REDSHOP_UPLOAD_TIP1') ?>" 
         data-content="<?php echo \JText::_('COM_REDSHOP_UPLOAD_TIP2') ?>">
     <button
@@ -50,6 +49,21 @@ if ($isAtt > 0) {
         <i class='fas fa-upload'></i> <?php echo JText::_('COM_REDSHOP_UPLOAD'); ?>
     </button>
 </div>
+<?php /* ?>
+<div class="userfield_input">
+    <input
+            type="button"
+            class="<?php echo $rowData->class; ?>"
+            id="file<?php echo $ajax . $unique ?>"
+            name="file<?php echo $ajax . $unique ?>"
+            value="<?php echo JText::_('COM_REDSHOP_UPLOAD'); ?>"
+            size="<?php echo $rowData->size; ?>"
+            userfieldlbl="<?php echo $rowData->title; ?>"
+        <?php echo $required; ?>
+    />
+</div>
+<?php */ 
+// Tweak by Ronni END - Change button ?>
 <?php if (strpos($http_referer, 'administrator') !== false
     && (strpos($http_referer, 'view=order_detail') !== false
         || strpos($http_referer, 'view=addorder_detail') !== false
@@ -106,11 +120,11 @@ if ($isAtt > 0) {
 			    name:"file<?php echo $ajax . $unique ?>",
 			    onSubmit : function(file , ext){
 				    jQuery("file<?php echo $ajax . $unique ?>").text("<?php echo \JText::_('COM_REDSHOP_UPLOADING') ?>" + file);
-				    jQuery("#loaderimg").attr("style","display:block;");
+				    // Tweak by Ronni - Loader image
+                    jQuery("#loaderimg").attr("style","display:block;");
                     this.disable();
 			    },
 			    onComplete :function(file,response){
-                    jQuery("#loaderimg").attr("style","display:none;");
 				    jQuery("#ol_<?php echo $unique ?> li.error").remove();
 				    jQuery("#ol_<?php echo $unique ?>").append(response);
 				    var uploadfiles = jQuery("#ol_<?php echo $unique ?> li").map(function() {
@@ -119,6 +133,8 @@ if ($isAtt > 0) {
 				    this.enable();
 				    jQuery("#<?php echo $ajax . $unique ?>").val(uploadfiles);
 				    jQuery("#<?php echo $rowData->name ?>").val(uploadfiles);
+                    // Tweak by Ronni - Loader image + succes functions
+                    jQuery("#loaderimg").attr("style","display:none;");
                     if (uploadfiles !="") {
 						orgText = jQuery("#ol_<?php echo $unique ?>").html();
 						newText = orgText.replace("<?php echo \JText::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED') ?>","");
@@ -135,9 +151,9 @@ if ($isAtt > 0) {
 <?php endif; ?>
 
 <?php
-// Dropbox upload button
+// Tweak by Ronni START - Dropbox upload button
 $dropboxRMLink = "<br><a class='rmUploadedFile' onclick='javascript:removeDropboxURL(" . $unique . ");'>" . \JText::_('COM_REDSHOP_DELETE') . "</a>"; ?>
-<div class="rsFileUpload rsFileUpload hasPopover" title="<?php echo \JText::_('COM_REDSHOP_UPLOAD_DROPBOX_TIP1') ?>" 
+<div class="rsFileUpload hasPopover" title="<?php echo \JText::_('COM_REDSHOP_UPLOAD_DROPBOX_TIP1') ?>" 
         data-content="<?php echo \JText::_('COM_REDSHOP_UPLOAD_DROPBOX_TIP2') ?>">
 	<a class="btn btn-dropbox" value="<?php echo \JText::_('COM_REDSHOP_UPLOAD_DROPBOX') ?>" id="chooser-image">
 		<span class="fab fa-dropbox"></span> <?php echo \JText::_('COM_REDSHOP_UPLOAD_DROPBOX') ?>
@@ -158,10 +174,8 @@ $dropboxRMLink = "<br><a class='rmUploadedFile' onclick='javascript:removeDropbo
 				jQuery("#ol_' . $unique . '").append(jQuery("<li>").html(files[0].link+"'.$dropboxRMLink.'"));
 				jQuery("#ol_' . $unique . '").addClass("dropAddClass");
 				jQuery(".file_ext_error").css("display","none");
-				jQuery("#rsFileUpload").css("opacity","0.5");
-				jQuery("#rsFileUpload").css("pointer-events","none");
-				jQuery(".drpFileUpload").css("opacity","0.5");
-				jQuery(".drpFileUpload").css("pointer-events","none");
+				jQuery(".rsFileUpload").css("opacity","0.5");
+				jQuery(".rsFileUpload").css("pointer-events","none");
 				jQuery(".filext_jpg_info").css("display","none");
 				jQuery(".file_uploaded_correct").css("display","block");
 				jQuery("#attPropId3491738").css("opacity","1");
@@ -172,9 +186,9 @@ $dropboxRMLink = "<br><a class='rmUploadedFile' onclick='javascript:removeDropbo
 <script src="templates/tx_optimus/js/dropins.js" id="dropboxjs" data-app-key="k9oyd9ixkqi9kuc"></script> <?php
 // Tweak by Ronni END - Dropbox upload
 // Tweak by Ronni START - Onedrive upload
-$filepickerRMLink = "<br><a class='rmUploadedFile' onclick='javascript:removeDropboxURL(" . $unique . ");'>" . \JText::_('COM_REDSHOP_DELETE') . "</a>"; ?>
+$filepickerRMLink = "<br><a class='rmUploadedFile' onclick='javascript:removeOnedriveURL(" . $unique . ");'>" . \JText::_('COM_REDSHOP_DELETE') . "</a>"; ?>
 
-<div class="drpFileUpload rsFileUpload hasPopover" title="<?php echo \JText::_('COM_REDSHOP_UPLOAD_ONEDRIVE') ?>" 
+<div class="rsFileUpload hasPopover" title="<?php echo \JText::_('COM_REDSHOP_UPLOAD_ONEDRIVE') ?>" 
         data-content="<?php echo \JText::_('COM_REDSHOP_UPLOAD_ONEDRIVE_TIP') ?>">						
 	<a class="btn btn-onedrive" id="filepicker-image">
 		<span class="fas fa-cloud-upload-alt"></span> <?php echo \JText::_('COM_REDSHOP_UPLOAD_ONEDRIVE') ?>
@@ -199,10 +213,8 @@ document.getElementById("filepicker-image").onclick = function () {
 			jQuery("#ol_' . $unique . '").append(jQuery("<li>").html(upldFile +"'.$filepickerRMLink.'"));
 			jQuery("#ol_' . $unique . '").addClass("dropAddClass");
 			jQuery(".file_ext_error").css("display","none");									
-			jQuery("#rsFileUpload").css("opacity","0.5");
-			jQuery("#rsFileUpload").css("pointer-events","none");
-			jQuery(".drpFileUpload").css("opacity","0.5");
-			jQuery(".drpFileUpload").css("pointer-events","none");
+			jQuery(".rsFileUpload").css("opacity","0.5");
+			jQuery(".rsFileUpload").css("pointer-events","none");
 			jQuery(".filext_jpg_info").css("display","none");
 			jQuery(".file_uploaded_correct").css("display","block");
 			jQuery("#attPropId3491738").css("opacity","1");
@@ -214,8 +226,9 @@ document.getElementById("filepicker-image").onclick = function () {
 }
 </script>
 <script type="text/javascript" src="https://js.live.net/v7.2/OneDrive.js"></script> <?php
-// Tweak by Ronni END - Onedrive upload ?>
+// Tweak by Ronni END - Onedrive upload
 
+// Tweak by Ronni - Loader image ?>
 <div style="display:none;" id="loaderimg">
     <img width="200" height="16" src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH ?>uploading1.gif" alt="Uploading image"/>
 </div>

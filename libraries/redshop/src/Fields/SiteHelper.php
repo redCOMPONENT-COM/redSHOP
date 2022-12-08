@@ -265,6 +265,13 @@ class SiteHelper
                 }
             }
 
+			// Tweak by Ronni START - Move tooltip up + Change Userfield Tooltip and fontawesome
+			if (trim($data->desc) != '' && $fieldType != 'hidden') {
+				$exField .= '<span class="hasPopover" title="' . $data->title . '" 
+                    data-content="' . $data->desc . '">' . \JText::_('COM_REDSHOP_INFO_TIP') . '</span>';
+			}
+			// Tweak by Ronni END - Move tooltip up + Change Userfield Tooltip and fontawesome
+
             if ($fieldType == 'hidden') {
                 $value = '';
 
@@ -412,7 +419,7 @@ class SiteHelper
                         if ($isAtt > 0) {
                             $ajax   = 'ajax';
                         }
-
+                        // Tweak by Ronni - Add <div class="uploaded_files">
                         $exField .= '<div class="uploaded_files">' . 
                                         ExtraFields::displayUserDocuments($productId, $data, $ajax) . '</div>';
                         break;
@@ -524,7 +531,8 @@ class SiteHelper
                         break;
                 }
             }
-
+			// Tweak by Ronni START - Move tooltip up + Change Userfield Tooltip and fontawesome
+            /*
             if (trim($data->desc) != '' && $fieldType != 'hidden') {
                 $exField .= '<div class="userfield_tooltip">&nbsp; ' . \JHtml::tooltip(
                         $data->desc,
@@ -534,6 +542,8 @@ class SiteHelper
                         ''
                     ) . '</div>';
             }
+            */
+            // Tweak by Ronni END - Move tooltip up + Change Userfield Tooltip and fontawesome
         }
 
         return array($exFieldTitle, $exField);

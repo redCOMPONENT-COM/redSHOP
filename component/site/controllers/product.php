@@ -812,6 +812,17 @@ class RedshopControllerProduct extends RedshopController
         if ($this->input->files) {
             $uploadFileData = $this->input->files->get($name);
             $fileExtension  = JFile::getExt($uploadFileData['name']);
+            // Tweak by Ronni START - Allow Zip folder upload - 1/2 + File size
+            $allowUnsafe = false;
+
+            $uploadFileSize = round($uploadFileData['size'] / 1000000, 2);
+            echo '<span class="file_uploaded_correct" style="font-size:12px">Fil størrelse: ' 
+                    . $uploadFileSize . ' Mb.</span>';
+
+            if ($fileExtension == "zip") {
+                $allowUnsafe = true;
+            }
+            // Tweak by Ronni END - Allow Zip folder upload - 1/2 + File size
             $fileName       = RedshopHelperMedia::cleanFileName($uploadFileData['name']);
 
             $uploadFilePath = JPath::clean($uploadDir . $fileName);
@@ -820,12 +831,32 @@ class RedshopControllerProduct extends RedshopController
 
             // If Extension is not legal than don't upload file
             if (!in_array(strtolower($fileExtension), $legalExts)) {
-                echo '<li class="error">' . JText::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED') . '</li>';
+                // Tweak by Ronni - Change li to span + Add class="file_ext_error"
+                echo '<span class="file_ext_error">' . JText::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED') . '</span>';
 
                 return;
             }
 
-            if (JFile::upload($uploadFileData['tmp_name'], $uploadFilePath)) {
+			// Tweak by Ronni START - Jpg file changes Printready file => No - Need work.            
+			if ($fileExtension == "jpg" || $fileExtension == "jpeg" && $productId == "39") {
+				echo '<style type="text/css">
+                        #property_id_prd_39_0_349_1738, 
+                        #property_id_prd_39_0_349_1738-lbl {opacity: 0.3;pointer-events:none}
+                      </style>';
+				echo '<style type="text/css">.filext_jpg_info {display:block}</style>';
+            } else {
+				echo '<style type="text/css">
+                        #property_id_prd_39_0_349_1738, 
+                        #property_id_prd_39_0_349_1738-lbl {opacity: 1;pointer-events:unset}
+                      </style>';
+				echo '<style type="text/css">.filext_jpg_info {display:none}</style>';
+			}
+			// Tweak by Ronni END - Jpg file changes Printready file => No - Need work.
+
+		// Tweak by Ronni START - Allow Zip folder upload - 2/2
+			if (JFile::upload($uploadFileData['tmp_name'], $uploadFilePath, false, $allowUnsafe)) {
+		//  if (JFile::upload($uploadFileData['tmp_name'], $uploadFilePath)) {
+		// Tweak by Ronni END - Allow Zip folder upload - 2/2
                 $id                     = JFile::stripExt(JFile::getName($fileName));
                 $sendData               = array();
                 $sendData['id']         = $id;
@@ -834,6 +865,8 @@ class RedshopControllerProduct extends RedshopController
                 $sendData['fieldName']  = $this->input->getString('fieldName', '');
                 $sendData['ajaxFlag']   = $this->input->getString('ajaxFlag', '');
                 $sendData['fileName']   = $fileName;
+                // Tweak by Ronni - Add Upload file size to session
+                $sendData['fileSize']   = $uploadFileSize;
                 $sendData['action']     = JURI::root(
                     ) . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload';
                 $session                = JFactory::getSession();
@@ -845,17 +878,20 @@ class RedshopControllerProduct extends RedshopController
 
                 $userDocuments[$productId][$id] = $sendData;
                 $session->set('userDocument', $userDocuments);
-
+                // Tweak by Ronni - Add <br> for delete button upload + class="rmUploadedFile"
                 echo "<li id='uploadNameSpan" . $id . "' name='" . $fileName . "'>"
                     . "<span>" . $fileName . "</span>"
-                    . "<a href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>&nbsp;" . JText::_(
-                        'COM_REDSHOP_DELETE'
-                    ) . "</a>"
+                    . "<a style='margin-top:10px' class='rmUploadedFile' href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>
+                        &nbsp;" . JText::_('COM_REDSHOP_DELETE') 
+                    . "</a>"
                     . "</li>";
             } else {
                 // WARNING! DO NOT USE "FALSE" STRING AS A RESPONSE!
                 // Otherwise onSubmit event will not be fired
-                echo "error";
+				// Tweak by Ronni - Change error message for file upload
+				echo '<li class="error">' . JText::_('COM_REDSHOP_ERROR_WITH_FILE_SELECTED') . '</li>';
+                echo 'Error message: ' . $uploadFileData['error'];
+                //  echo "error";
             }
         } else {
             echo '<li class="error">' . JText::_('COM_REDSHOP_NO_FILE_SELECTED') . '</li>';
