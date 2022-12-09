@@ -335,6 +335,11 @@ class ExtraFields
                         .file_ext_error{display:none}
                         .file_uploaded_correct{display:block}
                       </style>';
+                echo '<style type="text/css">
+                        #property_id_prd_39_0_349_1738, 
+                        #property_id_prd_39_0_349_1738-lbl {opacity: 0.3;pointer-events:none}
+                      </style>';
+                echo '<style type="text/css">.filext_jpg_info {display:block}</style>';
                 // Tweak by Ronni END - Disable Upload buttons if uploaded file is present
                 
                 // Tweak by Ronni START - Jpg file changes Printready file => No - Need work

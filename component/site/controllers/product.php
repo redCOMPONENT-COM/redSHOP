@@ -837,26 +837,29 @@ class RedshopControllerProduct extends RedshopController
                 return;
             }
 
-			// Tweak by Ronni START - Jpg file changes Printready file => No - Need work.            
-			if ($fileExtension == "jpg" || $fileExtension == "jpeg" && $productId == "39") {
-				echo '<style type="text/css">
+            // Tweak by Ronni START - Jpg file changes Printready file => No - Need work.
+            if ($productId == 39 && ($fileExtension == "jpg" || $fileExtension == "jpeg")) {
+                echo '<style type="text/css">
                         #property_id_prd_39_0_349_1738, 
                         #property_id_prd_39_0_349_1738-lbl {opacity: 0.3;pointer-events:none}
                       </style>';
-				echo '<style type="text/css">.filext_jpg_info {display:block}</style>';
+                echo '<style type="text/css">.filext_jpg_info {display:block}</style>';
+                echo '<script type="text/javascript" language="javascript">
+                        document.getElementById("property_id_prd_39_0_349_1737").click();
+                      </script>';
             } else {
-				echo '<style type="text/css">
+                echo '<style type="text/css">
                         #property_id_prd_39_0_349_1738, 
                         #property_id_prd_39_0_349_1738-lbl {opacity: 1;pointer-events:unset}
                       </style>';
-				echo '<style type="text/css">.filext_jpg_info {display:none}</style>';
-			}
-			// Tweak by Ronni END - Jpg file changes Printready file => No - Need work.
+                echo '<style type="text/css">.filext_jpg_info {display:none}</style>';
+            }
+            // Tweak by Ronni END - Jpg file changes Printready file => No - Need work.
 
-		// Tweak by Ronni START - Allow Zip folder upload - 2/2
-			if (JFile::upload($uploadFileData['tmp_name'], $uploadFilePath, false, $allowUnsafe)) {
-		//  if (JFile::upload($uploadFileData['tmp_name'], $uploadFilePath)) {
-		// Tweak by Ronni END - Allow Zip folder upload - 2/2
+        // Tweak by Ronni START - Allow Zip folder upload - 2/2
+            if (JFile::upload($uploadFileData['tmp_name'], $uploadFilePath, false, $allowUnsafe)) {
+        //  if (JFile::upload($uploadFileData['tmp_name'], $uploadFilePath)) {
+        // Tweak by Ronni END - Allow Zip folder upload - 2/2
                 $id                     = JFile::stripExt(JFile::getName($fileName));
                 $sendData               = array();
                 $sendData['id']         = $id;
@@ -888,8 +891,8 @@ class RedshopControllerProduct extends RedshopController
             } else {
                 // WARNING! DO NOT USE "FALSE" STRING AS A RESPONSE!
                 // Otherwise onSubmit event will not be fired
-				// Tweak by Ronni - Change error message for file upload
-				echo '<li class="error">' . JText::_('COM_REDSHOP_ERROR_WITH_FILE_SELECTED') . '</li>';
+                // Tweak by Ronni - Change error message for file upload
+                echo '<li class="error">' . JText::_('COM_REDSHOP_ERROR_WITH_FILE_SELECTED') . '</li>';
                 echo 'Error message: ' . $uploadFileData['error'];
                 //  echo "error";
             }

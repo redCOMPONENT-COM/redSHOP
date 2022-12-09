@@ -380,8 +380,8 @@
                 'direction' : 'ltr',
                 //Max zIndex supported by Opera 9.0-9.2
             // Tweak by Ronni - Display Tooltip on userfield
-            //  'zIndex': 2147483583
-                'zIndex': -1
+                'zIndex': 2147483583
+            //  'zIndex': -1
             });
 
             // Make sure that element opacity exists.
@@ -713,6 +713,9 @@ function removeAjaxUpload(removeData)
             jQuery(".file_ext_error").css("display","none");
             jQuery(".file_uploaded_correct").css("display","none");
             jQuery(".dropAddClass").empty();
+            jQuery("#property_id_prd_39_0_349_1738, #property_id_prd_39_0_349_1738-lbl").css("opacity","1");
+            jQuery("#property_id_prd_39_0_349_1738, #property_id_prd_39_0_349_1738-lbl").css("pointer-events","unset");
+            jQuery(".filext_jpg_info").css("display","none");
             // Tweak by Ronni END - Reset upload button when delete file
         }
     });
