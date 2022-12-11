@@ -354,6 +354,8 @@
             var input = document.createElement("input");
             input.setAttribute('type', 'file');
             input.setAttribute('name', this._settings.name);
+            // Tweak by Ronni - Display Tooltip on userfield correct
+        //	input.setAttribute('id', 'rsuploadfile');
 
             addStyles(input, {
                 'position' : 'absolute',
