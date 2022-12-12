@@ -345,6 +345,10 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             $defaultPropertyId = array();
             $attDisplayType    = $attribute->display_type;
 
+            // Tweak by Ronni START - Tweak to make special alert when choosing attributes
+			$chkList           = "";
+			// Tweak by Ronni END - Tweak to make special alert when choosing attributes
+
             // Init listing html-attributes
             $chkListAttributes = array(
                 'attribute_name' => urldecode($attribute->attribute_name)
@@ -364,12 +368,47 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             if ($attDisplayType == 'radio') {
                 unset($properties[0]);
 
+                // Tweak by Ronni START - Tweak to make special alert when choosing attributes
+                /*
                 $attributeListType = ($attribute->allow_multiple_selection) ? 'redshopselect.checklist' : 'redshopselect.radiolist';
 
                 $chkListAttributes['cssClassSuffix'] = ' no-group';
                 $chkListAttributes['onClick']        = "javascript:" . $changePropertyDropdown;
-            } // Dropdown list
-            else {
+                */
+
+                for ($chk = 0; $chk < count($property); $chk++) {
+                    $checked = "";
+                    if (count($selectProperty) > 0) {
+                        if (in_array($property[$chk]->value, $selectProperty)) {
+                            $checked             = "checked";
+                            $subdisplay          = true;
+                            $defaultpropertyId[] = $property[$chk]->value;
+                        }
+                    } else {
+                        if ($property[$chk]->setdefault_selected) {
+                            $checked                                  = "checked";
+                            $subdisplay                               = true;
+                            $defaultpropertyId[]                      = $property[$chk]->value;
+                            $attrAlert[$property[$chk]->attribute_id] = $property[$chk]->property_alert_message;
+                            
+                        }
+                    }
+                    
+                    $scrollerFunction = "";
+                    
+                    if ($imgAdded > 0 && strstr($attributeTable, "{property_image_scroller}")) {
+                        $scrollerFunction = "isFlowers" . $commonId . ".scrollImageCenter(\"" . $chk . "\");";
+                    }
+                    
+                    $chkList .= "<div class='attribute_multiselect_single'><input type='" . $attDisplayType . "' "
+                        . $checked . " value='" . $property[$chk]->value . "' name='" . $propertyid . "[]' id='"
+                        . $propertyId . "' class='' attribute_name='" . urldecode($attributes [$a]->attribute_name)
+                        . "' required='" . $attributes[$a]->attribute_required . "' onClick='javascript:" . $scrollerFunction . "showalert(\"" .$property[$chk]->attribute_id."\",\"" .JText::_($property[$chk]->property_alert_message)."\"); changePropertyDropdown(\"" . $productId . "\",\"" . $accessoryId . "\",\"" . $relproduct_id . "\",\"" . $attributes[$a]->value . "\",\"" . $property[$chk]->value . "\",\"" . $this->mpwThumb . "\",\"" . $this->mphThumb . "\");'  />&nbsp;" . $property[$chk]->text . "</div>";
+                }
+                    
+                $lists['subproperty_id'] = $chkList;
+            // Dropdown list
+            } else {
                 $attributeListType = 'select.genericlist';
                 $scrollerFunction  = '';
 
@@ -378,8 +417,24 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 }
 
                 $chkListAttributes['onchange'] = "javascript:" . $scrollerFunction . $changePropertyDropdown;
-            }
 
+                if ($selectedProperty) {
+                    $subDisplay          = true;
+                    $defaultPropertyId[] = $selectedProperty;
+                }
+    
+                $lists['property_id'] = JHTML::_(
+                    $attributeListType,
+                    $properties,
+                    $propertyId . '[]',
+                    $chkListAttributes,
+                    'value',
+                    'text',
+                    $selectedProperty,
+                    $propertyId
+                );
+            }
+            /*
             if ($selectedProperty) {
                 $subDisplay          = true;
                 $defaultPropertyId[] = $selectedProperty;
@@ -395,7 +450,8 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 $selectedProperty,
                 $propertyId
             );
-
+            */
+            // Tweak by Ronni END - Tweak to make special alert when choosing attributes
             $attributeTable .= \RedshopLayoutHelper::render(
                 'tags.common.input',
                 array(
