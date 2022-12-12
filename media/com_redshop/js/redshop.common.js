@@ -1147,22 +1147,17 @@ function autoFillCity(str,isShipping)
         }
         xmlhttp.onreadystatechange=function()
         {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200)
-            {
-                if(xmlhttp.responseText!="")
-                {
-                    if(isShipping=="ST")
-                    {
-                        if(document.getElementById('city_ST'))
-                        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                if (xmlhttp.responseText != "") {
+                    if (isShipping=="ST") {
+                        if (document.getElementById('city_ST')) {
                             document.getElementById('city_ST').value=xmlhttp.responseText;
                         }
-                    }
-                    else
-                    {
-                        if(document.getElementById('city'))
-                        {
-                            document.getElementById('city').value=xmlhttp.responseText;
+                    } else {
+                        if (document.getElementById('company-city')) {
+                            document.getElementById('company-city').value = xmlhttp.responseText;
+                        } else if (document.getElementById('private-city')) {
+                            document.getElementById('private-city').value = xmlhttp.responseText;
                         }
                     }
                 }
