@@ -378,6 +378,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
 
                 for ($chk = 0; $chk < count($property); $chk++) {
                     $checked = "";
+
                     if (count($selectProperty) > 0) {
                         if (in_array($property[$chk]->value, $selectProperty)) {
                             $checked             = "checked";
@@ -386,27 +387,84 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                         }
                     } else {
                         if ($property[$chk]->setdefault_selected) {
-                            $checked                                  = "checked";
-                            $subdisplay                               = true;
-                            $defaultpropertyId[]                      = $property[$chk]->value;
-                            $attrAlert[$property[$chk]->attribute_id] = $property[$chk]->property_alert_message;
-                            
+                            $checked             = "checked";
+                            $subdisplay          = true;
+                            $defaultpropertyId[] = $property[$chk]->value;
+                                
+                            $attrAlert[$property[$chk]->attribute_id] = $property[$chk]->property_alert_message; 
                         }
                     }
-                    
-                    $scrollerFunction = "";
-                    
+
+                    $scrollerFunction = "";						
+                    $modalTagStart    = "";
+                    $modalTagEnd      = "";
+
+                    if (isset($property[$chk]->property_alert_message) && trim($property[$chk]->property_alert_message) != "") {
+                        $modalTagStart = "<label for='attPropId".$property[$chk]->attribute_id.$property[$chk]->property_id . "' 
+                                            style='display:inline-block;'>";
+                        $modalTagEnd   = "</label>
+                                            <div id='Modal-attribute-alert".$property[$chk]->attribute_id.$property[$chk]->property_id."' 
+                                                    class='modal fade' role='dialog' tabindex='-1' aria-labelledby='#Modal-attribute-alert' 
+                                                    aria-hidden='true'>
+                                                <div class='modal-dialog modal-dialog-centered' role='document'>
+                                                    <div class='modal-content'>
+                                                        <div class='modal-header'>
+                                                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                                                                <span aria-hidden='true'>&times;</span>
+                                                            </button>
+                                                            " . $attribute->attribute_name . "
+                                                            <h5 class='modal-title'>
+                                                                " . $property[$chk]->property_name . "
+                                                            </h5>
+                                                        </div>
+                                                        <div class='modal-body'>
+                                                            " . JText::_($property[$chk]->property_alert_message) . "
+                                                        </div>
+                                                        <div class='modal-footer'>
+                                                            <button class='btn btn-secondary' type='button' data-dismiss='modal'>
+                                                                " . JText::_('COM_REDSHOP_CLOSE') . "
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>";
+                    } else {
+                        $modalTagStart = "<label for='attPropId".$property[$chk]->attribute_id.$property[$chk]->property_id . "' style='display:inline-block;'>";
+                        $modalTagEnd = "</label>";
+                    }
+                        
+                    if ($imgAdded > 0 && strstr($attribute_table, "{property_image_scroller}")) {
+                        $scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(\"" . $chk . "\");";
+                    }
+/*                    
+                    $chkList .= "<div class='attribute_multiselect_single'>
+                        <input type=" . $attDisplayType . " " . $checked . " value=" . $property[$chk]->value . " 
+                            name=" . $propertyId . "[] id=" . $propertyId . " attribute_name=" . urldecode($attribute->attribute_name) . " 
+                            required=" . $attribute->attribute_required . " 
+                            onClick=javascript: " . $scrollerFunction . "showalert(\"" .$property[$chk]->attribute_id . "\",\"" 
+                            . JText::_($property[$chk]->property_alert_message) . "\"); changePropertyDropdown(\"" . $productId . "\",\"" 
+                            . $accessoryId . "\",\"" . $relatedProductId . "\",\"" . $attribute->value . "\",\"" . $property[$chk]->value 
+                            . "\",\"" . $this->mpwThumb . "\",\"" . $this->mphThumb . "\");'  />&nbsp;" . $property[$chk]->text . "</div>";
+*/
                     if ($imgAdded > 0 && strstr($attributeTable, "{property_image_scroller}")) {
                         $scrollerFunction = "isFlowers" . $commonId . ".scrollImageCenter(\"" . $chk . "\");";
                     }
-                    
-                    $chkList .= "<div class='attribute_multiselect_single'><input type='" . $attDisplayType . "' "
-                        . $checked . " value='" . $property[$chk]->value . "' name='" . $propertyid . "[]' id='"
-                        . $propertyId . "' class='' attribute_name='" . urldecode($attributes [$a]->attribute_name)
-                        . "' required='" . $attributes[$a]->attribute_required . "' onClick='javascript:" . $scrollerFunction . "showalert(\"" .$property[$chk]->attribute_id."\",\"" .JText::_($property[$chk]->property_alert_message)."\"); changePropertyDropdown(\"" . $productId . "\",\"" . $accessoryId . "\",\"" . $relproduct_id . "\",\"" . $attributes[$a]->value . "\",\"" . $property[$chk]->value . "\",\"" . $this->mpwThumb . "\",\"" . $this->mphThumb . "\");'  />&nbsp;" . $property[$chk]->text . "</div>";
+
+                    $chkList .= "<div class='attribute_multiselect_single'>" . $modalTagStart . "
+							<input data-toggle=modal 
+                                data-target=Modal-attribute-alert" . $property[$chk]->attribute_id . $property[$chk]->property_id . " 
+								id=attPropId" . $property[$chk]->attribute_id . $property[$chk]->property_id . " 
+                                type=" . $attDisplayType . " " . $checked . " value=" . $property[$chk]->value . " 
+                                name=" . $propertyId . "[] class=attribute_selection attribute_name=" . urldecode($attribute->attribute_name) . " 
+                                required=" . $attribute->attribute_required . " 
+								onClick='javascript: " . $scrollerFunction . " changePropertyDropdown(\"" . $productId . "\",\"" 
+                                . $accessoryId . "\",\"" . $relatedProductId . "\",\"" 
+								. $attribute->value . "\",\"" . $property[$chk]->value . "\",\"" . $this->mpwThumb . "\",\"" . $this->mphThumb 
+                                . "\");  />&nbsp;" . $property[$chk]->text . $modalTagEnd . "
+                                </div>";
                 }
                     
-                $lists['subproperty_id'] = $chkList;
+                $lists['property_id'] = $chkList;
             // Dropdown list
             } else {
                 $attributeListType = 'select.genericlist';
