@@ -822,9 +822,10 @@ class RedshopControllerProduct extends RedshopController
             if ($fileExtension == "zip") {
                 $allowUnsafe = true;
             }
-            // Tweak by Ronni END - Allow Zip folder upload - 1/2 + File size
-            $fileName       = RedshopHelperMedia::cleanFileName($uploadFileData['name']);
 
+            $fileName       = RedshopHelperMedia::cleanFileName($uploadFileData['name']);
+    //      $fileName       = $uploadFileSize . "_mb" . $fileName;
+            // Tweak by Ronni END - Allow Zip folder upload - 1/2 + File size
             $uploadFilePath = JPath::clean($uploadDir . $fileName);
 
             $legalExts = explode(',', Redshop::getConfig()->get('MEDIA_ALLOWED_MIME_TYPE'));
@@ -838,19 +839,17 @@ class RedshopControllerProduct extends RedshopController
             }
 
             // Tweak by Ronni START - Jpg file changes Printready file => No
-            if ($productId == 39 && ($fileExtension == "jpg" || $fileExtension == "jpeg")) {
+            if ($productId == 39 && ($fileExtension == "jpg" || $fileExtension == "jpeg" )) {
                 echo '<style type="text/css">
-                        #property_id_prd_39_0_349_1738, 
-                        #property_id_prd_39_0_349_1738-lbl {opacity: 0.3;pointer-events:none}
+                        #attPropIdLbl3491738,#attPropId3491738 {opacity: 0.3;pointer-events:none}
                       </style>';
                 echo '<style type="text/css">.filext_jpg_info {display:block}</style>';
                 echo '<script type="text/javascript" language="javascript">
-                        document.getElementById("property_id_prd_39_0_349_1737").click();
+                        document.getElementById("attPropId3491737").click();
                       </script>';
             } else {
                 echo '<style type="text/css">
-                        #property_id_prd_39_0_349_1738, 
-                        #property_id_prd_39_0_349_1738-lbl {opacity: 1;pointer-events:unset}
+                         #attPropIdLbl3491738,#attPropId3491738 {opacity: 1;pointer-events:unset}
                       </style>';
                 echo '<style type="text/css">.filext_jpg_info {display:none}</style>';
             }
@@ -884,7 +883,7 @@ class RedshopControllerProduct extends RedshopController
                 // Tweak by Ronni - Add <br> for delete button upload + class="rmUploadedFile"
                 echo "<li id='uploadNameSpan" . $id . "' name='" . $fileName . "'>"
                     . "<span>" . $fileName . "</span>"
-                    . "<a style='margin-top:10px' class='rmUploadedFile' href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>
+                    . "<br><a style='margin-top:10px' class='rmUploadedFile' href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>
                         &nbsp;" . JText::_('COM_REDSHOP_DELETE') 
                     . "</a>"
                     . "</li>";

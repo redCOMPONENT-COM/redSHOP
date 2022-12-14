@@ -715,8 +715,8 @@ function removeAjaxUpload(removeData)
             jQuery(".file_ext_error").css("display","none");
             jQuery(".file_uploaded_correct").css("display","none");
             jQuery(".dropAddClass").empty();
-            jQuery("#property_id_prd_39_0_349_1738, #property_id_prd_39_0_349_1738-lbl").css("opacity","1");
-            jQuery("#property_id_prd_39_0_349_1738, #property_id_prd_39_0_349_1738-lbl").css("pointer-events","unset");
+            jQuery("#attPropIdLbl3491738, #attPropId3491738").css("opacity","1");
+            jQuery("#attPropIdLbl3491738, #attPropId3491738").css("pointer-events","unset");
             jQuery(".filext_jpg_info").css("display","none");
             // Tweak by Ronni END - Reset upload button when delete file
         }

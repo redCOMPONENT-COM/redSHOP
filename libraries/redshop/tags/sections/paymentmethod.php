@@ -8,6 +8,8 @@
  */
 
 use Joomla\Utilities\ArrayHelper;
+// Tweak by Ronni START - Add use Redshop\Billy\RedshopBilly;
+use Redshop\Billy\RedshopBilly;
 
 defined('_JEXEC') || die;
 
@@ -188,35 +190,37 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
             $overdueOrder = 0;
             $vatNumber    = 0;
             $invoiceBlock = 0;
-            
-            if ($billyIntegration && $userId > 0) {
-                $billy        = new billy;
-                $billingArray = RedshopHelperOrder::getBillingAddress($userId);
+            $user         = JFactory::getUser();
+
+            if ($billyIntegration && $user->id > 0) {
+                $billingArray = RedshopHelperOrder::getBillingAddress($user->id);
                 $invoiceBlock = $billingArray->invoice_block;
                 $vatNumber    = $billingArray->vat_number; 
                                     
                 if (!empty($billingArray)) {
                     $user_info_id = $billingArray->users_info_id;
                 }
-                                    
+
                 // Get billy user_id
-                $query = "SELECT billy_id FROM " . $this->_table_prefix . "billy_relation" . " WHERE redshop_id=" . (int) $user_info_id . " AND relation_type='user' ";
-                $this->_db->setQuery($query);
-                $billyUserId = $this->_db->loadResult();
-                        
+                $db          = JFactory::getDbo();
+                $tablePrefix = '#__redshop_';
+                $query       = "SELECT billy_id FROM " . $tablePrefix . "billy_relation" . " WHERE redshop_id=" . (int) $user_info_id . " AND relation_type='user' ";
+                $db->setQuery($query);
+                $billyUserId = $db->loadResult();
+
                 if ($billyUserId) {
                     // Get all order for this user
-                    $overdueOrder = $billy->checkAnyOverdueOrder($billyUserId, false);
+                    $overdueOrder = RedshopBilly::checkAnyOverdueOrder($billyUserId, false);
                 }
             }
 
             if (($overdueOrder > 0 && ($oneMethod->name == 'rs_payment_banktransfer' 
-                    || $oneMethod->name == 'rs_payment_eantransfer') && $userId > 0) 
+                    || $oneMethod->name == 'rs_payment_eantransfer') && $user->id > 0) 
                     || ($invoiceBlock && ( $oneMethod->name == 'rs_payment_banktransfer' 
-                    || $oneMethod->name == 'rs_payment_eantransfer') && $userId > 0)) {
+                    || $oneMethod->name == 'rs_payment_eantransfer') && $user->id > 0)) {
                 $disabled = 'disabled';
                 $disabledText = JText::_('COM_REDSHOP_BANKTRANSFER_DISABLED');
-            } else if ($vatNumber <= 0 && ($oneMethod->name == 'rs_payment_banktransfer') && $userId > 0) {
+            } else if ($vatNumber <= 0 && ($oneMethod->name == 'rs_payment_banktransfer') && $user->id > 0) {
                 $disabled = 'disabled';
                 $disabledText = JText::_('COM_REDSHOP_BANKTRANSFER_DISABLED_CVR');
             } else {

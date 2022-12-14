@@ -399,8 +399,8 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                     $modalTagEnd      = "";
 
                     if (isset($property[$chk]->property_alert_message) && trim($property[$chk]->property_alert_message) != "") {
-                        $modalTagStart = '<label for="attPropId' . $property[$chk]->attribute_id 
-                                            . $property[$chk]->property_id . '" style="display:inline-block">';
+                        $modalTagStart = '<label for="attPropId' . $property[$chk]->attribute_id . $property[$chk]->property_id . '" 
+                            id="attPropIdLbl' . $property[$chk]->attribute_id . $property[$chk]->property_id . '" style="display:inline-block">';
 
                         $modalTagEnd   = '</label>
                                             <div id="Modal-attribute-alert' . $property[$chk]->attribute_id . $property[$chk]->property_id . '" 
@@ -455,7 +455,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
 								id="attPropId' . $property[$chk]->attribute_id . $property[$chk]->property_id . '" 
                                 type="' . $attDisplayType . '" ' . $checked . ' 
                                 value="' . $property[$chk]->value . '" name="' . $propertyId . '[]" 
-                                class="attribute_selection" 
+                                class="attribute_input" 
                                 attribute_name="' . urldecode($attribute->attribute_name) . '" 
                                 required="' . $attribute->attribute_required . '" 
 								onClick="javascript:' . $scrollerFunction . ' changePropertyDropdown(' 
