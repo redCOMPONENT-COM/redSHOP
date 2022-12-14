@@ -4601,10 +4601,9 @@ class RedshopHelperProduct
                 }
 
                 if ($subproperty[0]->setrequire_selected == 1) {
-                    // Tweak by Ronni - Remove * in <span id='asterisk_left'>* </span>
                     $displayPropertyName = Redshop::getConfig()->get(
                         'ASTERISK_POSITION'
-                    ) > 0 ? $displayPropertyName . "<span id='asterisk_right'> * </span>" : "<span id='asterisk_left'></span>" . $displayPropertyName;
+                    ) > 0 ? $displayPropertyName . "<span id='asterisk_right'> * </span>" : "<span id='asterisk_left'>* </span>" . $displayPropertyName;
                 }
                 $attribute_table = str_replace("{property_title}", $displayPropertyName, $attribute_table);
                 $attribute_table = str_replace("{subproperty_dropdown}", $lists ['subproperty_id'], $attribute_table);
