@@ -812,20 +812,20 @@ class RedshopControllerProduct extends RedshopController
         if ($this->input->files) {
             $uploadFileData = $this->input->files->get($name);
             $fileExtension  = JFile::getExt($uploadFileData['name']);
-            // Tweak by Ronni START - Allow Zip folder upload - 1/2 + File size
+            // Tweak by Ronni START - Allow Zip folder upload + File size
             $allowUnsafe = false;
-
-            $uploadFileSize = round($uploadFileData['size'] / 1000000, 2);
-            echo '<span class="file_uploaded_correct" style="font-size:12px">Fil størrelse: ' 
-                    . $uploadFileSize . ' Mb.</span>';
 
             if ($fileExtension == "zip") {
                 $allowUnsafe = true;
             }
 
+            $uploadFileSize = round($uploadFileData['size'] / 1000, 0);
+            echo '<span class="file_uploaded_correct" style="font-size:12px">Fil størrelse: ' 
+                    . $uploadFileSize . ' kiloBytes.</span>';
+
             $fileName       = RedshopHelperMedia::cleanFileName($uploadFileData['name']);
-    //      $fileName       = $uploadFileSize . "_mb" . $fileName;
-            // Tweak by Ronni END - Allow Zip folder upload - 1/2 + File size
+            $fileName       = $uploadFileSize . "_kb_" . $fileName;
+            // Tweak by Ronni END - Allow Zip folder upload + File size
             $uploadFilePath = JPath::clean($uploadDir . $fileName);
 
             $legalExts = explode(',', Redshop::getConfig()->get('MEDIA_ALLOWED_MIME_TYPE'));
@@ -839,7 +839,7 @@ class RedshopControllerProduct extends RedshopController
             }
 
             // Tweak by Ronni START - Jpg file changes Printready file => No
-            if ($productId == 39 && ($fileExtension == "jpg" || $fileExtension == "jpeg" )) {
+            if ($productId == 39 && ($fileExtension == "jpg" || $fileExtension == "jpeg" || $fileExtension == "JPG")) {
                 echo '<style type="text/css">
                         #attPropIdLbl3491738,#attPropId3491738 {opacity: 0.3;pointer-events:none}
                       </style>';

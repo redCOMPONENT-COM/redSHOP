@@ -308,7 +308,7 @@ class ExtraFields
             foreach ($userDocuments[$productId] as $id => $userDocument) {
                 // Tweak by Ronni START - Add Filesize
                 $html[] = '<span class="file_uploaded_correct" style="font-size:12px">Fil størrelse: ' 
-                    . $userDocument['fileSize'] . ' Mb.</span>';
+                    . $userDocument['fileSize'] . ' kiloBytes.</span>';
                 // Tweak by Ronni END - Add Filesize
                 $fileNames[] = $userDocument['fileName'];
                 $sendData    = array(
@@ -324,40 +324,24 @@ class ExtraFields
 
                 // Tweak by Ronni START - Add <br> + class="rmUploadedFile"  in <a
                 $html[] = '<li id="uploadNameSpan' . $id . '"><span>' . $userDocument['fileName'] . '</span>&nbsp;'
-                    . '<a class="rmUploadedFile" style="margin-top:10px" href="javascript:removeAjaxUpload(' . htmlspecialchars(json_encode($sendData)) . ');">'
+                    . '<br><a class="rmUploadedFile" style="margin-top:10px" href="javascript:removeAjaxUpload(' . htmlspecialchars(json_encode($sendData)) . ');">'
                     . \JText::_('COM_REDSHOP_DELETE') . '</a></li>';
                 // Tweak by Ronni END - Add <br> + class="rmUploadedFile"  in <a
                 
-                // Tweak by Ronni START - Disable Upload buttons if uploaded file is present
-                echo '<style type="text/css">
-                        .rsFileUpload {opacity:0.5}
-                        .rsFileUpload {pointer-events:none}
-                        .file_ext_error{display:none}
-                        .file_uploaded_correct{display:block}
-                      </style>';
-                echo '<style type="text/css">
-                        #property_id_prd_39_0_349_1738, 
-                        #property_id_prd_39_0_349_1738-lbl {opacity: 0.3;pointer-events:none}
-                      </style>';
-                echo '<style type="text/css">.filext_jpg_info {display:block}</style>';
-                // Tweak by Ronni END - Disable Upload buttons if uploaded file is present
-                
-                // Tweak by Ronni START - Jpg file changes Printready file => No - Need work
+                // Tweak by Ronni START - Jpg file changes Printready file => No
                 $fileExtension  = \JFile::getExt($userDocument['fileName']);
-                if ($fileExtension == "jpg" || $fileExtension == "jpeg" && $productId == "39") {
+                if ($productId == "39" && ($fileExtension == "jpg" || $fileExtension == "jpeg" || $fileExtension == "JPG")) {
                     echo '<style type="text/css">
-                            #property_id_prd_39_0_349_1738, 
-                            #property_id_prd_39_0_349_1738-lbl {opacity: 0.3;pointer-events:none}
+                            #attPropIdLbl3491738,#attPropId3491738 {opacity: 0.3;pointer-events:none}
                         </style>';
                     echo '<style type="text/css">.filext_jpg_info {display:block}</style>';
                 } else {
                     echo '<style type="text/css">
-                            #property_id_prd_39_0_349_1738, 
-                            #property_id_prd_39_0_349_1738-lbl {opacity: 1;pointer-events:unset}
+                            #attPropIdLbl3491738,#attPropId3491738 {opacity: 1;pointer-events:unset}
                           </style>';
                     echo '<style type="text/css">.filext_jpg_info {display:none}</style>';
                 }
-                // Tweak by Ronni END - Jpg file changes Printready file => No - Need work
+                // Tweak by Ronni END - Jpg file changes Printready file => No
             }
         }
 
