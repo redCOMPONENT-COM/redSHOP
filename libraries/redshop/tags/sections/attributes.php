@@ -346,8 +346,8 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             $attDisplayType    = $attribute->display_type;
 
             // Tweak by Ronni START - Tweak to make special alert when choosing attributes
-			$chkList           = "";
-			// Tweak by Ronni END - Tweak to make special alert when choosing attributes
+            $chkList           = "";
+            // Tweak by Ronni END - Tweak to make special alert when choosing attributes
 
             // Init listing html-attributes
             $chkListAttributes = array(
@@ -450,17 +450,17 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                     }
 
                     $chkList .= '<div class="attribute_multiselect_single">' . $modalTagStart . '
-							<input data-toggle="modal" 
+                            <input data-toggle="modal" 
                                 data-target="Modal-attribute-alert' . $property[$chk]->attribute_id . $property[$chk]->property_id . '" 
-								id="attPropId' . $property[$chk]->attribute_id . $property[$chk]->property_id . '" 
+                                id="attPropId' . $property[$chk]->attribute_id . $property[$chk]->property_id . '" 
                                 type="' . $attDisplayType . '" ' . $checked . ' 
                                 value="' . $property[$chk]->value . '" name="' . $propertyId . '[]" 
                                 class="attribute_input" 
                                 attribute_name="' . urldecode($attribute->attribute_name) . '" 
                                 required="' . $attribute->attribute_required . '" 
-								onClick="javascript:' . $scrollerFunction . ' changePropertyDropdown(' 
+                                onClick="javascript:' . $scrollerFunction . ' changePropertyDropdown(' 
                                 . $productId . ',' . $accessoryId . ',' . $relatedProductId . ',' 
-								. $attribute->value . ',' . $property[$chk]->value . ',' 
+                                . $attribute->value . ',' . $property[$chk]->value . ',' 
                                 . $this->mpwThumb . ',' . $this->mphThumb . ');"  />&nbsp;' 
                                 . $property[$chk]->text . $modalTagEnd . '
                                 </div>';
@@ -652,9 +652,9 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 \RedshopLayoutHelper::$layoutOption
             );
 
-			// Tweak by Ronni START - Add language tags for attribute section
-			$attributeTable = str_replace("{product_surface_lbl}", JText::_('COM_REDSHOP_SURFACE1'), $attributeTable);
-			// Tweak by Ronni END - Add language tags for attribute section
+            // Tweak by Ronni START - Add language tags for attribute section
+            $attributeTable = str_replace("{product_surface_lbl}", JText::_('COM_REDSHOP_SURFACE1'), $attributeTable);
+            // Tweak by Ronni END - Add language tags for attribute section
 
             $attributeTable = str_replace("{subproperty_start}", $subPropertyStartTag, $attributeTable);
             $attributeTable = str_replace("{subproperty_end}", "</div>", $attributeTable);
