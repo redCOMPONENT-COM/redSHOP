@@ -9,6 +9,7 @@
                 id="{{ oneMethod.name ~ index }}"
                 value="{{ oneMethod.name }}"
                 {{ checked }}
+                disabled="{{ disabled }}"
                 onclick="javascript:onestepCheckoutProcess(this.name, '');"
         />
         {% if showImage %}
@@ -18,6 +19,10 @@
                     src="{{ logo }}"/>
         {% endif %}
 
-        <span>{{ jtext('PLG_' ~ oneMethod.name|upper) }}</span>
+        {% if disabled == 'disabled' %}
+            <span>{{ disabledText }}</span> - <span>{{ logo }}</span>
+        {% else %}
+            <span>{{ jtext('PLG_' ~ oneMethod.name|upper) }}</span> - <span>{{ disabledText }}</span>
+        {% endif %}
     </label>
 </div>

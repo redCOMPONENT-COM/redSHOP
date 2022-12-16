@@ -243,7 +243,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
                     'showImage'          => $showImage,
                     // Tweak by Ronni START - Bank and EAN transfer plg disable if un-paid invoices in Billy
                     'disabled'           => $disabled,
-                    'disabled_text'      => $disabledText,
+                    'disabledText'       => $disabledText,
                     // Tweak by Ronni END - Bank and EAN transfer plg disable if un-paid invoices in Billy
                 ),
                 '',
