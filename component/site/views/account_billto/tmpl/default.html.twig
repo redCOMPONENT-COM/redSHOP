@@ -6,7 +6,8 @@
 <form action="{{ jroute(requestUrl) }}" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
     <fieldset class="adminform">
-        <legend>{{ jtext('COM_REDSHOP_CUSTOMER_INFORMATION') }}</legend>
+        <!-- // Tweak by Ronni START - Remove legend with COM_REDSHOP_CUSTOMER_INFORMATION -->
+        <legend style="display:none">{{ jtext('COM_REDSHOP_CUSTOMER_INFORMATION') }}</legend>
         {{ redSHOPCall(
             'RedshopHelperBilling',
             'render',
