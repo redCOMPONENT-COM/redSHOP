@@ -8,7 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('behavior.modal');
+// Tweak by Ronni - Disable old Modal
+// JHTML::_('behavior.modal');
 JHtml::_('script', 'com_redshop/jquery.validate.min.js', array('version' => 'auto', 'relative' => true));
 
 $dispatcher = RedshopHelperUtility::getDispatcher();

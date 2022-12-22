@@ -144,7 +144,8 @@ class RedshopTagsSectionsOrderList extends RedshopTagsAbstract
                 );
 
                 $replace['{order_number}'] = $this->replaceTagDiv('order_number', $this->detail[$i]->order_number);
-                $replace['{order_id}']     = $this->replaceTagDiv('order_id', $this->detail[$i]->order_id);
+                // Tweak by Ronni START - Remove div for Invoice link
+                $replace['{order_id}']     = $this->detail[$i]->order_id;
 
                 $replace['{order_products}'] = $this->replaceTagDiv(
                     'order_products',
@@ -171,9 +172,9 @@ class RedshopTagsSectionsOrderList extends RedshopTagsAbstract
                         $this->detail[$i]->order_status
                     )
                 );
-
+                // Tweak by Ronni START - Remove div for order detail link tags.common.div_link
                 $replace['{order_detail_link}'] = RedshopLayoutHelper::render(
-                    'tags.common.div_link',
+                    'tags.common.link',
                     [
                         'divClass' => 'order_detail_link',
                         'link'     => Redshop\IO\Route::_(
@@ -191,9 +192,9 @@ class RedshopTagsSectionsOrderList extends RedshopTagsAbstract
                 $orderLink = 'javascript:if(confirm(\'' . JText::_(
                         'COM_REDSHOP_CONFIRM_CART_EMPTY'
                     ) . '\')){window.location=\'' . $reOrderUrl . '\';}';
-
+                // Tweak by Ronni START - Remove div for reorder link tags.common.div_link
                 $replace['{reorder_link}'] = RedshopLayoutHelper::render(
-                    'tags.common.div_link',
+                    'tags.common.link',
                     [
                         'divClass' => 'reorder_link',
                         'link'     => $orderLink,

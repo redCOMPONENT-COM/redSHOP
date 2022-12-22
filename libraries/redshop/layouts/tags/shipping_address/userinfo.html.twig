@@ -1,5 +1,6 @@
 {% if billingAddresses %}
-    {% set shippingCheck = (usersInfoId == billingAddresses.users_info_id) ? 'checked="checked"' : '' %}
+    <!-- // Tweak by Ronni START - Shipping always choose billing on load -->
+    {% set shippingCheck = 'checked="checked"' %}
     <div class="radio">
         <label class="radio">
             <input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,'');"
@@ -20,8 +21,8 @@
         ~ '&tmpl=component&task=remove&infoid=' ~ shippingAddress.users_info_id ~ '&Itemid=' ~ itemId,
         false
         ) %}
-
-    {% set shippingCheck = (usersInfoId == shippingAddress.users_info_id) ? 'checked="checked"' : '' %}
+    <!-- // Tweak by Ronni START - Shipping always choose billing on load -->
+    {% set shippingCheck = '' %}
 
     <div class="radio">
         <label class="radio inline">
@@ -29,11 +30,34 @@
                    name="users_info_id" value="{{ shippingAddress.users_info_id }}" {{ shippingCheck }} />
             {{ shippingAddress.firstname }} {{ shippingAddress.lastname }}
         </label>
-        <a class="modal" href="{{ addShippingLink }}" rel="{handler: 'iframe', size: {x: 570, y: 470}}">
-            ({{ jtext('COM_REDSHOP_EDIT_LBL') }})
+        <!-- // Tweak by Ronni - Change Edit shipping popup to BS modal -->
+        <a class="checkout-shipping-btn-edit checkout-shipping-btn" data-toggle="modal" data-target="#Modal-edit-ship" 
+                href="{{ addShippingLink }}">
+                {{ jtext('COM_REDSHOP_EDIT_LBL') }}
         </a>
-        <a href="{{ removeShippingLink }}" title="">
-            ({{ jtext('COM_REDSHOP_DELETE_LBL') }})
+        <div id="Modal-edit-ship" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        Rediger forsendelsesadresse
+                    </div>
+                    <div class="modal-body">
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">
+                            {{ jtext('COM_REDSHOP_CLOSE') }}
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // Tweak by Ronni - Add class="checkout-shipping-btn" -->
+        <a class="checkout-shipping-btn" href="{{ removeShippingLink }}" title="">
+            {{ jtext('COM_REDSHOP_DELETE_LBL') }}
         </a>
     </div>
 {% endfor %}
@@ -41,6 +65,29 @@
     ~ '&return=checkout&Itemid=' ~ itemId ~ '&infoid=0&is_company=' ~ billingAddresses.is_company,
     false) %}
 
-<a class="modal btn btn-primary" href="{{ addLink }}" rel="{handler: 'iframe', size: {x: 570, y: 470}}">
+<!-- // Tweak by Ronni - Add <br> + Change Add shipping popup to BS modal -->
+<br>
+<a class="btn btn-primary" data-toggle="modal" data-target="#Modal-add-ship" 
+        href="{{ addLink }}">
     {{ jtext('COM_REDSHOP_ADD_ADDRESS') }}
 </a>
+<div id="Modal-add-ship" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ jtext('COM_REDSHOP_ADD_ADDRESS') }}
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">
+                    {{ jtext('COM_REDSHOP_CLOSE') }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

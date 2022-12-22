@@ -129,6 +129,13 @@ class RedshopViewOrder_Detail extends RedshopView
 	    $order              = $orderEntity->getItem();
 	    $paymentMethodClass = $orderEntity->getPayment()->getItem()->payment_method_class;
 
+		// Tweak by Ronni START - Add order_function + order_pay
+	//	$order_functions = order_functions::getInstance();
+	//	$order_payment = $order_functions->getOrderPaymentDetail($orderId);
+		$OrdersDetail   = $this->OrdersDetail;
+		$order_total_strip1 = $OrdersDetail->order_total;
+		$order_total_strip = str_replace('.', ',', $order_total_strip1);
+		// Tweak by Ronni END - Add order_function + order_pay
 
 	    if ($order->order_status != 'C' && $order->order_status != 'S' && $order->order_status != 'PR' && $order->order_status != 'APP' && $print != 1 && $order->order_payment_status != 'Paid' && $paymentMethodClass != 'rs_payment_banktransfer') {
             $reorder = "<form method='post'>

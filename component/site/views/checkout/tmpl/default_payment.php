@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-
-JHTML::_('behavior.modal');
+// Tweak by Ronni - Disable old Modal
+// JHTML::_('behavior.modal');
 
 $redTemplate     = Redtemplate::getInstance();
 $model           = $this->getModel('checkout');
