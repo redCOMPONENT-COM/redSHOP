@@ -8,7 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-JHtml::_('behavior.modal');
+// Tweak by Ronni - Disable old Modal
+// JHtml::_('behavior.modal');
 /** @scrutinizer ignore-deprecated */
 JHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
 /** @scrutinizer ignore-deprecated */
