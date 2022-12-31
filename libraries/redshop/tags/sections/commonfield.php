@@ -255,7 +255,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
         }
 
         if ($this->isTagExists('{address}')) {
-            // Tweak by Ronni - Change label view for adress
+            // Tweak by Ronni - Change label view for address
             $htmlAddress = '<span class="input-prepend input-append">
                     <span class="add-on">
                         <label>
@@ -297,7 +297,15 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
         }
 
         if ($this->isTagExists('{zipcode}')) {
-            $htmlZipcode = RedshopLayoutHelper::render(
+            // Tweak by Ronni - Change label view for zipcode
+            $htmlZipcode = '<span class="input-prepend input-append">
+                    <span class="add-on">
+                        <label>
+                            <i class="far fa-address-card"></i>
+                        </label>
+                    </span>
+                </span>' . 
+            RedshopLayoutHelper::render(
                 'tags.common.input',
                 array(
                     'id'    => $prefix . 'zipcode',
@@ -305,7 +313,8 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["zipcode"]) ? $data["zipcode"] : ''),
                     'class' => 'inputbox required',
-                    'attr'  => 'size="32" maxlength="250" onblur="return autoFillCity(this.value,\'BT\');" title="' . JText::_(
+                    'attr'  => 'size="32" maxlength="250" onblur="return autoFillCity(this.value,\'BT\');" 
+                            placeholder="' . JText::_('COM_REDSHOP_ZIPCODE') . '" title="' . JText::_(
                             'COM_REDSHOP_PLEASE_ENTER_ZIPCODE'
                         ) . '"'
                 ),
@@ -332,7 +341,15 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
         }
 
         if ($this->isTagExists('{city}')) {
-            $htmlCity = RedshopLayoutHelper::render(
+            // Tweak by Ronni - Change label view for city
+            $htmlCity = '<span class="input-prepend input-append">
+                    <span class="add-on">
+                        <label>
+                            <i class="far fa-address-card"></i>
+                        </label>
+                    </span>
+                </span>' . 
+            RedshopLayoutHelper::render(
                 'tags.common.input',
                 array(
                     'id'    => $prefix . 'city',
@@ -340,7 +357,9 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["city"]) ? $data["city"] : ''),
                     'class' => 'inputbox required',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_CITY') . '"'
+                    'attr'  => 'size="32" maxlength="250" 
+                                placeholder="' . JText::_('COM_REDSHOP_CITY') . '" 
+                                title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_CITY') . '"'
                 ),
                 '',
                 $options
@@ -369,7 +388,15 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
         }
 
         if ($this->isTagExists('{phone}')) {
-            $htmlPhone = RedshopLayoutHelper::render(
+            // Tweak by Ronni - Change label view for phone + 8 max digits
+            $htmlPhone = '<span class="input-prepend input-append">
+                    <span class="add-on">
+                        <label>
+                            <i class="fas fa-mobile-alt"></i>
+                        </label>
+                    </span>
+                </span>' . 
+            RedshopLayoutHelper::render(
                 'tags.common.input',
                 array(
                     'id'    => $prefix . 'phone',
@@ -377,7 +404,8 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["phone"]) ? $data["phone"] : ''),
                     'class' => 'inputbox phone required',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_(
+                    'attr'  => 'size="32" maxlength="8" placeholder="' . JText::_('COM_REDSHOP_PHONE_8') . '"
+                            title="' . JText::_(
                             'COM_REDSHOP_PLEASE_ENTER_PHONE'
                         ) . '" onblur="return searchByPhone(this.value,\'BT\');" ' . $phoneIsRequired
                 ),
@@ -404,7 +432,15 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
         }
 
         if ($this->isTagExists('{company_name}')) {
-            $htmlCompanyName = RedshopLayoutHelper::render(
+            // Tweak by Ronni - Change label view for company name
+            $htmlCompanyName = '<span class="input-prepend input-append">
+                    <span class="add-on">
+                        <label>
+                            <i class="far fa-building"></i>
+                        </label>
+                    </span>
+                </span>' . 
+            RedshopLayoutHelper::render(
                 'tags.common.input',
                 array(
                     'id'    => $prefix . 'company_name',
@@ -412,7 +448,8 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["company_name"]) ? $data["company_name"] : ''),
                     'class' => 'inputbox required',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_(
+                    'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_COMPANY_NAME') . '" 
+                            title="' . JText::_(
                             'COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME'
                         ) . '"'
                 ),
@@ -428,7 +465,14 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
         $this->addReplace('{state_txtid}', 'div_state_txt');
         $this->addReplace('{state_style}', $stateStyle);
         $this->addReplace('{country_lbl}', JText::_('COM_REDSHOP_COUNTRY'));
-        $this->addReplace('{country}', $lists['country_code']);
+        // Tweak by Ronni - Change label view for country
+        $this->addReplace('{country}', '<span class="input-prepend input-append">
+                    <span class="add-on">
+                        <label>
+                            <i class="fas fa-globe-europe"></i>
+                        </label>
+                    </span>
+                </span>' . $lists['country_code']);
         $this->addReplace('{state_lbl}', JText::_('COM_REDSHOP_STATE'));
         $this->addReplace('{state}', $lists['state_code']);
 
