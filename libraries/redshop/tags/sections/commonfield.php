@@ -43,6 +43,8 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
         '{retype_email}',
         '{company_name_lbl}',
         '{company_name}',
+        '{cvr_lookup_lbl}',
+        '{cvr_lookup}',
         '{country_style}',
         '{country_txtid}'
     );
@@ -458,6 +460,40 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
             );
 
             $this->addReplace('{company_name}', $htmlCompanyName);
+        }
+
+        if ($this->isTagExists('{cvr_lookup_lbl}')) {
+            $htmlCvrLookupLbl = RedshopLayoutHelper::render(
+                'tags.common.label',
+                array(
+                    'id'    => $prefix . 'cvr_lookup',
+                    'class' => 'cvr_lookup',
+                    'text'  => JText::_('COM_REDSHOP_CVR_LOOKUP')
+                ),
+                '',
+                $options
+            );
+
+            $this->addReplace('{cvr_lookup_lbl}', $htmlCvrLookupLbl);
+        }
+
+        if ($this->isTagExists('{cvr_lookup}')) {
+            $htmlCvrLookup = RedshopLayoutHelper::render(
+                'tags.common.input',
+                array(
+                    'id'    => 'searchcvr',
+                    'name'  => 'searchcvr',
+                    'type'  => 'text',
+                    'value' => '',
+                    'class' => 'inputbox cvr_lookup',
+                    'attr'  => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_CVR_LOOKUP') . '" 
+                        onblur="return searchByCVR();"'
+                ),
+                '',
+                $options
+            );
+
+            $this->addReplace('{cvr_lookup}', $htmlCvrLookup);
         }
 
         $this->addReplace('{country_txtid}', 'div_country_txt');
