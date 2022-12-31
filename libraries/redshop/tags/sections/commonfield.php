@@ -19,6 +19,8 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
     public $tags = array(
         '{email}',
         '{email_lbl}',
+        // Tweak by Ronni START - Add cc email
+        '{cc_email}',
         '{firstname_lbl}',
         '{firstname}',
         '{lastname_lbl}',
@@ -75,7 +77,15 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
         $this->template        = $this->replaceRetypeEmail($prefix, $options, $data);
 
         if ($this->isTagExists('{email}')) {
-            $htmlEmail = RedshopLayoutHelper::render(
+            // Tweak by Ronni - Change label view for email
+            $htmlEmail = '<span class="input-prepend input-append">
+                    <span class="add-on">
+                        <label>
+                            <i class="far fa-envelope"></i>
+                        </label>
+                    </span>
+                </span>' . 
+                RedshopLayoutHelper::render(
                 'tags.common.input',
                 array(
                     'id'    => $prefix . 'email1',
@@ -83,7 +93,8 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'value' => (isset($data["email1"]) ? $data["email1"] : ''),
                     'type'  => 'text',
                     'class' => 'inputbox required',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_(
+                    'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_EMAIL') . '" 
+                                title="' . JText::_(
                             'COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS'
                         ) . '"'
                 ),
@@ -109,6 +120,36 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
             $this->addReplace('{email_lbl}', $htmlEmailLbl);
         }
 
+        // Tweak by Ronni START - Add cc email
+        if ($this->isTagExists('{cc_email}')) {
+            $htmlCCEmail = '<span class="input-prepend input-append">
+                    <span class="add-on">
+                        <label>
+                            <i class="far fa-envelope"></i>
+                        </label>
+                    </span>
+                </span>' . 
+                RedshopLayoutHelper::render(
+                'tags.common.input',
+                array(
+                    'id'    => $prefix . 'cc_email',
+                    'name'  => 'email1',
+                    'value' => (isset($data["cc_email"]) ? $data["cc_email"] : ''),
+                    'type'  => 'text',
+                    'class' => 'inputbox required',
+                    'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_CC_EMAIL') . '" 
+                                title="' . JText::_(
+                            'COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS'
+                        ) . '"'
+                ),
+                '',
+                $options
+            );
+
+            $this->addReplace('{cc_email}', $htmlCCEmail);
+        }
+        // Tweak by Ronni END - Add cc email
+
         if ($this->isTagExists('{firstname_lbl}')) {
             $htmlFirstNameLbl = RedshopLayoutHelper::render(
                 'tags.common.label',
@@ -125,7 +166,15 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
         }
 
         if ($this->isTagExists('{firstname}')) {
-            $htmlFirstName = RedshopLayoutHelper::render(
+            // Tweak by Ronni - Change label view for firstname
+            $htmlFirstName = '<span class="input-prepend input-append">
+                    <span class="add-on">
+                        <label>
+                            <i class="far fa-id-badge"></i>
+                        </label>
+                    </span>
+                </span>' . 
+            RedshopLayoutHelper::render(
                 'tags.common.input',
                 array(
                     'id'    => $prefix . 'firstname',
@@ -133,7 +182,8 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["firstname"]) ? $data["firstname"] : ''),
                     'class' => 'inputbox required',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_(
+                    'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_FIRSTNAME') . '" 
+                            title="' . JText::_(
                             'COM_REDSHOP_PLEASE_ENTER_FIRST_NAME'
                         ) . '"'
                 ),
@@ -160,7 +210,15 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
         }
 
         if ($this->isTagExists('{lastname}')) {
-            $htmlLastName = RedshopLayoutHelper::render(
+            // Tweak by Ronni - Change label view for lastname
+            $htmlLastName = '<span class="input-prepend input-append">
+                    <span class="add-on">
+                        <label>
+                            <i class="far fa-id-badge"></i>
+                        </label>
+                    </span>
+                </span>' . 
+            RedshopLayoutHelper::render(
                 'tags.common.input',
                 array(
                     'id'    => $prefix . 'lastname',
@@ -168,7 +226,8 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["lastname"]) ? $data["lastname"] : ''),
                     'class' => 'inputbox required',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_(
+                    'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_LASTNAME') . '"
+                            title="' . JText::_(
                             'COM_REDSHOP_PLEASE_ENTER_LAST_NAME'
                         ) . '"'
                 ),
@@ -196,7 +255,15 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
         }
 
         if ($this->isTagExists('{address}')) {
-            $htmlAddress = RedshopLayoutHelper::render(
+            // Tweak by Ronni - Change label view for adress
+            $htmlAddress = '<span class="input-prepend input-append">
+                    <span class="add-on">
+                        <label>
+                            <i class="far fa-address-card"></i>
+                        </label>
+                    </span>
+                </span>' . 
+            RedshopLayoutHelper::render(
                 'tags.common.input',
                 array(
                     'id'    => $prefix . 'address',
@@ -204,7 +271,8 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["address"]) ? $data["address"] : ''),
                     'class' => 'inputbox required',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS') . '"'
+                    'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_ADDRESS') . '" 
+                                title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS') . '"'
                 ),
                 '',
                 $options
@@ -396,8 +464,15 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     '',
                     $options
                 );
-
-                $htmlEmail = RedshopLayoutHelper::render(
+                // Tweak by Ronni - Change label view for retype email
+                $htmlEmail = '<span class="input-prepend input-append">
+                    <span class="add-on">
+                        <label>
+                            <i class="far fa-envelope"></i>
+                        </label>
+                    </span>
+                </span>' . 
+                RedshopLayoutHelper::render(
                     'tags.common.input',
                     array(
                         'id'    => $prefix . 'email2',
@@ -405,7 +480,8 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                         'type'  => 'text',
                         'value' => $data['email1'],
                         'class' => 'inputbox required',
-                        'attr'  => 'size="32" maxlength="250" title="' . JText::_(
+                        'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_RETYPE_CUSTOMER_EMAIL') . '" 
+                                title="' . JText::_(
                                 'COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS'
                             ) . '" required'
                     ),
