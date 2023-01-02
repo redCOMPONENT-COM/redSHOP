@@ -135,10 +135,10 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                 'tags.common.input',
                 array(
                     'id'    => $prefix . 'cc_email',
-                    'name'  => 'email1',
+                    'name'  => 'cc_email',
                     'value' => (isset($data["cc_email"]) ? $data["cc_email"] : ''),
                     'type'  => 'text',
-                    'class' => 'inputbox required',
+                    'class' => 'inputbox',
                     'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_CC_EMAIL') . '" 
                                 title="' . JText::_(
                             'COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS'
