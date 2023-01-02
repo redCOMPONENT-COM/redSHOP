@@ -634,62 +634,46 @@ function searchByPhone()
 function searchByCVR()
 {
 	value = '';
-	if(document.getElementById('searchcvr'))
-	{
+	if(document.getElementById('searchcvr')) {
 		value = document.getElementById('searchcvr').value;
 	}
-	if(value)
-	{
-		if (window.XMLHttpRequest)
-	  	{// code for IE7+, Firefox, Chrome, Opera, Safari
+	if(value) {
+		if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
 	  		xmlhttp=new XMLHttpRequest();
-	  	}
-		else
-		{// code for IE6, IE5
+	  	} else { // code for IE6, IE5
 			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 		}
 		xmlhttp.onreadystatechange=function()
 		{
-			if (xmlhttp.readyState==4 && xmlhttp.status==200)
-			{
-				if(xmlhttp.responseText!="")
-				{
+			if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+				if (xmlhttp.responseText!="") {
 					var str=xmlhttp.responseText.split(":_:");
 
-					if(document.getElementById('company-company_name'))
-					{
+					if (document.getElementById('company-company_name')) {
 						document.getElementById('company-company_name').value=(str[0]) ? str[0] : "";
 					}
-					if(document.getElementById('company-address'))
-					{
+					if (document.getElementById('company-address')) {
 						document.getElementById('company-address').value=(str[1]) ? str[1] : "";
 					}
-					if(document.getElementById('company-zipcode'))
-					{
+					if (document.getElementById('company-zipcode')) {
 						document.getElementById('company-zipcode').value=(str[2]) ? str[2] : "";
 					}
-					if(document.getElementById('company-city'))
-					{
+					if (document.getElementById('company-city')) {
 						document.getElementById('company-city').value=(str[3]) ? str[3] : "";
 					}
-					if(document.getElementById('company-phone'))
-					{
+					if (document.getElementById('company-phone')) {
 						document.getElementById('company-phone').value=(str[5]) ? str[5] : "";
 					}
-					if(document.getElementById('company-firstname'))
-					{
+					if (document.getElementById('company-firstname')) {
 						document.getElementById('company-firstname').value=(str[6]) ? str[6] : "";
 					}
-					if(document.getElementById('company-lastname'))
-					{
+					if (document.getElementById('company-lastname')) {
 						document.getElementById('company-lastname').value=(str[7]) ? str[7] : "";
 					}
-					if(document.getElementById('company-email1'))
-					{
+					if (document.getElementById('company-email1')) {
 						document.getElementById('company-email1').value=(str[8]) ? str[8] : "";
 					}
-					if(document.getElementById('vat_number'))
-					{
+					if (document.getElementById('vat_number')) {
 						document.getElementById('vat_number').value=(str[9]) ? str[9] : "";
 					}
 				}
