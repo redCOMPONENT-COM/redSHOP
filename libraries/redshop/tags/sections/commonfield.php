@@ -478,7 +478,15 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
         }
 
         if ($this->isTagExists('{cvr_lookup}')) {
-            $htmlCvrLookup = RedshopLayoutHelper::render(
+            // Tweak by Ronni - Change label view for cvr lookup
+            $htmlCvrLookup = '<span class="input-prepend input-append">
+                    <span class="add-on">
+                        <label>
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </label>
+                    </span>
+                </span>' . 
+            RedshopLayoutHelper::render(
                 'tags.common.input',
                 array(
                     'id'    => 'searchcvr',
@@ -486,7 +494,8 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => '',
                     'class' => 'inputbox cvr_lookup',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_CVR_LOOKUP') . '" 
+                    'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_CVR_LOOKUP') . '"
+                                title="' . JText::_('COM_REDSHOP_CVR_LOOKUP') . '" 
                         onblur="return searchByCVR();"'
                 ),
                 '',
