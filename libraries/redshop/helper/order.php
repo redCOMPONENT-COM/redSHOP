@@ -1070,18 +1070,43 @@ class RedshopHelperOrder
 
         // Filter name to remove special characters
         // We are using $billingInfo instead $shippingInfo because $shippingInfo stored information of service point not buyer
+        // Tweak by Ronni - Change from Billing > Shipping on First and Last name
         $firstName = $filter->clean(
-            mb_convert_encoding($billingInfo->firstname, "ISO-8859-1", "UTF-8"),
+            mb_convert_encoding($shippingInfo->firstname, "ISO-8859-1", "UTF-8"),
             'username'
         );
         $lastName  = $filter->clean(
-            mb_convert_encoding($billingInfo->lastname, "ISO-8859-1", "UTF-8"),
+            mb_convert_encoding($shippingInfo->lastname, "ISO-8859-1", "UTF-8"),
             'username'
         );
         $fullName  = $firstName . " " . $lastName;
+        // Tweak by Ronni START - Change from Billing > Shipping and add extra info
+        $address = mb_convert_encoding($shippingInfo->address, "ISO-8859-1", "UTF-8");
+        $city    = mb_convert_encoding($shippingInfo->city, "ISO-8859-1", "UTF-8");
+		$zipcode 	   = $shippingInfo->zipcode;
+		$countryCode   = $shippingInfo->country_code;
+		$contactName   = $firstName . " " . $lastName;
+		if ($shippingInfo->phone) {
+			$phone     = $shippingInfo->phone;
+		} else {
+			$phone     = $billingInfo->phone;
+		}
 
-        $address = mb_convert_encoding($billingInfo->address, "ISO-8859-1", "UTF-8");
-        $city    = mb_convert_encoding($billingInfo->city, "ISO-8859-1", "UTF-8");
+		$user_email    = $billingInfo->user_email;
+
+		// Tweak by Ronni START - Sender same as Billing
+		$senderFirstname = $filter->clean(
+						mb_convert_encoding($billingInfo->firstname, "ISO-8859-1", "UTF-8"),
+						'username'
+					);
+		$senderLastname = $filter->clean(
+						mb_convert_encoding($billingInfo->lastname, "ISO-8859-1", "UTF-8"),
+						'username'
+					);
+		$sender_full_name = $senderFirstname . " " . $senderLastname;
+		$sender_address   = mb_convert_encoding($billingInfo->address, "ISO-8859-1", "UTF-8");
+		$sender_city      = mb_convert_encoding($billingInfo->city, "ISO-8859-1", "UTF-8");
+        // Tweak by Ronni START - Change from Billing > Shipping and add extra info
 
         if ($billingInfo->is_company) {
             $companyName   = mb_convert_encoding($shippingInfo->company_name, "ISO-8859-1", "UTF-8");
@@ -1936,14 +1961,21 @@ class RedshopHelperOrder
         $orderDetail        = RedshopEntityOrder::getInstance($orderId)->getItem();
         $paymentParams      = new Registry($paymentMethod->params);
         $orderStatusCapture = $paymentParams->get('capture_status', '');
-        $orderStatusCode    = $orderStatusCapture;
+		// Tweak by Ronni START - Tweak to capture funds - = $newstatus;
+		$orderStatusCode    = $newStatus;
+    //  $orderStatusCode    = $orderStatusCapture;
+		// Tweak by Ronni END - Tweak to capture funds - = $newstatus;
 
-        if ($orderStatusCapture == $newStatus
+		// Tweak by Ronni START - Tweak to capture funds on multible status
+		if (in_array($newStatus,$orderStatusCapture)
+    //  if ($orderStatusCapture == $newStatus
             && ($authorizeStatus == "Authorized" || $authorizeStatus == "")) {
             $values["order_number"]        = $orderDetail->order_number;
             $values["order_id"]            = $orderId;
             $values["order_transactionid"] = $result->order_payment_trans_id;
-            $values["order_amount"]        = $orderDetail->order_total + $result->order_transfee;
+            // Tweak by Ronni START - Remove additional transfee while capture
+            $values["order_amount"]        = $orderDetail->order_total; // + $result->order_transfee;
+            // Tweak by Ronni END - Remove additional transfee while capture
             $values['shippinginfo']        = self::getOrderShippingUserInfo($orderId);
             $values['billinginfo']         = self::getOrderBillingUserInfo($orderId);
             $values["order_userid"]        = $values['billinginfo']->user_id;
