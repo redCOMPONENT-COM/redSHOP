@@ -1,6 +1,10 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="form-group">
+            {company_name_st_lbl}{company_name_st}
+        </div>
+
+        <div class="form-group">
             {firstname_st_lbl}{firstname_st}
             <span class="required">*</span>
         </div>

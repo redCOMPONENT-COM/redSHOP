@@ -29495,3 +29495,51 @@ div.modal.jviewport-width100 {
 .table-striped tbody > tr > td.day.active {
     background-color: #337ab7 !important;
 }
+
+/*! Tweak by Ronni START - Custom css */
+.label.order_payment_status_unpaid, .label.order_payment_status_x, .order_status_x {background-color: #ffffff;border: 1px solid #f00;color: #f00;text-shadow: none}
+.label.order_payment_status_x, .order_status_x {background-color: #fbe5e5}
+.label.order_payment_status_paid {color: #00a65a;background-color: #fff;border: 1px solid #00a65a;text-shadow: none}
+.label.order_status_rd1 {background-color: #bcf2b5;color: #00a65a;border: 1px solid #00a65a;text-shadow: none}
+.label.order_status_s {background-color: #bcf2b5;color: #00a65a;border: 1px solid #00a65a;text-shadow: none}
+.label.order_status_app, .order_status_mob {color: #f39c12;background-color: #fbd9a4;border: 1px solid #f39c12;text-shadow: none}
+.label.order_status_c {color: #337ab7;background-color: #fff;border: 1px solid #337ab7;text-shadow: none}
+.label.order_status_p {background-color: #fbd9a4;color: #f39c12;border: 1px solid #f49c12;text-shadow: none}
+.label.order_status_btn {background-color: #f5f5f5;color: #544847;border: 1px solid #bbbbbb;text-shadow: none;font-weight: normal}
+.table-hover tbody tr:hover > td, .table-hover tbody tr:hover > th {background-color: transparent !important}
+.table > thead > tr > th {background-color: #e5faf8 !important;border-top: 1px solid #a8e0f1 !important;border-bottom: 1px solid #a8e0f1 !important}
+.table .table {background-color: inherit}
+.skin-black .wrapper, .skin-black .main-sidebar, .skin-black .left-side {background-color: #0c626e}
+.skin-black .sidebar-menu > li:hover > a, .skin-black .sidebar-menu > li.active > a {background: #0c626e}
+.skin-black .sidebar-menu > li > .treeview-menu {background: #0c626e}
+.skin-black .main-header > .navbar {background-color:#0c626e}
+.skin-black .main-header > .logo {background-color:#0c626e}
+.content-header .btn-toolbar#toolbar.affix {background-color:#0c626e}
+.skin-black .sidebar-menu .treeview-menu li a:hover, .skin-black .sidebar-menu .treeview-menu li a.active {background:#61b3cc}
+.skin-black .main-header > .navbar .navbar-custom-menu .navbar-nav > li > a, .skin-black .main-header > .navbar .navbar-right > li > a {border-left: 1px solid #0c626e}
+.billy-btn {width: 198px!important;margin-top: 3px}
+.billy-cal-box {width:105px}
+.input-small {width: 192px}
+.modal-header {background-color:#0c626e;color:#fff}
+.modal-footer {background-color:#61b3cc}
+.btn-primary, .btn-primary:hover, .btn-primary:focus {background-color: #1bbf1b}
+.js-stools-btn-filter{padding: 4px 12px!important}
+.select2-container{display: inherit !important}
+.CodeMirror{height:1800px !important}
+.content-header .component-title {padding: 0px 0px 5px 36px;background-color: #0c626e}
+.content-header h1.page-title {color: #ffffff}
+#rs_country_country_code{width:220px}
+#adminForm .filterTool {background-color: #e5faf8}
+#product_desc,#product_s_desc,#jform_mail_body{width:100%}
+#jform_short_description,#jform_description{height:400px!important}
+.table > tbody > tr > td {vertical-align: top !important;}
+.table-striped > tbody > tr:nth-of-type(even) {background-color: #e5faf8 !important;border-top: 1px solid #a8e0f1 !important;border-bottom: 1px solid #a8e0f1 !important}
+.table-striped > tbody > tr:nth-of-type(odd) {border-bottom: 1px solid #a8e0f1 !important}
+.field-calendar{display:inline}
+.select2-container .select2-choice {background-color: #fff !important}
+.select2-container {border-radius: 3px;border: 1px solid #ccc}
+
+
+#filter,#filter_from_date,#filter_to_date,#filter_search,#keyword,.js-stools-btn-filter{height: 40px !important}
+#search{color: #fff;background-color:#7f7f7f;height:40px;margin-right: 20px}
+/*! Tweak by Ronni END - Custom css */

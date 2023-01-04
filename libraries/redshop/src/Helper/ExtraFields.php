@@ -306,6 +306,10 @@ class ExtraFields
 
         if (isset($userDocuments[$productId])) {
             foreach ($userDocuments[$productId] as $id => $userDocument) {
+                // Tweak by Ronni START - Add Filesize
+                $html[] = '<span class="file_uploaded_correct" style="font-size:12px">Fil størrelse: ' 
+                    . $userDocument['fileSize'] . ' kiloBytes.</span>';
+                // Tweak by Ronni END - Add Filesize
                 $fileNames[] = $userDocument['fileName'];
                 $sendData    = array(
                     'id'         => $id,
@@ -318,9 +322,26 @@ class ExtraFields
                         ) . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload'
                 );
 
+                // Tweak by Ronni START - Add <br> + class="rmUploadedFile"  in <a
                 $html[] = '<li id="uploadNameSpan' . $id . '"><span>' . $userDocument['fileName'] . '</span>&nbsp;'
-                    . '<a href="javascript:removeAjaxUpload(' . htmlspecialchars(json_encode($sendData)) . ');">'
+                    . '<br><a class="rmUploadedFile" style="margin-top:10px" href="javascript:removeAjaxUpload(' . htmlspecialchars(json_encode($sendData)) . ');">'
                     . \JText::_('COM_REDSHOP_DELETE') . '</a></li>';
+                // Tweak by Ronni END - Add <br> + class="rmUploadedFile"  in <a
+                
+                // Tweak by Ronni START - Jpg file changes Printready file => No
+                $fileExtension  = \JFile::getExt($userDocument['fileName']);
+                if ($productId == "39" && ($fileExtension == "jpg" || $fileExtension == "jpeg" || $fileExtension == "JPG")) {
+                    echo '<style type="text/css">
+                            #attPropIdLbl3491738,#attPropId3491738 {opacity: 0.3;pointer-events:none}
+                        </style>';
+                    echo '<style type="text/css">.filext_jpg_info {display:block}</style>';
+                } else {
+                    echo '<style type="text/css">
+                            #attPropIdLbl3491738,#attPropId3491738 {opacity: 1;pointer-events:unset}
+                          </style>';
+                    echo '<style type="text/css">.filext_jpg_info {display:none}</style>';
+                }
+                // Tweak by Ronni END - Jpg file changes Printready file => No
             }
         }
 

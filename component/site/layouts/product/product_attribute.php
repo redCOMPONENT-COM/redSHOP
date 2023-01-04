@@ -30,7 +30,8 @@ extract($displayData);
         <?php endif; ?>
         <?php if (count($properties) > 0) : ?>
             <div class="checkout_attribute_title">
-                <?php echo urldecode($attributes[$i]['attribute_name']); ?>
+                <?php /* // Tweak by Ronni - Add : */ ?>
+                <?php echo urldecode($attributes[$i]['attribute_name']); ?>:
             </div>
         <?php endif; ?>
         <?php for ($k = 0, $kn = count($properties); $k < $kn; $k++) : ?>
@@ -62,6 +63,8 @@ extract($displayData);
                     <?php echo urldecode($properties[$k]['property_name']) . $displayPrice; ?>
                 </div>
                 <?php echo $virtualNumber; ?>
+                <?php /* // Tweak by Ronni - Add <br> */ ?>
+                <br>
             </div>
             <?php $subProperties = $properties[$k]['property_childs']; ?>
             <?php if (count($subProperties) > 0): ?>

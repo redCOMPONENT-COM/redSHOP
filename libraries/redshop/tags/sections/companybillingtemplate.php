@@ -84,7 +84,15 @@ class RedshopTagsSectionsCompanyBillingTemplate extends RedshopTagsAbstract
         }
 
         if ($this->isTagExists('{ean_number}')) {
-            $htmlEanNumber = RedshopLayoutHelper::render(
+            // Tweak by Ronni - Change label view for ean_number
+            $htmlEanNumber = '<span class="input-prepend input-append">
+                    <span class="add-on">
+                        <label>
+                            <i class="far fa-building"></i>
+                        </label>
+                    </span>
+                </span>' . 
+            RedshopLayoutHelper::render(
                 'tags.common.input',
                 array(
                     'id'    => 'ean_number',
@@ -92,7 +100,8 @@ class RedshopTagsSectionsCompanyBillingTemplate extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["ean_number"]) ? $data["ean_number"] : ''),
                     'class' => 'inputbox form-control',
-                    'attr'  => 'size="32" maxlength="250"'
+                    'attr'  => 'size="32" maxlength="250" 
+                                placeholder="' . JText::_('COM_REDSHOP_EAN_NUMBER') . '"'
                 ),
                 '',
                 $options
@@ -150,7 +159,15 @@ class RedshopTagsSectionsCompanyBillingTemplate extends RedshopTagsAbstract
                 }
 
                 if ($this->isTagExists('{vat_number}')) {
-                    $htmlVatNumber = RedshopLayoutHelper::render(
+                    // Tweak by Ronni - Change label view for vat_number
+                    $htmlVatNumber = '<span class="input-prepend input-append">
+                        <span class="add-on">
+                            <label>
+                                <i class="far fa-building"></i>
+                            </label>
+                        </span>
+                    </span>' . 
+                    RedshopLayoutHelper::render(
                         'tags.common.input',
                         array(
                             'id'    => 'vat_number',
@@ -158,7 +175,8 @@ class RedshopTagsSectionsCompanyBillingTemplate extends RedshopTagsAbstract
                             'type'  => 'text',
                             'value' => (isset($data["vat_number"]) ? $data["vat_number"] : ''),
                             'class' => 'inputbox form-control ' . $classRequired,
-                            'attr'  => 'size="32" maxlength="250"'
+                            'attr'  => 'size="32" maxlength="250"
+                                        placeholder="' . JText::_('COM_REDSHOP_VAT_NUMBER') . '"'
                         ),
                         '',
                         $options

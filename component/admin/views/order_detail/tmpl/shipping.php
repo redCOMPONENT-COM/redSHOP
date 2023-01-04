@@ -19,6 +19,15 @@ if (!isset($shipping->order_info_id)) {
     $shipping->order_info_id = 0;
 }
 
+$allowCustomerST = '';
+$allowCompanyST  = '';
+
+if ($shipping->is_company == 1) {
+	$allowCustomerST = 'style="display:none;"';
+} else {
+	$allowCompanyST = 'style="display:none;"';
+}
+
 $Itemid = JFactory::getApplication()->input->get('Itemid');
 ?>
 <script type="text/javascript">
@@ -65,6 +74,21 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
             <legend><?php echo JText::_('COM_REDSHOP_SHIPPING_INFORMATION'); ?></legend>
             <table class="admintable table table-striped">
                 <tr>
+                    <td width="30%" align="right"><?php echo JText::_('COM_REDSHOP_REGISTER_AS'); ?>:</td>
+                    <td><?php echo $this->lists['is_company_ST'];?></td>
+                </tr>
+                <tr id="trCompanyNameST" <?php echo $allowCompanyST;?>>
+                    <td width="100" align="right" class="key">
+                       <label>
+                            <?php echo JText::_('COM_REDSHOP_COMPANY_NAME' ); ?>:
+                        </label>
+                    </td>
+                    <td>
+                        <input class="inputbox" type="text" name="company_name" size="32" maxlength="250" 
+                               value="<?php echo $shipping->company_name; ?>" />
+                    </td>
+                </tr>
+                <tr>
                     <td width="100" align="right" class="key">
                         <label>
                             <?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:
@@ -72,7 +96,7 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                     </td>
                     <td>
                         <input class="form-control" type="text" name="firstname" size="32" maxlength="250"
-                               value="<?php echo $shipping->firstname; ?>"/>
+                                value="<?php echo $shipping->firstname; ?>"/>
                     </td>
                 </tr>
                 <tr>
@@ -194,7 +218,6 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
     <input type="hidden" name="shopper_group_id" value="<?php echo $shipping->shopper_group_id; ?>"/>
     <input type="hidden" name="tax_exempt_approved" value="<?php echo $shipping->tax_exempt_approved; ?>"/>
     <input type="hidden" name="approved" value="<?php echo $shipping->approved; ?>"/>
-    <input type="hidden" name="is_company" value="<?php echo $shipping->is_company; ?>"/>
     <input type="hidden" name="address_type" value="ST"/>
 
 

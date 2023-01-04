@@ -81,7 +81,8 @@ class RedshopControllerAccount_Billto extends RedshopController
         $post['password2']     = $input->post->get('password2', '', 'RAW');
 
         if (isset($user->username)) {
-            $post['username'] = $user->username;
+            // Tweak by Ronni - Use email as username
+            $post['username'] = $post['email1'];
         }
 
         /** @var RedshopModelAccount_billto $model */
