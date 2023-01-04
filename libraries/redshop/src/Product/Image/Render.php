@@ -126,11 +126,9 @@ class Render
             $thumbImage = \RedshopLayoutHelper::render(
                 'tags.common.img',
                 array(
-                    'src'   => $productImageDefault,
-                    'alt'   => $altText,
-                    'width' => $width,
-                    'height'=> $height,
-                    'attr'  => 'id="main_image' . $commonId . '" title="' . $title . '"'
+                    'src'  => $productImageDefault,
+                    'alt'  => $altText,
+                    'attr' => 'id="main_image' . $commonId . '" title="' . $title . '"'
                 ),
                 '',
                 \RedshopLayoutHelper::$layoutOption
@@ -144,8 +142,6 @@ class Render
                         'linkAttr' => 'id="a_main_image' . $commonId . '" rel="myallimg" title="' . $title . '"',
                         'src'      => $imgSource,
                         'alt'      => $altText,
-                        'width'    => $width,
-                        'height'   => $height,
                         'imgAttr'  => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '"'
                     ),
                     '',
@@ -160,8 +156,6 @@ class Render
                         'linkAttr' => 'id="a_main_image' . $commonId . '" rel="{handler: \'image\', size: {}}" title="' . $title . '"',
                         'src'      => $imgSource,
                         'alt'      => $altText,
-                        'width'    => $width,
-                        'height'   => $height,
                         'imgAttr'  => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '"'
                     ),
                     '',
@@ -175,8 +169,6 @@ class Render
                         'linkAttr' => 'id="a_main_image' . $commonId . '" title="' . $title . '"',
                         'src'      => $imgSource,
                         'alt'      => $altText,
-                        'width'    => $width,
-                        'height'   => $height,
                         'imgAttr'  => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '"'
                     ),
                     '',
