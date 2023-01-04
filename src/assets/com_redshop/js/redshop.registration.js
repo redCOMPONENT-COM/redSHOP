@@ -89,6 +89,9 @@ if (typeof(window['jQuery']) != "undefined") {
                     }
                 },
                 ean_number: {
+                    required: function () {
+                        return rs("#toggler2").is(":checked") && rs("#ean_number").length > 0  && redSHOP.RSConfig._('REQUIRED_EAN_NUMBER') == 1;
+                    },
                     minlength: 13,
                     maxlength: 13,
                     decimal: false,

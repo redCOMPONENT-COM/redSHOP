@@ -849,8 +849,6 @@ class RedshopModelOrder_detail extends RedshopModel
         }
 
         if ($data['special_discount'] == $orderData->special_discount && $chk != true) {
-            JFactory::getApplication(administrator)->enqueueMessage(
-                JText::_('COM_REDSHOP_ERROR_IN_DISCOUNT_SAME'), 'error');
             return false;
         }
 
@@ -1044,8 +1042,6 @@ class RedshopModelOrder_detail extends RedshopModel
         $update_discount = abs($data['update_discount']);
 
         if ($update_discount == $orderData->order_discount) {
-            JFactory::getApplication(administrator)->enqueueMessage(
-                JText::_('COM_REDSHOP_ERROR_IN_DISCOUNT_SAME'), 'error');
             return false;
         }
 
