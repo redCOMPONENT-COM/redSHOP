@@ -415,7 +415,7 @@ class SiteHelper
 
                         $exField .= '<p>' . \JText::_(
                                 'COM_REDSHOP_UPLOADED_FILE'
-                            ) . ':</p>' . ExtraFields::displayUserDocuments($productId, $data, $ajax) . '</div>';
+                            ) . ':</p>' . ExtraFields::displayUserDocuments($productId, $data, $ajax);
                         break;
 
                     case \RedshopHelperExtrafields::TYPE_IMAGE_SELECT:
