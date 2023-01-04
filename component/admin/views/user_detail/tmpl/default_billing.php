@@ -14,7 +14,7 @@ JFactory::getApplication()->setUserState('com_redshop.user_detail.data', "");
 $allowCustomer = '';
 $allowCompany  = '';
 
-if ($this->detail->is_company == 1) {
+if (!$this->shipping && $this->detail->is_company == 1) {
     $allowCustomer = 'style="display:none;"';
 } else {
     $allowCompany = 'style="display:none;"';

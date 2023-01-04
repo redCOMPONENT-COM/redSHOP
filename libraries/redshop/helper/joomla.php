@@ -77,9 +77,7 @@ class RedshopHelperJoomla
 
         $data['password']  = $data['password'] ?? $input->post->get('password1', '', 'RAW');
         $data['password2'] = $data['password2'] ?? $input->post->get('password2', '', 'RAW');
-		// Tweak by Ronni START - CC email
-		$data['cc_email']  = $data['cc_email1'];
-		// Tweak by Ronni END - CC email
+
         $data['email']     = $data['email1'];
         $data['name']      = $name = $data['firstname'];
 
@@ -107,10 +105,6 @@ class RedshopHelperJoomla
 
             return false;
         }
-
-		// Tweak by Ronni START - Tweak to remove email field in registration. So username = email
-		$data['username']  = $data['email'];
-		// Tweak by Ronni END - Tweak to remove email field in registration. So username = email
 
         if (trim($data['username']) == "") {
             JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_USERNAME'));
@@ -160,9 +154,6 @@ class RedshopHelperJoomla
         $date = JFactory::getDate();
         $user->set('id', 0);
         $user->set('registerDate', $date->toSql());
-		// Tweak by Ronni START - Tweak to remove email field in registration. So username = email
-		$user->set('username', $data['email']);
-		// Tweak by Ronni END - Tweak to remove email field in registration. So username = email
 
         // If user activation is turned on, we need to set the activation information
         $activationMethod = $userParams->get('useractivation');

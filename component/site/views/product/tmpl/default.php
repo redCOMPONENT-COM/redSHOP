@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-// Tweak by Ronni - Disabled Joomla modal
-// JHtml::_('behavior.modal');
+
+JHtml::_('behavior.modal');
 
 $watched = $this->session->get('watched_product', array());
 

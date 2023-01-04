@@ -2,8 +2,7 @@
 <form action="{{ jroute(requestUrl) }}" method="post" name="adminForm" id="adminForm">
 	<div id="divShipping">
 		<fieldset class="adminform">
-            <!-- // Tweak by Ronni - legend style="display:none" -->
-			<legend style="display:none">{{ jtext('COM_REDSHOP_SHIPPING_ADDRESSES') }}</legend>
+			<legend>{{ jtext('COM_REDSHOP_SHIPPING_ADDRESSES') }}</legend>
 			{{ shippingTable }}
 			<table cellspacing="3" cellpadding="0" border="0" width="100%">
 				<tr>
@@ -21,8 +20,10 @@
 	</div>
 	<input type="hidden" name="cid" value="{{ shippingAddresses.users_info_id }}"/>
 	<input type="hidden" name="user_id" value="{{ billingAddresses.user_id }}"/>
+	<input type="hidden" name="is_company" value="{{ billingAddresses.is_company }}"/>
 	<input type="hidden" name="email" value="{{ billingAddresses.user_email }}"/>
 	<input type="hidden" name="shopper_group_id" value="{{ billingAddresses.shopper_group_id }}"/>
+	<input type="hidden" name="company_name" value="{{ billingAddresses.company_name }}"/>
 	<input type="hidden" name="vat_number" value="{{ billingAddresses.vat_number }}"/>
 	<input type="hidden" name="tax_exempt" value="{{ billingAddresses.tax_exempt }}"/>
 	<input type="hidden" name="requesting_tax_exempt"

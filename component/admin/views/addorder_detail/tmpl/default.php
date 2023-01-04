@@ -16,10 +16,9 @@ $redconfig = Redconfiguration::getInstance();
 
 $model = $this->getModel('addorder_detail');
 
-$billing      = $this->billing;
-$shipping     = $this->shipping;
-$isCompany    = $billing->is_company;
-$isCompanyST  = $shipping->is_company;
+$billing   = $this->billing;
+$shipping  = $this->shipping;
+$isCompany = $billing->is_company;
 
 if (!empty ($_SERVER['REMOTE_ADDR'])) {
     $ip = $_SERVER['REMOTE_ADDR'];
@@ -45,14 +44,6 @@ if ($isCompany == 1) {
 } else {
     $allowCompany = 'style="display:none;"';
 }
-$allowCustomerST = '';
-$allowCompanyST  = '';
-if ($isCompanyST == 1) {
-    $allowCustomerST = 'style="display:none;"';
-} else {
-    $allowCompanyST = 'style="display:none;"';
-}
-
 $err = JFactory::getApplication()->input->get('err', '');
 
 $DEFAULT_QUANTITY = Redshop::getConfig()->get('DEFAULT_QUANTITY');
@@ -507,19 +498,9 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                                 </tr>
                             </table>
                             <div id="order_shipping_div" style="display:<?php echo $shippingblock; ?>;">
-                                <table class="adminlist table" border="0" width="100%" align="center">
+                                <table class="adminlist" border="0" width="100%" align="center">
                                     <tr>
-                                        <td width="30" align="right"><?php echo JText::_('COM_REDSHOP_REGISTER_AS'); ?>: 
-                                        </td>
-                                        <td><?php echo $this->lists['is_company_ST']; ?></td>
-                                    </tr>
-                                    <tr id="trCompanyNameST" <?php echo $allowCompanyST; ?>>
-                                        <td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>:</td>
-                                        <td><input class="inputbox" type="text" name="company_name_ST" id="company_name_ST" size="32" 
-                                                    maxlength="250" value="<?php echo $shipping->company_name; ?>"/></td>
-                                    </tr>
-                                    <tr>
-                                    <td width="100" align="right"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>
+                                        <td width="100" align="right"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>
                                             :
                                         </td>
                                         <td><input class="inputbox" type="text" name="firstname_ST" maxlength="250"

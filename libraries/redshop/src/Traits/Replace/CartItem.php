@@ -764,16 +764,6 @@ trait CartItem
 
             if (\Redshop::getConfig()->get('QUANTITY_TEXT_DISPLAY')) {
                 if (strstr($cartHtml, "{quantity_increase_decrease}") && $view != 'checkout') {
-					// Tweak by Ronni START - Disable quantity box in Cart if discount calculator or orderproduct is Genbestilling
-					$tmppd_arr = explode('Quantity',$cart[$i]['discount_calc_output']);
-					if (count($tmppd_arr) > 1)$updateCartMinusPlus = '';
-
-                    $tmppd_arr = explode('Antal',$cart[$i]['discount_calc_output']);
-					if (count($tmppd_arr) > 1)$updateCartMinusPlus = '';
-
-					if ($cart[$i]['product_id'] == 3627)$updateCartMinusPlus = $removeProduct = '';
-					// Tweak by Ronni END - Disable quantity box in Cart if discount calculator or orderproduct is Genbestilling
-
                     $replaceData['{quantity_increase_decrease}'] = $updateCartMinusPlus;
                     $replaceData['{update_cart}']                = '';
                 } else {

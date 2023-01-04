@@ -197,7 +197,6 @@ switch ($name) {
         <b><?php echo JText::_('COM_REDSHOP_REQUIRED_TAG'); ?></b><br/><br/>
         {email_lbl}{email}
         {retype_email_lbl}{retype_email}<br/>
-        {cvr_lookup_lbl}{cvr_lookup}
         {company_name_lbl}{company_name}
         {vat_number_lbl}{vat_number}
         {firstname_lbl}{firstname}
@@ -500,7 +499,6 @@ switch ($name) {
         ?>
         <b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_SHIPPING_HINT'); ?></b><br/><br/>
         <b><?php echo JText::_('COM_REDSHOP_REQUIRED_TAG'); ?></b><br/><br/>
-        {company_name_st_lbl}{company_name_st}<br/>
         {firstname_st_lbl}{firstname_st}<br/>
         {lastname_st_lbl}{lastname_st}<br/>
         {address_st_lbl}{address_st}<br/>

@@ -1,66 +1,33 @@
- <!-- // Tweak by Ronni - Add row + divs col-md-6 col-xs-12 -->
-<div class="row">
-    <div class="col-md-6 col-xs-12">
-        {{ jtext('COM_REDSHOP_FIRSTVIST') }}
-        <br><br>
-        <div style="text-align:center">				
-            <a class="btn btn-primary" role="button" data-toggle="collapse" data-parent="#accordion2" data-target="#collapse2" 
-                aria-expanded="false" aria-controls="collapse2">
-                {{ jtext('COM_REDSHOP_CONTINUE') }}
-            </a>				
-        </div>
+<form action="" method="POST" class="form-inline" id="redshop-login-form">
+    <div class="form-group">
+        <label class="label" for="username">{{ jtext('COM_REDSHOP_USERNAME') }}</label>
+        <input class="form-control" type="text" id="username" name="username" autocomplete="username" value=""/>
     </div>
-    <div class="col-md-6 col-xs-12">
-        <form action="" method="POST" class="form-inline" id="redshop-login-form">
-            <!-- // Tweak by Ronni START - Remove lbl + Change look of inputbox for username -->
-            <div class="form-group controls" style="margin-bottom: 10px">
-                <span class="input-prepend input-append">
-                    <span class="add-on"><i class="fas fa-user"></i><label></label></span>
-                </span>
-                <span class="hasPopover" title="{{ jtext('COM_REDSHOP_USERNAME') }}" 
-                    data-content="{{ jtext('COM_REDSHOP_USER_LOGIN_TIP') }}">
-                    <input class="form-control" type="text" id="username" name="username" autocomplete="username" value="" 
-                        placeholder="{{ jtext('COM_REDSHOP_USERNAME') }}"/>
-                </span>
-            </div>
-            <!-- // Tweak by Ronni END - Remove lbl + Change look of inputbox for username -->
-            <!-- // Tweak by Ronni START - Remove lbl + Change look of inputbox for password -->
-            <div class="form-group controls">
-                <span class="input-prepend input-append">
-                    <span class="add-on"><i class="fas fa-lock"></i><label></label></span>
-                </span>
-                <span class="hasPopover" title="{{ jtext('COM_REDSHOP_PASSWORD') }}" 
-                        data-content="{{ jtext('COM_REDSHOP_PASSWORD_LOGIN_TIP') }}">
-                    <input class="form-control" type="password" id="password" name="password" autocomplete="current-password" 
-                        value="" placeholder="{{ jtext('COM_REDSHOP_PASSWORD') }}"/>
-                </span>
-            </div>
-            <!-- // Tweak by Ronni END -- Remove lbl + Change look of inputbox for password -->
-            <!-- // Tweak by Ronni - <br> + class="forgot-password-text" -->
-            <br>
-            <button class="button btn btn-primary" name="submitbtn">{{ jtext('COM_REDSHOP_LOGIN') }}</button>
-            <input type="hidden" name="l" value="1">
-            <input type="hidden" name="return" value="{{ returnUrl }}"/>
-            <input type="hidden" name="Itemid" value="{{ itemId }}"/>
-            <input type="hidden" name="task" value="setlogin"/>
-            <input type="hidden" name="option" value="com_redshop"/>
-            <input type="hidden" name="view" value="login"/>
-            <a href="{{ jroute('index.php?option=com_users&view=reset', false) }}" class="forgot-password-text">
-                {{ jtext('COM_REDSHOP_FORGOT_PWD_LINK') }}
-            </a>
-        </form>
+    <div class="form-group">
+        <label class="label" for="password">{{ jtext('COM_REDSHOP_PASSWORD') }}</label>
+        <input class="form-control" type="password" id="password" name="password" autocomplete="current-password" value=""/>
     </div>
-</div>
+    <button class="button btn btn-primary" name="submitbtn">{{ jtext('COM_REDSHOP_LOGIN') }}</button>
+    <input type="hidden" name="l" value="1">
+    <input type="hidden" name="return" value="{{ returnUrl }}"/>
+    <input type="hidden" name="Itemid" value="{{ itemId }}"/>
+    <input type="hidden" name="task" value="setlogin"/>
+    <input type="hidden" name="option" value="com_redshop"/>
+    <input type="hidden" name="view" value="login"/>
+    <a href="{{ jroute('index.php?option=com_users&view=reset', false) }}">
+        {{ jtext('COM_REDSHOP_FORGOT_PWD_LINK') }}
+    </a>
+</form>
 {% if thirdPartyLogin|length > 0 %}
 <div class="third-party-login">
-    {% for login in thirdPartyLogin %}
-        {% if login['plugin'] != '' %}
-            <div class="row login-{{ login['plugin'] }}">
-                <a href="{{ login['linkLogin'] }}" class="btn btn-primary login-button">
-                    {{ login['plugin']|title }}
-                </a>
-            </div>
-        {% endif %}
-    {% endfor %}
+	{% for login in thirdPartyLogin %}
+		{% if login['plugin'] != '' %}
+			<div class="row login-{{ login['plugin'] }}">
+				<a href="{{ login['linkLogin'] }}" class="btn btn-primary login-button">
+					{{ login['plugin']|title }}
+				</a>
+			</div>
+		{% endif %}
+	{% endfor %}
 </div>
 {% endif %}

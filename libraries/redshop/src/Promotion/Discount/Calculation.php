@@ -50,9 +50,7 @@ class Calculation
 
             $discounts = new \stdClass;
             if ($calculatorPrice) {
-                // Tweak by Ronni START - Comment out Calc method
-            //  $calcOutput = "Type : " . $discountCalcMethod . "<br />";
-                // Tweak by Ronni END - Comment out Calc method
+                $calcOutput = "Type : " . $discountCalcMethod . "<br />";
                 $calculationOutputs['type'] = $discountCalcMethod;
 
                 if ($useRange) {
@@ -73,22 +71,21 @@ class Calculation
 
                 switch ($discountCalcMethod) {
                     case "volume":
-                        // Tweak by Ronni START - Edit output in the cart to show calculated info with cm
                         $calcOutput .= JText::_(
                                 'COM_REDSHOP_DISCOUNT_CALC_HEIGHT'
-                            ) . " " . $calcHeight . " - ";
+                            ) . " " . $calcHeight . "<br />";
                         $calculationOutputs['calcHeight'] = $calcHeight;
 
                         $calcOutput .= JText::_(
                                 'COM_REDSHOP_DISCOUNT_CALC_WIDTH'
-                            ) . " " . $calcWidth . " cm x ";
+                            ) . " " . $calcWidth . "<br />";
                         $calculationOutputs['calcWidth'] = $calcWidth;
 
                         $calcOutput .= JText::_(
                                 'COM_REDSHOP_DISCOUNT_CALC_LENGTH'
-                            ) . " " . $calcDepth . " cm";
+                            ) . " " . $calcDepth . "<br />";
                         $calculationOutputs['calcDepth'] = $calcDepth;
-                        // Tweak by Ronni END - Edit output in the cart to show calculated info with cm
+
                         if ($calcPricePerPiece != "") {
                             $calcOutput .= JText::_(
                                     'COM_REDSHOP_PRICE_PER_PIECE'
@@ -153,8 +150,8 @@ class Calculation
                         }
                         break;
                 }
-                // Tweak by Ronni START - Comment out Unit in cart
-            //  $calcOutput .= JText::_('COM_REDSHOP_DISCOUNT_CALC_UNIT') . " " . $data['calcUnit'];
+
+                $calcOutput .= JText::_('COM_REDSHOP_DISCOUNT_CALC_UNIT') . " " . $data['calcUnit'];
                 $calculationOutputs['calcUnit'] = $data['calcUnit'];
 
                 // Extra selected value data
@@ -208,10 +205,7 @@ class Calculation
         $calcWidth = $get['calcWidth'];
         $calcLength = $get['calcDepth'];
         $calcRadius = $get['calcRadius'];
-        // Tweak by Ronni START - For discount caluclater ajax issue
-        $calcUnit   = trim(str_replace('<br', '', $get['calcUnit']));
-    //  $calcUnit   = trim($get['calcUnit']);
-        // Tweak by Ronni END - for discount caluclater ajax issue
+        $calcUnit = trim($get['calcUnit']);
 
         $calcHeight = str_replace(",", ".", $calcHeight);
         $calcWidth = str_replace(",", ".", $calcWidth);
@@ -247,9 +241,9 @@ class Calculation
 
         switch ($calcMethod) {
             case "volume":
-                // Tweak by Ronni START - add "* 100" so the calculator calculates only with cm
-                $area = $calcHeight * $calcWidth * $calcLength * 100;
-                // Tweak by Ronni END - add "* 100" so the calculator calculates only with cm
+
+                $area = $calcHeight * $calcWidth * $calcLength;
+
                 if (!$useRange) {
                     $productArea = $productHeight * $productWidth * $productLength;
                 }
@@ -354,10 +348,7 @@ class Calculation
 
             if ($useRange) {
                 $displayFinalArea = $finalArea / ($unit * $unit);
-                // Tweak by Ronni START - Zero decimal in discount calc
-                $pricePerPiece = round($areaPrice * $finalArea, 0);
-            //  $pricePerPiece = $areaPrice;
-                // Tweak by Ronni END - Zero decimal in discount calc
+                $pricePerPiece = $areaPrice;
 
                 $pricePerPieceTax = RedshopHelperProduct::getProductTax($productId, $pricePerPiece, 0, 1);
 

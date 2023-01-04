@@ -689,21 +689,6 @@ class RedshopControllerCheckout extends RedshopController
             $templatelist        = RedshopHelperTemplate::getTemplate("checkout", $cart_template_id);
             $oneStepTemplateHtml = $templatelist[0]->template_desc;
 
-            // Tweak by Ronni START - Replace tags {echo_payment} + {echo_shipping}
-            $db = JFactory::getDBO();
-            $sql = "SELECT name FROM #__extensions WHERE element='" . $payment_method_id . "' AND folder='redshop_payment'";
-            $db->setQuery($sql);
-            $paymentName = $db->loadResult();
-            $shipping    = Redshop\Shipping\Rate::decrypt($shipping_rate_id);
-
-            if (count($details) <= 1) {
-                $details = explode("|", $row->ship_method_id);
-            }
-
-            $oneStepTemplateHtml = str_replace("{echo_payment}", JTEXT::_($paymentName), $oneStepTemplateHtml);
-            $oneStepTemplateHtml = str_replace("{echo_shipping}", $shipping[2], $oneStepTemplateHtml);
-            // Tweak by Ronni END - Replace tags {echo_payment} + {echo_shipping}
-
             $oneStepTemplateHtml = \RedshopTagsReplacer::_(
                 'commondisplaycart',
                 $oneStepTemplateHtml,
@@ -737,9 +722,7 @@ class RedshopControllerCheckout extends RedshopController
 
         $cart_total = RedshopHelperProductPrice::formattedPrice($cart['mod_cart_total']);
 
-        // Tweak by Ronni START - Replace tags {echo_payment} + {echo_shipping}
-        echo eval("?>" . "`_`" . $description . "`_`" . $cart_total . "`_`" . JTEXT::_($paymentName) . "`_`" . $shipping[2] . "<?php ");
-        // Tweak by Ronni END - Replace tags {echo_payment} + {echo_shipping}
+        echo eval("?>" . "`_`" . $description . "`_`" . $cart_total . "<?php ");
         $app->close();
     }
 
