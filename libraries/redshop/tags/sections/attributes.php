@@ -345,6 +345,10 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             $defaultPropertyId = array();
             $attDisplayType    = $attribute->display_type;
 
+            // Tweak by Ronni START - Tweak to make special alert when choosing attributes
+            $chkList           = "";
+            // Tweak by Ronni END - Tweak to make special alert when choosing attributes
+
             // Init listing html-attributes
             $chkListAttributes = array(
                 'attribute_name' => urldecode($attribute->attribute_name)
@@ -364,12 +368,107 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             if ($attDisplayType == 'radio') {
                 unset($properties[0]);
 
+                // Tweak by Ronni START - Tweak to make special alert when choosing attributes
+                /*
                 $attributeListType = ($attribute->allow_multiple_selection) ? 'redshopselect.checklist' : 'redshopselect.radiolist';
 
                 $chkListAttributes['cssClassSuffix'] = ' no-group';
                 $chkListAttributes['onClick']        = "javascript:" . $changePropertyDropdown;
-            } // Dropdown list
-            else {
+                */
+
+                for ($chk = 0; $chk < count($property); $chk++) {
+                    $checked = "";
+
+                    if (count($selectProperty) > 0) {
+                        if (in_array($property[$chk]->value, $selectProperty)) {
+                            $checked             = "checked";
+                            $subdisplay          = true;
+                            $defaultpropertyId[] = $property[$chk]->value;
+                        }
+                    } else {
+                        if ($property[$chk]->setdefault_selected) {
+                            $checked                                  = "checked";
+                            $subdisplay                               = true;
+                            $defaultpropertyId[]                      = $property[$chk]->value;
+                            $attrAlert[$property[$chk]->attribute_id] = $property[$chk]->property_alert_message; 
+                        }
+                    }
+
+                    $scrollerFunction = "";						
+                    $modalTagStart    = "";
+                    $modalTagEnd      = "";
+
+                    if (isset($property[$chk]->property_alert_message) && trim($property[$chk]->property_alert_message) != "") {
+                        $modalTagStart = '<label for="attPropId' . $property[$chk]->attribute_id . $property[$chk]->property_id . '" 
+                            id="attPropIdLbl' . $property[$chk]->attribute_id . $property[$chk]->property_id . '" style="display:inline-block">';
+
+                        $modalTagEnd   = '</label>
+                                            <div id="Modal-attribute-alert' . $property[$chk]->attribute_id . $property[$chk]->property_id . '" 
+                                                    class="modal fade" role="dialog" tabindex="-1" 
+                                                    aria-labelledby="#Modal-attribute-alert" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" 
+                                                                    data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                                ' . $attribute->attribute_name . '
+                                                            <h5 class="modal-title">
+                                                                ' . $property[$chk]->property_name . '
+                                                            </h5>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            ' . JText::_($property[$chk]->property_alert_message) . '
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-secondary" type="button" 
+                                                                    data-dismiss="modal">
+                                                                ' . JText::_("COM_REDSHOP_CLOSE") . '
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>';
+                    } else {
+                        $modalTagStart = '<label for="attPropId' . $property[$chk]->attribute_id 
+                                        . $property[$chk]->property_id . '" style="display:inline-block">';
+                        $modalTagEnd = '</label>';
+                    }
+/*                    
+                    $chkList .= "<div class='attribute_multiselect_single'>
+                        <input type=" . $attDisplayType . " " . $checked . " value=" . $property[$chk]->value . " 
+                            name=" . $propertyId . "[] id=" . $propertyId . " attribute_name=" . urldecode($attribute->attribute_name) . " 
+                            required=" . $attribute->attribute_required . " 
+                            onClick=javascript: " . $scrollerFunction . "showalert(\"" .$property[$chk]->attribute_id . "\",\"" 
+                            . JText::_($property[$chk]->property_alert_message) . "\"); changePropertyDropdown(\"" . $productId . "\",\"" 
+                            . $accessoryId . "\",\"" . $relatedProductId . "\",\"" . $attribute->value . "\",\"" . $property[$chk]->value 
+                            . "\",\"" . $this->mpwThumb . "\",\"" . $this->mphThumb . "\");'  />&nbsp;" . $property[$chk]->text . "</div>";
+*/
+                    if ($imgAdded > 0 && strstr($attributeTable, "{property_image_scroller}")) {
+                        $scrollerFunction = "isFlowers" . $commonId . ".scrollImageCenter(\"" . $chk . "\");";
+                    }
+
+                    $chkList .= '<div class="attribute_multiselect_single">' . $modalTagStart . '
+                            <input data-toggle="modal" 
+                                data-target="Modal-attribute-alert' . $property[$chk]->attribute_id . $property[$chk]->property_id . '" 
+                                id="attPropId' . $property[$chk]->attribute_id . $property[$chk]->property_id . '" 
+                                type="' . $attDisplayType . '" ' . $checked . ' 
+                                value="' . $property[$chk]->value . '" name="' . $propertyId . '[]" 
+                                class="attribute_input" 
+                                attribute_name="' . urldecode($attribute->attribute_name) . '" 
+                                required="' . $attribute->attribute_required . '" 
+                                onClick="javascript:' . $scrollerFunction . ' changePropertyDropdown(' 
+                                . $productId . ',' . $accessoryId . ',' . $relatedProductId . ',' 
+                                . $attribute->value . ',' . $property[$chk]->value . ',' 
+                                . $this->mpwThumb . ',' . $this->mphThumb . ');"  />&nbsp;' 
+                                . $property[$chk]->text . $modalTagEnd . '
+                                </div>';
+                }
+                    
+                $lists['property_id'] = $chkList;
+            // Dropdown list
+            } else {
                 $attributeListType = 'select.genericlist';
                 $scrollerFunction  = '';
 
@@ -378,8 +477,24 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 }
 
                 $chkListAttributes['onchange'] = "javascript:" . $scrollerFunction . $changePropertyDropdown;
-            }
 
+                if ($selectedProperty) {
+                    $subDisplay          = true;
+                    $defaultPropertyId[] = $selectedProperty;
+                }
+    
+                $lists['property_id'] = JHTML::_(
+                    $attributeListType,
+                    $properties,
+                    $propertyId . '[]',
+                    $chkListAttributes,
+                    'value',
+                    'text',
+                    $selectedProperty,
+                    $propertyId
+                );
+            }
+            /*
             if ($selectedProperty) {
                 $subDisplay          = true;
                 $defaultPropertyId[] = $selectedProperty;
@@ -395,7 +510,8 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 $selectedProperty,
                 $propertyId
             );
-
+            */
+            // Tweak by Ronni END - Tweak to make special alert when choosing attributes
             $attributeTable .= \RedshopLayoutHelper::render(
                 'tags.common.input',
                 array(
@@ -408,9 +524,10 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             );
 
             if ($attribute->attribute_required > 0) {
+                // Tweak by Ronni - Remove * in <span id='asterisk_left'>* </span>
                 $pos       = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? urldecode(
                         $attribute->text
-                    ) . "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>" . urldecode(
+                    ) . "<span id='asterisk_right'> " : "<span id='asterisk_left'> </span>" . urldecode(
                         $attribute->text
                     );
                 $attrTitle = $pos;
@@ -420,6 +537,14 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
 
             if (strpos($attributeTable, '{attribute_tooltip}') !== false) {
                 if (!empty($attribute->attribute_description)) {
+                    // Tweak by Ronni - Change Tooltip to BS Tip
+                    $replaceAttr['{attribute_tooltip}'] = '
+                    <span class="hasPopover popover_link" 
+                    data-content="' . $attribute->attribute_description . '" 
+                    data-original-title="' . $attribute->attribute_name . '">' 
+                    . JText::_('COM_REDSHOP_INFO_TIP') . '
+                    </span>';
+                    /*
                     $replaceAttr['{attribute_tooltip}'] = JHTML::tooltip(
                         $attribute->attribute_description,
                         $attribute->attribute_description,
@@ -427,6 +552,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                         '',
                         ''
                     );
+                    */
                 } else {
                     $replaceAttr['{attribute_tooltip}'] = '';
                 }
@@ -525,6 +651,10 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 '',
                 \RedshopLayoutHelper::$layoutOption
             );
+
+            // Tweak by Ronni START - Add language tags for attribute section
+            $attributeTable = str_replace("{product_surface_lbl}", JText::_('COM_REDSHOP_SURFACE1'), $attributeTable);
+            // Tweak by Ronni END - Add language tags for attribute section
 
             $attributeTable = str_replace("{subproperty_start}", $subPropertyStartTag, $attributeTable);
             $attributeTable = str_replace("{subproperty_end}", "</div>", $attributeTable);

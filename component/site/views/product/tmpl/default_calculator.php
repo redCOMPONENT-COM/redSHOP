@@ -23,36 +23,48 @@ $discount_calc_data = \Redshop\Promotion\Discount::getDiscountCalcData(0, $this-
 
 // Calculation UNIT
 $calcoption         = array();
-$calcoption[]       = JHTML::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
+// Tweak by Ronni START - comment out mm + m
+// $calcoption[]       = JHTML::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
 $calcoption[]       = JHTML::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
-$calcoption[]       = JHTML::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
+// $calcoption[]       = JHTML::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
+// Tweak by Ronni END - comment out mm + m
 $discountCalcUnit = JHTML::_('select.genericlist', $calcoption, 'discount_calc_unit', 'class="inputbox" size="1" ', 'value', 'text', Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
 
 unset($calcoption);
 
-$height    = "<tr><td><label>" . JText::_(
-        'COM_REDSHOP_HEIGHT'
-    ) . "</label></td><td><input type='text' name='calc_height' id='calc_height' value='' /></td></tr>";
-$width     = "<tr><td><label>" . JText::_(
-        'COM_REDSHOP_WIDTH'
-    ) . "</label></td><td><input type='text' name='calc_width' id='calc_width' value='' /></td></tr>";
-$depth     = "<tr><td><label>" . JText::_(
-        'COM_REDSHOP_LENGTH'
-    ) . "</label></td><td><input type='text' name='calc_depth' id='calc_depth' value='' /></td></tr>";
+// Tweak by Ronni START - Remove <td><label>" . JText::_('COM_REDSHOP_HEIGHT') . "</label></td> + Add title and placeholder + <tr><td>&nbsp;
+$height    = "<tr><td>
+                <input type='text' title='" . JTEXT::_('COM_REDSHOP_HEIGHT') . "' 
+                        placeholder='" . JText::_('COM_REDSHOP_HEIGHT') . "' name='calc_height' 
+                        id='calc_height' value='' />
+                </td></tr>";
+$width     = "<tr><td>
+                <input type='text' title='" . JTEXT::_('COM_REDSHOP_WIDTH_CM') . "' 
+                        placeholder='" . JText::_('COM_REDSHOP_WIDTH_CM') . "' name='calc_width' 
+                        id='calc_width' value='' />";
+$depth     = "<input type='text' title='" . JTEXT::_('COM_REDSHOP_LENGTH_CM') . "' 
+                        placeholder='" . JText::_('COM_REDSHOP_LENGTH_CM') . "' name='calc_depth' 
+                        id='calc_depth' value='' /></td></tr>";
 $radius    = "<tr><td><label>" . JText::_(
         'COM_REDSHOP_RADIUS'
     ) . "</label></td><td><input type='text' name='calc_radius' id='calc_radius' value='' /></td></tr>";
-$calculate = "<tr><td>&nbsp;</td><td>";
+$calculate = "<tr><td>";
+// Tweak by Ronni - Add Help tip popover
 $calculate .= '<input type="button" name="calc_calculate" id="calc_calculate" onclick="discountCalculation(\'' . $this->pid . '\')" value="' . JText::_(
         'COM_REDSHOP_CALCULATE'
-    ) . '" /></td></tr>';
+    ) . '" />
+        <span class="hasPopover" title="' . JText::_('COM_REDSHOP_HELP_CALCULATE_TITLE') . '" 
+                data-content="' . JText::_('COM_REDSHOP_HELP_CALCULATE_TIP') . '">
+            ' . JText::_('COM_REDSHOP_HELP_CALCULATE') . '
+        </span>
+        </td></tr>';
 $hiddenVar = "<tr><td colspan='2'><input type='hidden' name='calc_unit' id='calc_unit' value='' />
 			  <input type='hidden' name='calc_method' id='calc_method' value='" . $calcMethod . "' /></td></tr>";
 
 $calcOutput = "<table><tr><td colspan='2'><span id='discount_cal_final_price'></span></td></tr>";
-
-$calcOutput .= "<tr><td><label>" . JText::_('COM_REDSHOP_UNIT') . "</label></td><td>" . $discountCalcUnit . "</td></tr>";
-
+// Tweak by Ronni START - Remove table items
+$calcOutput .= "" . JText::_('COM_REDSHOP_UNIT') . "" . $discountCalcUnit . "";
+// Tweak by Ronni END - Remove table items
 switch ($calcMethod)
 {
     case "volume":

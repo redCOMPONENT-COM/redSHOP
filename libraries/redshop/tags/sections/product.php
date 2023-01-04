@@ -200,6 +200,26 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
             $this->addReplace('{back_link}', $backLink);
         }
 
+        // Tweak by Ronni START - Product Minimum alert box on-page message
+        $product = \Redshop\Product\Product::getProductById($this->product->product_id);
+        $minimumProductTotal = $product->minimum_per_product_total;
+
+        if ($this->isTagExists('{minimum_product_total}') && !empty($minimumProductTotal)) {
+            $message 	   = "<div class='price_box' style='font-size:12px'>
+                              <b>" . JText::_('COM_REDSHOP_MINIMUM_PRODUCT_TOTAL') . "". $minimumProductTotal 
+                                .",-</b>
+                              <span class='hasPopover' 
+                                    title='" . \JText::_('COM_REDSHOP_MINIMUM_PRODUCT_TOTAL') . "' 
+                                    data-content='" . \JText::_('COM_REDSHOP_MINIMUM_PRODUCT_TOTAL_TIP') . "'>
+                                <span class='popover_link'>info</span>
+                              </span>
+                            </div>";
+            $this->replacements['{minimum_product_total}'] = $message;
+        } else {
+            $this->replacements['{minimum_product_total}'] = '';
+        }
+        // Tweak by Ronni END - Product Minimum alert box on-page message
+
         $returnToCategoryLink = strstr($this->template, '{returntocategory_link}');
         $returnToCategoryName = strstr($this->template, '{returntocategory_name}');
         $returnToCategoryStr  = strstr($this->template, '{returntocategory}');
@@ -468,6 +488,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
          * {if product_special} This is a special product {product_special end if} // OUTPUT : This is a special product
          * NO : // OUTPUT : Display blank
          */
+        /*  // Tweak by Ronni START - Remove manufac link
         $this->template   = RedshopHelperProduct::getSpecialProductComment($this->product, $this->template);
         $manufacturerLink = RedshopLayoutHelper::render(
             'tags.common.link',
@@ -497,21 +518,22 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
             $this->optionLayout
         );
 
-	    if ($this->isTagExists('{manufacturer_link}'))
-	    {
-		    $this->addReplace('{manufacturer_link}', $manufacturerLink);
-	    }
+        if ($this->isTagExists('{manufacturer_link}'))
+        {
+            $this->addReplace('{manufacturer_link}', $manufacturerLink);
+        }
 
-	    if ($this->isTagExists('{manufacturer_product_link}'))
-	    {
-		    $this->addReplace('{manufacturer_product_link}', $manufacturerPLink);
-	    }
+        if ($this->isTagExists('{manufacturer_product_link}'))
+        {
+            $this->addReplace('{manufacturer_product_link}', $manufacturerPLink);
+        }
 
         if ($this->isTagExists('{manufacturer_name}'))
         {
-	        $this->addReplace('{manufacturer_name}', $this->product->manufacturer_name);
+            $this->addReplace('{manufacturer_name}', $this->product->manufacturer_name);
         }
-
+        // Tweak by Ronni END - Remove manufac link
+        */
         $supplierName = '';
 
         if ($this->product->supplier_id) {
@@ -1935,6 +1957,10 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                         $productQuestion [$q]->question_date
                     );
                     $replaceQuestion['{question_owner}'] = $productQuestion[$q]->user_name;
+                    // Tweak by Ronni START - Add {question_slider}
+                    $replaceQuestion['{question_in}']    = $productQuestion[$q]->address;
+                    $replaceQuestion['{question_id}']    = $productQuestion[$q]->telephone;
+                    // Tweak by Ronni END - Add {question_slider}
 
                     $qLoop = $this->strReplace($replaceQuestion, $questionTemplate['template']);
 

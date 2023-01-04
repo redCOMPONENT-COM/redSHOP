@@ -1,10 +1,17 @@
-<div class="product">
-    <div class="componentheading{{ params.get('pageclass_sfx') }}">
+<?php /* Tweak by Ronni - Div for Schema/Product + Add itemprop="name" */ ?>
+<div class="product" itemscope itemtype="http://schema.org/Product">
+    <h1 itemprop="name" class="componentheading{{ params.get('pageclass_sfx') }}">
         {% if pageheading %}
             {{ pageheading }}
         {% else %}
             {{ pageHeadingTag }}
         {% endif %}
-    </div>
+    </h1>
+    <?php /* Tweak by Ronni - Add itemprop="sku" + itemprop="brand" + itemprop="gtin8" */ ?>
+	<meta itemprop="sku" content="<?php echo $this->data->product_id ?>" />
+	<span itemprop="brand" itemtype="https://schema.org/Brand" itemscope>
+		<meta itemprop="name" content="Print.dk" />
+	</span>
+	<span style="display:none" itemprop="gtin8">exists=false</span>
 </div>
 <div style="clear:both"></div>

@@ -188,6 +188,9 @@ class RedshopTagsSectionsReview extends RedshopTagsAbstract
         $this->replacements['{stars}']        = $starImage;
         $this->replacements['{images}']       = $imgHtml;
         $this->replacements['{reviewdate}']   = RedshopHelperDatetime::convertDateFormat($review->time);
+        // Tweak by Ronni START - Add {rating_value}
+        $this->replacements['{rating_value}'] = $review->user_rating;
+        // Tweak by Ronni END - Add {rating_value}
 
         return array(
             'template' => $this->strReplace($this->replacements, $reviewTemplate),
