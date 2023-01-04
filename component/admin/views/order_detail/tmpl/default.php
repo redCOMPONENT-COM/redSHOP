@@ -345,6 +345,11 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                         <?php if ($this->detail->order_payment_status == 'Unpaid'): ?>
                             <input type="submit" name="add" id="add" class="btn btn-primary"
                                    value="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"/>
+                            <span class="checkbox inline" style="margin-left:10px">
+                                <input type="checkbox" <?php echo $sendMailToCustomer; ?> value="true" name="order_sendordermail"
+                                        id="order_sendordermail"/>
+                                <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL'); ?>
+                            </span>
                             <input type="hidden" name="task" value="update_paymentmethod">
                             <input type="hidden" name="user_id" id="user_id"
                                    value="<?php echo $this->detail->user_id; ?>">
@@ -871,9 +876,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                                                            size="10">
                                                                 </div>
                                                             </td>
-                                                            <td width="5%"><?php echo Redshop::getConfig()->get(
-                                                                        'REDCURRENCY_SYMBOL'
-                                                                    ) . " " . $vat; ?></td>
+                                                            <td width="5%"><?php echo RedshopHelperProductPrice::formattedPrice($vat); ?></td>
                                                             <td width="10%"><?php echo RedshopHelperProductPrice::formattedPrice(
                                                                         $products[$i]->product_item_price
                                                                     ) . " " . JText::_('COM_REDSHOP_INCL_VAT'); ?></td>
@@ -884,10 +887,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                                             </td>
                                                             <td align="right" width="10%">
                                                                 <?php
-                                                                echo Redshop::getConfig()->get(
-                                                                        'REDCURRENCY_SYMBOL'
-                                                                    ) . "&nbsp;";
-                                                                echo RedshopHelperProduct::redpriceDecimal(
+                                                                echo RedshopHelperProductPrice::formattedPrice(
                                                                     $products[$i]->product_final_price
                                                                 );
                                                                 ?>
