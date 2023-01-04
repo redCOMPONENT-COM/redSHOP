@@ -21,11 +21,9 @@ $orderFunctions = order_functions::getInstance();
     <?php endif; ?>
     <?php if (strpos($data, '{remove_product_attribute_title}') === false) : ?>
         <?php if (!empty($orderItemAttdata[$i]->section_name)) : ?>
-            <?php /* // Tweak by Ronni START - Change div > span  + : */ ?>
-            <span class="checkout_attribute_title">
-                <?php echo urldecode($orderItemAttdata[$i]->section_name); ?>: 
-            </span>
-            <?php /* // Tweak by Ronni END - Change div > span  + : */ ?>
+            <div class="checkout_attribute_title">
+                <?php echo urldecode($orderItemAttdata[$i]->section_name); ?>
+            </div>
         <?php endif; ?>
         <?php if (!empty($orderItemAttdata[$i]->section_number)) : ?>
             <div class="checkout_attribute_number">
@@ -72,12 +70,11 @@ $orderFunctions = order_functions::getInstance();
                 <?php $virtualNumber = ""; ?>
             <?php endif; ?>
         <?php endif; ?>
-        <?php /* // Tweak by Ronni START - Change div > span + Add <br> */ ?>
-        <span class="checkout_attribute_wrapper">
+        <div class="checkout_attribute_wrapper">
             <?php if (!empty($orderPropdata[$p]->section_name)) : ?>
-                <span class="checkout_attribute_price">
+                <div class="checkout_attribute_price">
                     <?php echo urldecode($orderPropdata[$p]->section_name) . $disPrice; ?>
-                </span>
+                </div>
             <?php endif; ?>
             <?php if (!empty($orderPropdata[$p]->property_number)) : ?>
                 <div class="checkout_attribute_number">
@@ -89,9 +86,7 @@ $orderFunctions = order_functions::getInstance();
                     <?php echo $property[$p]->property_number; ?>
                 </div>
             <?php endif; ?>
-            <br>
-        </span>
-        <?php /* // Tweak by Ronni END - Change div > span + Add <br> */ ?>
+        </div>
         <?php $orderSubpropdata = RedshopHelperOrder::getOrderItemAttributeDetail(
             $orderItemId,
             $isAccessory,

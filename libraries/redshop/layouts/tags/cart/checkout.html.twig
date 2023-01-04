@@ -2,12 +2,11 @@
     <div class="googlecheckout-button" style="float:left;">{{ pluginButton }}</div>
 {% endif %}
 <div class="checkout_button" style="float:right;">
-    <!-- // Tweak by Ronni  START - Disable minimum order purchase in Checkout if coupon -->
     <input type=button class="greenbutton btn btn-primary" value="{{ jtext('COM_REDSHOP_CART_CHECKOUT') }}"
-        {% if couponValue['coupon_discount'] < 90 and ('MINIMUM_ORDER_TOTAL' | redconfig > 0 
-                and cart['total'] < 'MINIMUM_ORDER_TOTAL' | redconfig) %}
+
+            {% if 'MINIMUM_ORDER_TOTAL' | redconfig > 0 and cart['total'] < 'MINIMUM_ORDER_TOTAL' | redconfig %}
            onclick="alert('{{ jtext('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') ~ ' ' ~ 'MINIMUM_ORDER_TOTAL' | redconfig }}');">
-        {% else %}
-            onclick="javascript:document.location='{{ link }}'">
-        {% endif %}
+    {% else %}
+        onclick="javascript:document.location='{{ link }}'">
+    {% endif %}
 </div>

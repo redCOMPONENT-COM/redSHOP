@@ -130,24 +130,6 @@ if ($displayData['cartOutput'] == 'simple'): ?>
         <div class="clr"></div>
 
     </div>
-    <?php
-    // Tweak by Ronni START - Message when order total is below order minimum	
-    $totalInclVat	  = $total * 1.25;
-    $orderMinimumDiff = Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') - $totalInclVat;
-    
-    if ($orderMinimumDiff > 0) { ?>
-            <div class="price_box price_box_orange hasPopover" style="font-size: 12px!important" 
-                    title="<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_TIP'); ?>" 
-                    data-content="<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_TIP1'); ?>">
-                <li class="fas fa-info-circle"></li> 
-                <?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_LBL4'); ?>
-                <b>
-                    <?php echo RedshopHelperProductPrice::formattedPrice($orderMinimumDiff); ?>
-                </b>
-                <?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_LBL5'); ?>
-            </div> <?php
-    }
-    // Tweak by Ronni END - Message when order total is below order minimum ?>
 <?php else: ?>
     <?php echo JText::_('MOD_REDSHOP_CART_EMPTY_CART'); ?>
 <?php endif;

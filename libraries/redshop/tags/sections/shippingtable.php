@@ -109,15 +109,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 
         $this->replacements['{firstname_st_lbl}'] = $htmlFirstNameLbl;
 
-        // Tweak by Ronni - Change label view for firstname
-        $htmlFirstName = '<span class="input-prepend input-append">
-            <span class="add-on">
-                <label>
-                    <i class="far fa-id-badge"></i>
-                </label>
-            </span>
-        </span>' . 
-        RedshopLayoutHelper::render(
+        $htmlFirstName = RedshopLayoutHelper::render(
             'tags.common.input',
             array(
                 'id'    => 'firstname_ST',
@@ -125,8 +117,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
                 'type'  => 'text',
                 'value' => !empty($data["firstname_ST"]) ? $data["firstname_ST"] : '',
                 'class' => 'inputbox form-control billingRequired valid',
-                'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_FIRSTNAME') . '" 
-                            data-msg="' . JText::_(
+                'attr'  => 'size="32" maxlength="250" data-msg="' . JText::_(
                         'COM_REDSHOP_PLEASE_ENTER_FIRST_NAME'
                     ) . '"'
             ),
@@ -149,15 +140,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 
         $this->replacements['{lastname_st_lbl}'] = $htmlLastNameLbl;
 
-        // Tweak by Ronni - Change label view for lastname
-        $htmlLastName = '<span class="input-prepend input-append">
-            <span class="add-on">
-                <label>
-                    <i class="far fa-id-badge"></i>
-                </label>
-            </span>
-        </span>' . 
-        RedshopLayoutHelper::render(
+        $htmlLastName = RedshopLayoutHelper::render(
             'tags.common.input',
             array(
                 'id'    => 'lastname_ST',
@@ -165,8 +148,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
                 'type'  => 'text',
                 'value' => (!empty($data["lastname_ST"])) ? $data["lastname_ST"] : '',
                 'class' => 'inputbox form-control billingRequired valid',
-                'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_LASTNAME') . '" 
-                            data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME') . '"'
+                'attr'  => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME') . '"'
             ),
             '',
             $options
@@ -187,15 +169,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 
         $this->replacements['{address_st_lbl}'] = $htmlAddressLbl;
 
-        // Tweak by Ronni - Change label view for address
-        $htmlAddress = '<span class="input-prepend input-append">
-            <span class="add-on">
-                <label>
-                    <i class="far fa-address-card"></i>
-                </label>
-            </span>
-        </span>' . 
-        RedshopLayoutHelper::render(
+        $htmlAddress = RedshopLayoutHelper::render(
             'tags.common.input',
             array(
                 'id'    => 'address_ST',
@@ -203,8 +177,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
                 'type'  => 'text',
                 'value' => (!empty($data["address_ST"])) ? $data["address_ST"] : '',
                 'class' => 'inputbox form-control valid ' . $requiredAddress,
-                'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_ADDRESS') . '" 
-                            data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS') . '"'
+                'attr'  => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS') . '"'
             ),
             '',
             $options
@@ -225,15 +198,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 
         $this->replacements['{zipcode_st_lbl}'] = $htmlZipcodeLbl;
 
-        // Tweak by Ronni - Change label view for zipcode
-        $htmlZipcode = '<span class="input-prepend input-append">
-            <span class="add-on">
-                <label>
-                    <i class="far fa-address-card"></i>
-                </label>
-            </span>
-        </span>' . 
-        RedshopLayoutHelper::render(
+        $htmlZipcode = RedshopLayoutHelper::render(
             'tags.common.input',
             array(
                 'id'    => 'zipcode_ST',
@@ -241,8 +206,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
                 'type'  => 'text',
                 'value' => (!empty($data["zipcode_ST"])) ? $data["zipcode_ST"] : '',
                 'class' => 'inputbox form-control valid zipcode ' . $requiredPostalCode,
-                'attr'  => 'size="32" maxlength="10" placeholder="' . JText::_('COM_REDSHOP_ZIP') . '" 
-                            onblur="return autoFillCity(this.value,\'ST\');" data-msg="' . JText::_(
+                'attr'  => 'size="32" maxlength="10" onblur="return autoFillCity(this.value,\'ST\');" data-msg="' . JText::_(
                         'COM_REDSHOP_PLEASE_ENTER_ZIPCODE'
                     ) . '"'
             ),
@@ -265,15 +229,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 
         $this->replacements['{city_st_lbl}'] = $htmlCityLbl;
 
-        // Tweak by Ronni - Change label view for city
-        $htmlCity = '<span class="input-prepend input-append">
-            <span class="add-on">
-                <label>
-                    <i class="far fa-address-card"></i>
-                </label>
-            </span>
-        </span>' . 
-        RedshopLayoutHelper::render(
+        $htmlCity = RedshopLayoutHelper::render(
             'tags.common.input',
             array(
                 'id'    => 'city_ST',
@@ -281,8 +237,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
                 'type'  => 'text',
                 'value' => (!empty($data["city_ST"])) ? $data["city_ST"] : '',
                 'class' => 'inputbox form-control billingRequired valid',
-                'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_CITY') . '" 
-                            data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_CITY') . '"'
+                'attr'  => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_CITY') . '"'
             ),
             '',
             $options
@@ -303,15 +258,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 
         $this->replacements['{phone_st_lbl}'] = $htmlPhoneLbl;
 
-        // Tweak by Ronni - Change label view for phone
-        $htmlPhone = '<span class="input-prepend input-append">
-            <span class="add-on">
-                <label>
-                    <i class="fas fa-mobile-alt"></i>
-                </label>
-            </span>
-        </span>' . 
-        RedshopLayoutHelper::render(
+        $htmlPhone = RedshopLayoutHelper::render(
             'tags.common.input',
             array(
                 'id'    => 'phone_ST',
@@ -319,8 +266,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
                 'type'  => 'text',
                 'value' => (!empty($data["phone_ST"])) ? $data["phone_ST"] : '',
                 'class' => 'inputbox form-control valid phone ' . $requiredPhone,
-                'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_PHONE') . '" 
-                            onblur="return searchByPhone(this.value,\'ST\');" data-msg="' . JText::_(
+                'attr'  => 'size="32" maxlength="250" onblur="return searchByPhone(this.value,\'ST\');" data-msg="' . JText::_(
                         'COM_REDSHOP_PLEASE_ENTER_PHONE'
                     ) . '"'
             ),
@@ -335,56 +281,9 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
         $this->replacements['{state_st_txtid}']   = 'div_state_st_txt';
         $this->replacements['{state_st_style}']   = $stateStyle;
         $this->replacements['{country_st_lbl}']   = JText::_('COM_REDSHOP_COUNTRY');
-        // Tweak by Ronni - Change label view for country
-        $this->replacements['{country_st}']       = '<span class="input-prepend input-append">
-                    <span class="add-on">
-                        <label>
-                            <i class="fas fa-globe-europe"></i>
-                        </label>
-                    </span>
-                </span>' . $lists['country_code_ST'];
+        $this->replacements['{country_st}']       = $lists['country_code_ST'];
         $this->replacements['{state_st_lbl}']     = JText::_('COM_REDSHOP_STATE');
         $this->replacements['{state_st}']         = $lists['state_code_ST'];
-
-        // Tweak by Ronni START - Add Billing as sender	dropdown	
-        $htmlBillSenderLbl = RedshopLayoutHelper::render(
-            'tags.common.label',
-            array(
-                'id'    => 'billing_as_sender_ST',
-                'class' => 'billing_as_sender_ST',
-                'text'  => JText::_('COM_REDSHOP_BILLING_AS_SENDER')
-            ),
-            '',
-            $options
-        );
-
-        $this->replacements['{billing_as_sender_st_lbl}'] = $htmlBillSenderLbl;
-
-        $chk1 = (!empty($post["billing_as_sender_ST"]) && $post["billing_as_sender_ST"] == 1) ? "selected='selected'" : '';
-        $chk0 = (!empty($post["billing_as_sender_ST"]) && $post["billing_as_sender_ST"] == 0) ? "selected='selected'" : '';
-
-        /*
-        $templateHtml = str_replace(
-            "{billing_as_sender_st}",
-                <span class="input-prepend input-append">
-                    <span class="add-on"><i class="fas fa-people-carry"></i><label></label></span>
-                </span>
-                <select id="billing_as_sender_ST" name="billing_as_sender_ST" size="1" class="drop_down bill_as_shipping">
-                    <option value="0" ' . $chk0 . '>' . JText::_('COM_REDSHOP_BILLING_AS_SENDER_0') . '</option>
-                    <option value="1" ' . $chk1 . '>' . JText::_('COM_REDSHOP_BILLING_AS_SENDER_1') . '</option>
-                </select>',
-        $templateHtml);
-        */
-
-        $this->replacements['{billing_as_sender_st}']       = '<span class="input-prepend input-append">
-                    <span class="add-on"><i class="fas fa-people-carry"></i><label></label></span>
-                </span>
-                <select id="billing_as_sender_ST" name="billing_as_sender_ST" size="1" 
-                        class="inputbox form-control">
-                    <option value="0" ' . $chk0 . '>' . JText::_('COM_REDSHOP_BILLING_AS_SENDER_0') . '</option>
-                    <option value="1" ' . $chk1 . '>' . JText::_('COM_REDSHOP_BILLING_AS_SENDER_1') . '</option>
-                </select>';
-        // Tweak by Ronni END - Add Billing as sender	dropdown
 
         $this->replaceExtraFied($templateHtml, $lists, $allowCompany, $allowCustomer);
 

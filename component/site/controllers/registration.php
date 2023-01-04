@@ -100,58 +100,6 @@ class RedshopControllerRegistration extends RedshopController
     }
 
     /**
-     * searchUserdetailByCVR
-     *
-     * @return  void
-     */
-    public function searchUserdetailByCVR()
-    {
-        ob_clean();
-        $app      = JFactory::getApplication();
-        $jInput   = $app->input;
-        $vat      = $jInput->getVar('cvr');
-        $returnSt = "";
-
-        if (empty($vat)) {
-            return false;
-        } else {
-            $ch = curl_init();
-
-            // Set cURL options
-            curl_setopt($ch, CURLOPT_URL, 'https://cvrapi.dk/api?search=' . $vat . '&country=dk');
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_USERAGENT, 'CVR Lookup Feature - redShop');
-
-            // Parse result
-            $result = curl_exec($ch);
-
-            // Close connection when done
-            curl_close($ch);
-
-            // Return our decoded result
-            $return = json_decode($result, 1);
-
-            if (count($return) > 0) {
-                $name_sp = explode(" ",$return['owners'][0]['name']);
-
-                if (count($name_sp) > 1 && isset($name_sp[1])) {
-                    $name_sp1 = $name_sp[1];
-                } else {
-                    $name_sp1 = '';
-                }
-
-                $returnSt = $return['name'] . ":_:" . $return['address'] . ":_:" . $return['zipcode'] . ":_:" 
-                    . $return['city'] . ":_:" . $return['phone'] . ":_:" . $return['phone'] . ":_:" 
-                    . $name_sp[0] . ":_:" . $name_sp1 . ":_:" . $return['email'] . ":_:" . $return['vat'];
-            }
-        } 
-
-        echo $returnSt;
-
-        $app->close();
-    }
-
-    /**
      * getCompanyOrCustomer
      *
      * @return  void

@@ -44,8 +44,6 @@ if (typeof(window['jQuery']) != "undefined") {
             rules: {
                 firstname: "required",
                 lastname: "required",
-                /*
-                // Tweak by Ronni START - Remove username validation
                 username: {
                     required: function () {
                         return rs("#createaccount") && rs("#createaccount").is(":checked")
@@ -64,8 +62,6 @@ if (typeof(window['jQuery']) != "undefined") {
                             async: false
                         }
                 },
-                // Tweak by Ronni END - Remove username validation
-                */
                 company_name: {
                     required: function () {
                         return rs("#toggler2").is(":checked");
@@ -103,25 +99,7 @@ if (typeof(window['jQuery']) != "undefined") {
                     number: true
                 },
                 email1: {
-                    // Tweak by Ronni - Email validation. Email allready exists
-                    required: function () {
-                        return rs("#createaccount") && rs("#createaccount").is(":checked")
-                            || (!rs("#createaccount").length && rs("#company-email1").length)
-                            || (!rs("#createaccount").length && rs("#private-email1").length);
-                    },
-					email: true,
-                    minlength: 2,
-                    remote :
-                        {
-                            url: "index.php?tmpl=component&option=com_redshop&view=registration&task=ajaxValidateNewJoomlaUser",
-                            type: "post",
-                            data: {
-                                username: function() {
-                                    return rs("#adminForm input[name='email1']").val();
-                                }
-                            },
-                            async: false
-                        }
+                    email: true
                 },
                 email2: {
                     required: true,
@@ -197,10 +175,7 @@ if (typeof(window['jQuery']) != "undefined") {
                     remote: Joomla.JText._('COM_REDSHOP_USERNAME_ALREADY_EXISTS')
                 },
                 email1: {
-                    required: Joomla.JText._('COM_REDSHOP_PROVIDE_EMAIL_ADDRESS'),
-                    // Tweak by Ronni - Email validation. Email allready exists
-                    minlength: Joomla.JText._('COM_REDSHOP_USERNAME_MIN_CHARACTER_LIMIT'),
-                    remote: Joomla.JText._('COM_REDSHOP_USERNAME_ALREADY_EXISTS')
+                    required: Joomla.JText._('COM_REDSHOP_PROVIDE_EMAIL_ADDRESS')
                 },
                 email2: {
                     required: Joomla.JText._('COM_REDSHOP_PROVIDE_EMAIL_ADDRESS'),

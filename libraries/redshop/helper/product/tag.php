@@ -1024,10 +1024,6 @@ class RedshopHelperProductTag
 
         JText::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
 
-        // Tweak by Ronni START - Tweak to make special alert when choosing attributes
-        $attrAlert = array();
-        // Tweak by Ronni END - Tweak to make special alert when choosing attributes
-
         if (is_array($attributes) && count($attributes) > 0) {
             foreach ($attributes as $attribute) {
                 $properties = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id);
@@ -1039,15 +1035,15 @@ class RedshopHelperProductTag
                 $commonId    = $prefix . $productId . '_' . $accessoryId . '_' . $attribute->attribute_id;
                 $hiddenAttId = 'attribute_id_' . $prefix . $productId . '_' . $accessoryId;
                 $propertyId  = 'property_id_' . $commonId;
-                $selectedProperty = 0;
+	            $selectedProperty = 0;
 
                 foreach ($properties as $property) {
                     $attributesPropertyVat = 0;
 
-                    if ($property->setdefault_selected == 1)
-                    {
-                        $selectedProperty = $property->value;
-                    }
+	                if ($property->setdefault_selected == 1)
+	                {
+		                $selectedProperty = $property->value;
+	                }
 
                     if ($property->property_price > 0) {
                         $propertyOprand = $property->oprand;
@@ -1101,14 +1097,14 @@ class RedshopHelperProductTag
                             $required = "";
                         }
 
-                        $inputType = ($attribute->allow_multiple_selection) ? 'checkbox' : 'radio';
-                        $checked = ($property->setdefault_selected) ? 'checked' : '';
+	                    $inputType = ($attribute->allow_multiple_selection) ? 'checkbox' : 'radio';
+	                    $checked = ($property->setdefault_selected) ? 'checked' : '';
 
-                        $checkList .= "<br /><input type='".$inputType."' value='" . $property->value . "' name='"
-                            . $propertyId . "[]' id='" . $propertyId . "' class='inputbox' attribute_name='"
-                            . $attribute->attribute_name . "' ".$checked." required='" . $required
-                            . "' onchange='javascript:changeOfflinePropertyDropdown(\"" . $productId . "\",\"" . $accessoryId
-                            . "\",\"" . $attribute->attribute_id . "\",\"" . $uniqueId . "\");'  />&nbsp;" . $property->text;
+	                    $checkList .= "<br /><input type='".$inputType."' value='" . $property->value . "' name='"
+		                    . $propertyId . "[]' id='" . $propertyId . "' class='inputbox' attribute_name='"
+		                    . $attribute->attribute_name . "' ".$checked." required='" . $required
+		                    . "' onchange='javascript:changeOfflinePropertyDropdown(\"" . $productId . "\",\"" . $accessoryId
+		                    . "\",\"" . $attribute->attribute_id . "\",\"" . $uniqueId . "\");'  />&nbsp;" . $property->text;
                     }
                 } else {
                     $checkList = JHtml::_(

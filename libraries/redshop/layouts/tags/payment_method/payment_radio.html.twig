@@ -9,7 +9,6 @@
                 id="{{ oneMethod.name ~ index }}"
                 value="{{ oneMethod.name }}"
                 {{ checked }}
-                {{ disabled }}
                 onclick="javascript:onestepCheckoutProcess(this.name, '');"
         />
         {% if showImage %}
@@ -18,12 +17,7 @@
                     title="{{ jtext('PLG_' ~ oneMethod.name|upper) }}"
                     src="{{ logo }}"/>
         {% endif %}
-        <!-- // Tweak by Ronni START - disabled in input above 
-            + Bank and EAN transfer plg disable if un-paid invoices in Billy -->
-        {% if disabled %}
-            <span style="margin-left:5px">{{ disabledText }}</span>
-        {% else %}
-            <span style="margin-left:5px">{{ jtext('PLG_' ~ oneMethod.name|upper) }}</span>
-        {% endif %}
+
+        <span>{{ jtext('PLG_' ~ oneMethod.name|upper) }}</span>
     </label>
 </div>
