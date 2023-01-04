@@ -65,37 +65,6 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
         ) == 0 ? 'display:none;' : '';
         $stateStyle   = $states['is_states'] <= 0 ? 'display:none;' : '';
 
-        $htmlCompanyNameLbl = RedshopLayoutHelper::render(
-            'tags.common.label',
-            array(
-                'id'    => 'company_name_ST',
-                'class' => 'company_name_ST',
-                'text'  => JText::_('COM_REDSHOP_COMPANY_NAME_ST')
-            ),
-            '',
-            $options
-        );
-
-        $this->replacements['{company_name_st_lbl}'] = $htmlCompanyNameLbl;
-
-        $htmlCompanyName = RedshopLayoutHelper::render(
-            'tags.common.input',
-            array(
-                'id'    => 'company_name_ST',
-                'name'  => 'company_name_ST',
-                'type'  => 'text',
-                'value' => !empty($data["company_name_ST"]) ? $data["company_name_ST"] : '',
-                'class' => 'inputbox form-control valid',
-                'attr'  => 'size="32" maxlength="250" data-msg="' . JText::_(
-                    'COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME'
-                    ) . '"'
-            ),
-            '',
-            $options
-        );
-
-        $this->replacements['{company_name_st}'] = $htmlCompanyName;
-
         $htmlFirstNameLbl = RedshopLayoutHelper::render(
             'tags.common.label',
             array(

@@ -57,15 +57,6 @@ class RedshopViewOrder_Detail extends RedshopView
             JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'),
             $pdfTemplate
         );
-
-        if ($shipping->is_company && $shipping->company_name != "") {
-            $pdfTemplate = str_replace("{shipping_company_name}", $shipping->company_name, $pdfTemplate);
-            $pdfTemplate = str_replace("{shipping_company_name_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $pdfTemplate);
-        } else {
-            $pdfTemplate = str_replace("{shipping_company_name}", "", $pdfTemplate);
-            $pdfTemplate = str_replace("{shipping_company_name_lbl}", "", $pdfTemplate);
-        }
-
         $pdfTemplate  = str_replace("{shipping_firstname_lbl}", JText::_('COM_REDSHOP_FIRSTNAME'), $pdfTemplate);
         $pdfTemplate  = str_replace("{shipping_lastname_lbl}", JText::_('COM_REDSHOP_LASTNAME'), $pdfTemplate);
         $pdfTemplate  = str_replace("{shipping_address_lbl}", JText::_('COM_REDSHOP_ADDRESS'), $pdfTemplate);
@@ -97,7 +88,7 @@ class RedshopViewOrder_Detail extends RedshopView
         );
         $pdfTemplate = str_replace("{shipping_phone}", $shipping->phone, $pdfTemplate);
 
-        // If user is company then
+        // If user is company than
         if ($billing->is_company && $billing->company_name != "") {
             $pdfTemplate = str_replace("{company_name}", $billing->company_name, $pdfTemplate);
             $pdfTemplate = str_replace("{company_name_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $pdfTemplate);
@@ -105,13 +96,6 @@ class RedshopViewOrder_Detail extends RedshopView
             $pdfTemplate = str_replace("{company_name}", "", $pdfTemplate);
             $pdfTemplate = str_replace("{company_name_lbl}", "", $pdfTemplate);
         }
-
-        $pdfTemplate = str_replace("{billing_firstname}", $billing->firstname, $pdfTemplate);
-        $pdfTemplate = str_replace("{billing_lastname}", $billing->lastname, $pdfTemplate);
-        $pdfTemplate = str_replace("{billing_address}", $billing->address, $pdfTemplate);
-        $pdfTemplate = str_replace("{billing_zip}", $billing->zipcode, $pdfTemplate);
-        $pdfTemplate = str_replace("{billing_city}", $billing->city, $pdfTemplate);
-        $pdfTemplate = str_replace("{billing_phone}", $billing->phone, $pdfTemplate);
 
         JPluginHelper::importPlugin('redshop_pdf');
         RedshopHelperUtility::getDispatcher()->trigger(

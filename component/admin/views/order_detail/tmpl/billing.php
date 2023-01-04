@@ -88,12 +88,6 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                             :</label></td>
                     <td><?php echo $this->lists['is_company']; ?></td>
                 </tr>
-                <tr id="trCompanyName" <?php echo $allowCompany; ?>>
-                    <td width="100" align="right" class="key"><label><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>
-                            :</label></td>
-                    <td><input class="form-control" type="text" name="company_name"
-                               value="<?php echo $billing->company_name; ?>" size="32" maxlength="250"/></td>
-                </tr>
                 <tr>
                     <td width="100" align="right" class="key">
                         <label>
@@ -116,6 +110,13 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                                value="<?php echo $billing->lastname; ?>"/>
                     </td>
                 </tr>
+                <tr id="trCompanyName" <?php echo $allowCompany; ?>>
+                    <td width="100" align="right" class="key"><label><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>
+                            :</label></td>
+                    <td><input class="form-control" type="text" name="company_name"
+                               value="<?php echo $billing->company_name; ?>" size="32" maxlength="250"/></td>
+                </tr>
+
                 <tr>
                     <td width="100" align="right" class="key">
                         <label>

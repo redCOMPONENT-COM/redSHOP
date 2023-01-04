@@ -37,12 +37,6 @@ class RedshopControllerAccount_Shipto extends RedshopController
         $post['id']            = $post['user_id'];
         $post['address_type']  = REDSHOP_ADDRESS_TYPE_SHIPPING;
 
-        if (!empty($post['company_name_ST'])) {
-            $post['is_company'] = 1;
-        } else {
-            $post['is_company'] = 0;
-        }
-
         /** @var RedshopModelAccount_shipto $model */
         $model   = $this->getModel('account_shipto');
         $redUser = $model->store($post);
