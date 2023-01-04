@@ -102,22 +102,29 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                     'hasTooltip'
                 ); ?></td>
         </tr>
-        <tr <?php echo $countryStyle; ?>>
+        <tr id="div_state_txt">
             <td valign="top" align="right" class="key">
-                <div id="div_state_lbl" <?php echo $stateStyle; ?>><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</div>
+                <?php echo JText::_('COM_REDSHOP_STATE'); ?>:
             </td>
             <td>
-                <div id="div_state_txt" <?php echo $stateStyle; ?>><?php echo $this->lists['state_code']; ?>
-                    <?php echo JHTML::tooltip(
-                        JText::_('COM_REDSHOP_TOOLTIP_STATE'),
-                        JText::_('COM_REDSHOP_State'),
-                        'tooltip.png',
-                        '',
-                        '',
-                        'hasTooltip'
-                    ); ?></div>
+                <?php echo $this->lists['state_code']; ?>
+                <?php echo JHTML::tooltip(
+                    JText::_('COM_REDSHOP_TOOLTIP_STATE'),
+                    JText::_('COM_REDSHOP_State'),
+                    'tooltip.png',
+                    '',
+                    '',
+                    'hasTooltip'
+                ); ?>
             </td>
         </tr>
+        <script type="text/javascript" language="javascript">
+            if (document.getElementById('rs_state_state_code')) {
+                if (document.getElementById('rs_state_state_code').options[1] == undefined) {
+                    document.getElementById('div_state_txt').style.display = 'none';
+                }
+            }
+        </script>
         <tr>
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
             <td><input class="inputbox" type="text" name="phone" id="phone" size="20"
