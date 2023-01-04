@@ -14,7 +14,7 @@ JFactory::getApplication()->setUserState('com_redshop.user_detail.data', "");
 $allowCustomer = '';
 $allowCompany  = '';
 
-if (!$this->shipping && $this->detail->is_company == 1) {
+if ($this->detail->is_company == 1) {
     $allowCustomer = 'style="display:none;"';
 } else {
     $allowCompany = 'style="display:none;"';
@@ -25,6 +25,11 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
 ?>
 <div class="col50">
     <table class="admintable table">
+        <tr id="trCompanyName" <?php echo $allowCompany; ?>>
+            <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>:</td>
+            <td><input class="text_area" type="text" name="company_name"
+                       value="<?php echo $this->detail->company_name; ?>" size="20" maxlength="250"/></td>
+        </tr>
         <tr>
             <td valign="top" align="right" class="key">
                 <span id="divFirstname"><?php echo JText::_('COM_REDSHOP_FIRST_NAME'); ?></span>:
@@ -56,11 +61,6 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                 ); ?>
                 <span id="user_valid">*</span>
             </td>
-        </tr>
-        <tr id="trCompanyName" <?php echo $allowCompany; ?>>
-            <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>:</td>
-            <td><input class="text_area" type="text" name="company_name"
-                       value="<?php echo $this->detail->company_name; ?>" size="20" maxlength="250"/></td>
         </tr>
         <tr>
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</td>

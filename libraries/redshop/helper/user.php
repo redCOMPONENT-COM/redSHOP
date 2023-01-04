@@ -695,6 +695,7 @@ class RedshopHelperUser
         $userTable->address_type          = 'ST';
         $userTable->country_code          = $data['country_code_ST'];
         $userTable->state_code            = (isset($data['state_code_ST'])) ? $data['state_code_ST'] : "";
+        $userTable->company_name          = $data['company_name_ST'];
         $userTable->firstname             = $data['firstname_ST'];
         $userTable->lastname              = $data['lastname_ST'];
         $userTable->address               = $data['address_ST'];
@@ -709,7 +710,6 @@ class RedshopHelperUser
         $userTable->is_company            = $data['is_company'];
 
         if ($data['is_company'] == 1) {
-            $userTable->company_name = $data['company_name'];
             $userTable->vat_number   = $data['vat_number'];
         }
 
