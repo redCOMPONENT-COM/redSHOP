@@ -60,6 +60,35 @@ class Add
         // Get product price
         $data['product_price'] = 0;
 
+		// Tweak by Ronni START - Re-order add calc data & upload
+		if (\JFactory::getApplication()->input->getString('task') == 'reorder') {
+            if (isset($data['order_item_id'])) {
+			    // Get attribute data
+    			$attributes = \Redshop\Attribute\Helper::generateAttributeFromOrder($data['order_item_id']);
+
+                foreach($attributes as $attribute) {
+		    		$attributeData[] = $attribute['attribute_id'];
+			    	$propertyData[]  = $attribute['attribute_childs'][0]['property_id'];
+			    }
+			
+                $data['attribute_data'] = implode('##', $attributeData);
+			    $data['property_data']  = implode('##', $propertyData);
+            }
+            
+			// get discount calc data
+			$discountCalcData          = str_replace("<br", "", $data['discount_calc_data']);
+			$discountCalcData          = explode(" - ", $data['discount_calc_data']);
+			$discountCalcDataHeight    = explode(" ", $discountCalcData[0]);
+			$data['calcHeight']        = trim($discountCalcDataHeight[1]);
+			$discountCalcDataOther     = explode("x", $discountCalcData[1]);
+			$discountCalcDataCalcWidth = explode(" ", trim($discountCalcDataOther[0]));
+			$data['calcWidth']         = trim($discountCalcDataCalcWidth[1]);
+			$discountCalcDataCalcDepth = explode(" ", trim($discountCalcDataOther[1]));
+			$data['calcDepth']         = trim($discountCalcDataCalcDepth[1]);
+			$data['calcUnit']          = trim($discountCalcDataCalcDepth[2]);
+		}
+		// Tweak by Ronni END - Re-order add calc data & upload
+
         // Discount calculator procedure start
         $discounts = \Redshop\Promotion\Discount\Calculation::productMeasurement($product, $data);
         $productPriceVAT = 0;
@@ -426,9 +455,28 @@ class Add
 
         $perProductTotal = $product->minimum_per_product_total;
 
+		// Tweak by Ronni START - Minimum product price message
+		if ($data['product_price'] < $perProductTotal 
+                && \JFactory::getApplication()->input->getString('task') !== 'reorder') {
+			if (\Redshop::getConfig()->getBool('AJAX_CART_BOX') == 1 && $ajax == 1) {
+	        	$msg= "block_message";
+				return $msg;
+			} else {
+				$msg = \JText::_ ( 'COM_REDSHOP_PER_PRODUCT_TOTAL_LBL1' ) . "<br />" . "
+                <span style='font-size:16pt'><strong>" . \JText::_ ( 'COM_REDSHOP_PER_PRODUCT_TOTAL' ) . " "
+                . $perProductTotal . " " . \JText::_ ( 'COM_REDSHOP_INCL_TAX' ) . "</strong></span>
+				<br /><br />" . \JText::_ ( 'COM_REDSHOP_PER_PRODUCT_TOTAL_LBL2' ) . "<br /><hr /><strong>" 
+                . \JText::_ ( 'COM_REDSHOP_MINIMUM_ORDER_TOTAL' ) 
+                . \Redshop::getConfig()->getInt('MINIMUM_ORDER_TOTAL') . "</strong>";
+				return $msg;
+			}				
+		}
+		/*
         if ($data['product_price'] < $perProductTotal) {
             return \JText::_('COM_REDSHOP_PER_PRODUCT_TOTAL') . " " . $perProductTotal;
         }
+        */
+        // Tweak by Ronni END - Minimum product price message
 
         if (!$sameProduct) {
             // SET VALVUES INTO SESSION CART
