@@ -296,6 +296,31 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
         $this->addReplace('{without_vat}', '');
         $this->addReplace('{with_vat}', '');
 
+        // Tweak by Ronni START - Add Checkout bar in Cart
+	    echo '<div class="stepwizard"><div class="stepwizard-row">';
+	    echo '<div class="stepwizard-step"><button type="button" class="btn btn-primary btn-circle">1</button><p><b>';
+	    echo JText::_('COM_REDSHOP_CART_LBL');
+	    echo '</b></p></div>';
+	    echo '<div class="stepwizard-step"><button type="button" class="btn btn-default btn-circle">2</button><p>';
+	    echo JText::_('COM_REDSHOP_PAYMENT_CHECK');
+	    echo '</p></div>';
+	    echo '<div class="stepwizard-step"><button type="button" class="btn btn-default btn-circle">3</button><p>';
+	    echo JText::_('COM_REDSHOP_RECEIPT');
+	    echo '</p></div>';
+    	echo '</div></div><br>';
+        // Tweak by Ronni END - Add Checkout bar in Cart
+
+        // Tweak by Ronni START - All relatet products in cart
+        $totalProducts = $cart['idx'];
+        $product = array();
+
+        for ($p = 0;$p < $totalProducts;$p++) {
+	        $product[] = $cart[$p]['product_id'];
+        }
+
+        $this->template = RedshopHelperProduct::getRelatedtemplateViewOnCart($this->template, $product);
+        // Tweak by Ronni END - All relatet products in cart
+
         // Process the product plugin for cart item
         JPluginHelper::importPlugin('redshop_product');
         $results = $dispatcher->trigger('atEndCartTemplateReplace', array(&$this->template, $cart));
