@@ -12,7 +12,21 @@
     {% set openToStretcher = 1 %}
 {% endif %}
 {% set isCompany = openToStretcher == 1 ? 1 : 0 %}
-
+<!-- // Tweak by Ronni START - Move toggler private/ company up from bottom + style="margin-xx" + change checked="" -->
+<div class="form-group" style="margin-top:20px;margin-bottom:20px">
+    <label class="<?php echo $customer; ?> btn-toggler btn btn-toggler-customer">
+        <input type="radio" name="togglerchecker" id="toggler1" class="toggler" onclick="getBillingTemplate(this);"
+               value="0" checked="" billing_type="private"/>
+        {{ jtext('COM_REDSHOP_USER_REGISTRATION') }}
+    </label>
+    <label class="{{ company }} btn-toggler btn btn-toggler-customer">
+        <input type="radio" name="togglerchecker" id="toggler2" class="toggler" onclick="getBillingTemplate(this);"
+               value="1" checked="checked" billing_type="company"/>
+        {{ jtext('COM_REDSHOP_COMPANY_REGISTRATION') }}
+    </label>
+    {{ dispatcher.trigger('onRenderOnstepCheckout')[0] }}
+</div>
+<!-- // Tweak by Ronni END - Move toggler private/ company up from bottom -->
 {% if registerMethod == 2 %}
     <div class="form-group">
         <div class="checkbox">
@@ -28,36 +42,42 @@
 {% if registerMethod != 1 and registerMethod != 3 %}
     <div id="onestep-createaccount-wrapper"
          style="display: {{ ('CREATE_ACCOUNT_CHECKBOX' | redconfig == 1 or registerMethod == 0) ? 'block' : 'none' }};">
+        <!-- // Tweak by Ronni START - Remove username
         <div class="form-group">
             <label>{{ jtext('COM_REDSHOP_USERNAME_REGISTER') }}</label>
             <input class="inputbox form-control required" type="text" name="username"
                    id="onestep-createaccount-username"
                    size="32" maxlength="250" value="{{ username }}"/>
         </div>
+        // Tweak by Ronni END - Remove username -->
+        <!-- // Tweak by Ronni START - Remove lbl + Change look of inputbox for password -->
         <div class="form-group">
-            <label>{{ jtext('COM_REDSHOP_PASSWORD_REGISTER') }}</label>
-            <input class="inputbox form-control required" type="password" name="password1"
-                   id="password1" autocomplete="new-password" size="32" maxlength="250" value=""/>
+            <span class="input-prepend input-append">
+                <span class="add-on"><i class="fas fa-lock"></i>
+                    <label></label>
+                </span>
+            </span>
+            <span class="hasPopover" title="{{ jtext('COM_REDSHOP_PASSWORD_REGISTER') }}" 
+                    data-content="{{ jtext('COM_REDSHOP_PASSWORD_REGISTER_TIP') }}">
+                <input class="inputbox form-control required" type="password" name="password1" id="password1" autocomplete="new-password" 
+                    size="32" maxlength="250" value="" placeholder="{{ jtext('COM_REDSHOP_PASSWORD_REGISTER') }}"/>
+            </span>
         </div>
+        <!-- // Tweak by Ronni END - Remove lbl + Change look of inputbox for password -->
+        <!-- // Tweak by Ronni START - Remove lbl + Change look of inputbox for confirm password + remove HR -->
         <div class="form-group">
-            <label>{{ jtext('COM_REDSHOP_CONFIRM_PASSWORD') }}</label>
-            <input class="inputbox form-control required" type="password" name="password2"
-                   id="password2" autocomplete="new-password" size="32" maxlength="250" value=""/>
+            <span class="input-prepend input-append">
+                <span class="add-on"><i class="fas fa-lock"></i>
+                    <label></label>
+                </span>
+            </span>
+            <span class="hasPopover" title="{{ jtext('COM_REDSHOP_CONFIRM_PASSWORD') }}" 
+                    data-content="{{ jtext('COM_REDSHOP_PASSWORD_REGISTER_TIP') }}">
+                <input class="inputbox form-control required" type="password" name="password2" id="password2" autocomplete="new-password" 
+                    size="32" maxlength="250" value="" placeholder="{{ jtext('COM_REDSHOP_CONFIRM_PASSWORD') }}"/>
+            </span>
         </div>
-        <hr/>
+        <!-- // Tweak by Ronni END - Remove lbl + Change look of inputbox for confirm password + remove HR -->
     </div>
 {% endif %}
-<div class="form-group">
-    <label class="radio-inline <?php echo $customer; ?>">
-        <input type="radio" name="togglerchecker" id="toggler1" class="toggler" onclick="getBillingTemplate(this);"
-               value="0" {{ (isCompany == 0) ? 'checked="checked"' : '' }} billing_type="private"/>
-        {{ jtext('COM_REDSHOP_USER_REGISTRATION') }}
-    </label>
-    <label class="radio-inline {{ company }}">
-        <input type="radio" name="togglerchecker" id="toggler2" class="toggler" onclick="getBillingTemplate(this);"
-               value="1" {{ (isCompany == 1) ? 'checked="checked"' : '' }} billing_type="company"/>
-        {{ jtext('COM_REDSHOP_COMPANY_REGISTRATION') }}
-    </label>
-    {{ dispatcher.trigger('onRenderOnstepCheckout')[0] }}
-</div>
 <div id="wrapper-billing"></div>

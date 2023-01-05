@@ -126,10 +126,14 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
             } else {
                 $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId);
             }
+            // Tweak by Ronni  START - Disable minimum order purchase in Checkout if coupon
+            $session = JFactory::getSession();
 
             $checkout = RedshopLayoutHelper::render(
                 'tags.cart.checkout',
                 array(
+                    // Tweak by Ronni  START - Disable minimum order purchase in Checkout if coupon
+                    'couponValue'  => $session->get('cart'),
                     'pluginButton' => $pluginButton,
                     'link'         => $link,
                     'cart'         => $cart

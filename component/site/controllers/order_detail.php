@@ -247,12 +247,24 @@ class RedshopControllerOrder_Detail extends RedshopController
             for ($i = 0, $in = count($orderItem); $i < $in; $i++) {
                 $row = (array)$orderItem[$i];
 
+                // Tweak by Ronni START - Skip Product "Genbestilling" to re-order cart items if its already in order items
+				if ($orderItem[$i]->product_id == 3627 || $orderItem[$i]->product_id == 3623) {
+                    continue;
+                }
+				// Tweak by Ronni END - Skip Product "Genbestilling" to re-order cart items if its already in order items
+
                 // Copy Order Item to cart
                 $this->copyOrderItemToCart($row, false);
             }
 
             \Redshop\Cart\Ajax::renderModuleCartHtml(true);
         }
+
+		// Tweak by Ronni START - add Product "Genbestilling" to re-order cart items
+		$data['quantity'] = 1;
+		$data['product_id'] = 3627;
+		$result = Redshop\Cart\Cart::add($data);
+		// Tweak by Ronni END - add Product "Genbestilling" to re-order cart items
 
         $app->redirect(
             Redshop\IO\Route::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false)
@@ -334,6 +346,10 @@ class RedshopControllerOrder_Detail extends RedshopController
                 $row['hidden_attribute_cartimage'] = REDSHOP_FRONT_IMAGES_ABSPATH . "product_attributes/" . $row['attribute_image'];
             }
         }
+
+		// Tweak by Ronni START - Reorder issue
+	//	$row['reorder'] = ($app->input->get('reorder') != null) ? $app->input->get('reorder') : 0;
+		// Tweak by Ronni END - Reorder issue
 
         Redshop\Order\Helper::copyProductUserField($row);
 

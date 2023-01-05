@@ -10,7 +10,8 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.calendar');
-JHtml::_('behavior.modal');
+// Tweak by Ronni - Disable old Modal
+// JHtml::_('behavior.modal');
 
 JPluginHelper::importPlugin('redshop_shipping');
 $dispatcher = RedshopHelperUtility::getDispatcher();
