@@ -344,6 +344,11 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                         <?php if ($this->detail->order_payment_status == 'Unpaid'): ?>
                             <input type="submit" name="add" id="add" class="btn btn-primary"
                                    value="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"/>
+                            <span class="checkbox inline" style="margin-left:10px">
+                                <input type="checkbox" <?php echo $sendMailToCustomer; ?> value="true" 
+                                        name="order_sendordermail" id="order_sendordermail"/>
+                                <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL'); ?>
+                            </span>
                             <input type="hidden" name="task" value="update_paymentmethod">
                             <input type="hidden" name="user_id" id="user_id"
                                    value="<?php echo $this->detail->user_id; ?>">
