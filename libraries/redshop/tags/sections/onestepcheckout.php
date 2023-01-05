@@ -235,19 +235,6 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
         if (!empty($billingAddresses) && !empty($billingAddresses->ean_number)) {
             $eanNumber = 1;
         }
-        // Tweak by Ronni START - Add Checkout bar
-        echo 	'<div class="stepwizard"><div class="stepwizard-row">';
-        echo	'<div class="stepwizard-step"><button type="button" class="btn btn-default btn-circle">1</button><p>';
-        echo	JText::_('COM_REDSHOP_CART_LBL');
-        echo    '</p></div>';
-        echo	'<div class="stepwizard-step"><button type="button" class="btn btn-primary btn-circle">2</button><p><b>';
-        echo    JText::_('COM_REDSHOP_PAYMENT_CHECK');
-        echo    '</b></p></div>';
-        echo	'<div class="stepwizard-step"><button type="button" class="btn btn-default btn-circle">3</button><p>';
-        echo    JText::_('COM_REDSHOP_RECEIPT');
-        echo    '</p></div>';
-        echo	'</div></div><br>';
-        // Tweak by Ronni END - Add Checkout bar
 
         if (!$this->isTagExists('{billing_template}')) {
             $subReplacement['{billing_address}'] = '{billing_address}{billing_template}';
@@ -284,12 +271,7 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
 
         $this->replacements['{billing_template}'] = $billingTemplate;
 
-        $editBillingLink = Redshop\IO\Route::_(
-            'index.php?option=com_redshop&view=account_billto&tmpl=component&return=checkout&setexit=1&Itemid=' . $itemId);
-
         if ($this->isTagExists('{edit_billing_address}') && $usersInfoId) {
-            // Tweak by Ronni START - Change Edit billing popup to BS modal
-            /*
             $this->replacements['{edit_billing_address}'] = RedshopLayoutHelper::render(
                 'tags.common.modal',
                 array(
@@ -304,51 +286,24 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
                 '',
                 RedshopLayoutHelper::$layoutOption
             );
-            */
-            $this->replacements['{edit_billing_address}'] = 
-               '<br>
-                <a class="btn btn-primary" data-toggle="modal" data-target="#Modal-edit-bill" href="' . $editBillingLink . '">
-                    ' . JText::_('COM_REDSHOP_EDIT') . '
-                </a>
-                <div id="Modal-edit-bill" class="modal fade" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                ' . JText::_('COM_REDSHOP_EDIT') . ' ' . JText::_('COM_REDSHOP_ORDER_INFORMATION') . '
-                            </div>
-                            <div class="modal-body">
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('COM_REDSHOP_CLOSE') . '</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <style type="text/css">
-                    .componentheading,.modal .cvr_field {display:none!important}
-                </style>';
-                // Tweak by Ronni END - Change Edit billing popup to BS modal
         } else {
             $this->replacements['{edit_billing_address}'] = '';
         }
 
-        if ($this->isTagExists('{clear_user_info}') && $usersInfoId && Redshop::getConfig()->getInt('ENABLE_CLEAR_USER_INFO') == 1) {
-            $this->replacements['{clear_user_info}'] = RedshopLayoutHelper::render(
-                'tags.common.button',
-                array(
-                    'class' => 'btn btn-primary',
-                    'attr'  => 'type="button" name="clear_user_info" onclick="javascript:clearUserInfo();"',
-                    'text'  => JText::_('COM_REDSHOP_CLEAR_USER_INFO')
-                ),
-                '',
-                RedshopLayoutHelper::$layoutOption
-            );
-        } else {
-            $this->replacements['{clear_user_info}'] = '';
-        }
+	    if ($this->isTagExists('{clear_user_info}') && $usersInfoId && Redshop::getConfig()->getInt('ENABLE_CLEAR_USER_INFO') == 1) {
+		    $this->replacements['{clear_user_info}'] = RedshopLayoutHelper::render(
+			    'tags.common.button',
+			    array(
+				    'class' => 'btn btn-primary',
+				    'attr'  => 'type="button" name="clear_user_info" onclick="javascript:clearUserInfo();"',
+				    'text'  => JText::_('COM_REDSHOP_CLEAR_USER_INFO')
+			    ),
+			    '',
+			    RedshopLayoutHelper::$layoutOption
+		    );
+	    } else {
+		    $this->replacements['{clear_user_info}'] = '';
+	    }
 
         $isCompany = isset($billingAddresses->is_company) ? $billingAddresses->is_company : 0;
 

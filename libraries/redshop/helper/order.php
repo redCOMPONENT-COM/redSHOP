@@ -333,12 +333,11 @@ class RedshopHelperOrder
             if (!isset($data->transfee)) {
                 $data->transfee = null;
             }
-            // Tweak by Ronni - Add Payment card id to db - $db->quote($data->paymenttype
+
             $query = $db->getQuery(true)
                 ->update($db->qn('#__redshop_order_payment'))
                 ->set($db->qn('order_transfee') . ' = ' . $db->quote($data->transfee))
                 ->set($db->qn('order_payment_trans_id') . ' = ' . $db->quote($data->transaction_id))
-                ->set($db->qn('payment_method_id') . ' = ' . $db->quote($data->paymenttype))
                 ->where($db->qn('order_id') . ' = ' . (int)$orderId);
             $db->setQuery($query);
             $db->execute();
@@ -848,11 +847,6 @@ class RedshopHelperOrder
                 $orderDetail->track_no = $arrLocationDetails[0];
             }
 
-            // Tweak by Ronni START - Add {order_encr_key} tag to Order status change email
-            $search  []         = "{order_encr_key}";
-            $replace []         = $orderDetail->encr_key;
-            // Tweak by Ronni END - Add {order_total_mail} tags to Order status change email
-
             if (strpos($mailData, "{if track_no}") !== false && strpos($mailData, "{track_no end if}") !== false) {
                 if (empty($orderDetail->track_no)) {
                     $template_pd_sdata = explode('{if track_no}', $mailData);
@@ -945,8 +939,7 @@ class RedshopHelperOrder
         }
 
         // Only Execute this function for selected status match
-        // Tweak by Ronni - Create pacsoft label on all payment status - Delete : && $paymentstatus == "Paid"
-        if ($orderStatus == Redshop::getConfig()->get('GENERATE_LABEL_ON_STATUS')) {
+        if ($orderStatus == Redshop::getConfig()->get('GENERATE_LABEL_ON_STATUS') && $paymentStatus == "Paid") {
             $orderDetails = self::getOrderDetails($orderId);
             $details      = Redshop\Shipping\Rate::decrypt($orderDetails->ship_method_id);
 
@@ -1077,81 +1070,31 @@ class RedshopHelperOrder
 
         // Filter name to remove special characters
         // We are using $billingInfo instead $shippingInfo because $shippingInfo stored information of service point not buyer
-        // Tweak by Ronni - Change from Billing > Shipping on First and Last name
         $firstName = $filter->clean(
-            mb_convert_encoding($shippingInfo->firstname, "ISO-8859-1", "UTF-8"),
+            mb_convert_encoding($billingInfo->firstname, "ISO-8859-1", "UTF-8"),
             'username'
         );
         $lastName  = $filter->clean(
-            mb_convert_encoding($shippingInfo->lastname, "ISO-8859-1", "UTF-8"),
+            mb_convert_encoding($billingInfo->lastname, "ISO-8859-1", "UTF-8"),
             'username'
         );
         $fullName  = $firstName . " " . $lastName;
-        // Tweak by Ronni START - Change from Billing > Shipping and add extra info
-    //  $address       = mb_convert_encoding($shippingInfo->address, "ISO-8859-1", "UTF-8");
-        $finalAddress1 = mb_convert_encoding($shippingInfo->address, "ISO-8859-1", "UTF-8");
-        $city          = mb_convert_encoding($shippingInfo->city, "ISO-8859-1", "UTF-8");
-        $zipcode 	   = $shippingInfo->zipcode;
-        $countryCode   = $shippingInfo->country_code;
-        $contactName   = $firstName . " " . $lastName;
-        $userEmail     = $billingInfo->user_email;
 
-        if ($shippingInfo->phone) {
-            $phone     = $shippingInfo->phone;
-        } else {
-            $phone     = $billingInfo->phone;
-        }
-        // Tweak by Ronni START - Change from Billing > Shipping and add extra info
-
-        // Tweak by Ronni START - Sender same as Billing
-        $senderFirstname = $filter->clean(
-                        mb_convert_encoding($billingInfo->firstname, "ISO-8859-1", "UTF-8"),
-                        'username'
-                    );
-        $senderLastname = $filter->clean(
-                        mb_convert_encoding($billingInfo->lastname, "ISO-8859-1", "UTF-8"),
-                        'username'
-                    );
-        $senderFullName = $senderFirstname . " " . $senderLastname;
-        $senderAddress   = mb_convert_encoding($billingInfo->address, "ISO-8859-1", "UTF-8");
-        $senderCity      = mb_convert_encoding($billingInfo->city, "ISO-8859-1", "UTF-8");
+        $address = mb_convert_encoding($billingInfo->address, "ISO-8859-1", "UTF-8");
+        $city    = mb_convert_encoding($billingInfo->city, "ISO-8859-1", "UTF-8");
 
         if ($billingInfo->is_company) {
-            $sender_name = mb_convert_encoding($billingInfo->company_name, "ISO-8859-1", "UTF-8");
-        } else {
-            $sender_name = $senderFullName;
-        }
-        // Tweak by Ronni END - Sender same as Billing
-        
-        // Tweak by Ronni START - Tweak for function Billing address as sender + customer note
-        $query = $db->getQuery(true)
-                    ->select($db->qn('billing_as_sender'))
-                    ->from($db->qn('#__redshop_users_info'))
-                    ->where($db->qn('users_info_id') . ' = ' . $db->quote($shippingInfo->users_info_id));
-        $db->setQuery($query);
-        $shippingInfo->billing_as_sender = $db->loadResult();
-        
-        $customerNote    = $orderDetail->customer_note;
-        $customerNote    = mb_convert_encoding($customerNote, "ISO-8859-1", "UTF-8");
-        // Tweak by Ronni END - Tweak for function Billing adress as sender + customer note
-
-        // Tweak by Ronni - Use $shippingInfo->is_company
-        if ($shippingInfo->is_company) {
             $companyName   = mb_convert_encoding($shippingInfo->company_name, "ISO-8859-1", "UTF-8");
             $fProductCode  = "PDKEP";
-            // Tweak by Ronni - Remove adnid='POD' + comment finalAddress + Add $fullName
-        //  $addon         = "<addon adnid='POD'></addon>";
-        //  $finalAddress1 = $companyName;
-        //  $finalAddress2 = $address;
-            $fullName	   = $companyName;
+            $addon         = "<addon adnid='POD'></addon>";
+            $finalAddress1 = $companyName;
+            $finalAddress2 = $address;
         } else {
             // Post Danmark MyPack Home
-            // Tweak by Ronni - Remove DLV (not needed) + Add $fullName
             $fProductCode  = "PDK17";
-        //  $addon         = "<addon adnid='DLV'></addon>";
-        //  $finalAddress1 = $address;
-        //  $finalAddress2 = "";
-            $fullName      = $contactName;
+            $addon         = "<addon adnid='DLV'></addon>";
+            $finalAddress1 = $address;
+            $finalAddress2 = "";
         }
 
         // When shipping delivery set to post office don't need to send DLV or POD addon.
@@ -1173,9 +1116,7 @@ class RedshopHelperOrder
         $agentEle = '';
 
         // Only when we have store to send parcel - i.e Pickup Location
-        // Tweak by Ronni START - Correct shop_id IF
         if (!empty (trim($orderDetail->shop_id))) {
-    //  if ('' != trim($orderDetail->shop_id)) {
             // Get shop location stored using postdanmark plugin or other similar plugin.
             $shopLocation = explode('|', $orderDetail->shop_id);
 
@@ -1185,94 +1126,41 @@ class RedshopHelperOrder
             // PUPOPT is stands for "Optional Service Point".
             $addon .= '<addon adnid="PUPOPT"></addon>';
         }
-        // Tweak by Ronni START - Add functions for IF billing_as_sender else
-        if ($shippingInfo->billing_as_sender == "1") {
-            $xmlnew = '<?xml version="1.0" encoding="ISO-8859-1"?>
-            <unifaunonline>
+
+        $xmlnew = '<?xml version="1.0" encoding="ISO-8859-1"?>
+                <unifaunonline>
                 <meta>
-                    <val n="doorcode">"' . date('Y-m-d H:i') . '"</val>
-                </meta>
-                <sender sndid="' . $billingInfo->users_info_id . '">
-                    <val n="name"><![CDATA['.$sender_name.']]></val>
-                    <val n="address1"><![CDATA[' . $senderAddress . ']]></val>
-                    <val n="zipcode">' . $billingInfo->zipcode . '</val>
-                    <val n="city"><![CDATA[' . $senderCity.']]></val>
-                    <val n="country">' . $billingInfo->country_code . '</val>
-                    <val n="contact">' . $senderFullName . '</val>
-                    <val n="phone">' . $billingInfo->phone . '</val>
-                    <val n="email">' . $billingInfo->user_email . '</val>
-                    <partner parid="PDK">
-                        <val n="custno">' . Redshop::getConfig()->get('POSTDK_CUSTOMER_NO') . '</val>
-                    </partner>
-                </sender>
-                <receiver rcvid="' . $shippingInfo->users_info_id . '">
-                    <val n="name"><![CDATA[' . $fullName . ']]></val>
-                    <val n="address1"><![CDATA[' . $finalAddress1 . ']]></val>
-                    <val n="address2"><![CDATA[' . $finalAddress2 . ']]></val>
-                    <val n="zipcode">' . $zipcode . '</val>
-                    <val n="city">' . $city . '</val>
-                    <val n="country">' . $countryCode . '</val>
-                    <val n="contact">' . $contactName . '</val>
-                    <val n="phone">' . $phone . '</val>
-                    <val n="doorcode"/>
-                    <val n="email">' . $userEmail . '</val>
-                    <val n="sms">' . $phone . '</val>
-                </receiver>
-                <shipment orderno="' . $shippingInfo->order_id . '">
-                    <val n="from">' . $billingInfo->users_info_id . '</val>
-                    <val n="to">' . $shippingInfo->users_info_id . '</val>
-                    <val n="reference">' . $orderDetail->order_number . '</val>
-                    <val n="freetext1">' . $customerNote . '</val>
-                    ' . $agentEle . '
-                    <service srvid="' . $fProductCode . '">
-                        ' . $addon . '
-                    </service>
-                    <container type="parcel">
-                        <val n="copies">1</val>
-                        <val n="weight">' . $totalWeight . '</val>
-                        <val n="contents">' . $contentProducts . '</val>
-                        <val n="packagecode">PC</val>
-                    </container>
-                </shipment>
-            </unifaunonline>';				
-        } else {
-            $xmlnew = '<?xml version="1.0" encoding="ISO-8859-1"?>
-            <unifaunonline>
-                <meta>
-                    <val n="doorcode">"' . date('Y-m-d H:i') . '"</val>
+                <val n="doorcode">"' . date('Y-m-d H:i') . '"</val>
                 </meta>
                 <receiver rcvid="' . $shippingInfo->users_info_id . '">
-                    <val n="name"><![CDATA[' . $fullName . ']]></val>
-                    <val n="address1"><![CDATA[' . $finalAddress1 . ']]></val>
-                    <val n="address2"><![CDATA[' . $finalAddress2 . ']]></val>
-                    <val n="zipcode">' . $zipcode . '</val>
-                    <val n="city">' . $city . '</val>
-                    <val n="country">' . $countryCode . '</val>
-                    <val n="contact">' . $contactName . '</val>
-                    <val n="phone">' . $phone . '</val>
-                    <val n="doorcode"/>
-                    <val n="email">' . $userEmail . '</val>
-                    <val n="sms">' . $phone . '</val>
+                <val n="name"><![CDATA[' . $fullName . ']]></val>
+                <val n="address1"><![CDATA[' . $finalAddress1 . ']]></val>
+                <val n="address2"><![CDATA[' . $finalAddress2 . ']]></val>
+                <val n="zipcode">' . $billingInfo->zipcode . '</val>
+                <val n="city">' . $city . '</val>
+                <val n="country">' . $billingInfo->country_code . '</val>
+                <val n="contact"><![CDATA[' . $firstName . ']]></val>
+                <val n="phone">' . $shippingInfo->phone . '</val>
+                <val n="doorcode"/>
+                <val n="email">' . $shippingInfo->user_email . '</val>
+                <val n="sms">' . $shippingInfo->phone . '</val>
                 </receiver>
                 <shipment orderno="' . $shippingInfo->order_id . '">
-                    <val n="from">1</val>
-                    <val n="to">' . $shippingInfo->users_info_id . '</val>
-                    <val n="reference">' . $orderDetail->order_number . '</val>
-                    <val n="freetext1">' . $customerNote . '</val>
-                    ' . $agentEle . '
-                    <service srvid="' . $fProductCode . '">
-                    ' . $addon . '
-                    </service>
-                    <container type="parcel">
-                        <val n="copies">1</val>
-                        <val n="weight">' . $totalWeight . '</val>
-                        <val n="contents">' . $contentProducts . '</val>
-                        <val n="packagecode">PC</val>
-                    </container>
+                <val n="from">1</val>
+                <val n="to">' . $shippingInfo->users_info_id . '</val>
+                <val n="reference">' . $orderDetail->order_number . '</val>
+                ' . $agentEle . '
+                <service srvid="' . $fProductCode . '">
+                ' . $addon . '
+                </service>
+                <container type="parcel">
+                <val n="copies">1</val>
+                <val n="weight">' . $totalWeight . '</val>
+                <val n="contents">' . $contentProducts . '</val>
+                <val n="packagecode">PC</val>
+                </container>
                 </shipment>
-            </unifaunonline>';
-        }
-        // Tweak by Ronni END - Add functions for IF billing_as_sender else
+                </unifaunonline>';
 
         $postURL = "https://www.unifaunonline.com/ufoweb/order?session=ufo_DK"
             . "&user=" . Redshop::getConfig()->get('POSTDK_CUSTOMER_NO')
@@ -1678,7 +1566,6 @@ class RedshopHelperOrder
         $selected = 'all',
         $attributes = ' class="inputbox" size="1" '
     ) {
-        // Tweak by Ronni START - Add phone to filter
         $filterByList = array(
             'orderid'     => JText::_('COM_REDSHOP_ORDERID'),
             'ordernumber' => JText::_('COM_REDSHOP_ORDERNUMBER'),
@@ -1714,9 +1601,6 @@ class RedshopHelperOrder
         $types[] = JHtml::_('select.option', 'Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PAID'));
         $types[] = JHtml::_('select.option', 'Unpaid', JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID'));
         $types[] = JHtml::_('select.option', 'Partial Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID'));
-        // Tweak by Ronni START - Overdue filter
-        $types[] = JHTML::_('select.option', 'Overdue', JText::_('Forfalden'));
-        // Tweak by Ronni END - Overdue filter
 
         return JHtml::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
     }
@@ -1771,21 +1655,6 @@ class RedshopHelperOrder
 
             // Changing the status of the order
             self::updateOrderStatus($orderId, $newStatus);
-
-            // Tweak by Ronni START - Update payment method in Order detail
-            /*
-            $paymentMethod = explode("-",JFactory::getApplication()->input->get('payment_method'));
-    
-            if (count($paymentMethod) > 0 && $paymentMethod[0] != '' && $paymentMethod[0] != '') {
-                $db = JFactory::getDBo();
-                $paymentMethodQuery = 'UPDATE #__redshop_order_payment SET order_payment_name = ' . $db->quote(trim($payment_method[0])) . ', payment_method_class = ' . $db->quote(trim($payment_method[1])) . ' WHERE order_id = ' . (int) $orderId;
-                $db->setQuery($paymentMethodQuery);
-                $db->execute();
-
-                RedshopBilly::updatePaymentTermsInBilly($orderId);
-            }
-            */
-            // Tweak by Ronni END - Update payment method in Order detail
 
             // Trigger function on Order Status change
             JPluginHelper::importPlugin('redshop_order');
@@ -1845,9 +1714,7 @@ class RedshopHelperOrder
 
                     RedshopHelperProduct::makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
                 }
-                // Tweak by Ronni START - Update payment status to X
-                self::updateOrderPaymentStatus($orderId, 'X');
-                // Tweak by Ronni END - Update payment status to X
+
                 break;
 
             // Returned
@@ -2070,21 +1937,14 @@ class RedshopHelperOrder
         $orderDetail        = RedshopEntityOrder::getInstance($orderId)->getItem();
         $paymentParams      = new Registry($paymentMethod->params);
         $orderStatusCapture = $paymentParams->get('capture_status', '');
-        // Tweak by Ronni START - Tweak to capture funds - = $newstatus;
-        $orderStatusCode    = $newStatus;
-    //  $orderStatusCode    = $orderStatusCapture;
-        // Tweak by Ronni END - Tweak to capture funds - = $newstatus;
+        $orderStatusCode    = $orderStatusCapture;
 
-        // Tweak by Ronni START - Tweak to capture funds on multible status
-        if (in_array($newStatus,$orderStatusCapture)
-    //  if ($orderStatusCapture == $newStatus
+        if ($orderStatusCapture == $newStatus
             && ($authorizeStatus == "Authorized" || $authorizeStatus == "")) {
             $values["order_number"]        = $orderDetail->order_number;
             $values["order_id"]            = $orderId;
             $values["order_transactionid"] = $result->order_payment_trans_id;
-            // Tweak by Ronni START - Remove additional transfee while capture
-            $values["order_amount"]        = $orderDetail->order_total; // + $result->order_transfee;
-            // Tweak by Ronni END - Remove additional transfee while capture
+            $values["order_amount"]        = $orderDetail->order_total + $result->order_transfee;
             $values['shippinginfo']        = self::getOrderShippingUserInfo($orderId);
             $values['billinginfo']         = self::getOrderBillingUserInfo($orderId);
             $values["order_userid"]        = $values['billinginfo']->user_id;

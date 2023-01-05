@@ -118,9 +118,6 @@ class RedshopViewAccount_Shipto extends RedshopView
             $post['phone_ST']                 = $shippingAddresses->phone;
             $post['country_code_ST']          = $shippingAddresses->country_code;
             $post['state_code_ST']            = $shippingAddresses->state_code;
-            // Tweak by Ronni START - Post 'billing_as_sender'
-            $post['billing_as_sender_ST']     = $shippingAddresses->billing_as_sender;
-            // Tweak by Ronni END - Post 'billing_as_sender'
             $layout                           = 'form';
 
             $dispatcher = RedshopHelperUtility::getDispatcher();

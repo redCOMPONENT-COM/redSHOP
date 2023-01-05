@@ -19,20 +19,9 @@ $document->setTitle(JText::_('COM_REDSHOP_ORDER_RECEIPT_TITLE'));
 <?php
 if ($this->params->get('show_page_title', 1)) {
     ?>
-    <!-- // Tweak by Ronni START - Add checkout bar on Reciept + Remove title -->
-	<div class="stepwizard"><div class="stepwizard-row"><div class="stepwizard-step"><button type="button" class="btn btn-default btn-circle">1</button><p>
-	<?php echo $this->escape(JText::_('COM_REDSHOP_CART_LBL')); ?></p></div>
-	<div class="stepwizard-step"><button type="button" class="btn btn-circle">2</button><p>
-	<?php echo $this->escape(JText::_('COM_REDSHOP_PAYMENT_CHECK')); ?></p></div>
-	<div class="stepwizard-step"><button type="button" class="btn btn-primary btn-circle">3</button><p><b>
-	<?php echo $this->escape(JText::_('COM_REDSHOP_RECEIPT')); ?></b></p></div>
-	</div></div><br><br>
-	<?php /*
     <h1 class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
         <?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_RECEIPT')); ?>
     </h1>
-	*/ ?>
-    <!-- // Tweak by Ronni END - Add checkout bar on Reciept + Remove title -->
     <?php
 }
 

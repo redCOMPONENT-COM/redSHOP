@@ -8,8 +8,6 @@
  */
 
 use Joomla\Utilities\ArrayHelper;
-// Tweak by Ronni START - Add use Redshop\Billy\RedshopBilly;
-use Redshop\Billy\RedshopBilly;
 
 defined('_JEXEC') || die;
 
@@ -184,51 +182,6 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
                 return '';
             }
 
-            // Tweak by Ronni START - Bank and EAN transfer plg disable if un-paid invoices in Billy
-            // Check for overdue payment from billy
-            $billyIntegration = JPluginHelper::isEnabled('billy');
-            $overdueOrder = 0;
-            $vatNumber    = 0;
-            $invoiceBlock = 0;
-            $user         = JFactory::getUser();
-
-            if ($billyIntegration && $user->id > 0) {
-                $billingArray = RedshopHelperOrder::getBillingAddress($user->id);
-                $invoiceBlock = $billingArray->invoice_block;
-                $vatNumber    = $billingArray->vat_number; 
-                                    
-                if (!empty($billingArray)) {
-                    $user_info_id = $billingArray->users_info_id;
-                }
-
-                // Get billy user_id
-                $db          = JFactory::getDbo();
-                $tablePrefix = '#__redshop_';
-                $query       = "SELECT billy_id FROM " . $tablePrefix . "billy_relation" . " WHERE redshop_id=" . (int) $user_info_id . " AND relation_type='user' ";
-                $db->setQuery($query);
-                $billyUserId = $db->loadResult();
-
-                if ($billyUserId) {
-                    // Get all order for this user
-                    $overdueOrder = RedshopBilly::checkAnyOverdueOrder($billyUserId, false);
-                }
-            }
-
-            if (($overdueOrder > 0 && ($oneMethod->name == 'rs_payment_banktransfer' 
-                    || $oneMethod->name == 'rs_payment_eantransfer') && $user->id > 0) 
-                    || ($invoiceBlock && ( $oneMethod->name == 'rs_payment_banktransfer' 
-                    || $oneMethod->name == 'rs_payment_eantransfer') && $user->id > 0)) {
-                $disabled = 'disabled';
-                $disabledText = JText::_('COM_REDSHOP_BANKTRANSFER_DISABLED');
-            } else if ($vatNumber <= 0 && ($oneMethod->name == 'rs_payment_banktransfer') && $user->id > 0) {
-                $disabled = 'disabled';
-                $disabledText = JText::_('COM_REDSHOP_BANKTRANSFER_DISABLED_CVR');
-            } else {
-                $disabled = '';
-                $disabledText = '';
-            }						
-            // Tweak by Ronni END - Bank and EAN transfer plg disable if un-paid invoices in Billy
-
             $paymentRadioOutput = RedshopLayoutHelper::render(
                 'tags.payment_method.payment_radio',
                 array(
@@ -241,10 +194,6 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
                     'eanNumber'          => $this->data['eanNumber'],
                     'logo'               => JUri::base() . $logo,
                     'showImage'          => $showImage,
-                    // Tweak by Ronni START - Bank and EAN transfer plg disable if un-paid invoices in Billy
-                    'disabled'           => $disabled,
-                    'disabledText'       => $disabledText,
-                    // Tweak by Ronni END - Bank and EAN transfer plg disable if un-paid invoices in Billy
                 ),
                 '',
                 RedshopLayoutHelper::$layoutOption

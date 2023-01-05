@@ -725,24 +725,6 @@ class RedshopHelperShipping
             $pWhere .= ")";
         }
 
-		// Tweak by Ronni START - Exclude products in shipping rate
-		$pxwhere = "";
-		if ($idx) {
-			$pxwhere = 'OR ( ';
-
-			for ($i = 0; $i < $idx; $i++) {
-				$product_id = $cart [$i] ['product_id'];
-				$pxwhere   .=  'FIND_IN_SET(' . (int) $product_id . ', item_shipping_rate_exclude_products) = 0';
-
-				if ($i != $idx - 1) {
-					$pxwhere .= " AND ";
-				}
-			}
-
-			$pxwhere .= ")";
-		}
-		// Tweak by Ronni END - Exclude products in shipping rate
-
         if (!$shippingRate) {
             for ($i = 0; $i < $idx; $i++) {
                 $productId = $cart[$i]['product_id'];
@@ -848,7 +830,7 @@ class RedshopHelperShipping
                         'shipping_rate_zip_end'
                     ) . " = '') ) ";
             }
-            // Tweak by Ronni START - Exclude products in shipping rate
+
             $sql = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " WHERE " . $db->qn(
                     'shipping_class'
                 ) . " = "
@@ -867,10 +849,8 @@ class RedshopHelperShipping
                 . " AND " . $db->qn('shipping_rate_weight_end') . ") OR ("
                 . $db->qn('shipping_rate_weight_end') . " = 0)) " . $whereShippingVolume . "
 				AND (" . $db->qn('shipping_rate_on_product') . " = '' " . $pWhere . ") AND ("
-				. $db->qn('shipping_rate_on_category') . " = '' " . $cWhere . ") AND (" 
-                . $db->qn('item_shipping_rate_exclude_products')  . " = ''" . $pxwhere . ")" . $where . "
+                . $db->qn('shipping_rate_on_category') . " = '' " . $cWhere . ")" . $where . "
 				ORDER BY " . $db->qn('shipping_rate_priority');
-            // Tweak by Ronni END - Exclude products in shipping rate
 
             $shippingRate = $db->setQuery($sql)->loadObjectList();
         }

@@ -1,40 +1,7 @@
 <label class="checkbox"><input type="checkbox" id="termscondition" name="termscondition" value="1"/>
     {{ jtext('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL') }}
-    {# Tweak by Ronni START - Change Sbox to BS Modal #}
-    <a data-toggle="modal" data-target="#Modal-term" 
-        data-remote="{{ jtext('COM_REDSHOP_TERMS_MODAL_LINK') }}" 
-        style="color:#337ab7!important;text-decoration:underline!important;font-weight:700!important;cursor:pointer">
-        {{ jtext('COM_REDSHOP_TERMS_AND_CONDITIONS_FOR_LBL') }}
-    </a>
-    <div id="Modal-term" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {{ jtext('COM_REDSHOP_SALE_CONDITIONS') }}
-                </div>												
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
-                        {{ jtext('COM_REDSHOP_CLOSE') }}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <style type="text/css">
-        .componentheading,.top-product,.page-title {display:none!important}
-        .modal-content {text-align: left;color:#166874}
-    </style>
-    {# 
     <a class="modal modal-termscondition" href="{{ articleUrl }}"
        rel="{handler: \'iframe\', size: {x: {{ finalWidth }}, y: {{ finalHeight }}">
         {{ jtext('COM_REDSHOP_TERMS_AND_CONDITIONS_FOR_LBL') }}
     </a>
-    #}
-    {# Tweak by Ronni END - Change Sbox to BS Modal #}
 </label>

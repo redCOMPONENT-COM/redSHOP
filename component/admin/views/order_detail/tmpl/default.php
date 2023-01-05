@@ -1454,12 +1454,12 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                             <?php $nextLog = (isset($orderStatusLogs[$index + 1])) ? $orderStatusLogs[$index + 1] : false; ?>
                             <li class="time-label">
                                 <span class="bg-green">
-									<?php
+                                    <?php
                                     $timezone = new \DateTimeZone(\JFactory::getConfig()->get('offset', 'UTC'));
                                     $dt = new \DateTime('now', $timezone);
                                     echo $dt->setTimestamp($log->date_changed)->format('d-m-Y H:i');
                                     ?>
-								</span>
+                                </span>
                             </li>
                             <?php if (!$nextLog): ?>
                                 <li>
@@ -1473,8 +1473,8 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                                 <p>
                                                     <?php echo JText::_('JGLOBAL_USERNAME') ?>:
                                                     <span class="label order_placed_by_username">
-														<?php echo JFactory::getUser($log->by_user_id)->username ?>
-													</span>
+                                                        <?php echo JFactory::getUser($log->by_user_id)->username ?>
+                                                    </span>
                                                 </p>
                                             <?php endif; ?>
                                             <p><?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?>:
@@ -1512,8 +1512,8 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                             <div class="timeline-body">
                                                 <?php echo JText::_('JGLOBAL_USERNAME') ?>&nbsp;
                                                 <span class="label order_status_<?php echo strtolower($log->by_user_id) ?>">
-													<?php echo JFactory::getUser($log->by_user_id)->username ?>
-												</span>
+                                                    <?php echo JFactory::getUser($log->by_user_id)->username ?>
+                                                </span>
                                             </div>
                                         </div>
                                     </li>

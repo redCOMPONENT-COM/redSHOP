@@ -26,72 +26,38 @@ $returnitemid = $params->get('login', $Itemid);
 $thirdPartyLogin = Redshop\Helper\Login::getThirdPartyLogin();
 
 ?>
-<?php /* // Tweak by Ronni - Add class="panel panel-default" */  ?>
-<div class="panel panel-default">
-<div class="panel-heading"><?php echo JText::_('COM_REDSHOP_LOGIN_PAGE_HEADING'); ?> :</div><br><br>
 <form action="<?php echo Redshop\IO\Route::_($loginlink); ?>" method="post">
     <div class="redshop-login form-horizontal">
-        <?php /* // Tweak by Ronni - Comment out Login desc + change to col-md-2 col-xs-4 + col-md-3 col-xs-8 + changes -
-        <p><?php echo JText::_('COM_REDSHOP_LOGIN_DESCRIPTION'); ?></p> */ ?>
+        <p><?php echo JText::_('COM_REDSHOP_LOGIN_DESCRIPTION'); ?></p>
         <div class="form-group">
-            <div class="col-md-6 col-xs-12" style="text-align:center">
-                <span class="input-prepend input-append">
-                    <span class="add-on"><i class="fas fa-user"></i>
-                        <label class=""></label>
-                    </span>
-                </span>
-                <span class="hasPopover" title="<?php echo JText::_('COM_REDSHOP_USERNAME'); ?>" 
-                        data-content="<?php echo JText::_('COM_REDSHOP_USER_LOGIN_TIP'); ?>">
-                    <input class="inputbox" type="text" id="username" name="username" autocomplete="username" 
-                        placeholder="<?php echo JText::_('COM_REDSHOP_USERNAME'); ?>"/>
-                </span>
-            </div>
+            <label class="col-sm-3 control-label"><?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:</label>
+            <div class="col-sm-9"><input class="inputbox" type="text" id="username" name="username" autocomplete="username"/></div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-6 col-xs-12" style="text-align:center">
-                <span class="input-prepend input-append">
-                    <span class="add-on"><i class="fas fa-lock"></i>
-                        <label class=""></label>
-                    </span>
-                </span>
-                <span class="hasPopover" title="<?php echo JText::_('COM_REDSHOP_PASSWORD'); ?>" 
-                        data-content="<?php echo JText::_('COM_REDSHOP_PASSWORD_LOGIN_TIP'); ?>">
-                    <input class="inputbox" id="password" name="password" type="password" autocomplete="current-password"
-                        placeholder="<?php echo JText::_('COM_REDSHOP_PASSWORD'); ?>"/>
-                </span>
-            </div>
+            <label class="col-sm-3 control-label"><?php echo JText::_('COM_REDSHOP_PASSWORD'); ?>:</label>
+            <div class="col-sm-9"><input class="inputbox" id="password" name="password" type="password" autocomplete="current-password"/></div>
         </div>
-        <div style="display:none" class="form-group">
+
+        <div class="form-group">
             <div>
                 <input id="modlgn-remember" type="checkbox" name="remember" class="col-sm-offset-3" value="1"/>
                 <label for="modlgn-remember" class="control-label f-merri fw-300"><?php echo JText::_('COM_REDSHOP_REMEMBER_ME'); ?></label>
             </div>
-        </div>
-        <br><br>
-        <div class="form-group">
-            <div class="col-sm-12" style="text-align:center">
-                <input type="submit" name="submit" class="btn btn-primary"
-                       value="<?php echo JText::_('COM_REDSHOP_LOGIN'); ?>">
+            <div class="col-sm-offset-3 col-sm-9">
+                <a href="<?php echo Redshop\IO\Route::_($newuser_link); ?>">
+                    <?php echo JText::_('COM_REDSHOP_CREATE_USER_LINK'); ?></a>&nbsp;/&nbsp;<a
+                        href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=reset'); ?>">
+                    <?php echo JText::_('COM_REDSHOP_FORGOT_PWD_LINK'); ?></a>
             </div>
-            <br><br>
-            <div class="col-md-12" style="text-align:center">
-				<a class="btn btn-small" href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=reset'); ?>">
-                    <?php echo JText::_('COM_REDSHOP_FORGOT_PWD_LINK'); ?>
-                </a>
-			</div>
         </div>
 
-		<?php /* Tweak by Ronni START - Add Login first visit message */  ?>
-		<br><br><br>
-		<div class="alert alert-warning" style="margin-bottom:-10px!important">
-			<a class="close" data-dismiss="alert">×</a>
-			<h4 class="alert-heading"></h4>
-            <div>
-				<div class="alert-message"><?php echo JText::_('COM_REDSHOP_LOGIN_ACCOUNT_TIP'); ?></div>
-		    </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <input type="submit" name="submit" class="button btn btn-primary"
+                       value="<?php echo JText::_('COM_REDSHOP_LOGIN'); ?>">
+            </div>
         </div>
-		<?php /* Tweak by Ronni END - Add Login first visit message */  ?>
     </div>
 
     <input type="hidden" name="task" id="task" value="setlogin">
@@ -100,7 +66,6 @@ $thirdPartyLogin = Redshop\Helper\Login::getThirdPartyLogin();
     <input type="hidden" name="returnitemid" id="returnitemid" value="<?php echo $returnitemid; ?>">
     <input type="hidden" name="option" id="option" value="com_redshop"/>
 </form>
-</div>
 <div class="form-group">
 	<div class="third-party-login ">
         <?php foreach ($thirdPartyLogin as $login): ?>
