@@ -325,9 +325,9 @@ class RedshopHelperUser
             $userArr['rs_is_user_login'] = 0;
         }
 
-	    if (empty($userArr['shopperGroupOneStep'])) {
-		    $userArr['rs_user_shopperGroup'] = self::getShopperGroup($userId);
-	    }
+        if (empty($userArr['shopperGroupOneStep'])) {
+            $userArr['rs_user_shopperGroup'] = self::getShopperGroup($userId);
+        }
 
         $session->set('rs_user', $userArr);
 
@@ -478,6 +478,11 @@ class RedshopHelperUser
         $app = JFactory::getApplication();
 
         $data['user_email']   = $data['email'] = $data['email1'];
+        // Tweak by Ronni START - CC invoice email
+        if(!empty($data['cc_email1'])) {
+            $data['cc_email'] = $data['cc_email1'];
+        }
+        // Tweak by Ronni END - CC invoice email
         $data['name']         = $name = $data['firstname'];
         $data['address_type'] = 'BT';
 

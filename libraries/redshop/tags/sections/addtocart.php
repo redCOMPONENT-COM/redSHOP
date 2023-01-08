@@ -334,6 +334,9 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                         foreach ($attributeProperties as $attributeProperty) {
                             if ($attributeProperty->setdefault_selected) {
                                 $selectedId[] = $attributeProperty->property_id;
+                                // Tweak by Ronni START - Tweak to make special alert when choosing attributes
+                                $attrAlert[$attributeProperty->attribute_id] = $attributeProperty->property_alert_message;
+                                // Tweak by Ronni END - Tweak to make special alert when choosing attributes
                             }
                         }
 
@@ -685,7 +688,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 'cartId'    => $cartId,
                 'itemId'    => $itemId,
                 'quantity'  => $quantity,
-	            'minQuantity'  => $minQuantity
+                'minQuantity'  => $minQuantity
             ),
             '',
             RedshopLayoutHelper::$layoutOption

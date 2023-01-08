@@ -126,13 +126,13 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
             } else {
                 $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId);
             }
-            // Tweak by Ronni  START - Disable minimum order purchase in Checkout if coupon
+            // Tweak by Ronni - Disable minimum order purchase in Checkout if coupon
             $session = JFactory::getSession();
 
             $checkout = RedshopLayoutHelper::render(
                 'tags.cart.checkout',
                 array(
-                    // Tweak by Ronni  START - Disable minimum order purchase in Checkout if coupon
+                    // Tweak by Ronni - Disable minimum order purchase in Checkout if coupon
                     'couponValue'  => $session->get('cart'),
                     'pluginButton' => $pluginButton,
                     'link'         => $link,
@@ -320,6 +320,87 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
 
         $this->template = RedshopHelperProduct::getRelatedtemplateViewOnCart($this->template, $product);
         // Tweak by Ronni END - All relatet products in cart
+
+        // Tweak by Ronni START - Minimum message in cart
+        $couponValue = $session->get('cart');
+
+        if (strstr($this->template, "{minimum_order_total}")) {
+	        if (Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0 
+                    && $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') 
+			        && $couponValue['coupon_discount'] < 118) {
+		        $orderMinimumDiff 		  = Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') - $cart['total'];
+		        $orderMinimumDiffQuantity = (round($orderMinimumDiff / 1, 0)) * 1;
+		        $message = "
+		        <div class='price_box price_box_orange' 
+                        style='margin-top: 10px;margin-bottom: 20px;margin-left: -20px!important;margin-right: -20px!important;font-weight:normal!important'>
+				    <span style='font-size:16pt;font-weigth:bold'>
+					    " . JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_LBL4') 
+                        . RedshopHelperProductPrice::formattedPrice($orderMinimumDiff) 
+                        . " " . JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_LBL5') . "
+			        </span>
+			        <br/>
+			        " . JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL') 
+                    . Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') 
+                    . " " . JText::_('COM_REDSHOP_INCL_TAX') . "
+			        <br />
+			        " . JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_LBL1') . "
+			        <br /><br />
+			        " . JText::_('COM_REDSHOP_PER_PRODUCT_TOTAL_LBL2') . "
+			        <div class='hor-line'></div>
+			        <div class='row'>
+			        	" . JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_LBL2' ) . "
+	        			<br /><br />
+				        <style type='text/css'>
+					        .componentheading,.top-product {display:none!important}
+					        .beregn-desc,.beregn-desc-udsalg{display:none!important}					
+					        .beregn-box,.beregn-desc-udsalg{width:auto!important;text-align: center}
+					        #main_image3624{width:120px!important}
+					        .checkout_button {opacity:.3;pointer-events:none}
+				        	.modal-header{background-color:#e77500!important;color:#ffffff!important}
+		        			.reviews,.product_writereview{display:none}
+        				</style>
+				        <a class='mod_cart_checkout' id='Modal-minimum-order-cart1' style='' data-show='true' 
+                                data-toggle='modal' data-target='#Modal-minimum-order-cart' 
+                                data-remote='index.php?option=com_redshop&Itemid=40&lang=da&pid=3624&view=product&tmpl=component'>
+					        " . JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_LBL8') . "
+				        </a>
+				        <div id='Modal-minimum-order-cart' class='modal fade show' data-show='true' 
+                                tabindex='-1' role='dialog'>
+					        <div class='modal-dialog modal-dialog-centered' role='document'>
+						        <div class='modal-content'>
+							        <div class='modal-header'>
+								        <button type='button' class='close' data-dismiss='modal' 
+                                                aria-label='Close'>
+                                            <span aria-hidden='true'>&times;</span>
+                                        </button>
+								        " . JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_LBL6') 
+                                        . $orderMinimumDiffQuantity . " " 
+                                        . JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_LBL7') . "
+								        <h5 class='modal-title'>
+									        " . JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_LBL4') 
+                                            . RedshopHelperProductPrice::formattedPrice($orderMinimumDiff) 
+                                            . " " . JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_LBL5') . "
+								        </h5>
+							        </div>
+							        <div class='modal-body'>
+							        </div>
+							        <div class='modal-footer'>
+								        <button class='btn btn-secondary' type='button' data-dismiss='modal'>
+                                            " . JText::_('COM_REDSHOP_CLOSE') . 
+                                        "</button>
+							        </div>
+						        </div>
+					        </div>
+				        </div>
+			        </div>
+		        </div>";
+
+		        $this->template = str_replace("{minimum_order_total}", $message, $this->template);
+	        } else {
+		        $this->template = str_replace("{minimum_order_total}", '', $this->template);
+	        }
+        }
+        // Tweak by Ronni END - Minimum message in cart
 
         // Process the product plugin for cart item
         JPluginHelper::importPlugin('redshop_product');

@@ -173,7 +173,8 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 $divHeading = RedshopLayoutHelper::render(
                     'tags.common.tag',
                     array(
-                        'tag'   => 'div',
+                        // Tweak by Ronni - Change div to h1
+                        'tag'   => 'h1',
                         'class' => 'componentheading' . $this->params->get('pageclass_sfx'),
                         'id'    => '',
                         'attr'  => '',

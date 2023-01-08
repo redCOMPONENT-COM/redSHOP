@@ -17,4 +17,11 @@
     <input type="button" id="plus" value="+"
            onClick="quantity.value = (+quantity.value+1)"><input type="hidden" name="{{ cartItem }}" value="{{ productId }}">
 </form>
+<!-- // Tweak by Ronni START - Trigger Minimum message in cart with JS -->
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		$("#Modal-minimum-order-cart1").trigger("click");
+	});
+</script>
+<!-- // Tweak by Ronni END - Trigger Minimum message in cart with JS -->
 {% endif %}

@@ -563,6 +563,10 @@ class Item
             $cart .= $cartHtmlContent;
         }
 
+		// Tweak by Ronni START - Get RL {{source}} working in cart and checkout
+		$cart = \JHtml::_('content.prepare', $cart);
+		// Tweak by Ronni START - Get RL {{source}} working in cart and checkout
+
         return array($cart, $subTotalNoVat);
     }
 }
