@@ -11,8 +11,9 @@ defined('_JEXEC') or die;
 
 JLoader::register('UsersHelperRoute', JPATH_SITE . '/components/com_users/helpers/route.php');
 
-JHtml::_('behavior.keepalive');
-JHtml::_('bootstrap.tooltip');
+// Tweak by Ronni - Move keepalive.js to template.js + remove 'bootstrap.tooltip'
+// JHtml::_('behavior.keepalive');
+// JHtml::_('bootstrap.tooltip');
 
 ?>
 <form action="<?php echo Redshop\IO\Route::_('index.php', true, $params->get('usesecure', 0)); ?>" method="post" id="login-form" class="form-inline">
@@ -26,11 +27,17 @@ JHtml::_('bootstrap.tooltip');
             <div class="controls">
                 <?php if (!$params->get('usetext', 0)) : ?>
                 <div class="input-prepend">
-						<span class="add-on">
-							<span class="icon-user hasTooltip" title="<?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?>"></span>
-							<label for="modlgn-username" class="element-invisible"><?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?></label>
-						</span>
-                    <input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" autocomplete="username" size="18" placeholder="<?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?>" />
+                    <!-- // Tweak by Ronni START - Add fas fa-user + Remove hasTooltip + Style input with new spans -->
+					<span class="add-on">
+						<span class="fas fa-user" title="<?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?>"></span>
+						<label for="modlgn-username" class="element-invisible"><?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?></label>
+					</span>
+					<span class="hasPopover" title="<?php echo JText::_('COM_REDSHOP_USERNAME'); ?>" 
+                            data-content="<?php echo JText::_('COM_REDSHOP_USER_LOGIN_TIP'); ?>">
+						<input id="modlgn-username" type="text" name="username" class="input-small" autocomplete="username" 
+                                tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?>" />
+					</span>
+                    <!-- // Tweak by Ronni END - Add fas fa-user + Remove hasTooltip + Style input with new spans -->
                 </div>
                 <?php else : ?>
                 <label for="modlgn-username"><?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?></label>
@@ -42,13 +49,19 @@ JHtml::_('bootstrap.tooltip');
             <div class="controls">
                 <?php if (!$params->get('usetext', 0)) : ?>
                 <div class="input-prepend">
-						<span class="add-on">
-							<span class="icon-lock hasTooltip" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>">
-							</span>
-								<label for="modlgn-passwd" class="element-invisible"><?php echo JText::_('JGLOBAL_PASSWORD'); ?>
-							</label>
+                    <!-- // Tweak by Ronni START - Add fas fa-user + Remove hasTooltip + Style input with new spans -->
+					<span class="add-on">
+						<span class="fas fa-lock" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>">
 						</span>
-                    <input id="modlgn-passwd" type="password" name="password" class="input-small" tabindex="0" autocomplete="current-password" size="18" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" />
+						<label for="modlgn-passwd" class="element-invisible"><?php echo JText::_('JGLOBAL_PASSWORD'); ?>
+						</label>
+					</span>
+					<span class="hasPopover" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" 
+                            data-content="<?php echo JText::_('COM_REDSHOP_PASSWORD_LOGIN_CART_TIP'); ?>">
+						<input id="modlgn-passwd" type="password" name="password" class="input-small" autocomplete="current-password" 
+                                tabindex="0" size="18" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" />
+					</span>
+                    <!-- // Tweak by Ronni END - Add fas fa-user + Remove hasTooltip + Style input with new spans -->
                 </div>
                 <?php else : ?>
                 <label for="modlgn-passwd"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
@@ -96,16 +109,18 @@ JHtml::_('bootstrap.tooltip');
         <?php
 			$usersConfig = JComponentHelper::getParams('com_users'); ?>
         <ul class="unstyled">
-            <?php if ($usersConfig->get('allowUserRegistration')) : ?>
+            <!-- // Tweak by Ronni START - Remove MOD_REDSHOP_LOGIN_REGISTER + MOD_REDSHOP_LOGIN_FORGOT_YOUR_USERNAME -->
+            <?php if (!$usersConfig->get('allowUserRegistration')) : ?>
             <li>
                 <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=registration'); ?>">
                     <?php echo JText::_('MOD_REDSHOP_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
             </li>
-            <?php endif; ?>
             <li>
                 <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=remind'); ?>">
                     <?php echo JText::_('MOD_REDSHOP_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
             </li>
+            <?php endif; ?>
+            <!-- // Tweak by Ronni END - Remove MOD_REDSHOP_LOGIN_REGISTER + MOD_REDSHOP_LOGIN_FORGOT_YOUR_USERNAME -->
             <li>
                 <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=reset'); ?>">
                     <?php echo JText::_('MOD_REDSHOP_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>

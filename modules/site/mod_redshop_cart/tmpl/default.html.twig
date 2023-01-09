@@ -1,17 +1,20 @@
 <div class="mod_cart_main">
-    <div class="mod_cart_top">
+    <!-- // Tweak by Ronni - mod_cart_top display:none -->
+    <div class="mod_cart_top" style="display:none!important">
         <div class="mod_cart_image"></div>
         <div class="mod_cart_title">{{ jtext('MOD_REDSHOP_CART_CART_TEXT') }}</div>
     </div>
     <div class="mod_cart_total" id="mod_cart_total">
         {{ cartHtml }}
     </div>
-    <div class="mod_cart_checkout" id="mod_cart_checkout_ajax">
+        <!-- // Tweak by Ronni START - Move <div class="mod_cart_checkout".... -->
         {% if (count or showEmptBtn) %}
             <a href="{{ jroute("index.php?option=com_redshop&view=cart&Itemid=#{ itemId }") }}">
-                {{ displayButton }}
+                <div class="mod_cart_checkout" id="mod_cart_checkout_ajax" style="margin-top:10px!important;margin-bottom:5px!important">
+                    {{ displayButton }}
+                </div>
             </a>
         {% endif %}
-    </div>
+        <!-- // Tweak by Ronni END - Move <div class="mod_cart_checkout".... -->
 </div>
 

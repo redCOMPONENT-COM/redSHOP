@@ -19,7 +19,8 @@ $showShippingLine = ($params->get('show_shipping_line', 0));
 $showWithDiscount = ($params->get('show_with_discount', 0));
 
 $document = \JFactory::getDocument();
-$document->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
+// Tweak by Ronni - Remove css
+// $document->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
 $document->addScript("modules/mod_redshop_cart/js/cart.js");
 
 $showEmptyBtn = 0;
@@ -64,9 +65,13 @@ if ($buttonText != "") {
     $displayButton = $buttonText;
 }
 
+// Tweak by Ronni START - Remove .mod_cart_checkout{background-color:
+/*
 JFactory::getDocument()->addStyleDeclaration(
     '.mod_cart_checkout{background-color:' . Redshop::getConfig()->get('ADDTOCART_BACKGROUND') . ';}'
 );
+*/
+// Tweak by Ronni END - Remove .mod_cart_checkout{background-color:
 
 $twigParams['cartHtml'] = RedshopLayoutHelper::render(
     'cart.cart',

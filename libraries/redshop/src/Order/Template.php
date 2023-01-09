@@ -330,10 +330,16 @@ class Template
         // Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
         $isBankTransferPaymentType = \RedshopHelperPayment::isPaymentType($paymentMethodDetail->element);
 
-        if ($isBankTransferPaymentType) {
+      	// Tweak by Ronni START - Get extra field to work on all payment plg + disable if payment fails for Epay
+        $orderPaymentStatus = (string) $orderEntity->get('order_payment_status');
+    //  if ($isBankTransferPaymentType) {
+        if (trim($orderPaymentStatus) !== 'Paid' && $paymentMethod->payment_method_class == 'rs_payment_epayv2') {
+            $textExtraInfor = "";
+        } else {
             $paymentParams  = new Registry($paymentMethodDetail->params);
             $textExtraInfor = (string)$paymentParams->get('txtextra_info', '');
         }
+	    // Tweak by Ronni END - Get extra field to work on all payment plg + disable if payment fails for Epay
 
         $template = str_replace("{payment_extrainfo}", $textExtraInfor, $template);
 
@@ -504,6 +510,75 @@ class Template
         $replace[] = '';
         $search[]  = "{with_vat}";
         $replace[] = '';
+
+		// Tweak by Ronni START - Add tags to Order mail section
+		if (strpos($template, '{hello}') !== false) {
+			$search [] = "{hello}";
+			$replace[] = \JText::_('COM_REDSHOP_HELLO');
+		}
+
+		if (strpos($template, '{thank_order}') !== false) {
+			$search [] = "{thank_order}";
+			$replace[] = \JText::_('COM_REDSHOP_THANK_ORDER');
+		}
+
+		if (strpos($template, '{questions_order}') !== false) {
+			$search [] = "{questions_order}";
+			$replace[] = \JText::_('COM_REDSHOP_QUESTIONS_ORDER');
+		}
+		if (strpos($template, '{pay_now_lbl}') !== false) {
+			$search [] = "{pay_now_lbl}";
+			$replace[] = \JText::_('COM_REDSHOP_PAY');
+		}
+		if (strpos($template, '{best_regards}') !== false) {
+			$search [] = "{best_regards}";
+			$replace[] = \JText::_('COM_REDSHOP_BEST_REGARDS');
+		}
+		if (strpos($template, '{best_regards_address}') !== false)
+		{
+			$search [] = "{best_regards_address}";
+			$replace[] = \JText::_('COM_REDSHOP_BEST_REGARDS_ADDRESS');
+		}
+		if (strpos($template, '{printdk}') !== false)
+		{
+			$search [] = "{printdk}";
+			$replace[] = \JText::_('COM_REDSHOP_PRINTDK');
+		}
+		if (strpos($template, '{payment_extrafields_lbl1}') !== false)
+		{
+			$search [] = "{payment_extrafields_lbl1}";
+			$replace[] = \JText::_('COM_REDSHOP_ORDER_PAYMENT_EXTRA_FILEDS');
+		}
+		if (strpos($template, '{status_p_msg}') !== false)
+		{
+			$search [] = "{status_p_msg}";
+			$replace[] = \JText::_('COM_REDSHOP_STATUS_P_MSG');
+		}
+		if (strpos($template, '{status_c_msg}') !== false)
+		{
+			$search [] = "{status_c_msg}";
+			$replace[] = \JText::_('COM_REDSHOP_STATUS_C_MSG');
+		}
+		if (strpos($template, '{status_x_msg}') !== false)
+		{
+			$search [] = "{status_x_msg}";
+			$replace[] = \JText::_('COM_REDSHOP_STATUS_X_MSG');
+		}
+		if (strpos($template, '{status_s_msg}') !== false)
+		{
+			$search [] = "{status_s_msg}";
+			$replace[] = \JText::_('COM_REDSHOP_STATUS_S_MSG');
+		}
+		if (strpos($template, '{status_rd1_msg}') !== false)
+		{
+			$search [] = "{status_rd1_msg}";
+			$replace[] = \JText::_('COM_REDSHOP_STATUS_RD1_MSG');
+		}
+		if (strpos($template, '{status_app_msg}') !== false) {
+			$search [] = "{status_app_msg}";
+			$replace[] = \JText::_('COM_REDSHOP_STATUS_APP_MSG');
+		}
+		// Tweak by Ronni END - Add tags to Order mail section
 
         if (strpos($template, '{order_detail_link_lbl}') !== false) {
             $search [] = "{order_detail_link_lbl}";
