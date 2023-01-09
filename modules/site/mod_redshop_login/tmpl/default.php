@@ -27,17 +27,17 @@ JLoader::register('UsersHelperRoute', JPATH_SITE . '/components/com_users/helper
             <div class="controls">
                 <?php if (!$params->get('usetext', 0)) : ?>
                 <div class="input-prepend">
-                    <!-- // Tweak by Ronni START - Add fas fa-user + Remove hasTooltip + Style input with new spans -->
-					<span class="add-on">
-						<span class="fas fa-user" title="<?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?>"></span>
-						<label for="modlgn-username" class="element-invisible"><?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?></label>
-					</span>
-					<span class="hasPopover" title="<?php echo JText::_('COM_REDSHOP_USERNAME'); ?>" 
+                <?php /* Tweak by Ronni START - Add fas fa-user + Remove hasTooltip + Style input with new spans */ ?>
+                    <span class="add-on">
+                        <span class="fas fa-user" title="<?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?>"></span>
+                        <label for="modlgn-username" class="element-invisible"><?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?></label>
+                    </span>
+                    <span class="hasPopover" title="<?php echo JText::_('COM_REDSHOP_USERNAME'); ?>" 
                             data-content="<?php echo JText::_('COM_REDSHOP_USER_LOGIN_TIP'); ?>">
-						<input id="modlgn-username" type="text" name="username" class="input-small" autocomplete="username" 
+                        <input id="modlgn-username" type="text" name="username" class="input-small" autocomplete="username" 
                                 tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?>" />
-					</span>
-                    <!-- // Tweak by Ronni END - Add fas fa-user + Remove hasTooltip + Style input with new spans -->
+                    </span>
+                    <?php /* Tweak by Ronni END - Add fas fa-user + Remove hasTooltip + Style input with new spans */ ?>
                 </div>
                 <?php else : ?>
                 <label for="modlgn-username"><?php echo JText::_('MOD_REDSHOP_LOGIN_VALUE_USERNAME'); ?></label>
@@ -49,19 +49,19 @@ JLoader::register('UsersHelperRoute', JPATH_SITE . '/components/com_users/helper
             <div class="controls">
                 <?php if (!$params->get('usetext', 0)) : ?>
                 <div class="input-prepend">
-                    <!-- // Tweak by Ronni START - Add fas fa-user + Remove hasTooltip + Style input with new spans -->
-					<span class="add-on">
-						<span class="fas fa-lock" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>">
-						</span>
-						<label for="modlgn-passwd" class="element-invisible"><?php echo JText::_('JGLOBAL_PASSWORD'); ?>
-						</label>
-					</span>
-					<span class="hasPopover" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" 
+                    <?php /* Tweak by Ronni START - Add fas fa-user + Remove hasTooltip + Style input with new spans */ ?>
+                    <span class="add-on">
+                        <span class="fas fa-lock" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>">
+                        </span>
+                        <label for="modlgn-passwd" class="element-invisible"><?php echo JText::_('JGLOBAL_PASSWORD'); ?>
+                        </label>
+                    </span>
+                    <span class="hasPopover" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" 
                             data-content="<?php echo JText::_('COM_REDSHOP_PASSWORD_LOGIN_CART_TIP'); ?>">
-						<input id="modlgn-passwd" type="password" name="password" class="input-small" autocomplete="current-password" 
+                        <input id="modlgn-passwd" type="password" name="password" class="input-small" autocomplete="current-password" 
                                 tabindex="0" size="18" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" />
-					</span>
-                    <!-- // Tweak by Ronni END - Add fas fa-user + Remove hasTooltip + Style input with new spans -->
+                    </span>
+                    <?php /* Tweak by Ronni END - Add fas fa-user + Remove hasTooltip + Style input with new spans */ ?>
                 </div>
                 <?php else : ?>
                 <label for="modlgn-passwd"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
@@ -74,42 +74,91 @@ JLoader::register('UsersHelperRoute', JPATH_SITE . '/components/com_users/helper
             <div class="controls">
                 <?php if (!$params->get('usetext', 0)) : ?>
                 <div class="input-prepend input-append">
-						<span class="add-on">
-							<span class="icon-star hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>">
-							</span>
-								<label for="modlgn-secretkey" class="element-invisible"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
-							</label>
-						</span>
+                        <span class="add-on">
+                            <span class="icon-star hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>">
+                            </span>
+                                <label for="modlgn-secretkey" class="element-invisible"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
+                            </label>
+                        </span>
                     <input id="modlgn-secretkey" autocomplete="off" type="text" name="secretkey" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" />
                     <span class="btn width-auto hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-							<span class="icon-help"></span>
-						</span>
+                            <span class="icon-help"></span>
+                        </span>
                 </div>
                 <?php else : ?>
                 <label for="modlgn-secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
                 <input id="modlgn-secretkey" autocomplete="off" type="text" name="secretkey" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" />
                 <span class="btn width-auto hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-						<span class="icon-help"></span>
-					</span>
+                        <span class="icon-help"></span>
+                    </span>
                 <?php endif; ?>
 
             </div>
         </div>
         <?php endif; ?>
         <?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
-        <div id="form-login-remember" class="control-group checkbox">
+        <?php /* Tweak by Ronni START - Add display:none on remember me */ ?>
+        <div style="display:none" id="form-login-remember" class="control-group checkbox">
             <label for="modlgn-remember" class="control-label"><?php echo JText::_('MOD_REDSHOP_LOGIN_REMEMBER_ME'); ?></label> <input id="modlgn-remember" type="checkbox" name="remember" class="inputbox" value="yes"/>
         </div>
         <?php endif; ?>
+        <?php /* Tweak by Ronni START - Add forgot password */ ?>
+        <div class="forgot-password-text" 
+                style="text-decoration:underline;text-align:right!important;margin-bottom: 10px;margin-top:-5px;width: auto!important;">
+            <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=reset'); ?>">
+                <?php echo JText::_('MOD_REDSHOP_LOGIN_FORGOT_YOUR_PASSWORD'); ?>
+            </a>
+        </div>
         <div id="form-login-submit" class="control-group">
             <div class="controls">
                 <button type="submit" tabindex="0" name="Submit" class="btn btn-primary login-button"><?php echo JText::_('JLOGIN'); ?></button>
             </div>
         </div>
+        <?php /* Tweak by Ronni START - Add Add Lanuage button */ ?>
+        <div class="lang-change-login" align="right"> <?php
+            $languages = JLanguageHelper::getLanguages();
+            
+            if ($languages) {
+                foreach($languages as $language) {
+                    $language->active = '';
+                    
+                    if (isset($_SESSION['language_get']) && $_SESSION['language_get'] != '') {
+                        if ($_SESSION['language_get'] == $language->lang_code) {
+                            $language->active = "class='lang-flag-active'";
+                        }
+                    }
+
+                    echo "<span class='hasPopover' style='margin-left:5px' title='" 
+                                . JText::_('MOD_LOGIN_LANG_SWITCH') . "' data-content='" 
+                                . JText::_('MOD_LOGIN_LANG_INFO') . "'>
+                            <span " . $language->active . ">
+                                <a href='javascript:;' onclick='javascript:setLanguage(\"" 
+                                        . $language->lang_code . "\");'>
+                                    <img src='/media/mod_languages/images/" . $language->image 
+                                            . ".png' alt='Language image' width='18' height='12'>&nbsp;&nbsp;
+                                </a>
+                            </span>
+                          </span>";
+                }
+            } ?>
+        </div>
+        <div> <?php
+            $BrowserLangTrim = explode(",", $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            if ($BrowserLangTrim[0] != "da-DK") {
+                echo "<div class='price_box price_box_orange display-kanvas' 
+                            style='margin-top:20px;margin-bottom:-10px;display:block'>
+                        <span style='font-size:14px;line-height:21px'>
+                            <span class='fa fa-info-circle'></span>
+                            You can switch most of the language to English here.
+                        </span>
+                      </div>";
+            } ?>
+        </div>
+        <?php /* Tweak by Ronni END - Add Add Lanuage button */ ?>
         <?php
-			$usersConfig = JComponentHelper::getParams('com_users'); ?>
+            $usersConfig = JComponentHelper::getParams('com_users'); ?>
         <ul class="unstyled">
-            <!-- // Tweak by Ronni START - Remove MOD_REDSHOP_LOGIN_REGISTER + MOD_REDSHOP_LOGIN_FORGOT_YOUR_USERNAME -->
+            <?php /* Tweak by Ronni START - Remove MOD_REDSHOP_LOGIN_REGISTER + MOD_REDSHOP_LOGIN_FORGOT_YOUR_USERNAME */ ?>
             <?php if (!$usersConfig->get('allowUserRegistration')) : ?>
             <li>
                 <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=registration'); ?>">
@@ -119,12 +168,13 @@ JLoader::register('UsersHelperRoute', JPATH_SITE . '/components/com_users/helper
                 <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=remind'); ?>">
                     <?php echo JText::_('MOD_REDSHOP_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
             </li>
-            <?php endif; ?>
-            <!-- // Tweak by Ronni END - Remove MOD_REDSHOP_LOGIN_REGISTER + MOD_REDSHOP_LOGIN_FORGOT_YOUR_USERNAME -->
+
             <li>
                 <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&view=reset'); ?>">
                     <?php echo JText::_('MOD_REDSHOP_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
             </li>
+            <?php endif; ?>
+            <?php /* Tweak by Ronni END - Remove MOD_REDSHOP_LOGIN_REGISTER + MOD_REDSHOP_LOGIN_FORGOT_YOUR_USERNAME */ ?>
         </ul>
         <input type="hidden" name="option" value="com_users" />
         <input type="hidden" name="task" value="user.login" />
@@ -148,4 +198,14 @@ JLoader::register('UsersHelperRoute', JPATH_SITE . '/components/com_users/helper
         <?php endif; ?>
     <?php endforeach; ?>
 </div>
-
+<?php /* Tweak by Ronni START - Add script for Lanuage button */ ?>
+<form name="language_get_form" action="" method="post">
+    <input type="hidden" name="language_get" value="" />
+</form>
+<script>
+    function setLanguage(lan) {
+        document.language_get_form.language_get.value = lan;
+        document.language_get_form.submit();
+    }
+</script>
+<?php /* Tweak by Ronni END - Add Add Lanuage button */ ?>

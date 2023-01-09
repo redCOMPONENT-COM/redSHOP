@@ -10,11 +10,10 @@
         <!-- // Tweak by Ronni START - Move <div class="mod_cart_checkout".... -->
         {% if (count or showEmptBtn) %}
             <a href="{{ jroute("index.php?option=com_redshop&view=cart&Itemid=#{ itemId }") }}">
-                <div class="mod_cart_checkout" id="mod_cart_checkout_ajax" style="margin-top:10px!important;margin-bottom:5px!important">
+                <div class="mod_cart_checkout" id="mod_cart_checkout_ajax">
                     {{ displayButton }}
                 </div>
             </a>
         {% endif %}
         <!-- // Tweak by Ronni END - Move <div class="mod_cart_checkout".... -->
 </div>
-

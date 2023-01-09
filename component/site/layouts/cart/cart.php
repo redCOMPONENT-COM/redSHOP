@@ -149,7 +149,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
     }
     // Tweak by Ronni END - Message when order total is below order minimum ?>
 <?php else: ?>
-    <!-- // Tweak by Ronni - Add div class="mod_cart_empty" -->
+    <?php /* // Tweak by Ronni - Add div class="mod_cart_empty" */ ?>
     <div class="mod_cart_empty">
         <?php echo JText::_('MOD_REDSHOP_CART_EMPTY_CART'); ?>
     </div>
