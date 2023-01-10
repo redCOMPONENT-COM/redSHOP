@@ -98,7 +98,14 @@ class RedshopModelOrder extends RedshopModel
         $filterPaymentStatus = $this->getState('filter_payment_status');
 
         if ($filterPaymentStatus) {
-            $query->where($db->qn('o.order_payment_status') . ' = ' . $db->q($filterPaymentStatus));
+            // Tweak by Ronni START - Overdue filter
+            if ($filterPaymentStatus == 'Overdue') {
+                $query->where($db->qn('o.order_payment_status') . '= "Unpaid"');
+                $query->where($db->qn('o.overdue_limit') . '> 0');
+            } else {
+                $query->where($db->qn('o.order_payment_status') . ' = ' . $db->q($filterPaymentStatus));
+            }
+            // Tweak by Ronni END - Overdue filter
         }
 
         // Filter

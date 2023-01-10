@@ -185,6 +185,12 @@ class RedshopModelAddorder_detail extends RedshopModel
                     $data['phone_ST'] = $data['phone'];
                 }
 
+                // Tweak by Ronni START - Add billing_as_sender_ST
+                if ($data['billing_as_sender_ST'] == "") {
+                    $data['billing_as_sender_ST'] = $data['billing_as_sender'];
+                }
+                // Tweak by Ronni END - Add billing_as_sender_ST
+
                 $rowsh = RedshopHelperUser::storeRedshopUserShipping($data);
 
                 return $rowsh;
@@ -832,6 +838,10 @@ class RedshopModelAddorder_detail extends RedshopModel
         $html .= '<td>' . $lists['state_code_ST'] . '</td></tr>';
         $html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_PHONE') . ':</td>';
         $html .= '<td><input class="inputbox" type="text" name="phone_ST" maxlength="250" value="' . $shipping->phone . '" /></td></tr>';
+        // Tweak by Ronni START - billing_as_sender_ST
+        $html .= '<tr><td width="100" align="right">' . JText::_('Afsender = Faktura adresse') . ':</td>';
+        $html .= '<td><input class="inputbox" type="text" name="billing_as_sender_ST" maxlength="250" value="' . $shipping->billing_as_sender . '" /></td></tr>';
+        // Tweak by Ronni END - billing_as_sender_ST
         $html .= '<tr><td colspan="2"><div id="exCustomerFieldST" ' . $allowCustomer . '>' . $lists['shipping_customer_field'] . '</div>';
         $html .= '<div id="exCompanyFieldST" ' . $allowCompany . '>' . $lists['shipping_company_field'] . '</div></td></tr>';
         $html .= '</table>';
@@ -854,6 +864,8 @@ class RedshopModelAddorder_detail extends RedshopModel
         $detail->address       = (isset($post['address_ST'])) ? $post['address_ST'] : null;
         $detail->city          = (isset($post['city_ST'])) ? $post['city_ST'] : null;
         $detail->phone         = (isset($post['phone_ST'])) ? $post['phone_ST'] : null;
+        // Tweak by Ronni - billing_as_sender_ST
+        $detail->billing_as_sender = (isset($post['billing_as_sender_ST'])) ? $post['billing_as_sender_ST'] : null;
 
         return $detail;
     }

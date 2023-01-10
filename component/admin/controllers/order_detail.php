@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+// Tweak by Ronni - Add billy helper
+use Redshop\Billy\RedshopBilly;
+
 /**
  * Redshop Order Detail Controller
  *
@@ -210,7 +213,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
     public function special_discount()
     {
-	    $type = '';
+        $type = '';
         $post = $this->input->post->getArray();
         $cid  = $this->input->post->get('cid', array(0), 'array');
 
@@ -221,7 +224,7 @@ class RedshopControllerOrder_detail extends RedshopController
             $msg = JText::_('COM_REDSHOP_SPECIAL_DISCOUNT_APPLIED');
         } else {
             $msg = JText::_('COM_REDSHOP_ERROR_IN_SPECIAL_DISCOUNT');
-	        $type = 'error';
+            $type = 'error';
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg, $type);
@@ -563,4 +566,213 @@ class RedshopControllerOrder_detail extends RedshopController
 
         $this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $data['order_id']);
     }
+
+    // Tweak by Ronni START - Re-order feature function and add Product "Genbestilling" to re-order in admin and make it work same as front
+    /**
+     * Re-order in backend
+     *
+     * @return  void
+     * @throws  Exception
+     */	
+    public function reorder() 
+    {
+        $orderId = $this->input->get('cid');
+        
+        if ($orderId[0] <= 0 || $orderId[0] == '') {
+            return;
+        }
+
+        //Get order information direct from database
+        $db         = JFactory::getDbo();
+        $orderQuery = "SELECT * FROM #__redshop_orders WHERE order_id = " . $orderId[0];
+        $db->setQuery($orderQuery);
+        $order      = $db->loadObject();
+        
+        //Generate order number
+        $orderNumber = RedshopHelperOrder::generateOrderNumber();
+        
+        //Set reorder parameters
+        $order->order_id 				= '';
+        $order->order_number 			= $orderNumber;
+        $order->invoice_number_chrono 	= '';
+        $order->invoice_number 			= '';
+        $order->order_status 			= 'C';
+        $order->order_payment_status 	= 'Unpaid';
+        $order->cdate 					= time();
+        $order->mdate 					= time();
+        $order->customer_note		    = 'Genbestilling af ordre ' . $orderId[0];
+        $order->ip_address 				= $_SERVER['REMOTE_ADDR'];
+        $order->encr_key 				= \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey();
+        $order->is_booked 				= 0;
+        $order->bookinvoice_number 		= 0;
+        $order->bookinvoice_date 		= 0;
+        $order->refferal_info 			= '';
+        $order->billy_invoice_no 		= '';
+        $order->is_billy_booked 		= 0;
+        $order->is_billy_cashbook 		= 0;
+        $order->billy_bookinvoice_date 	= '';
+        $order->overdue_limit 			= 0;
+        $order->overdue_days 			= 0;
+        $order->order_label_create		= 0;
+        
+        // Insert the order object into the #__redshop_orders table.
+        $reorder = $db->insertObject('#__redshop_orders', $order);
+        
+        if(!$reorder) {
+            JFactory::getApplication()->enqueueMessage(JText::_('Order has not been created properly.'), 'error');
+            $this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $orderId[0]);
+        }
+        
+        $newOrderId = $db->insertid();
+        
+        //Get order items
+        $itemQuery = "SELECT * FROM #__redshop_order_item WHERE order_id = " . $orderId[0];
+        $db->setQuery($itemQuery);
+        $orderItems = $db->loadObjectList();
+        
+        //Set reorder item parameters
+        foreach ($orderItems as $num => $item) {
+            $orderItemId         = $item->order_item_id;
+            $item->order_item_id = '';
+            $item->order_id      = $newOrderId;
+            $item->order_status = 'C';
+            $item->cdate        = time();
+            $item->mdate        = time();
+
+            if ($item->order_item_sku == 'genbestilling') {
+                continue;
+            }
+
+            // Insert the item object into the #redshop_order_item table.
+            $insertedItem = $db->insertObject('#__redshop_order_item', $item);
+            
+            if (!$insertedItem) {
+                JFactory::getApplication()->enqueueMessage(JText::_('Order Item has not been created properly.'), 'error');
+                $this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $orderId[0]);
+            }
+            
+            $newItemId = $db->insertid();
+            
+            //get item attributes
+            $itemAttributeQuery = "SELECT * FROM #__redshop_order_attribute_item WHERE order_item_id = " . $orderItemId;
+            $db->setQuery($itemAttributeQuery);
+            $itemAttributes     = $db->loadObjectList();
+            
+            if (count($itemAttributes) > 0) {
+                //set item attribute parameters
+                foreach ($itemAttributes as $k => $itemAttribute) {
+                    $itemAttribute->order_att_item_id = '';
+                    $itemAttribute->order_item_id     = $newItemId;
+                    // Insert item attribute into the #__redshop_order_attribute_item table.
+                    $insertedItemAttr = $db->insertObject('#__redshop_order_attribute_item', $itemAttribute);
+                    
+                    if (!$insertedItemAttr) {
+                        JFactory::getApplication()->enqueueMessage(JText::_('Order Item Attribute has not been created properly.'), 'error');
+                        $this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $orderId[0]);
+                    }
+                }
+            }
+            //get order users fields data
+            $fieldDataQuery = "SELECT * FROM #__redshop_fields_data WHERE itemid = " . $orderItemId;
+            $db->setQuery($fieldDataQuery);
+            $fieldsData     = $db->loadObjectList();
+            if (count($fieldsData) > 0) {
+                //set users field data parameters
+                foreach ($fieldsData as $i => $fieldData) {
+                    $fieldData->data_id = '';
+                    $fieldData->itemid  = $newItemId;
+                    // Insert users field data into the #__redshop_fields_data table.
+                    $insertedFieldData  = $db->insertObject('#__redshop_fields_data', $fieldData);
+                    if (!$insertedFieldData) {
+                        JFactory::getApplication()->enqueueMessage(JText::_('Order Item User Field has not been created properly.'), 'error');
+                        $this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $orderId[0]);
+                    }
+                }
+            }
+        }
+        
+        // Add reorder product to know the order is repeated
+        $reorderItem                         = new stdClass;
+        $reorderItem->order_item_id          = '';
+        $reorderItem->order_item_name        = 'Genbestilling - ' . $orderId[0];
+        $reorderItem->order_id               = $newOrderId;
+        $reorderItem->user_info_id           = $orderItems[0]->user_info_id;
+        $reorderItem->supplier_id            = 0;
+        $reorderItem->product_attribute      = '';
+        $reorderItem->product_id             = 3627;
+        $reorderItem->order_item_sku         = 'genbestilling';
+        $reorderItem->product_quantity       = 1;
+        $reorderItem->product_item_price     = 0;
+        $reorderItem->product_final_price    = 0;
+        $reorderItem->order_item_currency    = $orderItems[0]->order_item_currency;
+        $reorderItem->order_status           = 'C';
+        $reorderItem->product_item_old_price = 0;
+        $reorderItem->mdate                  = time();
+        $reorderItem->cdate                  = time();
+        
+        // Insert the payment object into the #__redshop_order_payment table.
+        $reorderProduct = $db->insertObject('#__redshop_order_item', $reorderItem);
+        if (!$reorderProduct) {
+            JFactory::getApplication()->enqueueMessage(JText::_('Reorder Product has not been created properly.'), 'error');
+            $this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $orderId[0]);
+        }
+
+        //Get order payment terms
+        $paymentQuery = "SELECT * FROM #__redshop_order_payment WHERE order_id = " . $orderId[0];
+        $db->setQuery($paymentQuery);
+        $paymentTerms = $db->loadObject();
+        
+        //Set reorder payment terms
+        $paymentTerms->payment_order_id       = '';
+        $paymentTerms->order_id               = $newOrderId;
+        $paymentTerms->authorize_status       = '';
+        $paymentTerms->order_payment_trans_id = '';
+        $paymentTerms->order_payment_number   = '';
+        
+        // Insert the payment object into the #__redshop_order_payment table.
+        $payment = $db->insertObject('#__redshop_order_payment', $paymentTerms);
+        if (!$payment) {
+            JFactory::getApplication()->enqueueMessage(JText::_('Payment Line has not been created properly.'), 'error');
+            $this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $orderId[0]);
+        }
+
+        //Set order status log
+        $orderStatusLog                       = new stdClass;
+        $orderStatusLog->order_status         = 'C';
+        $orderStatusLog->order_id             = $newOrderId;
+        $orderStatusLog->order_payment_status = 'Unpaid';
+        $orderStatusLog->date_changed         = time();
+        
+        // Insert the order status object into the #__redshop_order_status_log table.
+        $orderStatus = $db->insertObject('#__redshop_order_status_log', $orderStatusLog);
+        if (!$orderStatus) {
+            JFactory::getApplication()->enqueueMessage(JText::_('Order Status has not been created properly.'), 'error');
+            $this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $orderId[0]);
+        }
+
+        //Get order users info
+        $usersInfoQuery = "SELECT * FROM #__redshop_order_users_info WHERE order_id = " . $orderId[0];
+        $db->setQuery($usersInfoQuery);
+        $orderUsersInfo = $db->loadObjectList();
+        
+        //Set reorder users info parameters
+        foreach ($orderUsersInfo as $num => $user) {
+            $user->order_info_id = '';
+            $user->order_id      = $newOrderId;
+            // Insert the users info object into the #__redshop_order_users_info table.
+            $userInfo = $db->insertObject('#__redshop_order_users_info', $user);
+            if (!$userInfo) {
+                JFactory::getApplication()->enqueueMessage(JText::_('Order Users Info has not been created properly.'), 'error');
+                $this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $orderId[0]);
+            }
+        }
+
+
+        $orderdetail   = RedshopHelperOrder::getOrderDetail($newOrderId);
+        $invoiceHandle = RedshopBilly::renewInvoiceInBilly($orderdetail);
+    
+        JFactory::getApplication()->enqueueMessage("<b>Ordre #" . $orderId[0] . " er genbestilt. Nyt ordre nummer #" . $newOrderId . "</b>", 'message');
+        $this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $newOrderId);
+    }
+    // Tweak by Ronni END - reorder feature function and add Product "Genbestilling" to re-order in admin and make it work same as front
 }

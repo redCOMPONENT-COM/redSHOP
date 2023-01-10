@@ -38,6 +38,9 @@ class RedshopControllerShipping_rate_detail extends RedshopController
         // Include extra field class
 
         $post['shipping_rate_on_product'] = explode(',', $post['container_product']);
+		// Tweak by Ronni START - exclude products in shipping rate
+		$post['item_shipping_rate_exclude_products'] = explode(',', $post['exclude_product']);
+		// Tweak by Ronni END - exclude products in shipping rate
         $post["shipping_location_info"]   = $this->input->post->get('shipping_location_info', '', 'raw');
 
         /** @var RedshopModelShipping_rate_detail $model */

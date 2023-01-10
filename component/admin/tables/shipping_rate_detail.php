@@ -43,6 +43,10 @@ class Tableshipping_rate_detail extends JTable
 
     public $shipping_rate_on_product = null;
 
+    // Tweak by Ronni START - Exclude products in shipping rate
+    public $item_shipping_rate_exclude_products = null;
+    // Tweak by Ronni END - Exclude products in shipping rate
+
     public $shipping_rate_on_category = null;
 
     public $company_only = null;

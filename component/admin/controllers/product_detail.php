@@ -318,6 +318,9 @@ class RedshopControllerProduct_Detail extends RedshopController
                 $propertiesSave['setdisplay_type']     = $property['setdisplay_type'];
                 $propertiesSave['property_published']  = ($property['published'] == 'on' || $property['published'] == '1') ? '1' : '0';
                 $propertiesSave['extra_field']         = $property['extra_field'];
+                // Tweak by Ronni START - Tweak to make special alert when choosing attributes
+                $propertiesSave['property_alert_message'] = $properties[$pIndex]['alert_message'];
+                // Tweak by Ronni END - Tweak to make special alert when choosing attributes
                 $property_array                        = $model->store_pro($propertiesSave);
                 $propertyId                            = $property_array->property_id;
                 $property_image                        = $this->input->files->get(

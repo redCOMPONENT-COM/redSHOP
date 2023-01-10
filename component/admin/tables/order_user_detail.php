@@ -61,6 +61,10 @@ class Tableorder_user_detail extends JTable
 
     public $ean_number = null;
 
+    // Tweak by Ronni START - add billing_as_sender field
+    public $billing_as_sender = 0;
+    // Tweak by Ronni END - add billing_as_sender field
+
     public function __construct(&$db)
     {
         $this->_table_prefix = '#__redshop_';

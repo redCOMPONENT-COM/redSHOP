@@ -221,6 +221,18 @@ if ($property->property_main_image && JFile::exists(
                 </div>
             </div>
         </div>
+
+        <?php // Tweak by Ronni START - Tweak to make special alert when choosing attributes ?>		
+		<div class="col-sm-4">
+            <label>
+                <?php echo JText::_('COM_REDSHOP_ATTRIBUTE_ALERT_MESSAGE'); ?>
+            </label>
+            <div class="form-group">
+        		<input type="text" class="input" id="<?php echo $propPref?>[alert_message]" name="<?php echo $propPref?>[alert_message]"
+		        		   value="<?php echo $property->property_alert_message; ?>"/>
+            </div>
+		</div>
+		<?php // Tweak by Ronni END - Tweak to make special alert when choosing attributes ?>
     </div>
 
     <?php

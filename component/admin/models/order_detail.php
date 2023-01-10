@@ -1177,6 +1177,16 @@ class RedshopModelOrder_detail extends RedshopModel
 
             RedshopHelperExtrafields::extraFieldSave($data, $fieldSection, $row->users_info_id);
 
+            // Tweak by Ronni START - Update billing_as_sender field in db
+            $db         = JFactory::getDbo();
+            $query      = $db->getQuery(true);
+            $fields     = array($db->quoteName('billing_as_sender') . ' = ' . $db->quote($data['billing_as_sender']));
+            $conditions = array($db->quoteName('users_info_id') . ' = ' . $db->quote($data['users_info_id']));
+            $query->update($db->quoteName('#__redshop_users_info'))->set($fields)->where($conditions);
+            $db->setQuery($query);
+            $result = $db->execute();
+            // Tweak by Ronni END - Update billing_as_sender field in db
+
             $this->_dispatcher->trigger('onAfterUpdateShippingAddress', array($data));
 
             return true;

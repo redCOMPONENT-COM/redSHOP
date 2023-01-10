@@ -55,7 +55,269 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 ?>
 <script type="text/javascript">
     var xmlhttp;
-    var rowCount = 1;
+    // Tweak by Ronni - Change var rowCount = 1; to = 0;
+    var rowCount = 0;
+
+    // Tweak by Ronni START - add product custom button
+    var tmpRowCount = 9;
+    function addNewproductRowCustom(tblid, productid) {
+        var table = document.getElementById(tblid);
+        if (rowCount > 0) {
+            rowCount = table.rows.length;
+        }
+
+        rowCount++;
+        var newTR = document.createElement('tr');
+        var newTD = document.createElement('td');
+        var newTD1 = document.createElement('td');
+        var newTD2 = document.createElement('td');
+        var newTD3 = document.createElement('td');
+        var newTD4 = document.createElement('td');
+        var newTD5 = document.createElement('td');
+        var newTD6 = document.createElement('td');
+        var newTD7 = document.createElement('td');
+        var item = new Array();
+
+      //newTD.innerHTML = '<img onclick="deleteOfflineProductRow(' + rowCount + ');" class="btn btn-danger" title="<?php echo JText::_('COM_REDSHOP_REMOVE_PRODUCT'); ?>" alt="<?php echo JText::_('X');?>">';
+        newTD.innerHTML = '<input type="button" value="<?php echo JText::_('COM_REDSHOP_REMOVE_PRODUCT')?>" class="btn btn-danger" onclick="deleteOfflineProductRow(' + rowCount + '); return false;" />';
+    
+        newTD1.innerHTML = '<input type="text" name="product' + rowCount + '" id="product' + rowCount + '" value="0" /><div id="divAttproduct' + rowCount + '"></div><div id="divAccproduct' + rowCount + '"></div><div id="divUserFieldproduct' + rowCount + '"></div>';
+        newTD2.innerHTML = '';
+        newTD2.id = 'tdnoteproduct' + rowCount;
+        newTD3.innerHTML = '<input type="text" name="prdexclpriceproduct' + rowCount + '" id="prdexclpriceproduct' + rowCount + '" onchange="changeCustomOfflinePriceBox(\'product' + rowCount + '\','+productid+');" value="0" size="10" >';
+        newTD4.innerHTML = '<div id="prdtaxproduct' + rowCount + '"></div><input name="taxpriceproduct' + rowCount + '" id="taxpriceproduct' + rowCount + '" type="hidden" value="0" />';
+        newTD4.align = 'right';
+        newTD5.innerHTML = '<div id="prdpriceproduct' + rowCount + '"></div><input name="productpriceproduct' + rowCount + '" id="productpriceproduct' + rowCount + '" type="hidden" value="0" />';
+        newTD5.align = 'right';
+        newTD6.innerHTML = '<input type="text" name="quantityproduct' + rowCount + '" id="quantityproduct' + rowCount + '" onchange="changeCustomOfflineQuantityBox(\'product' + rowCount + '\','+productid+');" value="1" size="<?php echo $DEFAULT_QUANTITY;?>" maxlength="<?php echo $DEFAULT_QUANTITY;?>" >';
+        newTD7.innerHTML = '<div id="tdtotalprdproduct' + rowCount + '"></div><input name="subpriceproduct' + rowCount + '" id="subpriceproduct' + rowCount + '" type="hidden" value="0" /><input type="hidden" name="main_priceproduct' + rowCount + '" id="main_priceproduct' + rowCount + '" value="0" /><input type="hidden" name="tmp_product_priceproduct' + rowCount + '" id="tmp_product_priceproduct' + rowCount + '" value="0"><input type="hidden" name="product_vatpriceproduct' + rowCount + '" id="product_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="tmp_product_vatpriceproduct' + rowCount + '" id="tmp_product_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="wrapper_dataproduct' + rowCount + '" id="wrapper_dataproduct' + rowCount + '" value="0"><input type="hidden" name="wrapper_vatpriceproduct' + rowCount + '" id="wrapper_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_dataproduct' + rowCount + '" id="accessory_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_attribute_dataproduct' + rowCount + '" id="acc_attribute_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_property_dataproduct' + rowCount + '" id="acc_property_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_subproperty_dataproduct' + rowCount + '" id="acc_subproperty_dataproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_priceproduct' + rowCount + '" id="accessory_priceproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_vatpriceproduct' + rowCount + '" id="accessory_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="attribute_dataproduct' + rowCount + '" id="attribute_dataproduct' + rowCount + '" value="0"><input type="hidden" name="property_dataproduct' + rowCount + '" id="property_dataproduct' + rowCount + '" value="0"><input type="hidden" name="subproperty_dataproduct' + rowCount + '" id="subproperty_dataproduct' + rowCount + '" value="0"><input type="hidden" name="requiedAttributeproduct' + rowCount + '" id="requiedAttributeproduct' + rowCount + '" value="0">';
+        newTD7.align = 'right';
+
+        var item = document.getElementsByName('order_item');
+
+        newTR.appendChild(newTD);
+        newTR.appendChild(newTD1);
+        newTR.appendChild(newTD2);
+        newTR.appendChild(newTD3);
+        newTR.appendChild(newTD4);
+        newTR.appendChild(newTD5);
+        newTR.appendChild(newTD6);
+        newTR.appendChild(newTD7);
+
+        newTR.id = 'trPrd' + rowCount;
+
+        table.appendChild(newTR);
+    //  var tmpRowCount = rowCount + 7;
+        createJsonObject(rowCount,productid);
+    //  setTimeout(function(){},5000);
+        var newurl = "index.php?tmpl=component&option=com_redshop&view=addorder_detail&task=getProductName&productid=" + productid;
+     
+        jQuery.ajax({url: newurl, success: function(result){
+            jQuery("#select2-chosen-"+tmpRowCount).text(result);
+            tmpRowCount++;
+        }});
+
+        document.getElementById('product'+rowCount).value = productid;
+    
+        displayCustomProductDetailInfo('product'+rowCount, 0, productid);
+    }
+    
+    function changeCustomOfflinePriceBox(unique_id, productid) {
+        var prdexclprice = 0;
+        if (document.getElementById("prdexclprice" + unique_id) && (trim(document.getElementById("prdexclprice" + unique_id).value) != "" && !isNaN(document.getElementById("prdexclprice" + unique_id).value))) {
+            prdexclprice = document.getElementById("prdexclprice" + unique_id).value;
+        }
+        
+        document.getElementById("prdexclprice" + unique_id).value = prdexclprice;
+        if (document.getElementById("change_product_tmp_price" + unique_id)) {
+            document.getElementById("change_product_tmp_price" + unique_id).value = prdexclprice;
+        }
+        
+        displayCustomProductDetailInfo(unique_id, prdexclprice, productid);
+    }
+
+    function changeCustomOfflineQuantityBox(unique_id, productid) {
+        var prdexclprice = 0;
+        if (document.getElementById("main_price" + unique_id) && document.getElementById("product_vatprice" + unique_id)) {
+            prdexclprice = parseFloat(document.getElementById("main_price" + unique_id).value) - parseFloat(document.getElementById("product_vatprice" + unique_id).value);
+        }
+        
+        document.getElementById("prdexclprice" + unique_id).value = prdexclprice;
+        if (document.getElementById("change_product_tmp_price" + unique_id)) {
+            prdexclprice = document.getElementById("change_product_tmp_price" + unique_id).value;
+        }
+        displayCustomProductDetailInfo(unique_id, prdexclprice, productid);
+    }
+
+    function displayCustomProductDetailInfo(unique_id, newprice, productid) {
+        xmlhttp = GetXmlHttpObject();
+
+        if (xmlhttp == null) {
+            alert("Your browser does not support XMLHTTP!");
+            return;
+        }
+
+        var val = '';
+        var quantity = 1;
+        var product_id = 0;
+        var user_id = 0;
+
+        if (document.getElementById("user_id")) {
+            user_id = document.getElementById("user_id").value;
+        }
+
+        if (document.getElementById(unique_id)) {
+            product_id = document.getElementById(unique_id).value;
+        }
+
+        if (product_id == 0 || product_id == "") {
+            return false;
+        }
+
+        product_id = productid;
+
+        if (document.getElementById("quantity" + unique_id) && (trim(document.getElementById("quantity" + unique_id).value) != "" && !isNaN(document.getElementById("quantity" + unique_id).value))) {
+            quantity = document.getElementById("quantity" + unique_id).value;
+        }
+
+        document.getElementById("quantity" + unique_id).value = quantity;
+
+        var pval = '&product=' + product_id;
+        pval = pval + '&quantity=' + quantity;
+        pval = pval + '&user_id=' + user_id;
+        pval = pval + '&unique_id=' + unique_id;
+        pval = pval + '&newprice=' + newprice;
+
+        if (document.getElementById('order_subtotal')) {
+            pval = pval + '&ordertotal=' + document.getElementById("order_subtotal").value;
+        }
+
+        var url = "index.php?tmpl=component&option=com_redshop&view=order_detail&task=displayProductItemInfo";
+        url = url + pval;
+        url = url + "&pid=" + Math.random() + "&ajaxtask=getproduct&objid=" + unique_id;
+
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4) {
+                document.getElementById("divCalc").innerHTML = xmlhttp.responseText;
+                // hidden variable for quantity price change issue
+                if (document.getElementById("change_product_tmp_price" + unique_id) && document.getElementById("change_product_tmp_price" + unique_id).value == '0') {
+                    document.getElementById("change_product_tmp_price" + unique_id).value = document.getElementById("product_price_excl_vat").innerHTML;
+                }
+
+                if (document.getElementById("prdexclprice" + unique_id)) {
+                    document.getElementById("prdexclprice" + unique_id).value = document.getElementById("product_price_excl_vat").innerHTML;
+                }
+
+                if (document.getElementById("taxprice" + unique_id)) {
+                    document.getElementById("taxprice" + unique_id).value = document.getElementById("total_tax").innerHTML;
+                }
+
+                if (document.getElementById("prdtax" + unique_id)) {
+                    document.getElementById("prdtax" + unique_id).innerHTML = number_format(document.getElementById("product_tax").innerHTML, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
+                }
+
+                if (document.getElementById("product_vatprice" + unique_id)) {
+                    document.getElementById("product_vatprice" + unique_id).value = document.getElementById("product_tax").innerHTML;
+                }
+
+                if (document.getElementById("prdprice" + unique_id)) {
+                    document.getElementById("prdprice" + unique_id).innerHTML = number_format(document.getElementById("product_price").innerHTML, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
+                }
+
+                if (document.getElementById("productprice" + unique_id)) {
+                    document.getElementById("productprice" + unique_id).value = document.getElementById("product_price").innerHTML;
+                }
+
+                document.getElementById("subprice" + unique_id).value = document.getElementById("total_price").innerHTML;
+                document.getElementById("tdtotalprd" + unique_id).innerHTML = number_format(document.getElementById("total_price").innerHTML, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
+
+                if (newprice == 0) {
+                    document.getElementById("divAtt" + unique_id).innerHTML = document.getElementById("attblock").innerHTML;
+                    document.getElementById("divAcc" + unique_id).innerHTML = document.getElementById("accessoryblock").innerHTML;
+                    document.getElementById("divUserField" + unique_id).innerHTML = document.getElementById("productuserfield").innerHTML;
+                    document.getElementById("tdnote" + unique_id).innerHTML = document.getElementById("noteblock").innerHTML;
+                }
+
+                if (document.getElementById("tmp_product_price" + unique_id)) {
+                    document.getElementById("tmp_product_price" + unique_id).value = document.getElementById("product_price").innerHTML;
+                }
+
+                if (document.getElementById("main_price" + unique_id)) {
+                    document.getElementById("main_price" + unique_id).value = document.getElementById("product_price").innerHTML;
+                }
+
+                calculateOfflineTotalPrice(unique_id);
+
+                document.getElementById("divCalc").innerHTML = "";
+
+                if (document.getElementById("tdShipping")) {
+                    var ordertotal    = 0;
+                    var ordersubtotal = 0;
+                    
+                    if (document.getElementById("order_total")) {
+                        ordertotal = parseFloat(document.getElementById("order_total").value);
+                    }
+    
+                    if (document.getElementById("order_subtotal")) {
+                        ordersubtotal = parseFloat(document.getElementById("order_subtotal").value);
+                    }
+            
+                    var prdArr = new Array();
+                    var qntArr = new Array();
+                    var j = 0;
+
+                    for (i = 1; i <= rowCount; i++) {
+                        if (document.getElementById("product" + i) && document.getElementById("product" + i).value != 0) {
+                            prdArr[j] = document.getElementById("product" + i).value;
+                        }
+
+                        if (document.getElementById("quantityproduct" + i) && document.getElementById("quantityproduct" + i).value != 0) {
+                            qntArr[j] = document.getElementById("quantityproduct" + i).value;
+                        }
+
+                        j++;
+                    }
+
+                    var shipp_users_info_id = 0;
+                    var order_user_id = 0;
+
+                    if (document.getElementById("shipp_users_info_id")) {
+                        shipp_users_info_id = document.getElementById("shipp_users_info_id").value;
+                    }
+
+                    if (document.getElementById("user_id")) {
+                        order_user_id = document.getElementById("user_id").value;
+                    }
+
+                    var newurl = "index.php?tmpl=component&option=com_redshop&view=addorder_detail&layout=productorderinfo&ordertotal=" + ordertotal + "&ordersubtotal=" + ordersubtotal + "&productarr=" + prdArr + "&qntarr=" + qntArr + "&shipp_users_info_id=" + shipp_users_info_id + "&order_user_id=" + order_user_id;
+
+                    newxmlhttp = GetXmlHttpObject();
+                    newxmlhttp.onreadystatechange = function() {
+                        if (newxmlhttp.readyState == 4) {
+                            document.getElementById("divCalc").innerHTML = newxmlhttp.responseText;
+                            document.getElementById("tdShipping").innerHTML = document.getElementById("shippingblock").innerHTML;
+                            if (document.getElementById("tdPayment")) {
+                                document.getElementById("tdPayment").innerHTML = document.getElementById("paymentblock").innerHTML;
+                            }
+    
+                            document.getElementById("divCalc").innerHTML = "";
+                            calculateOfflineShipping();
+                        }
+                    }
+                
+                    newxmlhttp.open("GET", newurl, true);
+                    newxmlhttp.send(null);
+                }
+
+                // load calendar setup
+                calendarDefaultLoad();
+            }
+        }
+        
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send(null);
+    }
+    // Tweak by Ronni END : add product custom button
 
     function addNewproductRow(tblid) {
         var table = document.getElementById(tblid);
@@ -303,11 +565,11 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                     'select2.options'     => array(
                         'events' => array(
                             'select2-selecting' => 'function(e) {
-											document.getElementById(\'user_id\').value = e.object.id;
-											showUserDetail();
-											if (e.object.id){
-												document.getElementById(\'trCreateAccount\').style.display = \'none\';
-											}}'
+                                            document.getElementById(\'user_id\').value = e.object.id;
+                                            showUserDetail();
+                                            if (e.object.id){
+                                                document.getElementById(\'trCreateAccount\').style.display = \'none\';
+                                            }}'
                         )
                     )
                 )
@@ -546,6 +808,13 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                                         <td><input class="inputbox" type="text" name="phone_ST" maxlength="20"
                                                    value="<?php echo $shipping->phone; ?>"/></td>
                                     </tr>
+                                    <?php /* // Tweak by Ronni START - Add Billing as sender field */ ?>
+                                    <tr>
+                                        <td width="100" align="right"><?php echo JText::_('Afsender = Faktura adresse'); ?>:</td>
+                                        <td><input class="inputbox" type="text" name="billing_as_sender_ST" maxlength="20"
+                                                   value="<?php echo $shipping->billing_as_sender; ?>"/></td>
+                                    </tr>
+                                    <?php /* // Tweak by Ronni START - Add Billing as sender field */ ?>
                                     <tr>
                                         <td colspan="2">
                                             <div
@@ -640,8 +909,8 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                                                     'select2.options'     => array(
                                                         'events' => array(
                                                             'select2-selecting' => 'function(e) {
-																document.getElementById(\'product1\').value = e.object.id;
-																displayProductDetailInfo(\'product1\', 0);}'
+                                                                document.getElementById(\'product1\').value = e.object.id;
+                                                                displayProductDetailInfo(\'product1\', 0);}'
                                                         )
                                                     )
                                                 )
@@ -890,8 +1159,8 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                 'select2.options'     => array(
                     'events' => array(
                         'select2-selecting' => 'function(e) {
-						document.getElementById(\'product\' + uniqueId).value = e.object.id;
-						displayProductDetailInfo(\'product\' + uniqueId, 0);}'
+                        document.getElementById(\'product\' + uniqueId).value = e.object.id;
+                        displayProductDetailInfo(\'product\' + uniqueId, 0);}'
                     )
                 )
             ),

@@ -343,4 +343,21 @@ class RedshopControllerAddorder_Detail extends RedshopController
 
         JFactory::getApplication()->close();
     }
+
+    // Tweak By Ronni START - Function to get product name for custom product button link
+    public function getProductName() {
+        $productId = $this->input->get('productid');
+        $db        = JFactory::getDbo();
+        $query     = $db->getQuery(true);
+        $query->select($db->quoteName(array('product_name')));
+        $query->from($db->quoteName('#__redshop_product'));
+        $query->where($db->quoteName('product_id') . ' = '. $db->quote($productId));
+        $db->setQuery($query);
+        $product = $db->loadObject();
+        
+        echo $product->product_name;
+        
+        JFactory::getApplication()->close();
+    }
+    // Tweak By Ronni END - Function to get product name for custom product button link
 }

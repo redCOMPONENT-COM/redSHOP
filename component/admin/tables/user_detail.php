@@ -59,6 +59,12 @@ class Tableuser_detail extends JTable
 
     public $veis_status = null;
 
+    // Tweak by Ronni START - Add cc_email + billing_as_sender
+    public $cc_email = null;
+
+    public $billing_as_sender = 0;
+    // Tweak by Ronni END - Add cc_email + billing_as_sender
+
     public function __construct(&$db)
     {
         $this->_table_prefix = '#__redshop_';

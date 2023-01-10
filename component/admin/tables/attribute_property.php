@@ -39,6 +39,10 @@ class Tableattribute_property extends JTable
 
     public $property_published = 1;
 
+    // Tweak by Ronni START - Tweak to make special alert when choosing attributes
+    public $property_alert_message = null;
+    // Tweak by Ronni END - Tweak to make special alert when choosing attributes
+
     public function __construct(&$db)
     {
         $this->_table_prefix = '#__redshop_';

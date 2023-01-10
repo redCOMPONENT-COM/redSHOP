@@ -118,6 +118,9 @@ class RedshopModelShipping_rate_detail extends RedshopModel
         $data['shipping_rate_on_category']      = @ implode(',', $data['shipping_rate_on_category']);
         $data['shipping_rate_state']            = @ implode(',', $data['shipping_rate_state']);
         $data['shipping_rate_on_shopper_group'] = @ implode(',', $data['shipping_rate_on_shopper_group']);
+        // Tweak by Ronni START - Exclude products in shipping rate
+        $data['item_shipping_rate_exclude_products'] = @ implode(',', $data['item_shipping_rate_exclude_products']);
+        // Tweak by Ronni END - Exclude products in shipping rate
 
         $row = $this->getTable();
 
@@ -130,6 +133,12 @@ class RedshopModelShipping_rate_detail extends RedshopModel
         if (!$row->shipping_rate_on_product) {
             $row->shipping_rate_on_product = '';
         }
+
+        // Tweak by Ronni START - Exclude products in shipping rate
+        if (!$row->item_shipping_rate_exclude_products) {
+            $row->item_shipping_rate_exclude_products = '';
+        }
+        // Tweak by Ronni END - Exclude products in shipping rate
 
         if (!$row->shipping_rate_on_category) {
             $row->shipping_rate_on_category = '';
@@ -265,7 +274,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
     public function getVatGroup()
     {
         $query = "SELECT tg.name as text, tg.id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE
-		tg.published = 1 ORDER BY tg.id ASC";
+        tg.published = 1 ORDER BY tg.id ASC";
         $this->_db->setQuery($query);
 
         return $this->_db->loadObjectList();
