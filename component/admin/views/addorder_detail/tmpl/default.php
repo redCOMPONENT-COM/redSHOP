@@ -814,7 +814,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                                         <td><input class="inputbox" type="text" name="billing_as_sender_ST" maxlength="20"
                                                    value="<?php echo $shipping->billing_as_sender; ?>"/></td>
                                     </tr>
-                                    <?php /* // Tweak by Ronni START - Add Billing as sender field */ ?>
+                                    <?php /* // Tweak by Ronni END - Add Billing as sender field */ ?>
                                     <tr>
                                         <td colspan="2">
                                             <div
@@ -875,10 +875,74 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="adminlist">
                         <tbody>
                         <tr style="background-color: #cccccc">
-                            <th align="left"><?php echo JText::_('COM_REDSHOP_ORDER_DETAILS'); ?></th>
+                            <!-- // Tweak by Ronni : Add colspan="2" -->
+                            <th align="left" colspan="2"><?php echo JText::_('COM_REDSHOP_ORDER_DETAILS'); ?></th>
                         </tr>
+						<!-- // Tweak by Ronni START : Add product custom button -->
+						<tr >
+							<td align="right" colspan="7">
+								<a class="btn btn-info" style="margin-bottom: 5px" 
+                                        href="javascript:addNewproductRow('tblproductRow');">
+                                    <?php echo JText::_('COM_REDSHOP_NEW'); ?>
+                                </a>
+								<a class="btn btn-info" style="margin-bottom: 5px" 
+                                        href="javascript:addNewproductRowCustom('tblproductRow',39);">
+                                    Klistermærker
+                                </a>
+								<a class="btn btn-info" style="margin-bottom: 5px" 
+                                        href="javascript:addNewproductRowCustom('tblproductRow',3517);">
+                                    Folieprint
+                                </a>
+								<a class="btn btn-info" style="margin-bottom: 5px" 
+                                        href="javascript:addNewproductRowCustom('tblproductRow',3614);">
+                                    Plakater std
+                                </a>
+								<a class="btn btn-info" style="margin-bottom: 5px" 
+                                        href="javascript:addNewproductRowCustom('tblproductRow',3565);">
+                                    Plakater fri str
+                                </a>
+								<a class="btn btn-info" style="margin-bottom: 5px" 
+                                        href="javascript:addNewproductRowCustom('tblproductRow',3533);">
+                                    Skumplader
+                                </a>
+								<a class="btn btn-info" style="margin-bottom: 5px" 
+                                        href="javascript:addNewproductRowCustom('tblproductRow',3561);">
+                                    Lyskasse film
+                                </a>
+								<a class="btn btn-info" style="margin-bottom: 5px" 
+                                        href="javascript:addNewproductRowCustom('tblproductRow',3554);">
+                                    One way folie
+                                </a>
+								<a class="btn btn-info" style="margin-bottom: 5px" 
+                                        href="javascript:addNewproductRowCustom('tblproductRow',4);">
+                                    Roll up
+                                </a>
+								<a class="btn btn-info" style="margin-bottom: 5px" 
+                                        href="javascript:addNewproductRowCustom('tblproductRow',3536);">
+                                    PVC banner
+                                </a>
+								<a class="btn btn-info" style="margin-bottom: 5px" 
+                                        href="javascript:addNewproductRowCustom('tblproductRow',3516);">
+                                    Kanvas
+                                </a>
+								<a class="btn btn-info" style="margin-bottom: 5px" 
+                                        href="javascript:addNewproductRowCustom('tblproductRow',3523);">
+                                    Pressevæg
+                                </a>
+								<a class="btn btn-info" style="margin-bottom: 5px" 
+                                        href="javascript:addNewproductRowCustom('tblproductRow',3559);">
+                                    Hastetillæg
+                                </a>
+								<a class="btn btn-info" style="margin-bottom: 5px" 
+                                        href="javascript:addNewproductRowCustom('tblproductRow',3608);">
+                                    Forsendelse
+                                </a>
+							</td>
+						</tr>
+						<!-- // Tweak by Ronni END : Add product custom button -->
                         <tr>
-                            <td>
+                            <!-- // Tweak by Ronni : Add colspan="2" -->
+                            <td colspan="2">
                                 <table class="adminlist" id="tblproductRow" width="100%">
                                     <tr>
                                         <th width="5%"><?php echo JText::_('COM_REDSHOP_ACTION'); ?></th>
@@ -897,6 +961,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                                         <th width="10%" align="right">
                                         <?php echo JText::_('COM_REDSHOP_TOTAL_PRICE'); ?></td>
                                     </tr>
+                                    <?php /* Tweak by Ronni START - Remove RS product fields ?>
                                     <tr id="trPrd1">
                                         <td align="center"></td>
                                         <td><?php
@@ -991,6 +1056,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 
                                         </td>
                                     </tr>
+                                    <?php Tweak by Ronni END - Remove RS product fields */ ?>
                                 </table>
                             </td>
                         </tr>
@@ -999,11 +1065,65 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                                                  href="javascript:addNewproductRow('tblproductRow');"><?php echo JText::_(
                                         'COM_REDSHOP_ADD_PRODUCT'
                                     ); ?></a>
+                                    <?php /* // Tweak by Ronni START : Add <br><br><br><br> */ ?>
+                                    <br><br><br><br>
                             </td>
                         </tr>
                         <tr>
+                            <!-- // Tweak by Ronni START : Move Order info up to here -->
                             <td>
                                 <table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+                                    <tr style="background-color: #cccccc">
+                                        <th colspan="2" align="left"><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION'); ?></th>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo JText::_('COM_REDSHOP_ORDER_DATE'); ?></td>
+                                        <td><?php echo $redconfig->convertDateFormat(time()); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo JText::_('COM_REDSHOP_CUSTOMER_IP_ADDRESS'); ?></td>
+                                        <td><?php echo $ip; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo JText::_('COM_REDSHOP_COMMENT'); ?></td>
+                                        <td><textarea cols="50" rows="5" name="customer_note"></textarea></td>
+                                    </tr>
+                                    <?php //if($isCompany){?>
+                                    <tr>
+                                        <td><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER'); ?></td>
+                                        <td><input name="requisition_number" id="requisition_number" value=""/></td>
+                                    </tr>
+                                    <?php //}?>
+                                    <tr>
+                                        <td><?php echo JText::_('COM_REDSHOP_ORDER_STATUS'); ?></td>
+                                        <td><?php
+                                            echo RedshopHelperOrder::getStatusList(
+                                                'order_status',
+                                                "",
+                                                "class=\"inputbox\" size=\"1\" "
+                                            );
+                                            echo "&nbsp";
+                                            echo RedshopHelperOrder::getPaymentStatusList(
+                                                'order_payment_status',
+                                                "",
+                                                "class=\"inputbox\" size=\"1\" "
+                                            ); ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_METHOD'); ?></td>
+                                        <td id="tdPayment">
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD'); ?></td>
+                                        <td id="tdShipping">
+                                    </tr>
+                                </table>
+                            </td>
+                            <!-- // Tweak by Ronni END : Move Order info up to here -->
+                            <td>
+                            <?php /* // Tweak by Ronni START - Add align="right" to Table */ ?>
+                                <table border="0" cellspacing="0" cellpadding="0" class="adminlist align="right"">
                                     <tbody>
                                     <tr align="left">
                                         <td align="right" width="70%">
@@ -1078,6 +1198,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                     </table>
                 </td>
             </tr>
+            <?php /* // Tweak by Ronni START : Move Order info up
             <tr>
                 <td>
                     <table border="0" cellspacing="0" cellpadding="0" class="adminlist">
@@ -1129,6 +1250,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                     </table>
                 </td>
             </tr>
+			// Tweak by Ronni START : Move Order info up  */ ?>
         <?php endif; ?>
         </tbody>
     </table>
@@ -1148,6 +1270,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 <?php endif; ?>
 
 <script type="text/javascript">
+    // Tweak by Ronni - Change displayProductDetailInfo > displayCustomProductDetailInfo
     function createJsonObject(uniqueId) {
         <?php
         echo JHTML::_(
@@ -1160,7 +1283,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
                     'events' => array(
                         'select2-selecting' => 'function(e) {
                         document.getElementById(\'product\' + uniqueId).value = e.object.id;
-                        displayProductDetailInfo(\'product\' + uniqueId, 0);}'
+                        displayCustomProductDetailInfo(\'product\' + uniqueId, 0);}'
                     )
                 )
             ),
