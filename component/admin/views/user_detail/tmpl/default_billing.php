@@ -25,6 +25,11 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
 ?>
 <div class="col50">
     <table class="admintable table">
+        <tr id="trCompanyName" <?php echo $allowCompany; ?>>
+            <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>:</td>
+            <td><input class="text_area" type="text" name="company_name"
+                       value="<?php echo $this->detail->company_name; ?>" size="20" maxlength="250"/></td>
+        </tr>
         <tr>
             <td valign="top" align="right" class="key">
                 <span id="divFirstname"><?php echo JText::_('COM_REDSHOP_FIRST_NAME'); ?></span>:
@@ -57,19 +62,14 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                 <span id="user_valid">*</span>
             </td>
         </tr>
-        <tr id="trCompanyName" <?php echo $allowCompany; ?>>
-            <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>:</td>
-            <td><input class="text_area" type="text" name="company_name"
-                       value="<?php echo $this->detail->company_name; ?>" size="20" maxlength="250"/></td>
+        <?php // Tweak by Ronni START - Add field cc_invoice ?>
+        <tr>
+            <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_CC_EMAIL'); ?>:</td>
+            <td><input class="text_area" type="text" name="cc_email" id="cc_email"
+                       value="<?php echo $this->detail->cc_email; ?>" size="20" maxlength="250"/>
+            </td>
         </tr>
-		<?php // Tweak by Ronni START - Add field cc_invoice ?>
-		<tr>
-			<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_CC_EMAIL'); ?>:</td>
-			<td><input class="text_area" type="text" name="cc_email" id="cc_email"
-			           value="<?php echo $this->detail->cc_email; ?>" size="20" maxlength="250"/>
-			</td>
-		</tr>
-		<?php // Tweak by Ronni END - Add field cc_invoice ?>
+        <?php // Tweak by Ronni END - Add field cc_invoice ?>
         <tr>
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</td>
             <td><input class="text_area" type="text" name="address" id="address"
@@ -167,28 +167,28 @@ $stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
                        size="20" maxlength="250"/></td>
         </tr>
         <?php // Tweak by Ronni START - Add field invoice_block ?>
-		<tr>
-			<td valign="top" align="right" class="key">
+        <tr>
+            <td valign="top" align="right" class="key">
                 <?php echo JText::_('COM_REDSHOP_INVOICE_BLOCK'); ?>:
             </td>
-			<td colspan="2">
-				<div class="controls btn-group btn-group-yesno">
-					<input type="radio" id="radio2" name="invoice_block" value="0" 
+            <td colspan="2">
+                <div class="controls btn-group btn-group-yesno">
+                    <input type="radio" id="radio2" name="invoice_block" value="0" 
                             <?php if ($this->detail->invoice_block == 0) { echo "checked"; } ?> 
                             style="margin-bottom:10px!important;margin-top:10px!important">
-					<label for="radio2" style="display:inline">
+                    <label for="radio2" style="display:inline">
                         Ingen blokering
                     </label>
                     <br>
-					<input type="radio" id="radio1" name="invoice_block" 
+                    <input type="radio" id="radio1" name="invoice_block" 
                         value="1" <?php if ($this->detail->invoice_block == 1) { echo "checked"; } ?> >
-					<label for="radio1" style="display:inline">
+                    <label for="radio1" style="display:inline">
                         Kunden er blokeret
                     </label>
-				</div>            
+                </div>            
             </td>
-		</tr>
-		<?php // Tweak by Ronni END - Add field invoice_block ?>
+        </tr>
+        <?php // Tweak by Ronni END - Add field invoice_block ?>
         <?php
         if (Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1) {
             ?>

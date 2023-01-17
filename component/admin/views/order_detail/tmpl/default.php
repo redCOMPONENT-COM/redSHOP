@@ -342,21 +342,25 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                             </tr>
                         </table>
                         <?php if ($this->detail->order_payment_status == 'Unpaid'): ?>
-                            <input type="submit" name="add" id="add" class="btn btn-primary"
-                                   value="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"/>
-                            <span class="checkbox inline" style="margin-left:10px">
-                                <input type="checkbox" <?php echo $sendMailToCustomer; ?> value="true" 
-                                        name="order_sendordermail" id="order_sendordermail"/>
-                                <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL'); ?>
-                            </span>
-                            <input type="hidden" name="task" value="update_paymentmethod">
-                            <input type="hidden" name="user_id" id="user_id"
-                                   value="<?php echo $this->detail->user_id; ?>">
-                            <input type="hidden" name="shipp_users_info_id" id="shipp_users_info_id"
-                                   value="<?php echo $shipping->users_info_id; ?>">
-                            <input type="hidden" name="view" value="order_detail">
-                            <input type="hidden" name="return" value="order_detail">
-                            <input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <input type="submit" name="add" id="add" class="btn btn-primary"
+                                            value="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"/>
+                                    <input type="hidden" name="task" value="update_paymentmethod">
+                                    <input type="hidden" name="user_id" id="user_id"
+                                            value="<?php echo $this->detail->user_id; ?>">
+                                    <input type="hidden" name="shipp_users_info_id" id="shipp_users_info_id"
+                                        value="<?php echo $shipping->users_info_id; ?>">
+                                    <input type="hidden" name="view" value="order_detail">
+                                    <input type="hidden" name="return" value="order_detail">
+                                    <input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
+                                </div>
+                                <div class="col-sm-6" style="margin-left:10px">
+                                    <input type="checkbox" <?php echo $sendMailToCustomer; ?> value="true" 
+                                            name="order_sendordermail" id="order_sendordermail"/>
+                                    <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL'); ?>
+                                </div>
+                            </div>
                         <?php endif; ?>
                     </form>
                 </div>
@@ -631,8 +635,8 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
                                     <td><?php echo(!empty($shipping->phone) ? $shipping->phone : ''); ?></td>
                                 </tr>
-								<?php // Tweak by Ronni START - Add billing_as_sender field ?>
-								<tr>
+                                <?php // Tweak by Ronni START - Add billing_as_sender field ?>
+                                <tr>
                                     <td align="right"><?php echo JText::_('Afsender:'); ?>:</td>
                                     <?php if ($shipping->billing_as_sender = 1) { ?>
                                     <td>Print.dk</td>
@@ -640,7 +644,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                     <td>Kundens adresse</td>
                                     <?php } ?>
                                 </tr>
-								<?php // Tweak by Ronni END - Add billing_as_sender field ?>
+                                <?php // Tweak by Ronni END - Add billing_as_sender field ?>
                                 <?php
 
                                 if (!empty($shipping->users_info_id)) {
@@ -883,9 +887,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                                                            size="10">
                                                                 </div>
                                                             </td>
-                                                            <td width="5%"><?php echo Redshop::getConfig()->get(
-                                                                        'REDCURRENCY_SYMBOL'
-                                                                    ) . " " . $vat; ?></td>
+                                                            <td width="5%"><?php echo RedshopHelperProductPrice::formattedPrice($vat); ?></td>
                                                             <td width="10%"><?php echo RedshopHelperProductPrice::formattedPrice(
                                                                         $products[$i]->product_item_price
                                                                     ) . " " . JText::_('COM_REDSHOP_INCL_VAT'); ?></td>
@@ -899,7 +901,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                                                 echo Redshop::getConfig()->get(
                                                                         'REDCURRENCY_SYMBOL'
                                                                     ) . "&nbsp;";
-                                                                echo RedshopHelperProduct::redpriceDecimal(
+                                                                echo RedshopHelperProductPrice::formattedPrice(
                                                                     $products[$i]->product_final_price
                                                                 );
                                                                 ?>
@@ -1466,12 +1468,12 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                             <?php $nextLog = (isset($orderStatusLogs[$index + 1])) ? $orderStatusLogs[$index + 1] : false; ?>
                             <li class="time-label">
                                 <span class="bg-green">
-									<?php
+                                    <?php
                                     $timezone = new \DateTimeZone(\JFactory::getConfig()->get('offset', 'UTC'));
                                     $dt = new \DateTime('now', $timezone);
                                     echo $dt->setTimestamp($log->date_changed)->format('d-m-Y H:i');
                                     ?>
-								</span>
+                                </span>
                             </li>
                             <?php if (!$nextLog): ?>
                                 <li>
@@ -1485,8 +1487,8 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                                 <p>
                                                     <?php echo JText::_('JGLOBAL_USERNAME') ?>:
                                                     <span class="label order_placed_by_username">
-														<?php echo JFactory::getUser($log->by_user_id)->username ?>
-													</span>
+                                                        <?php echo JFactory::getUser($log->by_user_id)->username ?>
+                                                    </span>
                                                 </p>
                                             <?php endif; ?>
                                             <p><?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?>:
@@ -1524,8 +1526,8 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                             <div class="timeline-body">
                                                 <?php echo JText::_('JGLOBAL_USERNAME') ?>&nbsp;
                                                 <span class="label order_status_<?php echo strtolower($log->by_user_id) ?>">
-													<?php echo JFactory::getUser($log->by_user_id)->username ?>
-												</span>
+                                                    <?php echo JFactory::getUser($log->by_user_id)->username ?>
+                                                </span>
                                             </div>
                                         </div>
                                     </li>
