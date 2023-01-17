@@ -501,10 +501,13 @@ class RedshopHelperStockroom
 
                 if (Redshop::getConfig()->get('ENABLE_STOCKROOM_NOTIFICATION') == 1
                     && $remaining <= Redshop::getConfig()->get('DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER')) {
-                    $dispatcher = RedshopHelperUtility::getDispatcher();
+                    $dispatcher        = RedshopHelperUtility::getDispatcher();
                     JPluginHelper::importPlugin('redshop_alert');
-                    $productId   = ($section == "product") ? $sectionId : $productId;
-                    $productData = Redshop::product((int)$productId);
+                    $productId         = ($section == "product") ? $sectionId : $productId;
+                    $productData       = Redshop::product((int)$productId);
+					$plugin            = JPluginHelper::getPlugin('redshop_alert', 'alert');
+					$pluginParams      = new JRegistry($plugin->params);
+					$alertForStockroom = $pluginParams->get('plg_redshop_alert_alert_for_stockroom');
 
                     $message = JText::sprintf(
                         'COM_REDSHOP_ALERT_STOCKROOM_BELOW_AMOUNT_NUMBER',
@@ -515,7 +518,10 @@ class RedshopHelperStockroom
                         $stockroomDetail[0]->stockroom_name
                     );
 
-                    $dispatcher->trigger('storeAlert', array($message));
+                    if ($alertForStockroom == 1) {
+                        $dispatcher->trigger('storeAlert', array($message));
+                    }
+
                     $dispatcher->trigger('sendEmail', array($message));
                 }
             }

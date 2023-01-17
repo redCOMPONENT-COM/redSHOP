@@ -10,9 +10,12 @@
 defined('_JEXEC') or die;
 
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
-$model       = JModelLegacy::getInstance("Alert", "RedshopModel");
-$alertsCount = $model->countAlert();
-$alerts      = $model->getAlert(5);
+$model        = JModelLegacy::getInstance("Alert", "RedshopModel");
+$alertsCount  = $model->countAlert();
+$plugin       = JPluginHelper::getPlugin('redshop_alert', 'alert');
+$pluginParams = new JRegistry($plugin->params);
+$alertCount   = $pluginParams->get('plg_redshop_alert_show_x_alerts');
+$alerts       = $model->getAlert($alertCount);
 ?>
 <li class="dropdown notifications-menu">
     <a title="<?php echo JText::_('COM_REDSHOP_ALERT'); ?>" href="#" class="dropdown-toggle" data-toggle="dropdown">
