@@ -226,6 +226,14 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
             '_blank'
         );
 
+		// Tweak by Ronni START - Re-order button
+		RedshopToolbarHelper::link(
+			'index.php?tmpl=component&option=com_redshop&view=order_detail&task=reorder&cid[]=' . $order_id,
+			'reorder',
+			'COM_REDSHOP_REORDER'
+		);
+		// Tweak by Ronni END - Re-order button
+
         $lists['order_extra_fields'] = RedshopHelperExtrafields::listAllField(
             RedshopHelperExtrafields::SECTION_ORDER,
             $order_id

@@ -370,6 +370,18 @@ $editor = JFactory::getEditor();
                             <?php echo $this->lists['shipping_rate_on_category']; ?>
                         </td>
                     </tr>
+		            <!-- // Tweak by Ronni START - Exclude products in shipping rate -->
+		            <tr>
+			            <td width="100" align="right" class="key">
+				            <label for="name">
+					            <?php echo JText::_('COM_REDSHOP_SHIPPINGRATE_EXCLUDE_PRODUCT'); ?>:
+				            </label>
+			            </td>
+			            <td>
+				            <?php echo $this->lists['shipping_exclude_product'];?>
+			            </td>
+		            </tr>
+            		<!-- // Tweak by Ronni END - Exclude products in shipping rate -->
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">

@@ -156,6 +156,27 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                                value="<?php echo @$shipping->phone; ?>"/>
                     </td>
                 </tr>
+				<?php // Tweak by Ronni START - Add billing_as_sender field ?>
+				<tr>
+					<td colspan="2">
+						<div class="controls btn-group btn-group-yesno">
+							<input type="radio" id="radio2" name="billing_as_sender" value="0" 
+                                    <?php if (@$shipping->billing_as_sender == 0) { echo "checked"; } ?> 
+                                    style="margin-bottom:10px;margin-right:5px">
+							<label for="radio2" style="display:inline">
+                                Print.dk som afsender
+                            </label>
+                            <br>
+							<input type="radio" id="radio1" name="billing_as_sender" 
+                                value="1" <?php if (@$shipping->billing_as_sender == 1) { echo "checked"; } ?> 
+                                style="margin-bottom:10px;margin-right:5px">
+							<label for="radio1" style="display:inline">
+                                Neutral afsender
+                            </label>
+						</div>
+				    </td>
+				</tr>
+				<?php // Tweak by Ronni END - Add billing_as_sender field ?>
                 <tr>
                     <?php
                     $field = extra_field::getInstance();

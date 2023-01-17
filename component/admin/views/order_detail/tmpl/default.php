@@ -388,7 +388,8 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                     <td align="left">
                                         <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME') ?>:
                                     </td>
-                                    <td>
+                                    <!-- // Tweak by Ronni - Add style="font-weight:700" -->
+                                    <td style="font-weight:700">
                                         <?php echo $shipping_name = Redshop\Shipping\Tag::replaceShippingMethod(
                                             $this->detail,
                                             "{shipping_rate_name}"
@@ -485,7 +486,14 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                         </div>
                         <div class="box-body">
                             <table class="adminlist table table-striped no-margin">
-                                <tr>
+                            <?php /* // Tweak by Ronni - Move Company field up */ ?>
+                            <?php if ($isCompany) { ?>
+                            <tr>
+                                <td align="right"><?php echo JText::_('COM_REDSHOP_COMPANY'); ?>:</td>
+                                <td><?php echo(!empty($billing->company_name) ? $billing->company_name : ''); ?></td>
+                            </tr>
+                            <?php } ?>
+                            <tr>
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:</td>
                                     <td><?php echo(!empty($billing->firstname) ? $billing->firstname : ''); ?></td>
                                 </tr>
@@ -493,12 +501,6 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</td>
                                     <td><?php echo(!empty($billing->lastname) ? $billing->lastname : ''); ?></td>
                                 </tr>
-                                <?php if ($isCompany) { ?>
-                                    <tr>
-                                        <td align="right"><?php echo JText::_('COM_REDSHOP_COMPANY'); ?>:</td>
-                                        <td><?php echo(!empty($billing->company_name) ? $billing->company_name : ''); ?></td>
-                                    </tr>
-                                <?php } ?>
                                 <tr>
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</td>
                                     <td><?php echo(!empty($billing->address) ? $billing->address : ''); ?></td>
@@ -629,6 +631,16 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                     <td align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
                                     <td><?php echo(!empty($shipping->phone) ? $shipping->phone : ''); ?></td>
                                 </tr>
+								<?php // Tweak by Ronni START - Add billing_as_sender field ?>
+								<tr>
+                                    <td align="right"><?php echo JText::_('Afsender:'); ?>:</td>
+                                    <?php if ($shipping->billing_as_sender = 1) { ?>
+                                    <td>Print.dk</td>
+                                    <?php } else { ?>
+                                    <td>Kundens adresse</td>
+                                    <?php } ?>
+                                </tr>
+								<?php // Tweak by Ronni END - Add billing_as_sender field ?>
                                 <?php
 
                                 if (!empty($shipping->users_info_id)) {
