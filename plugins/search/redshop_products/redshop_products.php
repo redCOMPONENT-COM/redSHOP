@@ -180,6 +180,13 @@ class PlgSearchRedshop_Products extends JPlugin
                 break;
         }
 
+		$searchIdLimit = $this->params->def('searchIdLimit', '');
+ 
+		if (!empty($searchIdLimit)) {
+	    	$where = '(product_id  NOT IN (' . $searchIdLimit . '))';
+    		$query->where($where);
+		}
+
         // Shopper group - choose from manufactures Start
         $shopperGroupManufacturers = RedshopHelperShopper_Group::getShopperGroupManufacturers();
 

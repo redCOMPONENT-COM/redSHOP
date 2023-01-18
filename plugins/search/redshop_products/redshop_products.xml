@@ -36,6 +36,14 @@
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>
                 </field>
+				<field 
+					    name="searchIdLimit" 
+					    type="text" 
+					    size="30" 
+					    default="" 
+					    label="PLG_SEARCH_REDSHOP_PRODUCTS_EXCLUDE_PRODUCTS" 
+					    description="PLG_SEARCH_REDSHOP_PRODUCTS_EXCLUDE_PRODUCTS_DESC"
+				/>
                 <field name="searchShortDesc"
                        type="radio"
                        default="0"
