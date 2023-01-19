@@ -36,6 +36,13 @@
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>
                 </field>
+				<field name="searchCatLimit"
+					type="text"
+					size="30"
+					default=""
+                       label="PLG_SEARCH_REDSHOP_CATEGORIES_EXCLUDE_CATEGORIES"
+                       description="PLG_SEARCH_REDSHOP_CATEGORIES_EXCLUDE_CATEGORIES_DESC"
+                />
                 <field name="searchShortDesc"
                        type="radio"
                        default="1"

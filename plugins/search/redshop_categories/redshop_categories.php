@@ -137,6 +137,13 @@ class PlgSearchRedshop_Categories extends JPlugin
                 $query->order($db->qn('id') . ' DESC');
         }
 
+		$searchCatLimit = $this->params->def('searchCatLimit', '');
+ 
+		if (!empty($searchCatLimit)) {
+		    $excludeCats = ' (id  NOT IN (' . $searchCatLimit . '))';
+		    $query->where($excludeCats);
+		}
+
         // Set the query and load the result.
         $db->setQuery($query, 0, $this->params->def('search_limit', 50));
 

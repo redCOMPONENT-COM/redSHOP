@@ -514,21 +514,45 @@ class RedshopControllerCheckout extends RedshopController
                 JPluginHelper::importPlugin('redshop_alert');
                 $data = $dispatcher->trigger('getStockroomStatus', array($order_id));
 
-                $labelClass = '';
-
-                if ($orderresult->order_payment_status == 'Paid') {
-                    $labelClass = 'label-success';
+                $plugin               = JPluginHelper::getPlugin('redshop_alert', 'alert');
+                $pluginParams         = new JRegistry($plugin->params);
+                $alertForRegistration = $pluginParams->get('plg_redshop_alert_alert_for_registration');
+                $alertForOrder        = $pluginParams->get('plg_redshop_alert_alert_for_order');
+                $today                = RedshopHelperDatetime::convertDateFormat($input->getInt('cdate'));
+                
+                // Alert for new order
+                if ($alertForOrder == 1) {
+                    if ($billingAddresses->is_company == 1) {
+                        $companyNameAlert = '<b>' . $billingAddresses->company_name . '</b> - ' . 
+                        $billingAddresses->firstname . ' ' . $billingAddresses->lastname;
+                    } else {
+                        $companyNameAlert = '<b>' . $billingAddresses->firstname . ' ' . $billingAddresses->lastname . '</b> - ';
+                    }
+                
+                    $message = JText::sprintf(
+                        'COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', 
+                        $order_id,
+                        $today . ' | ' . $companyNameAlert,
+                        RedshopHelperProductPrice::formattedPrice($orderresult->order_total)
+                    );
+                    $dispatcher->trigger('storeAlert', array($message));
                 }
 
-                $message = JText::sprintf(
-                    'COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY',
-                    $order_id,
-                    $billingAddresses->firstname . ' ' . $billingAddresses->lastname,
-                    RedshopHelperProductPrice::formattedPrice($orderresult->order_total),
-                    $labelClass,
-                    $orderresult->order_payment_status
-                );
-                $dispatcher->trigger('storeAlert', array($message));
+                // Alert for new registration
+                if ($userDetail && $alertForRegistration == 1) {
+                    if ($billingAddresses->is_company == 1) {
+                        $companyNameAlert = '<b>' . $billingAddresses->company_name . '</b> - ' . 
+                        $billingAddresses->firstname . ' ' . $billingAddresses->lastname;
+                    } else {
+                        $companyNameAlert = '<b>' . $billingAddresses->firstname . ' ' . $billingAddresses->lastname . '</b> - ';
+                    }
+
+                    $message = JText::sprintf(
+                        'COM_REDSHOP_ALERT_REGISTRATION_SUCCESSFULLY',
+                        $today . ' | ' . $companyNameAlert
+                    );
+                    $dispatcher->trigger('storeAlert', array($message));
+                }
 
                 $model->resetcart();
 

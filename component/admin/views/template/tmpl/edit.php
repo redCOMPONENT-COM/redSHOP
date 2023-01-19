@@ -10,10 +10,12 @@
 defined('_JEXEC') or die;
 ?>
 <div class="row">
-    <div class="col-md-6">
+    <?php // Tweak by Ronni - Change to class="col-md-9" ?>
+    <div class="col-md-9">
         <?php echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' => $this)) ?>
     </div>
-    <div class="col-md-6">
+    <?php // Tweak by Ronni - Change to class="col-md-3" ?>
+    <div class="col-md-3">
         <?php if ($this->item->section): ?>
             <?php echo $this->loadTemplate('hints') ?>
         <?php endif; ?>

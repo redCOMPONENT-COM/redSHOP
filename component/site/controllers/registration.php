@@ -36,9 +36,27 @@ class RedshopControllerRegistration extends RedshopController
         $success = $model->store($post);
 
         if ($success) {
-            $message = JText::sprintf('COM_REDSHOP_ALERT_REGISTRATION_SUCCESSFULLY', $post['username']);
-            JPluginHelper::importPlugin('redshop_alert');
-            $dispatcher->trigger('storeAlert', array($message));
+            $plugin               = JPluginHelper::getPlugin('redshop_alert', 'alert');
+            $pluginParams         = new JRegistry($plugin->params);
+            $alertForRegistration = $pluginParams->get('plg_redshop_alert_alert_for_registration');
+            $today                = RedshopHelperDatetime::convertDateFormat($input->getInt('cdate'));
+
+            // Alert for registration
+            if ($alertForRegistration == 1) {
+                if ($post['is_company'] == 1) {
+                    $companyNameAlert = '<b>' . $post['company_name'] . '</b> - ' . 
+                    $post['firstname'] . ' ' . $post['lastname'];
+                } else {
+                    $companyNameAlert = '<b>' . $post['firstname'] . ' ' . $post['lastname'] . '</b> - ';
+                }
+
+                $message = JText::sprintf(
+                    'COM_REDSHOP_ALERT_REGISTRATION_SUCCESSFULLY',
+                    $today . ' | ' . $companyNameAlert
+                );
+                JPluginHelper::importPlugin('redshop_alert');
+                $dispatcher->trigger('storeAlert', array($message));
+            }
 
             if ($post['mywishlist'] == 1) {
                 $this->setRedirect(

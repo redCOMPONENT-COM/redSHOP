@@ -159,6 +159,22 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
             )
         );
 
+        //  Tweak by Ronni START - Exclude products in shipping rate
+        if ($detail->item_shipping_rate_exclude_products) {
+            $result_exclude_products = $model->GetProductListshippingrate($detail->item_shipping_rate_exclude_products);
+        }
+
+        $lists['shipping_exclude_product'] = JHTML::_(
+            'redshopselect.search', 
+            $result_exclude_products, 
+            'exclude_product',
+            array(
+                'select2.ajaxOptions' => array('typeField' => ', alert:"shipping"'),
+                'select2.options'     => array('multiple' => true)
+            )
+        );
+        //  Tweak by Ronni END - Exclude products in shipping rate
+
         // Extra field
         $list_field           = RedshopHelperExtrafields::listAllField(
             RedshopHelperExtrafields::SECTION_SHIPPING,

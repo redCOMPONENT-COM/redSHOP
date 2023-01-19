@@ -18206,6 +18206,8 @@ Searchtools
 .select2-container {
     width: 100%;
     max-width: 100%;
+    border-radius: 3px;
+    border: 1px solid #ccc;
 }
 
 .select2-container .select2-choice {
@@ -29359,7 +29361,6 @@ body.modal-open {
 
 #redSHOPAdminContainer .select2-container {
     width: 100%;
-    display: block;
 }
 
 .select2-disabled {
@@ -29496,6 +29497,25 @@ div.modal.jviewport-width100 {
     background-color: #337ab7 !important;
 }
 
+.postnord-name {
+    border-bottom: 1px solid #d5d5d5;
+}
+
+#filter, #filter_from_date, #filter_to_date, #filter_search, #keyword, .js-stools-btn-filter {
+    height: 40px !important;
+}
+
+#search {
+    color: #fff;
+    background-color: #7f7f7f;
+    height: 40px;
+    margin-right: 20px;
+}
+
+.field-calendar {
+    display:inline;
+}
+
 /*! Tweak by Ronni START - Custom css */
 .label.order_payment_status_unpaid, .label.order_payment_status_x, .order_status_x {background-color: #ffffff;border: 1px solid #f00;color: #f00;text-shadow: none}
 .label.order_payment_status_x, .order_status_x {background-color: #fbe5e5}
@@ -29535,11 +29555,6 @@ div.modal.jviewport-width100 {
 .table > tbody > tr > td {vertical-align: top !important;}
 .table-striped > tbody > tr:nth-of-type(even) {background-color: #e5faf8 !important;border-top: 1px solid #a8e0f1 !important;border-bottom: 1px solid #a8e0f1 !important}
 .table-striped > tbody > tr:nth-of-type(odd) {border-bottom: 1px solid #a8e0f1 !important}
-.field-calendar{display:inline}
 .select2-container .select2-choice {background-color: #fff !important}
 .select2-container {border-radius: 3px;border: 1px solid #ccc}
-
-
-#filter,#filter_from_date,#filter_to_date,#filter_search,#keyword,.js-stools-btn-filter{height: 40px !important}
-#search{color: #fff;background-color:#7f7f7f;height:40px;margin-right: 20px}
 /*! Tweak by Ronni END - Custom css */
