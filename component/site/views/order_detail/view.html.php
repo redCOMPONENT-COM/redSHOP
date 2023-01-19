@@ -132,7 +132,7 @@ class RedshopViewOrder_Detail extends RedshopView
         // Tweak by Ronni  - Change IF function
         if ($order->order_status !== 'RD1' && $order->order_status !== 'S' && $order->order_status !== 'X' 
                 && $order->order_status !== 'PR' && $print !== 1 && $order->order_payment_status !== 'Paid' 
-                && $paymentMethodClass == 'rs_payment_epayv2') {
+                && $paymentMethodClass == 'bambora') {
     //  if ($order->order_status != 'C' && $order->order_status != 'S' && $order->order_status != 'PR' && $order->order_status != 'APP' && $print != 1 && $order->order_payment_status != 'Paid' && $paymentMethodClass != 'rs_payment_banktransfer') {
             // Tweak by Ronni - Pay button Epay
             $reorder = "<div id='system-message'>
@@ -146,7 +146,7 @@ class RedshopViewOrder_Detail extends RedshopView
                                         <?php echo JText::_('PLG_REDSHOP_PAYMENT_BAMBORA_ORDER_NOT_PLACED');?>
                                     </div>
                                     <br>
-                                    <a class='btn btn-primary login-button' href='https://www.print.dk/index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=" . $orderId . "&Itemid=176&encr=" . $order->encr_key . "'>
+                                    <a class='btn btn-primary login-button' href='/index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=" . $orderId . "&Itemid=176&encr=" . $order->encr_key . "'>
                                         <?php echo JText::_('COM_REDSHOP_PAY');?>
                                     </a>
                                 </div>
@@ -161,7 +161,7 @@ class RedshopViewOrder_Detail extends RedshopView
             <input type='submit' name='payment' value='" . JText::_("COM_REDSHOP_PAY") . "'>
             </form>";
             */
-        } elseif ($order->order_status !== 'C' && $order->order_status !== 'X') {
+        } elseif ($order->order_status == 'RD' || $order->order_status == 'RD1' || $order->order_status == 'RD2' || $order->order_status == 'S') {
             /*
             JFactory::getDocument()->addScriptDeclaration(
                 '
