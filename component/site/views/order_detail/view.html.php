@@ -130,9 +130,10 @@ class RedshopViewOrder_Detail extends RedshopView
         $paymentMethodClass = $orderEntity->getPayment()->getItem()->payment_method_class;
 
         // Tweak by Ronni  - Change IF function
-        if ($order->order_status !== 'RD1' && $order->order_status !== 'S' && $order->order_status !== 'X' 
-                && $order->order_status !== 'PR' && $print !== 1 && $order->order_payment_status !== 'Paid' 
-                && $paymentMethodClass == 'bambora') {
+		if ($order->order_status == 'P' && $order->order_status == 'APP' 
+                && $order->order_payment_status !== 'Paid' 
+                && ($order_payment[0]->payment_method_class == 'rs_payment_epayv2' 
+                || $order_payment[0]->payment_method_class == 'bambora')) {
     //  if ($order->order_status != 'C' && $order->order_status != 'S' && $order->order_status != 'PR' && $order->order_status != 'APP' && $print != 1 && $order->order_payment_status != 'Paid' && $paymentMethodClass != 'rs_payment_banktransfer') {
             // Tweak by Ronni - Pay button Epay
             $reorder = "<div id='system-message'>
