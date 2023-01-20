@@ -1779,32 +1779,32 @@ class RedshopBilly
         if (($billyInvoiceDraft && in_array($orderEntity->order_status, $billyBookStatus)) 
                 && ($order->billy_invoice_no != '' && $order->is_billy_booked == 0) 
                 || $order->is_billy_cashbook == 0) {
-            $userBillingInfo        = \RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+            $userBillingInfo             = \RedshopHelperOrder::getOrderBillingUserInfo($orderId);
             // get billy user Id from redhsop user
-            $db                     = \JFactory::getDbo();
-            $selSQL                 = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '" . $userBillingInfo->users_info_id . "' AND relation_type='user'";
+            $db                          = \JFactory::getDbo();
+            $selSQL                      = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '" . $userBillingInfo->users_info_id . "' AND relation_type='user'";
             $db->setQuery($selSQL);
-            $billyId 			    = $db->loadResult();
+            $billyId 			         = $db->loadResult();
 
-            $paymentInfo            = \RedshopHelperOrder::getPaymentInfo($order->order_id);
-            $currency               = \Redshop::getConfig()->get('CURRENCY_CODE');
-            $file                   = '';
+            $paymentInfo                 = \RedshopHelperOrder::getPaymentInfo($order->order_id);
+            $currency                    = \Redshop::getConfig()->get('CURRENCY_CODE');
+            $file                        = '';
 
-            $bil                    = array();
-            $bil['billy_user_id']   = $billyId;
-            $bil['invoiceHandle']   = $order->billy_invoice_no;
-            $debtorHandle           = \RedshopHelperUtility::getDispatcher()->trigger('debtorFindByNumber', array($bil));
-            $bil['debtorHandle']    = $debtorHandle[0]->id;
-            $bil['currency_code']   = $currency;
-            $bil['amount']          = $order->order_total;
-            $bil['order_number']    = $order->order_number;
-            $bil['order_id']        = $order->order_id;
+            $bil                         = array();
+            $bil['billy_user_id']        = $billyId;
+            $bil['invoiceHandle']        = $order->billy_invoice_no;
+            $debtorHandle                = \RedshopHelperUtility::getDispatcher()->trigger('debtorFindByNumber', array($bil));
+            $bil['debtorHandle']         = $debtorHandle[0]->id;
+            $bil['currency_code']        = $currency;
+            $bil['amount']               = $order->order_total;
+            $bil['order_number']         = $order->order_number;
+            $bil['order_id']             = $order->order_id;
             $bil['order_payment_status'] = $order->order_payment_status;
-            $bil['ean_number']      = $userBillingInfo->ean_number;
-            $bil['is_billy_booked'] = $order->is_billy_booked;
-            $currectInvoiceData     = \RedshopHelperUtility::getDispatcher()->trigger('checkDraftInvoice', array($bil));
-            $bil['currency_code']   = $currectInvoiceData[0]->currencyId;
-            $bil['order_transfee']  = $paymentInfo->order_transfee;
+            $bil['ean_number']           = $userBillingInfo->ean_number;
+            $bil['is_billy_booked']      = $order->is_billy_booked;
+            $currectInvoiceData          = \RedshopHelperUtility::getDispatcher()->trigger('checkDraftInvoice', array($bil));
+            $bil['currency_code']        = $currectInvoiceData[0]->currencyId;
+            $bil['order_transfee']       = $paymentInfo->order_transfee;
 
             // Change Email subject and body depeding of payment plugin
             if (!empty($paymentInfo)) {
@@ -1893,10 +1893,6 @@ class RedshopBilly
                         }
                     }
 
-                    if ($bookinvoicedate > 0) {
-                        $bil['bookinvoicedate'] = $bookinvoicedate;
-                    }
-
                     if (count($data) > 0) {
                         $bil['onlycashbook'] 	 = $data['onlycashbook'];
                         $bil['bookwithCashbook'] = $data['bookwithCashbook'];
@@ -1915,9 +1911,9 @@ class RedshopBilly
                 }
             }
             
-            if ($orderdetail->is_billy_booked == 0 && $paymentName == 'rs_payment_eantransfer' && $billyBookEanInvoice == 1 
-                    && !empty($paymentMethodEan)) {
-                $resEan = \RedshopHelperUtility::getDispatcher()->trigger('bookEan', $billy_invoice_no);
+            if ($order->is_billy_booked == 0 && $paymentName == 'rs_payment_eantransfer' 
+                    && $billyBookEanInvoice == 1 && !empty($paymentMethodEan)) {
+                $resEan = \RedshopHelperUtility::getDispatcher()->trigger('bookEan', $order->billy_invoice_no);
             }
         }
 
@@ -2223,10 +2219,10 @@ class RedshopBilly
     {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
+        $message   = '';
 
         if ($billyInvoiceNo) {
             $timelines = \RedshopHelperUtility::getDispatcher()->trigger('getInvoiceTimeline', array($billyInvoiceNo));
-            $message   = '';
             
             if (count($timelines[0]) > 0)	{
                 foreach($timelines[0] as $timeline) {
@@ -2354,7 +2350,7 @@ class RedshopBilly
             }	
         }
         
-        return $overduedays;
+        return $overdueDays;
     }
 
     /**
