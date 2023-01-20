@@ -177,103 +177,81 @@ class RedshopBilly
                 
                 if ($paymenttermsMode == "0") {
                     $invoicePaymentTermsMode = 'date';
-                }
-                if ($paymenttermsMode == "1") {
+                } else if ($paymenttermsMode == "1") {
                     $invoicePaymentTermsMode = 'net';
-                }
-                if ($paymenttermsMode == "2") {
+                } else if ($paymenttermsMode == "2") {
                     $invoicePaymentTermsMode = 'netEndOfMonth';
+                } else {
+                    $invoicePaymentTermsMode = '';
                 }
-            }
-            
-            if ($paymentName == 'rs_payment_banktransfer2') {
+            } else if ($paymentName == 'rs_payment_banktransfer2') {
                 $billyPluginPaymentDays = $billyParams->get('billy_payment_days_banktransfer2');
                 $paymenttermsMode       = (int) $billyParams->get('billy_paymenttermsmode_banktransfer2', '');
                 
                 if ($paymenttermsMode == "0") {
                     $invoicePaymentTermsMode = 'date';
-                }
-                if ($paymenttermsMode == "1") {
+                } else if ($paymenttermsMode == "1") {
                     $invoicePaymentTermsMode = 'net';
-                }
-                if ($paymenttermsMode == "2") {
+                } else if ($paymenttermsMode == "2") {
                     $invoicePaymentTermsMode = 'netEndOfMonth';
+                } else {
+                    $invoicePaymentTermsMode = '';
                 }
-            }
-            
-            if ($paymentName == 'rs_payment_banktransfer_discount') {
+            } else if ($paymentName == 'rs_payment_banktransfer_discount') {
                 $billyPluginPaymentDays = $billyParams->get('billy_payment_days_banktransfer_discount');
                 $paymenttermsMode       = (int) $billyParams->get('billy_paymenttermsmode_banktransfer_discount', '');
                 
                 if ($paymenttermsMode == "0") {
                     $invoicePaymentTermsMode = 'date';
-                }
-                if ($paymenttermsMode == "1") {
+                } else if ($paymenttermsMode == "1") {
                     $invoicePaymentTermsMode = 'net';
-                }
-                if ($paymenttermsMode == "2") {
+                } else if ($paymenttermsMode == "2") {
                     $invoicePaymentTermsMode = 'netEndOfMonth';
+                } else {
+                    $invoicePaymentTermsMode = '';
                 }
-            }
-            
-            if ($paymentName == 'rs_payment_cashtransfer') {
+            } else if ($paymentName == 'rs_payment_cashtransfer') {
                 $billyPluginPaymentDays = $billyParams->get('billy_payment_days_cashtransfer');
                 $paymenttermsMode       = (int) $billyParams->get('billy_paymenttermsmode_cashtransfer', '');
                 
                 if ($paymenttermsMode == "0") {
                     $invoicePaymentTermsMode = 'date';
-                }
-                if ($paymenttermsMode == "1") {
+                } else if ($paymenttermsMode == "1") {
                     $invoicePaymentTermsMode = 'net';
-                }
-                if ($paymenttermsMode == "2") {
+                } else if ($paymenttermsMode == "2") {
                     $invoicePaymentTermsMode = 'netEndOfMonth';
+                } else {
+                    $invoicePaymentTermsMode = '';
                 }
-            }
-            
-            if ($paymentName == 'rs_payment_cashsale') {
+            } else if ($paymentName == 'rs_payment_cashsale') {
                 $billyPluginPaymentDays = $billyParams->get('billy_payment_days_cashsale');
                 $paymenttermsMode       = (int) $billyParams->get('billy_paymenttermsmode_cashsale', '');
                 
                 if ($paymenttermsMode == "0") {
                     $invoicePaymentTermsMode = 'date';
-                }
-                if ($paymenttermsMode == "1") {
+                } else if ($paymenttermsMode == "1") {
                     $invoicePaymentTermsMode = 'net';
-                }
-                if ($paymenttermsMode == "2") {
+                } else if ($paymenttermsMode == "2") {
                     $invoicePaymentTermsMode = 'netEndOfMonth';
+                } else {
+                    $invoicePaymentTermsMode = '';
                 }
-            }
-            
-            if ($paymentName == 'rs_payment_eantransfer') {
+            } else if ($paymentName == 'rs_payment_eantransfer') {
                 $billyPluginPaymentDays = $billyParams->get('billy_payment_days_ean');
                 $paymenttermsMode       = (int) $billyParams->get('billy_paymenttermsmode_ean', '');
                 
                 if ($paymenttermsMode == "0") {
                     $invoicePaymentTermsMode = 'date';
-                }
-                if ($paymenttermsMode == "1") {
+                } else if ($paymenttermsMode == "1") {
                     $invoicePaymentTermsMode = 'net';
-                }
-                if ($paymenttermsMode == "2") {
+                } else if ($paymenttermsMode == "2") {
                     $invoicePaymentTermsMode = 'netEndOfMonth';
+                } else {
+                    $invoicePaymentTermsMode = '';
                 }
-            }
-            
-            if ($paymentName == 'rs_payment_epayv2') {
-                $billyPluginPaymentDays = $billyParams->get('billy_payment_days_epayv2');
-                $paymenttermsMode       = (int) $billyParams->get('billy_paymenttermsmode_epayv2', '');
-                
-                if ($paymenttermsMode == "0") {
-                    $invoicePaymentTermsMode = 'date';
-                }
-                if ($paymenttermsMode == "1") {
-                    $invoicePaymentTermsMode = 'net';
-                }
-                if ($paymenttermsMode == "2") {
-                    $invoicePaymentTermsMode = 'netEndOfMonth';
-                }
+            } else {
+                $invoicePaymentTermsMode = '';
+                $billyPluginPaymentDays = '';
             }
         }
 
@@ -1834,6 +1812,9 @@ class RedshopBilly
                 if ($paymentName == 'rs_payment_epayv2') {
                     $billyInvoiceEmailSubject = $billyPluginParams->get('billy_invoice_email_subject_creditcard');
                     $billyInvoiceEmailBody    = $billyPluginParams->get('billy_invoice_email_body_creditcard', '');
+                } else if ($paymentName == 'bambora') {
+                    $billyInvoiceEmailSubject = $billyPluginParams->get('billy_invoice_email_subject_creditcard');
+                    $billyInvoiceEmailBody    = $billyPluginParams->get('billy_invoice_email_body_creditcard', '');
                 } else if ($paymentName == 'rs_payment_paypal') {
                     $billyInvoiceEmailSubject = $billyPluginParams->get('billy_invoice_email_subject_creditcard');
                     $billyInvoiceEmailBody    = $billyPluginParams->get('billy_invoice_email_body_creditcard', '');
@@ -1903,6 +1884,8 @@ class RedshopBilly
                             $bil['bankAccountId'] = $billyPluginParams->get('billy_cashbook_account_ean');
                         } else if ($paymentName == 'rs_payment_epayv2') {
                             $bil['bankAccountId'] = $billyPluginParams->get('billy_cashbook_account_epayv2');
+                        } else if ($paymentName == 'bambora') {
+                            $bil['bankAccountId'] = $billyPluginParams->get('billy_cashbook_account_bambora');
                         } else if ($paymentName == 'rs_payment_paypal') {
                             $bil['bankAccountId'] = $billyPluginParams->get('billy_cashbook_account_paypal');
                         } else {
@@ -2010,10 +1993,13 @@ class RedshopBilly
                 else if ($paymentName == 'rs_payment_epayv2') {
                     $bil['bankAccountId']   = $billyParams->get('billy_cashbook_account_epayv2');
                 }
+                else if ($paymentName == 'rs_payment_bambora') {
+                    $bil['bankAccountId']   = $billyParams->get('billy_cashbook_account_bambora');
+                }
                 else if ($paymentName == 'rs_payment_paypal') {
                     $bil['bankAccountId']   = $billyParams->get('billy_cashbook_account_paypal');
                 } else {
-                    $bil['bankAccountId']   = $billyParams->get('billy_cashbook_account_banktransfer1');
+                    $bil['bankAccountId']   = $billyParams->get('billy_default_bank_account');
                 }
             }
         }
@@ -2046,6 +2032,10 @@ class RedshopBilly
 
             // Change Email subject and body depeding of payment plugin			
             if ($paymentName == 'rs_payment_epayv2') {
+                $billyInvoiceEmailSubject = $billyParams->get('billy_invoice_email_subject_creditcard');
+                $billyInvoiceEmailBody    = $billyParams->get('billy_invoice_email_body_creditcard', '');
+            }
+            else if ($paymentName == 'bambora') {
                 $billyInvoiceEmailSubject = $billyParams->get('billy_invoice_email_subject_creditcard');
                 $billyInvoiceEmailBody    = $billyParams->get('billy_invoice_email_body_creditcard', '');
             }
