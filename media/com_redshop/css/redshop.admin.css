@@ -29118,7 +29118,7 @@ body.modal-open {
 }
 
 .label.order_status_p {
-    background-color: #fbd9a4;
+    background-color: #000000;
     color: #f39c12;
     border: 1px solid #f49c12;
     text-shadow: none
@@ -29145,7 +29145,7 @@ body.modal-open {
 }
 
 .label.order_status_app, .order_status_mob {
-    color: #f39c12;
+    color: #000000;
     background-color: #fbd9a4;
     border: 1px solid #f39c12;
     text-shadow: none;
@@ -29606,12 +29606,12 @@ div.modal.jviewport-width100 {
 }
 
 .order-sms-row {
-    width: 160px!important;
+    width: 155px!important;
     margin-right: 5px;
 }
 
 .order-timeline-row {
-    width: 195px!important;
+    width: 193px!important;
     margin-right: 5px;
     margin-bottom: 5px;
 }

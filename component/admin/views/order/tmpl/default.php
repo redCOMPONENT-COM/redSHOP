@@ -286,9 +286,9 @@ JPluginHelper::importPlugin('redshop_product');
         </thead>
         <tbody>
         <?php
-        $send_mail_to_customer = Redshop::getConfig()->get('SEND_MAIL_TO_CUSTOMER') ? 'checked' : 0;
+        $sendMailToCustomer    = Redshop::getConfig()->get('SEND_MAIL_TO_CUSTOMER') ? 'checked' : 0;
         if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) {
-            $send_sms_to_customer  = 'checked="checked"';
+            $sendSmsToCustomer = 'checked';
         }
         $k                     = 0;
         ?>
@@ -409,19 +409,22 @@ JPluginHelper::importPlugin('redshop_product');
                                                 <hr/>
                                                 <div class="form-group">
                                                     <label>
-                                                        <input type="checkbox" <?php echo $send_mail_to_customer ?>
+                                                        <input type="checkbox" <?php echo $sendMailToCustomer ?>
                                                                value="1"
                                                                name="sendordermail<?php echo $row->order_id ?>"/> 
                                                                <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL') ?>
-                                                    </label>
-                                            <?php   if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) { ?>
+                                                    </label> <?php
+                                                    if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) { ?>
                                                     <label>
-                                                        <input type="checkbox" <?php echo $send_sms_to_customer;?>
+                                                        <input type="checkbox" <?php echo $sendSmsToCustomer;?>
                                                                value="1"
                                                                name="sendordersms<?php echo $row->order_id ?>"/> 
                                                                <?php echo JText::_('COM_REDSHOP_SEND_ORDER_SMS') ?>
-                                                    </label>
-                                            <?php   } ?>
+                                                    </label> <?php
+                                                   } else { ?>
+                                                    <input type="hidden" name="sendordersms<?php echo $row->order_id ?>" 
+                                                        value="1"/> <?php
+                                                    } ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 text-right">
