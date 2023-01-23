@@ -9,6 +9,9 @@
 
 defined('_JEXEC') || die;
 
+// Tweak by Ronni - Add Billy
+use Redshop\Billy\RedshopBilly;
+
 /**
  * Tags replacer abstract class
  *
@@ -129,23 +132,28 @@ class RedshopTagsSectionsOrderList extends RedshopTagsAbstract
 
                 $paymentMethod = RedshopEntityOrder_Payment::getInstance($this->detail[$i]->order_id)->getItem();
 
-                $orderTransFee = '';
-
-                if ($paymentMethod->order_transfee > 0) {
+                if (!empty($paymentMethod->order_transfee)) {
                     $orderTransFee = RedshopHelperProductPrice::formattedPrice(
                         $paymentMethod->order_transfee
                     );
+                } else {
+                    $orderTransFee = 0;
                 }
 
                 $replace['{order_transfee}'] = $orderTransFee;
 
                 $replace['{order_total_incl_transfee}'] = RedshopHelperProductPrice::formattedPrice(
-                    $paymentMethod->order_transfee + $this->detail[$i]->order_total
+                    $orderTransFee + $this->detail[$i]->order_total
                 );
 
                 $replace['{order_number}'] = $this->replaceTagDiv('order_number', $this->detail[$i]->order_number);
-                // Tweak by Ronni START - Remove div for Invoice link
+                // Tweak by Ronni - Remove div for Invoice link
                 $replace['{order_id}']     = $this->detail[$i]->order_id;
+
+                // Tweak by Ronni START - Add Invoice link
+                $invoiceData = RedshopBilly::getInvoiceData($this->detail[$i]->billy_invoice_no);
+                $replace['{invoice_link}'] = $invoiceData->downloadUrl;
+                // Tweak by Ronni END - Add Invoice link
 
                 $replace['{order_products}'] = $this->replaceTagDiv(
                     'order_products',

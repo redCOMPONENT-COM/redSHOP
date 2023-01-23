@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Billy\RedshopBilly;
+
 /**
  * View Order Detail
  *
@@ -206,9 +208,10 @@ class RedshopViewOrder_Detail extends RedshopView
         $template = str_replace("{reorder_button}", $reorder, $template);
         
         // Tweak by Ronni - Add Invoice button
-        $invoice = "";
+        $invoice     = "";
+        $invoiceData = RedshopBilly::getInvoiceData($order->billy_invoice_no);
         if ($order->order_status == 'S' || $order->order_status == 'RD1') {
-            $invoice = "<a href='/components/com_redshop/assets/orders/rsBillyInvoice_{order_number}.pdf' 
+            $invoice = "<a href='" . $invoiceData->downloadUrl . "' 
                                 class='btn-primary btn' style='width:47%;margin-top:15px' target='_blank'>
                             <?php echo JText::_('COM_REDSHOP_DOWNLOAD_INVOICE');?>
                         </a>
