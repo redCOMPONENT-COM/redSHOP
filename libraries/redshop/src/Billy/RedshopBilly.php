@@ -162,10 +162,10 @@ class RedshopBilly
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
-        $orderDetail = \RedshopHelperOrder::getOrderDetails($orderId);		
-        $paymentInfo = \RedshopHelperOrder::getPaymentInfo($orderId);
+        $orderDetail = \RedshopEntityOrder::getInstance($orderId)->getItem();
+        $paymentInfo = \RedshopEntityOrder::getInstance($orderId)->getPayment()->getItem();
     
-        if (count($paymentInfo) > 0) {
+        if (!empty($paymentInfo)) {
             // Get plugin params
             $plugin      = \JPluginHelper::getPlugin('billy', 'billy');
             $billyParams = new \JRegistry($plugin->params);		
@@ -296,12 +296,13 @@ class RedshopBilly
         $userShippinginfo = $orderEntity->getShipping();
         $orderItem        = \RedshopHelperOrder::getOrderItemDetail($orderId);
         $debtorNumber     = self::createUserInBilly($userBillingInfo->getItem());
-        $paymentInfo 	  = \RedshopHelperOrder::getPaymentInfo($orderId);
+        $paymentInfo 	  = \RedshopEntityOrder::getInstance($orderId)->getPayment()->getItem();
 
         if (count($debtorNumber) > 0 && $debtorNumber[0]) {
             $cdate    = date("Y-m-d", $orderEntity->get('cdate'));
 
-            $bil['name']               = $userBillingInfo->get('firstname') . " " . $userBillingInfo->get('lastname');
+            $bil['name']               = $userBillingInfo->get('firstname') . " " 
+                                            . $userBillingInfo->get('lastname');
             $bil['isvat']              = ($orderEntity->get('order_tax') != 0) ? 1 : 0;
             $bil['email']              = $userBillingInfo->get('user_email');
             $bil['phone']              = $userBillingInfo->get('phone');
@@ -321,7 +322,7 @@ class RedshopBilly
                 $bil['setAttname'] = 1;
             }
 
-            if (count($paymentInfo) > 0) {
+            if (!empty($paymentInfo)) {
                 $paymentName = $paymentInfo->payment_method_class;
                 // Get plugin params
                 $plugin      = \JPluginHelper::getPlugin('billy', 'billy');
@@ -329,7 +330,7 @@ class RedshopBilly
 
                 if ($paymentName == 'rs_payment_banktransfer') {
                     $billyPluginPaymentDays = $billyParams->get('billy_payment_days_banktransfer1');
-                    $paymenttermsMode         = (int) $billyParams->get('billy_paymenttermsmode_banktransfer1', '');
+                    $paymenttermsMode       = (int) $billyParams->get('billy_paymenttermsmode_banktransfer1', '');
 
                     if ($paymenttermsMode == "0") {
                         $invoicePaymentTermsMode = 'date';
@@ -732,7 +733,7 @@ class RedshopBilly
         if (empty($billyId)) {
             // Get plugin params
             $plugin                    = \JPluginHelper::getPlugin('billy', 'billy');
-               $billyParams               = new \JRegistry($plugin->params);
+            $billyParams               = new \JRegistry($plugin->params);
             $attributeAsProductInBilly = $billyParams->get('attribute_as_product_in_billy');
         
             if ($attributeAsProductInBilly == 2 && self::getTotalProperty($row->product_id) > 0) {
@@ -1779,16 +1780,15 @@ class RedshopBilly
         if (($billyInvoiceDraft && in_array($orderEntity->order_status, $billyBookStatus)) 
                 && ($order->billy_invoice_no != '' && $order->is_billy_booked == 0) 
                 || $order->is_billy_cashbook == 0) {
-            $userBillingInfo             = \RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+            $userBillingInfo             = \RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
             // get billy user Id from redhsop user
             $db                          = \JFactory::getDbo();
             $selSQL                      = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '" . $userBillingInfo->users_info_id . "' AND relation_type='user'";
             $db->setQuery($selSQL);
             $billyId 			         = $db->loadResult();
 
-            $paymentInfo                 = \RedshopHelperOrder::getPaymentInfo($order->order_id);
+            $paymentInfo                 = \RedshopEntityOrder::getInstance($order->order_id)->getPayment()->getItem();
             $currency                    = \Redshop::getConfig()->get('CURRENCY_CODE');
-            $file                        = '';
 
             $bil                         = array();
             $bil['billy_user_id']        = $billyId;
@@ -1818,11 +1818,6 @@ class RedshopBilly
                 } else if ($paymentName == 'rs_payment_paypal') {
                     $billyInvoiceEmailSubject = $billyPluginParams->get('billy_invoice_email_subject_creditcard');
                     $billyInvoiceEmailBody    = $billyPluginParams->get('billy_invoice_email_body_creditcard', '');
-                // Tweak by Ronni START - Only in my own version  'rs_payment_banktransfer2'
-                } else if($paymentName == 'rs_payment_banktransfer2') {
-                    $billyInvoiceEmailSubject = $billyPluginParams->get('billy_invoice_email_subject_creditcard');
-                    $billyInvoiceEmailBody 	 = $billyPluginParams->get('billy_invoice_email_body_creditcard', '');
-                // Tweak by Ronni END - Only in my own version  'rs_payment_banktransfer2'
                 } else {
                     $billyInvoiceEmailSubject = $billyPluginParams->get('billy_invoice_email_subject_other');
                     $billyInvoiceEmailBody 	 = $billyPluginParams->get('billy_invoice_email_body_other', '');
@@ -1899,15 +1894,7 @@ class RedshopBilly
                         $bil['onlybook']		 = $data['onlybook'];
                     }
 
-                    $bookInvoicePdf = \RedshopHelperUtility::getDispatcher()->trigger('bookInvoice', array($bil));
-                    $bookInvoicePdf = $bookInvoicePdf[0];
-
-                    if (/** @scrutinizer ignore-deprecated */ \JError::isError(/** @scrutinizer ignore-deprecated */ \JError::getError())) {
-                        return $file;
-                    } elseif (!empty($bookInvoicePdf)) {
-                        $file = JPATH_ROOT . '/components/com_redshop/assets/orders/rsBillyInvoice_' . $orderId . '.pdf';
-                        \JFile::write($file, $bookInvoicePdf);
-                    }							
+                    \RedshopHelperUtility::getDispatcher()->trigger('bookInvoice', array($bil));							
                 }
             }
             
@@ -1917,7 +1904,7 @@ class RedshopBilly
             }
         }
 
-        return $file;
+        return;
     }
 
     /**
@@ -1967,7 +1954,7 @@ class RedshopBilly
             $cashAccountId 		   = $accountGroup->id;
             $bil['cashAccountId']  = $cashAccountId;
             $bil['contactId'] 	   = $bookhandle[0]->contactId;					
-            $paymentInfo 		   = \RedshopHelperOrder::getPaymentInfo($orderId);
+            $paymentInfo 		   = \RedshopEntityOrder::getInstance($orderId)->getPayment()->getItem();
             $paymentFee 		   = $paymentInfo->order_transfee;
             $bil['order_transfee'] = $paymentFee;
             
@@ -1976,23 +1963,17 @@ class RedshopBilly
                 
                 if ($paymentName == 'rs_payment_banktransfer') {
                     $bil['bankAccountId']   = $billyParams->get('billy_cashbook_account_banktransfer1');
-                }
-                else if ($paymentName == 'rs_payment_banktransfer2') {
+                } else if ($paymentName == 'rs_payment_banktransfer2') {
                     $bil['bankAccountId']   = $billyParams->get('billy_cashbook_account_banktransfer2');
-                }
-                else if ($paymentName == 'rs_payment_banktransfer_discount') {
+                } else if ($paymentName == 'rs_payment_banktransfer_discount') {
                     $bil['bankAccountId']   = $billyParams->get('billy_cashbook_account_banktransfer_discount');
-                }
-                else if ($paymentName == 'rs_payment_eantransfer') {
+                } else if ($paymentName == 'rs_payment_eantransfer') {
                     $bil['bankAccountId']   = $billyParams->get('billy_cashbook_account_ean');
-                }
-                else if ($paymentName == 'rs_payment_epayv2') {
+                } else if ($paymentName == 'rs_payment_epayv2') {
                     $bil['bankAccountId']   = $billyParams->get('billy_cashbook_account_epayv2');
-                }
-                else if ($paymentName == 'rs_payment_bambora') {
+                } else if ($paymentName == 'rs_payment_bambora') {
                     $bil['bankAccountId']   = $billyParams->get('billy_cashbook_account_bambora');
-                }
-                else if ($paymentName == 'rs_payment_paypal') {
+                } else if ($paymentName == 'rs_payment_paypal') {
                     $bil['bankAccountId']   = $billyParams->get('billy_cashbook_account_paypal');
                 } else {
                     $bil['bankAccountId']   = $billyParams->get('billy_default_bank_account');
@@ -2014,13 +1995,13 @@ class RedshopBilly
      */
     public function ReSendInvoice($orderId)
     {
-        // If using Dispatcher, must call plugin Economic first
+        // If using Dispatcher, must call plugin Billy first
         self::importBilly();
         
-        $orderDetail = \RedshopHelperOrder::getOrderDetails($orderId);
-        $paymentInfo = \RedshopHelperOrder::getPaymentInfo($orderId);
+        $orderDetail = \RedshopEntityOrder::getInstance($orderId)->getItem();
+        $paymentInfo = \RedshopEntityOrder::getInstance($orderId)->getPayment()->getItem();
     
-        if (count($paymentInfo) > 0) {
+        if (!empty($paymentInfo)) {
             // Get plugin params
             $plugin      = \JPluginHelper::getPlugin('billy', 'billy');
             $billyParams = new \JRegistry($plugin->params);
@@ -2030,23 +2011,13 @@ class RedshopBilly
             if ($paymentName == 'rs_payment_epayv2') {
                 $billyInvoiceEmailSubject = $billyParams->get('billy_invoice_email_subject_creditcard');
                 $billyInvoiceEmailBody    = $billyParams->get('billy_invoice_email_body_creditcard', '');
-            }
-            else if ($paymentName == 'bambora') {
+            } else if ($paymentName == 'bambora') {
                 $billyInvoiceEmailSubject = $billyParams->get('billy_invoice_email_subject_creditcard');
                 $billyInvoiceEmailBody    = $billyParams->get('billy_invoice_email_body_creditcard', '');
-            }
-            else if ($paymentName == 'rs_payment_paypal') {
+            } else if ($paymentName == 'rs_payment_paypal') {
                 $billyInvoiceEmailSubject = $billyParams->get('billy_invoice_email_subject_creditcard');
                 $billyInvoiceEmailBody    = $billyParams->get('billy_invoice_email_body_creditcard', '');
-            }
-            // Tweak by Ronni START - Only in my own version  'rs_payment_banktransfer2'
-            else if($paymentName == 'rs_payment_banktransfer2')
-            {
-                $billyInvoiceEmailSubject = $billyParams->get('billy_invoice_email_subject_creditcard');
-                $billyInvoiceEmailBody 	 = $billyParams->get('billy_invoice_email_body_creditcard', '');
-            }
-            // Tweak by Ronni END - Only in my own version  'rs_payment_banktransfer2'
-            else {
+            } else {
                 $billyInvoiceEmailSubject = $billyParams->get('billy_invoice_email_subject_other');
                 $billyInvoiceEmailBody 	 = $billyParams->get('billy_invoice_email_body_other', '');
             }
@@ -2054,7 +2025,7 @@ class RedshopBilly
 
         $bil['billy_invoice_email_subject'] = $billyInvoiceEmailSubject;			
         $bil['billy_invoice_email_body'] 	= $billyInvoiceEmailBody;
-        $userBillingInfo 					= \RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+        $userBillingInfo 					= \RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
 
         // get billy user Id from redhsop user
         $db     = \JFactory::getDbo();
@@ -2066,8 +2037,7 @@ class RedshopBilly
         $debtorHandle        	= \RedshopHelperUtility::getDispatcher()->trigger('debtorFindByNumber', array($bil));
         $bil['debtorHandle']  	= $debtorHandle[0]->id;			
         $bil['invoiceHandle'] 	= $orderDetail->billy_invoice_no;
-        $bil['order_number']  	= $orderDetail->order_number;
-        $bil['order_id']      	= $orderDetail->orderId;
+        $bil['order_id']      	= $orderDetail->order_id;
         $bil['is_billy_booked'] = $orderDetail->is_billy_booked;
 
         return $resendInvoice = \RedshopHelperUtility::getDispatcher()->trigger('ReSendInvoice', array($bil));
@@ -2330,8 +2300,8 @@ class RedshopBilly
             $orders = \RedshopHelperUtility::getDispatcher()->trigger('getOrderUnpaidFromContact', array($billyUserId));
             
             foreach($orders[0] as $order) {
-                $orderDetail = \RedshopHelperOrder::getOrderDetails($order->invoiceNo);
-                
+                $orderDetail = \RedshopEntityOrder::getInstance($order->invoiceNo)->getItem();
+
                 if (is_array($orderDetail) || !empty($orderDetail)) {
                 //	$billyInvoiceNo = $orderDetail->billy_invoice_no;
 
