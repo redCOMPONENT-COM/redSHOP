@@ -153,6 +153,8 @@ class RedshopTagsSectionsOrderList extends RedshopTagsAbstract
                 // Tweak by Ronni START - Add Invoice link
                 $invoiceData = RedshopBilly::getInvoiceData($this->detail[$i]->billy_invoice_no);
                 $replace['{invoice_link}'] = $invoiceData->downloadUrl;
+
+                $replace['{invoice_lbl}']  = JText::_('COM_REDSHOP_INVOICE');
                 // Tweak by Ronni END - Add Invoice link
 
                 $replace['{order_products}'] = $this->replaceTagDiv(
