@@ -220,13 +220,18 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
                     || $oneMethod->name == 'rs_payment_eantransfer') && $user->id > 0) 
                     || ($invoiceBlock && ( $oneMethod->name == 'rs_payment_banktransfer' 
                     || $oneMethod->name == 'rs_payment_eantransfer') && $user->id > 0)) {
-                $disabled = 'disabled';
-                $disabledText = JText::_('COM_REDSHOP_BANKTRANSFER_DISABLED') . "<br>" . $contactInfo->accessCode;
+                $disabled     = 'disabled';
+                $disabledText = JText::_('COM_REDSHOP_BANKTRANSFER_DISABLED') 
+                                . '<br><a href="https://customer.billy.dk/print-dk/' . $contactInfo->accessCode . '/invoices" target="_blank">
+                                        <div style="margin-top:5px;margin-bottom: 10px;width: fit-content;text-decoration: underline">
+                                            ' .  JText::_('COM_REDSHOP_CUSTOMER_CENTER_LIST') . '
+                                        </div>
+                                   </a>';
             } else if ($vatNumber <= 0 && ($oneMethod->name == 'rs_payment_banktransfer') && $user->id > 0) {
-                $disabled = 'disabled';
+                $disabled     = 'disabled';
                 $disabledText = JText::_('COM_REDSHOP_BANKTRANSFER_DISABLED_CVR');
             } else {
-                $disabled = '';
+                $disabled     = '';
                 $disabledText = '';
             }						
             // Tweak by Ronni END - Bank and EAN transfer plg disable if un-paid invoices in Billy
