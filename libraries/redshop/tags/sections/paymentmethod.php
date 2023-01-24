@@ -187,18 +187,18 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
             // Tweak by Ronni START - Bank and EAN transfer plg disable if un-paid invoices in Billy
             // Check for overdue payment from billy
             $billyIntegration = JPluginHelper::isEnabled('billy');
-            $overdueOrder = 0;
-            $vatNumber    = 0;
-            $invoiceBlock = 0;
-            $user         = JFactory::getUser();
+            $overdueOrder     = 0;
+            $vatNumber        = 0;
+            $invoiceBlock     = 0;
+            $user             = JFactory::getUser();
 
             if ($billyIntegration && $user->id > 0) {
-                $billingArray = RedshopHelperOrder::getBillingAddress($user->id);
-                $invoiceBlock = $billingArray->invoice_block;
-                $vatNumber    = $billingArray->vat_number; 
+                $billingAddress = RedshopHelperOrder::getBillingAddress($user->id);
+                $invoiceBlock = $billingAddress->invoice_block;
+                $vatNumber    = $billingAddress->vat_number; 
                                     
-                if (!empty($billingArray)) {
-                    $user_info_id = $billingArray->users_info_id;
+                if (!empty($billingAddress)) {
+                    $user_info_id = $billingAddress->users_info_id;
                 }
 
                 // Get billy user_id
@@ -209,8 +209,10 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
                 $billyUserId = $db->loadResult();
 
                 if ($billyUserId) {
-                    // Get all order for this user
-                    $overdueOrder = RedshopBilly::checkAnyOverdueOrder($billyUserId, false);
+                    $overdueOrder         = RedshopBilly::checkAnyOverdueOrder($billyUserId, false);
+                    $bil                  = array();
+                    $bil['billy_user_id'] = $billyUserId;
+                    $contactInfo          = RedshopBilly::debtorFindByNumber($bil);
                 }
             }
 
@@ -219,7 +221,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
                     || ($invoiceBlock && ( $oneMethod->name == 'rs_payment_banktransfer' 
                     || $oneMethod->name == 'rs_payment_eantransfer') && $user->id > 0)) {
                 $disabled = 'disabled';
-                $disabledText = JText::_('COM_REDSHOP_BANKTRANSFER_DISABLED');
+                $disabledText = JText::_('COM_REDSHOP_BANKTRANSFER_DISABLED') . "<br>" . $contactInfo->accessCode;
             } else if ($vatNumber <= 0 && ($oneMethod->name == 'rs_payment_banktransfer') && $user->id > 0) {
                 $disabled = 'disabled';
                 $disabledText = JText::_('COM_REDSHOP_BANKTRANSFER_DISABLED_CVR');
