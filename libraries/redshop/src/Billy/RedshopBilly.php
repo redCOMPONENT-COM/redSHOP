@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2022 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @since       3.0.4
+ * @since       3.0.3
  */
 
 namespace Redshop\Billy;
@@ -41,7 +41,7 @@ class RedshopBilly
      *
      * @return  array
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function importStockFromBilly($productRow)
     {
@@ -59,7 +59,7 @@ class RedshopBilly
      *
      * @return  void
      *
-     * @since  3.0.4
+     * @since  3.0.3
      */
     public static function importBilly()
     {
@@ -73,7 +73,7 @@ class RedshopBilly
      *
      * @return  array
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function renewInvoiceInBilly($orderData)
     {
@@ -103,7 +103,7 @@ class RedshopBilly
      *
      * @return  void
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function deleteInvoiceInBilly($orderData = array())
     {
@@ -112,7 +112,7 @@ class RedshopBilly
 
         if ($orderData->billy_invoice_no) {
             $bil['invoiceHandle'] = $orderData->billy_invoice_no;
-            $deletedInBilly 	  = \RedshopHelperUtility::getDispatcher()->trigger('deleteInvoice', array($bil));
+            $deletedInBilly       = \RedshopHelperUtility::getDispatcher()->trigger('deleteInvoice', array($bil));
             
             if ($deletedInBilly[0] === true) {
                 self::updateInvoiceNumber($orderData->order_id, 0);
@@ -134,7 +134,7 @@ class RedshopBilly
      *
      * @return  void
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function updateInvoiceNumber($orderId = 0, $invoiceNo = 0)
     {
@@ -168,7 +168,7 @@ class RedshopBilly
         if (!empty($paymentInfo)) {
             // Get plugin params
             $plugin      = \JPluginHelper::getPlugin('billy', 'billy');
-            $billyParams = new \JRegistry($plugin->params);		
+            $billyParams = new \JRegistry($plugin->params);     
             $paymentName = $paymentInfo->payment_method_class;
             
             if ($paymentName == 'rs_payment_banktransfer') {
@@ -256,12 +256,12 @@ class RedshopBilly
         }
 
         if ($orderDetail->billy_invoice_no) {
-            $bil['invoice_paymenttermdays'] = $billyPluginPaymentDays;			
+            $bil['invoice_paymenttermdays'] = $billyPluginPaymentDays;
             $bil['invoice_paymenttermmode'] = $invoicePaymentTermsMode;
-            $bil['billy_invoice_no'] 		= $orderDetail->billy_invoice_no;
+            $bil['billy_invoice_no']        = $orderDetail->billy_invoice_no;
 
             \RedshopHelperUtility::getDispatcher()->trigger('updateInvoicePayment', array($bil));
-        }		
+        }
     }
 
     /**
@@ -272,7 +272,7 @@ class RedshopBilly
      *
      * @return  mixed
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function createInvoiceInBilly($orderId)
     {
@@ -291,12 +291,12 @@ class RedshopBilly
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
-        $order            = $orderEntity->getItem();		
+        $order            = $orderEntity->getItem();        
         $userBillingInfo  = $orderEntity->getBilling();
         $userShippinginfo = $orderEntity->getShipping();
         $orderItem        = \RedshopHelperOrder::getOrderItemDetail($orderId);
         $debtorNumber     = self::createUserInBilly($userBillingInfo->getItem());
-        $paymentInfo 	  = \RedshopEntityOrder::getInstance($orderId)->getPayment()->getItem();
+        $paymentInfo      = \RedshopEntityOrder::getInstance($orderId)->getPayment()->getItem();
 
         if (count($debtorNumber) > 0 && $debtorNumber[0]) {
             $cdate    = date("Y-m-d", $orderEntity->get('cdate'));
@@ -314,7 +314,7 @@ class RedshopBilly
             $bil['customer_note']      = $orderEntity->get('customer_note');
             $bil['requisition_number'] = $orderEntity->get('requisition_number');
             $bil['vatzone']            = self::getBillyTaxZone($userBillingInfo->get('country_code'));
-            $bil['cdate'] 			   = $cdate;
+            $bil['cdate']              = $cdate;
             $bil['order_id']           = $orderEntity->get('order_id');
             $bil['setAttname']         = 0;
 
@@ -344,7 +344,7 @@ class RedshopBilly
                 }
                 if ($paymentName == 'rs_payment_banktransfer2') {
                     $billyPluginPaymentDays = $billyParams->get('billy_payment_days_banktransfer2');
-                    $paymenttermsMode         = (int) $billyParams->get('billy_paymenttermsmode_banktransfer2', '');
+                    $paymenttermsMode       = (int) $billyParams->get('billy_paymenttermsmode_banktransfer2', '');
 
                     if ($paymenttermsMode == "0") {
                         $invoicePaymentTermsMode = 'date';
@@ -358,7 +358,7 @@ class RedshopBilly
                 }
                 if ($paymentName == 'rs_payment_banktransfer_discount') {
                     $billyPluginPaymentDays = $billyParams->get('billy_payment_days_banktransfer_discount');
-                    $paymenttermsMode         = (int) $billyParams->get('billy_paymenttermsmode_banktransfer_discount', '');
+                    $paymenttermsMode       = (int) $billyParams->get('billy_paymenttermsmode_banktransfer_discount', '');
 
                     if ($paymenttermsMode == "0") {
                         $invoicePaymentTermsMode = 'date';
@@ -373,7 +373,8 @@ class RedshopBilly
 
                 if ($paymentName == 'rs_payment_eantransfer') {
                     $billyPluginPaymentDays = $billyParams->get('billy_payment_days_ean');
-                    $paymenttermsMode         = (int) $billyParams->get('billy_paymenttermsmode_ean', '');
+                    $paymenttermsMode       = (int) $billyParams->get('billy_paymenttermsmode_ean', '');
+
                     if ($paymenttermsMode == "0") {
                         $invoicePaymentTermsMode = 'date';
                     }
@@ -386,7 +387,7 @@ class RedshopBilly
                 }
             }
 
-            $bil['invoice_paymenttermdays'] = $billyPluginPaymentDays;			
+            $bil['invoice_paymenttermdays'] = $billyPluginPaymentDays;          
             $bil['invoice_paymenttermmode'] = $invoicePaymentTermsMode;
 
             $attribute_as_product_in_billy = $billyParams->get('attribute_as_product_in_billy');
@@ -404,10 +405,8 @@ class RedshopBilly
             $isVatDiscount = 0;
 
             if ((float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') 
-                && $orderEntity->get('order_discount') != "0.00" 
-                && $orderEntity->get('order_tax') 
-                && !empty($orderEntity->get('order_discount'))) 
-            {
+                    && $orderEntity->get('order_discount') != "0.00" && $orderEntity->get('order_tax') 
+                    && !empty($orderEntity->get('order_discount'))) {
                 $totalDiscount        = $orderEntity->get('order_discount');
                 $vatRateTotalDiscount = (float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totalDiscount;
                 $vatRateAfterDiscount = 1 + (float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT');
@@ -417,10 +416,8 @@ class RedshopBilly
             }
 
             if ((float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') 
-                && $orderEntity->get('special_discount_amount') != "0.00" 
-                && $orderEntity->get('order_tax') 
-                && !empty($orderEntity->get('special_discount_amount'))) 
-            {
+                    && $orderEntity->get('special_discount_amount') != "0.00" 
+                    && $orderEntity->get('order_tax') && !empty($orderEntity->get('special_discount_amount'))) {
                 $totalDiscount            = $orderEntity->get('special_discount_amount');
                 $vatRateTotalDiscount     = (float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totalDiscount;
                 $vatRateAfterDiscount     = 1 + (float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT');
@@ -430,10 +427,8 @@ class RedshopBilly
             }
 
             if ((float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') 
-                && $orderEntity->get('payment_discount') != "0.00" 
-                && $orderEntity->get('order_tax') 
-                && !empty($orderEntity->get('payment_discount'))) 
-            {
+                    && $orderEntity->get('payment_discount') != "0.00" && $orderEntity->get('order_tax') 
+                    && !empty($orderEntity->get('payment_discount'))) {
                 $totalDiscount            = $orderEntity->get('payment_discount');
                 $vatRateTotalDiscount     = (float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totalDiscount;
                 $vatRateAfterDiscount     = 1 + (float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT');
@@ -481,7 +476,7 @@ class RedshopBilly
      *
      * @return  array
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function createUserInBilly($row = array())
     {
@@ -492,7 +487,7 @@ class RedshopBilly
         $db                   = \JFactory::getDbo();
         $selSQL               = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '".$row->users_info_id."' AND relation_type='user'";
         $db->setQuery($selSQL);
-        $billyId 			  = $db->loadResult();
+        $billyId              = $db->loadResult();
 
         $bil                  = array();
         $bil['billy_user_id'] = $billyId;
@@ -518,7 +513,7 @@ class RedshopBilly
         }
         else {
             $bil['vatnumber'] = "";
-            $bil['type'] 	  = 'person';
+            $bil['type']      = 'person';
         }
 
         $name = $row->firstname . ' ' . $row->lastname;
@@ -527,13 +522,13 @@ class RedshopBilly
             $name = $row->company_name;
         }
 
-        $bil['name']    	 	= $name;
-        $bil['contact_name'] 	= $row->firstname . ' ' . $row->lastname;
-        $bil['phone']   	 	= $row->phone;
-        $bil['address'] 	 	= $row->address;
-        $bil['zipcode'] 	 	= $row->zipcode;
-        $bil['city']    	 	= $row->city;
-        $bil['country'] 	 	= \RedshopHelperWorld::getCountryCode2($row->country_code);
+        $bil['name']            = $name;
+        $bil['contact_name']    = $row->firstname . ' ' . $row->lastname;
+        $bil['phone']           = $row->phone;
+        $bil['address']         = $row->address;
+        $bil['zipcode']         = $row->zipcode;
+        $bil['city']            = $row->city;
+        $bil['country']         = \RedshopHelperWorld::getCountryCode2($row->country_code);
         $bil['country_id']      = $row->country_code;
         $bil['eco_user_number'] = "";
         $bil['newuserFlag']     = false;
@@ -541,16 +536,16 @@ class RedshopBilly
         if ($debtorHandle && count($debtorHandle) > 0) {
             if ($debtorHandle[0]->id) {
                 $bil['eco_user_number'] = $debtorHandle[0]->id;
-                $debitorNumber 			= $debtorHandle[0]->id;
-                $returnDebtor[0] 		= $debtorHandle[0]->id;
-                $bilDebtorNumber 		= \RedshopHelperUtility::getDispatcher()->trigger('storeDebtor', array($bil));
-                $debitorNumber 			= $bilDebtorNumber[0];
-                $returnDebtor 			= $bilDebtorNumber;
+                $debitorNumber          = $debtorHandle[0]->id;
+                $returnDebtor[0]        = $debtorHandle[0]->id;
+                $bilDebtorNumber        = \RedshopHelperUtility::getDispatcher()->trigger('storeDebtor', array($bil));
+                $debitorNumber          = $bilDebtorNumber[0];
+                $returnDebtor           = $bilDebtorNumber;
             } else {
                 $bil['newuserFlag'] = true;
-                $bilDebtorNumber 	= \RedshopHelperUtility::getDispatcher()->trigger('storeDebtor', array($bil));
-                $debitorNumber 		= $bilDebtorNumber[0];
-                $returnDebtor 		= $bilDebtorNumber;
+                $bilDebtorNumber    = \RedshopHelperUtility::getDispatcher()->trigger('storeDebtor', array($bil));
+                $debitorNumber      = $bilDebtorNumber[0];
+                $returnDebtor       = $bilDebtorNumber;
             }
         } else {
             $bil['newuserFlag'] = true;
@@ -584,7 +579,7 @@ class RedshopBilly
      *
      * @return  string
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function getBillyTaxZone($countryCode = "")
     {
@@ -612,7 +607,7 @@ class RedshopBilly
      *
      * @return  boolean
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function isEuCountry($country)
     {
@@ -632,7 +627,7 @@ class RedshopBilly
      *
      * @return  void
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function createInvoiceLineInBillyAsProduct($orderItem = array(), $invoiceNo = "", $userId = 0)
     {
@@ -721,7 +716,7 @@ class RedshopBilly
      *
      * @return  array
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function createProductInBilly($row = array())
     {
@@ -750,7 +745,7 @@ class RedshopBilly
                 $bil['product_group'] = $bilProductGroupNumber[0];
             }
         
-            $isNoVat = (int) $billyParams->get('billy_redshop_no_vat_id');		
+            $isNoVat = (int) $billyParams->get('billy_redshop_no_vat_id');      
         
             if ($isNoVat == $row->product_tax_group_id) {
                 $bil['product_tax_id'] = $billyParams->get('default_billy_tax_group_without_vat');
@@ -761,21 +756,21 @@ class RedshopBilly
             $bil['product_number'] = trim($row->product_number);
             $bil['product_name']   = addslashes($row->product_name);
             $bil['product_price']  = $row->product_price;
-            $bil['product_volume'] = $row->product_volume;		
-            $bil['billy_id'] 	   = $billyId;
+            $bil['product_volume'] = $row->product_volume;      
+            $bil['billy_id']       = $billyId;
             $bil['product_stock']  = \RedshopHelperStockroom::getStockroomTotalAmount($row->product_id);
             $bil['currency_code']  = \Redshop::getConfig()->get('CURRENCY_CODE');
 
-            $BillyProductId        = \RedshopHelperUtility::getDispatcher()->trigger('Product_FindByNumber', array($bil));		
+            $BillyProductId        = \RedshopHelperUtility::getDispatcher()->trigger('Product_FindByNumber', array($bil));      
 
-            if (!empty($billyId)) {	
+            if (!empty($billyId)) { 
                 $bil['eco_prd_number'] = $BillyProductId[0];
             } else {
                 $bil['eco_prd_number'] = "";
             }
 
-            $bilProductNumber 	  = \RedshopHelperUtility::getDispatcher()->trigger('storeProduct', array($bil));
-            $bilProductNumber 	  = $bilProductNumber[0];
+            $bilProductNumber     = \RedshopHelperUtility::getDispatcher()->trigger('storeProduct', array($bil));
+            $bilProductNumber     = $bilProductNumber[0];
         
             // Store Product Billy number in Database
             if ($bilProductNumber) {
@@ -803,7 +798,7 @@ class RedshopBilly
      *
      * @return  integer
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function getTotalProperty($productId)
     {
@@ -827,7 +822,7 @@ class RedshopBilly
      *
      * @return  null/array
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function createProductGroupInBilly($row = array(), $isShipping = 0, $isDiscount = 0, $isVat = 0)
     {
@@ -840,10 +835,10 @@ class RedshopBilly
 
         $bilProductGroupNumber         = new \stdClass;
         $bilProductGroupNumber->Number = 1;
-        $accountGroup			       = array();
-        $defaultBillyAccountGroup	   = $billyParams->get('default_billy_account_group');
-        $defaultBillyAccountNoVatGroup = $billyParams->get('default_billy_account_group_without_vat');	
-        $isNoVat					   = (int) $billyParams->get('billy_redshop_no_vat_id', '');
+        $accountGroup                  = array();
+        $defaultBillyAccountGroup      = $billyParams->get('default_billy_account_group');
+        $defaultBillyAccountNoVatGroup = $billyParams->get('default_billy_account_group_without_vat');  
+        $isNoVat                       = (int) $billyParams->get('billy_redshop_no_vat_id', '');
 
         if (count($row) > 0 && $row->billy_accountgroup_id != 0) {
             $accountGroup = self::getAllAccountsFromBilly($row->billy_accountgroup_id);
@@ -1271,7 +1266,7 @@ class RedshopBilly
      *
      * @return  void
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function getInvoiceLineInBilly($orderItem = array(), $userId = 0)
     {
@@ -1301,8 +1296,8 @@ class RedshopBilly
                 continue;
             }
 
-            $productId 		       = $orderItem[$i]->product_id;
-            $product    		   = \Redshop::product((int) $productId);
+            $productId             = $orderItem[$i]->product_id;
+            $product               = \Redshop::product((int) $productId);
             $product->product_name = $orderItem[$i]->order_item_name;
 
             self::createProductInBilly($product);
@@ -1319,20 +1314,20 @@ class RedshopBilly
 
             $bil ['order_item_id']  = $orderItem[$i]->order_item_id;
             $bil ['product_number'] = $orderItem[$i]->order_item_sku;
-            $product_tax 			= ($orderItem[$i]->product_item_price - $orderItem[$i]->product_item_price_excl_vat) * $orderItem[$i]->product_quantity;
+            $product_tax            = ($orderItem[$i]->product_item_price - $orderItem[$i]->product_item_price_excl_vat) * $orderItem[$i]->product_quantity;
 
             // Get billy product Id from redshop number
             $db     = \JFactory::getDbo();
             $selSQL = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '".$orderItem[$i]->order_item_sku."' AND relation_type='product'";
             $db->setQuery($selSQL);
             
-            $billyId 			     = $db->loadResult();
-            $bil['billy_id'] 	     = $billyId;
-            $BillyproductId  	     = \RedshopHelperUtility::getDispatcher()->trigger('Product_FindByNumber', array($bil));
-            $BillyproductId 	     = $BillyproductId[0];
+            $billyId                 = $db->loadResult();
+            $bil['billy_id']         = $billyId;
+            $BillyproductId          = \RedshopHelperUtility::getDispatcher()->trigger('Product_FindByNumber', array($bil));
+            $BillyproductId          = $BillyproductId[0];
             $bil['billy_product_id'] = $BillyproductId;
 
-            $discountCalc 			 = "";
+            $discountCalc            = "";
 
             if ($orderItem[$i]->discountCalc_data) {
                 $discountCalc = $orderItem[$i]->discount_calc_data;
@@ -1341,8 +1336,8 @@ class RedshopBilly
             }
 
             // Product user field Information - Get HREF values before striping out html
-            $productUserfield = \RedshopHelperProduct::getuserfield($orderItem[$i]->order_item_id);			
-            $dom 		      = new \DOMDocument;
+            $productUserfield = \RedshopHelperProduct::getuserfield($orderItem[$i]->order_item_id);         
+            $dom              = new \DOMDocument;
             $dom->loadHTML($productUserfield);
             $userFieldLabel   = true;
             
@@ -1380,12 +1375,12 @@ class RedshopBilly
             $j = $i;
 
             $lineItems = new \stdclass();
-            $lineItems->productId 	= $BillyproductId;
-            $lineItems->unitPrice 	= round($orderItem[$i]->product_item_price_excl_vat,2);
+            $lineItems->productId   = $BillyproductId;
+            $lineItems->unitPrice   = round($orderItem[$i]->product_item_price_excl_vat,2);
             $lineItems->description = $displaywrapper . $displayattribute . $discountCalc . $displayaccessory;
-            $lineItems->quantity 	= $orderItem[$i]->product_quantity;
-            $lineItems->priority 	= $j++;
-            $lines[] = $lineItems;		
+            $lineItems->quantity    = $orderItem[$i]->product_quantity;
+            $lineItems->priority    = $j++;
+            $lines[] = $lineItems;      
         }
 
         return $lines;
@@ -1440,7 +1435,7 @@ class RedshopBilly
      *
      * @return  void
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public function getInvoiceShippingLineInBilly($shipMethodId = "", $lines = array())
     {
@@ -1470,11 +1465,11 @@ class RedshopBilly
                 $bilShippingrateNumber = self::createShippingRateInBilly($shippingNumber, $shippingName, $shippingRate, $isVat);
 
                 if (isset($bilShippingrateNumber) && $bilShippingrateNumber) {
-                    $lineItems->productId 	= $bilShippingrateNumber;
-                    $lineItems->unitPrice 	= round($shippingRate,2);
+                    $lineItems->productId   = $bilShippingrateNumber;
+                    $lineItems->unitPrice   = round($shippingRate,2);
                     $lineItems->description = '';
-                    $lineItems->quantity  	= 1;
-                    $lineItems->priority  	= 30;
+                    $lineItems->quantity    = 1;
+                    $lineItems->priority    = 30;
                     $lines[]                = $lineItems;
                 }
             }
@@ -1493,7 +1488,7 @@ class RedshopBilly
      *
      * @return  array
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function createShippingRateInBilly($shippingNumber, $shippingName, $shippingRate = 0, $isVat = 1)
     {
@@ -1536,10 +1531,10 @@ class RedshopBilly
         $selSQL = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '".$shippingNumber."' AND relation_type='product'";
         $db->setQuery($selSQL);
         
-        $billyId 		 	   = $db->loadResult();
-        $bil['billy_id'] 	   = $billyId;
-        $BillyproductId	 	   = \RedshopHelperUtility::getDispatcher()->trigger('Product_FindByNumber', array($bil));
-        $BillyproductId  	   = $BillyproductId[0];
+        $billyId               = $db->loadResult();
+        $bil['billy_id']       = $billyId;
+        $BillyproductId        = \RedshopHelperUtility::getDispatcher()->trigger('Product_FindByNumber', array($bil));
+        $BillyproductId        = $BillyproductId[0];
 
         $bil['eco_prd_number'] = "";
 
@@ -1548,7 +1543,7 @@ class RedshopBilly
         }
 
         $bil['product_stock']  = 1;
-        $currency 			   = \Redshop::getConfig()->get('CURRENCY_CODE');
+        $currency              = \Redshop::getConfig()->get('CURRENCY_CODE');
         $bil['currency_code']  = $currency;
         $bilShippingRateNumber = \RedshopHelperUtility::getDispatcher()->trigger('storeProduct', array($bil));
         $bilShippingRateNumber = $bilShippingRateNumber[0];
@@ -1595,8 +1590,8 @@ class RedshopBilly
             $bil['product_group'] = $bilProductGroupNumber[0];
         }
 
-        $discount     	   = $orderDetail->order_total_discount;
-        $productName 	   = \JText::_('COM_REDSHOP_ORDER_DISCOUNT');
+        $discount          = $orderDetail->order_total_discount;
+        $productName       = \JText::_('COM_REDSHOP_ORDER_DISCOUNT');
         $productNumber     = "discount-item-999";
 
         if ($orderDetail->special_discount > 0) {
@@ -1650,8 +1645,8 @@ class RedshopBilly
 
         $bil['product_stock'] = 1;
         $bil['currency_code'] = \Redshop::getConfig()->get('CURRENCY_CODE');
-        $bilDiscountNumber 	  = \RedshopHelperUtility::getDispatcher()->trigger('storeProduct', array($bil));
-        $bilDiscountNumber 	  = $bilDiscountNumber[0];
+        $bilDiscountNumber    = \RedshopHelperUtility::getDispatcher()->trigger('storeProduct', array($bil));
+        $bilDiscountNumber    = $bilDiscountNumber[0];
         
         // Store Product Billy number in Database
         if ($bilDiscountNumber) {
@@ -1685,7 +1680,7 @@ class RedshopBilly
      *
      * @return  void
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function updateIsBooked($orderId = 0)
     {
@@ -1706,7 +1701,7 @@ class RedshopBilly
      *
      * @return  void
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function updateBookInvoiceDate($orderId = 0)
     {
@@ -1730,7 +1725,7 @@ class RedshopBilly
      *
      * @return  void
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function updateBookInvoiceNumber($orderId = 0, $bookInvoiceNumber = 0)
     {
@@ -1772,7 +1767,7 @@ class RedshopBilly
         $billyPlugin         = \JPluginHelper::getPlugin('billy', 'billy');
         $billyPluginParams   = new \JRegistry($billyPlugin->params);
         $billyBookStatus     = $billyPluginParams->get('billy_book_status','');
-        $billyInvoiceDraft 	 = $billyPluginParams->get('billy_invoice_draft','0');
+        $billyInvoiceDraft   = $billyPluginParams->get('billy_invoice_draft','0');
         $billyBookEanInvoice = $billyPluginParams->get('billy_book_ean_invoice','0');
         $paymentMethodEan    = $billyPluginParams->get('billy_payment_method_id_ean');
         $order               = $orderEntity->getItem();
@@ -1785,7 +1780,7 @@ class RedshopBilly
             $db                          = \JFactory::getDbo();
             $selSQL                      = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '" . $userBillingInfo->users_info_id . "' AND relation_type='user'";
             $db->setQuery($selSQL);
-            $billyId 			         = $db->loadResult();
+            $billyId                     = $db->loadResult();
 
             $paymentInfo                 = \RedshopEntityOrder::getInstance($order->order_id)->getPayment()->getItem();
             $currency                    = \Redshop::getConfig()->get('CURRENCY_CODE');
@@ -1820,11 +1815,11 @@ class RedshopBilly
                     $billyInvoiceEmailBody    = $billyPluginParams->get('billy_invoice_email_body_creditcard', '');
                 } else {
                     $billyInvoiceEmailSubject = $billyPluginParams->get('billy_invoice_email_subject_other');
-                    $billyInvoiceEmailBody 	 = $billyPluginParams->get('billy_invoice_email_body_other', '');
+                    $billyInvoiceEmailBody   = $billyPluginParams->get('billy_invoice_email_body_other', '');
                 }
             }
 
-            $bil['billy_invoice_email_subject'] = $billyInvoiceEmailSubject;			
+            $bil['billy_invoice_email_subject'] = $billyInvoiceEmailSubject;            
             $bil['billy_invoice_email_body']    = $billyInvoiceEmailBody;
 
             if (count($currectInvoiceData) > 0 && trim($currectInvoiceData[0]->invoiceNo) == $order->order_number) {
@@ -1848,7 +1843,7 @@ class RedshopBilly
                 } else {
                     $bookhandle = \RedshopHelperUtility::getDispatcher()->trigger('CurrentInvoiceBook', array($bil));
                     
-                    self::updateBookInvoiceDate((int) $order->order_id);	
+                    self::updateBookInvoiceDate((int) $order->order_id);    
                     self::updateIsBooked($orderId);
                 }
 
@@ -1862,12 +1857,12 @@ class RedshopBilly
                         $accountgroup    = \RedshopHelperUtility::getDispatcher()->trigger('getProductGroup', $d);
                     }
 
-                    $cashAccountId 		  = $accountgroup->id;
+                    $cashAccountId        = $accountgroup->id;
                     $bil['cashAccountId'] = $cashAccountId;
-                    $bil['contactId'] 	  = $bookhandle[0]->contactId;
+                    $bil['contactId']     = $bookhandle[0]->contactId;
 
                     if (!empty($paymentInfo)) {
-                        $paymentName = $paymentInfo->payment_method_class;							
+                        $paymentName = $paymentInfo->payment_method_class;                          
 
                         if ($paymentName == 'rs_payment_banktransfer') {
                             $bil['bankAccountId'] = $billyPluginParams->get('billy_cashbook_account_banktransfer1');
@@ -1889,12 +1884,12 @@ class RedshopBilly
                     }
 
                     if (count($data) > 0) {
-                        $bil['onlycashbook'] 	 = $data['onlycashbook'];
+                        $bil['onlycashbook']     = $data['onlycashbook'];
                         $bil['bookwithCashbook'] = $data['bookwithCashbook'];
-                        $bil['onlybook']		 = $data['onlybook'];
+                        $bil['onlybook']         = $data['onlybook'];
                     }
 
-                    \RedshopHelperUtility::getDispatcher()->trigger('bookInvoice', array($bil));							
+                    \RedshopHelperUtility::getDispatcher()->trigger('bookInvoice', array($bil));                            
                 }
             }
             
@@ -1916,14 +1911,14 @@ class RedshopBilly
      *
      * @return  string
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public function createCashbookEntry($orderId, $orderDetail, $data)
     {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
-        $bil['onlycashbook'] 	     = $data['onlycashbook'];
+        $bil['onlycashbook']         = $data['onlycashbook'];
         $bil['bookwithCashbook']     = $data['bookwithCashbook'];
         $bil['onlybook']             = $data['onlybook'];
         $bil['invoiceHandle']        = $orderDetail->billy_invoice_no;
@@ -2031,12 +2026,12 @@ class RedshopBilly
         $selSQL = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '" . $userBillingInfo->users_info_id . "' AND relation_type='user'";
         $db->setQuery($selSQL);
 
-        $billyId 				= $db->loadResult();
-        $bil['billy_user_id'] 	= $billyId;
-        $debtorHandle        	= \RedshopHelperUtility::getDispatcher()->trigger('debtorFindByNumber', array($bil));
-        $bil['debtorHandle']  	= $debtorHandle[0]->id;
-        $bil['invoiceHandle'] 	= $orderDetail->billy_invoice_no;
-        $bil['order_id']      	= $orderDetail->order_id;
+        $billyId                = $db->loadResult();
+        $bil['billy_user_id']   = $billyId;
+        $debtorHandle           = \RedshopHelperUtility::getDispatcher()->trigger('debtorFindByNumber', array($bil));
+        $bil['debtorHandle']    = $debtorHandle[0]->id;
+        $bil['invoiceHandle']   = $orderDetail->billy_invoice_no;
+        $bil['order_id']        = $orderDetail->order_id;
         $bil['is_billy_booked'] = $orderDetail->is_billy_booked;
 
         return $resendInvoice = \RedshopHelperUtility::getDispatcher()->trigger('ReSendInvoice', array($bil));
@@ -2049,7 +2044,7 @@ class RedshopBilly
      *
      * @return  mixed
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function calulateOverdueDays($invoiceNo)
     {
@@ -2068,7 +2063,7 @@ class RedshopBilly
      *
      * @return  mixed
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function calulateOverdueLimits($invoiceNo, $reminder = false)
     {
@@ -2110,7 +2105,7 @@ class RedshopBilly
      *
      * @return  mixed
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function getInvoiceData($billyInvoiceNo)
     {
@@ -2133,7 +2128,7 @@ class RedshopBilly
      *
      * @return  mixed
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function getSentReminders($billyInvoiceNo)
     {
@@ -2141,7 +2136,7 @@ class RedshopBilly
         self::importBilly();
 
         if ($billyInvoiceNo) {
-            $reminders 			  = \RedshopHelperUtility::getDispatcher()->trigger('getSentReminders', array($billyInvoiceNo));
+            $reminders            = \RedshopHelperUtility::getDispatcher()->trigger('getSentReminders', array($billyInvoiceNo));
             $reminderDetailsFinal = array();
             
             if (is_array($reminders) && count($reminders) > 0) {
@@ -2172,7 +2167,7 @@ class RedshopBilly
                     return $FreminderDetailsFinal;
                 }
             }
-        }		
+        }       
     }
 
     /**
@@ -2182,7 +2177,7 @@ class RedshopBilly
      *
      * @return  mixed
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function getInvoiceTimelines($billyInvoiceNo)
     {
@@ -2193,7 +2188,7 @@ class RedshopBilly
         if ($billyInvoiceNo) {
             $timelines = \RedshopHelperUtility::getDispatcher()->trigger('getInvoiceTimeline', array($billyInvoiceNo));
             
-            if (count($timelines[0]) > 0)	{
+            if (count($timelines[0]) > 0)   {
                 foreach($timelines[0] as $timeline) {
                     if ($timeline->type == 'InvoiceEmailSent') {
                         $timeline->type = \JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_SENT');
@@ -2285,7 +2280,7 @@ class RedshopBilly
      *
      * @return  mixed
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function checkAnyOverdueOrder($billyUserId)
     {
@@ -2302,21 +2297,21 @@ class RedshopBilly
                 $orderDetail = \RedshopEntityOrder::getInstance($order->invoiceNo)->getItem();
 
                 if (is_array($orderDetail) || !empty($orderDetail)) {
-                //	$billyInvoiceNo = $orderDetail->billy_invoice_no;
+                //  $billyInvoiceNo = $orderDetail->billy_invoice_no;
 
                     if ($orderDetail->order_payment_status == 'Unpaid') {
                         $overdueDays = self::calulateOverdueLimits($order->id);
                         
                         if ($overdueDays > 10) {
                     // Tweak by Ronni - This can replace the calculation, but requires cron job setup
-                    //	if ($orderDetail->overdue_days > 10) {
+                    //  if ($orderDetail->overdue_days > 10) {
                             $overdueDays = true;
 
                             return $overdueDays;
                         }
                     }
                 }
-            }	
+            }   
         }
         
         return $overdueDays;
@@ -2329,7 +2324,7 @@ class RedshopBilly
      *
      * @return  mixed
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function getAllAccountsFromBilly($accountgroupId) {
         // If using Dispatcher, must call plugin Billy first
@@ -2346,7 +2341,7 @@ class RedshopBilly
      *
      * @return  mixed
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function getAllInvoiceData() {
         // If using Dispatcher, must call plugin Billy first
@@ -2363,7 +2358,7 @@ class RedshopBilly
      *
      * @return  mixed
      *
-     * @since   3.0.4
+     * @since   3.0.3
      */
     public static function debtorFindByNumber($bil) {
         // If using Dispatcher, must call plugin Billy first

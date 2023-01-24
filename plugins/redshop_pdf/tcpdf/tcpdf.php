@@ -369,8 +369,9 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 
         // Changed font to support Unicode Characters - Specially Polish Characters
         $this->tcpdf->SetTitle(JText::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
-        $this->tcpdf->SetMargins(15, 15, 15);
-        $this->tcpdf->SetHeaderData('', '', '', JText::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
+        //  Tweak by Ronni - Change margins + Remove header in shipping pdf
+        $this->tcpdf->SetMargins(30, 30, 30);
+    //  $this->tcpdf->SetHeaderData('', '', '', JText::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
         $this->settingTCPDF(10, 12);
         $this->tcpdf->WriteHTML($pdfHtml);
         $this->tcpdf->Output('Order_' . $orderData->order_id . ".pdf", "D");
