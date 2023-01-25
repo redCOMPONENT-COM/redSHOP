@@ -1776,8 +1776,21 @@ class RedshopBilly
                 && ($order->billy_invoice_no != '' && $order->is_billy_booked == 0) 
                 || $order->is_billy_cashbook == 0) {
             $userBillingInfo             = \RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
-            // get billy user Id from redhsop user
+            // get billy user Id from redShop user
             $db                          = \JFactory::getDbo();
+            /*
+            $query                       = $db->getQuery(true)
+                                                ->select('*')
+                                                ->from($db->qn('#__redshop_billy_relation'))
+                                                ->where(
+                                                    '('
+                                                    . $db->qn('redshop_id') . ' = ' . $db->quote($userBillingInfo->users_info_id)
+                                                    . ' AND (' . $db->qn('relation_type') . ' = ' . $db->quote('user')
+                                                    . ')'
+                                                );
+                                           $db->setQuery($query);
+            $billyId                     = $db->loadObject();
+            */
             $selSQL                      = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '" . $userBillingInfo->users_info_id . "' AND relation_type='user'";
             $db->setQuery($selSQL);
             $billyId                     = $db->loadResult();
