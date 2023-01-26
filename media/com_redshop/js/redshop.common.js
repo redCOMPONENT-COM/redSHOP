@@ -1053,11 +1053,6 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
         .done(function(txtresponse) {
             var arrResponse = txtresponse.split("`_`");
 
-            // Tweak by Ronni START - Parse tags echoPay + echoShip in Checkout
-            document.getElementById('echoPay').innerHTML = arrResponse[3];
-            document.getElementById('echoShip').innerHTML = arrResponse[4];
-            // Tweak by Ronni END - Parse tags echoPay + echoShip in Checkout
-
             document.getElementById('responceonestep').innerHTML = arrResponse[1];
 
             if(arrResponse[2] && document.getElementById('mod_cart_total_value_ajax'))
