@@ -251,7 +251,8 @@ class RedshopControllerOrder_detail extends RedshopController
         $cid  = $this->input->post->get('cid', array(0), 'array');
 
         if (\Redshop\Order\Helper::updateOrderPaymentMethod($post)) {
-            $orderData = RedshopHelperOrder::getOrderDetails($cid[0]);
+            $orderEntity = RedshopEntityOrder::getInstance($cid[0]);
+            $orderData   = $orderEntity->getItem();
 
             if (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 0) {
                 RedshopBilly::renewInvoiceInBilly($orderData);
