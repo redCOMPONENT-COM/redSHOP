@@ -485,8 +485,12 @@ class RedshopBilly
 
         // Get billy user Id from redSHOP user
         $db                   = \JFactory::getDbo();
-        $selSQL               = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '".$row->users_info_id."' AND relation_type='user'";
-        $db->setQuery($selSQL);
+        $query                = $db->getQuery(true)
+                                  ->select($db->qn('billy_id'))
+                                  ->from($db->qn('#__redshop_billy_relation'))
+                                  ->where($db->qn('redshop_id') . ' = ' . $db->quote($row->users_info_id) 
+                                  . ' AND ' . $db->qn('relation_type') . ' = ' . $db->quote('user'));
+                                $db->setQuery($query);
         $billyId              = $db->loadResult();
 
         $bil                  = array();
@@ -557,7 +561,7 @@ class RedshopBilly
         // Store User Billy number in Database
         if ($debitorNumber) {
             if (!$billyId) {
-                 $sql = "INSERT INTO `#__redshop_billy_relation` (`relation_type`, `redshop_id`, `billy_id`)
+                $sql = "INSERT INTO `#__redshop_billy_relation` (`relation_type`, `redshop_id`, `billy_id`)
                 VALUES ('user', '".$row->users_info_id."', '".$debitorNumber."')";
                 $db->setQuery($sql);
                 $db->query();
@@ -720,9 +724,13 @@ class RedshopBilly
      */
     public static function createProductInBilly($row = array())
     {
-        $db       = \JFactory::getDbo();
-        $selSQL   = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '" . $row->product_number . "' AND relation_type='product'";
-        $db->setQuery($selSQL);
+        $db      = \JFactory::getDbo();
+        $query   = $db->getQuery(true)
+                    ->select($db->qn('billy_id'))
+                    ->from($db->qn('#__redshop_billy_relation'))
+                    ->where($db->qn('redshop_id') . ' = ' . $row->product_number) 
+                    . ' AND ' . $db->qn('relation_type') . ' = ' . $db->quote('product');
+                   $db->setQuery($query);
         $billyId = $db->loadResult();
 
         if (empty($billyId)) {
@@ -1317,11 +1325,15 @@ class RedshopBilly
             $product_tax            = ($orderItem[$i]->product_item_price - $orderItem[$i]->product_item_price_excl_vat) * $orderItem[$i]->product_quantity;
 
             // Get billy product Id from redshop number
-            $db     = \JFactory::getDbo();
-            $selSQL = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '".$orderItem[$i]->order_item_sku."' AND relation_type='product'";
-            $db->setQuery($selSQL);
-            
+            $db                      = \JFactory::getDbo();
+            $query                   = $db->getQuery(true)
+                                          ->select($db->qn('billy_id'))
+                                          ->from($db->qn('#__redshop_billy_relation'))
+                                          ->where($db->qn('redshop_id') . ' = ' . $orderItem[$i]->order_item_sku) 
+                                          . ' AND ' . $db->qn('relation_type') . ' = ' . $db->quote('product');
+                                       $db->setQuery($query);
             $billyId                 = $db->loadResult();
+
             $bil['billy_id']         = $billyId;
             $BillyproductId          = \RedshopHelperUtility::getDispatcher()->trigger('Product_FindByNumber', array($bil));
             $BillyproductId          = $BillyproductId[0];
@@ -1527,11 +1539,15 @@ class RedshopBilly
         $bil['product_volume'] = 1;
 
         // get billy product Id from redShop number
-        $db     = \JFactory::getDbo();
-        $selSQL = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '".$shippingNumber."' AND relation_type='product'";
-        $db->setQuery($selSQL);
-        
+        $db                    = \JFactory::getDbo();
+        $query                 = $db->getQuery(true)
+                                    ->select($db->qn('billy_id'))
+                                    ->from($db->qn('#__redshop_billy_relation'))
+                                    ->where($db->qn('redshop_id') . ' = ' . $shippingNumber) 
+                                    . ' AND ' . $db->qn('relation_type') . ' = ' . $db->quote('product');
+                                 $db->setQuery($query);
         $billyId               = $db->loadResult();
+
         $bil['billy_id']       = $billyId;
         $BillyproductId        = \RedshopHelperUtility::getDispatcher()->trigger('Product_FindByNumber', array($bil));
         $BillyproductId        = $BillyproductId[0];
@@ -1628,14 +1644,18 @@ class RedshopBilly
         $bil['product_price']    = round((0 - $discount),2);
         $bil['product_volume']   = 1;
 
-        // get billy product Id from redSHOP number
+        // get billy product Id from redShop number
         $db     = \JFactory::getDbo();
-        $selSQL = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '".$productNumber."' AND relation_type='product'";
-        $db->setQuery($selSQL);
-        $billyId         = $db->loadResult();
-        $bil['billy_id'] = $billyId;
-        $billyProductId  = \RedshopHelperUtility::getDispatcher()->trigger('Product_FindByNumber', array($bil));
+        $query                 = $db->getQuery(true)
+                                    ->select($db->qn('billy_id'))
+                                    ->from($db->qn('#__redshop_billy_relation'))
+                                    ->where($db->qn('redshop_id') . ' = ' . $productNumber) 
+                                    . ' AND ' . $db->qn('relation_type') . ' = ' . $db->quote('product');
+                                 $db->setQuery($query);
+        $billyId               = $db->loadResult();
 
+        $bil['billy_id']       = $billyId;
+        $billyProductId        = \RedshopHelperUtility::getDispatcher()->trigger('Product_FindByNumber', array($bil));
         $billyProductId        = $billyProductId[0];
         $bil['eco_prd_number'] = "";
 
@@ -1776,10 +1796,14 @@ class RedshopBilly
                 && ($order->billy_invoice_no != '' && $order->is_billy_booked == 0) 
                 || $order->is_billy_cashbook == 0) {
             $userBillingInfo             = \RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
-            // get billy user Id from redhsop user
+            // get billy user Id from redShop user
             $db                          = \JFactory::getDbo();
-            $selSQL                      = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '" . $userBillingInfo->users_info_id . "' AND relation_type='user'";
-            $db->setQuery($selSQL);
+            $query                       = $db->getQuery(true)
+                                                ->select($db->qn('billy_id'))
+                                                ->from($db->qn('#__redshop_billy_relation'))
+                                                ->where($db->qn('redshop_id') . ' = ' . $db->quote($userBillingInfo->users_info_id) 
+                                                . ' AND ' . $db->qn('relation_type') . ' = ' . $db->quote('user'));
+                                           $db->setQuery($query);
             $billyId                     = $db->loadResult();
 
             $paymentInfo                 = \RedshopEntityOrder::getInstance($order->order_id)->getPayment()->getItem();
@@ -2023,10 +2047,14 @@ class RedshopBilly
 
         // get billy user Id from redhsop user
         $db     = \JFactory::getDbo();
-        $selSQL = "SELECT billy_id from `#__redshop_billy_relation` WHERE redshop_id = '" . $userBillingInfo->users_info_id . "' AND relation_type='user'";
-        $db->setQuery($selSQL);
-
+        $query                  = $db->getQuery(true)
+                                    ->select($db->qn('billy_id'))
+                                    ->from($db->qn('#__redshop_billy_relation'))
+                                    ->where($db->qn('redshop_id') . ' = ' . $db->quote($userBillingInfo->users_info_id) 
+                                    . ' AND ' . $db->qn('relation_type') . ' = ' . $db->quote('user'));
+                                  $db->setQuery($query);
         $billyId                = $db->loadResult();
+
         $bil['billy_user_id']   = $billyId;
         $debtorHandle           = \RedshopHelperUtility::getDispatcher()->trigger('debtorFindByNumber', array($bil));
         $bil['debtorHandle']    = $debtorHandle[0]->id;
