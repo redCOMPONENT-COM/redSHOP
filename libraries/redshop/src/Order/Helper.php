@@ -312,7 +312,7 @@ class Helper
             $orderStatus = \Redshop\DB\Tool::safeSelect($db, $query);
 
             if (isset($orderStatus->order_id)) {
-                if ($app->isClient('administrator') && $app->input->getCmd('order_sendordermail') === 'true') {                
+                if ($app->isClient('administrator') && $app->input->getCmd('order_sendordermail') === 'true') {              
                     /* \RedshopHelperOrder::changeOrderStatusMail(
                         $orderId,
                         $orderStatus->order_status,
