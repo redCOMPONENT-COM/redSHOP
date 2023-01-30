@@ -1850,6 +1850,17 @@ class RedshopHelperOrder
                 self::updateOrderPaymentStatus($orderId, 'X');
                 // Tweak by Ronni END - Update payment status to X
 
+                if (JPluginHelper::isEnabled('billy')) {
+                    $orderEntity    = RedshopEntityOrder::getInstance($orderId);
+                    $orderData      = $orderEntity->getItem();
+                    $deletedInBilly = RedshopBilly::deleteInvoiceInBilly($orderData);
+                    
+                    if ($deletedInBilly) {
+                        $msg = JText::_(
+                            'COM_REDSHOP_BILLY_SUCCESSFULLY_DELETED_INVOICE_IN_BILLY') . " " . $orderId;
+                    }
+                }
+
                 break;
 
             // Returned
