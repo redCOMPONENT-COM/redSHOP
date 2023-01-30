@@ -534,7 +534,8 @@ class RedshopControllerOrder_detail extends RedshopController
                 $msg, $msgType
             );
         } else {
-            $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg, $msgType);
+            $this->setRedirect(
+                'index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg, $msgType);
         }
     }
 
