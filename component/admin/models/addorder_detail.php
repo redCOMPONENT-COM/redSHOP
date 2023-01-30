@@ -150,8 +150,12 @@ class RedshopModelAddorder_detail extends RedshopModel
                 $data['requesting_tax_exempt'] = $reduser->requesting_tax_exempt;
                 $data['shopper_group_id']      = $reduser->shopper_group_id;
                 $data['tax_exempt_approved']   = $reduser->tax_exempt_approved;
-                $data['company_name']          = $reduser->company_name;
                 $data['vat_number']            = $reduser->vat_number;
+                $data['is_company']            = ($data['is_company_ST']) ? $data['is_company_ST'] : 0;
+
+                if ($data['company_name_ST'] == "") {
+                    $data['company_name_ST'] = $data['company_name'];
+                }
 
                 if ($data['firstname_ST'] == "") {
                     $data['firstname_ST'] = $data['firstname'];
@@ -773,7 +777,7 @@ class RedshopModelAddorder_detail extends RedshopModel
         Redshop\Mail\User::sendRegistrationMail($post);
     }
 
-    public function changeshippingaddress($shippingadd_id, $user_id, $isCompany)
+    public function changeshippingaddress($shippingadd_id, $user_id, $isCompanyST)
     {
         $query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
             . 'WHERE address_type like "ST" '
@@ -786,13 +790,13 @@ class RedshopModelAddorder_detail extends RedshopModel
             $shipping = $this->setShipping();
         }
 
-        $allowCustomer = '';
-        $allowCompany  = '';
+        $allowCustomerST = '';
+        $allowCompanyST  = '';
 
-        if ($isCompany) {
-            $allowCustomer = 'style="display:none;"';
+        if ($isCompanyST == 1) {
+            $allowCustomerST = 'style="display:none;"';
         } else {
-            $allowCompany = 'style="display:none;"';
+            $allowCompanyST = 'style="display:none;"';
         }
 
         $lists = array(
@@ -821,7 +825,20 @@ class RedshopModelAddorder_detail extends RedshopModel
         $states                 = RedshopHelperWorld::getStateList((array)$shipping, "state_code_ST", "ST");
         $lists['state_code_ST'] = $states['state_dropdown'];
 
+        $lists['is_company_ST'] = JHTML::_(
+            'select.booleanlist',
+            'is_company_ST',
+            'class="inputbox" onchange="showOfflineCompanyOrCustomerST(this.value);" ',
+            $shipping->is_company,
+            JText::_('COM_REDSHOP_USER_COMPANY'),
+            JText::_('COM_REDSHOP_USER_CUSTOMER')
+        );
+
         $html = '<table class="adminlist" border="0" width="100%">';
+        $html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_REGISTER_AS') . ':</td>';
+        $html .= '<td>' . $lists['is_company_ST'] . '</td></tr>';
+        $html .= '<tr id="trCompanyNameST" ' . $allowCompanyST . '><td width="100" align="right">' . JText::_('COM_REDSHOP_COMPANY_NAME') . ':</td>';
+        $html .= '<td><input class="inputbox" type="text" name="company_name_ST" maxlength="250" value="' . $shipping->company_name . '" /></td></tr>';
         $html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_FIRSTNAME') . ':</td>';
         $html .= '<td><input class="inputbox" type="text" name="firstname_ST" maxlength="250" value="' . $shipping->firstname . '" /></td></tr>';
         $html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_LASTNAME') . ':</td>';
@@ -842,8 +859,8 @@ class RedshopModelAddorder_detail extends RedshopModel
         $html .= '<tr><td width="100" align="right">' . JText::_('Afsender = Faktura adresse') . ':</td>';
         $html .= '<td><input class="inputbox" type="text" name="billing_as_sender_ST" maxlength="250" value="' . $shipping->billing_as_sender . '" /></td></tr>';
         // Tweak by Ronni END - billing_as_sender_ST
-        $html .= '<tr><td colspan="2"><div id="exCustomerFieldST" ' . $allowCustomer . '>' . $lists['shipping_customer_field'] . '</div>';
-        $html .= '<div id="exCompanyFieldST" ' . $allowCompany . '>' . $lists['shipping_company_field'] . '</div></td></tr>';
+        $html .= '<tr><td colspan="2"><div id="exCustomerFieldST" ' . $allowCustomerST . '>' . $lists['shipping_customer_field'] . '</div>';
+        $html .= '<div id="exCompanyFieldST" ' . $allowCompanyST . '>' . $lists['shipping_company_field'] . '</div></td></tr>';
         $html .= '</table>';
 
         return $html;
@@ -853,15 +870,18 @@ class RedshopModelAddorder_detail extends RedshopModel
     {
         $post = JFactory::getApplication()->input->post->getArray();
 
+        $isCompanyST           = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
         $detail                = new stdClass;
         $detail->billisship    = (isset($post['billisship'])) ? $post['billisship'] : 1;
         $detail->users_info_id = (isset($post['users_info_id'])) ? $post['users_info_id'] : 0;
+        $detail->company_name  = (isset($post['company_name_ST'])) ? $post['company_name_ST'] : null;
         $detail->firstname     = (isset($post['firstname_ST'])) ? $post['firstname_ST'] : null;
         $detail->lastname      = (isset($post['lastname_ST'])) ? $post['lastname_ST'] : null;
         $detail->country_code  = (isset($post['country_code_ST'])) ? $post['country_code_ST'] : null;
         $detail->state_code    = (isset($post['state_code_ST'])) ? $post['state_code_ST'] : null;
         $detail->zipcode       = (isset($post['zipcode_ST'])) ? $post['zipcode_ST'] : null;
         $detail->address       = (isset($post['address_ST'])) ? $post['address_ST'] : null;
+        $detail->is_company    = (isset($post['is_company_ST'])) ? $post['is_company_ST'] : $isCompanyST;
         $detail->city          = (isset($post['city_ST'])) ? $post['city_ST'] : null;
         $detail->phone         = (isset($post['phone_ST'])) ? $post['phone_ST'] : null;
         // Tweak by Ronni - billing_as_sender_ST

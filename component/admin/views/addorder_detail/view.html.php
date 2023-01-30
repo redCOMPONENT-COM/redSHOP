@@ -116,7 +116,7 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
             'select.genericlist',
             $shippingop,
             'shipp_users_info_id',
-            'class="inputbox" ' . $shdisable . ' onchange="getShippinginfo(this.value, ' . $billing->is_company . ');" ',
+            'class="inputbox" ' . $shdisable . ' onchange="getShippinginfo(this.value, ' . $shippinginfo[$key]->is_company . ');" ',
             'users_info_id',
             'text',
             $shipping_users_info_id
@@ -177,6 +177,15 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
             'is_company',
             'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ',
             $billing->is_company,
+            JText::_('COM_REDSHOP_USER_COMPANY'),
+            JText::_('COM_REDSHOP_USER_CUSTOMER')
+        );
+
+        $lists['is_company_ST'] = JHTML::_(
+            'select.booleanlist',
+            'is_company_ST',
+            'class="inputbox" onchange="showOfflineCompanyOrCustomerST(this.value);" ',
+            (isset($shippinginfo[$key]->is_company)) ? $shippinginfo[$key]->is_company : 1,
             JText::_('COM_REDSHOP_USER_COMPANY'),
             JText::_('COM_REDSHOP_USER_CUSTOMER')
         );
