@@ -1847,7 +1847,14 @@ class RedshopHelperOrder
                 }
 
                 // Tweak by Ronni START - Update payment status to X
-                self::updateOrderPaymentStatus($orderId, 'X');
+                $order = RedshopEntityOrder::getInstance($orderId);
+                if ($order->isValid()) {
+                    $order->set('order_status', 'X')
+                        ->set('order_payment_status', 'X')
+                        ->set('mdate', (int)time())
+                        ->save();
+                }
+            //  self::updateOrderPaymentStatus($orderId, 'X');
                 // Tweak by Ronni END - Update payment status to X
 
                 if (JPluginHelper::isEnabled('billy')) {
