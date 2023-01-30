@@ -251,18 +251,17 @@ class RedshopControllerOrder_detail extends RedshopController
         $cid  = $this->input->post->get('cid', array(0), 'array');
 
         if (\Redshop\Order\Helper::updateOrderPaymentMethod($post)) {
-            $orderData = RedshopHelperOrder::getOrderDetails($cid[0]);
+            $orderEntity = RedshopEntityOrder::getInstance($cid[0]);
+            $orderData   = $orderEntity->getItem();
 
             if (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 0) {
                 RedshopBilly::renewInvoiceInBilly($orderData);
-            }
-            else if (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 1) {
-                JFactory::getApplication(administrator)->enqueueMessage(
-                    JText::_('COM_REDSHOP_BILLY_ORDER_IS_ALREADY_BOOKED_ERROR') . $cid[0], 'error');
+            } else if (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 1) {
+                $msg     = JText::_('COM_REDSHOP_BILLY_ORDER_IS_ALREADY_BOOKED_ERROR') . $cid[0];
+                $msgType = 'error';
             }
             $msg     = JText::_('COM_REDSHOP_PAYMENT_METHOD_UPDATED');
             $msgType = 'message';
-
         } else {
             $msg     = JText::_('COM_REDSHOP_ERROR_UPDATING_PAYMENT_METHOD');
             $msgType = 'error';
@@ -503,9 +502,10 @@ class RedshopControllerOrder_detail extends RedshopController
 
     public function send_invoicemail()
     {
-        $cid  = $this->input->get->get('cid', array(0), 'array');
-        $tmpl = $this->input->getCmd('tmpl', '');
-        $orderData = RedshopHelperOrder::getOrderDetails($cid[0]);
+        $cid         = $this->input->get->get('cid', array(0), 'array');
+        $tmpl        = $this->input->getCmd('tmpl', '');
+        $orderEntity = RedshopEntityOrder::getInstance($cid[0]);
+        $orderData   = $orderEntity->getItem();
 
         if (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 1) {
             $resendInvoice = RedshopBilly::ReSendInvoice($cid[0]);
