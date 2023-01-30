@@ -1733,7 +1733,8 @@ class RedshopHelperOrder
                 }
 
                 if (JPluginHelper::isEnabled('billy')) {
-                    $orderData      = self::getOrderDetails($orderId);
+                    $orderEntity    = RedshopEntityOrder::getInstance($orderId);
+                    $orderData      = $orderEntity->getItem();
                     $deletedInBilly = RedshopBilly::deleteInvoiceInBilly($orderData);
                     
                     if ($deletedInBilly) {
