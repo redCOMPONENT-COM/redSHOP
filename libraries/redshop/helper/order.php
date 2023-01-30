@@ -1845,9 +1845,11 @@ class RedshopHelperOrder
 
                     RedshopHelperProduct::makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
                 }
+
                 // Tweak by Ronni START - Update payment status to X
                 self::updateOrderPaymentStatus($orderId, 'X');
                 // Tweak by Ronni END - Update payment status to X
+
                 break;
 
             // Returned
