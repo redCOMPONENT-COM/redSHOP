@@ -1845,9 +1845,29 @@ class RedshopHelperOrder
 
                     RedshopHelperProduct::makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
                 }
+
                 // Tweak by Ronni START - Update payment status to X
-                self::updateOrderPaymentStatus($orderId, 'X');
+                $order = RedshopEntityOrder::getInstance($orderId);
+                if ($order->isValid()) {
+                    $order->set('order_status', 'X')
+                        ->set('order_payment_status', 'X')
+                        ->set('mdate', (int)time())
+                        ->save();
+                }
+            //  self::updateOrderPaymentStatus($orderId, 'X');
                 // Tweak by Ronni END - Update payment status to X
+
+                if (JPluginHelper::isEnabled('billy')) {
+                    $orderEntity    = RedshopEntityOrder::getInstance($orderId);
+                    $orderData      = $orderEntity->getItem();
+                    $deletedInBilly = RedshopBilly::deleteInvoiceInBilly($orderData);
+                    
+                    if ($deletedInBilly) {
+                        $msg = JText::_(
+                            'COM_REDSHOP_BILLY_SUCCESSFULLY_DELETED_INVOICE_IN_BILLY') . " " . $orderId;
+                    }
+                }
+
                 break;
 
             // Returned

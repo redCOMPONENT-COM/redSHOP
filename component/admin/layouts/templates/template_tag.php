@@ -500,6 +500,7 @@ switch ($name) {
         ?>
         <b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_SHIPPING_HINT'); ?></b><br/><br/>
         <b><?php echo JText::_('COM_REDSHOP_REQUIRED_TAG'); ?></b><br/><br/>
+        {company_name_st_lbl}{company_name_st}<br/>
         {firstname_st_lbl}{firstname_st}<br/>
         {lastname_st_lbl}{lastname_st}<br/>
         {address_st_lbl}{address_st}<br/>
