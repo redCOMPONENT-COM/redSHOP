@@ -13,6 +13,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Redshop\DB\Tool as RedshopDbTool;
 use Redshop\Economic\RedshopEconomic;
+use Redshop\Billy\RedshopBilly;
 use Redshop\Order\Template;
 
 /**
@@ -1534,6 +1535,21 @@ class RedshopHelperOrder
                 Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
             }
         }
+
+        if (JPluginHelper::isEnabled('billy') &&
+                ($billyInvoiceDraft != 1 || in_array($orderStatus, $billyBookStatus) )) {
+
+            $plugin            = JPluginHelper::getPlugin('billy', 'billy');
+            $billyParams       = new JRegistry($plugin->params);
+            $billyInvoiceDraft = $billyParams->get('billy_invoice_draft','0');
+            $billyBookStatus   = $billyParams->get('billy_book_status');
+
+            if ($billyInvoiceDraft == 2 && in_array($orderStatus, $billyBookStatus)) {
+                RedshopBilly::createInvoiceInBilly($orderId);
+            }
+
+            RedshopBilly::bookInvoiceInBilly($orderId);
+        }
     }
 
     /**
@@ -1824,8 +1840,10 @@ class RedshopHelperOrder
         }
 
         self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
-        RedshopHelperClickatell::clickatellSMS($orderId);
-
+        if ($app->input->getCmd('order_sendordersms') === 'true') {
+            RedshopHelperClickatell::clickatellSMS($orderId);
+        }
+        
         switch ($newStatus) {
             // Cancel & return
             case 'X':
@@ -1844,6 +1862,30 @@ class RedshopHelperOrder
                     }
 
                     RedshopHelperProduct::makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
+                }
+
+                if (JPluginHelper::isEnabled('billy')) {
+                    $orderEntity    = RedshopEntityOrder::getInstance($orderId);
+                    $orderData      = $orderEntity->getItem();
+                    $deletedInBilly = RedshopBilly::deleteInvoiceInBilly($orderData);
+                    
+                    if ($deletedInBilly) {
+                        $msg = JText::_(
+                            'COM_REDSHOP_BILLY_SUCCESSFULLY_DELETED_INVOICE_IN_BILLY') . " " . $orderId;
+                    }
+                }
+
+                $order = RedshopEntityOrder::getInstance($orderId);
+                if ($order->isValid() && $newStatus == "X") {
+                    $order->set('order_status', 'X')
+                        ->set('order_payment_status', 'Cancelled')
+                        ->set('mdate', (int)time())
+                        ->save();
+                } else if ($order->isValid() && $newStatus == "R") {
+                    $order->set('order_status', 'R')
+                        ->set('order_payment_status', 'Refunded')
+                        ->set('mdate', (int)time())
+                        ->save();
                 }
 
                 break;
@@ -2006,6 +2048,10 @@ class RedshopHelperOrder
             // Economic Integration start for invoice generate and book current invoice
             if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
                 RedshopEconomic::renewInvoiceInEconomic($order->getItem());
+            }
+
+            if (JPluginHelper::isEnabled('billy')) {
+                RedshopBilly::renewInvoiceInBilly($order->getItem());
             }
         }
     }

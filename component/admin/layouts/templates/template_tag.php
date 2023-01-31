@@ -188,7 +188,7 @@ switch ($name) {
     case 'clicktell_sms_message':
         ?>
         <b><?php echo JText::_('COM_REDSHOP_TEMPLATE_CLICKATELL_SMS_MESSAGE_HINT'); ?></b><br/><br/>
-        {order_id} {order_status} {customer_name} {payment_status}
+        {order_id} {order_status} {customer_name} {payment_status} {order_comment} {shipping_method} {payment_method}
         <?php
         break;
     case 'company_billing':

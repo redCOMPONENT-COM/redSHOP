@@ -9,16 +9,17 @@
  */
 defined('_JEXEC') or die;
 
+use Redshop\Billy\RedshopBilly;
 
 global $context;
 
-$app             = JFactory::getApplication();
-$config          = Redconfiguration::getInstance();
-$calendarFormat  = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
-$lists           = $this->lists;
-$model           = $this->getModel('order');
-$stockroomHelper = rsstockroomhelper::getInstance();
-$dispatcher      = RedshopHelperUtility::getDispatcher();
+$app              = JFactory::getApplication();
+$config           = Redconfiguration::getInstance();
+$calendarFormat   = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
+$lists            = $this->lists;
+$model            = $this->getModel('order');
+$stockroomHelper  = rsstockroomhelper::getInstance();
+$dispatcher       = RedshopHelperUtility::getDispatcher();
 JPluginHelper::importPlugin('redshop_product');
 ?>
 <style type="text/css">
@@ -243,23 +244,10 @@ JPluginHelper::importPlugin('redshop_product');
         <tr>
             <th width="1">#</th>
             <th width="1"><?php echo JHtml::_('redshopgrid.checkall') ?></th>
-            <th class="title" width="5%">
+            <th class="title" width="125px">
                 <?php echo JHTML::_('grid.sort', 'ID', 'order_id', $this->lists['order_Dir'], $this->lists['order']) ?>
             </th>
-            <?php if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get(
-                    'ECONOMIC_INVOICE_DRAFT'
-                ) == 2): ?>
-                <th width="10%">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_BOOKINVOICE_NUMBER',
-                        'bookinvoice_number',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-            <?php endif; ?>
-            <th>
+            <th width="200px">
                 <?php echo JHTML::_(
                     'grid.sort',
                     'COM_REDSHOP_CUSTOMER',
@@ -269,39 +257,9 @@ JPluginHelper::importPlugin('redshop_product');
                 ); ?>
             </th>
             <th>
-                <?php echo JHTML::_(
-                    'grid.sort',
-                    'COM_REDSHOP_USER_EMAIL',
-                    'uf.user_email',
-                    $this->lists['order_Dir'],
-                    $this->lists['order']
-                ); ?>
+                <?php echo JText::_('COM_REDSHOP_NOTIFY_CUSTOMER_HEADING'); ?>
             </th>
-            <th>
-                <?php echo JHTML::_(
-                    'grid.sort',
-                    'COM_REDSHOP_CUSTOMER_TYPE',
-                    'is_company',
-                    $this->lists['order_Dir'],
-                    $this->lists['order']
-                ); ?>
-            </th>
-            <th width="20%">
-                <?php echo JText::_('COM_REDSHOP_ORDERS_CUSTOMER_NOTE') ?>
-            </th>
-            <th>
-                <?php $dispatcher->trigger('onAdminDisplayOrder', array(array(), 'header')) ?>
-            </th>
-            <th width="5%">
-                <?php echo JHTML::_(
-                    'grid.sort',
-                    'COM_REDSHOP_ORDER_STATUS',
-                    'order_status',
-                    $this->lists['order_Dir'],
-                    $this->lists['order']
-                ); ?>
-            </th>
-            <th width="5%">
+            <th width="290px">
                 <?php echo JHTML::_(
                     'grid.sort',
                     'COM_REDSHOP_PAYMENT',
@@ -310,16 +268,12 @@ JPluginHelper::importPlugin('redshop_product');
                     $this->lists['order']
                 ); ?>
             </th>
-            <th width="10%">
-                <?php echo JHTML::_(
-                    'grid.sort',
-                    'COM_REDSHOP_ORDER_TOTAL',
-                    'order_total',
-                    $this->lists['order_Dir'],
-                    $this->lists['order']
-                ); ?>
+            <th width="300px">
+                <?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'); ?>
             </th>
-            <th width="1"></th>
+            <th>
+                <?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD') ?>
+            </th>
             <?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1): ?>
                 <th width="10%">
                     <?php echo JText::_('COM_REDSHOP_STOCKROOM_NAME'); ?>
@@ -328,34 +282,26 @@ JPluginHelper::importPlugin('redshop_product');
                     <?php echo JText::_('COM_REDSHOP_STOCKROOM_DELIVERY_TIME'); ?>
                 </th>
             <?php endif; ?>
-            <th width="10%" nowrap="nowrap">
-                <?php echo JHTML::_(
-                    'grid.sort',
-                    'COM_REDSHOP_ORDER_DATE',
-                    'cdate',
-                    $this->lists['order_Dir'],
-                    $this->lists['order']
-                ); ?>
-            </th>
-            <th width="1">&nbsp;</th>
-            <th></th>
-            <?php if (Redshop::getConfig()->get('POSTDK_INTEGRATION')): ?>
-                <th width="35%"></th>
-            <?php endif; ?>
         </tr>
         </thead>
         <tbody>
         <?php
-        $send_mail_to_customer = Redshop::getConfig()->get('SEND_MAIL_TO_CUSTOMER') ? 'checked' : 0;
+        $sendMailToCustomer    = Redshop::getConfig()->get('SEND_MAIL_TO_CUSTOMER') ? 'checked' : 0;
+        if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) {
+            $sendSmsToCustomer = 'checked';
+        }
         $k                     = 0;
         ?>
         <?php for ($i = 0, $n = count($this->orders); $i < $n; $i++): ?>
             <?php
-            $row     = $this->orders[$i];
-            $row->id = $row->order_id;
-            $link    = 'index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id;
-            $link    = RedshopHelperUtility::getSSLLink($link);
-
+            $row            = $this->orders[$i];
+            $row->id        = $row->order_id;
+            $link           = 'index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id;
+            $link           = RedshopHelperUtility::getSSLLink($link);
+            $billing        = RedshopEntityOrder::getInstance($row->order_id)->getBilling();
+            $paymentDetail	= RedshopEntityOrder::getInstance($row->order_id)->getPayment();
+            $shippingDetail = Redshop\Shipping\Rate::decrypt($row->ship_method_id);
+            
             /**
              * This is an event that is using into back-end order listing page. In to grid column, below update status.
              * This event is called to add highlighter from which order can be identified that plug-in enhancement is included into this order.
@@ -373,66 +319,44 @@ JPluginHelper::importPlugin('redshop_product');
                     <?php echo JHtml::_('grid.id', $i, $row->id); ?>
                 </td>
                 <td align="center">
-                    <a href="<?php echo $link ?>"
-                       title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER') ?>"><?php echo $row->order_id ?></a>
-                </td>
-                <?php if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get(
-                        'ECONOMIC_INVOICE_DRAFT'
-                    ) == 2
-                    && $row->invoice_no && $row->is_booked == 1 && $row->bookinvoice_number
-                ): ?>
-                    <td align="center"><?php echo $row->bookinvoice_number ?></td>
-                <?php endif; ?>
-                <td>
-                    <a href="<?php echo $link ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER') ?>">
-                        <?php echo $row->firstname . ' ' . $row->lastname ?>
+                    <a class="btn btn-default" href="<?php echo $link ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER') ?>">
+                       <i class="fa fa-edit"></i>&nbsp;&nbsp;<?php echo $row->order_id ?>
                     </a>
+                    <br>
+                    <?php echo RedshopHelperDatetime::convertDateFormat($row->cdate); ?>
+                    <br>
+                    <b id="product_attribute">
+                        <?php echo RedshopHelperProductPrice::formattedPrice($row->order_total); ?>
+                    </b>
                 </td>
                 <td>
-                    <a href="mailto:<?php echo $row->user_email ?>" target="_blank"><?php echo $row->user_email ?></a>
-                </td>
-                <td>
+                    <b>
+                        <?php if ($row->is_company): ?>
+                            <a href="index.php?option=com_redshop&view=user_detail&task=edit&user_id=<?php echo $row->user_id ?>
+                                &cid[]=<?php echo $row->user_info_id ?>" target="_blank"><?php echo $row->company_name; ?>
+                            </a>
+                        <?php else: ?>
+                            <a href="index.php?option=com_redshop&view=user_detail&task=edit&user_id=<?php echo $row->user_id ?>
+                                &cid[]=<?php echo $row->user_info_id ?>" target="_blank"><?php echo $row->firstname . ' ' . $row->lastname; ?>
+                            </a>
+                        <?php endif; ?>
+                    </b>
                     <?php if ($row->is_company): ?>
-                        <span class="text-info"><?php echo $row->company_name; ?></span>
-                    <?php else: ?>
-                        <span class="text-muted"><?php echo JText::_('COM_REDSHOP_PRIVATE'); ?></span>
+                        <br>
+                        <?php echo $row->firstname . ' ' . $row->lastname; ?>
                     <?php endif; ?>
+                    <br>
+                    <i class="fa-regular fa-envelope"></i>&nbsp;&nbsp;<?php echo $row->user_email; ?>
+                    <br>
+                    <i class="fa-solid fa-mobile-screen-button"></i>&nbsp;&nbsp;<?php echo $billing->phone; ?>
                 </td>
                 <td>
-                    <?php echo JHtml::_('redshopgrid.slidetext', $row->customer_note) ?>
-                </td>
-                <td>
-                    <?php $dispatcher->trigger('onAdminDisplayOrder', array(&$row, 'row')) ?>
-                </td>
-                <td>
-                    <span class="label order_status_<?php echo strtolower(
-                        $row->order_status
-                    ) ?>"><?php echo $row->order_status_name ?></span>
-                </td>
-                <td>
-                    <?php $paymentStatusClass = 'label order_payment_status_' . strtolower(
-                            $row->order_payment_status
-                        ); ?>
-                    <span class="<?php echo $paymentStatusClass ?>">
-			<?php if ($row->order_payment_status == 'Paid'): ?>
-                <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_PAID') ?>
-            <?php elseif ($row->order_payment_status == 'Unpaid'): ?>
-                <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID') ?>
-            <?php elseif ($row->order_payment_status == 'Partial Paid' || $row->order_payment_status == 'PartialPaid'): ?>
-                <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID') ?>
-            <?php endif; ?>
-			</span>
-                </td>
-                <td>
-                    <?php echo RedshopHelperProductPrice::formattedPrice($row->order_total); ?>
-                </td>
-                <td>
-                    <?php
+                <?php
                     $linkUpdate = 'index.php?option=com_redshop&view=order&task=update_status&return=order&order_id[]=' . $row->order_id;
                     ?>
-                    <button type="button" class="btn btn-default" data-toggle="modal"
+                    <button type="button" class="btn btn-default order-update-row" data-toggle="modal"
                             data-target="#order_status_form<?php echo $row->id ?>">
-                        <i class="icon icon-edit"></i> <?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON') ?>
+                        <i class="fa fa-pencil-square-o"></i>&nbsp;</i> <?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON') ?>
                     </button>
                     <div class="modal fade" id="order_status_form<?php echo $row->id ?>" role="dialog"
                          aria-labelledby="order_status_form_label_<?php echo $row->id ?>">
@@ -480,14 +404,38 @@ JPluginHelper::importPlugin('redshop_product');
                                                               name="customer_note<?php echo $row->order_id ?>"
                                                               style="resize: none;"><?php echo $row->customer_note ?></textarea>
                                                 </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <hr/>
                                                 <div class="form-group">
                                                     <label>
-                                                        <input type="checkbox" <?php echo $send_mail_to_customer ?>
+                                                        <input type="checkbox" <?php echo $sendMailToCustomer ?>
                                                                value="1"
-                                                               name="sendordermail<?php echo $row->order_id ?>"/> <?php echo JText::_(
-                                                            'COM_REDSHOP_SEND_ORDER_MAIL'
-                                                        ) ?>
-                                                    </label>
+                                                               name="sendordermail<?php echo $row->order_id ?>"/> 
+                                                               <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL') ?>
+                                                    </label> <?php
+                                                    if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) { ?>
+                                                    <label>
+                                                        <input type="checkbox" <?php echo $sendSmsToCustomer;?>
+                                                               value="1"
+                                                               name="sendordersms<?php echo $row->order_id ?>"/> 
+                                                               <?php echo JText::_('COM_REDSHOP_SEND_ORDER_SMS') ?>
+                                                    </label> <?php
+                                                   } else { ?>
+                                                    <input type="hidden" name="sendordersms<?php echo $row->order_id ?>" 
+                                                        value="1"/> <?php
+                                                    } ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 text-right">
+                                                <hr/>
+                                                <div class="form-group"> <?php
+                                                    echo $shipping_name = 
+                                                            Redshop\Shipping\Tag::replaceShippingMethod(
+                                                        $row, "{shipping_method}"); ?>
+                                                    <br />									
+                                                    <i class="fa-solid fa-mobile-screen-button"></i>
+                                                    &nbsp;&nbsp;<?php echo $billing->phone; ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -501,7 +449,7 @@ JPluginHelper::importPlugin('redshop_product');
                                             onclick="location.href='<?php echo Redshop\IO\Route::_(
                                                 $linkUpdate,
                                                 false
-                                            ) ?>&status='+document.adminForm.order_status<?php echo $row->order_id ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id ?>.value;"
+                                            ) ?>&status='+document.adminForm.order_status<?php echo $row->order_id ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id ?>.checked+'&order_sendordersms='+document.adminForm.sendordersms<?php echo $row->order_id ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id ?>.value;"
                                             value="<?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON'); ?>">
                                         <?php echo JText::_('JTOOLBAR_SAVE') ?>
                                     </button>
@@ -509,8 +457,586 @@ JPluginHelper::importPlugin('redshop_product');
                             </div>
                         </div>
                     </div>
-
+                    <br>
+                    <span class="label order_status_<?php echo strtolower($row->order_status) ?> order-row-200px">
+                        <?php echo $row->order_status_name ?>
+                    </span>
                     <?php echo $data->highlight->toHighlightGrid; ?>
+                    <br>
+                    <?php if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) {
+                    $linkCustomSms = 'index.php?option=com_redshop&view=order&task=custom_sms&return=order&order_id[]=' . $row->order_id; ?>
+                    <button type="button" class="label order_status_btn order-sms-row" data-toggle="modal"
+                            data-target="#sms_form<?php echo $row->id ?>">
+                        <i class="fa fa-edit"></i>&nbsp;</i> <?php echo JText::_('COM_REDSHOP_SEND_ORDER_SMS') ?>
+                    </button>
+                    <div class="modal fade" id="sms_form<?php echo $row->id ?>" role="dialog"
+                         aria-labelledby="sms_form_label_<?php echo $row->id ?>">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                                aria-hidden="true">&times;</span></button>
+                                    <h3 class="modal-title" id="sms_form_label_<?php echo $row->id ?>">
+                                        <?php echo JText::_('COM_REDSHOP_ORDER') . ': ' . $row->id ?>
+                                    </h3>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <?php echo JText::_('COM_REDSHOP_CLICKATELL_COUNTRY_PREFIX') . ': ' ?>    
+                                                    </label>
+                                                    <input type="text" name="prefix<?php echo $row->order_id ?>" 
+                                                        value="<?php echo Redshop::getConfig()->get('CLICKATELL_COUNTRY_PREFIX');?>" />
+                                               </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">     
+                                                    <label>
+                                                        <?php echo JText::_('COM_REDSHOP_PHONE') . ': ' ?>
+                                                    </label>
+                                                    <input type="text" name="to<?php echo $row->order_id ?>" 
+                                                        value="<?php echo $billing->phone;?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>
+                                                <?php echo JText::_('COM_REDSHOP_ALERT_MESSAGE') . ': ' ?>
+                                            </label>
+                                            <textarea class="form-control" name="message<?php echo $row->order_id ?>" /><?php 
+                                                echo Redshop::getConfig()->get('CLICKATELL_CUSTOM_MESSAGE'); ?></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                        <?php echo JText::_('JTOOLBAR_CANCEL') ?>
+                                    </button>
+                                    <button type="button" class="button btn btn-primary"
+                                            onclick="location.href='<?php echo Redshop\IO\Route::_(
+                                                $linkCustomSms,
+                                                false
+                                            ) ?>&status='+document.adminForm.order_status<?php echo $row->order_id ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.message<?php echo $row->order_id ?>.value)+'&to='+document.adminForm.to<?php echo $row->order_id ?>.value+'&prefix='+document.adminForm.prefix<?php echo $row->order_id ?>.value;"
+                                            value="<?php echo JText::_('COM_REDSHOP_SEND_ORDER_SMS'); ?>">
+                                        <?php echo JText::_('COM_REDSHOP_SEND_ORDER_SMS') ?>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php   } ?>
+                    <?php if (RedshopHelperPdf::isAvailablePdfPlugins()): ?>
+                        <a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>"
+                           class="billy-order-icons" target="_blank">
+                            <i class="fa fa-file-pdf-o"></i>
+                        </a>
+                    <?php else: ?>
+                        <span class="disabled billy-order-icons"><i class="fa fa-file-pdf-o"></i></span>
+                    <?php endif;
+                    if ((Redshop::getConfig()->get('POSTDK_INTEGRATION')) 
+                            && $row->order_label_create == 1) { ?>
+                        <a href="https://www.unifaunonline.com/ext.uo.dk.track?key=290000004&order=<?php echo $row->order_id; ?>" 
+                                class="hasPopover billy-order-icons" target="_blank" 
+                                title data-content="<?php 
+                                    echo JText::_('COM_REDSHOP_OPEN_PACSOFT_TRACKING') ?>" 
+                                data-original-title="<?php 
+                                    echo JText::_('COM_REDSHOP_ORDER_SHIPPED') ?>">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </a> <?php	
+                    } ?>
+                </td>
+                <td>
+                    <?php $paymentStatusClass = 'label order_payment_status_' . strtolower(
+                        $row->order_payment_status); ?>
+                    <span class="<?php echo $paymentStatusClass ?> order-payment-row">
+                        <?php if ($row->order_payment_status == 'Paid'): ?>
+                            <?php echo JText::_($paymentDetail->order_payment_name);?> - 
+                            <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_PAID') ?>
+                        <?php elseif ($row->order_payment_status == 'Unpaid'): ?>
+                            <?php echo JText::_($paymentDetail->order_payment_name);?> - 
+                            <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID') ?>
+                        <?php elseif ($row->order_payment_status == 'Refunded'): ?>
+                            <?php echo JText::_($paymentDetail->order_payment_name);?> - 
+                            <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_REFUNDED') ?>
+                        <?php elseif ($row->order_payment_status == 'Cancelled'): ?>
+                            <?php echo JText::_($paymentDetail->order_payment_name);?> - 
+                            <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_CANCELLED') ?>
+                        <?php elseif ($row->order_payment_status == 'Partial Paid' || 
+                                $row->order_payment_status == 'PartialPaid'): ?>
+                            <?php echo JText::_($paymentDetail->order_payment_name);?> - 
+                            <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID') ?>
+                        <?php endif; ?>
+                    </span>
+
+                    <?php 
+                    // Economic section START
+                    if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && 
+                            Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2
+                            && $row->invoice_no && $row->is_booked == 1 && $row->bookinvoice_number): ?>
+                        <?php echo $row->bookinvoice_number ?>
+                    <?php endif; ?>
+                    <?php if ($row->invoice_no != ''): ?>
+                        <?php if ($row->is_booked == 0 && $row->bookinvoice_date <= 0): ?>
+                            <?php if ($row->is_company == 1 && $row->ean_number != ""): ?>
+                                <?php echo JText::_('COM_REDSHOP_MANUALY_BOOK_INVOICE_FROM_ECONOMIC') ?>
+                            <?php else: ?>
+                                <?php
+                                $confirm = 'if(confirm(\'' . JText::_(
+                                        'COM_REDSHOP_CONFIRM_BOOK_INVOICE'
+                                    ) . '\')) { document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit(); }';
+
+                                if ($row->order_payment_status == 'Paid' || $row->order_status == 'PR' || $row->order_status == 'C') {
+                                    $confirm = 'document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit();';
+                                }
+
+                                echo JHtml::_(
+                                    'redshopcalendar.calendar',
+                                    date($calendarFormat),
+                                    'bookDate' . $i,
+                                    'bookDate' . $i,
+                                    $calendarFormat,
+                                    array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+                                );
+                                ?>
+                                <br/>
+                                <input type="button" class="btn btn-default order-payment-row"
+                                       value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE"); ?>"
+                                       onclick="javascript:<?php echo $confirm; ?>"><br/>
+                            <?php endif; ?>
+                        <?php elseif ($row->bookinvoice_date > 0): ?>
+                                <br/>
+                                <span class="label order_payment_status_paid order-payment-row"> 
+                                    <?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . 
+                                        RedshopHelperDatetime::convertDateFormat($row->bookinvoice_date); ?>
+                                </span><br />
+                        <?php endif; ?>
+                    <?php endif;
+                    // Economic section END
+                    // Billy section START
+                    if (JPluginHelper::isEnabled('billy') && $row->order_status !== 'X') {	
+                        $billyPlugin 		    = JPluginHelper::getPlugin('billy', 'billy');
+                        $billyPluginParams 	    = new JRegistry($billyPlugin->params);
+                        $billySendInvoiceMethod = $billyPluginParams->get('billy_send_invoice_method','0');
+                        $invoice                = RedshopBilly::getInvoiceData($row->billy_invoice_no);
+                
+                        if (($row->billy_invoice_no != '' || $row->billy_invoice_no !== 0)) {
+                            if (($row->is_billy_booked == 0 && $row->billy_bookinvoice_date <= 0) 
+                                    || ($row->order_payment_status == 'Paid' && $row->is_billy_cashbook == 0) 
+                                    || ($row->order_payment_status == 'Unpaid' && $row->is_billy_booked == 0) 
+                                    || ($row->order_payment_status == 'Unpaid' && $row->is_billy_booked == 1 
+                                    && $row->is_billy_cashbook == 0)) {
+                                $confirm = 'if(confirm(\'' . JText::_('COM_REDSHOP_CONFIRM_BOOK_INVOICE') . '\')) { document.binvoice.order_id.value=\'' . $row->order_id . '\';document.binvoice.submit(); }';
+                                if ($row->is_billy_booked == 0) {
+                                    $orderEntity  = RedshopEntityOrder::getInstance($row->id);
+                                    $order        = $orderEntity->getItem();
+                                    $paymentClass = $orderEntity->getPayment()->getItem()->payment_method_class;
+                                    if ($row->is_company == 1 && $paymentClass == 'rs_payment_eantransfer') {?>
+                                        <br/>
+                                        <span class="label order_payment_status_cancelled order-payment-row"> 
+                                            <?php echo JText::_('COM_REDSHOP_MANUALLY_BOOK'); ?>
+                                        </span><br /> <?php
+                                    } else {
+                                        $confirm = 'document.binvoice.onlycashbook.value=0;document.binvoice.onlybook.value=1;document.binvoice.bookwithCashbook.value=0;document.binvoice.order_id.value=\'' . $row->order_id . '\';document.binvoice.submit();'; ?>
+                                        <br/>
+                                        <button type="button" class="btn btn-default order-payment-row" 
+                                                onclick="javascript:<?php echo $confirm; ?>">
+                                            <i class='fas fa-file-invoice-dollar'></i>&nbsp;
+                                            <?php echo JText::_("COM_REDSHOP_BOOK_INVOICE"); ?>
+                                        </button>
+                                        <br/><?php
+                                    }
+                                } else if ($row->order_payment_status !== 'Paid' && $invoice->isPaid == '1'
+                                        && $row->is_billy_booked == 1 ) { ?>
+                                    <br />
+                                    <span class="label order_status_invoice order-payment-row"> 
+                                        <?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . 
+                                        date("d-m-Y", strtotime($row->billy_bookinvoice_date)); ?>
+                                    </span>
+                                    <span class="btn btn-small btn-success order-payment-row"> 
+                                        <?php echo JText::_('COM_REDSHOP_BILLY_PAID_IN_BILLY') ?>
+                                    </span><br /> <?php 
+                                } else if ($row->is_billy_booked == 1 && $row->is_billy_cashbook == 0 
+                                        && $row->order_payment_status == 'Paid' && !$invoice->isPaid == '1') {
+                                    $confirm = 'document.binvoice.onlycashbook.value=1;document.binvoice.onlybook.value=0;document.binvoice.bookwithCashbook.value=0;document.binvoice.order_id.value=\'' . $row->order_id . '\';document.binvoice.submit();'; ?>
+                                    <span class="label order_status_invoice order-payment-row"> 
+                                    <?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . 
+                                        date("d-m-Y", strtotime($row->billy_bookinvoice_date)); ?>
+                                    </span><br />
+                                    <input type="button" class="btn btn-default order-payment-row" 
+                                        value="<?php echo JText::_("COM_REDSHOP_BILLY_MAKE_CASHBOOK"); ?>"
+                                        onclick="javascript:<?php echo $confirm; ?>"><br/> <?php
+                                } else if ($row->is_billy_booked == 1) { ?>
+                                    <br/>
+                                    <span class="label order_status_invoice order-payment-row"> 
+                                        <?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . 
+                                            date("d-m-Y", strtotime($row->billy_bookinvoice_date)); ?>
+                                    </span><br /> <?php
+                                }
+                            } else if ($row->is_billy_booked == 1) { ?>
+                                <br/>
+                                <span class="label order_status_invoice order-payment-row"> 
+                                    <?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . 
+                                        date("d-m-Y", strtotime($row->billy_bookinvoice_date)); ?>
+                                </span><br /> <?php
+                            }
+                        } else {
+                            echo '';
+                        } ?>
+                        <a class="label order_status_btn order-timeline-row" onclick="javascript: callTimeline('<?php 
+                                echo $row->billy_invoice_no; ?>','<?php echo $row->id ?>');" 
+                                data-toggle="modal" 
+                                data-target="#billy_timeline<?php echo $row->id ?>">
+                            <i class="far fa-hourglass-half"></i>&nbsp;
+                            <?php echo JText::_('COM_REDSHOP_BILLY_TIMELINE') ?>
+                        </a>
+                        <div class="modal fade" id="billy_timeline<?php echo $row->id ?>" role="dialog" 
+                                aria-labelledby="billy_timeline_label_<?php echo $row->id ?>">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" 
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h3 class="modal-title" 
+                                                id="sms_form_rykker_label_<?php echo $row->id ?>">
+                                            <?php echo JText::_('COM_REDSHOP_BILLY_TIMELINE').': '.$row->id ?>
+                                        </h3>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <div class="billy-timeline-entries" 
+                                                id="invoiceTimeLine<?php echo $row->id ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <?php
+                        if ((int) $billySendInvoiceMethod == 2 && $row->order_status !== 'X') {
+                            if(isset($invoice->sentState)) {
+                                if ($invoice->sentState == 'sent' || $invoice->sentState == 'opened' 
+                                        || $invoice->sentState == 'viewed' 
+                                        || $invoice->sentState == 'printed') { ?>
+                                    <a href="<?php echo $invoice->downloadUrl; ?>" 
+                                            class="hasPopover billy-order-icons" target="_blank" 
+                                            title data-content="<?php 
+                                            echo JText::_('COM_REDSHOP_BILLY_INVOICE_OPEN') ?>" 
+                                            data-original-title="<?php 
+                                            echo JText::_('COM_REDSHOP_BILLY_INVOICE') ?>">
+                                        <i class="fa fa-download"></i>
+                                    </a> <?php
+                                } else { ?>
+                                    <a href="<?php echo $invoice->downloadUrl; ?>?layout=packing-list" 
+                                            class="hasPopover billy-order-icons" target="_blank" 
+                                            title data-content="<?php 
+                                            echo JText::_('COM_REDSHOP_BILLY_PACKAGE_LIST_OPEN') ?>" 
+                                            data-original-title="<?php 
+                                            echo JText::_('COM_REDSHOP_BILLY_PACKAGE_LIST_OPEN') ?>">
+                                        <i class="far fa-circle-down"></i>
+                                    </a> <?php
+                                } 
+                            }					
+                            if ($row->is_billy_booked == 1 && $row->order_status !== 'X') {
+                                if (isset($invoice->sentState)) {
+                                    if ($invoice->sentState == 'sent') { ?>
+                                        <span class="hasPopover billy-order-icons" 
+                                                title data-content="<?php 
+                                                echo JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_SENT') ?>" 
+                                                data-original-title="<?php 
+                                                echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
+                                            <i class="far fa-envelope"></i>
+                                        </span> <?php
+                                    }
+                                    if (isset($invoice->sentState) && $invoice->sentState == 'opened') { ?>
+                                        <span class="hasPopover billy-order-icons" 
+                                                title data-content="<?php 
+                                                echo JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_OPEN') ?>"" 
+                                                data-original-title="<?php 
+                                                echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
+                                            <i class="far fa-envelope-open"></i>
+                                        </span> <?php
+                                    }
+                                    if (isset($invoice->sentState) && ($invoice->sentState == 'viewed' 
+                                            || $invoice->sentState == 'printed')) { ?>
+                                        <span class="hasPopover billy-order-icons" 
+                                                title data-content="<?php 
+                                                echo JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_VIEWED') ?>" 
+                                                data-original-title="<?php 
+                                                echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
+                                            <i class="far fa-search-plus"></i>
+                                        </span> <?php
+                                    }
+                                }	
+                            } ?>
+                            <a href="index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=<?php 
+                                    echo $row->order_id; ?>" class="hasPopover billy-order-icons" 
+                                    target="_blank" 
+                                    title data-content="Download forsendelses pdf i A5 format" 
+                                    data-original-title="Download forsendelses pdf">
+                                <i class="fa fa-tag"></i>
+                            </a> <?php
+                        }
+
+                        if ($row->is_billy_booked == 0 && ($row->order_status == 'S' 
+                                || $row->order_status == 'RD' || $row->order_status == 'RD1')) { ?>
+                            <span class="label order_payment_status_paid order-payment-row btn-warning">
+                                <b>
+                                    <?php echo JText::_('COM_REDSHOP_BILLY_ERROR_IN_BOOK_INVOICE'); ?>
+                                </b>
+                            </span> <?php
+                        }
+
+                        $billyReminderEnabled = $billyPluginParams->get('billy_reminder_enabled','0');
+                        if ($row->is_billy_booked == 1 && $row->order_payment_status == 'Unpaid' 
+                                && $billyReminderEnabled == 1 && !$invoice->isPaid
+                                && ($row->order_status == 'S' || $row->order_status == 'RD' 
+                                || $row->order_status == 'RD1')) {
+                            if (!empty($row->overdue_days)) {
+                                $overdueDays  = $row->overdue_days;
+                                $overdueLimit = $row->overdue_limit;
+                            } else {
+                                $overdueDays  = RedshopBilly::calulateOverdueDays($row->billy_invoice_no);
+                                $overdueLimit = RedshopBilly::calulateOverdueLimits($row->billy_invoice_no);
+                            }
+                            if ($overdueDays > 0) { ?>
+                                <br>
+                                <span class="label order_status_x order-payment-row">
+                                    <?php echo JText::_('COM_REDSHOP_BILLY_INVOICE_OVERDUE_WITH'); ?>
+                                    <?php echo $overdueDays . ' ' . JText::_('COM_REDSHOP_DAYS') ?>
+                                </span> <?php
+                            }
+
+                            if ($overdueDays > 0 && $overdueLimit > 0) { ?>
+                                <br />
+                                <?php if (Redshop::getConfig()->get('CLICKATELL_ENABLE')) {
+                                $linkCustomSmsReminder = 'index.php?option=com_redshop&view=order&task=custom_sms_reminder&return=order&order_id[]=' . $row->order_id; ?>
+                                <button type="button" class="label order_status_btn order-payment-row" 
+                                        data-toggle="modal"
+                                        data-target="#sms_reminder_form<?php echo $row->id ?>">
+                                    <i class="fa fa-edit"></i>&nbsp;</i> <?php 
+                                        echo JText::_('COM_REDSHOP_SEND_SMS_REMINDER') ?>
+                                </button>
+                                <div class="modal fade" id="sms_reminder_form<?php echo $row->id ?>" 
+                                        role="dialog"
+                                        aria-labelledby="sms_reminder_form_label_<?php echo $row->id ?>">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" 
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h3 class="modal-title" 
+                                                        id="sms_reminder_form_label_<?php echo $row->id ?>">
+                                                    <?php echo JText::_('COM_REDSHOP_ORDER') . ': ' . $row->id ?>
+                                                </h3>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <?php echo JText::_('COM_REDSHOP_CLICKATELL_COUNTRY_PREFIX') . ': ' ?>
+                                                                </label>
+                                                                <input type="text" 
+                                                                    name="prefix<?php echo $row->order_id ?>" 
+                                                                    value="<?php echo Redshop::getConfig()->get('CLICKATELL_COUNTRY_PREFIX');?>" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">     
+                                                                <label>
+                                                                    <?php 
+                                                                    echo JText::_('COM_REDSHOP_PHONE') . ': ' ?>
+                                                                </label>
+                                                                <input type="text" 
+                                                                    name="to<?php echo $row->order_id ?>" 
+                                                                    value="<?php echo $billing->phone;?>" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>
+                                                            <?php echo 
+                                                            JText::_('COM_REDSHOP_ALERT_MESSAGE') . ': ' ?>
+                                                        </label>
+                                                        <textarea class="form-control" 
+                                                            name="message<?php echo $row->order_id ?>" /><?php 
+                                                            echo Redshop::getConfig()->get
+                                                            ('CLICKATELL_CUSTOM_MESSAGE') ?>
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" 
+                                                        data-dismiss="modal">
+                                                    <?php echo JText::_('JTOOLBAR_CANCEL') ?>
+                                                </button>
+                                                <button type="button" class="button btn btn-primary"
+                                                        onclick="location.href='<?php echo Redshop\IO\Route::_(
+                                                        $linkCustomSmsReminder,
+                                                        false
+                                                        ) ?>&status='+document.adminForm.order_status<?php echo $row->order_id ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.message<?php echo $row->order_id ?>.value)+'&to='+document.adminForm.to<?php echo $row->order_id ?>.value+'&prefix='+document.adminForm.prefix<?php echo $row->order_id ?>.value;"
+                                                        value="<?php echo JText::_('COM_REDSHOP_SEND_SMS_REMINDER') ?>">
+                                                    <?php echo JText::_('COM_REDSHOP_SEND_SMS_REMINDER') ?>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php   } ?>
+                                <div class="panel-body panel panel-default billy-reminder-block">
+                                    <input class="hasPopover order-row-235px" type="text" 
+                                        title data-content="<?php echo JText::_("COM_REDSHOP_BILLY_REMINDER_FEE_NOTE"); ?>" 
+                                        data-original-title="<?php echo JText::_("COM_REDSHOP_BILLY_REMINDER_FEE_AMOUNT"); ?>" 
+                                        name="billy_reminder_fee_amount<?php echo $row->order_id ?>" 
+                                        id="billy_reminder_fee_amount<?php echo $row->order_id ?>" 
+                                        value="<?php echo $billyPluginParams->get('billy_reminder_fee_amount');?>" 
+                                        placeholder="<?php echo JText::_("COM_REDSHOP_BILLY_REMINDER_FEE_AMOUNT"); ?>" />
+                                    <input class="hasPopover order-row-235px" type="text" 
+                                        title data-content="<?php echo JText::_("COM_REDSHOP_BILLY_REMINDER_FEE_NOTE"); ?>" 
+                                        data-original-title="<?php echo JText::_("COM_REDSHOP_BILLY_REMINDER_FEE_PROCENT"); ?>" 
+                                        name="billy_reminder_fee_procent<?php echo $row->order_id ?>" 
+                                        id="billy_reminder_fee_procent<?php echo $row->order_id ?>" 
+                                        value="<?php echo $billyPluginParams->get('billy_reminder_fee_procent');?>" 
+                                        placeholder="<?php echo JText::_("COM_REDSHOP_BILLY_REMINDER_FEE_PROCENT"); ?>" />
+                                    <br/>
+                                    <select class="order-row-235px" 
+                                            name="billy_reminder_email_subject<?php echo $row->order_id ?>" 
+                                            id="billy_reminder_email_subject<?php echo $row->order_id ?>" 
+                                            onChange="updateEmailBody(this.value, '<?php echo $row->order_id; ?>');">
+                                        <option value="1" />
+                                            <?php echo $billyPluginParams->get
+                                                ('billy_reminder_email_subject_1');?> 
+                                                #<?php echo $row->order_id ?>
+                                        </option>
+                                        <option value="2" />
+                                            <?php echo $billyPluginParams->get
+                                                ('billy_reminder_email_subject_2');?> 
+                                                #<?php echo $row->order_id ?>
+                                        </option>
+                                        <option value="3" />
+                                            <?php echo $billyPluginParams->get
+                                                ('billy_reminder_email_subject_3');?> 
+                                                #<?php echo $row->order_id ?>
+                                        </option>
+                                    </select> <?php
+                                    $rconfirm = 'document.reminder.order_id.value=\'' . $row->order_id . '\';document.reminder.billy_invoice_no.value=\'' . $row->billy_invoice_no . '\';document.reminder.billy_reminder_fee_amount_hide.value=document.getElementById(\'billy_reminder_fee_amount' . $row->order_id  . '\').value;document.reminder.billy_reminder_fee_procent_hide.value=document.getElementById(\'billy_reminder_fee_procent' . $row->order_id  . '\').value;document.reminder.billy_reminder_email_subject_hide.value=document.getElementById(\'billy_reminder_email_subject' . $row->order_id  . '\').value;document.reminder.billy_reminder_email_body_hide.value=document.getElementById(\'billy_reminder_email_subject' . $row->order_id  . '\').value;document.reminder.submit();'; ?>
+                                    <input type="button" class="btn btn-small btn-warning order-row-235px" 
+                                        value="<?php echo JText::_("COM_REDSHOP_BILLY_SEND_REMINDER"); ?>"
+                                        onclick="javascript:<?php echo $rconfirm; ?>">
+                                </div> <?php
+                            }
+                            $reminders = RedshopBilly::getSentReminders($row->billy_invoice_no);
+                            if ($reminders && $overdueDays > 0) { ?>
+                                <?php echo JText::_('COM_REDSHOP_BILLY_REMINDER_PREVIOUS_SENT'); ?>
+                                <br> <?php
+                                foreach($reminders as $reminder) { ?>
+                                    <span class="label order_reminder_btn order-payment-row">
+                                    <b>
+                                        <?php echo $reminder->emailSubject; ?>
+                                    </b><br>
+                                    <?php echo date("d M Y - H:i", strtotime($reminder->createdTime));  ?>
+                                     | 
+                                    <?php echo JText::_('COM_REDSHOP_BILLY_REMINDER_FEE') . ' ' . 
+                                            $reminder->flatFee.' / '.$reminder->percentageFee.'%'; ?>
+                                    </span>
+                                    <br> <?php
+                                }
+                            }
+                            if ($overdueLimit < 0 && $overdueDays > 0) { ?> 
+                                <?php echo JText::_('COM_REDSHOP_BILLY_NEXT_REMINDER_IN_DAYS') . 
+                                ' <b>' . $overdueLimit . ' ' . JText::_('COM_REDSHOP_DAYS') . '</b>'; ?> <?php
+                            }
+                        }
+                    }
+                    // Billy section END ?>
+                </td>
+                <td>
+                    <?php
+                    if ($shippingDetail[0] !== 'plgredshop_shippingself_pickup') {
+                        $shipping = RedshopEntityOrder::getInstance($row->order_id)->getShipping(); 
+                        if (!empty($row->shop_id)) {
+                            $shopIdTrim = explode("|", $row->shop_id); ?>
+                            <div class="ui-priority-primary">
+                                <?php echo $shopIdTrim[1]; ?>
+                            </div> <?php
+                        }
+                        if (!empty($shipping->company_name)) { ?>					
+                            <b><?php echo $shipping->company_name; ?></b>
+                            <br>
+                            <?php echo $shipping->firstname; ?>
+                            <?php echo $shipping->lastname; ?>
+                            <?php
+                        } else { ?>
+                            <b>
+                            <?php echo $shipping->firstname; ?> 
+                            <?php echo $shipping->lastname; ?>
+                            </b>
+                            <?php
+                        } ?>
+                        <br>
+                        <?php echo $shipping->address; ?>
+                        <br>
+                        <?php echo $shipping->zipcode; ?>
+                        <?php echo $shipping->city; ?> 
+                        <?php
+                    } ?>                
+                </td>
+                <td>
+                    <b>
+                        <?php echo $shippingDetail[2] ?>
+                    </b>
+                    <br /> <?php
+                    if (Redshop::getConfig()->get('POSTDK_INTEGRATION')) {
+                        $shippingParams = new JRegistry;
+
+                       if (!empty($shippingDetail[0])) {
+                            $shippingPlugin = JPluginHelper::getPlugin(
+                                'redshop_shipping',
+                                str_replace('plgredshop_shipping', '', strtolower($shippingDetail[0]))
+                            );
+
+                            if (!empty($shippingPlugin)) {
+                                $shippingParams = new JRegistry($shippingPlugin->params);
+                            }
+                        }
+
+                        // Checking 'plgredshop_shippingdefault_shipping' to support backward compatibility
+                        $allowPacsoftLabel = ($shippingDetail[0] === 'plgredshop_shippingdefault_shipping' || (boolean)$shippingParams->get(
+                                'allowPacsoftLabel'
+                            ));
+
+                        if ($allowPacsoftLabel) {
+                            if ($row->order_label_create) { ?>
+                                <i class="fa-regular fa-square-check"></i> <?php
+                                echo JTEXT::_("COM_REDSHOP_XML_ALREADY_GENERATED");
+                            } else { ?>
+                                <span style="display:none"> <?php
+                                echo JHtml::_(
+                                    'redshopcalendar.calendar',
+                                    date($calendarFormat),
+                                    'specifiedDate' . $i,
+                                    'specifiedDate' . $i,
+                                    $calendarFormat,
+                                    array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+                                );
+                                ?>
+                                </span>
+                                <input type="button" class="btn btn-default"
+                                    value="<?php echo JTEXT::_('COM_REDSHOP_CREATE_LABEL'); ?>"
+                                    onclick="javascript:document.parcelFrm.order_id.value='<?php echo $row->order_id; ?>';
+                                        document.parcelFrm.specifiedSendDate.value=document.getElementById('specifiedDate<?php echo $i; ?>').value;
+                                        document.parcelFrm.submit();">
+                                <?php
+                            }
+                        }
+                    }
+                    ?>
                 </td>
                 <?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1) : ?>
                     <?php
@@ -538,14 +1064,11 @@ JPluginHelper::importPlugin('redshop_product');
                     </td>
                     <td align="center">
                         <?php
-                        echo $shipping_name = Redshop\Shipping\Tag::replaceShippingMethod($row, "{shipping_method}");
-                        echo "<br />";
-
                         if (!empty($stockroomIds)) {
                             $max_delivery = RedshopHelperStockroom::getStockroomMaxDelivery(
                                 implode(',', $stockroomIds)
                             );
-                            $orderDate    = $config->convertDateFormat($row->cdate);
+                            $orderDate    = RedshopHelperDatetime::convertDateFormat($row->cdate);
 
                             $stamp         = mktime(
                                 0,
@@ -568,104 +1091,6 @@ JPluginHelper::importPlugin('redshop_product');
                         ?>
                     </td>
                 <?php endif; ?>
-                <td align="center">
-                    <?php echo RedshopHelperDatetime::convertDateFormat($row->cdate); ?>
-                </td>
-                <td>
-                    <?php if (RedshopHelperPdf::isAvailablePdfPlugins()): ?>
-                        <a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>"
-                           target="_blank">
-                            <i class="fa fa-file-pdf-o"></i>
-                        </a>
-                    <?php else: ?>
-                        <span class="disabled"><i class="fa fa-file-pdf-o"></i></span>
-                    <?php endif; ?>
-                </td>
-                <td>
-                    <?php if ($row->invoice_no != ''): ?>
-                        <?php if ($row->is_booked == 0 && $row->bookinvoice_date <= 0): ?>
-                            <?php if ($row->is_company == 1 && $row->ean_number != ""): ?>
-                                <?php echo JText::_('COM_REDSHOP_MANUALY_BOOK_INVOICE_FROM_ECONOMIC') ?>
-                            <?php else: ?>
-                                <?php
-                                $confirm = 'if(confirm(\'' . JText::_(
-                                        'COM_REDSHOP_CONFIRM_BOOK_INVOICE'
-                                    ) . '\')) { document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit(); }';
-
-                                if ($row->order_payment_status == 'Paid' || $row->order_status == 'PR' || $row->order_status == 'C') {
-                                    $confirm = 'document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit();';
-                                }
-
-                                echo JHtml::_(
-                                    'redshopcalendar.calendar',
-                                    date($calendarFormat),
-                                    'bookDate' . $i,
-                                    'bookDate' . $i,
-                                    $calendarFormat,
-                                    array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
-                                );
-                                ?>
-                                <br/>
-                                <input type="button" class="button"
-                                       value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE"); ?>"
-                                       onclick="javascript:<?php echo $confirm; ?>"><br/>
-                            <?php endif; ?>
-                        <?php elseif ($row->bookinvoice_date > 0): ?>
-                            <?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') ?><br/>
-                            <?php echo $config->convertDateFormat($row->bookinvoice_date) ?>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                </td>
-                <?php
-                if (Redshop::getConfig()->get('POSTDK_INTEGRATION')) {
-                    $details        = Redshop\Shipping\Rate::decrypt($row->ship_method_id);
-                    $shippingParams = new JRegistry;
-
-                    if (!empty($details[0])) {
-                        $shippingPlugin = JPluginHelper::getPlugin(
-                            'redshop_shipping',
-                            str_replace('plgredshop_shipping', '', strtolower($details[0]))
-                        );
-
-                        if (!empty($shippingPlugin)) {
-                            $shippingParams = new JRegistry($shippingPlugin->params);
-                        }
-                    }
-
-                    // Checking 'plgredshop_shippingdefault_shipping' to support backward compatibility
-                    $allowPacsoftLabel = ($details[0] === 'plgredshop_shippingdefault_shipping' || (boolean)$shippingParams->get(
-                            'allowPacsoftLabel'
-                        ));
-
-                    if ($allowPacsoftLabel) {
-                        echo "<td>";
-
-                        if ($row->order_label_create) {
-                            echo JTEXT::_("COM_REDSHOP_XML_ALREADY_GENERATED");
-                        } else {
-                            echo JHtml::_(
-                                'redshopcalendar.calendar',
-                                date($calendarFormat),
-                                'specifiedDate' . $i,
-                                'specifiedDate' . $i,
-                                $calendarFormat,
-                                array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
-                            );
-                            ?>
-                            <input type="button" class="button"
-                                   value="<?php echo JTEXT::_('COM_REDSHOP_CREATE_LABEL'); ?>"
-                                   onclick="javascript:document.parcelFrm.order_id.value='<?php echo $row->order_id; ?>';
-                                           document.parcelFrm.specifiedSendDate.value=document.getElementById('specifiedDate<?php echo $i; ?>').value;
-                                           document.parcelFrm.submit();">
-                            <?php
-                        }
-
-                        echo "</td>";
-                    } else {
-                        echo '<td>' . JText::_('COM_REDSHOP_NO_PACSOFT_LABEL') . '</td>';
-                    }
-                }
-                ?>
             </tr>
 
             <?php $k = 1 - $k; ?>
@@ -699,7 +1124,27 @@ JPluginHelper::importPlugin('redshop_product');
     <input name="task" value="bookInvoice" type="hidden">
     <input name="bookInvoiceDate" value="" type="hidden">
 </form>
-
+<form name='binvoice' method="post">
+    <input name="view" value="order" type="hidden">
+    <input name="order_id" value="" type="hidden">
+    <input name="option" value="com_redshop" type="hidden">
+    <input name="task" value="billyBookInvoice" type="hidden">
+    <input name="onlycashbook" value="" type="hidden">
+    <input name="bookwithCashbook" value="" type="hidden">
+    <input name="onlybook" value="" type="hidden">
+</form>
+<form name='reminder' method="post">
+    <input name="view" value="order" type="hidden">
+    <input name="order_id" value="" type="hidden">
+    <input name="billy_invoice_no" value="" type="hidden">
+    <input name="option" value="com_redshop" type="hidden">
+    <input name="task" value="sendBillyReminder" type="hidden">
+    <input name="billy_reminder_fee_amount_hide" value="" type="hidden">
+    <input name="billy_reminder_fee_procent_hide" value="" type="hidden">
+    <input name="billy_reminder_email_subject_hide" value="" type="hidden">
+    <input name="billy_reminder_email_body_hide" value="" type="hidden">
+    <input name="sendBillyReminder" value="" type="hidden">
+</form>
 <form name='parcelFrm' method="post">
     <input name="specifiedSendDate" value="" type="hidden">
     <input name="view" value="order" type="hidden">
@@ -908,4 +1353,21 @@ JPluginHelper::importPlugin('redshop_product');
             }
         });
     });
+</script>
+<script type="text/javascript">
+    function updateEmailBody(subject_number, order_id) {
+        if(subject_number && order_id) {
+            document.getElementById('billy_reminder_email_body'+order_id).value=subject_number;
+        }
+    }
+</script>
+<script type="text/javascript">
+    function callTimeline(billy_invoice_no,row_id) {
+        jQuery.ajax({
+            data: { task: "getBillyInvoiceTimelines", billy_invoice_no:billy_invoice_no },
+            success: function(result, status, xhr) { 
+                jQuery("#invoiceTimeLine"+row_id).html(result); },
+            error: function() { console.log('ajax call for Billy timeline failed'); },
+        });
+    }
 </script>

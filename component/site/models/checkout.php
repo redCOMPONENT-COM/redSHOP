@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Redshop\Economic\RedshopEconomic;
+use Redshop\Billy\RedshopBilly;
 use Redshop\Environment as RedshopEnvironment;
 
 /**
@@ -1227,6 +1228,18 @@ class RedshopModelCheckout extends RedshopModel
                 if (JFile::exists($bookinvoicepdf)) {
                     Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
                 }
+            }
+        }
+
+        if (JPluginHelper::isEnabled('billy')) {
+            $plugin              = JPluginHelper::getPlugin('billy', 'billy');
+            $billyParams         = new JRegistry($plugin->params);
+            $billyInvoiceDraft = $billyParams->get('billy_invoice_draft','0');
+
+            RedshopBilly::createInvoiceInBilly($row->order_id);
+
+            if ($billyInvoiceDraft == 0) {
+                RedshopBilly::bookInvoiceInBilly($row->order_id);
             }
         }
 

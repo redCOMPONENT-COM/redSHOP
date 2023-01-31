@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Redshop\Economic\RedshopEconomic;
+use Redshop\Billy\RedshopBilly;
 
 class RedshopModelOrder_detail extends RedshopModel
 {
@@ -127,6 +128,17 @@ class RedshopModelOrder_detail extends RedshopModel
                     $orderdata->load($cid[$i]);
                     RedshopEconomic::deleteInvoiceInEconomic($orderdata);
                 }
+            }
+
+            if (JPluginHelper::isEnabled('billy')) {
+                for ($i = 0, $in = count($cid); $i < $in; $i++) {
+                    $orderData = $this->getTable('order_detail');
+                    $orderData->load($cid[$i]);
+                    RedshopBilly::deleteInvoiceInBilly($orderdata);
+                }
+            }
+            elseif (JPluginHelper::isEnabled('billy')) {
+                JFactory::getApplication(administrator)->enqueueMessage(JText::_('COM_REDSHOP_BILLY_ORDER_IS_ALREADY_BOOKED_ERROR') . $orderdata->order_id, 'error');
             }
 
             $cids       = implode(',', $cid);
@@ -674,6 +686,13 @@ class RedshopModelOrder_detail extends RedshopModel
                 RedshopEconomic::renewInvoiceInEconomic($orderdata);
             }
 
+            if (JPluginHelper::isEnabled('billy') && $orderdata->is_billy_booked == 0) {
+                RedshopBilly::renewInvoiceInBilly($orderdata);
+            }
+            elseif (JPluginHelper::isEnabled('billy') && $orderdata->is_billy_booked == 1) {
+                JFactory::getApplication(administrator)->enqueueMessage(JText::_('COM_REDSHOP_BILLY_ORDER_IS_ALREADY_BOOKED_ERROR') . $orderdata->order_id, 'error');
+            }
+
             // Send mail from template
             Redshop\Mail\Order::sendSpecialDiscountMail($this->_id);
         } else {
@@ -751,6 +770,10 @@ class RedshopModelOrder_detail extends RedshopModel
         // Economic Integration start for invoice generate
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
             RedshopEconomic::renewInvoiceInEconomic($order->getItem());
+        }
+
+        if (JPluginHelper::isEnabled('billy')) {
+            RedshopBilly::renewInvoiceInBilly($order->getItem());
         }
 
         // Send mail from template ********************/
@@ -920,6 +943,13 @@ class RedshopModelOrder_detail extends RedshopModel
             RedshopEconomic::renewInvoiceInEconomic($orderData);
         }
 
+        if (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 0) {
+            RedshopBilly::renewInvoiceInBilly($orderData);
+        }
+        elseif (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 1) {
+            JFactory::getApplication(administrator)->enqueueMessage(JText::_('COM_REDSHOP_BILLY_ORDER_IS_ALREADY_BOOKED_ERROR') . $orderData->order_id, 'error');
+        }
+
         // Send mail from template
         Redshop\Mail\Order::sendSpecialDiscountMail($this->_id);
 
@@ -1022,6 +1052,13 @@ class RedshopModelOrder_detail extends RedshopModel
                 RedshopEconomic::renewInvoiceInEconomic($orderdata);
             }
 
+            if (JPluginHelper::isEnabled('billy') && $orderdata->is_billy_booked == 0) {
+                RedshopBilly::renewInvoiceInBilly($orderdata);
+            }
+            elseif (JPluginHelper::isEnabled('billy') && $orderdata->is_billy_booked == 1) {
+                JFactory::getApplication(administrator)->enqueueMessage(JText::_('COM_REDSHOP_BILLY_ORDER_IS_ALREADY_BOOKED_ERROR') . $orderdata->order_id, 'error');
+            }
+
             $tmpArr['special_discount']     = $orderdata->special_discount;
             $tmpArr['payment_method_class'] = $data['payment_method_class'];
             $this->/** @scrutinizer ignore-call */ special_discount($tmpArr, true);
@@ -1120,6 +1157,13 @@ class RedshopModelOrder_detail extends RedshopModel
             RedshopEconomic::renewInvoiceInEconomic($orderData);
         }
 
+        if (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 0) {
+            RedshopBilly::renewInvoiceInBilly($orderData);
+        }
+        elseif (JPluginHelper::isEnabled('billy') && $orderData->is_billy_booked == 1) {
+            JFactory::getApplication(administrator)->enqueueMessage(JText::_('COM_REDSHOP_BILLY_ORDER_IS_ALREADY_BOOKED_ERROR') . $orderData->order_id, 'error');
+        }
+
         // Send mail from template
         Redshop\Mail\Order::sendSpecialDiscountMail($this->_id);
 
@@ -1153,6 +1197,13 @@ class RedshopModelOrder_detail extends RedshopModel
                     // Economic Integration start for invoice generate
                     if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
                         RedshopEconomic::renewInvoiceInEconomic($orderdata);
+                    }
+
+                    if (JPluginHelper::isEnabled('billy') && $orderdata->is_billy_booked == 0) {
+                        RedshopBilly::renewInvoiceInBilly($orderdata);
+                    }
+                    else if (JPluginHelper::isEnabled('billy') && $orderdata->is_billy_booked == 1) {
+                        JFactory::getApplication(administrator)->enqueueMessage(JText::_('COM_REDSHOP_BILLY_ORDER_IS_ALREADY_BOOKED_ERROR'), 'error');
                     }
                 }
             }

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Redshop\Economic\RedshopEconomic;
+use Redshop\Billy\RedshopBilly;
 
 
 class RedshopControllerOrder extends RedshopController
@@ -87,6 +88,16 @@ class RedshopControllerOrder extends RedshopController
     public function update_status()
     {
         RedshopHelperOrder::updateStatus();
+    }
+
+    public function custom_sms()
+    {
+        RedshopHelperClickatell::sendCustomMessage();
+    }
+
+    public function custom_sms_reminder()
+    {
+        RedshopHelperClickatell::sendCustomMessageReminder();
     }
 
     /**
@@ -181,6 +192,185 @@ class RedshopControllerOrder extends RedshopController
         $this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
     }
 
+    public function billyBookInvoice()
+    {
+        $post    = $this->input->post->getArray();
+        $orderId = $this->input->getInt('order_id');
+
+        if (JPluginHelper::isEnabled('billy')) {
+            if (!empty($post)) {
+                // Get order details from the redshop library order helper
+                $orderDetail = RedshopHelperOrder::getOrderDetails($orderId);
+
+                if ($post['onlycashbook'] == 1 && $orderDetail->is_billy_booked == 1 && $orderDetail->is_billy_cashbook == 0) {
+                    RedshopBilly::createCashbookEntry($orderId, $orderDetail, $post);
+                    $msg = JText::_('COM_REDSHOP_BILLY_SUCCESSFULLY_CASHBOOKED_INVOICE_IN_BILLY')
+                                 . $orderId . '';
+                    $msgType = 'message';
+                    $this->setRedirect('index.php?option=com_redshop&view=order', $msg, $msgType);
+                }
+            }
+
+            $bookinvoicepdf = RedshopBilly::bookInvoiceInBilly($orderId, $post);
+        }
+
+        $this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
+    }
+
+    public function getBillyInvoiceTimelines() {
+        $billyInvoiceNo = $this->input->get('billy_invoice_no');
+
+        if (JPluginHelper::isEnabled('billy')) {
+            $timelines = RedshopBilly::getInvoiceTimelines($billyInvoiceNo);
+            echo "$timelines";
+            exit;
+        }
+    }
+
+    public function billyCronTask()
+    {
+    //  $post       = $this->input->post->getArray();
+        $orderId    = $this->input->getInt('order_id');
+        $cronAction = $this->input->get('cron_action');
+        $action     = (isset($cronAction)) ? $cronAction : '';
+
+        $db 	 = JFactory::getDBo();
+
+        switch($action) {
+            case "paymentChange":
+                // Update orders that are paid in Billy to Paid in redShop
+                // url = /administrator/index.php?option=com_redshop&view=order&cron_action=paymentChange&task=billyCronTask
+                $orderQuery = "SELECT * FROM #__redshop_orders WHERE order_payment_status = 'Unpaid' AND billy_invoice_no != ''";
+                $db->query();
+                $db->setQuery($orderQuery);
+                $unpaidOrders = $db->loadObjectList();
+	
+                $invoices 		  = RedshopBilly::getAllInvoiceData();
+                $invoicePaidArray = array();
+                
+                foreach($invoices->body->invoices as $key => $invoice) {
+                    if ($invoice->isPaid == 1) {
+                        $invoicePaidArray[$invoice->id] = $invoice->isPaid;
+                    }
+                }
+                
+                foreach($unpaidOrders as $order) {
+                    if (trim($order->billy_invoice_no != null) && $order->billy_invoice_no != "") {
+                        if (isset($invoicePaidArray[$order->billy_invoice_no]) && $invoicePaidArray[$order->billy_invoice_no] == 1) {
+                            $updatePaymentStatusQuery = "UPDATE #__redshop_orders SET order_payment_status = 'Paid' WHERE order_id ='".$order->order_id."'";
+                            $db->setQuery($updatePaymentStatusQuery);
+                            $rslt = $db->execute();
+                            $db->getQuery(true);
+                            
+                            $InsertOrderStatusLogQuery = "INSERT INTO #__redshop_order_status_log VALUES ('','".$order->order_id."','','".$order->order_status."','Paid','".time()."','Payment status has been changed to paid by CRON')";
+                            $db->setQuery($InsertOrderStatusLogQuery);
+                            $rslt1 = $db->execute();
+                            $db->getQuery(true);
+                        } else {
+                            $invoice = RedshopBilly::getInvoiceData($order->billy_invoice_no);
+                            if ($invoice->isPaid == 1) {
+                                $updatePaymentStatusQuery = "UPDATE #__redshop_orders SET order_payment_status = 'Paid' WHERE order_id ='".$order->order_id."'";
+                                $db->setQuery($updatePaymentStatusQuery);
+                                $rslt = $db->execute();
+                                $db->getQuery(true);
+    
+                            /*  $InsertOrderStatusLogQuery = "INSERT INTO #__redshop_order_status_log VALUES ('','".$order->order_id."','".$order->order_status."','Paid','".time()."','<?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_STATUS_CHANGE_TO') ?>&nbsp;<span class="label order_payment_status_paid"><?php echo $order->order_payment_status ?></span> &nbsp; by CRON')"; */
+                                $InsertOrderStatusLogQuery = "INSERT INTO #__redshop_order_status_log VALUES ('','".$order->order_id."','','".$order->order_status."','Paid','".time()."','Payment status has been changed to paid by CRON')";
+                                $db->setQuery($InsertOrderStatusLogQuery);
+                                $rslt1 = $db->execute();
+                                $db->getQuery(true);
+                            }
+                        }
+                    }
+                }
+
+                break;
+
+            case "statusChange":
+                // Send APP mail to orders that are Unpaid and status APP + Change order that have status P to APP
+                $orderQuery = "SELECT * FROM #__redshop_orders WHERE order_status IN('P','APP')";
+                $db->setQuery($orderQuery);
+                $orders = $db->loadObjectList();
+                
+                foreach($orders as $order)
+                {
+                    if ($order->order_payment_status == "Unpaid") {
+                        RedshopHelperOrder::changeOrderStatusMail($order->order_id, 'APP', '');
+                    }
+                    
+                    if ($order->order_status == "P") {
+                        $updateStatusQuery = "UPDATE #__redshop_orders SET order_status = 'APP' WHERE order_id ='".$order->order_id."'";
+                        $db->setQuery($updateStatusQuery);
+                        $rslt = $db->execute();
+                        $db->getQuery(true);
+
+                        $InsertOrderStatusLogQuery = "INSERT INTO #__redshop_order_status_log VALUES ('','".$order->order_id."','', 'APP','".$order->order_payment_status."','".time()."','Order status has been changed to APP by CRON')";
+                        $db->setQuery($InsertOrderStatusLogQuery);
+                        $rslt1 = $db->execute();
+                        $db->getQuery(true);
+                    }
+                }
+            break;
+
+            case "overdue":
+                // Update overdue
+                $billyPlugin            = JPluginHelper::getPlugin('billy', 'billy');
+                $billyParams            = new JRegistry($billyPlugin->params);
+                $billyReminderDateLimit = $billyParams->get('billy_reminder_date_limit');
+                $billyReminderDateLimit = strtotime($billyReminderDateLimit);	
+
+                $q = "SELECT order_id,billy_invoice_no,overdue_limit,cdate  FROM #__redshop_orders WHERE order_payment_status ='Unpaid' and is_billy_booked = '1' and cdate > '" . $billyReminderDateLimit . "'";
+                $r = $db->setQuery($q);
+                $orders = $db->loadObjectList();
+                
+                foreach($orders as $order) {
+                    $overdueLimits = RedshopBilly::calulateOverdueLimits($order->billy_invoice_no, true);
+                    $upP = "UPDATE #__redshop_orders SET overdue_limit = '" . $overdueLimits . "' WHERE order_id ='" . $order->order_id . "'";
+                    $db->setQuery($upP);
+                    $db->query();
+                }
+                
+                foreach($orders as $order) {
+                    $overdueDays = RedshopBilly::calulateOverdueDays($order->billy_invoice_no, true);
+                    $upP = "UPDATE #__redshop_orders SET overdue_days = '" . $overdueDays . "' WHERE order_id ='" . $order->order_id . "'";
+                    $db->setQuery($upP);
+                    $db->query();
+                }
+            break;
+
+            case "renewInvoice":
+                // Renew Billy invoice in background
+                $orderId	 = $this->input->get('orderId');
+                $orderdetail = RedshopHelperOrder::getOrderDetail($orderId);
+                RedshopBilly::renewInvoiceInBilly($orderdetail);
+                
+                print("<p><i>renewInvoice succes for order #: " . $orderId . "</i></p>");
+                
+            break;
+        }
+    }
+
+    public function sendBillyReminder()
+    {
+        $billyInvoiceNo = $this->input->get('billy_invoice_no');
+        $orderId		= $this->input->get('order_id');
+        
+        if (JPluginHelper::isEnabled('billy')) {
+            $reminderSent = RedshopBilly::sendReminder($orderId, $billyInvoiceNo);
+        }
+
+        if ($reminderSent) {
+            $ecomsg  = JText::_('COM_REDSHOP_BILLY_SUCCESSFULLY_SENT_REMINDER_IN_BILLY') . $orderId . '';
+            $msgType = 'message';
+            $this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
+        } else {
+            $ecomsg  = JText::_('COM_REDSHOP_BILLY_ISSUE_IN_SENT_REMINDER_IN_BILLY') . $orderId . '';
+            $msgType = 'error';
+            $this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);			
+        }
+        
+    }
+
     public function createInvoice()
     {
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get(
@@ -215,6 +405,19 @@ class RedshopControllerOrder extends RedshopController
                 if (JFile::exists($bookinvoicepdf)) {
                     $ret = Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
                 }
+            }
+        }
+
+        $plugin            = JPluginHelper::getPlugin('billy', 'billy');
+        $pluginParams      = new JRegistry($plugin->params);
+        $billyInvoiceDraft = $pluginParams->get('billy_invoice_draft','0');
+
+        if (JPluginHelper::isEnabled('billy') && $billyInvoiceDraft != 2) {
+            $orderId       = $this->input->getInt('order_id');
+            RedshopBilly::createInvoiceInBilly($orderId);
+
+            if ($billyInvoiceDraft == 0) {
+                RedshopBilly::bookInvoiceInBilly($orderId);
             }
         }
 

@@ -311,7 +311,6 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
             </div>
         </div>
 
-        <!-- H.A 10.04.2020 -->
         <div class="col-sm-6">
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -342,6 +341,15 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                 </td>
                             </tr>
                         </table>
+                        <div class="send-email-payment">
+                            <label class="checkbox inline">
+                                <input type="checkbox" <?php echo $sendMailToCustomer; ?> value="true"
+                                        name="order_sendordermail"
+                                        id="order_sendordermail"/><?php echo JText::_(
+                                        'COM_REDSHOP_SEND_ORDER_MAIL'
+                                    ); ?>
+                            </label>
+                        </div>
                         <?php if ($this->detail->order_payment_status == 'Unpaid'): ?>
                             <div class="row">
                                 <div class="col-sm-3">

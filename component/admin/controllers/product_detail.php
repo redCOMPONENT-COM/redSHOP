@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 use Redshop\Economic\RedshopEconomic;
+use Redshop\Billy\RedshopBilly;
 
 jimport('joomla.filesystem.file');
 
@@ -173,6 +174,11 @@ class RedshopControllerProduct_Detail extends RedshopController
             // Add product to economic
             if (Redshop::getConfig()->getInt('ECONOMIC_INTEGRATION') === 1) {
                 RedshopEconomic::createProductInEconomic($row);
+            }
+
+            // Add product to Billy
+            if (JPluginHelper::isEnabled('billy')) {
+                RedshopBilly::createProductInBilly($row);
             }
 
             // Field_section 1 :Product
@@ -375,6 +381,14 @@ class RedshopControllerProduct_Detail extends RedshopController
                     RedshopEconomic::createPropertyInEconomic($row, $property_array);
                 }
 
+                $plugin                    = JPluginHelper::getPlugin('billy', 'billy');
+                $billyParams               = new JRegistry($plugin->params);
+                $attributeAsProductInBilly = $billyParams->get('attribute_as_product_in_billy');
+
+                if (JPluginHelper::isEnabled('billy') && $attributeAsProductInBilly != 0) {
+                    RedshopBilly::createPropertyInBilly($row, $property_array);
+                }
+
                 // Set trigger to save Attribute Property Plugin Data
                 if ((int)$propertyId) {
                     $dispatcher = RedshopHelperUtility::getDispatcher();
@@ -457,6 +471,14 @@ class RedshopControllerProduct_Detail extends RedshopController
                     if (Redshop::getConfig()->getInt('ECONOMIC_INTEGRATION') === 1
                         && Redshop::getConfig()->getInt('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') !== 0) {
                         RedshopEconomic::createSubpropertyInEconomic($row, $subproperty_array);
+                    }
+
+                    $plugin                    = JPluginHelper::getPlugin('billy', 'billy');
+                    $billyParams               = new JRegistry($plugin->params);
+                    $attributeAsProductInBilly = $billyParams->get('attribute_as_product_in_billy');
+    
+                    if (JPluginHelper::isEnabled('billy') && $attributeAsProductInBilly != 0) {
+                        RedshopBilly::createSubpropertyInBilly($row, $subproperty_array);
                     }
                 }
             }
