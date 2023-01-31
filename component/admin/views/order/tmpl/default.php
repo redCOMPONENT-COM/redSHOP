@@ -553,14 +553,20 @@ JPluginHelper::importPlugin('redshop_product');
                         $row->order_payment_status); ?>
                     <span class="<?php echo $paymentStatusClass ?> order-payment-row">
                         <?php if ($row->order_payment_status == 'Paid'): ?>
-                            <?php  echo JText::_($paymentDetail->order_payment_name);?> - 
+                            <?php echo JText::_($paymentDetail->order_payment_name);?> - 
                             <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_PAID') ?>
                         <?php elseif ($row->order_payment_status == 'Unpaid'): ?>
-                            <?php  echo JText::_($paymentDetail->order_payment_name);?> - 
+                            <?php echo JText::_($paymentDetail->order_payment_name);?> - 
                             <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID') ?>
+                        <?php elseif ($row->order_payment_status == 'Refunded'): ?>
+                            <?php echo JText::_($paymentDetail->order_payment_name);?> - 
+                            <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_REFUNDED') ?>
+                        <?php elseif ($row->order_payment_status == 'Cancelled'): ?>
+                            <?php echo JText::_($paymentDetail->order_payment_name);?> - 
+                            <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_CANCELLED') ?>
                         <?php elseif ($row->order_payment_status == 'Partial Paid' || 
                                 $row->order_payment_status == 'PartialPaid'): ?>
-                            <?php  echo JText::_($paymentDetail->order_payment_name);?> - 
+                            <?php echo JText::_($paymentDetail->order_payment_name);?> - 
                             <?php echo JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID') ?>
                         <?php endif; ?>
                     </span>
@@ -610,13 +616,13 @@ JPluginHelper::importPlugin('redshop_product');
                     <?php endif;
                     // Economic section END
                     // Billy section START
-                    if (JPluginHelper::isEnabled('billy')) {	
+                    if (JPluginHelper::isEnabled('billy') && $row->order_status !== 'X') {	
                         $billyPlugin 		    = JPluginHelper::getPlugin('billy', 'billy');
                         $billyPluginParams 	    = new JRegistry($billyPlugin->params);
                         $billySendInvoiceMethod = $billyPluginParams->get('billy_send_invoice_method','0');
                         $invoice                = RedshopBilly::getInvoiceData($row->billy_invoice_no);
                 
-                        if (($row->billy_invoice_no != '' || $row->billy_invoice_no !== 0) && $row->order_status !== 'X') {
+                        if (($row->billy_invoice_no != '' || $row->billy_invoice_no !== 0)) {
                             if (($row->is_billy_booked == 0 && $row->billy_bookinvoice_date <= 0) 
                                     || ($row->order_payment_status == 'Paid' && $row->is_billy_cashbook == 0) 
                                     || ($row->order_payment_status == 'Unpaid' && $row->is_billy_booked == 0) 
@@ -624,11 +630,12 @@ JPluginHelper::importPlugin('redshop_product');
                                     && $row->is_billy_cashbook == 0)) {
                                 $confirm = 'if(confirm(\'' . JText::_('COM_REDSHOP_CONFIRM_BOOK_INVOICE') . '\')) { document.binvoice.order_id.value=\'' . $row->order_id . '\';document.binvoice.submit(); }';
                                 if ($row->is_billy_booked == 0) {
-                                    $paymentInfo  = RedshopHelperOrder::getPaymentInfo($row->id);
-                                    $paymentClass = $paymentInfo->payment_method_class;
+                                    $orderEntity  = RedshopEntityOrder::getInstance($row->id);
+                                    $order        = $orderEntity->getItem();
+                                    $paymentClass = $orderEntity->getPayment()->getItem()->payment_method_class;
                                     if ($row->is_company == 1 && $paymentClass == 'rs_payment_eantransfer') {?>
                                         <br/>
-                                        <span class="label order_payment_status_x order-payment-row"> 
+                                        <span class="label order_payment_status_cancelled order-payment-row"> 
                                             <?php echo JText::_('COM_REDSHOP_MANUALLY_BOOK'); ?>
                                         </span><br /> <?php
                                     } else {
@@ -644,7 +651,7 @@ JPluginHelper::importPlugin('redshop_product');
                                 } else if ($row->order_payment_status !== 'Paid' && $invoice->isPaid == '1'
                                         && $row->is_billy_booked == 1 ) { ?>
                                     <br />
-                                    <span class="label order_payment_status_paid order-payment-row"> 
+                                    <span class="label order_status_invoice order-payment-row"> 
                                         <?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . 
                                         date("d-m-Y", strtotime($row->billy_bookinvoice_date)); ?>
                                     </span>
@@ -654,7 +661,7 @@ JPluginHelper::importPlugin('redshop_product');
                                 } else if ($row->is_billy_booked == 1 && $row->is_billy_cashbook == 0 
                                         && $row->order_payment_status == 'Paid' && !$invoice->isPaid == '1') {
                                     $confirm = 'document.binvoice.onlycashbook.value=1;document.binvoice.onlybook.value=0;document.binvoice.bookwithCashbook.value=0;document.binvoice.order_id.value=\'' . $row->order_id . '\';document.binvoice.submit();'; ?>
-                                    <span class="label order_payment_status_paid order-payment-row"> 
+                                    <span class="label order_status_invoice order-payment-row"> 
                                     <?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . 
                                         date("d-m-Y", strtotime($row->billy_bookinvoice_date)); ?>
                                     </span><br />
@@ -663,20 +670,20 @@ JPluginHelper::importPlugin('redshop_product');
                                         onclick="javascript:<?php echo $confirm; ?>"><br/> <?php
                                 } else if ($row->is_billy_booked == 1) { ?>
                                     <br/>
-                                    <span class="label order_payment_status_paid order-payment-row"> 
+                                    <span class="label order_status_invoice order-payment-row"> 
                                         <?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . 
                                             date("d-m-Y", strtotime($row->billy_bookinvoice_date)); ?>
                                     </span><br /> <?php
                                 }
                             } else if ($row->is_billy_booked == 1) { ?>
                                 <br/>
-                                <span class="label order_payment_status_paid order-payment-row"> 
+                                <span class="label order_status_invoice order-payment-row"> 
                                     <?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . " " . 
                                         date("d-m-Y", strtotime($row->billy_bookinvoice_date)); ?>
                                 </span><br /> <?php
                             }
                         } else {
-                            echo $row->billy_invoice_no;
+                            echo '';
                         } ?>
                         <a class="label order_status_btn order-timeline-row" onclick="javascript: callTimeline('<?php 
                                 echo $row->billy_invoice_no; ?>','<?php echo $row->id ?>');" 

@@ -1743,6 +1743,19 @@ class RedshopHelperOrder
                     }
                 }
 
+                $order = RedshopEntityOrder::getInstance($orderId);
+                if ($order->isValid() && $newStatus == "X") {
+                    $order->set('order_status', 'X')
+                        ->set('order_payment_status', 'Cancelled')
+                        ->set('mdate', (int)time())
+                        ->save();
+                } else if ($order->isValid() && $newStatus == "R") {
+                    $order->set('order_status', 'R')
+                        ->set('order_payment_status', 'Refunded')
+                        ->set('mdate', (int)time())
+                        ->save();
+                }
+
                 break;
 
             // Returned
