@@ -29662,3 +29662,109 @@ div.modal.jviewport-width100 {
 .field-calendar {
     display:inline;
 }
+
+/*! Tweak by Ronni START - Custom css */
+.table-hover tbody tr:hover > td, .table-hover tbody tr:hover > th {
+    background-color: transparent !important
+}
+
+.table > thead > tr > th {
+    background-color: #e5faf8 !important;
+    border-top: 1px solid #a8e0f1 !important;
+    border-bottom: 1px solid #a8e0f1 !important
+}
+
+.table .table {
+    background-color: inherit
+}
+
+.skin-black .wrapper, .skin-black .main-sidebar, .skin-black .left-side {
+    background-color: #0c626e
+}
+
+.skin-black .sidebar-menu > li:hover > a, .skin-black .sidebar-menu > li.active > a {
+    background: #0c626e
+}
+
+.skin-black .sidebar-menu > li > .treeview-menu {
+    background: #0c626e
+}
+
+.skin-black .main-header > .navbar {
+    background-color:#0c626e
+}
+
+.skin-black .main-header > .logo {
+    background-color:#0c626e
+}
+
+.content-header .btn-toolbar#toolbar.affix {
+    background-color:#0c626e
+}
+
+.skin-black .sidebar-menu .treeview-menu li a:hover, .skin-black .sidebar-menu .treeview-menu li a.active {
+    background:#61b3cc
+}
+
+.skin-black .main-header > .navbar .navbar-custom-menu .navbar-nav > li > a, .skin-black .main-header > .navbar .navbar-right > li > a {
+    border-left: 1px solid #0c626e
+}
+
+.modal-header {
+    background-color:#0c626e;color:#fff
+}
+
+.modal-footer {
+    background-color:#61b3cc
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:focus {
+    background-color: #1bbf1b
+}
+
+.js-stools-btn-filter{
+    padding: 4px 12px!important
+}
+
+.CodeMirror{
+    height:1800px !important
+}
+
+.content-header .component-title {
+    padding: 0px 0px 5px 36px;background-color: #0c626e
+}
+
+.content-header h1.page-title {
+    color: #ffffff
+}
+
+#rs_country_country_code{
+    width:220px
+}
+
+#adminForm .filterTool {
+    background-color: #e5faf8
+}
+
+#product_desc,#product_s_desc,#jform_mail_body{
+    width:100%
+}
+
+#jform_short_description,#jform_description{
+    height:400px!important
+}
+
+.table > tbody > tr > td {
+    vertical-align: top !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(even) {
+    background-color: #e5faf8 !important;
+    border-top: 1px solid #a8e0f1 !important;
+    border-bottom: 1px solid #a8e0f1 !important
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    border-bottom: 1px solid #a8e0f1 !important
+}
+/*! Tweak by Ronni END - Custom css */
