@@ -78,7 +78,15 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 
         $this->replacements['{company_name_st_lbl}'] = $htmlCompanyNameLbl;
 
-        $htmlCompanyName = RedshopLayoutHelper::render(
+        // Tweak by Ronni - Change label view for company_name_ST
+        $htmlCompanyName = '<span class="input-prepend input-append">
+            <span class="add-on">
+                <label>
+                    <i class="far fa-id-badge"></i>
+                </label>
+            </span>
+        </span>' .
+        RedshopLayoutHelper::render(
             'tags.common.input',
             array(
                 'id'    => 'company_name_ST',
@@ -86,7 +94,8 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
                 'type'  => 'text',
                 'value' => !empty($data["company_name_ST"]) ? $data["company_name_ST"] : '',
                 'class' => 'inputbox form-control valid',
-                'attr'  => 'size="32" maxlength="250" data-msg="' . JText::_(
+                'attr'  => 'size="32" maxlength="250" placeholder="' . JText::_('COM_REDSHOP_COMPANY_NAME') . '" 
+                            data-msg="' . JText::_(
                     'COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME'
                     ) . '"'
             ),

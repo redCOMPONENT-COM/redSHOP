@@ -29121,13 +29121,13 @@ body.modal-open {
 }
 
 .label.order_status_p {
-    background-color: #000000;
+    background-color: #fff;
     color: #f39c12;
     border: 1px solid #f49c12;
     text-shadow: none
 }
 
-.label.order_status_rd1 {
+.label.order_status_rd1, .label.order_status_rd1 {
     background-color: #bcf2b5;
     color: #00a65a;
     border: 1px solid #00a65a;

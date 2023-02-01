@@ -616,7 +616,7 @@ JPluginHelper::importPlugin('redshop_product');
                     <?php endif;
                     // Economic section END
                     // Billy section START
-                    if (JPluginHelper::isEnabled('billy') && $row->order_status !== 'X') {	
+                    if (JPluginHelper::isEnabled('billy') && $row->order_status !== 'X' && $row->order_status !== 'R') {	
                         $billyPlugin 		    = JPluginHelper::getPlugin('billy', 'billy');
                         $billyPluginParams 	    = new JRegistry($billyPlugin->params);
                         $billySendInvoiceMethod = $billyPluginParams->get('billy_send_invoice_method','0');
