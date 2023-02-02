@@ -43,8 +43,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function importStockFromBilly($productRow)
-    {
+    public static function importStockFromBilly($productRow) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
@@ -61,8 +60,7 @@ class RedshopBilly
      *
      * @since  3.0.3
      */
-    public static function importBilly()
-    {
+    public static function importBilly() {
         \JPluginHelper::importPlugin('billy');
     }
 
@@ -75,8 +73,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function renewInvoiceInBilly($orderData)
-    {
+    public static function renewInvoiceInBilly($orderData) {
         $invoiceHandle = array();
 
         if ($orderData->is_billy_booked == 0) {
@@ -105,8 +102,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function deleteInvoiceInBilly($orderData = array())
-    {
+    public static function deleteInvoiceInBilly($orderData = array()) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
@@ -136,14 +132,13 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function updateInvoiceNumber($orderId = 0, $invoiceNo = 0)
-    {
+    public static function updateInvoiceNumber($orderId = 0, $invoiceNo = 0) {
         $db = \JFactory::getDbo();
 
         $query = $db->getQuery(true)
-            ->update($db->qn('#__redshop_orders'))
-            ->set($db->qn('billy_invoice_no') . ' = ' . $db->quote($invoiceNo))
-            ->where($db->qn('order_id') . ' = ' . (int) $orderId);
+            ->update($db->quoteName('#__redshop_orders'))
+            ->set($db->quoteName('billy_invoice_no') . ' = ' . $db->quote($invoiceNo))
+            ->where($db->quoteName('order_id') . ' = ' . (int) $orderId);
         $db->setQuery($query);
         $db->execute();
     }
@@ -157,8 +152,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function updatePaymentTermsInBilly($orderId)
-    {
+    public static function updatePaymentTermsInBilly($orderId) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
@@ -274,8 +268,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function createInvoiceInBilly($orderId)
-    {
+    public static function createInvoiceInBilly($orderId) {
         $orderEntity = \RedshopEntityOrder::getInstance($orderId);
 
         // Order is not valid.
@@ -390,13 +383,7 @@ class RedshopBilly
             $bil['invoice_paymenttermdays'] = $billyPluginPaymentDays;          
             $bil['invoice_paymenttermmode'] = $invoicePaymentTermsMode;
 
-            $attribute_as_product_in_billy = $billyParams->get('attribute_as_product_in_billy');
-                
-            if ($attribute_as_product_in_billy == 2) {
-                $lines = self::getInvoiceLineInBillyAsProduct($orderItem, $orderEntity->get('user_id'));
-            } else {
-                $lines = self::getInvoiceLineInBilly($orderItem, $orderEntity->get('user_id'));
-            }
+            $lines = self::getInvoiceLineInBilly($orderItem, $orderEntity->get('user_id'));
 
             // get Shipping Line
             $lines = self::getInvoiceShippingLineInBilly($orderEntity->get('ship_method_id'), $lines);
@@ -478,18 +465,17 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function createUserInBilly($row = array())
-    {
+    public static function createUserInBilly($row = array()) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
         // Get billy user Id from redSHOP user
         $db                   = \JFactory::getDbo();
         $query                = $db->getQuery(true)
-                                  ->select($db->qn('billy_id'))
-                                  ->from($db->qn('#__redshop_billy_relation'))
-                                  ->where($db->qn('redshop_id') . ' = ' . $db->quote($row->users_info_id) 
-                                  . ' AND ' . $db->qn('relation_type') . ' = ' . $db->quote('user'));
+                                  ->select($db->quoteName('billy_id'))
+                                  ->from($db->quoteName('#__redshop_billy_relation'))
+                                  ->where($db->quoteName('redshop_id') . ' = ' . $db->quote($row->users_info_id) 
+                                  . ' AND ' . $db->quoteName('relation_type') . ' = ' . $db->quote('user'));
                                 $db->setQuery($query);
         $billyId              = $db->loadResult();
 
@@ -585,18 +571,12 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function getBillyTaxZone($countryCode = "")
-    {
-        if ($countryCode == \Redshop::getConfig()->get('SHOP_COUNTRY'))
-        {
+    public static function getBillyTaxZone($countryCode = "") {
+        if ($countryCode == \Redshop::getConfig()->get('SHOP_COUNTRY')) {
             $taxzone = 'HomeCountry';
-        }
-        elseif (self::isEuCountry($countryCode))
-        {
+        } elseif (self::isEuCountry($countryCode)) {
             $taxzone = 'EU';
-        }
-        else
-        {
+        } else {
             // Non EU Country
             $taxzone = 'Abroad';
         }
@@ -613,8 +593,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function isEuCountry($country)
-    {
+    public static function isEuCountry($country) {
         $euCountry = array('AUT', 'BGR', 'BEL', 'CYP', 'CZE', 'DEU', 'DNK', 'ESP', 'EST', 'FIN',
             'FRA', 'FXX', 'GBR', 'GRC', 'HUN', 'IRL', 'ITA', 'LVA', 'LTU', 'LUX',
             'MLT', 'NLD', 'POL', 'PRT', 'ROM', 'SVK', 'SVN', 'SWE');
@@ -633,14 +612,12 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function createInvoiceLineInBillyAsProduct($orderItem = array(), $invoiceNo = "", $userId = 0)
-    {
+    public static function createInvoiceLineInBillyAsProduct($orderItem = array(), $invoiceNo = "", $userId = 0) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
         $bil = array();
 
-        for ($i = 0, $in = count($orderItem); $i < $in; $i++)
-        {
+        for ($i = 0, $in = count($orderItem); $i < $in; $i++) {
             $displayWrapper = "";
 
             $productId = $orderItem[$i]->product_id;
@@ -722,16 +699,17 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function createProductInBilly($row = array())
-    {
+    public static function createProductInBilly($row = array()) {   
         $db      = \JFactory::getDbo();
+
         $query   = $db->getQuery(true)
-                    ->select($db->qn('billy_id'))
-                    ->from($db->qn('#__redshop_billy_relation'))
-                    ->where($db->qn('redshop_id') . ' = ' . $row->product_number) 
-                    . ' AND ' . $db->qn('relation_type') . ' = ' . $db->quote('product');
+                    ->select($db->quoteName('billy_id'))
+                    ->from($db->quoteName('#__redshop_billy_relation'))
+                    ->where($db->quoteName('redshop_id') . ' = ' . $db->quote($row->product_number) 
+                    . ' AND ' . $db->quoteName('relation_type') . ' = ' . $db->quote('product'));
                    $db->setQuery($query);
         $billyId = $db->loadResult();
+    //  $billyId = self::getRelationProduct($row->product_number);
 
         if (empty($billyId)) {
             // Get plugin params
@@ -784,12 +762,12 @@ class RedshopBilly
             if ($bilProductNumber) {
                 if (!$billyId) {
                     $sql = "INSERT INTO `#__redshop_billy_relation` (`relation_type`, `redshop_id`, `billy_id`)
-                    VALUES ('product', '".$row->product_number."', '".$bilProductNumber."')";
+                    VALUES ('product', '" . $row->product_number . "', '" . $bilProductNumber . "')";
                     $db->setQuery($sql);
                     $db->query();
                 } else {
                     $sql = "UPDATE `#__redshop_billy_relation` SET `billy_id` = '".$bilProductNumber."' WHERE
-                            `redshop_id` = '".$row->product_number."' AND `relation_type` ='product'";
+                            `redshop_id` = '" . $row->product_number . "' AND `relation_type` ='product'";
                     $db->setQuery($sql);
                     $db->query();
                 }
@@ -978,17 +956,38 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function getProductByNumber($productNumber = '')
-    {
+    public static function getProductByNumber($productNumber = '') {
         $db = \JFactory::getDbo();
 
         $query = $db->getQuery(true)
             ->select('*')
-            ->from($db->qn('#__redshop_product'))
-            ->where($db->qn('product_number') . ' = ' . $db->quote($productNumber));
+            ->from($db->quoteName('#__redshop_product'))
+            ->where($db->quoteName('product_number') . ' = ' . $db->quote($productNumber));
         $db->setQuery($query);
 
         return $db->loadObject();
+    }
+
+    /**
+     * Get relation product
+     *
+     * @param   string $productNumber Product Number
+     *
+     * @return  object
+     *
+     * @since   3.0.3
+     */
+    public static function getRelationProduct($productNumber) {
+        $db    = \JFactory::getDbo();
+
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('billy_id'))
+            ->from($db->quoteName('#__redshop_billy_relation'))
+            ->where($db->quoteName('redshop_id') . ' = ' . $db->quote($productNumber) 
+            . ' AND ' . $db->quoteName('relation_type') . ' = ' . $db->quote('product'));
+        $db->setQuery($query);
+
+        return $db->loadResult();
     }
 
     /**
@@ -1004,8 +1003,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function makeAttributeOrder($invoiceNo, $orderItem, $isAccessory = 0, $parentSectionId = 0, $userId = 0)
-    {
+    public static function makeAttributeOrder($invoiceNo, $orderItem, $isAccessory = 0, $parentSectionId = 0, $userId = 0) {
         $displayAttribute = "";
         $setPrice         = 0;
         $orderItem        = (object) $orderItem;
@@ -1144,8 +1142,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function createPropertyInBilly($productRow = null, $row = null)
-    {
+    public static function createPropertyInBilly($productRow = null, $row = null) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
@@ -1195,8 +1192,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function createAttributeInvoiceLineInBilly($invoiceNo, $orderItem, $orderAttributeItems)
-    {
+    public static function createAttributeInvoiceLineInBilly($invoiceNo, $orderItem, $orderAttributeItems) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
         $bil       = array();
@@ -1226,8 +1222,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function createSubpropertyInBilly($productRow = null, $row = null)
-    {
+    public static function createSubpropertyInBilly($productRow = null, $row = null) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
         $bil = array();
@@ -1276,8 +1271,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function getInvoiceLineInBilly($orderItem = array(), $userId = 0)
-    {
+    public static function getInvoiceLineInBilly($orderItem = array(), $userId = 0) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
@@ -1327,12 +1321,13 @@ class RedshopBilly
             // Get billy product Id from redshop number
             $db                      = \JFactory::getDbo();
             $query                   = $db->getQuery(true)
-                                          ->select($db->qn('billy_id'))
-                                          ->from($db->qn('#__redshop_billy_relation'))
-                                          ->where($db->qn('redshop_id') . ' = ' . $orderItem[$i]->order_item_sku) 
-                                          . ' AND ' . $db->qn('relation_type') . ' = ' . $db->quote('product');
+                                          ->select($db->quoteName('billy_id'))
+                                          ->from($db->quoteName('#__redshop_billy_relation'))
+                                          ->where($db->quoteName('redshop_id') . ' = ' . $db->quote($orderItem[$i]->order_item_sku) 
+                                          . ' AND ' . $db->quoteName('relation_type') . ' = ' . $db->quote('product'));
                                        $db->setQuery($query);
             $billyId                 = $db->loadResult();
+        //  $billyId                 = self::getRelationProduct($orderItem[$i]->order_item_sku);
 
             $bil['billy_id']         = $billyId;
             $BillyproductId          = \RedshopHelperUtility::getDispatcher()->trigger('Product_FindByNumber', array($bil));
@@ -1408,8 +1403,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function createGiftCardInvoiceLineInBilly($orderItem = array(), $invoiceNo = "")
-    {
+    public static function createGiftCardInvoiceLineInBilly($orderItem = array(), $invoiceNo = "") {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
@@ -1502,8 +1496,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function createShippingRateInBilly($shippingNumber, $shippingName, $shippingRate = 0, $isVat = 1)
-    {
+    public static function createShippingRateInBilly($shippingNumber, $shippingName, $shippingRate = 0, $isVat = 1) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
         
@@ -1541,12 +1534,13 @@ class RedshopBilly
         // get billy product Id from redShop number
         $db                    = \JFactory::getDbo();
         $query                 = $db->getQuery(true)
-                                    ->select($db->qn('billy_id'))
-                                    ->from($db->qn('#__redshop_billy_relation'))
-                                    ->where($db->qn('redshop_id') . ' = ' . $shippingNumber) 
-                                    . ' AND ' . $db->qn('relation_type') . ' = ' . $db->quote('product');
+                                    ->select($db->quoteName('billy_id'))
+                                    ->from($db->quoteName('#__redshop_billy_relation'))
+                                    ->where($db->quoteName('redshop_id') . ' = ' . $db->quote($shippingNumber) 
+                                    . ' AND ' . $db->quoteName('relation_type') . ' = ' . $db->quote('product'));
                                  $db->setQuery($query);
         $billyId               = $db->loadResult();
+    //  $billyId               = self::getRelationProduct($shippingNumber);
 
         $bil['billy_id']       = $billyId;
         $BillyproductId        = \RedshopHelperUtility::getDispatcher()->trigger('Product_FindByNumber', array($bil));
@@ -1571,11 +1565,30 @@ class RedshopBilly
                 VALUES ('product', '".$shippingNumber."', '".$bilShippingRateNumber."')";
                 $db->setQuery($sql);
                 $db->query();
+/*
+                $columns = array('relation_type', 'redshop_id', 'billy_id');
+                $values  = array($db->quote('product'), $db->quote($shippingNumber), $db->quote($bilShippingRateNumber));
+                $query   = $db->getQuery(true)
+                    ->insert($db->quoteName('#__redshop_billy_relation'))
+                    ->columns($db->quoteName($columns))
+                    ->values(implode(',', $values));
+                $db->setQuery($query);
+                $db->query();
+*/
             } else {
                 $sql = "UPDATE `#__redshop_billy_relation` SET `billy_id` = '".$bilShippingRateNumber."' WHERE
                         `redshop_id` = '".$shippingNumber."' AND `relation_type` ='product'";
                 $db->setQuery($sql);
                 $db->query();
+/*
+                $query = $db->getQuery(true)
+                    ->update($db->quoteName('#__redshop_billy_relation'))
+                    ->set($db->quoteName('redshop_id') . ' = ' . $db->quote($bilShippingRateNumber)
+                    ->where($db->quoteName('redshop_id') . ' = ' . $db->quote($shippingNumber) 
+                    . ' AND ' . $db->quoteName('relation_type') . ' = ' . $db->quote('product')));
+                $db->setQuery($query);
+                $db->query();
+*/
             }
         }
         
@@ -1595,8 +1608,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function getInvoiceDiscountLineInBilly($orderDetail = array(), $lines = array(), $data = array(), $isPaymentDiscount, $isVatDiscount)
-    {
+    public static function getInvoiceDiscountLineInBilly($orderDetail = array(), $lines = array(), $data = array(), $isPaymentDiscount, $isVatDiscount) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
         
@@ -1638,21 +1650,22 @@ class RedshopBilly
         $bil['order_item_id']    = "";
         $bil['product_desc']     = "";
         $bil['product_s_desc']   = "";
-        $bil['product_id']       = $discount_short;
+        $bil['product_id']       = $discountShort;
         $bil['product_quantity'] = 1;
         $bil['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
         $bil['product_price']    = round((0 - $discount),2);
         $bil['product_volume']   = 1;
 
         // get billy product Id from redShop number
-        $db     = \JFactory::getDbo();
+        $db                    = \JFactory::getDbo();
         $query                 = $db->getQuery(true)
-                                    ->select($db->qn('billy_id'))
-                                    ->from($db->qn('#__redshop_billy_relation'))
-                                    ->where($db->qn('redshop_id') . ' = ' . $productNumber) 
-                                    . ' AND ' . $db->qn('relation_type') . ' = ' . $db->quote('product');
+                                    ->select($db->quoteName('billy_id'))
+                                    ->from($db->quoteName('#__redshop_billy_relation'))
+                                    ->where($db->quoteName('redshop_id') . ' = ' . $db->quote($productNumber) 
+                                    . ' AND ' . $db->quoteName('relation_type') . ' = ' . $db->quote('product'));
                                  $db->setQuery($query);
         $billyId               = $db->loadResult();
+    //  $billyId               = self::getRelationProduct($productNumber);
 
         $bil['billy_id']       = $billyId;
         $billyProductId        = \RedshopHelperUtility::getDispatcher()->trigger('Product_FindByNumber', array($bil));
@@ -1672,7 +1685,7 @@ class RedshopBilly
         if ($bilDiscountNumber) {
             if (!$billyId) {
                  $sql = "INSERT INTO `#__redshop_billy_relation` (`relation_type`, `redshop_id`, `billy_id`)
-                VALUES ('product', '".$productNumber."', '".$bilDiscountNumber."')";
+                        VALUES ('product', '".$productNumber."', '".$bilDiscountNumber."')";
                 $db->setQuery($sql);
                 $db->query();
             } else {
@@ -1702,14 +1715,13 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function updateIsBooked($orderId = 0)
-    {
+    public static function updateIsBooked($orderId = 0) {
         $db = \JFactory::getDbo();
 
         $query = $db->getQuery(true)
-            ->update($db->qn('#__redshop_orders'))
-            ->set($db->qn('is_billy_booked') . ' = 1')
-            ->where($db->qn('order_id') . ' = ' . (int) $orderId);
+            ->update($db->quoteName('#__redshop_orders'))
+            ->set($db->quoteName('is_billy_booked') . ' = 1')
+            ->where($db->quoteName('order_id') . ' = ' . (int) $orderId);
         $db->setQuery($query);
         $db->execute();
     }
@@ -1723,16 +1735,14 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function updateBookInvoiceDate($orderId = 0)
-    {
+    public static function updateBookInvoiceDate($orderId = 0) {
         $db = \JFactory::getDbo();
 
         $billyBookInvoiceDate = $today = date("Y-m-d");
         $query = $db->getQuery(true)
-            ->update($db->qn('#__redshop_orders'))
-            ->set($db->qn('billy_bookinvoice_date') . ' = ' . $db->quote($billyBookInvoiceDate))
-            ->where($db->qn('order_id') . ' = ' . $orderId);
-
+            ->update($db->quoteName('#__redshop_orders'))
+            ->set($db->quoteName('billy_bookinvoice_date') . ' = ' . $db->quote($billyBookInvoiceDate))
+            ->where($db->quoteName('order_id') . ' = ' . $orderId);
         $db->setQuery($query);
         $db->execute();
     }
@@ -1747,14 +1757,13 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function updateBookInvoiceNumber($orderId = 0, $bookInvoiceNumber = 0)
-    {
+    public static function updateBookInvoiceNumber($orderId = 0, $bookInvoiceNumber = 0) {
         $db = \JFactory::getDbo();
 
         $query = $db->getQuery(true)
-            ->update($db->qn('#__redshop_orders'))
-            ->set($db->qn('bookinvoice_number') . ' = ' . (int) $bookInvoiceNumber)
-            ->where($db->qn('order_id') . ' = ' . (int) $orderId);
+            ->update($db->quoteName('#__redshop_orders'))
+            ->set($db->quoteName('bookinvoice_number') . ' = ' . (int) $bookInvoiceNumber)
+            ->where($db->quoteName('order_id') . ' = ' . (int) $orderId);
         $db->setQuery($query);
         $db->execute();
     }
@@ -1770,8 +1779,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function bookInvoiceInBilly($orderId, $data = array())
-    {
+    public static function bookInvoiceInBilly($orderId, $data = array()) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
         $orderEntity = \RedshopEntityOrder::getInstance($orderId);
@@ -1799,10 +1807,10 @@ class RedshopBilly
             // get billy user Id from redShop user
             $db                          = \JFactory::getDbo();
             $query                       = $db->getQuery(true)
-                                                ->select($db->qn('billy_id'))
-                                                ->from($db->qn('#__redshop_billy_relation'))
-                                                ->where($db->qn('redshop_id') . ' = ' . $db->quote($userBillingInfo->users_info_id) 
-                                                . ' AND ' . $db->qn('relation_type') . ' = ' . $db->quote('user'));
+                                                ->select($db->quoteName('billy_id'))
+                                                ->from($db->quoteName('#__redshop_billy_relation'))
+                                                ->where($db->quoteName('redshop_id') . ' = ' . $db->quote($userBillingInfo->users_info_id) 
+                                                . ' AND ' . $db->quoteName('relation_type') . ' = ' . $db->quote('user'));
                                            $db->setQuery($query);
             $billyId                     = $db->loadResult();
 
@@ -2048,10 +2056,10 @@ class RedshopBilly
         // get billy user Id from redhsop user
         $db     = \JFactory::getDbo();
         $query                  = $db->getQuery(true)
-                                    ->select($db->qn('billy_id'))
-                                    ->from($db->qn('#__redshop_billy_relation'))
-                                    ->where($db->qn('redshop_id') . ' = ' . $db->quote($userBillingInfo->users_info_id) 
-                                    . ' AND ' . $db->qn('relation_type') . ' = ' . $db->quote('user'));
+                                    ->select($db->quoteName('billy_id'))
+                                    ->from($db->quoteName('#__redshop_billy_relation'))
+                                    ->where($db->quoteName('redshop_id') . ' = ' . $db->quote($userBillingInfo->users_info_id) 
+                                    . ' AND ' . $db->quoteName('relation_type') . ' = ' . $db->quote('user'));
                                   $db->setQuery($query);
         $billyId                = $db->loadResult();
 
@@ -2074,8 +2082,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function calulateOverdueDays($invoiceNo)
-    {
+    public static function calulateOverdueDays($invoiceNo) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
         
@@ -2093,8 +2100,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function calulateOverdueLimits($invoiceNo, $reminder = false)
-    {
+    public static function calulateOverdueLimits($invoiceNo, $reminder = false) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
@@ -2112,8 +2118,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function sendReminder($orderId, $billyInvoiceNo)
-    {
+    public static function sendReminder($orderId, $billyInvoiceNo) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
@@ -2135,8 +2140,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function getInvoiceData($billyInvoiceNo)
-    {
+    public static function getInvoiceData($billyInvoiceNo) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
@@ -2158,8 +2162,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function getSentReminders($billyInvoiceNo)
-    {
+    public static function getSentReminders($billyInvoiceNo) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
@@ -2207,8 +2210,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function getInvoiceTimelines($billyInvoiceNo)
-    {
+    public static function getInvoiceTimelines($billyInvoiceNo) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
         $message   = '';
@@ -2310,8 +2312,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function checkAnyOverdueOrder($billyUserId)
-    {
+    public static function checkAnyOverdueOrder($billyUserId) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
