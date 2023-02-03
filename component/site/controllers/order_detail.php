@@ -237,10 +237,13 @@ class RedshopControllerOrder_Detail extends RedshopController
                 $session->set('auth', $auth);
             }
 
+            // Tweak by Ronni - Do not empty cart with reorder
             // First Empty Cart and then oder it again
+            /*
             $cart        = array();
             $cart['idx'] = 0;
             JFactory::getSession()->set('cart', $cart);
+            */
 
             $orderItem = RedshopHelperOrder::getOrderItemDetail($orderId);
 

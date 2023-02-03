@@ -202,12 +202,12 @@ class RedshopTagsSectionsOrderList extends RedshopTagsAbstract
                 $orderLink = 'javascript:if(confirm(\'' . JText::_(
                         'COM_REDSHOP_CONFIRM_CART_EMPTY'
                     ) . '\')){window.location=\'' . $reOrderUrl . '\';}';
-                // Tweak by Ronni START - Remove div for reorder link tags.common.div_link
+                // Tweak by Ronni START - Remove div for reorder link tags.common.div_link + Remove alert popup for reorder
                 $replace['{reorder_link}'] = RedshopLayoutHelper::render(
                     'tags.common.link',
                     [
                         'divClass' => 'reorder_link',
-                        'link'     => $orderLink,
+                        'link'     => $reOrderUrl, // $orderLink,
                         'content'  => JText::_('COM_REDSHOP_REORDER')
                     ],
                     '',
