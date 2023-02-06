@@ -34,9 +34,9 @@
             {{ shippingAddress.firstname }} {{ shippingAddress.lastname }}
         </label>
         <!-- // Tweak by Ronni - Change Edit shipping popup to BS modal -->
-        <a class="checkout-shipping-btn-edit checkout-shipping-btn" data-toggle="modal" data-target="#Modal-edit-ship" 
-                href="{{ addShippingLink }}">
-                {{ jtext('COM_REDSHOP_EDIT_LBL') }}
+        <a class="checkout-shipping-btn-edit checkout-shipping-btn" data-toggle="modal" 
+                data-target="#Modal-edit-ship" href="{{ addShippingLink }}">
+            {{ jtext('COM_REDSHOP_EDIT_LBL') }}
         </a>
         <div id="Modal-edit-ship" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -70,8 +70,7 @@
 
 <!-- // Tweak by Ronni - Add <br> + Change Add shipping popup to BS modal -->
 <br>
-<a class="btn btn-primary" data-toggle="modal" data-target="#Modal-add-ship" 
-        href="{{ addLink }}">
+<a class="btn btn-primary" data-toggle="modal" data-target="#Modal-add-ship" href="{{ addLink }}">
     {{ jtext('COM_REDSHOP_ADD_ADDRESS') }}
 </a>
 <div id="Modal-add-ship" class="modal fade" tabindex="-1" role="dialog">

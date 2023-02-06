@@ -953,9 +953,10 @@ if (typeof jQuery === 'undefined') {
         this.scrollbarWidth = 0
         this.ignoreBackdropClick = false
 
+        // Tweak by Ronni - Change .modal-content to .modal-body
         if (this.options.remote) {
             this.$element
-                .find('.modal-content')
+                .find('.modal-body')
                 .load(this.options.remote, $.proxy(function () {
                     this.$element.trigger('loaded.bs.modal')
                 }, this))

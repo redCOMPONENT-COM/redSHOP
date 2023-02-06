@@ -307,7 +307,8 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
             */
             $this->replacements['{edit_billing_address}'] = 
                '<br>
-                <a class="btn btn-primary" data-toggle="modal" data-target="#Modal-edit-bill" href="' . $editBillingLink . '">
+                <a class="btn btn-primary" data-toggle="modal" data-target="#Modal-edit-bill" 
+                        href="' . $editBillingLink . '">
                     ' . JText::_('COM_REDSHOP_EDIT') . '
                 </a>
                 <div id="Modal-edit-bill" class="modal fade" tabindex="-1" role="dialog">
@@ -317,12 +318,14 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                ' . JText::_('COM_REDSHOP_EDIT') . ' ' . JText::_('COM_REDSHOP_ORDER_INFORMATION') . '
+                                ' . JText::_('COM_REDSHOP_EDIT') . ' ' 
+                                . JText::_('COM_REDSHOP_ORDER_INFORMATION') . '
                             </div>
                             <div class="modal-body">
                             </div>
                             <div class="modal-footer">
-                                <button class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('COM_REDSHOP_CLOSE') . '</button>
+                                <button class="btn" data-dismiss="modal" aria-hidden="true">' 
+                                    . JText::_('COM_REDSHOP_CLOSE') . '</button>
                             </div>
                         </div>
                     </div>
