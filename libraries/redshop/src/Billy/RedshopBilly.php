@@ -2316,7 +2316,10 @@ class RedshopBilly
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
-        $overdueDays = false;
+        $plugin                 = \JPluginHelper::getPlugin('billy', 'billy');
+        $billyParams            = new \JRegistry($plugin->params);
+        $billyOverdueCronActive = $billyParams->get('billy_overdue_cron_active');
+        $overdueDays            = false;
         
         if ($billyUserId) {
             // get orders from Billy which are unPaid in billy
@@ -2326,17 +2329,20 @@ class RedshopBilly
                 $orderDetail = \RedshopEntityOrder::getInstance($order->invoiceNo)->getItem();
 
                 if (is_array($orderDetail) || !empty($orderDetail)) {
-                //  $billyInvoiceNo = $orderDetail->billy_invoice_no;
-
                     if ($orderDetail->order_payment_status == 'Unpaid') {
-                        $overdueDays = self::calulateOverdueLimits($order->id);
-                        
-                        if ($overdueDays > 10) {
-                    // Tweak by Ronni - This can replace the calculation, but requires cron job setup
-                    //  if ($orderDetail->overdue_days > 10) {
-                            $overdueDays = true;
+                        if ($billyOverdueCronActive == 1) {
+                            if ($orderDetail->overdue_days > 10) {
+                                $overdueDays = true;
 
-                            return $overdueDays;
+                                return $overdueDays;
+                            }
+                        } else {
+                            $overdueDays = self::calulateOverdueLimits($order->id);
+                            if ($overdueDays > 10) {
+                                $overdueDays = true;
+
+                                return $overdueDays;
+                            }
                         }
                     }
                 }
