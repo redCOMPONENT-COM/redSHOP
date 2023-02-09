@@ -527,15 +527,30 @@ JPluginHelper::importPlugin('redshop_product');
                             </div>
                         </div>
                     </div>
-                    <?php   } ?>
-                    <?php if (RedshopHelperPdf::isAvailablePdfPlugins()): ?>
-                        <a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>"
-                           class="billy-order-icons" target="_blank">
+                    <?php   }
+                    if (RedshopHelperPdf::isAvailablePdfPlugins()) { ?>
+                        <a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>" class="billy-order-icons" 
+                                target="_blank">
                             <i class="fa fa-file-pdf-o"></i>
-                        </a>
-                    <?php else: ?>
-                        <span class="disabled billy-order-icons"><i class="fa fa-file-pdf-o"></i></span>
-                    <?php endif;
+                        </a> <?php
+                    } else { ?>
+                        <span class="disabled billy-order-icons"><i class="fa fa-file-pdf-o"></i></span> <?php
+                    }
+
+                    if (!empty($row->customer_note)) { ?>
+                        <span class="hasPopover billy-order-icons" style="color:aquamarine"
+                                title data-content="<?php echo $row->customer_note ?>" 
+                                data-original-title="<?php echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
+                            <i class="far fa-envelope"></i>
+                        </span> <?php
+                    } else { ?>
+                        <span class="hasPopover billy-order-icons" 
+                                title data-content="<?php echo JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_SENT') ?>" 
+                                data-original-title="<?php echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
+                            <i class="far fa-envelope"></i>
+                        </span> <?php
+                    }
+
                     if ((Redshop::getConfig()->get('POSTDK_INTEGRATION')) 
                             && $row->order_label_create == 1) { ?>
                         <a href="https://www.unifaunonline.com/ext.uo.dk.track?key=290000004&order=<?php echo $row->order_id; ?>" 
@@ -619,7 +634,6 @@ JPluginHelper::importPlugin('redshop_product');
                     if (JPluginHelper::isEnabled('billy') && $row->order_status !== 'X' && $row->order_status !== 'R') {	
                         $billyPlugin 		    = JPluginHelper::getPlugin('billy', 'billy');
                         $billyPluginParams 	    = new JRegistry($billyPlugin->params);
-                        $billySendInvoiceMethod = $billyPluginParams->get('billy_send_invoice_method','0');
                         $invoice                = RedshopBilly::getInvoiceData($row->billy_invoice_no);
                 
                         if (($row->billy_invoice_no != '' || $row->billy_invoice_no !== 0)) {
@@ -714,7 +728,7 @@ JPluginHelper::importPlugin('redshop_product');
                                 </div>
                             </div>
                         </div> <?php
-                        if ((int) $billySendInvoiceMethod == 2 && $row->order_status !== 'X') {
+                        if ($row->order_status !== 'X') {
                             if(isset($invoice->sentState)) {
                                 if ($invoice->sentState == 'sent' || $invoice->sentState == 'opened' 
                                         || $invoice->sentState == 'viewed' 

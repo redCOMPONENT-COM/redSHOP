@@ -718,6 +718,8 @@ class RedshopHelperUser
         $userTable->shopper_group_id      = $data['shopper_group_id'];
         $userTable->tax_exempt_approved   = $data['tax_exempt_approved'];
         $userTable->is_company            = $data['is_company'];
+        // Tweak by Ronni - Add 
+        $userTable->billing_as_sender     = $data['billing_as_sender_ST'];
 
         if ($data['is_company'] == 1) {
             $userTable->vat_number   = $data['vat_number'];

@@ -369,21 +369,8 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 
         $this->replacements['{billing_as_sender_st_lbl}'] = $htmlBillSenderLbl;
 
-        $chk1 = (!empty($post["billing_as_sender_ST"]) && $post["billing_as_sender_ST"] == 1) ? "selected='selected'" : '';
-        $chk0 = (!empty($post["billing_as_sender_ST"]) && $post["billing_as_sender_ST"] == 0) ? "selected='selected'" : '';
-
-        /*
-        $templateHtml = str_replace(
-            "{billing_as_sender_st}",
-                <span class="input-prepend input-append">
-                    <span class="add-on"><i class="fas fa-people-carry"></i><label></label></span>
-                </span>
-                <select id="billing_as_sender_ST" name="billing_as_sender_ST" size="1" class="drop_down bill_as_shipping">
-                    <option value="0" ' . $chk0 . '>' . JText::_('COM_REDSHOP_BILLING_AS_SENDER_0') . '</option>
-                    <option value="1" ' . $chk1 . '>' . JText::_('COM_REDSHOP_BILLING_AS_SENDER_1') . '</option>
-                </select>',
-        $templateHtml);
-        */
+        $chk1 = (!empty($data["billing_as_sender_ST"]) && $data["billing_as_sender_ST"] == 1) ? "selected='selected'" : '';
+        $chk0 = (!empty($data["billing_as_sender_ST"]) && $data["billing_as_sender_ST"] == 0) ? "selected='selected'" : '';
 
         $this->replacements['{billing_as_sender_st}']       = '<span class="input-prepend input-append">
                     <span class="add-on"><i class="fas fa-people-carry"></i><label></label></span>
