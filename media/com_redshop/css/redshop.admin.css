@@ -29611,14 +29611,20 @@ div.modal.jviewport-width100 {
     margin-right: 5px;
 }
 
+.billy-order-icons-success {
+    color: #3c763d;
+    margin-top: 7px;
+    margin-right: 5px;
+}
+
 .order-payment-row {
     width: 266px!important;
     margin-bottom: 3px;
 }
 
 .order-sms-row {
-    width: 155px!important;
-    margin-right: 5px;
+    width: 135px!important;
+    margin-right: 3px;
 }
 
 .order-timeline-row {

@@ -529,8 +529,8 @@ JPluginHelper::importPlugin('redshop_product');
                     </div>
                     <?php   }
                     if (RedshopHelperPdf::isAvailablePdfPlugins()) { ?>
-                        <a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>" class="billy-order-icons" 
-                                target="_blank">
+                        <a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>" 
+                                class="billy-order-icons" target="_blank">
                             <i class="fa fa-file-pdf-o"></i>
                         </a> <?php
                     } else { ?>
@@ -538,29 +538,30 @@ JPluginHelper::importPlugin('redshop_product');
                     }
 
                     if (!empty($row->customer_note)) { ?>
-                        <span class="hasPopover billy-order-icons" style="color:aquamarine"
+                        <span class="hasPopover billy-order-icons-success"
                                 title data-content="<?php echo $row->customer_note ?>" 
-                                data-original-title="<?php echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
-                            <i class="far fa-envelope"></i>
+                                data-original-title="<?php echo JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL') ?>">
+                            <i class="fa-solid fa-comment-dots"></i>
                         </span> <?php
                     } else { ?>
-                        <span class="hasPopover billy-order-icons" 
-                                title data-content="<?php echo JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_SENT') ?>" 
-                                data-original-title="<?php echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
-                            <i class="far fa-envelope"></i>
+                        <span class="billy-order-icons">
+                            <i class="fa-regular fa-comment"></i>
                         </span> <?php
                     }
 
                     if ((Redshop::getConfig()->get('POSTDK_INTEGRATION')) 
                             && $row->order_label_create == 1) { ?>
                         <a href="https://www.unifaunonline.com/ext.uo.dk.track?key=290000004&order=<?php echo $row->order_id; ?>" 
-                                class="hasPopover billy-order-icons" target="_blank" 
+                                class="hasPopover billy-order-icons-success" target="_blank" 
                                 title data-content="<?php 
                                     echo JText::_('COM_REDSHOP_OPEN_PACSOFT_TRACKING') ?>" 
                                 data-original-title="<?php 
                                     echo JText::_('COM_REDSHOP_ORDER_SHIPPED') ?>">
                             <i class="fa-solid fa-location-dot"></i>
                         </a> <?php	
+                    } else if ((Redshop::getConfig()->get('POSTDK_INTEGRATION')) 
+                            && $row->order_label_create == 0) { ?>
+                        <i class="fa-solid fa-location-dot billy-order-icons"></i> <?php	
                     } ?>
                 </td>
                 <td>
@@ -728,70 +729,68 @@ JPluginHelper::importPlugin('redshop_product');
                                 </div>
                             </div>
                         </div> <?php
-                        if ($row->order_status !== 'X') {
-                            if(isset($invoice->sentState)) {
-                                if ($invoice->sentState == 'sent' || $invoice->sentState == 'opened' 
-                                        || $invoice->sentState == 'viewed' 
-                                        || $invoice->sentState == 'printed') { ?>
-                                    <a href="<?php echo $invoice->downloadUrl; ?>" 
-                                            class="hasPopover billy-order-icons" target="_blank" 
+                        if (isset($invoice->sentState)) {
+                            if ($invoice->sentState == 'sent' || $invoice->sentState == 'opened' 
+                                    || $invoice->sentState == 'viewed' 
+                                    || $invoice->sentState == 'printed') { ?>
+                                <a href="<?php echo $invoice->downloadUrl; ?>" 
+                                        class="hasPopover billy-order-icons" target="_blank" 
+                                        title data-content="<?php 
+                                        echo JText::_('COM_REDSHOP_BILLY_INVOICE_OPEN') ?>" 
+                                        data-original-title="<?php 
+                                        echo JText::_('COM_REDSHOP_BILLY_INVOICE') ?>">
+                                    <i class="fa fa-download"></i>
+                                </a> <?php
+                            } else { ?>
+                                <a href="<?php echo $invoice->downloadUrl; ?>?layout=packing-list" 
+                                        class="hasPopover billy-order-icons" target="_blank" 
+                                        title data-content="<?php 
+                                        echo JText::_('COM_REDSHOP_BILLY_PACKAGE_LIST_OPEN') ?>" 
+                                        data-original-title="<?php 
+                                        echo JText::_('COM_REDSHOP_BILLY_PACKAGE_LIST_OPEN') ?>">
+                                    <i class="far fa-circle-down"></i>
+                                </a> <?php
+                            } 
+                        }					
+                        if ($row->is_billy_booked == 1) {
+                            if (isset($invoice->sentState)) {
+                                if ($invoice->sentState == 'sent') { ?>
+                                    <span class="hasPopover billy-order-icons" 
                                             title data-content="<?php 
-                                            echo JText::_('COM_REDSHOP_BILLY_INVOICE_OPEN') ?>" 
+                                            echo JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_SENT') ?>" 
                                             data-original-title="<?php 
-                                            echo JText::_('COM_REDSHOP_BILLY_INVOICE') ?>">
-                                        <i class="fa fa-download"></i>
-                                    </a> <?php
-                                } else { ?>
-                                    <a href="<?php echo $invoice->downloadUrl; ?>?layout=packing-list" 
-                                            class="hasPopover billy-order-icons" target="_blank" 
+                                            echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
+                                        <i class="far fa-envelope"></i>
+                                    </span> <?php
+                                }
+                                if (isset($invoice->sentState) && $invoice->sentState == 'opened') { ?>
+                                    <span class="hasPopover billy-order-icons" 
                                             title data-content="<?php 
-                                            echo JText::_('COM_REDSHOP_BILLY_PACKAGE_LIST_OPEN') ?>" 
+                                            echo JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_OPEN') ?>"" 
                                             data-original-title="<?php 
-                                            echo JText::_('COM_REDSHOP_BILLY_PACKAGE_LIST_OPEN') ?>">
-                                        <i class="far fa-circle-down"></i>
-                                    </a> <?php
-                                } 
-                            }					
-                            if ($row->is_billy_booked == 1 && $row->order_status !== 'X') {
-                                if (isset($invoice->sentState)) {
-                                    if ($invoice->sentState == 'sent') { ?>
-                                        <span class="hasPopover billy-order-icons" 
-                                                title data-content="<?php 
-                                                echo JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_SENT') ?>" 
-                                                data-original-title="<?php 
-                                                echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
-                                            <i class="far fa-envelope"></i>
-                                        </span> <?php
-                                    }
-                                    if (isset($invoice->sentState) && $invoice->sentState == 'opened') { ?>
-                                        <span class="hasPopover billy-order-icons" 
-                                                title data-content="<?php 
-                                                echo JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_OPEN') ?>"" 
-                                                data-original-title="<?php 
-                                                echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
-                                            <i class="far fa-envelope-open"></i>
-                                        </span> <?php
-                                    }
-                                    if (isset($invoice->sentState) && ($invoice->sentState == 'viewed' 
-                                            || $invoice->sentState == 'printed')) { ?>
-                                        <span class="hasPopover billy-order-icons" 
-                                                title data-content="<?php 
-                                                echo JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_VIEWED') ?>" 
-                                                data-original-title="<?php 
-                                                echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
-                                            <i class="far fa-search-plus"></i>
-                                        </span> <?php
-                                    }
-                                }	
-                            } ?>
-                            <a href="index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=<?php 
-                                    echo $row->order_id; ?>" class="hasPopover billy-order-icons" 
-                                    target="_blank" 
-                                    title data-content="Download forsendelses pdf i A5 format" 
-                                    data-original-title="Download forsendelses pdf">
-                                <i class="fa fa-tag"></i>
-                            </a> <?php
-                        }
+                                            echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
+                                        <i class="far fa-envelope-open"></i>
+                                    </span> <?php
+                                }
+                                if (isset($invoice->sentState) && ($invoice->sentState == 'viewed' 
+                                        || $invoice->sentState == 'printed')) { ?>
+                                    <span class="hasPopover billy-order-icons" 
+                                            title data-content="<?php 
+                                            echo JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_VIEWED') ?>" 
+                                            data-original-title="<?php 
+                                            echo JText::_('COM_REDSHOP_BILLY_INVOICE_STATUS') ?>">
+                                        <i class="far fa-search-plus"></i>
+                                    </span> <?php
+                                }
+                            }	
+                        } ?>
+                        <a href="index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=<?php 
+                                echo $row->order_id; ?>" class="hasPopover billy-order-icons" 
+                                target="_blank" 
+                                title data-content="Download forsendelses pdf i A5 format" 
+                                data-original-title="Download forsendelses pdf">
+                            <i class="fa fa-tag"></i>
+                        </a> <?php
 
                         if ($row->is_billy_booked == 0 && ($row->order_status == 'S' 
                                 || $row->order_status == 'RD' || $row->order_status == 'RD1')) { ?>
