@@ -201,6 +201,9 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         }
 
         // Tweak by Ronni START - Product Minimum alert box on-page message
+        $this->replacements['{schemaProduct}'] = '<div itemtype="https://schema.org/Product" itemscope>';
+    //  $this->addReplace('{schemaProduct}', '<div itemtype="https://schema.org/Product" itemscope>');
+
         $product = \Redshop\Product\Product::getProductById($this->product->product_id);
         $minimumProductTotal = $product->minimum_per_product_total;
 
