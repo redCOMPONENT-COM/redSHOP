@@ -1062,7 +1062,34 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                     '',
                     $this->optionLayout
                 );
-
+                /*
+                $addReviewLink = JURI::root(
+                        ) . 'index.php?option=com_redshop&view=product_rating&tmpl=component&product_id=' . $this->product->product_id .
+                        '&category_id=' . $this->product->category_id . '&Itemid=' . $this->itemId;
+                $reviewForm = '
+                    <a class="redbox btn btn-primary" data-toggle="modal" data-target="#ModalAddReview" href="' . $addReviewLink . '">
+                        ' . JText::_('COM_REDSHOP_WRITE_REVIEW') . '
+                    </a>
+                    <div id="ModalAddReview" class="modal fade" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    ' . JText::_('COM_REDSHOP_WRITE_REVIEW') . '
+                                </div>
+                                <div class="modal-body">
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn" data-dismiss="modal" aria-hidden="true">
+                                        ' . JText::_('COM_REDSHOP_CLOSE') . '
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>';
+                */
                 $this->addReplace('{form_rating}', $reviewForm);
             }
         } else {
