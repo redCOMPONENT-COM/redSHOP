@@ -83,7 +83,7 @@ class RedshopBilly
             }
             
             $orderData->renewInvoice = 1;
-            $invoiceHandle           = self::createInvoiceInBilly($orderData->order_id);
+            $invoiceHandle = self::createInvoiceInBilly($orderData->order_id);
 
             if ($invoiceHandle == true) {
                 \JFactory::getApplication('administrator')->enqueueMessage(\JText::_('COM_REDSHOP_BILLY_RENEW_INVOICE_SUCCES') . $orderData->order_id, 'message');
@@ -277,7 +277,7 @@ class RedshopBilly
         }
 
         // Order already booked or already has invoice number.
-        if ($orderEntity->get('is_billy_booked') != 0 || !empty($orderEntity->get('billy_invoice_no'))) {
+        if ($orderEntity->get('is_billy_booked') != 0) {
             return true;
         }
 
@@ -292,8 +292,7 @@ class RedshopBilly
         $paymentInfo      = \RedshopEntityOrder::getInstance($orderId)->getPayment()->getItem();
 
         if (count($debtorNumber) > 0 && $debtorNumber[0]) {
-            $cdate    = date("Y-m-d", $orderEntity->get('cdate'));
-
+            $cdate                    = date("Y-m-d", $orderEntity->get('cdate'));
             $bil['name']              = $userBillingInfo->get('firstname') . " " 
                                             . $userBillingInfo->get('lastname');
             $bil['isVat']             = ($orderEntity->get('order_tax') != 0) ? 1 : 0;

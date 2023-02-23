@@ -1536,19 +1536,23 @@ class RedshopHelperOrder
             }
         }
 
-        if (JPluginHelper::isEnabled('billy') &&
-                ($billyInvoiceDraft != 1 || in_array($orderStatus, $billyBookStatus) )) {
-
+        if (JPluginHelper::isEnabled('billy')) {
             $plugin            = JPluginHelper::getPlugin('billy', 'billy');
             $billyParams       = new JRegistry($plugin->params);
             $billyInvoiceDraft = $billyParams->get('billy_invoice_draft','0');
             $billyBookStatus   = $billyParams->get('billy_book_status');
+            $orderEntity       = RedshopEntityOrder::getInstance($orderId);
+            $orderData         = $orderEntity->getItem();
 
-            if ($billyInvoiceDraft == 2 && in_array($orderStatus, $billyBookStatus)) {
-                RedshopBilly::createInvoiceInBilly($orderId);
+            if ($billyInvoiceDraft != 1 && in_array($orderStatus, $billyBookStatus)) {
+                if ($billyInvoiceDraft == 2) {
+                    RedshopBilly::renewInvoiceInBilly($orderData);
+                    RedshopBilly::bookInvoiceInBilly($orderId);
+                }
+
+$app = JFactory::getApplication();
+$app->enqueueMessage("Test 1: <b>[" . $orderStatus . "]</b>", 'info');
             }
-
-            RedshopBilly::bookInvoiceInBilly($orderId);
         }
     }
 
