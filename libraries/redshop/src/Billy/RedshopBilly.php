@@ -2125,9 +2125,28 @@ class RedshopBilly
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
-        $remindersent = \RedshopHelperUtility::getDispatcher()->trigger('sendReminder', array($orderId, $billyInvoiceNo));
-        
-        if ($remindersent[0]) {
+        // Update overdue fields in db if cron is active
+        $billyPlugin     = \JPluginHelper::getPlugin('billy', 'billy');
+        $billyParams     = new \JRegistry($billyPlugin->params);
+        $billyCronActive = $billyParams->get('billy_overdue_cron_active');
+
+        if ($billyCronActive == 1) {
+            $db            = \JFactory::getDBo();
+
+            $overdueLimits = RedshopBilly::calulateOverdueLimits($billyInvoiceNo, true);
+            $overdueLimit  = "UPDATE #__redshop_orders SET overdue_limit = '" . $overdueLimits . "' WHERE order_id ='" . $orderId . "'";
+            $db->setQuery($overdueLimit);
+            $db->query();
+
+            $overdueDays = RedshopBilly::calulateOverdueDays($billyInvoiceNo, true);
+            $overdueDay  = "UPDATE #__redshop_orders SET overdue_days = '" . $overdueDays . "' WHERE order_id ='" . $orderId . "'";
+            $db->setQuery($overdueDay);
+            $db->query();
+        }
+
+        $reminderSent = \RedshopHelperUtility::getDispatcher()->trigger('sendReminder', array($orderId, $billyInvoiceNo));
+
+        if ($reminderSent[0]) {
             return true;
         } else {
             return false;
