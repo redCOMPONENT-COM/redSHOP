@@ -196,23 +196,26 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
                 $billingAddress = RedshopHelperOrder::getBillingAddress($user->id);
                 $invoiceBlock = $billingAddress->invoice_block;
                 $vatNumber    = $billingAddress->vat_number; 
-                                    
+
                 if (!empty($billingAddress)) {
                     $user_info_id = $billingAddress->users_info_id;
                 }
 
-                // Get billy user_id
-                $db          = JFactory::getDbo();
-                $tablePrefix = '#__redshop_';
-                $query       = "SELECT billy_id FROM " . $tablePrefix . "billy_relation" . " WHERE redshop_id=" . (int) $user_info_id . " AND relation_type='user' ";
-                $db->setQuery($query);
-                $billyUserId = $db->loadResult();
+                // Get billy user Id from redSHOP user
+                $db                  = \JFactory::getDbo();
+                $query               = $db->getQuery(true)
+                                  ->select($db->quoteName('billy_id'))
+                                  ->from($db->quoteName('#__redshop_billy_relation'))
+                                  ->where($db->quoteName('redshop_id') . ' = ' . $db->quote($user_info_id) 
+                                  . ' AND ' . $db->quoteName('relation_type') . ' = ' . $db->quote('user'));
+                                $db->setQuery($query);
+                $billyUserId             = $db->loadResult();
 
                 if ($billyUserId) {
-                    $overdueOrder         = RedshopBilly::checkAnyOverdueOrder($billyUserId, false);
-                    $bil                  = array();
-                    $bil['billy_user_id'] = $billyUserId;
-                    $contactInfo          = RedshopBilly::debtorFindByNumber($bil);
+                    $overdueOrder       = RedshopBilly::checkAnyOverdueOrder($billyUserId, false);
+                    $bil                = array();
+                    $bil['billyUserId'] = $billyUserId;
+                    $contactInfo        = RedshopBilly::debtorFindByNumber($bil);
                 }
             }
 

@@ -74,20 +74,19 @@ class RedshopBilly
      * @since   3.0.3
      */
     public static function renewInvoiceInBilly($orderData) {
-        $invoiceHandle = array();
+        $invoiceHandle         = array();
 
-        if ($orderData->is_billy_booked == 0) {
-            // Delete existing draft invoice from Billy
-            if ($orderData->billy_invoice_no) {
-                $deleted = self::deleteInvoiceInBilly($orderData);
-            }
-            
-            $orderData->renewInvoice = 1;
-            $invoiceHandle = self::createInvoiceInBilly($orderData->order_id);
+        // Delete existing draft invoice from Billy
+        if ($orderData->billy_invoice_no) {
+            self::deleteInvoiceInBilly($orderData);
+        }
 
-            if ($invoiceHandle == true) {
-                \JFactory::getApplication('administrator')->enqueueMessage(\JText::_('COM_REDSHOP_BILLY_RENEW_INVOICE_SUCCES') . $orderData->order_id, 'message');
-            }
+        $invoiceHandle = self::createInvoiceInBilly($orderData->order_id);
+
+        if ($invoiceHandle == true) {
+            $app = \JFactory::getApplication();
+            $app->enqueueMessage(\JText::_('COM_REDSHOP_BILLY_RENEW_INVOICE_SUCCES') 
+                    . $orderData->order_id, 'message');
         }
 
         return $invoiceHandle;
@@ -102,7 +101,7 @@ class RedshopBilly
      *
      * @since   3.0.3
      */
-    public static function deleteInvoiceInBilly($orderData = array()) {
+    public static function deleteInvoiceInBilly($orderData) {
         // If using Dispatcher, must call plugin Billy first
         self::importBilly();
 
@@ -273,12 +272,12 @@ class RedshopBilly
 
         // Order is not valid.
         if (!$orderEntity->isValid()) {
-            return true;
+            return false;
         }
 
         // Order already booked or already has invoice number.
         if ($orderEntity->get('is_billy_booked') != 0) {
-            return true;
+            return false;
         }
 
         // If using Dispatcher, must call plugin Billy first
@@ -448,10 +447,13 @@ class RedshopBilly
 
             return $invoiceNo;
         } else {
-            return "COM_REDSHOP_BILLY_USER_NOT_SAVED_IN_BILLY";
+            $app = \JFactory::getApplication();
+            $app->enqueueMessage(\JText::_('COM_REDSHOP_BILLY_USER_NOT_SAVED_IN_BILLY'), 'error');
+
+            return false;
         }
 
-        return true;
+        return false;
     }
 
     /**
