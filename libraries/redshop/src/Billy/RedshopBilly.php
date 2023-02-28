@@ -276,7 +276,7 @@ class RedshopBilly
         }
 
         // Order already booked or already has invoice number.
-        if ($orderEntity->get('is_billy_booked') != 0) {
+        if ($orderEntity->get('is_billy_booked') != 0 || !empty($orderEntity->get('billy_invoice_no'))) {
             return false;
         }
 

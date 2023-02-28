@@ -1541,17 +1541,13 @@ class RedshopHelperOrder
         $billyInvoiceDraft = $billyParams->get('billy_invoice_draft','0');
         $billyBookStatus   = $billyParams->get('billy_book_status');
 
-        if (JPluginHelper::isEnabled('billy') && in_array($orderStatus, $billyBookStatus)) {
-            if ($billyInvoiceDraft !== 1) {
+        if (JPluginHelper::isEnabled('billy') && $billyInvoiceDraft !== 1) {
+            if (in_array($orderStatus, $billyBookStatus)) {
                 if ($billyInvoiceDraft == 2) {
-            //        RedshopBilly::createInvoiceInBilly($orderId);
+                    RedshopBilly::createInvoiceInBilly($orderId);
                 }
 
-$app = \JFactory::getApplication();
-$app->enqueueMessage(\JText::_('Bookinvoice') 
-    . print_r($billyBookStatus), 'info');
-
-            //    RedshopBilly::bookInvoiceInBilly($orderId);
+                RedshopBilly::bookInvoiceInBilly($orderId);
             }
         }
     }
@@ -1785,27 +1781,24 @@ $app->enqueueMessage(\JText::_('Bookinvoice')
 
             $requisitionNumber = $app->input->getString('requisition_number', '');
 
-            if ('' != $requisitionNumber) {
+            // Tweak by Ronni START -
+        //  if ('' != $requisitionNumber) {
                 self::updateOrderRequisitionNumber($orderId, $requisitionNumber);
+        //  }
+
+            $plugin          = JPluginHelper::getPlugin('billy', 'billy');
+            $billyParams     = new JRegistry($plugin->params);
+            $billyBookStatus = $billyParams->get('billy_book_status');
+            $orderEntity     = RedshopEntityOrder::getInstance($orderId);
+            $orderData       = $orderEntity->getItem();
+
+            if (JPluginHelper::isEnabled('billy') && !in_array($newStatus, $billyBookStatus)) {
+                RedshopBilly::renewInvoiceInBilly($orderData);
             }
+            // Tweak by Ronni END -
 
             // Changing the status of the order
             self::updateOrderStatus($orderId, $newStatus);
-
-            // Tweak by Ronni START - Update payment method in Order detail
-            /*
-            $paymentMethod = explode("-",JFactory::getApplication()->input->get('payment_method'));
-    
-            if (count($paymentMethod) > 0 && $paymentMethod[0] != '' && $paymentMethod[0] != '') {
-                $db = JFactory::getDBo();
-                $paymentMethodQuery = 'UPDATE #__redshop_order_payment SET order_payment_name = ' . $db->quote(trim($payment_method[0])) . ', payment_method_class = ' . $db->quote(trim($payment_method[1])) . ' WHERE order_id = ' . (int) $orderId;
-                $db->setQuery($paymentMethodQuery);
-                $db->execute();
-
-                RedshopBilly::updatePaymentTermsInBilly($orderId);
-            }
-            */
-            // Tweak by Ronni END - Update payment method in Order detail
 
             // Trigger function on Order Status change
             JPluginHelper::importPlugin('redshop_order');
@@ -2052,10 +2045,6 @@ $app->enqueueMessage(\JText::_('Bookinvoice')
             // Economic Integration start for invoice generate and book current invoice
             if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
                 RedshopEconomic::renewInvoiceInEconomic($order->getItem());
-            }
-
-            if (JPluginHelper::isEnabled('billy')) {
-                RedshopBilly::renewInvoiceInBilly($order->getItem());
             }
         }
     }
