@@ -2238,9 +2238,11 @@ class RedshopBilly
         $message   = '';
 
         if ($billyInvoiceNo) {
-            $timelines = \RedshopHelperUtility::getDispatcher()->trigger('getInvoiceTimeline', array($billyInvoiceNo));
-            
-            if (count($timelines[0]) > 0)   {
+            $timelines   = \RedshopHelperUtility::getDispatcher()->trigger('getInvoiceTimeline', array($billyInvoiceNo));
+            $invoiceLogs = \RedshopHelperUtility::getDispatcher()->trigger('getInvoiceLogs', array($billyInvoiceNo));
+
+            if (count($timelines) > 0 | count($invoiceLogs) > 0)	{
+                // Timeline output
                 foreach($timelines[0] as $timeline) {
                     if ($timeline->type == 'InvoiceEmailSent') {
                         $timeline->type = \JText::_('COM_REDSHOP_BILLY_TIMELINE_EMAIL_SENT');
@@ -2317,11 +2319,60 @@ class RedshopBilly
                     }
                     $message .= '</div></div></div>';
                 }
+                // Invoice log output
+                foreach($invoiceLogs[0] as $invoiceLog) {
+                    if ($invoiceLog->type == 'pending') {
+                        $invoiceLog->type = \JText::_('COM_REDSHOP_BILLY_TIMELINE_EAN_QUEUED');
+                        $invoiceLog->icon = 'fa-solid fa-file-circle-question';
+                    }
+                    if ($invoiceLog->type == 'sent') {
+                        $invoiceLog->type = \JText::_('COM_REDSHOP_BILLY_TIMELINE_EAN_SENT');
+                        $invoiceLog->icon = 'fa-regular fa-envelope';
+                    }
+                    if ($invoiceLog->type == 'received') {
+                        $invoiceLog->type = \JText::_('COM_REDSHOP_BILLY_TIMELINE_EAN_RECEIVED');
+                        $invoiceLog->icon = 'fa-regular fa-square-check';
+                    }
+                    if ($invoiceLog->type == 'signedoff') {
+                        $invoiceLog->type    = '<div style="color:#0ea322">
+                                                    ' . \JText::_('COM_REDSHOP_BILLY_TIMELINE_EAN_SIGNEDOFF') . '
+                                                </div>';
+                        $invoiceLog->message = '<div style="color:#0ea322">
+                                                    ' . \JText::_('COM_REDSHOP_BILLY_TIMELINE_EAN_SIGNEDOFF_MSG') . '
+                                                </div>';
+                        $invoiceLog->icon    = 'fa-regular fa-file-import';
+                    }
+                    if ($invoiceLog->type == 'failed') {
+                        $invoiceLog->type = '<div style="color:#ff1c00">' . \JText::_('COM_REDSHOP_BILLY_TIMELINE_EAN_FAILED') . '</div>';
+                        $invoiceLog->icon = 'fa-regular fa-file-excel';
+                    }
+
+                    $message .= '<div class="timeline-entry" style="margin-bottom: 20px;position: relative;z-index: 2">';
+                    $message .= '<div class="timeline-entry-default" style="display:flex">';
+                    $message .= '<div class="timeline-entry-default-icon" style="display: flex;width: 36px;height: 36px;border-radius: 36px;background-color: #dde1e3;margin-right: 10px;padding: 8px;text-align: center;font-size: 16px;border: 2px solid #fff;align-items: center;justify-content: center">';
+                    $message .= '<i class="' . $invoiceLog->icon . '"></i>';
+                    $message .= '</div>';
+                    $message .= '<div class="timeline-entry-default-content" style="text-align: left;flex: 1;overflow: hidden;line-height: 20px;margin-top:5px">';
+                    $message .= '<span id="" style="font-size:14px;font-weight:700">';
+                    $message .= $invoiceLog->type;
+                    $message .= '</span>';
+                    $message .= '<div class="timeline-entry-default-time" style="font-size:12px">';
+                    $message .= date("d M Y - H:i", strtotime($invoiceLog->eventTime));
+                    $message .= '</div>';
+                    if (isset($invoiceLog->message)) {
+                    $message .= '<div class="timeline-entry-default-time" style="font-size:12px">';
+                    $message .= $invoiceLog->message;
+                    $message .= '</div>';
+                    }
+                    $message .= '</div></div></div>';
+                }
+            } else {
+                $message = \JText::_('COM_REDSHOP_BILLY_TIMELINE_NO_ENTRY');
             }
-                    
+
             return $message;
         }
-        
+
         return $message;
     }
 
