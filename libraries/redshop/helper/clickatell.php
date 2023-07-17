@@ -140,6 +140,8 @@ class RedshopHelperClickatell
      */
     public static function sendMessage($text, $to)
     {
+        $app = JFactory::getApplication();
+
         // ClickATell username
         $user = Redshop::getConfig()->get('CLICKATELL_USERNAME');
 
@@ -180,14 +182,20 @@ class RedshopHelperClickatell
             $orderId = JFactory::getApplication()->input->get('order_id');
 
             if ($send[0] == "ID") {
-				JFactory::getApplication('administrator')->enqueueMessage(
-                    JText::_('COM_REDSHOP_CLICKATELL_SENT_SUCCESS') . $orderId[0], 'message');
+                $msg     = JText::_('COM_REDSHOP_CLICKATELL_SENT_SUCCESS') . " " . $orderId[0];
+                $msgType = 'message';
+
             } else {
-                JError::raiseWarning(21, "Clickatell send sms message failed: ");
+                $msg     = JText::_('Clickatell send sms message failed:') . $result[0] . " - order #" . $orderId[0];
+                $msgType = 'error';
+
             }
         } else {
-            JError::raiseWarning(21, "Authentication failure: " . $result[0]);
+            $msg     = JText::_('Authentication failure:') . " " . $result[0];
+            $msgType = 'error';
         }
+
+        $app->redirect('index.php?option=com_redshop&view=order', $msg, $msgType);
     }
 
     /**
@@ -256,7 +264,7 @@ class RedshopHelperClickatell
                 $msgType = 'message';
 
             } else {
-                $msg     = JText::_('Clickatell send sms message failed:') . " " . $orderId[0];
+                $msg     = JText::_('Clickatell send sms message failed:') . $result[0] . " - order #" . $orderId[0];
                 $msgType = 'error';
 
             }
@@ -334,7 +342,7 @@ class RedshopHelperClickatell
                 $msgType = 'message';
 
             } else {
-                $msg     = JText::_('Clickatell send sms message failed:') . " " . $orderId[0];
+                $msg     = JText::_('Clickatell send sms message failed:') . $result[0] . " - order #" . $orderId[0];
                 $msgType = 'error';
 
             }
