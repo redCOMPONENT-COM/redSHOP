@@ -258,13 +258,13 @@ class RedshopHelperProductPrice
         $templateHtml = str_replace("{" . $relPrefix . "product_old_price_excl_vat}", $oldPriceNoVat, $templateHtml);
         $templateHtml = str_replace("{" . $relPrefix . "product_price_novat}", $displayPriceNoVAT, $templateHtml);
         // Tweak by Ronni START - {product_price_novat_trim} + {product_thumb_image_url} + {priceValidUntill} + {product_base_url}
-        $displayPriceNoVATTrim = str_replace("DKK ","",$displayPriceNoVAT);
+        $displayPriceNoVATTrim  = str_replace("DKK ","",$displayPriceNoVAT);
         $displayPriceNoVATTrim1 = str_replace(",",".",$displayPriceNoVATTrim);
-        $templateHtml = str_replace("{" . $relPrefix . "product_price_novat_trim}", $displayPriceNoVATTrim1, $templateHtml);
+        $templateHtml           = str_replace("{" . $relPrefix . "product_price_novat_trim}", $displayPriceNoVATTrim1, $templateHtml);
         
-        $product      = \Redshop\Product\Product::getProductById($productId);
-        $imgWidth     = \Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE');
-        $imgHeight    = \Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT');		
+        $product        = \Redshop\Product\Product::getProductById($productId);
+        $imgWidth       = \Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE');
+        $imgHeight      = \Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT');		
         $productMainImg = \RedshopHelperMedia::getImagePath(
                     $product->product_full_image,
                     '',
@@ -282,6 +282,8 @@ class RedshopHelperProductPrice
 
         $protocol	  = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $templateHtml = str_replace("{product_base_url}", $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], $templateHtml);
+
+        $templateHtml = str_replace("{product_metadesc}", $product->metadesc , $templateHtml);
         // Tweak by Ronni END - {product_price_novat_trim} + {product_thumb_image_url} + {priceValidUntill} + {product_base_url}
         $templateHtml = str_replace("{" . $relPrefix . "product_price_incl_vat}", $displayPriceWithVAT, $templateHtml);
         $templateHtml = str_replace("{" . $relPrefix . "product_vat_lbl}", $vatLabel, $templateHtml);
