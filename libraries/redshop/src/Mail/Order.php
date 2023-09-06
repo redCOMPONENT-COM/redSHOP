@@ -58,6 +58,13 @@ class Order
             \JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'),
             $message
         );
+
+        $objMessage = new \stdClass;
+        $objMessage->text = $message;
+
+        \JPluginHelper::importPlugin('content');
+        \JFactory::getApplication()->triggerEvent('onContentPrepare',  array('com_redshop.mail', &$objMessage, &$row, 1));
+
         $message = str_replace("{order_mail_intro_text}", \JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
         $message = Template::replaceTemplate($row, $message, true);
 
@@ -162,7 +169,7 @@ class Order
                     $mailSection,
                     func_get_args()
                 )) {
-                \JError::raiseWarning(21, \JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+                \Joomla\CMS\Factory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'), 'warning');
 
                 return false;
             }
@@ -180,7 +187,7 @@ class Order
                 $mailSection,
                 func_get_args()
             )) {
-                \JError::raiseWarning(21, \JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+                \Joomla\CMS\Factory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'), 'warning');
 
                 return false;
             }
@@ -236,7 +243,7 @@ class Order
                         $mailSection,
                         func_get_args()
                     )) {
-                    \JError::raiseWarning(21, \JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+                    \Joomla\CMS\Factory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'), 'warning');
                 }
             }
 
@@ -258,7 +265,7 @@ class Order
                         $mailSection,
                         func_get_args()
                     )) {
-                    \JError::raiseWarning(21, \JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+                    \Joomla\CMS\Factory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'), 'warning');
                 }
             }
         }
@@ -369,7 +376,7 @@ class Order
                 $mailSection,
                 func_get_args()
             )) {
-                \JError::raiseWarning(21, \JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+                \Joomla\CMS\Factory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'), 'warning');
             }
         }
 
@@ -404,7 +411,7 @@ class Order
                         $mailSection,
                         func_get_args()
                     )) {
-                    \JError::raiseWarning(21, \JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+                    \Joomla\CMS\Factory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'), 'warning');
                 }
             }
         }
