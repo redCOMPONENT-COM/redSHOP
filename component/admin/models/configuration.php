@@ -73,7 +73,9 @@ class RedshopModelConfiguration extends RedshopModel
         $data["cart_reservation_message"]      = $input->get('cart_reservation_message', '', 'RAW');
         $data["with_vat_text_info"]            = $input->get('with_vat_text_info', '', 'RAW');
         $data["without_vat_text_info"]         = $input->get('without_vat_text_info', '', 'RAW');
-        $data["show_price_user_group_list"]    = implode(",", $data['show_price_user_group_list']);
+    //  $data["show_price_user_group_list"]    = implode(",", $data['show_price_user_group_list']);
+        $data["show_price_user_group_list"]    = is_array($data['show_price_user_group_list']) ?
+            implode(",", $data['show_price_user_group_list']) : $data['show_price_user_group_list'];
         $data["show_price_shopper_group_list"] = is_array($data['show_price_shopper_group_list']) ?
             implode(",", $data['show_price_shopper_group_list']) : $data['show_price_shopper_group_list'];
         $data["show_price_user_group_list"]    = $data["show_price_user_group_list"] ? $data["show_price_user_group_list"] : '';

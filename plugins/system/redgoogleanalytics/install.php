@@ -10,6 +10,8 @@
 defined('_JEXEC') or die();
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 JLoader::import('redshop.library');
 
@@ -32,7 +34,7 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
     {
         if ($type == 'update' || $type == 'discover_install') {
             // Reads current (old) version from manifest
-            $db      = JFactory::getDbo();
+            $db      = Factory::getContainer()->get('DatabaseDriver');
             $version = $db->setQuery(
                 $db->getQuery(true)
                     ->select($db->qn('manifest_cache'))
@@ -46,7 +48,7 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
                 $version = new Registry($version);
                 $version = $version->get('version');
 
-                if (version_compare($version, '2.0.0', '<')) {
+                if (version_compare($version, '2.0', '<')) {
                     $this->getTrackerKeyFromOldRedshop();
                 }
             }
@@ -76,12 +78,14 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
         $extensionTable->load($pluginId);
         $pluginParams = $extensionTable->get('params');
 
-        // Set the reset_status parameter to 0 and save the updated parameters
-        $pluginParams              = json_decode($pluginParams);
-        $pluginParams->tracker_key = Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY', '');
-        $pluginParams              = json_encode($pluginParams);
-        $row['params']             = $pluginParams;
+        if (!empty($pluginParams->tracker_key)) {
+            // Set the reset_status parameter to 0 and save the updated parameters
+            $pluginParams              = json_decode($pluginParams);
+            $pluginParams->tracker_key = Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY', '');
+            $pluginParams              = json_encode($pluginParams);
+            $row['params']             = $pluginParams;
 
-        $extensionTable->save($row);
+            $extensionTable->save($row);
+        }
     }
 }

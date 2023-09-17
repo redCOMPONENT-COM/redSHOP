@@ -20,7 +20,8 @@ JHtml::_(
 
 HTMLHelper::script('com_redshop/redshop.attribute.min.js', ['relative' => true]);
 HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
-HTMLHelper::script('com_redshop/redshop.redbox.min.js', ['relative' => true]);
+/** @scrutinizer ignore-deprecated - remove rs4 */
+// HTMLHelper::script('com_redshop/redshop.redbox.min.js', ['relative' => true]);
 HTMLHelper::script('com_redshop/bootstrap.min.js', ['relative' => true]);
 
 $app = JFactory::getApplication();
@@ -35,4 +36,3 @@ if (Redshop::getConfig()->getBool('LOAD_REDSHOP_STYLE', true)) {
 if ($app->input->getCmd('print', '')) {
     $doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/redshop.print.min.css');
 }
-

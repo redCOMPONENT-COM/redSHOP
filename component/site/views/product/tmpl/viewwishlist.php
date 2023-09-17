@@ -9,9 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\App;
 JHTML::_('bootstrap.modal');
 
-$config = Redconfiguration::getInstance();
+$config = App::getInstance();
 
 $url       = JURI::base();
 $wishlists = $this->wishlists;

@@ -110,6 +110,8 @@ redSHOP.updateAjaxCartExtraFields = function (extraFields, productId) {
 	return extraFieldPost;
 };
 
+/*
+/** @scrutinizer ignore-deprecated - remove rs4 */
 // open modal box
 window.addEvent('domready', function () {
 
@@ -149,6 +151,7 @@ window.addEvent('domready', function () {
 	// Later it can be used to multiplied with any price to get exact tax in JS.
 	redSHOP.setProductTax({id: 0, price: 1});
 });
+*/
 
 var r_browser = false;
 var subproperty_main_image = "";

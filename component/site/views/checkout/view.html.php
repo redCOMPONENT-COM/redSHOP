@@ -52,7 +52,8 @@ class RedshopViewCheckout extends RedshopView
 		HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
 		HTMLHelper::script('com_redshop/jquery.metadata.min.js', ['relative' => true]);
 		HTMLHelper::script('com_redshop/redshop.registration.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.redbox.min.js', ['relative' => true]);
+        /** @scrutinizer ignore-deprecated - remove rs4 */
+	//	HTMLHelper::script('com_redshop/redshop.redbox.min.js', ['relative' => true]);
 		HTMLHelper::stylesheet('com_redshop/redshop.validation.min.css', ['relative' => true]);
 
         JPluginHelper::importPlugin('redshop_vies_registration');
