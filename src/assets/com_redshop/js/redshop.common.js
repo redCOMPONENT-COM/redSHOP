@@ -1015,6 +1015,8 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 			}
 			document.getElementById('responceonestep').innerHTML = "";
 
+            /** @scrutinizer ignore-deprecated - remove rs4 */
+            /*
 			SqueezeBox.initialize({});
 
 			$$('a.modal.modal-termscondition').each(function(el) {
@@ -1023,6 +1025,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 					SqueezeBox.fromElement(el);
 				});
 			});
+            */
 
 			if (objectname == "users_info_id" && users_info_id == 0 && jQuery('#paymentblock')) {
 				jQuery.ajax({

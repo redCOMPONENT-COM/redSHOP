@@ -30,13 +30,13 @@ if ($checkWishlist) {
 
 <?php if (!$user->guest) : ?>
     <i class="<?php echo $wishlistExist; ?>"></i>
-    <input type="button" class="redshop-wishlist-button"
+    <input type="button" class="btn btn-primary redshop-wishlist-button"
            data-productid="<?php echo $productId ?>" data-href="<?php echo $link ?>"
            data-formid="<?php echo $formId ?>" value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>"/>
 <?php else : ?>
     <?php if (Redshop::getConfig()->get('WISHLIST_LOGIN_REQUIRED') != 0) : ?>
-        <input type="submit" class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist"
-               value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>"
+        <input type="submit" class="btn btn-primary redshop-wishlist-form-button" name="btnwishlist" 
+               id="btnwishlist" value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>"
                onclick="window.location='<?php echo $link ?>'"/>
     <?php else : ?>
         <form method="post" action="" id="form_wishlist_<?php echo $productId ?>_link"
@@ -47,10 +47,10 @@ if ($checkWishlist) {
             <input type='hidden' name='attribute_id' value=''/>
             <input type='hidden' name='property_id' value=''/>
             <input type='hidden' name='subattribute_id' value=''/>
-            <input type='hidden' name='rurl' value='<?php echo base64_encode(JUri::getInstance()->toString()) ?>'/>"
+            <input type='hidden' name='rurl' value='<?php echo base64_encode(JUri::getInstance()->toString()) ?>'/>
 
             <input type="submit" data-productid="<?php echo $productId ?>" data-formid="<?php echo $formId ?>"
-                   class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist"
+                   class="btn btn-primary redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist"
                    value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>"/>
         </form>
     <?php endif; ?>

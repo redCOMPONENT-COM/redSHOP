@@ -27,9 +27,9 @@ $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.alert.min.js');
 $doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/redshop.admin.min.css');
 $doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/font-awesome.min.css');
 
-// Disable template shit
-$doc->disableStylesheet('administrator/templates/isis/css/template.css');
-$doc->disableScript('administrator/templates/isis/js/template.js');
+// Disable default template files
+$doc->disableStylesheet('media/templates/administrator/atum/css/template.css');
+$doc->disableStylesheet('media/templates/administrator/atum/css/vendor/joomla-custom-elements/joomla-tab.css');
 
 // We will apply our own searchtools styles
 $doc->disableStylesheet('media/redcore/lib/jquery-searchtools/jquery.searchtools.css');

@@ -6,7 +6,7 @@
     <authorUrl>https://github.com/redCOMPONENT-COM/redSHOP</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>4.0.0_beta</version>
+    <version>4.0.0</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
     <scriptfile>install.php</scriptfile>
     <install>
