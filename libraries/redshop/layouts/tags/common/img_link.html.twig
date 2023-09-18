@@ -1,3 +1,18 @@
-<a class="{{ class }}" href="{{ link }}" {{ linkAttr }}>
+<div {{ imgAttr }} style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#modal{{ linkAttr }}">
     <img src="{{ src }}" alt="{{ alt }}" {{ imgAttr }}>
-</a>
+</div>
+<div id="modal{{ linkAttr }}" class="modal" tabindex="-1" aria-labelledby="ModalLabel{{ linkAttr }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="exampleModalLabel" class="modal-title">
+                    {{ linkAttr }}
+                </h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="{{ src }}" alt="{{ alt }}" {{ imgAttr }}>
+            </div>
+        </div>
+    </div>
+</div>

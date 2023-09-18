@@ -434,23 +434,23 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
 	request.send(null);
 }
 
-function displayImage(imgs, product_id, gethover) {
+function display_image(imgs, product_id, gethover) {
 	if (!redSHOP.RSConfig._('PRODUCT_DETAIL_IS_LIGHTBOX'))
 		document.getElementById('a_main_image' + product_id).href = gethover;
 	document.getElementById('main_image' + product_id).src = imgs;
 }
 
-function displayImageOut(imgs, product_id, gethover) {
+function display_image_out(imgs, product_id, gethover) {
 	document.getElementById('main_image' + product_id).src = gethover;
 }
 
-function displayImageAdd(img, product_id) {
+function display_image_add(img, product_id) {
 	if (document.getElementById('main_image' + product_id)) {
 		document.getElementById('main_image' + product_id).src = img;
 	}
 }
 
-function displayImageAddOut(img, product_id) {
+function display_image_add_out(img, product_id) {
 	if (document.getElementById('main_image' + product_id)) {
 		if (subproperty_main_image != "")
 			document.getElementById('main_image' + product_id).src = subproperty_main_image;

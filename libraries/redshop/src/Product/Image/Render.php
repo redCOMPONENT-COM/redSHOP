@@ -151,9 +151,9 @@ class Render
                 $thumbImage = \RedshopLayoutHelper::render(
                     'tags.common.img_link',
                     array(
-                        'class'    => 'modal',
+                        'class'    => 'joom-box',
                         'link'     => $linkImage,
-                        'linkAttr' => 'id="a_main_image' . $commonId . '" rel="{handler: \'image\', size: {}}" title="' . $title . '"',
+                        'linkAttr' => $title,
                         'src'      => $imgSource,
                         'alt'      => $altText,
                         'imgAttr'  => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '"'
