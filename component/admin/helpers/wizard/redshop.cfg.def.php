@@ -28,7 +28,6 @@ $defaultarray["new_customer_selection"]                       = NEW_CUSTOMER_SEL
 $defaultarray["terms_article_id"]                             = TERMS_ARTICLE_ID;
 $defaultarray["allow_customer_register_type"]                 = ALLOW_CUSTOMER_REGISTER_TYPE;
 $defaultarray["default_customer_register_type"]               = DEFAULT_CUSTOMER_REGISTER_TYPE;
-$defaultarray["checkout_login_register_switcher"]             = CHECKOUT_LOGIN_REGISTER_SWITCHER;
 $defaultarray["welcomepage_introtext"]                        = WELCOMEPAGE_INTROTEXT;
 $defaultarray["registration_introtext"]                       = REGISTRATION_INTROTEXT;
 $defaultarray["registration_comp_introtext"]                  = REGISTRATION_COMPANY_INTROTEXT;

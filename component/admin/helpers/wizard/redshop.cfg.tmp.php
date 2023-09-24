@@ -50,7 +50,6 @@ $temparray["terms_article"]                         = Redshop::getConfig()->get(
 $temparray["terms_article_id"]                      = Redshop::getConfig()->get('TERMS_ARTICLE_ID');
 $temparray["allow_customer_register_type"]          = Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE');
 $temparray["default_customer_register_type"]        = Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE');
-$temparray["checkout_login_register_switcher"]      = Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER');
 $temparray["welcomepage_introtext"]                 = Redshop::getConfig()->get('WELCOMEPAGE_INTROTEXT');
 $temparray["registration_introtext"]                = Redshop::getConfig()->get('REGISTRATION_INTROTEXT');
 $temparray["registration_comp_introtext"]           = Redshop::getConfig()->get('REGISTRATION_COMPANY_INTROTEXT');

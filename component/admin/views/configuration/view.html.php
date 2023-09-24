@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 class RedshopViewConfiguration extends RedshopViewAdmin
 {
@@ -40,7 +41,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $tpl = "resettemplate";
         }
 
-        $document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
+        $document->setTitle(Text::_('COM_REDSHOP_CONFIG'));
 		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
 
         /** @var RedshopModelConfiguration $model */
@@ -55,7 +56,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         RedshopHelperShipping::loadLanguages(true);
         RedshopHelperModule::loadLanguages();
 
-        JToolbarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'equalizer redshop_icon-48-settings');
+        JToolbarHelper::title(Text::_('COM_REDSHOP_CONFIG'), 'equalizer redshop_icon-48-settings');
         JToolbarHelper::save();
         JToolbarHelper::apply();
         JToolbarHelper::cancel();
@@ -67,7 +68,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $templates          = array();
         $templates[0]       = new stdClass;
         $templates[0]->id   = 0;
-        $templates[0]->name = JText::_('COM_REDSHOP_SELECT');
+        $templates[0]->name = Text::_('COM_REDSHOP_SELECT');
 
         $product_template      = RedshopHelperTemplate::getTemplate("product");
         $compare_template      = RedshopHelperTemplate::getTemplate("compare_product");
@@ -90,7 +91,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         }
 
         $tmp                              = array();
-        $tmp[]                            = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
+        $tmp[]                            = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
         $new_shopper_group_get_value_from = array_merge($tmp, $shopper_groups);
 
         $lists['new_shopper_group_get_value_from'] = JHtml::_(
@@ -144,7 +145,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $country_list = explode(',', $this->config->get('COUNTRY_LIST'));
 
         $tmp                                       = array();
-        $tmp[]                                     = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
+        $tmp[]                                     = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
         $economic_accountgroup                     = RedshopHelperUtility::getEconomicAccountGroup();
         $economic_accountgroup                     = array_merge($tmp, $economic_accountgroup);
         $lists['default_economic_account_group']   = JHtml::_(
@@ -157,16 +158,16 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $this->config->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP')
         );
         $tmpoption                                 = array();
-        $tmpoption[]                               = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_NO'));
+        $tmpoption[]                               = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_NO'));
         $tmpoption[]                               = JHtml::_(
             'select.option',
             1,
-            JText::_('COM_REDSHOP_ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC_LBL')
+            Text::_('COM_REDSHOP_ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC_LBL')
         );
         $tmpoption[]                               = JHtml::_(
             'select.option',
             2,
-            JText::_(
+            Text::_(
                 'COM_REDSHOP_ATTRIBUTE_PLUS_PRODUCT_IN_ECONOMIC_LBL'
             )
         );
@@ -345,8 +346,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $this->config->get('ECONOMIC_INTEGRATION')
         );
         $discoupon_percent_or_total          = array(
-            JHtml::_('select.option', 0, JText::_('COM_REDSHOP_TOTAL')),
-            JHtml::_('select.option', 1, JText::_('COM_REDSHOP_PERCENTAGE'))
+            JHtml::_('select.option', 0, Text::_('COM_REDSHOP_TOTAL')),
+            JHtml::_('select.option', 1, Text::_('COM_REDSHOP_PERCENTAGE'))
         );
         $lists['discoupon_percent_or_total'] = JHtml::_(
             'select.genericlist',
@@ -575,17 +576,17 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $imageSizeSwapping[]              = JHtml::_(
             'select.option',
             0,
-            JText::_('COM_REDSHOP_CONFIG_NO_PROPORTIONAL_RESIZED')
+            Text::_('COM_REDSHOP_CONFIG_NO_PROPORTIONAL_RESIZED')
         );
         $imageSizeSwapping[]              = JHtml::_(
             'select.option',
             1,
-            JText::_('COM_REDSHOP_CONFIG_PROPORTIONAL_RESIZED')
+            Text::_('COM_REDSHOP_CONFIG_PROPORTIONAL_RESIZED')
         );
         $imageSizeSwapping[]              = JHtml::_(
             'select.option',
             2,
-            JText::_('COM_REDSHOP_CONFIG_PROPORTIONAL_RESIZED_AND_CROP')
+            Text::_('COM_REDSHOP_CONFIG_PROPORTIONAL_RESIZED_AND_CROP')
         );
         $lists['use_image_size_swapping'] = JHtml::_(
             'select.genericlist',
@@ -602,8 +603,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'apply_vat_on_discount',
             'class="form-control" size="1"',
             $this->config->get('APPLY_VAT_ON_DISCOUNT'),
-            $yes = JText::_('COM_REDSHOP_BEFORE_DISCOUNT'),
-            $no = JText::_('COM_REDSHOP_AFTER_DISCOUNT')
+            $yes = Text::_('COM_REDSHOP_BEFORE_DISCOUNT'),
+            $no = Text::_('COM_REDSHOP_AFTER_DISCOUNT')
         );
         $lists['auto_scroll_wrapper']     = JHtml::_(
             'redshopselect.booleanlist',
@@ -638,8 +639,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'show_terms_and_conditions',
             'class="form-control" size="1"',
             $this->config->get('SHOW_TERMS_AND_CONDITIONS'),
-            $yes = JText::_('COM_REDSHOP_SHOW_PER_USER'),
-            $no = JText::_('COM_REDSHOP_SHOW_PER_ORDER')
+            $yes = Text::_('COM_REDSHOP_SHOW_PER_USER'),
+            $no = Text::_('COM_REDSHOP_SHOW_PER_ORDER')
         );
 
         $lists['rating_review_login_required'] = JHtml::_(
@@ -650,9 +651,9 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $product_comparison   = array();
-        $product_comparison[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
-        $product_comparison[] = JHtml::_('select.option', 'category', JText::_('COM_REDSHOP_CATEGORY'));
-        $product_comparison[] = JHtml::_('select.option', 'global', JText::_('COM_REDSHOP_GLOBAL'));
+        $product_comparison[] = JHtml::_('select.option', '', Text::_('COM_REDSHOP_SELECT'));
+        $product_comparison[] = JHtml::_('select.option', 'category', Text::_('COM_REDSHOP_CATEGORY'));
+        $product_comparison[] = JHtml::_('select.option', 'global', Text::_('COM_REDSHOP_GLOBAL'));
 
         $lists['product_comparison_type'] = JHtml::_(
             'select.genericlist',
@@ -747,8 +748,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'default_quotation_mode',
             'class="form-control" size="1"',
             $this->config->get('DEFAULT_QUOTATION_MODE_PRE'),
-            $yes = JText::_('COM_REDSHOP_ON'),
-            $no = JText::_('COM_REDSHOP_OFF')
+            $yes = Text::_('COM_REDSHOP_ON'),
+            $no = Text::_('COM_REDSHOP_OFF')
         );
         $lists['wanttoshowattributeimage']            = JHtml::_(
             'redshopselect.booleanlist',
@@ -790,7 +791,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
         $orderstatus                       = $model->getOrderstatus();
         $tmp                               = array();
-        $tmp[]                             = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
+        $tmp[]                             = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
         $orderstatus                       = array_merge($tmp, $orderstatus);
         $lists['clickatell_order_status']  = JHtml::_(
             'select.genericlist',
@@ -805,7 +806,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $menuitem           = array();
         $menuitem[0]        = new stdClass;
         $menuitem[0]->value = 0;
-        $menuitem[0]->text  = JText::_('COM_REDSHOP_SELECT');
+        $menuitem[0]->text  = Text::_('COM_REDSHOP_SELECT');
         $q                  = "SELECT m.id,m.title AS name,mt.title FROM #__menu AS m "
             . "LEFT JOIN #__menu_types AS mt ON mt.menutype=m.menutype "
             . "WHERE m.published=1 "
@@ -840,17 +841,17 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
         $default_vat_group = $model->getVatGroup();
         $tmp               = array();
-        $tmp[]             = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
+        $tmp[]             = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
         $default_vat_group = array_merge($tmp, $default_vat_group);
 
         $tmp                 = array();
-        $tmp[]               = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
+        $tmp[]               = JHtml::_('select.option', '', Text::_('COM_REDSHOP_SELECT'));
         $default_vat_country = array_merge($tmp, $countries);
 
         $default_customer_register_type          = array();
-        $default_customer_register_type[]        = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-        $default_customer_register_type[]        = JHtml::_('select.option', '1', JText::_('COM_REDSHOP_PRIVATE'));
-        $default_customer_register_type[]        = JHtml::_('select.option', '2', JText::_('COM_REDSHOP_COMPANY'));
+        $default_customer_register_type[]        = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_SELECT'));
+        $default_customer_register_type[]        = JHtml::_('select.option', '1', Text::_('COM_REDSHOP_PRIVATE'));
+        $default_customer_register_type[]        = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_COMPANY'));
         $lists['default_customer_register_type'] = JHtml::_(
             'select.genericlist',
             $default_customer_register_type,
@@ -861,31 +862,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $this->config->get('DEFAULT_CUSTOMER_REGISTER_TYPE')
         );
 
-        $checkoutLoginRegisterSwitcher             = array();
-        $checkoutLoginRegisterSwitcher[]           = JHtml::_(
-            'select.option',
-            'tabs',
-            JText::_('COM_REDSHOP_CONFIG_TABS')
-        );
-        $checkoutLoginRegisterSwitcher[]           = JHtml::_(
-            'select.option',
-            'sliders',
-            JText::_('COM_REDSHOP_CONFIG_SLIDERS')
-        );
-        $lists['checkout_login_register_switcher'] = JHtml::_(
-            'select.genericlist',
-            $checkoutLoginRegisterSwitcher,
-            'checkout_login_register_switcher',
-            'class="form-control" ',
-            'value',
-            'text',
-            $this->config->get('CHECKOUT_LOGIN_REGISTER_SWITCHER')
-        );
-
         $addtocart_behaviour          = array();
-        $addtocart_behaviour[]        = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-        $addtocart_behaviour[]        = JHtml::_('select.option', '1', JText::_('COM_REDSHOP_DIRECT_TO_CART'));
-        $addtocart_behaviour[]        = JHtml::_('select.option', '2', JText::_('COM_REDSHOP_STAY_ON_CURRENT_VIEW'));
+        $addtocart_behaviour[]        = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_SELECT'));
+        $addtocart_behaviour[]        = JHtml::_('select.option', '1', Text::_('COM_REDSHOP_DIRECT_TO_CART'));
+        $addtocart_behaviour[]        = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_STAY_ON_CURRENT_VIEW'));
         $lists['addtocart_behaviour'] = JHtml::_(
             'select.genericlist',
             $addtocart_behaviour,
@@ -897,9 +877,9 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $allow_customer_register_type          = array();
-        $allow_customer_register_type[]        = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_BOTH'));
-        $allow_customer_register_type[]        = JHtml::_('select.option', '1', JText::_('COM_REDSHOP_PRIVATE'));
-        $allow_customer_register_type[]        = JHtml::_('select.option', '2', JText::_('COM_REDSHOP_COMPANY'));
+        $allow_customer_register_type[]        = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_BOTH'));
+        $allow_customer_register_type[]        = JHtml::_('select.option', '1', Text::_('COM_REDSHOP_PRIVATE'));
+        $allow_customer_register_type[]        = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_COMPANY'));
         $lists['allow_customer_register_type'] = JHtml::_(
             'select.genericlist',
             $allow_customer_register_type,
@@ -935,9 +915,9 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $vat_based_on          = array();
-        $vat_based_on[]        = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_WEBSHOP_MODE'));
-        $vat_based_on[]        = JHtml::_('select.option', '1', JText::_('COM_REDSHOP_CUSTOMER_MODE'));
-        $vat_based_on[]        = JHtml::_('select.option', '2', JText::_('COM_REDSHOP_EU_MODE'));
+        $vat_based_on[]        = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_WEBSHOP_MODE'));
+        $vat_based_on[]        = JHtml::_('select.option', '1', Text::_('COM_REDSHOP_CUSTOMER_MODE'));
+        $vat_based_on[]        = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_EU_MODE'));
         $lists['vat_based_on'] = JHtml::_(
             'select.genericlist',
             $vat_based_on,
@@ -993,7 +973,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
             if ($state->state_name) {
                 if ($prev_country != $country_3_code) {
-                    $script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','',' -= " . JText::_(
+                    $script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','',' -= " . Text::_(
                             "COM_REDSHOP_SELECT"
                         ) . " =-' );\n";
                 }
@@ -1003,10 +983,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
                 // Array in the format [key,value,text]
                 $script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','"
                     . $state->state_2_code . "','"
-                    . addslashes(JText::_($state->state_name))
+                    . addslashes(Text::_($state->state_name))
                     . "' );\n";
             } else {
-                $script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','','" . JText::_(
+                $script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','','" . Text::_(
                         "COM_REDSHOP_NONE"
                     ) . "' );\n";
             }
@@ -1080,7 +1060,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $shopper_Group_private = $model->getShopperGroupPrivate();
 
         $tmp   = array();
-        $tmp[] = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
+        $tmp[] = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
         $tmp   = array_merge($tmp, $shopper_Group_private);
 
         $lists['shopper_group_default_private'] = JHtml::_(
@@ -1095,7 +1075,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
         $shopper_Group_company                  = $model->getShopperGroupCompany();
         $tmp                                    = array();
-        $tmp[]                                  = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
+        $tmp[]                                  = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
         $tmp                                    = array_merge($tmp, $shopper_Group_company);
         $lists['shopper_group_default_company'] = JHtml::_(
             'select.genericlist',
@@ -1108,7 +1088,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $tmp                                         = array();
-        $tmp[]                                       = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
+        $tmp[]                                       = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
         $tmp                                         = array_merge(
             $tmp,
             $shopper_Group_private,
@@ -1128,15 +1108,15 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $register_methods[]       = JHtml::_(
             'select.option',
             '0',
-            JText::_('COM_REDSHOP_REGISTER_WITH_ACCOUNT_CREATION')
+            Text::_('COM_REDSHOP_REGISTER_WITH_ACCOUNT_CREATION')
         );
         $register_methods[]       = JHtml::_(
             'select.option',
             '1',
-            JText::_('COM_REDSHOP_REGISTER_WITHOUT_ACCOUNT_CREATION')
+            Text::_('COM_REDSHOP_REGISTER_WITHOUT_ACCOUNT_CREATION')
         );
-        $register_methods[]       = JHtml::_('select.option', '2', JText::_('COM_REDSHOP_REGISTER_ACCOUNT_OPTIONAL'));
-        $register_methods[]       = JHtml::_('select.option', '3', JText::_('COM_REDSHOP_REGISTER_ACCOUNT_SILENT'));
+        $register_methods[]       = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_REGISTER_ACCOUNT_OPTIONAL'));
+        $register_methods[]       = JHtml::_('select.option', '3', Text::_('COM_REDSHOP_REGISTER_ACCOUNT_SILENT'));
         $lists['register_method'] = JHtml::_(
             'select.genericlist',
             $register_methods,
@@ -1216,8 +1196,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'individual_add_to_cart_enable',
             'class="form-control" size="1"',
             $this->config->get('INDIVIDUAL_ADD_TO_CART_ENABLE'),
-            JText::_('COM_REDSHOP_INDIVIDUAL_ADD_TO_CART_PER_PROPERTY'),
-            JText::_('COM_REDSHOP_ADD_TO_CART_PER_PRODUCT')
+            Text::_('COM_REDSHOP_INDIVIDUAL_ADD_TO_CART_PER_PROPERTY'),
+            Text::_('COM_REDSHOP_ADD_TO_CART_PER_PRODUCT')
         );
         $lists['enable_performance_mode']             = JHtml::_(
             'redshopselect.booleanlist',
@@ -1252,9 +1232,9 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $bookinvoice                     = array();
-        $bookinvoice[]                   = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_DIRECTLY_BOOK'));
-        $bookinvoice[]                   = JHtml::_('select.option', '1', JText::_('COM_REDSHOP_MANUALLY_BOOK'));
-        $bookinvoice[]                   = JHtml::_('select.option', '2', JText::_('COM_REDSHOP_BOOK_ON_ORDER_STATUS'));
+        $bookinvoice[]                   = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_DIRECTLY_BOOK'));
+        $bookinvoice[]                   = JHtml::_('select.option', '1', Text::_('COM_REDSHOP_MANUALLY_BOOK'));
+        $bookinvoice[]                   = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_BOOK_ON_ORDER_STATUS'));
         $lists['economic_invoice_draft'] = JHtml::_(
             'select.genericlist',
             $bookinvoice,
@@ -1266,11 +1246,11 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $bookInvoiceNumbers                    = array(
-            JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SAME_AS_ORDER_NUMBER')),
+            JHtml::_('select.option', '0', Text::_('COM_REDSHOP_SAME_AS_ORDER_NUMBER')),
             JHtml::_(
                 'select.option',
                 '1',
-                JText::_('COM_REDSHOP_SEQUENTIALLY_IN_ECONOMIC_NO_MATCH_UP_WITH_ORDER_NUMBER')
+                Text::_('COM_REDSHOP_SEQUENTIALLY_IN_ECONOMIC_NO_MATCH_UP_WITH_ORDER_NUMBER')
             )
         );
         $lists['economic_book_invoice_number'] = JHtml::_(
@@ -1285,9 +1265,9 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
         // NEXT-PREVIOUS LINK
         $link_type                   = array();
-        $link_type[]                 = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_DEFAULT_LINK'));
-        $link_type[]                 = JHtml::_('select.option', '1', JText::_('COM_REDSHOP_CUSTOM_LINK'));
-        $link_type[]                 = JHtml::_('select.option', '2', JText::_('COM_REDSHOP_IMAGE_LINK'));
+        $link_type[]                 = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_DEFAULT_LINK'));
+        $link_type[]                 = JHtml::_('select.option', '1', Text::_('COM_REDSHOP_CUSTOM_LINK'));
+        $link_type[]                 = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_IMAGE_LINK'));
         $lists['next_previous_link'] = JHtml::_(
             'select.genericlist',
             $link_type,
@@ -1343,8 +1323,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'shipping_after',
             'class="form-control"',
             $this->config->get('SHIPPING_AFTER', 'total'),
-            JText::_('COM_REDSHOP_TOTAL'),
-            JText::_('COM_REDSHOP_SUBTOTAL_LBL'),
+            Text::_('COM_REDSHOP_TOTAL'),
+            Text::_('COM_REDSHOP_SUBTOTAL_LBL'),
             false,
             'total',
             'subtotal'
@@ -1354,8 +1334,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'payment_calculation_on',
             'class="form-control"',
             $this->config->get('PAYMENT_CALCULATION_ON', 'total'),
-            JText::_('COM_REDSHOP_TOTAL'),
-            JText::_('COM_REDSHOP_SUBTOTAL_LBL'),
+            Text::_('COM_REDSHOP_TOTAL'),
+            Text::_('COM_REDSHOP_SUBTOTAL_LBL'),
             false,
             'total',
             'subtotal'
@@ -1365,8 +1345,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'calculate_vat_on',
             'class="form-control"',
             $this->config->get('CALCULATE_VAT_ON', 'BT'),
-            JText::_('COM_REDSHOP_BILLING_ADDRESS_LBL'),
-            JText::_('COM_REDSHOP_SHIPPING_ADDRESS_LBL'),
+            Text::_('COM_REDSHOP_BILLING_ADDRESS_LBL'),
+            Text::_('COM_REDSHOP_SHIPPING_ADDRESS_LBL'),
             false,
             'BT',
             'ST'
@@ -1375,15 +1355,15 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $order_data           = array();
         $order_data[0]        = new stdClass;
         $order_data[0]->value = "c.name ASC";
-        $order_data[0]->text  = JText::_('COM_REDSHOP_CATEGORY_NAME');
+        $order_data[0]->text  = Text::_('COM_REDSHOP_CATEGORY_NAME');
 
         $order_data[1]        = new stdClass;
         $order_data[1]->value = "c.id DESC";
-        $order_data[1]->text  = JText::_('COM_REDSHOP_NEWEST');
+        $order_data[1]->text  = Text::_('COM_REDSHOP_NEWEST');
 
         $order_data[2]        = new stdClass;
         $order_data[2]->value = "c.ordering ASC";
-        $order_data[2]->text  = JText::_('COM_REDSHOP_ORDERING');
+        $order_data[2]->text  = Text::_('COM_REDSHOP_ORDERING');
 
         $lists['default_category_ordering_method'] = JHtml::_(
             'select.genericlist',
@@ -1409,19 +1389,19 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $symbol_position           = array();
         $symbol_position[0]        = new stdClass;
         $symbol_position[0]->value = " ";
-        $symbol_position[0]->text  = JText::_('COM_REDSHOP_SELECT');
+        $symbol_position[0]->text  = Text::_('COM_REDSHOP_SELECT');
 
         $symbol_position[1]        = new stdClass;
         $symbol_position[1]->value = "front";
-        $symbol_position[1]->text  = JText::_('COM_REDSHOP_FRONT');
+        $symbol_position[1]->text  = Text::_('COM_REDSHOP_FRONT');
 
         $symbol_position[2]        = new stdClass;
         $symbol_position[2]->value = "behind";
-        $symbol_position[2]->text  = JText::_('COM_REDSHOP_BEHIND');
+        $symbol_position[2]->text  = Text::_('COM_REDSHOP_BEHIND');
 
         $symbol_position[3]        = new stdClass;
         $symbol_position[3]->value = "none";
-        $symbol_position[3]->text  = JText::_('COM_REDSHOP_NONE');
+        $symbol_position[3]->text  = Text::_('COM_REDSHOP_NONE');
 
         $lists['currency_symbol_position'] = JHtml::_(
             'select.genericlist',
@@ -1492,19 +1472,19 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $invoice_mail_send_option           = array();
         $invoice_mail_send_option[0]        = new stdClass;
         $invoice_mail_send_option[0]->value = 0;
-        $invoice_mail_send_option[0]->text  = JText::_('COM_REDSHOP_NONE');
+        $invoice_mail_send_option[0]->text  = Text::_('COM_REDSHOP_NONE');
 
         $invoice_mail_send_option[1]        = new stdClass;
         $invoice_mail_send_option[1]->value = 1;
-        $invoice_mail_send_option[1]->text  = JText::_('COM_REDSHOP_ADMINISTRATOR');
+        $invoice_mail_send_option[1]->text  = Text::_('COM_REDSHOP_ADMINISTRATOR');
 
         $invoice_mail_send_option[2]        = new stdClass;
         $invoice_mail_send_option[2]->value = 2;
-        $invoice_mail_send_option[2]->text  = JText::_('COM_REDSHOP_CUSTOMER');
+        $invoice_mail_send_option[2]->text  = Text::_('COM_REDSHOP_CUSTOMER');
 
         $invoice_mail_send_option[3]        = new stdClass;
         $invoice_mail_send_option[3]->value = 3;
-        $invoice_mail_send_option[3]->text  = JText::_('COM_REDSHOP_BOTH');
+        $invoice_mail_send_option[3]->text  = Text::_('COM_REDSHOP_BOTH');
 
         $lists['invoice_mail_send_option'] = JHtml::_(
             'redshopselect.radiolist',
@@ -1519,15 +1499,15 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $order_mail_after           = array();
         $order_mail_after[0]        = new stdClass;
         $order_mail_after[0]->value = 0;
-        $order_mail_after[0]->text  = JText::_('COM_REDSHOP_ORDER_MAIL_BEFORE_PAYMENT');
+        $order_mail_after[0]->text  = Text::_('COM_REDSHOP_ORDER_MAIL_BEFORE_PAYMENT');
 
         $order_mail_after[1]        = new stdClass;
         $order_mail_after[1]->value = 1;
-        $order_mail_after[1]->text  = JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT_BUT_SEND_BEFORE_ADMINISTRATOR');
+        $order_mail_after[1]->text  = Text::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT_BUT_SEND_BEFORE_ADMINISTRATOR');
 
         $order_mail_after[2]        = new stdClass;
         $order_mail_after[2]->value = 2;
-        $order_mail_after[2]->text  = JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT');
+        $order_mail_after[2]->text  = Text::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT');
 
         $lists['order_mail_after'] = JHtml::_(
             'select.genericlist',
@@ -1542,23 +1522,23 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $discount_type           = array();
         $discount_type[0]        = new stdClass;
         $discount_type[0]->value = 0;
-        $discount_type[0]->text  = JText::_('COM_REDSHOP_SELECT');
+        $discount_type[0]->text  = Text::_('COM_REDSHOP_SELECT');
 
         $discount_type[1]        = new stdClass;
         $discount_type[1]->value = 1;
-        $discount_type[1]->text  = JText::_('COM_REDSHOP_DISCOUNT_OR_VOUCHER_OR_COUPON');
+        $discount_type[1]->text  = Text::_('COM_REDSHOP_DISCOUNT_OR_VOUCHER_OR_COUPON');
 
         $discount_type[2]        = new stdClass;
         $discount_type[2]->value = 2;
-        $discount_type[2]->text  = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_OR_COUPON');
+        $discount_type[2]->text  = Text::_('COM_REDSHOP_DISCOUNT_VOUCHER_OR_COUPON');
 
         $discount_type[3]        = new stdClass;
         $discount_type[3]->value = 3;
-        $discount_type[3]->text  = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_COUPON');
+        $discount_type[3]->text  = Text::_('COM_REDSHOP_DISCOUNT_VOUCHER_COUPON');
 
         $discount_type[4]        = new stdClass;
         $discount_type[4]->value = 4;
-        $discount_type[4]->text  = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_COUPON_MULTIPLE');
+        $discount_type[4]->text  = Text::_('COM_REDSHOP_DISCOUNT_VOUCHER_COUPON_MULTIPLE');
 
         $lists['discount_type'] = JHtml::_(
             'select.genericlist',
@@ -1576,35 +1556,35 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $option           = array();
         $option[0]        = new stdClass;
         $option[0]->value = 0;
-        $option[0]->text  = JText::_('COM_REDSHOP_SELECT');
+        $option[0]->text  = Text::_('COM_REDSHOP_SELECT');
 
         $option[1]        = new stdClass;
         $option[1]->value = 'mm';
-        $option[1]->text  = JText::_('COM_REDSHOP_MILLIMETER');
+        $option[1]->text  = Text::_('COM_REDSHOP_MILLIMETER');
 
         $option[2]        = new stdClass;
         $option[2]->value = 'cm';
-        $option[2]->text  = JText::_('COM_REDSHOP_CENTIMETERS');
+        $option[2]->text  = Text::_('COM_REDSHOP_CENTIMETERS');
 
         $option[3]        = new stdClass;
         $option[3]->value = 'inch';
-        $option[3]->text  = JText::_('COM_REDSHOP_INCHES');
+        $option[3]->text  = Text::_('COM_REDSHOP_INCHES');
 
         $option[4]        = new stdClass;
         $option[4]->value = 'feet';
-        $option[4]->text  = JText::_('COM_REDSHOP_FEET');
+        $option[4]->text  = Text::_('COM_REDSHOP_FEET');
 
         $option[5]        = new stdClass;
         $option[5]->value = 'm';
-        $option[5]->text  = JText::_('COM_REDSHOP_METER');
+        $option[5]->text  = Text::_('COM_REDSHOP_METER');
 
         $option[5]        = new stdClass;
         $option[5]->value = 'l';
-        $option[5]->text  = JText::_('COM_REDSHOP_LITER');
+        $option[5]->text  = Text::_('COM_REDSHOP_LITER');
 
         $option[5]        = new stdClass;
         $option[5]->value = 'ml';
-        $option[5]->text  = JText::_('COM_REDSHOP_MILLILITER');
+        $option[5]->text  = Text::_('COM_REDSHOP_MILLILITER');
 
         $lists['default_volume_unit'] = JHtml::_(
             'select.genericlist',
@@ -1620,19 +1600,19 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $option           = array();
         $option[0]        = new stdClass;
         $option[0]->value = 0;
-        $option[0]->text  = JText::_('COM_REDSHOP_SELECT');
+        $option[0]->text  = Text::_('COM_REDSHOP_SELECT');
 
         $option[1]        = new stdClass;
         $option[1]->value = 'gram';
-        $option[1]->text  = JText::_('COM_REDSHOP_GRAM');
+        $option[1]->text  = Text::_('COM_REDSHOP_GRAM');
 
         $option[2]        = new stdClass;
         $option[2]->value = 'pounds';
-        $option[2]->text  = JText::_('COM_REDSHOP_POUNDS');
+        $option[2]->text  = Text::_('COM_REDSHOP_POUNDS');
 
         $option[3]        = new stdClass;
         $option[3]->value = 'kg';
-        $option[3]->text  = JText::_('COM_REDSHOP_KG');
+        $option[3]->text  = Text::_('COM_REDSHOP_KG');
 
         $lists['default_weight_unit'] = JHtml::_(
             'select.genericlist',
@@ -1684,8 +1664,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'currency_libraries',
             'class="form-control" size="1"',
             $this->config->get('CURRENCY_LIBRARIES'),
-            $yes = JText::_('COM_REDSHOP_CURRENCY_LIBRARIES_LAYER'),
-            $no = JText::_('COM_REDSHOP_CURRENCY_LIBRARIES_ECB')
+            $yes = Text::_('COM_REDSHOP_CURRENCY_LIBRARIES_LAYER'),
+            $no = Text::_('COM_REDSHOP_CURRENCY_LIBRARIES_ECB')
         );
 
         $current_version      = $model->getcurrentversion();
@@ -1722,7 +1702,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         } elseif ($sf = getenv('SERVER_SOFTWARE')) {
             return $sf;
         } else {
-            return JText::_('COM_REDSHOP_N_A');
+            return Text::_('COM_REDSHOP_N_A');
         }
     }
 

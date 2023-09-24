@@ -347,8 +347,6 @@ class RedshopConfig
 
     public $DEFAULT_CUSTOMER_REGISTER_TYPE = '0';
 
-    public $CHECKOUT_LOGIN_REGISTER_SWITCHER = 'sliders';
-
     public $ADDTOCART_BEHAVIOUR = '2';
 
     public $WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART = '0';
@@ -359,7 +357,7 @@ class RedshopConfig
 
     public $REQUIRED_VAT_NUMBER = '1';
 
-    public $OPTIONAL_SHIPPING_ADDRESS = '0';
+    public $OPTIONAL_SHIPPING_ADDRESS = '1';
 
     public $SHIPPING_METHOD_ENABLE = '1';
 

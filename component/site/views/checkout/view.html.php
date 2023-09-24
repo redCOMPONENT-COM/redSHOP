@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 class RedshopViewCheckout extends RedshopView
 {
@@ -52,8 +52,6 @@ class RedshopViewCheckout extends RedshopView
 		HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
 		HTMLHelper::script('com_redshop/jquery.metadata.min.js', ['relative' => true]);
 		HTMLHelper::script('com_redshop/redshop.registration.min.js', ['relative' => true]);
-        /** @scrutinizer ignore-deprecated - remove rs4 */
-	//	HTMLHelper::script('com_redshop/redshop.redbox.min.js', ['relative' => true]);
 		HTMLHelper::stylesheet('com_redshop/redshop.validation.min.css', ['relative' => true]);
 
         JPluginHelper::importPlugin('redshop_vies_registration');
@@ -68,7 +66,7 @@ class RedshopViewCheckout extends RedshopView
         }
 
         if ($cart['idx'] < 1) {
-            $msg  = JText::_('COM_REDSHOP_EMPTY_CART');
+            $msg  = Text::_('COM_REDSHOP_EMPTY_CART');
             $link = 'index.php?option=com_redshop&Itemid=' . $Itemid;
 			$app->enqueueMessage($msg);
             $app->redirect(Redshop\IO\Route::_($link, false));

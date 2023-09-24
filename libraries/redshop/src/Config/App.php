@@ -401,7 +401,6 @@ class App
             "ENABLE_SEF_PRODUCT_NUMBER"                    => $data["enable_sef_product_number"],
             "ENABLE_SEF_NUMBER_NAME"                       => $data["enable_sef_number_name"],
             "DEFAULT_CUSTOMER_REGISTER_TYPE"               => $data["default_customer_register_type"],
-            "CHECKOUT_LOGIN_REGISTER_SWITCHER"             => $data["checkout_login_register_switcher"],
             "ADDTOCART_BEHAVIOUR"                          => $data["addtocart_behaviour"],
             "WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"          => $data["wanttoshowattributeimage"],
             "SHOW_PRODUCT_DETAIL"                          => $data["show_product_detail"],
