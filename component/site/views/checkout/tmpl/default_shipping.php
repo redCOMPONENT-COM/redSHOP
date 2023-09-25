@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('bootstrap.modal');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $redTemplate = Redtemplate::getInstance();
 
@@ -73,6 +74,6 @@ if ($this->users_info_id > 0) {
     echo eval("?>" . $templateDesc . "<?php ");
 } else {
     ?>
-    <div class="shipnotice"><?php echo JText::_('COM_REDSHOP_FILL_SHIPPING_ADDRESS'); ?></div>
+    <div class="shipnotice"><?php echo Text::_('COM_REDSHOP_FILL_SHIPPING_ADDRESS'); ?></div>
     <?php
 }

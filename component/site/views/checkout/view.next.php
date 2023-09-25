@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 class RedshopViewCheckout extends RedshopView
 {
@@ -48,13 +48,13 @@ class RedshopViewCheckout extends RedshopView
         $cart = $session->get('cart');
 
         if ($cart['idx'] < 1) {
-            $msg = JText::_('COM_REDSHOP_EMPTY_CART');
+            $msg = Text::_('COM_REDSHOP_EMPTY_CART');
             $app->Redirect(Redshop\IO\Route::_('index.php?option=com_redshop&Itemid=' . $Itemid), $msg);
         }
 
         if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) {
             if ($usersInfoId < 1) {
-                $msg  = JText::_('COM_REDSHOP_SELECT_SHIP_ADDRESS');
+                $msg  = Text::_('COM_REDSHOP_SELECT_SHIP_ADDRESS');
                 $link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
                     . $usersInfoId . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
                     . $payment_method_id;
@@ -63,7 +63,7 @@ class RedshopViewCheckout extends RedshopView
             }
 
             if ($shipping_rate_id == '' && $cart['free_shipping'] != 1) {
-                $msg  = JText::_('LIB_REDSHOP_SELECT_SHIP_METHOD');
+                $msg  = Text::_('LIB_REDSHOP_SELECT_SHIP_METHOD');
                 $link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
                     . $usersInfoId . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
                     . $payment_method_id;
@@ -73,7 +73,7 @@ class RedshopViewCheckout extends RedshopView
         }
 
         if ($payment_method_id == '') {
-            $msg  = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
+            $msg  = Text::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
             $link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
                 . $usersInfoId . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
                 . $payment_method_id;

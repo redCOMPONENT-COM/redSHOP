@@ -3,13 +3,14 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2023 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Category Detail View
@@ -73,7 +74,7 @@ class RedshopViewCategory extends RedshopView
             $this->catid = $params->get('cid');
 
             if (!$this->catid) {
-                throw new InvalidArgumentException(JText::_('COM_REDSHOP_CATEGORY_NOT_FOUND'), 404);
+                throw new InvalidArgumentException(Text::_('COM_REDSHOP_CATEGORY_NOT_FOUND'), 404);
             }
 
             $this->setLayout('detail');
@@ -334,11 +335,11 @@ class RedshopViewCategory extends RedshopView
             $temps                 = array(
                 (object)array(
                     'id'   => 0,
-                    'name' => JText::_('COM_REDSHOP_SELECT_MANUFACTURE')
+                    'name' => Text::_('COM_REDSHOP_SELECT_MANUFACTURE')
                 )
             );
             $manufacturers         = array_merge($temps, $manufacturers);
-            $lists['manufacturer'] = JHtml::_(
+            $lists['manufacturer'] = HTMLHelper::_(
                 'select.genericlist',
                 $manufacturers,
                 'filter_by',
@@ -359,7 +360,7 @@ class RedshopViewCategory extends RedshopView
             $categoryList = array(
                 (object)array(
                     'id'   => 0,
-                    'name' => JText::_('COM_REDSHOP_SELECT_CATEGORY')
+                    'name' => Text::_('COM_REDSHOP_SELECT_CATEGORY')
                 )
             );
 
@@ -370,7 +371,7 @@ class RedshopViewCategory extends RedshopView
             }
 
             if (count($categoryList) > 1) {
-                $lists['categories'] = JHtml::_(
+                $lists['categories'] = HTMLHelper::_(
                     'select.genericlist',
                     $categoryList,
                     'category_id',
@@ -383,7 +384,7 @@ class RedshopViewCategory extends RedshopView
         }
 
         if (count($allCategoryTemplate) > 1) {
-            $lists['category_template'] = JHtml::_(
+            $lists['category_template'] = HTMLHelper::_(
                 'select.genericlist',
                 $allCategoryTemplate,
                 'category_template',
@@ -395,7 +396,7 @@ class RedshopViewCategory extends RedshopView
         }
 
         $orderByMethod     = $this->app->getUserStateFromRequest($model->context . '.order_by', 'order_by');
-        $lists['order_by'] = JHtml::_(
+        $lists['order_by'] = HTMLHelper::_(
             'select.genericlist',
             $orderData,
             'order_by',
@@ -436,7 +437,7 @@ class RedshopViewCategory extends RedshopView
                     $this->productPriceSliderEnable = true;
 
                     // Start Code for fixes IE9 issue
-                    JHtml::_('redshopjquery.ui');
+                    HTMLHelper::_('redshopjquery.ui');
 
                     // End Code for fixes IE9 issue
                     require_once JPATH_ROOT . '/media/com_redshop/js/catprice_filter.php';

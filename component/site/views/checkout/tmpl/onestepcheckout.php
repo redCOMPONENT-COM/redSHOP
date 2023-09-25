@@ -4,26 +4,26 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2023 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
-defined('_JEXEC') or die;
-JHtml::_('bootstrap.modal');
 HTMLHelper::script('com_redshop/redshop.creditcard.min.js', ['relative' => true]);
 HTMLHelper::script('com_redshop/redshop.onestep.min.js', ['relative' => true]);
 /** @var RedshopModelCheckout $model */
 $model = $this->getModel('checkout');
-
 
 $oneStepTemplate = RedshopHelperTemplate::getTemplate("onestep_checkout");
 
 if (count($oneStepTemplate) > 0 && $oneStepTemplate[0]->template_desc) {
     $oneStepTemplateHtml = $oneStepTemplate[0]->template_desc;
 } else {
-    $oneStepTemplateHtml = JText::_("COM_REDSHOP_TEMPLATE_NOT_EXISTS");
+    $oneStepTemplateHtml = Text::_("COM_REDSHOP_TEMPLATE_NOT_EXISTS");
 }
 
 echo RedshopTagsReplacer::_(
@@ -35,4 +35,3 @@ echo RedshopTagsReplacer::_(
         'billingAddress'    => $model->billingaddresses()
     )
 );
-

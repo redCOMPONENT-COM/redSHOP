@@ -8,11 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
-
-JHtml::_('bootstrap.modal');
 
 JPluginHelper::importPlugin('redshop_shipping');
 $dispatcher = RedshopHelperUtility::getDispatcher();
@@ -76,6 +76,15 @@ if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) 
     }
 } ?>
 <br>
+
+
+
+<button class="joom-box btn btn-primary ModalProductDetailButton" type="button"
+data-url="index.php?option=com_redshop&view=checkout&Itemid=140&lang=da">
+Test
+</button>
+
+
 <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
         <button class="nav-link active" id="registration-tab" data-bs-toggle="tab" 
@@ -200,7 +209,6 @@ if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) 
             <input type="hidden" name="shopper_group_id" value="1" />
             <input type="hidden" name="task" value="checkoutprocess" />
         </form>
-
     </div>
     <div class="tab-pane" id="login" role="tabpanel" aria-labelledby="login-tab">
         <div class="container">
@@ -223,9 +231,6 @@ if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) 
     </div>
 </div>
 
-
-
-
 <script type="text/javascript">
     function submit_disable(val) {
         document.adminForm.submit();
@@ -238,3 +243,13 @@ if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) 
 
     }
 </script>
+
+<?php
+echo RedshopLayoutHelper::render(
+    'modal.iframe',
+    [
+        'modalButton' => '.ModalProductDetailButton',
+        'modalFrame'  => 'ModalProductDetail',
+    ]
+);
+?>

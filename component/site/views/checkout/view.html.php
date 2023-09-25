@@ -44,15 +44,15 @@ class RedshopViewCheckout extends RedshopView
             $language->load($extension, $base_dir);
         }
 
-		HTMLHelper::script('system/validate.js', ['relative' => true]);
+        HTMLHelper::script('system/validate.js', ['relative' => true]);
 
         JHtml::_('redshopjquery.framework');
 
-		HTMLHelper::script('com_redshop/jquery.validate.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/jquery.metadata.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.registration.min.js', ['relative' => true]);
-		HTMLHelper::stylesheet('com_redshop/redshop.validation.min.css', ['relative' => true]);
+        HTMLHelper::script('com_redshop/jquery.validate.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/jquery.metadata.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.registration.min.js', ['relative' => true]);
+        HTMLHelper::stylesheet('com_redshop/redshop.validation.min.css', ['relative' => true]);
 
         JPluginHelper::importPlugin('redshop_vies_registration');
 
@@ -68,7 +68,7 @@ class RedshopViewCheckout extends RedshopView
         if ($cart['idx'] < 1) {
             $msg  = Text::_('COM_REDSHOP_EMPTY_CART');
             $link = 'index.php?option=com_redshop&Itemid=' . $Itemid;
-			$app->enqueueMessage($msg);
+            $app->enqueueMessage($msg);
             $app->redirect(Redshop\IO\Route::_($link, false));
         }
 
@@ -179,6 +179,25 @@ class RedshopViewCheckout extends RedshopView
             $lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(15, 0, 'billingRequired valid');
             $lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(14, 0, 'billingRequired valid');
         }
+
+        // Modal button start
+        /*
+        $displayData = [
+            'title'      => '',
+            'url'        => '570px',
+            'height'     => '570px',
+            'width'      => '470px',
+            'backdrop'   => 'static',
+            'keyboard'   => true,
+            'bodyHeight' => '70',
+            'modalWidth' => '80'
+        ];
+
+        $lists['modal-checkout'] = \RedshopLayoutHelper::render('tags.modal.iframe', $displayData);
+
+{{ lists['modal-checkout'] }}
+        */
+        // Modat button end
 
         if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE')) {
             $this->setLayout('onestepcheckout');

@@ -1,9 +1,11 @@
 {% if billingAddresses %}
     {% set shippingCheck = (usersInfoId == billingAddresses.users_info_id) ? 'checked="checked"' : '' %}
-    <div class="radio">
-        <label class="radio">
-            <input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,'');"
-                   name="users_info_id" value="{{ billingAddresses.users_info_id }}" {{ shippingCheck }}/>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="shipping-address-default"
+               onclick="javascript:onestepCheckoutProcess(this.name,'');" name="users_info_id"
+               value="{{ billingAddresses.users_info_id }}" {{ shippingCheck }}
+               onclick="javascript:onestepCheckoutProcess(this.name,'{{ className }}');"/>
+        <label class="form-check-label" for="shipping-address-shipping">
             {{ jtext('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') }}
         </label>
     </div>
@@ -23,10 +25,12 @@
 
     {% set shippingCheck = (usersInfoId == shippingAddress.users_info_id) ? 'checked="checked"' : '' %}
 
-    <div class="radio">
-        <label class="radio inline">
-            <input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,'');"
-                   name="users_info_id" value="{{ shippingAddress.users_info_id }}" {{ shippingCheck }} />
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="shipping-address-shipping"
+                onclick="javascript:onestepCheckoutProcess(this.name,'');" name="users_info_id"
+               value="{{ shippingAddress.users_info_id }}" {{ shippingCheck }}
+               onclick="javascript:onestepCheckoutProcess(this.name,'{{ className }}');"/>
+        <label class="form-check-label" for="shipping-address-shipping">
             {{ shippingAddress.firstname }} {{ shippingAddress.lastname }}
         </label>
         <a class="modal" href="{{ addShippingLink }}" rel="{handler: 'iframe', size: {x: 570, y: 470}}">
@@ -41,6 +45,6 @@
     ~ '&return=checkout&Itemid=' ~ itemId ~ '&infoid=0&is_company=' ~ billingAddresses.is_company,
     false) %}
 
-<a class="modal btn btn-primary" href="{{ addLink }}" rel="{handler: 'iframe', size: {x: 570, y: 470}}">
+<a class="btn btn-primary" href="{{ addLink }}" rel="{handler: 'iframe', size: {x: 570, y: 470}}">
     {{ jtext('COM_REDSHOP_ADD_ADDRESS') }}
 </a>
