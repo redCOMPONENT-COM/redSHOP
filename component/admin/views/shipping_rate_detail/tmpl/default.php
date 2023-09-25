@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 $editor = \Joomla\CMS\Editor\Editor::getInstance();
 ?>
 
@@ -25,17 +28,17 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
 
         <?php if ($this->shipper_location) : ?>
         if (form.shipping_rate_name.value === "") {
-            alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_LOCATION_NAME_MUST_HAVE_A_NAME', true); ?>");
+            alert("<?php echo Text::_('COM_REDSHOP_SHIPPING_LOCATION_NAME_MUST_HAVE_A_NAME', true); ?>");
         } else {
 			Joomla.submitform(pressbutton);
         }
         <?php else : ?>
         if (form.shipping_rate_name.value === "") {
-            alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME_MUST_HAVE_A_NAME', true); ?>");
+            alert("<?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_NAME_MUST_HAVE_A_NAME', true); ?>");
         } else if (parseInt(form.shipping_rate_ordertotal_end.value) < parseInt(form.shipping_rate_ordertotal_start.value)) {
-            alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_ORDERTOTAL_END_MUST_MORE', true); ?>");
+            alert("<?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_ORDERTOTAL_END_MUST_MORE', true); ?>");
         } else if (parseInt(form.shipping_rate_zip_end.value) < parseInt(form.shipping_rate_zip_start.value)) {
-            alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_ZIP_END_MUST_MORE', true); ?>");
+            alert("<?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_ZIP_END_MUST_MORE', true); ?>");
         } else {
 			Joomla.submitform(pressbutton);
         }
@@ -55,11 +58,11 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
         ?>
         <div class="col50">
             <fieldset class="adminform">
-                <legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
+                <legend><?php echo Text::_('COM_REDSHOP_DETAILS'); ?></legend>
                 <table class="admintable" width="100%">
                     <tr>
                         <td width="100" align="right" class="key">
-                            <?php echo JText::_('COM_REDSHOP_SHIPPING_LOCATION'); ?>:
+                            <?php echo Text::_('COM_REDSHOP_SHIPPING_LOCATION'); ?>:
                         </td>
                         <td>
                             <input class="text_area" type="text" name="shipping_rate_name" id="shipping_rate_name"
@@ -67,7 +70,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                         </td>
                     </tr>
                     <td class="key">
-                        <?php echo JText::_('COM_REDSHOP_SHIPPING_LOCATION_INFORMATION'); ?>:
+                        <?php echo Text::_('COM_REDSHOP_SHIPPING_LOCATION_INFORMATION'); ?>:
                     </td>
                     <td>
                         <?php echo $editor->display(
@@ -84,7 +87,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_COUNTRY'); ?>:
                             </label>
                         </td>
                         <td>
@@ -94,7 +97,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_STATE'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_STATE'); ?>:
                             </label>
                         </td>
                         <td>
@@ -106,18 +109,19 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
         </div>
         <?php
     } else {
-        echo JHtml::_('tabs.start', 'shipping-rate-pane', array('startOffset' => 0));
-        echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DETAILS'), 'tab1'); ?>
+        echo HtmlHelper::_('bootstrap.startTabSet', 'shippingRateTab', array('active' => 'tab1'));
+        echo HtmlHelper::_('bootstrap.addTab', 'shippingRateTab', 'tab1', Text::_('COM_REDSHOP_DETAILS'));
+        ?>
         <div class="col50">
             <fieldset class="adminform">
-                <legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
+                <legend><?php echo Text::_('COM_REDSHOP_DETAILS'); ?></legend>
 
                 <table class="admintable" width="100%">
 
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_NAME'); ?>:
                             </label>
                         </td>
                         <td>
@@ -129,7 +133,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_WEIGHT_START'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_WEIGHT_START'); ?>:
                             </label>
                         </td>
                         <td>
@@ -144,7 +148,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_WEIGHT_END'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_WEIGHT_END'); ?>:
                             </label>
                         </td>
                         <td>
@@ -159,7 +163,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_VOLUME_START'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_VOLUME_START'); ?>:
                             </label>
                         </td>
                         <td>
@@ -174,7 +178,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_VOLUME_END'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_VOLUME_END'); ?>:
                             </label>
                         </td>
                         <td>
@@ -189,7 +193,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_LENGTH_START'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_LENGTH_START'); ?>:
                             </label>
                         </td>
                         <td>
@@ -204,7 +208,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_LENGTH_END'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_LENGTH_END'); ?>:
                             </label>
                         </td>
                         <td>
@@ -219,7 +223,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_WIDTH_START'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_WIDTH_START'); ?>:
                             </label>
                         </td>
                         <td>
@@ -234,7 +238,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_WIDTH_END'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_WIDTH_END'); ?>:
                             </label>
                         </td>
                         <td>
@@ -249,7 +253,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_HEIGHT_START'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_HEIGHT_START'); ?>:
                             </label>
                         </td>
                         <td>
@@ -264,7 +268,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_HEIGHT_END'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_HEIGHT_END'); ?>:
                             </label>
                         </td>
                         <td>
@@ -279,7 +283,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_ORDERTOTAL_START'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_ORDERTOTAL_START'); ?>:
                             </label>
                         </td>
                         <td>
@@ -294,7 +298,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_ORDERTOTAL_END'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_ORDERTOTAL_END'); ?>:
                             </label>
                         </td>
                         <td>
@@ -309,7 +313,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_ZIP_START'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_ZIP_START'); ?>:
                             </label>
                         </td>
                         <td>
@@ -321,7 +325,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_ZIP_END'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_ZIP_END'); ?>:
                             </label>
                         </td>
                         <td>
@@ -333,7 +337,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_COUNTRY'); ?>:
                             </label>
                         </td>
                         <td>
@@ -343,7 +347,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_STATE'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_STATE'); ?>:
                             </label>
                         </td>
                         <td>
@@ -353,7 +357,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPINGRATE_PRODUCT'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPINGRATE_PRODUCT'); ?>:
                             </label>
                         </td>
                         <td>
@@ -363,7 +367,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_CATEGORY'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_CATEGORY'); ?>:
                             </label>
                         </td>
                         <td>
@@ -373,7 +377,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHOPPER_GROUP'); ?>:
                             </label>
                         </td>
                         <td>
@@ -383,7 +387,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_VALUE'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_VALUE'); ?>:
                             </label>
                         </td>
                         <td>
@@ -398,7 +402,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_PRIORITY'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_PRIORITY'); ?>:
                             </label>
                         </td>
                         <td>
@@ -410,7 +414,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_FOR'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_FOR'); ?>:
                             </label>
                         </td>
                         <td>
@@ -420,7 +424,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_SHIPPING_VAT_GROUP_LBL'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_SHIPPING_VAT_GROUP_LBL'); ?>:
                             </label>
                         </td>
                         <td>
@@ -430,7 +434,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_ADD_VAT'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_ADD_VAT'); ?>:
                             </label>
                         </td>
                         <td>
@@ -449,7 +453,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_CONSIGNOR_CARRIER_CODE'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_CONSIGNOR_CARRIER_CODE'); ?>:
                             </label>
                         </td>
                         <td>
@@ -465,7 +469,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                         <tr>
                             <td width="100" align="right" class="key">
                                 <label for="name">
-                                    <?php echo JText::_('COM_REDSHOP_DELIVER_TYPE'); ?>:
+                                    <?php echo Text::_('COM_REDSHOP_DELIVER_TYPE'); ?>:
                                 </label>
                             </td>
                             <td>
@@ -480,7 +484,7 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                     <tr>
                         <td width="100" align="right" class="key">
                             <label for="name">
-                                <?php echo JText::_('COM_REDSHOP_ECONOMIC_DISPLAYNUMBER'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_ECONOMIC_DISPLAYNUMBER'); ?>:
                             </label>
                         </td>
                         <td>
@@ -494,19 +498,21 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
             </fieldset>
         </div>
         <?php
+        echo HtmlHelper::_('bootstrap.endTab');
         if ($this->lists['extra_field'] != "") {
-            echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_EXTRA_FIELD'), 'tab2');
+            echo HtmlHelper::_('bootstrap.addTab', 'shippingRateTab', 'tab2', Text::_('COM_REDSHOP_EXTRA_FIELD'));
             ?>
             <div class="col50">
             <?php
             echo $this->lists['extra_field'];
             ?>
             </div><?php
+            echo HtmlHelper::_('bootstrap.endTab');
         } else {
             echo '<input type="hidden" name="noextra_field" value="1">';
         }
 
-        echo JHtml::_('tabs.end');
+        echo HTMLHelper::_('bootstrap.endTabSet');
     } ?>
     <div class="clr"></div>
 </form>

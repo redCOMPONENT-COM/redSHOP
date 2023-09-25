@@ -283,3 +283,5 @@ ALTER TABLE `#__redshop_order_users_info` CHANGE `company_name` `company_name` V
 ALTER TABLE `#__redshop_order_users_info` CHANGE `ean_number` `ean_number` VARCHAR(250) NOT NULL DEFAULT '';
 ALTER TABLE `#__redshop_order_users_info` CHANGE `requesting_tax_exempt` `requesting_tax_exempt` TINYINT(4) NOT NULL DEFAULT 0;
 ALTER TABLE `#__redshop_order_users_info` CHANGE `thirdparty_email` `thirdparty_email` VARCHAR(255) NOT NULL DEFAULT '';
+
+ALTER TABLE `#__redshop_shipping_rate` CHANGE `deliver_type` `deliver_type` INT(11) NOT NULL DEFAULT '0';

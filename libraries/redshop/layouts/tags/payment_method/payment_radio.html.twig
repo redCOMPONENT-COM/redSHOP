@@ -2,8 +2,9 @@
 {% set checked = checked ? 'checked="checked"' : '' %}
 
 <div id="{{ oneMethod.name }}" class="{{ checkedClass }}">
-    <label class="radio" for="{{ oneMethod.name ~ index }}">
+    <div class="form-check form-check-inline">
         <input
+                class="form-check-input"
                 type="radio"
                 name="payment_method_id"
                 id="{{ oneMethod.name ~ index }}"
@@ -11,13 +12,14 @@
                 {{ checked }}
                 onclick="javascript:onestepCheckoutProcess(this.name, '');"
         />
+        <label class="form-check-label" for="{{ oneMethod.name ~ index }}">
+            {{ jtext('PLG_' ~ oneMethod.name|upper) }}
+        </label>
         {% if showImage %}
             <img
                     alt="{{ jtext('PLG_' ~ oneMethod.name|upper) }}"
                     title="{{ jtext('PLG_' ~ oneMethod.name|upper) }}"
                     src="{{ logo }}"/>
         {% endif %}
-
-        <span>{{ jtext('PLG_' ~ oneMethod.name|upper) }}</span>
-    </label>
+    </div>
 </div>

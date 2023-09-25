@@ -1958,7 +1958,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_shipping_rate` (
   `shipping_rate_on_shopper_group` LONGTEXT NOT NULL,
   `consignor_carrier_code` VARCHAR(255) NOT NULL,
   `shipping_tax_group_id` INT(11) NOT NULL,
-  `deliver_type` INT(11) NOT NULL,
+  `deliver_type` INT(11) NOT NULL DEFAULT '0',
   `economic_displaynumber` VARCHAR(255) NOT NULL,
   `shipping_rate_on_product` LONGTEXT NOT NULL,
   `shipping_rate_on_category` LONGTEXT NOT NULL,

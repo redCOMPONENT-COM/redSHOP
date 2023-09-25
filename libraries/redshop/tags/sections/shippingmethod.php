@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -42,7 +44,7 @@ class RedshopTagsSectionsShippingMethod extends RedshopTagsAbstract
         $subTemplate    = $this->getTemplateBetweenLoop('{shipping_method_loop_start}', '{shipping_method_loop_end}');
         $shippingMethod = RedshopHelperOrder::getShippingMethodInfo();
 
-        $this->addReplace('{shipping_heading}', JText::_('COM_REDSHOP_SHIPPING_METHOD'));
+        $this->addReplace('{shipping_heading}', Text::_('COM_REDSHOP_SHIPPING_METHOD'));
 
         if (!empty($subTemplate)) {
             $templateMiddle = $subTemplate['template'];
@@ -117,7 +119,7 @@ class RedshopTagsSectionsShippingMethod extends RedshopTagsAbstract
             $rs = $shippingMethod;
 
             $rateData                                         .= $templateMiddle;
-            $this->replacements['{shipping_method_title}']    = JText::_($rs->name);
+            $this->replacements['{shipping_method_title}']    = Text::_($rs->name);
             $this->replacements['{shipping_rate_loop_start}'] = '';
             $this->replacements['{shipping_rate_loop_end}']   = '';
 

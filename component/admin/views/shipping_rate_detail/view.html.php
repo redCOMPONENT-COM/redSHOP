@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 class RedshopViewShipping_rate_detail extends RedshopViewAdmin
 {
@@ -32,7 +32,7 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
         $id       = (int)$app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
         $shipping = RedshopHelperShipping::getShippingMethodById($id);
 
-		HTMLHelper::script('com_redshop/redshop.admin.common.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.admin.common.min.js', ['relative' => true]);
 
         // Load language file of the shipping plugin
         JFactory::getLanguage()->load(
@@ -46,7 +46,7 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
         $is_shipper       = $pluginParams->get('is_shipper');
         $shipper_location = $pluginParams->get('shipper_location');
 
-        $jtitle = ($shipper_location) ? JText::_('COM_REDSHOP_SHIPPING_LOCATION') : JText::_(
+        $jtitle = ($shipper_location) ? Text::_('COM_REDSHOP_SHIPPING_LOCATION') : Text::_(
             'COM_REDSHOP_SHIPPING_RATE'
         );
 
@@ -54,9 +54,9 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
         $lists  = array();
         $detail = $this->get('data');
         $isNew  = ($detail->shipping_rate_id < 1);
-        $text   = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+        $text   = $isNew ? Text::_('COM_REDSHOP_NEW') : Text::_('COM_REDSHOP_EDIT');
         JToolBarHelper::title(
-            $jtitle . ': <small><small>[ ' . JText::_($shipping->name) . ' : ' . $text . ' ]</small></small>',
+            $jtitle . ': <small><small>[ ' . Text::_($shipping->name) . ' : ' . $text . ' ]</small></small>',
             'redshop_shipping_rates48'
         );
         JToolBarHelper::save();
@@ -65,15 +65,15 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
         if ($isNew) {
             JToolBarHelper::cancel();
         } else {
-            JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+            JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
         }
 
         $q = "SELECT  country_3_code as value,country_name as text from #__redshop_country ORDER BY country_name ASC";
         $db->setQuery($q);
-        $countries[] = JHTML::_(
+        $countries[] = HTMLHelper::_(
             'select.option',
             '0',
-            '- ' . JText::_('COM_REDSHOP_SELECT_COUNTRY') . ' -',
+            '- ' . Text::_('COM_REDSHOP_SELECT_COUNTRY') . ' -',
             'value',
             'text'
         );
@@ -86,10 +86,10 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
         }
 
         $detail->shipping_rate_state = explode(',', $detail->shipping_rate_state);
-        $tmp                         = new stdClass;
-        $tmp                         = @array_merge($tmp, $detail->shipping_rate_state);
+//      $tmp                         = new stdClass;
+//      $tmp                         = @array_merge($tmp, $detail->shipping_rate_state);
 
-        $lists['shipping_rate_state'] = JHTML::_(
+        $lists['shipping_rate_state'] = HTMLHelper::_(
             'select.genericlist',
             $shipping_rate_state,
             'shipping_rate_state[]',
@@ -100,9 +100,9 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
         );
 
         $detail->shipping_rate_country  = explode(',', $detail->shipping_rate_country);
-        $tmp                            = new stdClass;
-        $tmp                            = @array_merge($tmp, $detail->shipping_rate_country);
-        $lists['shipping_rate_country'] = JHTML::_(
+//      $tmp                            = new stdClass;
+//      $tmp                            = @array_merge($tmp, $detail->shipping_rate_country);
+        $lists['shipping_rate_country'] = HTMLHelper::_(
             'select.genericlist',
             $countries,
             'shipping_rate_country[]',
@@ -125,7 +125,7 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
 
         $shoppergroup                            = Redshop\Helper\ShopperGroup::generateList();
         $detail->shipping_rate_on_shopper_group  = explode(',', $detail->shipping_rate_on_shopper_group);
-        $lists['shipping_rate_on_shopper_group'] = JHTML::_(
+        $lists['shipping_rate_on_shopper_group'] = HTMLHelper::_(
             'select.genericlist',
             $shoppergroup,
             'shipping_rate_on_shopper_group[]',
@@ -135,8 +135,8 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
             $detail->shipping_rate_on_shopper_group
         );
 
-        $lists['deliver_type'] = JHTML::_(
-            'select.booleanlist',
+        $lists['deliver_type'] = HTMLHelper::_(
+            'redshopselect.booleanlist',
             'deliver_type',
             'class="inputbox"',
             $detail->deliver_type,
@@ -150,7 +150,7 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
             $result_container = $model->GetProductListshippingrate($detail->shipping_rate_on_product);
         }
 
-        $lists['shipping_product'] = JHTML::_(
+        $lists['shipping_product'] = HTMLHelper::_(
             'redshopselect.search',
             $result_container,
             'container_product',
@@ -172,7 +172,7 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
         $temps = array(
             (object)array(
                 'value' => '',
-                'text'  => JText::_('COM_REDSHOP_SELECT')
+                'text'  => Text::_('COM_REDSHOP_SELECT')
             )
         );
 
@@ -181,19 +181,19 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
         $shippingfor = array(
             (object)array(
                 'value' => 0,
-                'text'  => JText::_('COM_REDSHOP_BOTH')
+                'text'  => Text::_('COM_REDSHOP_BOTH')
             ),
             (object)array(
                 'value' => 1,
-                'text'  => JText::_('COM_REDSHOP_COMPANY_ONLY')
+                'text'  => Text::_('COM_REDSHOP_COMPANY_ONLY')
             ),
             (object)array(
                 'value' => 2,
-                'text'  => JText::_('COM_REDSHOP_PRIVATE')
+                'text'  => Text::_('COM_REDSHOP_PRIVATE')
             ),
         );
 
-        $lists['company_only']          = JHTML::_(
+        $lists['company_only'] = HTMLHelper::_(
             'select.genericlist',
             $shippingfor,
             'company_only',
@@ -202,7 +202,8 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
             'text',
             $detail->company_only
         );
-        $lists['shipping_tax_group_id'] = JHTML::_(
+
+        $lists['shipping_tax_group_id'] = HTMLHelper::_(
             'select.genericlist',
             $shippingVatGroup,
             'shipping_tax_group_id',

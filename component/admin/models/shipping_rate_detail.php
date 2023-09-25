@@ -7,8 +7,8 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die;
 
+ defined('_JEXEC') or die;
 
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
@@ -113,11 +113,15 @@ class RedshopModelShipping_rate_detail extends RedshopModel
             return false;
         }
 
-        $data['shipping_rate_country']          = @ implode(',', $data['shipping_rate_country']);
-        $data['shipping_rate_on_product']       = @ implode(',', $data['shipping_rate_on_product']);
-        $data['shipping_rate_on_category']      = @ implode(',', $data['shipping_rate_on_category']);
-        $data['shipping_rate_state']            = @ implode(',', $data['shipping_rate_state']);
-        $data['shipping_rate_on_shopper_group'] = @ implode(',', $data['shipping_rate_on_shopper_group']);
+        $data['shipping_rate_country']          = is_array($data['shipping_rate_country']) ?
+            implode(",", $data['shipping_rate_country']) : $data['shipping_rate_country'];
+        $data['shipping_rate_on_product']       = implode(',', $data['shipping_rate_on_product']);
+        $data['shipping_rate_on_category']      = is_array($data['shipping_rate_on_category']) ?
+            implode(",", $data['shipping_rate_on_category']) : $data['shipping_rate_on_category'];
+        $data['shipping_rate_state']           = is_array($data['shipping_rate_state']) ?
+            implode(",", $data['shipping_rate_state']) : $data['shipping_rate_state'];
+        $data['shipping_rate_on_shopper_group'] = is_array($data['shipping_rate_on_shopper_group']) ?
+        implode(",", $data['shipping_rate_on_shopper_group']) : $data['shipping_rate_on_shopper_group'];
 
         $row = $this->getTable();
 

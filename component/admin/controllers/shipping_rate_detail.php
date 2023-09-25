@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopControllerShipping_rate_detail extends RedshopController
 {
@@ -46,9 +47,9 @@ class RedshopControllerShipping_rate_detail extends RedshopController
         if ($row = $model->store($post)) {
             // Field_section 11 :Shipping
             RedshopHelperExtrafields::extraFieldSave($post, "11", $row->shipping_rate_id);
-            $msg = JText::_('COM_REDSHOP_SHIPPING_LOCATION_SAVED');
+            $msg = Text::_('COM_REDSHOP_SHIPPING_LOCATION_SAVED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING');
+            $msg = Text::_('COM_REDSHOP_ERROR_SAVING_SHIPPING');
         }
 
         if ($apply) {
@@ -73,15 +74,15 @@ class RedshopControllerShipping_rate_detail extends RedshopController
         $model = $this->getModel('shipping_rate_detail');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         if (!$model->delete($cid)) {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         } elseif ($count > 0) {
-            $this->setMessage(JText::plural('COM_REDSHOP_N_ITEMS_DELETED', $count));
+            $this->setMessage(Text::plural('COM_REDSHOP_N_ITEMS_DELETED', $count));
         } else {
-            $this->setMessage(JText::_('COM_REDSHOP_N_ITEMS_DELETED_1'));
+            $this->setMessage(Text::_('COM_REDSHOP_N_ITEMS_DELETED_1'));
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $post['id']);
@@ -92,7 +93,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         /** @var RedshopModelShipping_rate_detail $model */
@@ -110,7 +111,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         /** @var RedshopModelShipping_rate_detail $model */
@@ -140,9 +141,9 @@ class RedshopControllerShipping_rate_detail extends RedshopController
         $model = $this->getModel('shipping_rate_detail');
 
         if ($model->copy($cid)) {
-            $msg = JText::_('COM_REDSHOP_SHIPPING_RATE_SAVED');
+            $msg = Text::_('COM_REDSHOP_SHIPPING_RATE_SAVED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING');
+            $msg = Text::_('COM_REDSHOP_ERROR_SAVING_SHIPPING');
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $post['id'], $msg);

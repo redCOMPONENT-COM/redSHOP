@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class Redshop Helper for Shipping
  *
@@ -340,7 +342,7 @@ class RedshopHelperShipping
                 $userData = RedshopHelperUser::getUserInformation(0, '', $data['users_info_id'], false);
             }
 
-            if (count($userData) > 0) {
+            if (!empty($userData)) {
                 if (!$userData->country_code) {
                     $userData->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
                 }
@@ -1242,13 +1244,13 @@ class RedshopHelperShipping
                     return '';
                 }
 
-                return JText::_("COM_REDSHOP_PRODUCT_DETAIL_NOT_MATCH");
+                return Text::_("COM_REDSHOP_PRODUCT_DETAIL_NOT_MATCH");
             }
 
-            return JText::_("COM_REDSHOP_USER_INFORMATION_NOT_MATCH");
+            return Text::_("COM_REDSHOP_USER_INFORMATION_NOT_MATCH");
         }
 
-        return JText::_("COM_REDSHOP_CART_DIMENTION_NOT_MATCH");
+        return Text::_("COM_REDSHOP_CART_DIMENTION_NOT_MATCH");
     }
 
     /**

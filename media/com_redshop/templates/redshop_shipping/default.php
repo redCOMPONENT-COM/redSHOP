@@ -1,13 +1,19 @@
 <div class="shipping-method-container" style="display: {show_when_one_rate}">
-    <fieldset>
-        <legend class="shipping-method-heading"><strong>{shipping_heading}</strong></legend>
-        <div>{shipping_method_loop_start}
-            <h3 class="shipping-method-title">{shipping_method_title}</h3>
-            <div>{shipping_rate_loop_start}
-                <div>{shipping_rate_name}{shipping_rate}</div>
-                {shipping_rate_loop_end}
-            </div>
-            {shipping_method_loop_end}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{shipping_heading}</h3>
         </div>
-    </fieldset>
+        {shipping_method_loop_start}
+        <div class="panel-body">
+            <div class="shipping_method_name">{shipping_method_title}</div>
+            {shipping_rate_loop_start}
+            <div class="shipping_method radio">
+                <div class="shipping_method_name">
+                    {shipping_rate_name}{shipping_rate}
+                </div>
+            </div>
+            {shipping_rate_loop_end}
+        </div>
+        {shipping_method_loop_end}
+    </div>
 </div>
