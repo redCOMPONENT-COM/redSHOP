@@ -8,9 +8,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 ?>
@@ -19,16 +20,16 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
     <div class="col-sm-12">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGES'); ?></h3>
+                <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_PRODUCT_IMAGES'); ?></h3>
             </div>
             <div class="box-body">
                 <div class="form-group">
                     <label for="product_thumb_image">
-                        <?php echo JText::_('COM_REDSHOP_PRODUCT_THUMB_IMAGE'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_THUMB_IMAGE'); ?>
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_THUMB_IMAGE'),
-                            JText::_('COM_REDSHOP_PRODUCT_THUMB_IMAGE')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_THUMB_IMAGE'),
+                            Text::_('COM_REDSHOP_PRODUCT_THUMB_IMAGE')
                         );
                         ?>
                     </label>
@@ -48,11 +49,11 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
                 <div class="form-group">
                     <label for="product_back_thumb_image">
-                        <?php echo JText::_('COM_REDSHOP_PRODUCT_BACK_THUMB_IMAGE'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_BACK_THUMB_IMAGE'); ?>
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_BACK_THUMB_IMAGE'),
-                            JText::_('COM_REDSHOP_PRODUCT_BACK_THUMB_IMAGE')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_BACK_THUMB_IMAGE'),
+                            Text::_('COM_REDSHOP_PRODUCT_BACK_THUMB_IMAGE')
                         );
                         ?>
                     </label>
@@ -72,11 +73,11 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
                 <div class="form-group">
                     <label for="product_preview_image">
-                        <?php echo JText::_('COM_REDSHOP_PRODUCT_PREVIEW_IMAGE'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_PREVIEW_IMAGE'); ?>
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREVIEW_IMAGE'),
-                            JText::_('COM_REDSHOP_PRODUCT_PREVIEW_IMAGE')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREVIEW_IMAGE'),
+                            Text::_('COM_REDSHOP_PRODUCT_PREVIEW_IMAGE')
                         );
                         ?>
                     </label>
@@ -96,11 +97,11 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
                 <div class="form-group">
                     <label for="product_preview_image">
-                        <?php echo JText::_('COM_REDSHOP_PRODUCT_PREVIEW_BACK_IMAGE'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_PREVIEW_BACK_IMAGE'); ?>
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREVIEW_BACK_IMAGE'),
-                            JText::_('COM_REDSHOP_PRODUCT_PREVIEW_BACK_IMAGE')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREVIEW_BACK_IMAGE'),
+                            Text::_('COM_REDSHOP_PRODUCT_PREVIEW_BACK_IMAGE')
                         );
                         ?>
                     </label>

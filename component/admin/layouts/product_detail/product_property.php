@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -56,7 +59,7 @@ if ($property->property_main_image && JFile::exists(
 
 ?>
 <a href="#" class="showhidearrow">
-    <?php echo JText::_('COM_REDSHOP_SUB_ATTRIBUTE'); ?>: <span
+    <?php echo Text::_('COM_REDSHOP_SUB_ATTRIBUTE'); ?>: <span
             class="propertyName"><?php echo $property->property_name; ?></span>
     <img class="arrowimg" src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>arrow_d.png" alt=""/>
 </a>
@@ -69,7 +72,7 @@ if ($property->property_main_image && JFile::exists(
         <div class="col-sm-4">
             <div class="form-group">
                 <label>
-                    <?php echo JText::_('COM_REDSHOP_SUB_ATTRIBUTE'); ?>
+                    <?php echo Text::_('COM_REDSHOP_SUB_ATTRIBUTE'); ?>
                 </label>
                 <input type="text" class="form-control propertyInput" name="<?php echo $propPref; ?>[name]"
                        value="<?php echo $property->property_name; ?>"/>
@@ -85,7 +88,7 @@ if ($property->property_main_image && JFile::exists(
         <div class="col-sm-4">
             <div class="form-group">
                 <label>
-                    <?php echo JText::_('COM_REDSHOP_PRICE'); ?>
+                    <?php echo Text::_('COM_REDSHOP_PRICE'); ?>
                 </label>
 
                 <div class="priceInput">
@@ -113,7 +116,7 @@ if ($property->property_main_image && JFile::exists(
 					data-url="<?php echo Redshop\IO\Route::_(
 						'index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $propertyId . '&cid=' . $productId . '&section=property'
 					); ?>">
-				<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>discountmanagmenet16.png"/> <?php echo JText::_(
+				<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>discountmanagmenet16.png"/> <?php echo Text::_(
 					'COM_REDSHOP_ADD_PRICE_LBL'
 				); ?>
 			</button>
@@ -123,7 +126,7 @@ if ($property->property_main_image && JFile::exists(
 						data-url="<?php echo Redshop\IO\Route::_(
                     'index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $propertyId . '&cid=' . $productId . '&layout=productstockroom&property=property'
                 ); ?>">
-                    <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>stockroom16.png"/> <?php echo JText::_(
+                    <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>stockroom16.png"/> <?php echo Text::_(
                         'COM_REDSHOP_ACTION_MANAGE_STOCKROOM'
                     ); ?>
                 </button>
@@ -136,7 +139,7 @@ if ($property->property_main_image && JFile::exists(
         <div class="col-sm-4">
             <div class="form-group">
                 <label>
-                    <?php echo JText::_('COM_REDSHOP_PROPERTY_NUMBER'); ?>
+                    <?php echo Text::_('COM_REDSHOP_PROPERTY_NUMBER'); ?>
                 </label>
                 <input type="text" class="vpnrequired form-control" value="<?php echo $property->property_number; ?>"
                        name="<?php echo $propPref; ?>[number]"/>
@@ -146,7 +149,7 @@ if ($property->property_main_image && JFile::exists(
         <div class="col-sm-4">
             <div class="form-group">
                 <label>
-                    <?php echo JText::_('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD'); ?>
+                    <?php echo Text::_('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD'); ?>
                 </label>
                 <input type="text" class="form-control" name="<?php echo $propPref; ?>[extra_field]"
                        value="<?php echo $property->extra_field; ?>"/>
@@ -156,7 +159,7 @@ if ($property->property_main_image && JFile::exists(
         <div class="col-sm-4">
             <div class="form-group">
                 <label>
-                    <?php echo JText::_('COM_REDSHOP_ORDERING'); ?>
+                    <?php echo Text::_('COM_REDSHOP_ORDERING'); ?>
                 </label>
                 <input type="number" class="form-control" name="<?php echo $propPref; ?>[order]"
                        value="<?php echo $property->ordering; ?>"/>
@@ -168,7 +171,7 @@ if ($property->property_main_image && JFile::exists(
         <div class="col-sm-4">
 
             <label>
-                <?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGE'); ?>
+                <?php echo Text::_('COM_REDSHOP_PRODUCT_IMAGE'); ?>
             </label>
 
             <div class="row ">
@@ -186,7 +189,7 @@ if ($property->property_main_image && JFile::exists(
 							data-url="<?php echo Redshop\IO\Route::_(
                            'index.php?tmpl=component&option=com_redshop&view=media&section_id='
                            . $propertyId . '&showbuttons=1&media_section=property'
-                       ); ?>"><?php echo JText::_('COM_REDSHOP_UPLOAD'); ?>
+                       ); ?>"><?php echo Text::_('COM_REDSHOP_UPLOAD'); ?>
                     </button>
                 </div>
             </div>
@@ -195,7 +198,7 @@ if ($property->property_main_image && JFile::exists(
         <div class="col-sm-4">
 
             <label>
-                <?php echo JText::_('COM_REDSHOP_ATTRIBUTE_IMAGE'); ?>
+                <?php echo Text::_('COM_REDSHOP_ATTRIBUTE_IMAGE'); ?>
             </label>
 
             <div class="row">
@@ -209,7 +212,7 @@ if ($property->property_main_image && JFile::exists(
                                  src="<?php echo $propertyImageThumb; ?>"/>
                         </a>
                         <input id="deletePropertyMainImage_<?php echo $property->property_id; ?>_<?php
-                        echo $keyAttr . $keyProperty; ?>" value="<?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE'); ?>"
+                        echo $keyAttr . $keyProperty; ?>" value="<?php echo Text::_('COM_REDSHOP_REMOVE_IMAGE'); ?>"
                                class="btn deletePropertyMainImage" type="button"/>
                         <?php
                     } else {
@@ -218,10 +221,10 @@ if ($property->property_main_image && JFile::exists(
                         <?php
                     }
                     ?>
-
-
-                    <input type="file" value=""
-                           name="attribute_<?php echo $keyAttr; ?>_property_<?php echo $keyProperty; ?>_image"/>
+                    <div class="form-group">
+                        <input class="form-control" type="file" id="formFile" 
+                            name="attribute_<?php echo $keyAttr; ?>_property_<?php echo $keyProperty; ?>_image">
+                    </div>
                 </div>
             </div>
         </div>
@@ -247,7 +250,7 @@ if ($property->property_main_image && JFile::exists(
         <div class="col-sm-4">
             <div class="form-group">
                 <label name="<?php echo $propPref; ?>[preselected]">
-                    <?php echo JText::_('COM_REDSHOP_DEFAULT_SELECTED'); ?>
+                    <?php echo Text::_('COM_REDSHOP_DEFAULT_SELECTED'); ?>
                 </label>
                 <input type="checkbox" value="1"
                        name="<?php echo $propPref; ?>[default_sel]"
@@ -261,17 +264,17 @@ if ($property->property_main_image && JFile::exists(
         <div class="col-sm-4">
             <div class="form-group">
                 <label>
-                    <?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>
+                    <?php echo Text::_('COM_REDSHOP_PUBLISHED'); ?>
                 </label>
                 <input type="checkbox" value="1" <?php echo $propertyPublished; ?>
                        name="<?php echo $propPref; ?>[published]"/>
             </div>
         </div>
         <div class="col-sm-8">
-            <input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
+            <input value="<?php echo Text::_('COM_REDSHOP_DELETE'); ?>"
                    id="deleteProperty_<?php echo $propertyId; ?>_<?php
                    echo $attributeId; ?>" class="btn btn-danger delete_property" type="button"/>
-            <a class="btn btn-success add_subproperty" href="#"><?php echo "+ " . JText::_(
+            <a class="btn btn-success add_subproperty" href="#"><?php echo "+ " . Text::_(
                         'COM_REDSHOP_NEW_SUB_PROPERTY'
                     ); ?></a>
 
@@ -284,7 +287,7 @@ if ($property->property_main_image && JFile::exists(
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>
-                        <?php echo JText::_('COM_REDSHOP_PROPERTY_NAME'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PROPERTY_NAME'); ?>
                     </label>
                     <input class="" type="text"
                            name="<?php echo $propPref; ?>[subproperty][title]"
@@ -294,7 +297,7 @@ if ($property->property_main_image && JFile::exists(
                 </div>
 
                 <div class="form-group">
-                    <label><?php echo JText::_('COM_REDSHOP_SUBATTRIBUTE_REQUIRED'); ?></label>
+                    <label><?php echo Text::_('COM_REDSHOP_SUBATTRIBUTE_REQUIRED'); ?></label>
                     <input type="checkbox" value="1"
                            name="<?php echo $propPref; ?>[req_sub_att]"
                         <?php echo ($property->setrequire_selected == 1) ? 'checked="checked"' : ''; ?> />
@@ -304,24 +307,24 @@ if ($property->property_main_image && JFile::exists(
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>
-                        <?php echo JText::_('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE'); ?>
+                        <?php echo Text::_('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE'); ?>
                     </label>
                     <select
                             name="<?php echo $propPref; ?>[setdisplay_type]" class="form-control">
                         <option value="dropdown"
                             <?php echo ($property->setdisplay_type == 'dropdown') ? 'selected' : ''; ?>>
-                            <?php echo JText::_('COM_REDSHOP_DROPDOWN_LIST'); ?>
+                            <?php echo Text::_('COM_REDSHOP_DROPDOWN_LIST'); ?>
                         </option>
                         <option value="radio"
                             <?php echo ($property->setdisplay_type == 'radio') ? 'selected' : ''; ?>>
-                            <?php echo JText::_('COM_REDSHOP_RADIOBOX'); ?>
+                            <?php echo Text::_('COM_REDSHOP_RADIOBOX'); ?>
                         </option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label>
-                        <?php echo JText::_('COM_REDSHOP_SUBATTRIBUTE_MULTISELECTED'); ?>
+                        <?php echo Text::_('COM_REDSHOP_SUBATTRIBUTE_MULTISELECTED'); ?>
                     </label>
                     <input
                             type="checkbox" value="1"

@@ -109,13 +109,13 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
         </div>
         <?php
     } else {
-        echo HtmlHelper::_('bootstrap.startTabSet', 'shippingRateTab', array('active' => 'tab1'));
-        echo HtmlHelper::_('bootstrap.addTab', 'shippingRateTab', 'tab1', Text::_('COM_REDSHOP_DETAILS'));
+        echo HTMLHelper::_('bootstrap.startTabSet', 'shippingRateTab', array('active' => 'tab1'));
+        echo HTMLHelper::_('bootstrap.addTab', 'shippingRateTab', 'tab1', Text::_('COM_REDSHOP_DETAILS'));
         ?>
-        <div class="col50">
-            <fieldset class="adminform">
-                <legend><?php echo Text::_('COM_REDSHOP_DETAILS'); ?></legend>
-
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_DETAILS'); ?></h3>
+            </div>
                 <table class="admintable" width="100%">
 
                     <tr>
@@ -445,9 +445,12 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                             if ($this->detail->apply_vat) {
                                 $checked = "checked='checked'";
                             }
-
-                            echo "<input type='checkbox' value='1' name='apply_vat' $checked />";
                             ?>
+							<div class="form-check form-check-inline has-success">
+								<input type="checkbox" name="apply_vat" id="apply_vat_checkbox" 
+                                    class="form-check-input valid form-control-success" value="1" 
+                                    aria-invalid="false" <?php echo $checked; ?>>
+							</div>
                         </td>
                     </tr>
                     <tr>
@@ -494,20 +497,19 @@ $editor = \Joomla\CMS\Editor\Editor::getInstance();
                         </td>
                     </tr>
                 </table>
-
-            </fieldset>
         </div>
         <?php
-        echo HtmlHelper::_('bootstrap.endTab');
-        if ($this->lists['extra_field'] != "") {
-            echo HtmlHelper::_('bootstrap.addTab', 'shippingRateTab', 'tab2', Text::_('COM_REDSHOP_EXTRA_FIELD'));
-            ?>
-            <div class="col50">
-            <?php
-            echo $this->lists['extra_field'];
-            ?>
+        echo HTMLHelper::_('bootstrap.endTab');
+        if (!empty($this->lists['extra_field'])) {
+            echo HTMLHelper::_('bootstrap.addTab', 'shippingRateTab', 'tab2', Text::_('COM_REDSHOP_EXTRA_FIELD')); ?>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_EXTRA_FIELD'); ?></h3>
+                </div> <?php
+                echo $this->lists['extra_field']; ?>
             </div><?php
-            echo HtmlHelper::_('bootstrap.endTab');
+            echo HTMLHelper::_('bootstrap.endTab');
         } else {
             echo '<input type="hidden" name="noextra_field" value="1">';
         }

@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * User Detail view
@@ -64,8 +65,8 @@ class RedshopViewUser_Detail extends RedshopViewAdmin
         JPluginHelper::importPlugin('redshop_product');
         $this->dispatcher = RedshopHelperUtility::getDispatcher();
 
-		HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
 
         $this->setLayout('default');
 
@@ -73,17 +74,17 @@ class RedshopViewUser_Detail extends RedshopViewAdmin
         $this->detail = $this->get('data');
 
         $isNew = ($this->detail->users_info_id < 1);
-        $text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+        $text  = $isNew ? Text::_('COM_REDSHOP_NEW') : Text::_('COM_REDSHOP_EDIT');
 
         if (JFactory::getApplication()->input->getString('shipping')) {
             JToolbarHelper::title(
-                JText::_('COM_REDSHOP_USER_SHIPPING_DETAIL') . ': <small><small>[ '
+                Text::_('COM_REDSHOP_USER_SHIPPING_DETAIL') . ': <small><small>[ '
                 . $text . ' ]</small></small>',
                 'user redshop_user48'
             );
         } else {
             JToolbarHelper::title(
-                JText::_('COM_REDSHOP_USER_MANAGEMENT_DETAIL') . ': <small><small>[ '
+                Text::_('COM_REDSHOP_USER_MANAGEMENT_DETAIL') . ': <small><small>[ '
                 . $text . ' ]</small></small>',
                 'user redshop_user48'
             );
@@ -95,59 +96,58 @@ class RedshopViewUser_Detail extends RedshopViewAdmin
         if ($isNew) {
             JToolbarHelper::cancel();
         } else {
-            JToolbarHelper::custom('order', 'redshop_order32', '', JText::_('COM_REDSHOP_PLACE_ORDER'), false);
-            JToolbarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+            JToolbarHelper::custom('order', 'redshop_order32', '', Text::_('COM_REDSHOP_PLACE_ORDER'), false);
+            JToolbarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
         }
 
         $this->pagination             = $this->get('Pagination');
         $this->detail->user_groups    = RedshopHelperUser::getUserGroups($this->detail->users_info_id);
+
         $this->lists['shopper_group'] = RedshopHelperShopper_Group::listAll(
             "shopper_group_id",
             0,
             array((int)$this->detail->shopper_group_id)
         );
 
-        $this->lists['tax_exempt'] = JHtml::_(
-            'select.booleanlist',
+        $this->lists['tax_exempt'] = HTMLHelper::_(
+            'redshopselect.booleanlist',
             'tax_exempt',
-            'class="inputbox"',
+            'class="form-control"',
             $this->detail->tax_exempt
         );
 
-
-        $this->lists['block'] = JHtml::_(
-            'select.booleanlist',
+        $this->lists['block'] = HTMLHelper::_(
+            'redshopselect.booleanlist',
             'block',
-            'class="inputbox"',
+            'class="form-control"',
             $this->detail->block ?? 0
         );
 
-
-        $this->lists['tax_exempt_approved'] = JHtml::_(
-            'select.booleanlist',
+        $this->lists['tax_exempt_approved'] = HTMLHelper::_(
+            'redshopselect.booleanlist',
             'tax_exempt_approved',
             'class="inputbox"',
             $this->detail->tax_exempt_approved
         );
 
-        $this->lists['requesting_tax_exempt'] = JHtml::_(
-            'select.booleanlist',
+        $this->lists['requesting_tax_exempt'] = HTMLHelper::_(
+            'redshopselect.booleanlist',
             'requesting_tax_exempt',
             'class="inputbox"',
             $this->detail->requesting_tax_exempt
         );
 
-        $this->lists['is_company'] = JHtml::_(
+        $this->lists['is_company'] = HTMLHelper::_(
             'select.booleanlist',
             'is_company',
-            'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ',
+            'class="form-control" onchange="showOfflineCompanyOrCustomer(this.value);" ',
             $this->detail->is_company,
-            JText::_('COM_REDSHOP_USER_COMPANY'),
-            JText::_('COM_REDSHOP_USER_CUSTOMER')
+            Text::_('COM_REDSHOP_USER_COMPANY'),
+            Text::_('COM_REDSHOP_USER_CUSTOMER')
         );
 
-        $this->lists['sendEmail'] = JHtml::_(
-            'select.booleanlist',
+        $this->lists['sendEmail'] = HTMLHelper::_(
+            'redshopselect.booleanlist',
             'sendEmail',
             'class="inputbox"',
             $this->detail->sendEmail ?? 0

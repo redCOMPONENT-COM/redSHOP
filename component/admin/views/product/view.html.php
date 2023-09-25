@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 class RedshopViewProduct extends RedshopViewAdmin
 {
     /**
@@ -87,10 +90,10 @@ class RedshopViewProduct extends RedshopViewAdmin
         $temps              = array();
         $temps[0]           = new stdClass;
         $temps[0]->id       = "0";
-        $temps[0]->treename = JText::_('COM_REDSHOP_SELECT_CATEGORY');
+        $temps[0]->treename = Text::_('COM_REDSHOP_SELECT_CATEGORY');
         $categories1        = @array_merge($temps, $categories1);
 
-        $lists['category'] = JHTML::_(
+        $lists['category'] = HTMLHelper::_(
             'select.genericlist',
             $categories1,
             'category_id',
@@ -112,15 +115,15 @@ class RedshopViewProduct extends RedshopViewAdmin
         $tempsManuf              = array();
         $tempsManuf[0]           = new stdClass;
         $tempsManuf[0]->id       = "all";
-        $tempsManuf[0]->treename = JText::_('COM_REDSHOP_ALL_MANUFACTURERS');
+        $tempsManuf[0]->treename = Text::_('COM_REDSHOP_ALL_MANUFACTURERS');
         $tempsManuf[1]           = new stdClass;
         $tempsManuf[1]->id       = "undefined";
-        $tempsManuf[1]->treename = JText::_('COM_REDSHOP_UNDEFINED_MANUFACTURERS');
+        $tempsManuf[1]->treename = Text::_('COM_REDSHOP_UNDEFINED_MANUFACTURERS');
         $manufacturers1          = @array_merge($tempsManuf, $manufacturers1);
 
         $manufacturer_id = $state->get('manufacturer_id');
 
-        $lists['manufacturer'] = JHTML::_(
+        $lists['manufacturer'] = HTMLHelper::_(
             'select.genericlist',
             $manufacturers1,
             'manufacturer_id',
@@ -131,7 +134,7 @@ class RedshopViewProduct extends RedshopViewAdmin
         );
 
         $product_sort          = RedshopHelperProduct::getProductsSortByList();
-        $lists['product_sort'] = JHTML::_(
+        $lists['product_sort'] = HTMLHelper::_(
             'select.genericlist',
             $product_sort,
             'product_sort',
@@ -152,10 +155,10 @@ class RedshopViewProduct extends RedshopViewAdmin
         $temps          = array();
         $temps[0]       = new stdClass;
         $temps[0]->id   = "0";
-        $temps[0]->name = JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
+        $temps[0]->name = Text::_('COM_REDSHOP_ASSIGN_TEMPLATE');
         $templates      = @array_merge($temps, $templates);
 
-        $lists['product_template'] = JHtml::_(
+        $lists['product_template'] = HTMLHelper::_(
             'select.genericlist',
             $templates,
             'product_template',
@@ -187,13 +190,13 @@ class RedshopViewProduct extends RedshopViewAdmin
      */
     protected function addToolbar()
     {
-        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
         $layout = JFactory::getApplication()->input->getCmd('layout', '');
 
         if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product') {
             JToolbarHelper::addNew('product_detail.addRedirect');
             JToolbarHelper::editList('product_detail.editRedirect');
-            JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+            JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', Text::_('COM_REDSHOP_TOOLBAR_COPY'), true);
             JToolBarHelper::deleteList();
             JToolBarHelper::publishList();
             JToolBarHelper::unpublishList();
@@ -201,20 +204,20 @@ class RedshopViewProduct extends RedshopViewAdmin
                 'assignCategory',
                 'save.png',
                 'save_f2.png',
-                JText::_('COM_REDSHOP_ASSIGN_CATEGORY'),
+                Text::_('COM_REDSHOP_ASSIGN_CATEGORY'),
                 true
             );
             JToolBarHelper::custom(
                 'removeCategory',
                 'delete.png',
                 'delete_f2.png',
-                JText::_('COM_REDSHOP_REMOVE_CATEGORY'),
+                Text::_('COM_REDSHOP_REMOVE_CATEGORY'),
                 true
             );
         }
 
         if ($layout == 'listing') {
-            JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_PRICE_MANAGEMENT'));
+            JToolBarHelper::title(Text::_('COM_REDSHOP_PRODUCT_PRICE_MANAGEMENT'));
         }
     }
 }

@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Product Detail View
@@ -109,7 +109,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
         // Fail if checked out not by 'me'
         if ($model->isCheckedOut($user->get('id'))) {
-            $msg = JText::_('COM_REDSHOP_PRODUCT_BEING_EDITED');
+            $msg = Text::_('COM_REDSHOP_PRODUCT_BEING_EDITED');
 			$app->enqueueMessage($msg);
             $app->redirect('index.php?option=com_redshop&view=product');
         }
@@ -131,7 +131,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         }
 
         if (count($tags) > 0) {
-            $lists['tags'] = JHtml::_(
+            $lists['tags'] = HtmlHelper::_(
                 'select.genericlist',
                 $tags,
                 'tag_id[]',
@@ -160,7 +160,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
                 // Add the type
 
-                $html .= '<div class="select_box_parent" onClick="showBox(' . $rand . ')">' . JText::_(
+                $html .= '<div class="select_box_parent" onClick="showBox(' . $rand . ')">' . Text::_(
                         'COM_REDSHOP_TYPE_LIST'
                     )
                     . ' ' . $type['type_name'] . '</div>';
@@ -181,7 +181,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
                         $html .= '<table><tr><td colspan="2"><input type="checkbox" class="select_box" ' . $selected
                             . ' name="tag_id[]" value="' . $typeid . '.' . $tagid . '" />'
-                            . JText::_('COM_REDSHOP_TAG_LIST') . ' ' . $tag['tag_name'];
+                            . Text::_('COM_REDSHOP_TAG_LIST') . ' ' . $tag['tag_name'];
                         $html .= '</td></tr>';
 
                         $qs_value = '';
@@ -192,7 +192,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
                             }
                         }
 
-                        $html .= '<tr><td><span class="quality_score">' . JText::_('COM_REDSHOP_QUALITY_SCORE')
+                        $html .= '<tr><td><span class="quality_score">' . Text::_('COM_REDSHOP_QUALITY_SCORE')
                             . '</span></td><td><input type="text" class="quality_score_input"  name="qs_id[' . $typeid
                             . '.' . $tagid . ']" value="' . $qs_value . '" />';
                         $html .= '</td></tr>';
@@ -219,7 +219,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
                         $html .= '</select>&nbsp;<a href="#" onClick="javascript:add_dependency('
                             . $typeid . ',' . $tagid . ',' . $detail->product_id . ');" >'
-                            . JText::_('COM_REDSHOP_ADD_DEPENDENCY') . '</a></td></tr></table>';
+                            . Text::_('COM_REDSHOP_ADD_DEPENDENCY') . '</a></td></tr></table>';
                     }
                 }
 
@@ -247,7 +247,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $temps          = array();
         $temps[0]       = new stdClass;
         $temps[0]->id   = "0";
-        $temps[0]->name = JText::_('COM_REDSHOP_SELECT');
+        $temps[0]->name = Text::_('COM_REDSHOP_SELECT');
 
         if (is_array($templates)) {
             $templates = array_merge($temps, $templates);
@@ -257,7 +257,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $supps           = array();
         $supps[0]        = new stdClass;
         $supps[0]->value = "0";
-        $supps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+        $supps[0]->text  = Text::_('COM_REDSHOP_SELECT');
 
         if (is_array($manufacturers)) {
             $manufacturers = array_merge($supps, $manufacturers);
@@ -267,17 +267,17 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $supps           = array();
         $supps[0]        = new stdClass;
         $supps[0]->value = "0";
-        $supps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+        $supps[0]->text  = Text::_('COM_REDSHOP_SELECT');
 
         if (is_array($supplier)) {
             $supplier = array_merge($supps, $supplier);
         }
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'pencil-2 redshop_products48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'pencil-2 redshop_products48');
 
         $document = JFactory::getDocument();
 
-        $document->addScriptDeclaration("var WANT_TO_DELETE = '" . JText::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';");
+        $document->addScriptDeclaration("var WANT_TO_DELETE = '" . Text::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';");
 
         /**
          * Override field.js file.
@@ -321,10 +321,10 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             $this->setLayout('default');
         }
 
-        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : $detail->product_name . " - " . JText::_('COM_REDSHOP_EDIT');
+        $text = $isNew ? Text::_('COM_REDSHOP_NEW') : $detail->product_name . " - " . Text::_('COM_REDSHOP_EDIT');
 
         JToolBarHelper::title(
-            JText::_('COM_REDSHOP_PRODUCT') . ': <small><small>[ ' . $text . ' ]</small></small>',
+            Text::_('COM_REDSHOP_PRODUCT') . ': <small><small>[ ' . $text . ' ]</small></small>',
             'pencil-2 redshop_products48'
         );
 
@@ -338,7 +338,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             JToolbarHelper::save2copy();
             $model->checkout($user->get('id'));
 
-            JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+            JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
         }
 
         if ($detail->product_id > 0) {
@@ -358,7 +358,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             $link .= '&Itemid=' . $pItemid;
 
             RedshopToolbarHelper::link($link, 'preview', 'JGLOBAL_PREVIEW', '_blank');
-            JToolBarHelper::addNew('prices', JText::_('COM_REDSHOP_ADD_PRICE_LBL'));
+            JToolBarHelper::addNew('prices', Text::_('COM_REDSHOP_ADD_PRICE_LBL'));
         }
 
         $model = $this->getModel('product_detail');
@@ -378,7 +378,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             $detail->product_template = $default_preselected;
         }
 
-        $lists['product_template'] = JHtml::_(
+        $lists['product_template'] = HtmlHelper::_(
             'select.genericlist',
             $templates,
             'product_template',
@@ -388,7 +388,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             $detail->product_template
         );
 
-        $lists['related_product'] = JHtml::_(
+        $lists['related_product'] = HtmlHelper::_(
             'redshopselect.search',
             $model->related_product_data($detail->product_id),
             'related_product',
@@ -402,13 +402,13 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $temps           = array();
         $temps[0]        = new stdClass;
         $temps[0]->value = "0";
-        $temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+        $temps[0]->text  = Text::_('COM_REDSHOP_SELECT');
 
         if (is_array($product_tax)) {
             $product_tax = array_merge($temps, $product_tax);
         }
 
-        $lists['product_tax'] = JHtml::_(
+        $lists['product_tax'] = HtmlHelper::_(
             'select.genericlist',
             $product_tax,
             'product_tax_id',
@@ -434,14 +434,14 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
         $detail->use_individual_payment_method = isset($detail->use_individual_payment_method) ? $detail->use_individual_payment_method : null;
 
-        $lists['use_individual_payment_method'] = JHtml::_(
+        $lists['use_individual_payment_method'] = HtmlHelper::_(
             'select.booleanlist',
             'use_individual_payment_method',
             'class="inputbox"',
             $detail->use_individual_payment_method
         );
 
-        $lists['manufacturers'] = JHtml::_(
+        $lists['manufacturers'] = HtmlHelper::_(
             'select.genericlist',
             $manufacturers,
             'manufacturer_id',
@@ -451,7 +451,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             $detail->manufacturer_id
         );
 
-        $lists['supplier']         = JHtml::_(
+        $lists['supplier']         = HtmlHelper::_(
             'select.genericlist',
             $supplier,
             'supplier_id',
@@ -460,26 +460,26 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'text',
             $detail->supplier_id
         );
-        $lists['published']        = JHtml::_(
-            'select.booleanlist',
+        $lists['published']        = HtmlHelper::_(
+            'redshopselect.booleanlist',
             'published',
             'class="inputbox"',
             $detail->published
         );
-        $lists['product_on_sale']  = JHtml::_(
+        $lists['product_on_sale']  = HtmlHelper::_(
             'select.booleanlist',
             'product_on_sale',
             'class="inputbox"',
             $detail->product_on_sale
         );
-        $lists['copy_attribute']   = JHtml::_('select.booleanlist', 'copy_attribute', 'class="inputbox"', 0);
-        $lists['product_special']  = JHtml::_(
-            'select.booleanlist',
+        $lists['copy_attribute']   = HtmlHelper::_('select.booleanlist', 'copy_attribute', 'class="inputbox"', 0);
+        $lists['product_special']  = HtmlHelper::_(
+            'redshopselect.booleanlist',
             'product_special',
             'class="inputbox"',
             $detail->product_special
         );
-        $lists['product_download'] = JHtml::_(
+        $lists['product_download'] = HtmlHelper::_(
             'select.booleanlist',
             'product_download',
             'class="inputbox"',
@@ -493,21 +493,21 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             $detail->not_for_sale_showprice = 1;
         }
 
-        $lists['not_for_sale']           = JHtml::_(
+        $lists['not_for_sale']           = HtmlHelper::_(
             'select.booleanlist',
             'not_for_sale',
             'class="inputbox"',
             $detail->not_for_sale
         );
-        $lists['not_for_sale_showprice'] = JHtml::_(
+        $lists['not_for_sale_showprice'] = HtmlHelper::_(
             'select.booleanlist',
             'not_for_sale_showprice',
             'class="inputbox"',
             $detail->not_for_sale_showprice
         );
 
-        $lists['expired']             = JHtml::_('select.booleanlist', 'expired', 'class="inputbox"', $detail->expired);
-        $lists['allow_decimal_piece'] = JHtml::_(
+        $lists['expired']             = HtmlHelper::_('select.booleanlist', 'expired', 'class="inputbox"', $detail->expired);
+        $lists['allow_decimal_piece'] = HtmlHelper::_(
             'select.booleanlist',
             'allow_decimal_piece',
             'class="inputbox"',
@@ -516,7 +516,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
         // For individual pre-order
         $preorder_data     = RedshopHelperUtility::getPreOrderByList();
-        $lists['preorder'] = JHtml::_(
+        $lists['preorder'] = HtmlHelper::_(
             'select.genericlist',
             $preorder_data,
             'preorder',
@@ -527,7 +527,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         );
 
         // Discount calculator
-        $lists['use_discount_calc'] = JHtml::_(
+        $lists['use_discount_calc'] = HtmlHelper::_(
             'select.booleanlist',
             'use_discount_calc',
             'class="inputbox"',
@@ -535,9 +535,9 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         );
 
         $selectOption       = array();
-        $selectOption[]     = JHtml::_('select.option', '1', JText::_('COM_REDSHOP_RANGE'));
-        $selectOption[]     = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_PRICE_PER_PIECE'));
-        $lists['use_range'] = JHtml::_(
+        $selectOption[]     = HtmlHelper::_('select.option', '1', Text::_('COM_REDSHOP_RANGE'));
+        $selectOption[]     = HtmlHelper::_('select.option', '0', Text::_('COM_REDSHOP_PRICE_PER_PIECE'));
+        $lists['use_range'] = HtmlHelper::_(
             'select.genericlist',
             $selectOption,
             'use_range',
@@ -549,15 +549,15 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         unset($selectOption);
 
         // Calculation method
-        $selectOption[]                = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-        $selectOption[]                = JHtml::_('select.option', 'volume', JText::_('COM_REDSHOP_VOLUME'));
-        $selectOption[]                = JHtml::_('select.option', 'area', JText::_('COM_REDSHOP_AREA'));
-        $selectOption[]                = JHtml::_(
+        $selectOption[]                = HtmlHelper::_('select.option', '0', Text::_('COM_REDSHOP_SELECT'));
+        $selectOption[]                = HtmlHelper::_('select.option', 'volume', Text::_('COM_REDSHOP_VOLUME'));
+        $selectOption[]                = HtmlHelper::_('select.option', 'area', Text::_('COM_REDSHOP_AREA'));
+        $selectOption[]                = HtmlHelper::_(
             'select.option',
             'circumference',
-            JText::_('COM_REDSHOP_CIRCUMFERENCE')
+            Text::_('COM_REDSHOP_CIRCUMFERENCE')
         );
-        $lists['discount_calc_method'] = JHtml::_(
+        $lists['discount_calc_method'] = HtmlHelper::_(
             'select.genericlist',
             $selectOption,
             'discount_calc_method',
@@ -569,12 +569,12 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         unset($selectOption);
 
         // Calculation UNIT
-        $remove_format = JHtml::$formatOptions;
+        $remove_format = HtmlHelper::$formatOptions;
 
-        $selectOption[]              = JHtml::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
-        $selectOption[]              = JHtml::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
-        $selectOption[]              = JHtml::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
-        $lists['discount_calc_unit'] = JHtml::_(
+        $selectOption[]              = HtmlHelper::_('select.option', 'mm', Text::_('COM_REDSHOP_MILLIMETER'));
+        $selectOption[]              = HtmlHelper::_('select.option', 'cm', Text::_('COM_REDSHOP_CENTIMETER'));
+        $selectOption[]              = HtmlHelper::_('select.option', 'm', Text::_('COM_REDSHOP_METER'));
+        $lists['discount_calc_unit'] = HtmlHelper::_(
             'select.genericlist',
             $selectOption,
             'discount_calc_unit[]',
@@ -591,7 +591,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $temps           = array();
         $temps[0]        = new stdClass;
         $temps[0]->value = "";
-        $temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+        $temps[0]->text  = Text::_('COM_REDSHOP_SELECT');
 
         if (is_array($productVatGroup)) {
             $productVatGroup = array_merge($temps, $productVatGroup);
@@ -602,22 +602,22 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         }
 
         $append_to_global_seo          = array();
-        $append_to_global_seo[]        = JHtml::_(
+        $append_to_global_seo[]        = HtmlHelper::_(
             'select.option',
             'append',
-            JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO')
+            Text::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO')
         );
-        $append_to_global_seo[]        = JHtml::_(
+        $append_to_global_seo[]        = HtmlHelper::_(
             'select.option',
             'prepend',
-            JText::_('COM_REDSHOP_PREPEND_TO_GLOBAL_SEO')
+            Text::_('COM_REDSHOP_PREPEND_TO_GLOBAL_SEO')
         );
-        $append_to_global_seo[]        = JHtml::_(
+        $append_to_global_seo[]        = HtmlHelper::_(
             'select.option',
             'replace',
-            JText::_('COM_REDSHOP_REPLACE_TO_GLOBAL_SEO')
+            Text::_('COM_REDSHOP_REPLACE_TO_GLOBAL_SEO')
         );
-        $lists['append_to_global_seo'] = JHtml::_(
+        $lists['append_to_global_seo'] = HtmlHelper::_(
             'select.genericlist',
             $append_to_global_seo,
             'append_to_global_seo',
@@ -627,7 +627,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             $detail->append_to_global_seo
         );
 
-        $lists['product_tax_group_id'] = JHtml::_(
+        $lists['product_tax_group_id'] = HtmlHelper::_(
             'select.genericlist',
             $productVatGroup,
             'product_tax_group_id',
@@ -638,16 +638,16 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         );
 
         $propOprand   = array();
-        $propOprand[] = JHtml::_('select.option', '+', '+');
-        $propOprand[] = JHtml::_('select.option', '-', '-');
-        $propOprand[] = JHtml::_('select.option', '=', '=');
-        $propOprand[] = JHtml::_('select.option', '*', '*');
-        $propOprand[] = JHtml::_('select.option', '/', '/');
+        $propOprand[] = HtmlHelper::_('select.option', '+', '+');
+        $propOprand[] = HtmlHelper::_('select.option', '-', '-');
+        $propOprand[] = HtmlHelper::_('select.option', '=', '=');
+        $propOprand[] = HtmlHelper::_('select.option', '*', '*');
+        $propOprand[] = HtmlHelper::_('select.option', '/', '/');
 
         $lists['prop_oprand'] = $propOprand;
 
         $cat_in_sefurl          = $model->catin_sefurl($detail->product_id);
-        $lists['cat_in_sefurl'] = JHtml::_(
+        $lists['cat_in_sefurl'] = HtmlHelper::_(
             'select.genericlist',
             $cat_in_sefurl,
             'cat_in_sefurl',
@@ -662,13 +662,13 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $temps           = array();
         $temps[0]        = new stdClass;
         $temps[0]->value = "";
-        $temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+        $temps[0]->text  = Text::_('COM_REDSHOP_SELECT');
 
         if (is_array($attributesSet)) {
             $attributesSet = array_merge($temps, $attributesSet);
         }
 
-        $lists['attributesSet'] = JHtml::_(
+        $lists['attributesSet'] = HtmlHelper::_(
             'select.genericlist',
             $attributesSet,
             'attribute_set_id',
@@ -680,19 +680,19 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
         // Product type selection
         $productTypeOptions   = array();
-        $productTypeOptions[] = JHtml::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT'));
-        $productTypeOptions[] = JHtml::_('select.option', 'file', JText::_('COM_REDSHOP_FILE'));
-        $productTypeOptions[] = JHtml::_('select.option', 'subscription', JText::_('COM_REDSHOP_SUBSCRIPTION'));
+        $productTypeOptions[] = HtmlHelper::_('select.option', 'product', Text::_('COM_REDSHOP_PRODUCT'));
+        $productTypeOptions[] = HtmlHelper::_('select.option', 'file', Text::_('COM_REDSHOP_FILE'));
+        $productTypeOptions[] = HtmlHelper::_('select.option', 'subscription', Text::_('COM_REDSHOP_SUBSCRIPTION'));
 
         /*
          * Trigger event which can update list of product types.
          * Example of a returned value:
-         * return array('value' => 'redDESIGN', 'text' => JText::_('PLG_REDSHOP_PRODUCT_TYPE_REDDESIGN_REDDESIGN_PRODUCT_TYPE'));
+         * return array('value' => 'redDESIGN', 'text' => Text::_('PLG_REDSHOP_PRODUCT_TYPE_REDDESIGN_REDDESIGN_PRODUCT_TYPE'));
          */
         $productTypePluginOptions = $this->dispatcher->trigger('onListProductTypes');
 
         foreach ($productTypePluginOptions as $productTypePluginOption) {
-            $productTypeOptions[] = JHtml::_(
+            $productTypeOptions[] = HtmlHelper::_(
                 'select.option',
                 $productTypePluginOption['value'],
                 $productTypePluginOption['text']
@@ -703,7 +703,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             $detail->product_type = 'file';
         }
 
-        $lists["product_type"] = JHtml::_(
+        $lists["product_type"] = HtmlHelper::_(
             'select.genericlist',
             $productTypeOptions,
             'product_type',
@@ -715,10 +715,10 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
         $accountgroup = RedshopHelperUtility::getEconomicAccountGroup();
         $op           = array();
-        $op[]         = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+        $op[]         = HtmlHelper::_('select.option', '0', Text::_('COM_REDSHOP_SELECT'));
         $accountgroup = array_merge($op, $accountgroup);
 
-        $lists["accountgroup_id"] = JHtml::_(
+        $lists["accountgroup_id"] = HtmlHelper::_(
             'select.genericlist',
             $accountgroup,
             'accountgroup_id',
@@ -742,7 +742,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             $currentTags = explode(',', $currentTags);
         }
 
-        $lists['jtags'] = JHtml::_(
+        $lists['jtags'] = HtmlHelper::_(
             'select.genericlist',
             $jtags,
             'jtags[]',

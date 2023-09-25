@@ -8,9 +8,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 HTMLHelper::script('com_redshop/jquery.inputmask.min.js', ['relative' => true]);
@@ -121,14 +122,14 @@ foreach ($media->getAll() as $mediaItem) {
     <div class="col-sm-8">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_INFORMATION'); ?></h3>
+                <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_PRODUCT_INFORMATION'); ?></h3>
             </div>
             <div class="box-body">
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="product_name" id="product_name-lbl">
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_NAME'); ?>
                                 <span class="star text-danger"> *</span>
                             </label>
                             <input class="form-control"
@@ -142,11 +143,11 @@ foreach ($media->getAll() as $mediaItem) {
 
                         <div class="form-group">
                             <label for="product_number" id="product_number-lbl">
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_NUMBER') ?><span
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_NUMBER') ?><span
                                         class="star text-danger"> *</span>
-                                <?php echo JHtml::_('redshop.tooltip',
-                                    JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'),
-                                    JText::_('COM_REDSHOP_PRODUCT_NUMBER')
+                                <?php echo HtmlHelper::_('redshop.tooltip',
+                                    Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'),
+                                    Text::_('COM_REDSHOP_PRODUCT_NUMBER')
                                 ); ?>
                             </label>
                             <input class="form-control validate-productNumber"
@@ -158,12 +159,12 @@ foreach ($media->getAll() as $mediaItem) {
 
                         <div class="form-group">
                             <label for="categories">
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_CATEGORY'); ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_CATEGORY'); ?>
                                 <span class="star text-danger"> *</span>
                                 <?php
-                                echo JHtml::_('redshop.tooltip',
-                                    JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_CATEGORY'),
-                                    JText::_('COM_REDSHOP_PRODUCT_CATEGORY')
+                                echo HtmlHelper::_('redshop.tooltip',
+                                    Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_CATEGORY'),
+                                    Text::_('COM_REDSHOP_PRODUCT_CATEGORY')
                                 );
                                 ?>
                             </label>
@@ -172,11 +173,11 @@ foreach ($media->getAll() as $mediaItem) {
 
                         <div class="form-group">
                             <label for="product_type">
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_TYPE'); ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_TYPE'); ?>
                                 <?php
-                                echo JHtml::_('redshop.tooltip',
-                                    JText::_('COM_REDSHOP_PRODUCT_TYPE_TIP'),
-                                    JText::_('COM_REDSHOP_PRODUCT_TYPE')
+                                echo HtmlHelper::_('redshop.tooltip',
+                                    Text::_('COM_REDSHOP_PRODUCT_TYPE_TIP'),
+                                    Text::_('COM_REDSHOP_PRODUCT_TYPE')
                                 );
                                 ?>
                             </label>
@@ -185,12 +186,12 @@ foreach ($media->getAll() as $mediaItem) {
 
                         <div class="form-group">
                             <label for="product_template">
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_TEMPLATE'); ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_TEMPLATE'); ?>
                                 <span class="star text-danger"> *</span>
                                 <?php
-                                echo JHtml::_('redshop.tooltip',
-                                    JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TEMPLATE'),
-                                    JText::_('COM_REDSHOP_PRODUCT_TEMPLATE')
+                                echo HtmlHelper::_('redshop.tooltip',
+                                    Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_TEMPLATE'),
+                                    Text::_('COM_REDSHOP_PRODUCT_TEMPLATE')
                                 );
                                 ?>
                             </label>
@@ -199,11 +200,11 @@ foreach ($media->getAll() as $mediaItem) {
 
                         <div class="form-group">
                             <label for="manufacturer_id">
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'); ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_MANUFACTURER'); ?>
                                 <?php
-                                echo JHtml::_('redshop.tooltip',
-                                    JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MANUFACTURER'),
-                                    JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER')
+                                echo HtmlHelper::_('redshop.tooltip',
+                                    Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_MANUFACTURER'),
+                                    Text::_('COM_REDSHOP_PRODUCT_MANUFACTURER')
                                 );
                                 ?>
                             </label>
@@ -211,18 +212,18 @@ foreach ($media->getAll() as $mediaItem) {
                         </div>
 
                         <div class="form-group">
-                            <label for="published0"><?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?></label>
+                            <label for="published0"><?php echo Text::_('COM_REDSHOP_PUBLISHED'); ?></label>
                             <?php echo $this->lists['published']; ?>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="product_price">
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_PRICE'); ?>
                                 <?php
-                                echo JHtml::_('redshop.tooltip',
-                                    JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PRICE'),
-                                    JText::_('COM_REDSHOP_PRODUCT_PRICE')
+                                echo HtmlHelper::_('redshop.tooltip',
+                                    Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_PRICE'),
+                                    Text::_('COM_REDSHOP_PRODUCT_PRICE')
                                 );
                                 ?>
                             </label>
@@ -238,11 +239,11 @@ foreach ($media->getAll() as $mediaItem) {
 
                         <div class="form-group">
                             <label for="product_tax_group_id">
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP'); ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_TAX_GROUP'); ?>
                                 <?php
-                                echo JHtml::_('redshop.tooltip',
-                                    JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TAX'),
-                                    JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP')
+                                echo HtmlHelper::_('redshop.tooltip',
+                                    Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_TAX'),
+                                    Text::_('COM_REDSHOP_PRODUCT_TAX_GROUP')
                                 );
                                 ?>
                             </label>
@@ -251,11 +252,11 @@ foreach ($media->getAll() as $mediaItem) {
 
                         <div class="form-group">
                             <label for="discount_price">
-                                <?php echo JText::_('COM_REDSHOP_DISCOUNT_PRICE'); ?>
+                                <?php echo Text::_('COM_REDSHOP_DISCOUNT_PRICE'); ?>
                                 <?php
-                                echo JHtml::_('redshop.tooltip',
-                                    JText::_('COM_REDSHOP_TOOLTIP_DISCOUNT_PRICE'),
-                                    JText::_('COM_REDSHOP_DISCOUNT_PRICE')
+                                echo HtmlHelper::_('redshop.tooltip',
+                                    Text::_('COM_REDSHOP_TOOLTIP_DISCOUNT_PRICE'),
+                                    Text::_('COM_REDSHOP_DISCOUNT_PRICE')
                                 );
                                 ?>
                             </label>
@@ -272,7 +273,7 @@ foreach ($media->getAll() as $mediaItem) {
                         </div>
 
                         <div class="form-group">
-                            <label for="discount_stratdate"><?php echo JText::_(
+                            <label for="discount_stratdate"><?php echo Text::_(
                                     'COM_REDSHOP_DISCOUNT_START_DATE'
                                 ); ?></label>
                             <?php
@@ -286,7 +287,7 @@ foreach ($media->getAll() as $mediaItem) {
                                     : $this->detail->discount_stratdate;
                             }
 
-                            echo JHtml::_(
+                            echo HtmlHelper::_(
                                 'redshopcalendar.calendar',
                                 $startDate,
                                 'discount_stratdate',
@@ -300,7 +301,7 @@ foreach ($media->getAll() as $mediaItem) {
                         </div>
 
                         <div class="form-group">
-                            <label for="discount_enddate"><?php echo JText::_(
+                            <label for="discount_enddate"><?php echo Text::_(
                                     'COM_REDSHOP_DISCOUNT_END_DATE'
                                 ); ?></label>
                             <?php
@@ -314,7 +315,7 @@ foreach ($media->getAll() as $mediaItem) {
                                     : $this->detail->discount_enddate;
                             }
 
-                            echo JHtml::_(
+                            echo HtmlHelper::_(
                                 'redshopcalendar.calendar',
                                 $endDate,
                                 'discount_enddate',
@@ -334,18 +335,18 @@ foreach ($media->getAll() as $mediaItem) {
 
                         <div class="alert alert-info" <?php echo $display ?>>
                             <?php
-                            $isProductOnSale = ($this->detail->product_on_sale) ? JText::_('JYES') : JText::_('JNO');
-                            echo JText::sprintf('COM_REDSHOP_PRODUCT_ON_SALE_HINT', $isProductOnSale);
+                            $isProductOnSale = ($this->detail->product_on_sale) ? Text::_('JYES') : Text::_('JNO');
+                            echo Text::sprintf('COM_REDSHOP_PRODUCT_ON_SALE_HINT', $isProductOnSale);
                             ?>
                         </div>
 
                         <div class="form-group">
                             <label for="product_tax_group_id">
-                                <?php echo JText::_('JTAG'); ?>
+                                <?php echo Text::_('JTAG'); ?>
                                 <?php
-                                echo JHtml::_('redshop.tooltip',
-                                    JText::_('JTAG'),
-                                    JText::_('JTAG_DESC')
+                                echo HtmlHelper::_('redshop.tooltip',
+                                    Text::_('JTAG'),
+                                    Text::_('JTAG_DESC')
                                 );
                                 ?>
                             </label>
@@ -359,15 +360,15 @@ foreach ($media->getAll() as $mediaItem) {
 
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></h3>
+                <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_DESCRIPTION'); ?></h3>
             </div>
             <div class="box-body">
                 <div class="form-group">
-                    <label><?php echo JText::_('COM_REDSHOP_FULL_DESCRIPTION'); ?></label>
+                    <label><?php echo Text::_('COM_REDSHOP_FULL_DESCRIPTION'); ?></label>
                     <?php echo $editor->display(
                         "product_desc",
                         $this->detail->product_desc,
-                        '$widthPx',
+                        '100%',
                         '$heightPx',
                         '100',
                         '20'
@@ -376,11 +377,11 @@ foreach ($media->getAll() as $mediaItem) {
                 <div class="clearfix"></div>
 
                 <div class="form-group">
-                    <label><?php echo JText::_('COM_REDSHOP_SHORT_DESCRIPTION'); ?></label>
+                    <label><?php echo Text::_('COM_REDSHOP_SHORT_DESCRIPTION'); ?></label>
                     <?php echo $editor->display(
                         "product_s_desc",
                         $this->detail->product_s_desc,
-                        '$widthPx',
+                        '100%',
                         '$heightPx',
                         '100',
                         '20'
@@ -395,7 +396,7 @@ foreach ($media->getAll() as $mediaItem) {
     <div class="col-sm-4">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGE'); ?></h3>
+                <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_PRODUCT_IMAGE'); ?></h3>
             </div>
             <div class="box-body">
                 <div class="form-group">
@@ -417,7 +418,7 @@ foreach ($media->getAll() as $mediaItem) {
                         <button type="button"
 								class="joom-box btn btn-primary ModalProductDetailButton"
 								data-url="<?php echo Redshop\IO\Route::_($ilink, false) ?>">
-                            <?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES'); ?>
+                            <?php echo Text::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES'); ?>
                         </button>
                     </div>
                 <?php endif; ?>
@@ -426,7 +427,7 @@ foreach ($media->getAll() as $mediaItem) {
 
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_BACK_IMAGE'); ?></h3>
+                <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_PRODUCT_BACK_IMAGE'); ?></h3>
             </div>
             <div class="box-body">
                 <?php
@@ -446,17 +447,17 @@ foreach ($media->getAll() as $mediaItem) {
 
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_MEASURES'); ?></h3>
+                <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_PRODUCT_MEASURES'); ?></h3>
             </div>
             <div class="box-body">
                 <div class="form-group">
                     <label for="product_volume">
-                        <?php echo JText::_('COM_REDSHOP_PRODUCT_VOLUME'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_VOLUME'); ?>
                         (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?><sup>3</sup>)
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_VOLUME'),
-                            JText::_('COM_REDSHOP_PRODUCT_VOLUME')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_VOLUME'),
+                            Text::_('COM_REDSHOP_PRODUCT_VOLUME')
                         );
                         ?>
                     </label>
@@ -472,12 +473,12 @@ foreach ($media->getAll() as $mediaItem) {
 
                 <div class="form-group">
                     <label for="product_length">
-                        <?php echo JText::_('COM_REDSHOP_PRODUCT_LENGTH'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_LENGTH'); ?>
                         (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_LENGTH'),
-                            JText::_('COM_REDSHOP_PRODUCT_LENGTH')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_LENGTH'),
+                            Text::_('COM_REDSHOP_PRODUCT_LENGTH')
                         );
                         ?>
                     </label>
@@ -493,12 +494,12 @@ foreach ($media->getAll() as $mediaItem) {
 
                 <div class="form-group">
                     <label for="product_width">
-                        <?php echo JText::_('COM_REDSHOP_PRODUCT_WIDTH'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_WIDTH'); ?>
                         (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_WIDTH'),
-                            JText::_('COM_REDSHOP_PRODUCT_WIDTH')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_WIDTH'),
+                            Text::_('COM_REDSHOP_PRODUCT_WIDTH')
                         );
                         ?>
                     </label>
@@ -514,12 +515,12 @@ foreach ($media->getAll() as $mediaItem) {
 
                 <div class="form-group">
                     <label for="product_height">
-                        <?php echo JText::_('COM_REDSHOP_PRODUCT_HEIGHT'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_HEIGHT'); ?>
                         (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_HEIGHT'),
-                            JText::_('COM_REDSHOP_PRODUCT_HEIGHT')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_HEIGHT'),
+                            Text::_('COM_REDSHOP_PRODUCT_HEIGHT')
                         );
                         ?>
                     </label>
@@ -535,12 +536,12 @@ foreach ($media->getAll() as $mediaItem) {
 
                 <div class="form-group">
                     <label for="product_diameter">
-                        <?php echo JText::_('COM_REDSHOP_PRODUCT_DIAMETER'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_DIAMETER'); ?>
                         (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DIAMETER'),
-                            JText::_('COM_REDSHOP_PRODUCT_DIAMETER')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_DIAMETER'),
+                            Text::_('COM_REDSHOP_PRODUCT_DIAMETER')
                         );
                         ?>
                     </label>
@@ -556,12 +557,12 @@ foreach ($media->getAll() as $mediaItem) {
 
                 <div class="form-group">
                     <label for="weight">
-                        <?php echo JText::_('COM_REDSHOP_WEIGHT_LBL'); ?>
+                        <?php echo Text::_('COM_REDSHOP_WEIGHT_LBL'); ?>
                         (<?php echo Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'); ?>)
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_WEIGHT'),
-                            JText::_('COM_REDSHOP_WEIGHT_LBL')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_WEIGHT'),
+                            Text::_('COM_REDSHOP_WEIGHT_LBL')
                         );
                         ?>
                     </label>
@@ -579,16 +580,16 @@ foreach ($media->getAll() as $mediaItem) {
 
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_ADDITIONAL_INFORMATION'); ?></h3>
+                <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_ADDITIONAL_INFORMATION'); ?></h3>
             </div>
             <div class="box-body">
                 <div class="form-group">
                     <label for="supplier_id">
-                        <?php echo JText::_('COM_REDSHOP_SUPPLIER'); ?>
+                        <?php echo Text::_('COM_REDSHOP_SUPPLIER'); ?>
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_SUPPLIER'),
-                            JText::_('COM_REDSHOP_SUPPLIER')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_SUPPLIER'),
+                            Text::_('COM_REDSHOP_SUPPLIER')
                         );
                         ?>
                     </label>
@@ -597,23 +598,23 @@ foreach ($media->getAll() as $mediaItem) {
 
                 <div class="form-group">
                     <label for="product_parent_id">
-                        <?php echo JText::_('COM_REDSHOP_PARENT_PRODUCT'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PARENT_PRODUCT'); ?>
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PARENT_PRODUCT'),
-                            JText::_('COM_REDSHOP_PARENT_PRODUCT')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PARENT_PRODUCT'),
+                            Text::_('COM_REDSHOP_PARENT_PRODUCT')
                         );
                         ?>
                     </label>
                     <?php
-                    echo JHtml::_(
+                    echo HtmlHelper::_(
                         'redshopselect.search',
                         \Redshop\Product\Product::getProductById($this->detail->product_parent_id),
                         'product_parent_id',
                         array(
                             'select2.options'     => array(
                                 'multiple'    => 'false',
-                                'placeholder' => JText::_('COM_REDSHOP_PARENT_PRODUCT')
+                                'placeholder' => Text::_('COM_REDSHOP_PARENT_PRODUCT')
                             ),
                             'option.key'          => 'product_id',
                             'option.text'         => 'product_name',
@@ -625,11 +626,11 @@ foreach ($media->getAll() as $mediaItem) {
 
                 <div class="form-group">
                     <label for="product_special0">
-                        <?php echo JText::_('COM_REDSHOP_PRODUCT_SPECIAL'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_SPECIAL'); ?>
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL'),
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL_LBL')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL'),
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL_LBL')
                         );
                         ?>
                     </label>
@@ -638,11 +639,11 @@ foreach ($media->getAll() as $mediaItem) {
 
                 <div class="form-group">
                     <label for="expired0">
-                        <?php echo JText::_('COM_REDSHOP_PRODUCT_EXPIRED'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_EXPIRED'); ?>
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED'),
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED_LBL')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED'),
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED_LBL')
                         );
                         ?>
                     </label>
@@ -651,11 +652,11 @@ foreach ($media->getAll() as $mediaItem) {
 
                 <div class="form-group">
                     <label for="not_for_sale0">
-                        <?php echo JText::_('COM_REDSHOP_PRODUCT_NOT_FOR_SALE'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_NOT_FOR_SALE'); ?>
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE'),
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_LBL')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE'),
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_LBL')
                         );
                         ?>
                     </label>
@@ -664,11 +665,11 @@ foreach ($media->getAll() as $mediaItem) {
 
                 <div class="form-group" id="not_for_sale_showprice">
                     <label for="not_for_sale_showprice0">
-                        <?php echo JText::_('COM_REDSHOP_PRODUCT_NOT_FOR_SALE_SHOWPRICE'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_NOT_FOR_SALE_SHOWPRICE'); ?>
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_SHOWPRICE'),
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_SHOWPRICE_LBL')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_SHOWPRICE'),
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_SHOWPRICE_LBL')
                         );
                         ?>
                     </label>
@@ -677,11 +678,11 @@ foreach ($media->getAll() as $mediaItem) {
 
                 <div class="form-group">
                     <label for="preorder">
-                        <?php echo JText::_('COM_REDSHOP_PRODUCT_PREORDER'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_PREORDER'); ?>
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREORDER'),
-                            JText::_('COM_REDSHOP_PRODUCT_PREORDER')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREORDER'),
+                            Text::_('COM_REDSHOP_PRODUCT_PREORDER')
                         );
                         ?>
                     </label>
@@ -690,11 +691,11 @@ foreach ($media->getAll() as $mediaItem) {
 
                 <div class="form-group">
                     <label for="minimum_per_product_total">
-                        <?php echo JText::_('COM_REDSHOP_MINIMUM_PER_PRODUCT_TOTAL_LBL'); ?>
+                        <?php echo Text::_('COM_REDSHOP_MINIMUM_PER_PRODUCT_TOTAL_LBL'); ?>
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_MINIMUM_PER_PRODUCT_TOTAL'),
-                            JText::_('COM_REDSHOP_MINIMUM_PER_PRODUCT_TOTAL_LBL')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_MINIMUM_PER_PRODUCT_TOTAL'),
+                            Text::_('COM_REDSHOP_MINIMUM_PER_PRODUCT_TOTAL_LBL')
                         );
                         ?>
                     </label>
@@ -712,11 +713,11 @@ foreach ($media->getAll() as $mediaItem) {
                 <?php if (Redshop::getConfig()->get('ALLOW_PRE_ORDER')) : ?>
                     <div class="form-group">
                         <label>
-                            <?php echo JText::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL'); ?>
+                            <?php echo Text::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL'); ?>
                             <?php
-                            echo JHtml::_('redshop.tooltip',
-                                JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_AVAILABILITY_DATE'),
-                                JText::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL')
+                            echo HtmlHelper::_('redshop.tooltip',
+                                Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_AVAILABILITY_DATE'),
+                                Text::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL')
                             );
                             ?>
                         </label>
@@ -727,7 +728,7 @@ foreach ($media->getAll() as $mediaItem) {
                             $availability_date = date("d-m-Y", $this->detail->product_availability_date);
                         }
 
-                        echo JHtml::_(
+                        echo HtmlHelper::_(
                             'calendar',
                             $availability_date,
                             'product_availability_date',
@@ -741,11 +742,11 @@ foreach ($media->getAll() as $mediaItem) {
 
                 <div class="form-group">
                     <label for="min_order_product_quantity">
-                        <?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_PRODUCT_QUANTITY_LBL'); ?>
+                        <?php echo Text::_('COM_REDSHOP_MINIMUM_ORDER_PRODUCT_QUANTITY_LBL'); ?>
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_MINIMUM_ORDER_PRODUCT_QUANTITY'),
-                            JText::_('COM_REDSHOP_MINIMUM_ORDER_PRODUCT_QUANTITY_LBL')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_MINIMUM_ORDER_PRODUCT_QUANTITY'),
+                            Text::_('COM_REDSHOP_MINIMUM_ORDER_PRODUCT_QUANTITY_LBL')
                         );
                         ?>
                     </label>
@@ -763,11 +764,11 @@ foreach ($media->getAll() as $mediaItem) {
 
                 <div class="form-group">
                     <label for="max_order_product_quantity">
-                        <?php echo JText::_('COM_REDSHOP_MAXIMUM_ORDER_PRODUCT_QUANTITY_LBL'); ?>
+                        <?php echo Text::_('COM_REDSHOP_MAXIMUM_ORDER_PRODUCT_QUANTITY_LBL'); ?>
                         <?php
-                        echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_MAXIMUM_ORDER_PRODUCT_QUANTITY'),
-                            JText::_('COM_REDSHOP_TOOLTIP_MAXIMUM_ORDER_PRODUCT_QUANTITY')
+                        echo HtmlHelper::_('redshop.tooltip',
+                            Text::_('COM_REDSHOP_TOOLTIP_MAXIMUM_ORDER_PRODUCT_QUANTITY'),
+                            Text::_('COM_REDSHOP_TOOLTIP_MAXIMUM_ORDER_PRODUCT_QUANTITY')
                         );
                         ?>
                     </label>
