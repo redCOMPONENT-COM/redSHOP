@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 /**
  * jQuery HTML class.
  *
@@ -44,18 +44,18 @@ abstract class JHtmlRedshopjquery
 
         self::framework();
 
-		HTMLHelper::script('com_redshop/flexslider.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/flexslider.min.js', ['relative' => true]);
 
         $options = static::options2Jregistry($options);
 
         JFactory::getDocument()->addScriptDeclaration(
             "
-			(function($){
-				$(document).ready(function () {
-					$('" . $selector . "').flexslider(" . $options->toString() . ");
-				});
-			})(jQuery);
-		"
+            (function($){
+                $(document).ready(function () {
+                    $('" . $selector . "').flexslider(" . $options->toString() . ");
+                });
+            })(jQuery);
+        "
         );
         static::$loaded[__METHOD__][$selector] = true;
 
@@ -80,14 +80,11 @@ abstract class JHtmlRedshopjquery
             return;
         }
 
-        if ((version_compare(JVERSION, '4.0', '<')))
-		{
+        if ((version_compare(JVERSION, '4.0', '<'))) {
             JHtml::_('jquery.framework', $noConflict, $debug, $migrate);
+        } else {
+            JHtml::_('bootstrap.framework', $noConflict, $debug, $migrate);
         }
-		else
-		{
-			JHtml::_('bootstrap.framework', $noConflict, $debug, $migrate);
-		}
 
         static::$loaded[__METHOD__] = true;
     }
@@ -133,42 +130,42 @@ abstract class JHtmlRedshopjquery
 
         JFactory::getDocument()->addScriptDeclaration(
             "
-		(function($)
-		{
-			$(document).ready(function()
-			{
-				$('.radio" . $selector . " label').addClass('btn');
-				$('" . $selector . " label:not(.active)').click(function()
-				{
-					var label = $(this);
-					var input = $('#' + label.attr('for'));
+        (function($)
+        {
+            $(document).ready(function()
+            {
+                $('.radio" . $selector . " label').addClass('btn');
+                $('" . $selector . " label:not(.active)').click(function()
+                {
+                    var label = $(this);
+                    var input = $('#' + label.attr('for'));
 
-					if (!input.prop('checked')) {
-						label.closest('" . $selector . "').find('label').removeClass('active btn-success btn-danger btn-primary');
-						if (input.val() == '') {
-							label.addClass('active btn-primary');
-						} else if (input.val() == 0) {
-							label.addClass('active btn-danger');
-						} else {
-							label.addClass('active btn-success');
-						}
-						input.prop('checked', true);
-						input.trigger('change');
-					}
-				});
-				$('" . $selector . " input[checked=checked]').each(function()
-				{
-					if ($(this).val() == '') {
-						$('label[for=' + $(this).attr('id') + ']').addClass('active btn-primary');
-					} else if ($(this).val() == 0) {
-						$('label[for=' + $(this).attr('id') + ']').addClass('active btn-danger');
-					} else {
-						$('label[for=' + $(this).attr('id') + ']').addClass('active btn-success');
-					}
-				});
-			});
-		})(jQuery);
-		"
+                    if (!input.prop('checked')) {
+                        label.closest('" . $selector . "').find('label').removeClass('active btn-success btn-danger btn-primary');
+                        if (input.val() == '') {
+                            label.addClass('active btn-primary');
+                        } else if (input.val() == 0) {
+                            label.addClass('active btn-danger');
+                        } else {
+                            label.addClass('active btn-success');
+                        }
+                        input.prop('checked', true);
+                        input.trigger('change');
+                    }
+                });
+                $('" . $selector . " input[checked=checked]').each(function()
+                {
+                    if ($(this).val() == '') {
+                        $('label[for=' + $(this).attr('id') + ']').addClass('active btn-primary');
+                    } else if ($(this).val() == 0) {
+                        $('label[for=' + $(this).attr('id') + ']').addClass('active btn-danger');
+                    } else {
+                        $('label[for=' + $(this).attr('id') + ']').addClass('active btn-success');
+                    }
+                });
+            });
+        })(jQuery);
+        "
         );
 
         return;
@@ -193,11 +190,11 @@ abstract class JHtmlRedshopjquery
 
         self::framework();
 
-		HTMLHelper::script('com_redshop/select2.min.js', ['relative' => true]);
-		HTMLHelper::stylesheet('com_redshop/select2/select2.css', ['relative' => true]);
+        HTMLHelper::script('com_redshop/select2.min.js', ['relative' => true]);
+        HTMLHelper::stylesheet('com_redshop/select2/select2.css', ['relative' => true]);
 
         if (version_compare(JVERSION, '3.0', '>=')) {
-			HTMLHelper::stylesheet('com_redshop/select2/select2-bootstrap.css', ['relative' => true]);
+            HTMLHelper::stylesheet('com_redshop/select2/select2-bootstrap.css', ['relative' => true]);
         }
 
         $prefix = '';
@@ -205,27 +202,27 @@ abstract class JHtmlRedshopjquery
         if (isset($options['multiple']) && $options['multiple'] == 'true') {
             self::ui();
             $prefix = ".select2('container').find('ul.select2-choices').sortable({
-						containment: 'parent',
-						start: function() { $('" . $selector . "').select2('onSortStart'); },
-						update: function() { $('" . $selector . "').select2('onSortEnd'); }
-					})";
+                        containment: 'parent',
+                        start: function() { $('" . $selector . "').select2('onSortStart'); },
+                        update: function() { $('" . $selector . "').select2('onSortEnd'); }
+                    })";
         }
 
         $initTemplate = "
-			(function($){
-				$(document).ready(function () {
-					$('" . $selector . "').select2(
-						" . static::formatSelect2Options($options) . "
-					)" . static::formatSelect2Events($options) . $prefix . ";
+            (function($){
+                $(document).ready(function () {
+                    $('" . $selector . "').select2(
+                        " . static::formatSelect2Options($options) . "
+                    )" . static::formatSelect2Events($options) . $prefix . ";
 
-					$('" . $selector . "').on(\"select2-removed\", function(e) {
-						if ($(this).val() == null) {
-							$(this).val(\"\").trigger(\"change\");
-						}
-					});
-				});
-			})(jQuery);
-		";
+                    $('" . $selector . "').on(\"select2-removed\", function(e) {
+                        if ($(this).val() == null) {
+                            $(this).val(\"\").trigger(\"change\");
+                        }
+                    });
+                });
+            })(jQuery);
+        ";
 
         if ($getInitTemplate) {
             echo $initTemplate;
@@ -252,31 +249,31 @@ abstract class JHtmlRedshopjquery
             return;
         }
 
-		HTMLHelper::stylesheet('com_redshop/jquery-ui/jquery-ui.min.css', ['relative' => true]);
+        HTMLHelper::stylesheet('com_redshop/jquery-ui/jquery-ui.min.css', ['relative' => true]);
         self::framework();
 
-		HTMLHelper::script('com_redshop/jquery-ui.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/jquery-ui.min.js', ['relative' => true]);
 
-		// Check includes and remove core joomla jquery.ui script only for Joomla 3
-		if (version_compare(JVERSION, '4.0', '<'))
-		{
-			JHtml::_('jquery.ui', array('core'));
+        // Check includes and remove core joomla jquery.ui script only for Joomla 3
+        if (version_compare(JVERSION, '4.0', '<'))
+        {
+            JHtml::_('jquery.ui', array('core'));
 
-			$document = JFactory::getDocument();
-			$headData = $document->getHeadData();
+            $document = JFactory::getDocument();
+            $headData = $document->getHeadData();
 
-			if (isset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.min.js'])) {
-				unset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.min.js']);
-			}
+            if (isset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.min.js'])) {
+                unset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.min.js']);
+            }
 
-			if (JFactory::getConfig()->get('debug')) {
-				if (isset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.js'])) {
-					unset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.js']);
-				}
-			}
+            if (JFactory::getConfig()->get('debug')) {
+                if (isset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.js'])) {
+                    unset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.js']);
+                }
+            }
 
-			$document->setHeadData($headData);
-		}
+            $document->setHeadData($headData);
+        }
 
         static::$loaded[__METHOD__] = true;
     }
@@ -293,33 +290,33 @@ abstract class JHtmlRedshopjquery
         $options = static::options2Jregistry($options);
 
         $options->def('width', 'resolve');
-        $options->def('formatNoMatches', 'function () { return "' . JText::_("LIB_REDSHOP_SELECT2_NO_MATHES") . '"; }');
+        $options->def('formatNoMatches', 'function () { return "' . Text::_("LIB_REDSHOP_SELECT2_NO_MATHES") . '"; }');
         $options->def(
             'formatInputTooShort',
             'function (input, min) { var n = min - input.length; return "'
-            . JText::_("LIB_REDSHOP_SELECT2_INPUT_TO_SHORT") . '" + (n == 1? "" : "' . JText::_(
+            . Text::_("LIB_REDSHOP_SELECT2_INPUT_TO_SHORT") . '" + (n == 1? "" : "' . Text::_(
                 "LIB_REDSHOP_SELECT2_PREFIX"
             ) . '"); }'
         );
         $options->def(
             'formatInputTooLong',
             'function (input, max) { var n = input.length - max; return "'
-            . JText::_("LIB_REDSHOP_SELECT2_TO_LONG") . '" + (n == 1? "" : "' . JText::_(
+            . Text::_("LIB_REDSHOP_SELECT2_TO_LONG") . '" + (n == 1? "" : "' . Text::_(
                 "LIB_REDSHOP_SELECT2_PREFIX"
             ) . '"); }'
         );
         $options->def(
             'formatSelectionTooBig',
             'function (limit) { return "'
-            . JText::_("LIB_REDSHOP_SELECT2_TO_BIG") . '" + (limit == 1 ? "" : "' . JText::_(
+            . Text::_("LIB_REDSHOP_SELECT2_TO_BIG") . '" + (limit == 1 ? "" : "' . Text::_(
                 "LIB_REDSHOP_SELECT2_PREFIX"
             ) . '"); }'
         );
         $options->def(
             'formatLoadMore',
-            'function (pageNumber) { return "' . JText::_("LIB_REDSHOP_SELECT2_LOAD_MORE") . '"; }'
+            'function (pageNumber) { return "' . Text::_("LIB_REDSHOP_SELECT2_LOAD_MORE") . '"; }'
         );
-        $options->def('formatSearching', 'function () { return "' . JText::_("LIB_REDSHOP_SELECT2_SEARCHING") . '"; }');
+        $options->def('formatSearching', 'function () { return "' . Text::_("LIB_REDSHOP_SELECT2_SEARCHING") . '"; }');
 
         $return    = array();
         $functions = array(
@@ -420,9 +417,9 @@ abstract class JHtmlRedshopjquery
         // Attach the popover to the document
         JFactory::getDocument()->addScriptDeclaration(
             "jQuery(document).ready(function()
-			{
-				jQuery('" . $selector . "').popover(" . $options . ");
-			});"
+            {
+                jQuery('" . $selector . "').popover(" . $options . ");
+            });"
         );
 
         static::$loaded[__METHOD__][$selector] = true;

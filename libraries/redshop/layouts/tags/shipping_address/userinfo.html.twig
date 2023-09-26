@@ -1,3 +1,4 @@
+<div class="container">
 {% if billingAddresses %}
     {% set shippingCheck = (usersInfoId == billingAddresses.users_info_id) ? 'checked="checked"' : '' %}
     <div class="form-check form-check-inline">
@@ -25,7 +26,7 @@
 
     {% set shippingCheck = (usersInfoId == shippingAddress.users_info_id) ? 'checked="checked"' : '' %}
 
-    <div class="form-check form-check-inline">
+    <div class="form-check">
         <input class="form-check-input" type="radio" id="shipping-address-shipping"
                 onclick="javascript:onestepCheckoutProcess(this.name,'');" name="users_info_id"
                value="{{ shippingAddress.users_info_id }}" {{ shippingCheck }}
@@ -33,7 +34,7 @@
         <label class="form-check-label" for="shipping-address-shipping">
             {{ shippingAddress.firstname }} {{ shippingAddress.lastname }}
         </label>
-        <a class="modal" href="{{ addShippingLink }}" rel="{handler: 'iframe', size: {x: 570, y: 470}}">
+        <a class="ModalAddShippingAddressButton" data-url="{{ addShippingLink }}">
             ({{ jtext('COM_REDSHOP_EDIT_LBL') }})
         </a>
         <a href="{{ removeShippingLink }}" title="">
@@ -45,6 +46,9 @@
     ~ '&return=checkout&Itemid=' ~ itemId ~ '&infoid=0&is_company=' ~ billingAddresses.is_company,
     false) %}
 
-<a class="btn btn-primary" href="{{ addLink }}" rel="{handler: 'iframe', size: {x: 570, y: 470}}">
-    {{ jtext('COM_REDSHOP_ADD_ADDRESS') }}
-</a>
+<div class="form-check">
+    <button class="btn btn-primary ModalAddShippingAddressButton" type="button" data-url="{{ addLink }}" >
+        {{ jtext('COM_REDSHOP_ADD_ADDRESS') }}
+    </button>
+</div>
+</div>

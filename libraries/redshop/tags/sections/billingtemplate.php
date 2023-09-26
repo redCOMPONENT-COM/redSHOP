@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -32,7 +34,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
         $this->replacePrivateCompanyBilling('company');
         $this->template = $this->strReplace($this->replacements, $this->template);
         $this->template = $this->replaceCreateAccount();
-        $this->addReplace('{required_lbl}', JText::_('COM_REDSHOP_REQUIRED'));
+        $this->addReplace('{required_lbl}', Text::_('COM_REDSHOP_REQUIRED'));
         $this->replaceSameShipping();
 
         $this->template .= RedshopLayoutHelper::render(
@@ -142,7 +144,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
                 $usernameLbl = RedshopLayoutHelper::render(
                     'tags.common.label',
                     array(
-                        'text'  => JText::_('COM_REDSHOP_USERNAME_REGISTER'),
+                        'text'  => Text::_('COM_REDSHOP_USERNAME_REGISTER'),
                         'id'    => 'username',
                         'class' => ''
                     ),
@@ -160,7 +162,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
                         'type'  => 'text',
                         'value' => (!empty($this->data['data']["username"]) ? $this->data['data']['username'] : ''),
                         'class' => 'inputbox required',
-                        'attr'  => 'size="32" maxlength="250" data-msg="' . JText::_(
+                        'attr'  => 'size="32" maxlength="250" data-msg="' . Text::_(
                                 'COM_REDSHOP_PLEASE_ENTER_USERNAME'
                             ) . '"'
                     ),
@@ -173,7 +175,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
                 $passwordLbl = RedshopLayoutHelper::render(
                     'tags.common.label',
                     array(
-                        'text'  => JText::_('COM_REDSHOP_PASSWORD_REGISTER'),
+                        'text'  => Text::_('COM_REDSHOP_PASSWORD_REGISTER'),
                         'id'    => 'password',
                         'class' => ''
                     ),
@@ -191,7 +193,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
                         'type'  => 'password',
                         'value' => (!empty($this->data['data']["username"]) ? $this->data['data']['username'] : ''),
                         'class' => 'inputbox required',
-                        'attr'  => 'size="32" maxlength="250" data-msg="' . JText::_(
+                        'attr'  => 'size="32" maxlength="250" data-msg="' . Text::_(
                                 'COM_REDSHOP_PLEASE_ENTER_PASSWORD'
                             ) . '"'
                     ),
@@ -204,7 +206,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
                 $confirmPassLbl = RedshopLayoutHelper::render(
                     'tags.common.label',
                     array(
-                        'text'  => JText::_('COM_REDSHOP_CONFIRM_PASSWORD'),
+                        'text'  => Text::_('COM_REDSHOP_CONFIRM_PASSWORD'),
                         'id'    => 'password2',
                         'class' => ''
                     ),
@@ -222,7 +224,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
                         'type'  => 'password',
                         'value' => '',
                         'class' => 'inputbox required',
-                        'attr'  => 'size="32" maxlength="250" data-msg="' . JText::_(
+                        'attr'  => 'size="32" maxlength="250" data-msg="' . Text::_(
                                 'COM_REDSHOP_PLEASE_ENTER_PASSWORD'
                             ) . '"'
                     ),
@@ -239,7 +241,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
                     $newsletterSignupLabel = RedshopLayoutHelper::render(
                         'tags.common.label',
                         array(
-                            'text'  => JText::_('COM_REDSHOP_SIGN_UP_FOR_NEWSLETTER'),
+                            'text'  => Text::_('COM_REDSHOP_SIGN_UP_FOR_NEWSLETTER'),
                             'id'    => 'newsletter_signup',
                             'class' => ''
                         ),
@@ -308,9 +310,9 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
             $sameShippingLbl = RedshopLayoutHelper::render(
                 'tags.common.label',
                 array(
-                    'text'  => JText::_('COM_REDSHOP_SHIPPING_SAME_AS_BILLING'),
+                    'text'  => Text::_('COM_REDSHOP_SHIPPING_SAME_AS_BILLING'),
                     'id'    => 'billisship',
-                    'class' => ''
+                    'class' => 'form-check-label'
                 ),
                 '',
                 RedshopLayoutHelper::$layoutOption
@@ -326,7 +328,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
                     'type'  => 'checkbox',
                     'value' => '1',
                     'attr'  => 'onclick="billingIsShipping(this);" ' . $billingIsShipping,
-                    'class' => ''
+                    'class' => 'form-check-input'
                 ),
                 '',
                 RedshopLayoutHelper::$layoutOption

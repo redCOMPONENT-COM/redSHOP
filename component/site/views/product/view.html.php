@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Product Detail View
@@ -122,7 +123,7 @@ class RedshopViewProduct extends RedshopView
 
             if ($this->data->published == 0) {
 				throw new \Exception(sprintf(
-					JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'),
+					Text::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'),
 					$this->data->product_name,
 					$this->data->product_number
 				));
@@ -399,19 +400,19 @@ class RedshopViewProduct extends RedshopView
 
                     $this->document->setMetaData(
                         'description',
-                        JText::_('COM_REDSHOP_META_BUY') . ' ' . $this->data->product_name . ' ' .
-                        JText::_('COM_REDSHOP_META_AT_ONLY') . ' ' . RedshopHelperProductPrice::formattedPrice(
+                        Text::_('COM_REDSHOP_META_BUY') . ' ' . $this->data->product_name . ' ' .
+                        Text::_('COM_REDSHOP_META_AT_ONLY') . ' ' . RedshopHelperProductPrice::formattedPrice(
                             $prodhelperobj_array['product_price']
                         ) . ' ' .
-                        JText::_('COM_REDSHOP_META_SAVE') . ' ' . $product_price_saving_main
+                        Text::_('COM_REDSHOP_META_SAVE') . ' ' . $product_price_saving_main
                     );
                     $this->document->setMetaData(
                         'og:description',
-                        JText::_('COM_REDSHOP_META_BUY') . ' ' . $this->data->product_name . ' ' .
-                        JText::_('COM_REDSHOP_META_AT_ONLY') . ' ' . RedshopHelperProductPrice::formattedPrice(
+                        Text::_('COM_REDSHOP_META_BUY') . ' ' . $this->data->product_name . ' ' .
+                        Text::_('COM_REDSHOP_META_AT_ONLY') . ' ' . RedshopHelperProductPrice::formattedPrice(
                             $prodhelperobj_array['product_price']
                         ) . ' ' .
-                        JText::_('COM_REDSHOP_META_SAVE') . ' ' . $product_price_saving_main
+                        Text::_('COM_REDSHOP_META_SAVE') . ' ' . $product_price_saving_main
                     );
                 }
             }

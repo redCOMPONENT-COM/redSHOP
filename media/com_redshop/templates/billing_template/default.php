@@ -28,7 +28,7 @@
 </div>
 {account_creation_end}
 
-<div class="checkbox">
+<div class="form-check">
     {shipping_same_as_billing}
     {shipping_same_as_billing_lbl}
 </div>

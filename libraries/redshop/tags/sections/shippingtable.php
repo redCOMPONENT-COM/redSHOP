@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -70,7 +72,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
             array(
                 'id'    => 'firstname_ST',
                 'class' => 'firstname_ST',
-                'text'  => JText::_('COM_REDSHOP_FIRSTNAME')
+                'text'  => Text::_('COM_REDSHOP_FIRSTNAME')
             ),
             '',
             $options
@@ -86,7 +88,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
                 'type'  => 'text',
                 'value' => !empty($data["firstname_ST"]) ? $data["firstname_ST"] : '',
                 'class' => 'inputbox form-control billingRequired valid',
-                'attr'  => 'size="32" maxlength="250" data-msg="' . JText::_(
+                'attr'  => 'size="32" maxlength="250" data-msg="' . Text::_(
                         'COM_REDSHOP_PLEASE_ENTER_FIRST_NAME'
                     ) . '"'
             ),
@@ -101,7 +103,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
             array(
                 'id'    => 'lastname_ST',
                 'class' => 'lastname_ST',
-                'text'  => JText::_('COM_REDSHOP_LASTNAME')
+                'text'  => Text::_('COM_REDSHOP_LASTNAME')
             ),
             '',
             $options
@@ -117,7 +119,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
                 'type'  => 'text',
                 'value' => (!empty($data["lastname_ST"])) ? $data["lastname_ST"] : '',
                 'class' => 'inputbox form-control billingRequired valid',
-                'attr'  => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME') . '"'
+                'attr'  => 'size="32" maxlength="250" data-msg="' . Text::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME') . '"'
             ),
             '',
             $options
@@ -130,7 +132,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
             array(
                 'id'    => 'address_ST',
                 'class' => 'address_ST',
-                'text'  => JText::_('COM_REDSHOP_ADDRESS')
+                'text'  => Text::_('COM_REDSHOP_ADDRESS')
             ),
             '',
             $options
@@ -146,7 +148,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
                 'type'  => 'text',
                 'value' => (!empty($data["address_ST"])) ? $data["address_ST"] : '',
                 'class' => 'inputbox form-control valid ' . $requiredAddress,
-                'attr'  => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS') . '"'
+                'attr'  => 'size="32" maxlength="250" data-msg="' . Text::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS') . '"'
             ),
             '',
             $options
@@ -159,7 +161,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
             array(
                 'id'    => 'zipcode_ST',
                 'class' => 'zipcode_ST',
-                'text'  => JText::_('COM_REDSHOP_ZIP')
+                'text'  => Text::_('COM_REDSHOP_ZIP')
             ),
             '',
             $options
@@ -175,7 +177,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
                 'type'  => 'text',
                 'value' => (!empty($data["zipcode_ST"])) ? $data["zipcode_ST"] : '',
                 'class' => 'inputbox form-control valid zipcode ' . $requiredPostalCode,
-                'attr'  => 'size="32" maxlength="10" onblur="return autoFillCity(this.value,\'ST\');" data-msg="' . JText::_(
+                'attr'  => 'size="32" maxlength="10" onblur="return autoFillCity(this.value,\'ST\');" data-msg="' . Text::_(
                         'COM_REDSHOP_PLEASE_ENTER_ZIPCODE'
                     ) . '"'
             ),
@@ -190,7 +192,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
             array(
                 'id'    => 'city_ST',
                 'class' => 'city_ST',
-                'text'  => JText::_('COM_REDSHOP_CITY')
+                'text'  => Text::_('COM_REDSHOP_CITY')
             ),
             '',
             $options
@@ -206,7 +208,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
                 'type'  => 'text',
                 'value' => (!empty($data["city_ST"])) ? $data["city_ST"] : '',
                 'class' => 'inputbox form-control billingRequired valid',
-                'attr'  => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_CITY') . '"'
+                'attr'  => 'size="32" maxlength="250" data-msg="' . Text::_('COM_REDSHOP_PLEASE_ENTER_CITY') . '"'
             ),
             '',
             $options
@@ -219,7 +221,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
             array(
                 'id'    => 'phone_ST',
                 'class' => 'phone_ST',
-                'text'  => JText::_('COM_REDSHOP_PHONE')
+                'text'  => Text::_('COM_REDSHOP_PHONE')
             ),
             '',
             $options
@@ -235,7 +237,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
                 'type'  => 'text',
                 'value' => (!empty($data["phone_ST"])) ? $data["phone_ST"] : '',
                 'class' => 'inputbox form-control valid phone ' . $requiredPhone,
-                'attr'  => 'size="32" maxlength="250" onblur="return searchByPhone(this.value,\'ST\');" data-msg="' . JText::_(
+                'attr'  => 'size="32" maxlength="250" onblur="return searchByPhone(this.value,\'ST\');" data-msg="' . Text::_(
                         'COM_REDSHOP_PLEASE_ENTER_PHONE'
                     ) . '"'
             ),
@@ -249,9 +251,9 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
         $this->replacements['{country_st_style}'] = $countryStyle;
         $this->replacements['{state_st_txtid}']   = 'div_state_st_txt';
         $this->replacements['{state_st_style}']   = $stateStyle;
-        $this->replacements['{country_st_lbl}']   = JText::_('COM_REDSHOP_COUNTRY');
+        $this->replacements['{country_st_lbl}']   = Text::_('COM_REDSHOP_COUNTRY');
         $this->replacements['{country_st}']       = $lists['country_code_ST'];
-        $this->replacements['{state_st_lbl}']     = JText::_('COM_REDSHOP_STATE');
+        $this->replacements['{state_st_lbl}']     = Text::_('COM_REDSHOP_STATE');
         $this->replacements['{state_st}']         = $lists['state_code_ST'];
 
         $this->replaceExtraFied($templateHtml, $lists, $allowCompany, $allowCustomer);
