@@ -228,7 +228,7 @@ class RedshopModelCategory extends RedshopModel
 
         if (!empty($productFilters)) {
             $query->clear();
-            $query = RedshopHelperCategory::buildQueryFilterProduct($this->_id, $categories, $productFilters);
+            $query = RedshopHelperCategory::buildQueryFilterProduct($productFilters, $this->_id, $categories);
 	        $query->order($orderBy);
         }
 

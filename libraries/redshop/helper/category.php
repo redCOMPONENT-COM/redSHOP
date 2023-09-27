@@ -468,8 +468,11 @@ class RedshopHelperCategory
      *
      * @since   2.1.2
      */
-    public static function buildQueryFilterProduct($categoryId, $allCategories = array(), $filters)
-    {
+    public static function buildQueryFilterProduct(
+        $filters,
+        $categoryId, 
+        $allCategories = array()
+    ){
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true)
             ->select('DISTINCT(p.product_id)')
@@ -484,13 +487,11 @@ class RedshopHelperCategory
             ->where($db->qn('p.product_parent_id') . ' = 0')
             ->group($db->qn('p.product_id'));
 
-        /* REDSHOP-5987 */
         if (\Redshop::getConfig()->getInt('SHOW_DISCONTINUED_PRODUCTS')) {
             $query->where($db->qn('p.expired') . ' IN (0, 1)');
         } else {
             $query->where($db->qn('p.expired') . ' IN (0)');
         }
-        /* END REDSHOP-5987 */
 
         /* query builder for category filters */
         if (empty($allCategories)) {

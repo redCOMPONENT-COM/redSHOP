@@ -80,11 +80,7 @@ abstract class JHtmlRedshopjquery
             return;
         }
 
-        if ((version_compare(JVERSION, '4.0', '<'))) {
-            JHtml::_('jquery.framework', $noConflict, $debug, $migrate);
-        } else {
-            JHtml::_('bootstrap.framework', $noConflict, $debug, $migrate);
-        }
+        HtmlHelper::_('jquery.framework', $noConflict, $debug, $migrate);
 
         static::$loaded[__METHOD__] = true;
     }

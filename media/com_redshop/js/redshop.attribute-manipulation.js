@@ -2,10 +2,13 @@
 	$(document).ready(function () {
 		function InitSelect(select) {
 			try {
+                /** @scrutinizer ignore-deprecated - remove rs4 */
+                /*
 				SqueezeBox.initialize();
 				SqueezeBox.assign($$('a.modal-thumb'), {
 					parse: 'rel'
 				});
+                */
 				if (select != '') {
 					$(select).select2({
 						width:"auto",

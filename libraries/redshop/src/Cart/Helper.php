@@ -7,11 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Redshop\Cart;
+ namespace Redshop\Cart;
+ 
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-
-defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
 
 /**
  * Cart helper
@@ -42,8 +43,8 @@ class Helper
      */
     public static function calculation($userId = 0)
     {
-        $cart = \Redshop\Cart\Helper::getCart();
-	    $rsUser = \JFactory::getSession()->get('rs_user');
+        $cart   = \Redshop\Cart\Helper::getCart();
+        $rsUser = Factory::getApplication()->getSession()->get('rs_user');
 
         $index         = $cart['idx'] ?? 0;
         $vat           = 0;
@@ -57,17 +58,17 @@ class Helper
         $shipping      = 0;
 
         for ($i = 0; $i < $index; $i++) {
-	        $quantity      = $cart[$i]['quantity'] ?? 0;
-	        $subTotalNoVAT += $quantity * ($cart[$i]['product_price_excl_vat'] ?? 0);
-	        $vatGroupTax = \RedshopHelperTax::getTaxRateByShopperGroup($rsUser['rs_user_shopperGroup'], $rsUser['vatCountry']);
+            $quantity      = $cart[$i]['quantity'] ?? 0;
+            $subTotalNoVAT += $quantity * ($cart[$i]['product_price_excl_vat'] ?? 0);
+            $vatGroupTax = \RedshopHelperTax::getTaxRateByShopperGroup($rsUser['rs_user_shopperGroup'], $rsUser['vatCountry']);
 
-	        if (isset($vatGroupTax) && $vatGroupTax == 0) {
-		        $subTotal += $quantity * ($cart[$i]['product_price'] - $cart[$i]['product_vat']);
-	        } else {
-		        $subTotal += $quantity * ($cart[$i]['product_price'] ?? 0);
-	        }
+            if (isset($vatGroupTax) && $vatGroupTax == 0) {
+                $subTotal += $quantity * ($cart[$i]['product_price'] - $cart[$i]['product_vat']);
+            } else {
+                $subTotal += $quantity * ($cart[$i]['product_price'] ?? 0);
+            }
 
-	        $vat += $quantity * ($cart[$i]['product_vat'] ?? 0);
+            $vat += $quantity * ($cart[$i]['product_vat'] ?? 0);
         }
 
         /* @TODO: Need to check why this variable still exist.
@@ -148,7 +149,7 @@ class Helper
      */
     public static function getCart()
     {
-        $cart = \Joomla\CMS\Factory::getSession()->get('cart', null);
+        $cart = Factory::getApplication()->getSession()->get('cart', null);
 
         if (empty($cart)
             || !array_key_exists("idx", $cart)
@@ -189,7 +190,7 @@ class Helper
         $usersInfoId = 0;
 
         if (!$userId) {
-            $user            = \JFactory::getUser();
+            $user            = Factory::getApplication()->getIdentity();
             $userId          = $user->id;
             $shippingAddress = \RedshopHelperOrder::getShippingAddress($userId);
 
@@ -294,7 +295,7 @@ class Helper
     public static function getDiscountAmount($cart = array(), $userId = 0)
     {
         $cart     = empty($cart) ? \Cart\Helper::getCart() : $cart;
-        $userId   = empty($userId) ? \JFactory::getUser()->id : $userId;
+        $userId   = empty($userId) ? Factory::getApplication()->getIdentity()->id : $userId;
         $discount = \RedshopHelperDiscount::getDiscount($cart['product_subtotal'], $userId);
 
         $discountAmountFinal = 0;
@@ -382,7 +383,7 @@ class Helper
      */
     public static function setCart($cart)
     {
-        return \JFactory::getSession()->set('cart', $cart);
+        return Factory::getApplication()->getSession()->set('cart', $cart);
     }
 
     /**
@@ -613,26 +614,26 @@ class Helper
             $productId = $product->product_id;
 
             if ($product->published == 0) {
-				Factory::getApplication()->enqueueMessage(
-					sprintf(\JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $product->product_name, $productId),
-					'error'
-				);
+                Factory::getApplication()->enqueueMessage(
+                    sprintf(Text::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $product->product_name, $productId),
+                    'error'
+                );
                 continue;
             }
 
             if ($product->not_for_sale > 0) {
-				Factory::getApplication()->enqueueMessage(
-					sprintf(\JText::_('COM_REDSHOP_PRODUCT_IS_NOT_FOR_SALE'), $product->product_name, $productId),
-					'warning'
-				);
+                Factory::getApplication()->enqueueMessage(
+                    sprintf(Text::_('COM_REDSHOP_PRODUCT_IS_NOT_FOR_SALE'), $product->product_name, $productId),
+                    'warning'
+                );
                 continue;
             }
 
             if ($product->expired == 1) {
-				Factory::getApplication()->enqueueMessage(
-					sprintf(\JText::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'), $product->product_name, $productId),
-					'warning'
-				);
+                Factory::getApplication()->enqueueMessage(
+                    sprintf(Text::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'), $product->product_name, $productId),
+                    'warning'
+                );
                 continue;
             }
 
@@ -780,7 +781,7 @@ class Helper
         $dispatcher = \RedshopHelperUtility::getDispatcher();
 
         $cart = \Redshop\Cart\Helper::getCart();
-        $user = \Joomla\CMS\Factory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         $idx            = (int)($cart['idx']);
         $totalQuantity  = \Redshop\Cart\Quantity::getTotalQuantityFromCart($data);
@@ -1273,7 +1274,7 @@ class Helper
     public static function emptyExpiredCartProducts()
     {
         if (\Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && \Redshop::getConfig()->get('USE_STOCKROOM')) {
-            $session     = \JFactory::getSession();
+            $session     = Factory::getApplication()->getSession();
             $db          = \JFactory::getDbo();
             $query       = $db->getQuery(true);
             $sessionId   = session_id();
@@ -1316,10 +1317,10 @@ class Helper
      * @since __DEPLOY_VERSION__
      */
     public static function setUserDocumentToSession() {
-        $session = \Joomla\CMS\Factory::getSession();
-        $post = \Joomla\CMS\Factory::getApplication()->input->post->getArray();
+        $session       = Factory::getApplication()->getSession();
+        $post          = \Joomla\CMS\Factory::getApplication()->input->post->getArray();
         $userDocuments = $session->get('userDocument', []);
-        $condition = isset($userDocuments[$post['product_id']]);
+        $condition     = isset($userDocuments[$post['product_id']]);
 
         if ($condition) {
             unset($userDocuments[$post['product_id']]);
@@ -1360,7 +1361,7 @@ class Helper
                         $app->enqueueMessage($cart['notice_message'], 'warning');
                     }
 
-                    $app->enqueueMessage(\JText::_('COM_REDSHOP_PRODUCT_ADDED_TO_CART'), 'message');
+                    $app->enqueueMessage(Text::_('COM_REDSHOP_PRODUCT_ADDED_TO_CART'), 'message');
                     $link = \Redshop\IO\Route::_($_SERVER['HTTP_REFERER'], false);
                 }
             }
@@ -1379,7 +1380,7 @@ class Helper
         $post = $app->input->post->getArray();
 
         if (!is_bool($result) || (is_bool($result) && !$result)) {
-            $errorMessage = $result ? $result : \JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
+            $errorMessage = $result ? $result : Text::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
             // Set Error Message
             $app->enqueueMessage($errorMessage, 'error');
@@ -1390,7 +1391,7 @@ class Helper
             } else {
                 $itemData = \RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
 
-                if (count($itemData) > 0) {
+                if (!empty($itemData)) {
                     $productItemId = $itemData->id;
                 } else {
                     $productItemId = \RedshopHelperRouter::getItemId(

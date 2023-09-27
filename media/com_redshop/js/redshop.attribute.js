@@ -110,6 +110,8 @@ redSHOP.updateAjaxCartExtraFields = function (extraFields, productId) {
 	return extraFieldPost;
 };
 
+/** @scrutinizer ignore-deprecated - remove rs4 */
+/*
 // open modal box
 window.addEvent('domready', function () {
 
@@ -149,6 +151,7 @@ window.addEvent('domready', function () {
 	// Later it can be used to multiplied with any price to get exact tax in JS.
 	redSHOP.setProductTax({id: 0, price: 1});
 });
+*/
 
 var r_browser = false;
 var subproperty_main_image = "";
@@ -576,7 +579,7 @@ function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
 			// Collect sub-properties
 			var isSubproperty = false, allSubProperties = [];
 
-			properties.each(function (propertyId) {
+			function PropertiesEach (propertyId) {
 
 				// Handle stocks
 				var stockElementId = 'property_id_' + commonid + '_stock' + propertyId;
@@ -643,7 +646,7 @@ function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
 				}
 
 				totalSubProperties.push(allSubProperties.join(",,"));
-			});
+			};
 		}
 	});
 
@@ -1457,9 +1460,13 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
 				document.getElementById('stock_availability_date' + product_id).innerHTML = arrResponse[15];
 			}
 
+            /** @scrutinizer ignore-deprecated - remove rs4 */
+            /*
 			// preload slimbox
 			var imagehandle = {isenable: true, mainImage: false};
 			preloadSlimbox(imagehandle);
+            */
+
 			redSHOP.triggerCustomEvents('onAfterAjaxdisplayAdditionalImage', {
 				arrResponse: arrResponse,
 				product_id: product_id,
@@ -1478,6 +1485,8 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
  * Initially this function will load core redbox(joomla sqeezebox)
  * @return
  */
+/** @scrutinizer ignore-deprecated - remove rs4 */
+/*
 function preloadSlimbox(parameters) {
 
 	if (parameters.isenable) {
@@ -1494,6 +1503,7 @@ function preloadSlimbox(parameters) {
 
 	}
 }
+*/
 
 function setWrapperComboBox() {
 	if (document.getElementById("wrapper_id") && jQuery('[data-id=sel_wrapper_id]').length) {
@@ -2233,11 +2243,14 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 						});
 					}
 				};
+                /** @scrutinizer ignore-deprecated - remove rs4 */
+                /*
 				redBOX.initialize({});
 				document.attbox = redBOX.open(null, options);
 				// preload slimbox
 				var imagehandle = {isenable: false, mainImage: false};
 				preloadSlimbox(imagehandle);
+                */
 
 				var el = RedgetElementsByClassName('calendar');
 
@@ -2468,9 +2481,11 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 							}
 						}
 					};
+                    /** @scrutinizer ignore-deprecated - remove rs4 */
+                    /*
 					redBOX.initialize({});
 					document.ajaxbox = redBOX.open(null, options);
-
+                    */
 				}
 			};
 			request_inner.open("GET", newurl, true);
