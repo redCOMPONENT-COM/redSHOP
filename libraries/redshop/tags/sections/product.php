@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') || die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Tags replacer abstract class
@@ -193,7 +194,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                 'tags.common.link',
                 [
                     'link'    => htmlentities($_SERVER['HTTP_REFERER']),
-                    'content' => JText::_('COM_REDSHOP_BACK')
+                    'content' => Text::_('COM_REDSHOP_BACK')
                 ],
                 '',
                 $this->optionLayout
@@ -269,7 +270,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
         // Product length
         if ($this->product->product_length > 0) {
-            $this->addReplace('{product_length_lbl}', JText::_('COM_REDSHOP_PRODUCT_LENGTH_LBL'));
+            $this->addReplace('{product_length_lbl}', Text::_('COM_REDSHOP_PRODUCT_LENGTH_LBL'));
 
             $insertStr = RedshopHelperProduct::redunitDecimal($this->product->product_length) . "&nbsp" . $productUnit;
             $this->addReplace('{product_length}', $insertStr);
@@ -281,7 +282,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         // Product width
         if ($this->product->product_width > 0) {
             $insertStr = RedshopHelperProduct::redunitDecimal($this->product->product_width) . "&nbsp" . $productUnit;
-            $this->addReplace('{product_width_lbl}', JText::_('COM_REDSHOP_PRODUCT_WIDTH_LBL'));
+            $this->addReplace('{product_width_lbl}', Text::_('COM_REDSHOP_PRODUCT_WIDTH_LBL'));
             $this->addReplace('{product_width}', $insertStr);
         } else {
             $this->addReplace('{product_width_lbl}', '');
@@ -291,7 +292,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         // Product Height
         if ($this->product->product_height > 0) {
             $insertStr = RedshopHelperProduct::redunitDecimal($this->product->product_height) . "&nbsp" . $productUnit;
-            $this->addReplace('{product_height_lbl}', JText::_('COM_REDSHOP_PRODUCT_HEIGHT_LBL'));
+            $this->addReplace('{product_height_lbl}', Text::_('COM_REDSHOP_PRODUCT_HEIGHT_LBL'));
             $this->addReplace('{product_height}', $insertStr);
         } else {
             $this->addReplace('{product_height_lbl}', '');
@@ -300,7 +301,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
         // Product Diameter
         if ($this->product->product_diameter > 0) {
-            $this->addReplace('{product_diameter_lbl}', JText::_('COM_REDSHOP_PRODUCT_DIAMETER_LBL'));
+            $this->addReplace('{product_diameter_lbl}', Text::_('COM_REDSHOP_PRODUCT_DIAMETER_LBL'));
             $this->addReplace(
                 '{diameter}',
                 RedshopHelperProduct::redunitDecimal(
@@ -325,7 +326,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         );
 
         if ($this->product->product_volume > 0) {
-            $insertStr = JText::_('COM_REDSHOP_PRODUCT_VOLUME_LBL') . JText::_('COM_REDSHOP_PRODUCT_VOLUME_UNIT');
+            $insertStr = Text::_('COM_REDSHOP_PRODUCT_VOLUME_LBL') . Text::_('COM_REDSHOP_PRODUCT_VOLUME_UNIT');
             $this->addReplace('{product_volume_lbl}', $insertStr);
 
             $insertStr = RedshopHelperProduct::redunitDecimal(
@@ -373,12 +374,12 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         $this->addReplace('{associate_tag}', $assTag);
         $this->addReplace('{print}', $printTag);
         $this->addReplace('{product_name}', $this->product->product_name);
-        $this->addReplace('{product_id_lbl}', JText::_('COM_REDSHOP_PRODUCT_ID_LBL'));
-        $this->addReplace('{product_number_lbl}', JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'));
+        $this->addReplace('{product_id_lbl}', Text::_('COM_REDSHOP_PRODUCT_ID_LBL'));
+        $this->addReplace('{product_number_lbl}', Text::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'));
         $this->addReplace('{product_id}', $this->product->product_id);
         $this->addReplace('{product_s_desc}', htmlspecialchars_decode($this->product->product_s_desc));
         $this->addReplace('{product_desc}', htmlspecialchars_decode($this->product->product_desc));
-        $this->addReplace('{view_full_size_image_lbl}', JText::_('COM_REDSHOP_VIEW_FULL_SIZE_IMAGE_LBL'));
+        $this->addReplace('{view_full_size_image_lbl}', Text::_('COM_REDSHOP_VIEW_FULL_SIZE_IMAGE_LBL'));
 
         if ($this->isTagExists('{zoom_image}')) {
             $sendLink = $url . 'components/com_redshop/assets/images/product/' . $this->product->product_full_image;
@@ -431,7 +432,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                     $this->product->weight
                 ) . "&nbsp;" . $productWeightUnit;
             $this->addReplace('{product_weight}', $insertStr);
-            $this->addReplace('{product_weight_lbl}', JText::_('COM_REDSHOP_PRODUCT_WEIGHT_LBL'));
+            $this->addReplace('{product_weight_lbl}', Text::_('COM_REDSHOP_PRODUCT_WEIGHT_LBL'));
         } else {
             $this->addReplace('{product_weight}', '');
             $this->addReplace('{product_weight_lbl}', '');
@@ -479,7 +480,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                     '&Itemid=' . $this->itemId
                 ),
                 'class'   => 'btn btn-primary manufacturer_link',
-                'content' => JText::_("COM_REDSHOP_VIEW_MANUFACTURER")
+                'content' => Text::_("COM_REDSHOP_VIEW_MANUFACTURER")
             ],
             '',
             $this->optionLayout
@@ -493,25 +494,25 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                     '&Itemid=' . $this->itemId
                 ),
                 'class'   => 'btn btn-primary manufacturer_product_link',
-                'content' => JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS")
+                'content' => Text::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS")
             ],
             '',
             $this->optionLayout
         );
 
-	    if ($this->isTagExists('{manufacturer_link}'))
-	    {
-		    $this->addReplace('{manufacturer_link}', $manufacturerLink);
-	    }
+        if ($this->isTagExists('{manufacturer_link}'))
+        {
+            $this->addReplace('{manufacturer_link}', $manufacturerLink);
+        }
 
-	    if ($this->isTagExists('{manufacturer_product_link}'))
-	    {
-		    $this->addReplace('{manufacturer_product_link}', $manufacturerPLink);
-	    }
+        if ($this->isTagExists('{manufacturer_product_link}'))
+        {
+            $this->addReplace('{manufacturer_product_link}', $manufacturerPLink);
+        }
 
         if ($this->isTagExists('{manufacturer_name}'))
         {
-	        $this->addReplace('{manufacturer_name}', $this->product->manufacturer_name);
+            $this->addReplace('{manufacturer_name}', $this->product->manufacturer_name);
         }
 
         $supplierName = '';
@@ -526,7 +527,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
             $productDeliveryTime = RedshopHelperProduct::getProductMinDeliveryTime($this->product->product_id);
 
             if ($productDeliveryTime != "") {
-                $this->addReplace('{delivery_time_lbl}', JText::_('COM_REDSHOP_DELIVERY_TIME'));
+                $this->addReplace('{delivery_time_lbl}', Text::_('COM_REDSHOP_DELIVERY_TIME'));
                 $this->addReplace('{product_delivery_time}', $productDeliveryTime);
             } else {
                 $this->addReplace('{delivery_time_lbl}', '');
@@ -557,7 +558,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
 // Google I like Button
         if ($this->isTagExists('{googleplus1}')) {
-			HTMLHelper::script('https://apis.google.com/js/plusone.js');
+            HTMLHelper::script('https://apis.google.com/js/plusone.js');
             $this->addReplace('{googleplus1}', '<g:plusone></g:plusone>');
         }
 
@@ -623,7 +624,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                     );
 
                     $frmChild .= "<form name='frmChild' method='post' action=''>";
-                    $frmChild .= "<div class='product_child_product'>" . JText::_(
+                    $frmChild .= "<div class='product_child_product'>" . Text::_(
                             'COM_REDSHOP_CHILD_PRODUCTS'
                         ) . "</div>";
                     $frmChild .= "<div class='product_child_product_list'>" . $lists ['product_child_id'] . "</div>";
@@ -1035,7 +1036,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                             '&Itemid=' . $this->itemId,
                         'x'     => 500,
                         'y'     => 500,
-                        'text'  => JText::_('COM_REDSHOP_WRITE_REVIEW')
+                        'text'  => Text::_('COM_REDSHOP_WRITE_REVIEW')
                     ],
                     '',
                     $this->optionLayout
@@ -1044,7 +1045,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                 $this->addReplace('{form_rating}', $reviewForm);
             }
         } else {
-            $reviewForm = JText::_('COM_REDSHOP_YOU_NEED_TO_LOGIN_TO_POST_A_REVIEW');
+            $reviewForm = Text::_('COM_REDSHOP_YOU_NEED_TO_LOGIN_TO_POST_A_REVIEW');
 
             if ($this->isTagExists("{form_rating_without_lightbox}")) {
                 $this->addReplace('{form_rating_without_lightbox}', $reviewForm);
@@ -1099,7 +1100,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                 'class'   => 'redcolorproductimg',
                 'link'    => JURI::root(
                     ) . 'index.php?option=com_redshop&view=send_friend&pid=' . $this->product->product_id . '&tmpl=component&Itemid=' . $this->itemId,
-                'content' => JText::_('COM_REDSHOP_SEND_FRIEND')
+                'content' => Text::_('COM_REDSHOP_SEND_FRIEND')
             ],
             '',
             $this->optionLayout
@@ -1115,7 +1116,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                     'link'  => JURI::root(
                         ) . 'index.php?option=com_redshop&view=ask_question&pid=' . $this->product->product_id .
                         '&tmpl=component&Itemid=' . $this->itemId,
-                    'text'  => JText::_('COM_REDSHOP_ASK_QUESTION_ABOUT_PRODUCT'),
+                    'text'  => Text::_('COM_REDSHOP_ASK_QUESTION_ABOUT_PRODUCT'),
                     'x'     => 500,
                     'y'     => 500
                 ],
@@ -1781,7 +1782,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                     'link'    => '#',
                     'attr'    => 'onClick="javascript:changeproductImage(' . $this->product->product_id . ',\'' . $mainSrcPath . '\',\'' . $aHrefPath . '\');"',
                     '',
-                    'content' => JText::_('COM_REDSHOP_FRONT_IMAGE')
+                    'content' => Text::_('COM_REDSHOP_FRONT_IMAGE')
                 ],
                 '',
                 $this->optionLayout
@@ -1792,18 +1793,18 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                 [
                     'link'    => '#',
                     'attr'    => 'onClick="javascript:changeproductImage(' . $this->product->product_id . ',\'' . $backSrcPath . '\',\'' . $aHrefBackPath . '\');"',
-                    'content' => JText::_('COM_REDSHOP_BACK_IMAGE')
+                    'content' => Text::_('COM_REDSHOP_BACK_IMAGE')
                 ],
                 '',
                 $this->optionLayout
             );
 
             $this->replacements['{category_product_img}'] = RedshopHelperProduct::getProductCategoryImage(
+                $this->infoTagImg['width'],
+                $this->infoTagImg['height'],
                 $this->product->product_id,
                 $this->product->category_full_image,
-                '',
-                $this->infoTagImg['width'],
-                $this->infoTagImg['height']
+                ''
             );
         } else {
             $this->replacements['{category_front_img_link}'] = '';
@@ -1859,7 +1860,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                     'link'    => '#',
                     'attr'    => 'onClick="javascript:changeproductImage(' . $this->product->product_id . ',\'' . $mainSrcPath . '\',\'' . $aHrefPath . '\');"',
                     '',
-                    'content' => JText::_('COM_REDSHOP_FRONT_IMAGE')
+                    'content' => Text::_('COM_REDSHOP_FRONT_IMAGE')
                 ],
                 '',
                 $this->optionLayout
@@ -1870,7 +1871,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                 [
                     'link'    => '#',
                     'attr'    => 'onClick="javascript:changeproductImage(' . $this->product->product_id . ',\'' . $backSrcPath . '\',\'' . $aHrefBackPath . '\');"',
-                    'content' => JText::_('COM_REDSHOP_BACK_IMAGE')
+                    'content' => Text::_('COM_REDSHOP_BACK_IMAGE')
                 ],
                 '',
                 $this->optionLayout

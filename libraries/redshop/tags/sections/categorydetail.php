@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -218,10 +220,10 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 array(
                     'class'    => '',
                     'link'     => 'javascript:void(0)',
-                    'linkAttr' => $onclick . ' title="' . JText::_('COM_REDSHOP_PRINT_LBL') . '"',
+                    'linkAttr' => $onclick . ' title="' . Text::_('COM_REDSHOP_PRINT_LBL') . '"',
                     'src'      => JSYSTEM_IMAGES_PATH . 'printButton.png',
-                    'alt'      => JText::_('COM_REDSHOP_PRINT_LBL'),
-                    'imgAttr'  => ' title="' . JText::_('COM_REDSHOP_PRINT_LBL') . '"'
+                    'alt'      => Text::_('COM_REDSHOP_PRINT_LBL'),
+                    'imgAttr'  => ' title="' . Text::_('COM_REDSHOP_PRINT_LBL') . '"'
                 ),
                 '',
                 RedshopLayoutHelper::$layoutOption
@@ -229,7 +231,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
 
             $replacements['{print}']             = $printTag;
             $replacements['{total_product}']     = $this->model->_total;
-            $replacements['{total_product_lbl}'] = JText::_('COM_REDSHOP_TOTAL_PRODUCT');
+            $replacements['{total_product_lbl}'] = Text::_('COM_REDSHOP_TOTAL_PRODUCT');
 
             if (strpos($template, '{returntocategory_link}') !== false
                 || strpos($template, '{returntocategory_name}') !== false
@@ -405,7 +407,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                         'tags.common.link',
                         array(
                             'link'    => $compareUrl,
-                            'content' => JText::_('COM_REDSHOP_COMPARE')
+                            'content' => Text::_('COM_REDSHOP_COMPARE')
                         ),
                         '',
                         RedshopLayoutHelper::$layoutOption
@@ -511,7 +513,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 );
 
                 $replacements['{product_price_slider}'] = $priceSlider;
-                $productTmpl                            = JText::_('COM_REDSHOP_NO_PRODUCT_FOUND');
+                $productTmpl                            = Text::_('COM_REDSHOP_NO_PRODUCT_FOUND');
             }
         }
 
@@ -574,7 +576,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                     $productDeliveryTime = RedshopHelperProduct::getProductMinDeliveryTime($product->product_id);
 
                     if ($productDeliveryTime != "") {
-                        $productReplacements['{delivery_time_lbl}']     = JText::_('COM_REDSHOP_DELIVERY_TIME');
+                        $productReplacements['{delivery_time_lbl}']     = Text::_('COM_REDSHOP_DELIVERY_TIME');
                         $productReplacements['{product_delivery_time}'] = $productDeliveryTime;
                     } else {
                         $productReplacements['{delivery_time_lbl}']     = '';
@@ -784,9 +786,9 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                     }
                 }
 
-                $productReplacements['{product_id_lbl}']     = JText::_('COM_REDSHOP_PRODUCT_ID_LBL');
+                $productReplacements['{product_id_lbl}']     = Text::_('COM_REDSHOP_PRODUCT_ID_LBL');
                 $productReplacements['{product_id}']         = $product->product_id;
-                $productReplacements['{product_number_lbl}'] = JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL');
+                $productReplacements['{product_number_lbl}'] = Text::_('COM_REDSHOP_PRODUCT_NUMBER_LBL');
 
                 $productNumberOutput = RedshopLayoutHelper::render(
                     'tags.common.tag',
@@ -894,7 +896,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                         array(
                             'link'    => $link,
                             'attr'    => 'title="' . $product->product_name . '"',
-                            'content' => JText::_('COM_REDSHOP_READ_MORE')
+                            'content' => Text::_('COM_REDSHOP_READ_MORE')
                         ),
                         '',
                         RedshopLayoutHelper::$layoutOption
@@ -933,7 +935,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                             array(
                                 'class'   => 'redcolorproductimg',
                                 'link'    => $linkToRtln,
-                                'content' => JText::_('COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX')
+                                'content' => Text::_('COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX')
                             ),
                             '',
                             RedshopLayoutHelper::$layoutOption
@@ -1010,7 +1012,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                         array(
                             'class'   => 'btn btn-primary',
                             'link'    => $manuUrl,
-                            'content' => JText::_(
+                            'content' => Text::_(
                                     "COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS"
                                 ) . ' ' . $manufacturerName
                         ),
@@ -1131,7 +1133,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                         array(
                             'link'    => '#',
                             'attr'    => 'onclick="javascript:changeproductImage(' . $product->product_id . ',\'' . $mainSrcPath . '\',\'' . $ahrefpath . '\')";',
-                            'content' => JText::_('COM_REDSHOP_FRONT_IMAGE')
+                            'content' => Text::_('COM_REDSHOP_FRONT_IMAGE')
                         ),
                         '',
                         RedshopLayoutHelper::$layoutOption
@@ -1142,7 +1144,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                         array(
                             'link'    => '#',
                             'attr'    => 'onclick="javascript:changeproductImage(' . $product->product_id . ',\'' . $backSrcPath . '\',\'' . $ahrefbackpath . '\');"',
-                            'content' => JText::_('COM_REDSHOP_BACK_IMAGE')
+                            'content' => Text::_('COM_REDSHOP_BACK_IMAGE')
                         ),
                         '',
                         RedshopLayoutHelper::$layoutOption
@@ -1511,7 +1513,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 );
 
                 if ($this->lists['manufacturer'] != "") {
-                    $replacements['{filter_by_lbl}'] = JText::_('COM_REDSHOP_SELECT_FILTER_BY');
+                    $replacements['{filter_by_lbl}'] = Text::_('COM_REDSHOP_SELECT_FILTER_BY');
                 } else {
                     $replacements['{filter_by_lbl}'] = '';
                 }
@@ -1532,7 +1534,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                         RedshopLayoutHelper::$layoutOption
                     );
 
-                    $replacements['{template_selector_category_lbl}'] = JText::_(
+                    $replacements['{template_selector_category_lbl}'] = Text::_(
                         'COM_REDSHOP_TEMPLATE_SELECTOR_CATEGORY_LBL'
                     );
                     $replacements['{template_selector_category}']     = $templateSelecterForm;
@@ -1565,7 +1567,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                     RedshopLayoutHelper::$layoutOption
                 );
 
-                $replacements['{order_by_lbl}'] = JText::_('COM_REDSHOP_SELECT_ORDER_BY');
+                $replacements['{order_by_lbl}'] = Text::_('COM_REDSHOP_SELECT_ORDER_BY');
                 $replacements['{order_by}']     = $orderByForm;
             }
         }

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
@@ -257,7 +258,7 @@ class RedshopHelperProduct
             return '';
         }
 
-        $accessoryList .= "<tr><th>" . JText::_('COM_REDSHOP_ACCESSORY_PRODUCT') . "</th></tr>";
+        $accessoryList .= "<tr><th>" . Text::_('COM_REDSHOP_ACCESSORY_PRODUCT') . "</th></tr>";
 
         for ($a = 0, $an = count($accessory); $a < $an; $a++) {
             $acId   = $accessory[$a]->child_product_id;
@@ -343,7 +344,7 @@ class RedshopHelperProduct
         $wArray                  = array();
         $wArray[0]               = new stdClass;
         $wArray[0]->id   = 0;
-        $wArray[0]->name = JText::_('COM_REDSHOP_SELECT');
+        $wArray[0]->name = Text::_('COM_REDSHOP_SELECT');
         $commonId                = $productId . $uniqueId;
 
         for ($i = 0, $in = count($wrapper); $i < $in; $i++) {
@@ -381,7 +382,7 @@ class RedshopHelperProduct
             0
         );
 
-        $wrapperList .= "<tr><td>" . JText::_('COM_REDSHOP_WRAPPER') . " : " . $lists ['wrapper_id'] . "</td></tr>";
+        $wrapperList .= "<tr><td>" . Text::_('COM_REDSHOP_WRAPPER') . " : " . $lists ['wrapper_id'] . "</td></tr>";
 
         return $wrapperList;
     }
@@ -485,7 +486,7 @@ class RedshopHelperProduct
     public static function replaceShippingMethod($data = array(), $shippUsersInfoId = 0, $shippingRateId = 0)
     {
         if (!$shippUsersInfoId) {
-            return '<div class="shipnotice">' . JText::_('COM_REDSHOP_FILL_SHIPPING_ADDRESS') . '</div>';
+            return '<div class="shipnotice">' . Text::_('COM_REDSHOP_FILL_SHIPPING_ADDRESS') . '</div>';
         }
 
         $language       = JFactory::getLanguage();
@@ -514,7 +515,7 @@ class RedshopHelperProduct
                             $rate[$i]->rate
                         ) . " )" : "";
                     $rateArr[$r]        = new stdClass;
-                    $rateArr[$r]->text  = strip_tags(JText::_($rs->name) . " - " . $rate[$i]->text . $displayrate);
+                    $rateArr[$r]->text  = strip_tags(Text::_($rs->name) . " - " . $rate[$i]->text . $displayrate);
                     $rateArr[$r]->value = $rate[$i]->value;
                     $r++;
                 }
@@ -522,7 +523,7 @@ class RedshopHelperProduct
         }
 
         if (empty($rateArr)) {
-            return JText::_('COM_REDSHOP_NO_SHIPPING_METHODS_TO_DISPLAY');
+            return Text::_('COM_REDSHOP_NO_SHIPPING_METHODS_TO_DISPLAY');
         }
 
         if (!$shippingRateId) {
@@ -594,39 +595,39 @@ class RedshopHelperProduct
         $productData           = array();
         $productData[0]        = new stdClass;
         $productData[0]->value = "0";
-        $productData[0]->text  = JText::_('COM_REDSHOP_SELECT_PUBLISHED');
+        $productData[0]->text  = Text::_('COM_REDSHOP_SELECT_PUBLISHED');
 
         $productData[1]        = new stdClass;
         $productData[1]->value = "p.published";
-        $productData[1]->text  = JText::_('COM_REDSHOP_PRODUCT_PUBLISHED');
+        $productData[1]->text  = Text::_('COM_REDSHOP_PRODUCT_PUBLISHED');
 
         $productData[2]        = new stdClass;
         $productData[2]->value = "p.unpublished";
-        $productData[2]->text  = JText::_('COM_REDSHOP_PRODUCT_UNPUBLISHED');
+        $productData[2]->text  = Text::_('COM_REDSHOP_PRODUCT_UNPUBLISHED');
 
         $productData[3]        = new stdClass;
         $productData[3]->value = "p.product_on_sale";
-        $productData[3]->text  = JText::_('COM_REDSHOP_PRODUCT_ON_SALE');
+        $productData[3]->text  = Text::_('COM_REDSHOP_PRODUCT_ON_SALE');
 
         $productData[4]        = new stdClass;
         $productData[4]->value = "p.product_not_on_sale";
-        $productData[4]->text  = JText::_('COM_REDSHOP_PRODUCT_NOT_ON_SALE');
+        $productData[4]->text  = Text::_('COM_REDSHOP_PRODUCT_NOT_ON_SALE');
 
         $productData[5]        = new stdClass;
         $productData[5]->value = "p.product_special";
-        $productData[5]->text  = JText::_('COM_REDSHOP_PRODUCT_SPECIAL');
+        $productData[5]->text  = Text::_('COM_REDSHOP_PRODUCT_SPECIAL');
 
         $productData[6]        = new stdClass;
         $productData[6]->value = "p.expired";
-        $productData[6]->text  = JText::_('COM_REDSHOP_PRODUCT_EXPIRED');
+        $productData[6]->text  = Text::_('COM_REDSHOP_PRODUCT_EXPIRED');
 
         $productData[7]        = new stdClass;
         $productData[7]->value = "p.not_for_sale";
-        $productData[7]->text  = JText::_('COM_REDSHOP_PRODUCT_NOT_FOR_SALE');
+        $productData[7]->text  = Text::_('COM_REDSHOP_PRODUCT_NOT_FOR_SALE');
 
         $productData[8]        = new stdClass;
         $productData[8]->value = "p.sold_out";
-        $productData[8]->text  = JText::_('COM_REDSHOP_PRODUCT_SOLD_OUT');
+        $productData[8]->text  = Text::_('COM_REDSHOP_PRODUCT_SOLD_OUT');
 
         return $productData;
     }
@@ -997,7 +998,7 @@ class RedshopHelperProduct
                     $productDeliveryTime = self::getProductMinDeliveryTime($product->product_id);
 
                     if ($productDeliveryTime != "") {
-                        $dataAdd = str_replace("{delivery_time_lbl}", JText::_('COM_REDSHOP_DELIVERY_TIME'), $dataAdd);
+                        $dataAdd = str_replace("{delivery_time_lbl}", Text::_('COM_REDSHOP_DELIVERY_TIME'), $dataAdd);
                         $dataAdd = str_replace("{product_delivery_time}", $productDeliveryTime, $dataAdd);
                     } else {
                         $dataAdd = str_replace("{delivery_time_lbl}", "", $dataAdd);
@@ -1152,13 +1153,13 @@ class RedshopHelperProduct
                 }
                 $dataAdd             = str_replace(
                     "{product_id_lbl}",
-                    JText::_('COM_REDSHOP_PRODUCT_ID_LBL'),
+                    Text::_('COM_REDSHOP_PRODUCT_ID_LBL'),
                     $dataAdd
                 );
                 $dataAdd             = str_replace("{product_id}", $product->product_id, $dataAdd);
                 $dataAdd             = str_replace(
                     "{product_number_lbl}",
-                    JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'),
+                    Text::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'),
                     $dataAdd
                 );
                 $productNumberOutput = '<span id="product_number_variable' . $product->product_id . '">' . $product->product_number . '</span>';
@@ -1228,7 +1229,7 @@ class RedshopHelperProduct
                 }
 
                 if (strpos($dataAdd, '{read_more}') !== false) {
-                    $readMore = "<a href='" . $link . "' title='" . $product->product_name . "'>" . JText::_(
+                    $readMore = "<a href='" . $link . "' title='" . $product->product_name . "'>" . Text::_(
                             'COM_REDSHOP_READ_MORE'
                         ) . "</a>";
                     $dataAdd  = str_replace("{read_more}", $readMore, $dataAdd);
@@ -1260,7 +1261,7 @@ class RedshopHelperProduct
                         $linktortln = JURI::root() .
                             "index.php?option=com_redshop&view=product&pid=" . $product->product_id .
                             "&tmpl=component&template=" . $rtln . "&for=rtln";
-                        $rtlna      = '<a class="redcolorproductimg" href="' . $linktortln . '"  >' . JText::_(
+                        $rtlna      = '<a class="redcolorproductimg" href="' . $linktortln . '"  >' . Text::_(
                                 'COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX'
                             ) . '</a>';
                     } else {
@@ -1323,7 +1324,7 @@ class RedshopHelperProduct
                         '&Itemid=' . $itemId
                     );
                     $manufacturerPLink = "<a class='btn btn-primary' href='" . $manuUrl . "'>" .
-                        JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $product->manufacturer_name .
+                        Text::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $product->manufacturer_name .
                         "</a>";
                     $dataAdd           = str_replace("{manufacturer_product_link}", $manufacturerPLink, $dataAdd);
                 }
@@ -1396,10 +1397,10 @@ class RedshopHelperProduct
 
                     $productFrontImageLink = "<a href='#' onClick='javascript:changeproductImage(" .
                         $product->product_id . ",\"" . $mainsrcPath . "\",\"" . $ahrefpath . "\");'>" .
-                        JText::_('COM_REDSHOP_FRONT_IMAGE') . "</a>";
+                        Text::_('COM_REDSHOP_FRONT_IMAGE') . "</a>";
                     $productBackImageLink  = "<a href='#' onClick='javascript:changeproductImage(" .
                         $product->product_id . ",\"" . $backsrcPath . "\",\"" . $ahrefbackpath . "\");'>" .
-                        JText::_('COM_REDSHOP_BACK_IMAGE') . "</a>";
+                        Text::_('COM_REDSHOP_BACK_IMAGE') . "</a>";
 
                     $dataAdd = str_replace("{front_img_link}", $productFrontImageLink, $dataAdd);
                     $dataAdd = str_replace("{back_img_link}", $productBackImageLink, $dataAdd);
@@ -1683,11 +1684,11 @@ class RedshopHelperProduct
                 $product_delivery_time = '';
             } else {
                 if ($row->delivery_time == "Days") {
-                    $duration = JText::_('COM_REDSHOP_DAYS');
+                    $duration = Text::_('COM_REDSHOP_DAYS');
                 } else {
                     $row->deltime      = $row->deltime / 7;
                     $row->max_del_time = $row->max_del_time / 7;
-                    $duration          = JText::_('COM_REDSHOP_WEEKS');
+                    $duration          = Text::_('COM_REDSHOP_WEEKS');
                 }
 
                 $product_delivery_time = (int)$row->deltime . "-" . (int)$row->max_del_time . " " . $duration;
@@ -2200,8 +2201,13 @@ class RedshopHelperProduct
         return $parent_id;
     }
 
-    public static function getProductCategoryImage($productId = 0, $category_img = '', $link = '', $width, $height)
-    {
+    public static function getProductCategoryImage(
+        $width, 
+        $height,
+        $productId = 0, 
+        $category_img = '', 
+        $link = ''
+    ) {
         $result     = \Redshop\Product\Product::getProductById($productId);
         $thum_image = "";
         $title      = " title='" . $result->product_name . "' ";
@@ -2505,7 +2511,7 @@ class RedshopHelperProduct
 
                 $relatedTemplateData = str_replace(
                     "{relproduct_number_lbl}",
-                    JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'),
+                    Text::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'),
                     $relatedTemplateData
                 );
                 $relatedTemplateData = str_replace(
@@ -2539,7 +2545,7 @@ class RedshopHelperProduct
                         $manufacturerUrl     = Redshop\IO\Route::_(
                             'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $relatedProduct[$r]->manufacturer_id . '&Itemid=' . $productItemId
                         );
-                        $manufacturerLink    = "<a class='btn btn-primary' href='" . $manufacturerUrl . "'>" . JText::_(
+                        $manufacturerLink    = "<a class='btn btn-primary' href='" . $manufacturerUrl . "'>" . Text::_(
                                 "COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS"
                             ) . "</a>";
                         $relatedTemplateData = str_replace(
@@ -2559,7 +2565,7 @@ class RedshopHelperProduct
                 }
 
                 $readMore            = '<a href="' . $relatedUrl . '" title="' . $relatedProduct [$r]->product_name . '">'
-                    . JText::_('COM_REDSHOP_READ_MORE')
+                    . Text::_('COM_REDSHOP_READ_MORE')
                     . '</a>';
                 $relatedTemplateData = str_replace("{read_more}", $readMore, $relatedTemplateData);
                 $relatedTemplateData = str_replace("{read_more_link}", $relatedUrl, $relatedTemplateData);
@@ -3640,7 +3646,7 @@ class RedshopHelperProduct
             return $resultstr;
         }
 
-        return "<div>" . JText::_("COM_REDSHOP_PRODUCT_USERFIELD") . "</div><div>" . implode(
+        return "<div>" . Text::_("COM_REDSHOP_PRODUCT_USERFIELD") . "</div><div>" . implode(
                 "<br/>",
                 $resultArr
             ) . "</div>";
@@ -3833,7 +3839,7 @@ class RedshopHelperProduct
                     $productAttributeCalculatedPrice = RedshopHelperProductPrice::formattedPrice(
                         $productAttributeCalculatedPrice
                     );
-                    $productAttributeCalculatedPrice = JText::sprintf(
+                    $productAttributeCalculatedPrice = Text::sprintf(
                         'COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE',
                         $productAttributeCalculatedPrice
                     );
@@ -3957,7 +3963,7 @@ class RedshopHelperProduct
         $Itemdata         = RedshopHelperQuotation::getQuotationItemAccessoryDetail($quotation_item_id);
 
         if (count($Itemdata) > 0) {
-            $displayaccessory .= "<div class='checkout_accessory_static'>" . JText::_(
+            $displayaccessory .= "<div class='checkout_accessory_static'>" . Text::_(
                     "COM_REDSHOP_ACCESSORY"
                 ) . ":</div>";
 
@@ -4042,8 +4048,8 @@ class RedshopHelperProduct
         $todate   = RedshopHelperDatetime::convertDateFormat($todate);
         $fromdate = RedshopHelperDatetime::convertDateFormat(strtotime(date('d M Y')));
 
-        $data = str_replace("{giftcard_validity_from}", JText::_('COM_REDSHOP_FROM') . " " . $fromdate, $data);
-        $data = str_replace("{giftcard_validity_to}", JText::_('COM_REDSHOP_TO') . " " . $todate, $data);
+        $data = str_replace("{giftcard_validity_from}", Text::_('COM_REDSHOP_FROM') . " " . $fromdate, $data);
+        $data = str_replace("{giftcard_validity_to}", Text::_('COM_REDSHOP_TO') . " " . $todate, $data);
 
         return $data;
     }
@@ -4351,7 +4357,7 @@ class RedshopHelperProduct
             if (count($subproperty) > 0) {
                 $attribute_table     = $subAttributeHtml;
                 $attribute_table     .= '<span id="subprop_lbl" style="display:none;">'
-                    . JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED') . '</span>';
+                    . Text::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED') . '</span>';
                 $commonid            = $prefix . $productId . '_' . $accessoryId . '_' . $attributeId . '_'
                     . $propertyId;
                 $subpropertyid       = 'subproperty_id_' . $commonid;
@@ -4510,7 +4516,7 @@ class RedshopHelperProduct
                 }
 
                 $subproperties  = array_merge(
-                    array(JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT') . ' ' . $displayPropertyName)),
+                    array(JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT') . ' ' . $displayPropertyName)),
                     $subproperty
                 );
                 $attDisplayType = (isset($subproperty[0]->setdisplay_type)) ? $subproperty[0]->setdisplay_type : 'radio';
@@ -4854,7 +4860,7 @@ class RedshopHelperProduct
             return $resultstr;
         }
 
-        return "<div>" . JText::_("COM_REDSHOP_PRODUCT_USERFIELD") . "</div><div>" . implode(
+        return "<div>" . Text::_("COM_REDSHOP_PRODUCT_USERFIELD") . "</div><div>" . implode(
                 "<br/>",
                 $resultArr
             ) . "</div>";

@@ -59,6 +59,7 @@ trait NewsletterSubscription
                     $replacement['{newsletter_signup_chk}'] = \RedshopLayoutHelper::render(
                         'tags.common.input',
                         array(
+                            'class' => 'form-check-input',
                             'type'  => 'checkbox',
                             'name'  => 'newsletter_signup',
                             'value' => 1,

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 /**
  * login Controller.
@@ -41,7 +42,7 @@ class RedshopControllerLogin extends RedshopController
 
         $msg = "";
 
-        if ($shoppergroupid != 0) {
+        if (!empty($shoppergroupid)) {
             $check = $model->CheckShopperGroup($username, $shoppergroupid);
             $link  = "index.php?option=com_redshop&view=login&layout=portal&protalid=" . $shoppergroupid;
 
@@ -49,7 +50,7 @@ class RedshopControllerLogin extends RedshopController
                 $model->setlogin($username, $password);
                 $return = $this->input->get('return');
             } else {
-                $msg    = JText::_("COM_REDSHOP_SHOPPERGROUP_NOT_MATCH");
+                $msg    = Text::_("COM_REDSHOP_SHOPPERGROUP_NOT_MATCH");
                 $return = "";
             }
         } else {

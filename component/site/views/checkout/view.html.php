@@ -184,19 +184,19 @@ class RedshopViewCheckout extends RedshopView
         echo RedshopLayoutHelper::render(
             'modal.iframe',
             [
-                'modalButton' => '.ModalAddShippingAddressButton',
-                'modalFrame'  => 'ModalAddShippingAddress',
-                'params' => [
-                    'title'      => '',
-                    'width'      => '470px',
-                    'height'     => '570px',
-                    'backdrop'   => '',
-                    'animation'  => '',
-                    'closebtn'   => '',
-                    'keyboard'   => '',
-                    'footer'     => '',
-                    'bodyHeight' => '',
-                    'modalWidth' => '',
+                'modalButton'     => '.ModalAddShippingAddressButton',
+                'modalFrame'      => 'ModalAddShippingAddress',
+                'params'          => [
+                            'title'      => '',
+                            'width'      => '470px',
+                            'height'     => '720px',
+                            'backdrop'   => '',
+                            'animation'  => '',
+                            'closebtn'   => '',
+                            'keyboard'   => '',
+                            'footer'     => '',
+                            'bodyHeight' => '',
+                            'modalWidth' => '',
                 ]
             ]
         );

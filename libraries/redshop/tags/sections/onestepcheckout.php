@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -102,7 +104,7 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
         }
 
         if ($this->isTagExists('{billing_address_information_lbl}')) {
-            $this->replacements['{billing_address_information_lbl}'] = JText::_(
+            $this->replacements['{billing_address_information_lbl}'] = Text::_(
                 'COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'
             );
         }
@@ -275,11 +277,11 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
             $this->replacements['{edit_billing_address}'] = RedshopLayoutHelper::render(
                 'tags.common.modal',
                 array(
-                    'class' => 'modal btn btn-primary',
+                    'class' => 'modal-change btn btn-primary',
                     'link'  => Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=account_billto&tmpl=component&return=checkout&setexit=1&Itemid=' . $itemId
                     ),
-                    'text'  => JText::_('COM_REDSHOP_EDIT'),
+                    'text'  => Text::_('COM_REDSHOP_EDIT'),
                     'x'     => 800,
                     'y'     => 500
                 ),
@@ -296,7 +298,7 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
 			    array(
 				    'class' => 'btn btn-primary',
 				    'attr'  => 'type="button" name="clear_user_info" onclick="javascript:clearUserInfo();"',
-				    'text'  => JText::_('COM_REDSHOP_CLEAR_USER_INFO')
+				    'text'  => Text::_('COM_REDSHOP_CLEAR_USER_INFO')
 			    ),
 			    '',
 			    RedshopLayoutHelper::$layoutOption

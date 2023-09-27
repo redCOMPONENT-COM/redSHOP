@@ -243,7 +243,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
                         array(
                             'text'  => Text::_('COM_REDSHOP_SIGN_UP_FOR_NEWSLETTER'),
                             'id'    => 'newsletter_signup',
-                            'class' => ''
+                            'class' => 'form-check-label'
                         ),
                         '',
                         RedshopLayoutHelper::$layoutOption
@@ -256,7 +256,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
                             'name'  => 'newsletter_signup',
                             'type'  => 'checkbox',
                             'value' => '1',
-                            'class' => '',
+                            'class' => 'form-check-input',
                             'attr'  => ''
                         ),
                         '',

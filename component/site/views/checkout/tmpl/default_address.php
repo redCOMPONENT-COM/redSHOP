@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Frontend
  * @subpackage  Template
@@ -9,16 +10,17 @@
 
 defined('_JEXEC') or die;
 
-$model  = $this->getModel('checkout');
-$Itemid = RedshopHelperRouter::getCheckoutItemId();
-$session        = JFactory::getSession();
-$user = $session->get('user');
-$auth           = $session->get('auth');
-$cart   = \Redshop\Cart\Helper::getCart();
+use Joomla\CMS\Language\Text;
+
+$model   = $this->getModel('checkout');
+$Itemid  = RedshopHelperRouter::getCheckoutItemId();
+$session = JFactory::getSession();
+$user    = $session->get('user');
+$auth    = $session->get('auth');
+$cart    = \Redshop\Cart\Helper::getCart();
 ?>
 
-<form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '', false) ?>"
-      method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
+<form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '', false) ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
     <input type="hidden" name='l' value='0'>
     <?php
     $billingAddresses = $model->billingaddresses();
@@ -32,31 +34,28 @@ $cart   = \Redshop\Cart\Helper::getCart();
         <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><?php echo JText::_('COM_REDSHOP_BILL_TO_INFORMATION'); ?></h3>
+                    <h3 class="panel-title"><?php echo Text::_('COM_REDSHOP_BILL_TO_INFORMATION'); ?></h3>
                 </div>
 
                 <div class="panel-body">
                     <?php
                     if ($billingAddresses) {
-                        ?>
-                        <a class="modal btn btn-primary" href="<?php echo $editbill; ?>"
-                           rel="{handler: 'iframe', size: {x: 720, y: 470}}"><?php echo JText::_('COM_REDSHOP_EDIT'); ?>
-                        </a>
-	                    <?php if (($auth['users_info_id'] && Redshop::getConfig()->getInt('ENABLE_CLEAR_USER_INFO') == 1) && !$user->id): ?>
+                        echo $this->loadTemplate('billing'); ?>
+                        <button class="btn btn-primary ModalAddShippingAddressButton" type="button" data-url="<?php echo $editbill; ?>">
+                            <?php echo Text::_('COM_REDSHOP_EDIT'); ?>
+                        </button>
+                        <?php if (($auth['users_info_id'] && Redshop::getConfig()->getInt('ENABLE_CLEAR_USER_INFO') == 1) && !$user->id) : ?>
                             <button type="button" class="btn btn-primary" name="clear_user_info" onclick="javascript:clearUserInfo();">
-			                    <?php echo JText::_('COM_REDSHOP_CLEAR_USER_INFO'); ?>
+                                <?php echo Text::_('COM_REDSHOP_CLEAR_USER_INFO'); ?>
                             </button>
-	                    <?php endif;?>
-                        <?php
-                        echo $this->loadTemplate('billing');
+                        <?php endif;
                     } else {
                         ?>
-                        <div class="billnotice"><?php echo JText::_('COM_REDSHOP_FILL_BILLING_ADDRESS'); ?></div>
-                        <a class="modal" href="<?php echo $editbill; ?>"
-                           rel="{handler: 'iframe', size: {x: 800, y: 550}}"> <?php echo JText::_(
-                                'COM_REDSHOP_ADD'
-                            ); ?></a>
-                        <?php
+                        <div class="billnotice"><?php echo Text::_('COM_REDSHOP_FILL_BILLING_ADDRESS'); ?></div>
+                        <button class="btn btn-primary ModalAddShippingAddressButton" type="button" data-url="<?php echo $editbill; ?>">
+                            <?php echo Text::_('COM_REDSHOP_ADD'); ?>
+                        </button>
+                    <?php
                     } ?>
                 </div>
             </div>
@@ -64,11 +63,11 @@ $cart   = \Redshop\Cart\Helper::getCart();
 
         <?php
         if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) {
-            ?>
+        ?>
             <div class="col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES'); ?></h3>
+                        <h3 class="panel-title"><?php echo Text::_('COM_REDSHOP_SHIPPING_ADDRESSES'); ?></h3>
                     </div>
 
                     <div class="panel-body">
@@ -76,16 +75,15 @@ $cart   = \Redshop\Cart\Helper::getCart();
                         if ($billingAddresses && Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS')) {
                             $checked = ((!isset($this->users_info_id) || $this->users_info_id == 0) || $this->users_info_id == $billingAddresses->users_info_id) ? 'checked' : ''; ?>
 
-                            <div class="radio">
-                                <label for="users_info_id_default">
-                                    <input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
-                                           type="radio" name="users_info_id" id="users_info_id_default"
-                                           value="<?php echo $billingAddresses->users_info_id; ?>"
-                                        <?php echo $checked; ?> />
-                                    <?php echo JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS'); ?>
+                            <div class="form-check">
+                                <input onclick="document.adminForm.task.value = '';document.adminForm.submit();" type="radio" 
+                                        name="users_info_id" id="users_info_id_default" class="form-check-input" 
+                                        value="<?php echo $billingAddresses->users_info_id; ?>" <?php echo $checked; ?> />
+                                <label class="form-check-label" for="users_info_id_default">
+                                    <?php echo Text::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS'); ?>
                                 </label>
                             </div>
-                            <?php
+                        <?php
                         }
 
                         $shippingaddresses = $model->shippingaddresses();
@@ -96,7 +94,7 @@ $cart   = \Redshop\Cart\Helper::getCart();
 
                         for ($i = 0, $in = count($shippingaddresses); $i < $in; $i++) {
                             if ($this->users_info_id != "") {
-                                $checked = ($this->users_info_id == $shippingaddresses [$i]->users_info_id) ? 'checked' : '';
+                                $checked = ($this->users_info_id == $shippingaddresses[$i]->users_info_id) ? 'checked' : '';
                             }
 
                             $edit_addlink   = Redshop\IO\Route::_(
@@ -108,33 +106,27 @@ $cart   = \Redshop\Cart\Helper::getCart();
                                 false
                             ); ?>
 
-                            <div class="radio">
-                                <label for="users_info_id_<?php echo $i ?>">
-                                    <input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
-                                           type="radio" name="users_info_id" id="users_info_id_<?php echo $i; ?>"
-                                           value="<?php echo $shippingaddresses[$i]->users_info_id; ?>"
-                                        <?php echo $checked; ?>/>
-
+                            <div class="form-check">
+                                <input onclick="document.adminForm.task.value = '';document.adminForm.submit();" type="radio" 
+                                        name="users_info_id" id="users_info_id_<?php echo $i; ?>" class="form-check-input" 
+                                        value="<?php echo $shippingaddresses[$i]->users_info_id; ?>" <?php echo $checked; ?> />
+                                <label for="users_info_id_<?php echo $i ?>" class="form-check-label">
                                     <?php if (Redshop::getConfig()->get('ENABLE_ADDRESS_DETAIL_IN_SHIPPING')) {
-                                        echo $shippingaddresses [$i]->address . " ";
+                                        echo $shippingaddresses[$i]->address . " ";
                                     }
-
                                     echo $shippingaddresses[$i]->text; ?>
-                                    <a class="modal" href="<?php echo $edit_addlink; ?>"
-                                       rel="{handler: 'iframe', size: {x: 570, y: 470}}">(<?php echo JText::_(
-                                            'COM_REDSHOP_EDIT_LBL'
-                                        ); ?>
-                                        )</a>
-                                    <a href="<?php echo $delete_addlink; ?>"
-                                       title="">(<?php echo JText::_('COM_REDSHOP_DELETE_LBL'); ?>)</a>
                                 </label>
+                                <a class="ModalAddShippingAddressButton"
+                                        data-url="<?php echo $edit_addlink; ?>">
+                                    (<?php echo Text::_('COM_REDSHOP_EDIT_LBL'); ?>)
+                                </a>
+                                <a href="<?php echo $delete_addlink; ?>" title="">(<?php echo Text::_('COM_REDSHOP_DELETE_LBL'); ?>)</a>
                             </div>
                         <?php } ?>
 
-                        <a class="modal btn btn-primary" href="<?php echo $add_addlink; ?>"
-                           rel="{handler: 'iframe', size: {x: 570, y: 470}}">
-                            <?php echo JText::_('COM_REDSHOP_ADD_ADDRESS'); ?>
-                        </a>
+                        <button class="btn btn-primary ModalAddShippingAddressButton" type="button" data-url="<?php echo $add_addlink; ?>">
+                            <?php echo Text::_('COM_REDSHOP_ADD_ADDRESS'); ?>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -147,16 +139,15 @@ $cart   = \Redshop\Cart\Helper::getCart();
     }
     ?>
 
-    <br/>
+    <br />
 
     <div id="paymentblock"><?php echo $this->loadTemplate('payment'); ?></div>
     <div class="clr"></div>
-    <input type="hidden" name="option" value="com_redshop"/>
-    <input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
-    <input type="hidden" name="order_id" value="<?php echo JFactory::getApplication()->input->getInt('order_id'); ?>"/>
-    <input type="hidden" name="task" value="checkoutNext"/>
-    <input type="hidden" name="view" value="checkout"/>
+    <input type="hidden" name="option" value="com_redshop" />
+    <input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
+    <input type="hidden" name="order_id" value="<?php echo JFactory::getApplication()->input->getInt('order_id'); ?>" />
+    <input type="hidden" name="task" value="checkoutNext" />
+    <input type="hidden" name="view" value="checkout" />
 
-    <div align="right"><input type="submit" class="greenbutton btn btn-primary" name="checkoutNext"
-                              value="<?php echo JText::_("COM_REDSHOP_CHECKOUT") ?>"/></div>
+    <div align="right"><input type="submit" class="greenbutton btn btn-primary" name="checkoutNext" value="<?php echo Text::_("COM_REDSHOP_CHECKOUT") ?>" /></div>
 </form>

@@ -120,6 +120,7 @@ if (strpos($command, '.') === false) {
 
 // Perform the Request task
 $controller = JControllerLegacy::getInstance('Redshop');
+// $controller = \Joomla\CMS\MVC\Controller\BaseController::getInstance('Redshop');
 
 $task = $app->input->get('task', '');
 

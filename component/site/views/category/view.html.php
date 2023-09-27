@@ -340,7 +340,7 @@ class RedshopViewCategory extends RedshopView
             );
             $manufacturers         = array_merge($temps, $manufacturers);
             $lists['manufacturer'] = HTMLHelper::_(
-                'select.genericlist',
+                'redshopselect.genericlist',
                 $manufacturers,
                 'filter_by',
                 'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',

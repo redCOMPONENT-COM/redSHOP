@@ -54,7 +54,7 @@ $image_path = $type . '/' . trim($image);
 
 <?php if ($id) : ?>
     <div class="form-group">
-        <input class="form-control" type="file" id="formFile" name="<?php echo $id ?>" id="<?php echo $id ?>" size="25">
+        <input class="form-control" type="file" name="<?php echo $id ?>" id="<?php echo $id ?>" size="25">
     </div>
 <?php endif; ?>
 

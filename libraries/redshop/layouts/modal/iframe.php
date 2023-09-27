@@ -64,7 +64,7 @@ if (isset($params['width'])) {
                 if (frame.length) {
                     frame.remove();
                 }
-                modal.find('.modal-body').append('<iframe <?php echo ArrayHelper::toString($iframeAttributes); ?> style="padding:10px" src="'+$(this).data('url')+'" />')
+                modal.find('.modal-body').append('<iframe <?php echo ArrayHelper::toString($iframeAttributes); ?> src="'+$(this).data('url')+'" />')
                 modal.modal('show');
             });
         });
