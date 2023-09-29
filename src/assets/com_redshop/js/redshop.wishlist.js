@@ -25,15 +25,6 @@
                 var $form = $('form#' + formId);
             }
 
-
-            if (!$form.length) {
-                SqueezeBox.open(link, {
-                    handler: 'iframe'
-                });
-
-                return true;
-            }
-
             $form = $($form[0]);
 
             var attribute = $form.children('input#attribute_data');
@@ -50,11 +41,6 @@
 
             if (subAttribute.length)
                 link += '&subattribute_id=' + encodeURIComponent($(subAttribute[0]).val());
-
-            redBOX.open(link, {
-                handler: 'iframe',
-                name: 'wishlist-iframe'
-            });
 
             return true;
         });

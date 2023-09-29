@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * wishlist Controller.
  *
@@ -57,7 +59,9 @@ class RedshopControllerWishlist extends RedshopController
         } else {
             ?>
             <script language="javascript">
-                var t = setTimeout("window.parent.SqueezeBox.close();window.parent.location.reload();", 2000);
+            //  var t = setTimeout("window.parent.common.closeModal();window.parent.location.reload();", 2000);
+            //  $('#modalAddToWishlist').modal('hide');
+            myModal.hide();
             </script>
             <?php
         }

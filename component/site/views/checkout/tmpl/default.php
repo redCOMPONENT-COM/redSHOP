@@ -77,18 +77,6 @@ if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) 
         echo '<div class="signInPaneDiv">';
         echo HTMLHelper::_('bootstrap.startTabSet', 'shippingRateTab', array('active' => 'tab1'));
         echo HTMLHelper::_('bootstrap.addTab', 'shippingRateTab', 'tab1', Text::_('COM_REDSHOP_RETURNING_CUSTOMERS'));
-        /*
-        echo JHtml::_(
-            Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.start',
-            'signInPane',
-            array('startOffset' => $openToMystretchermy)
-        );
-        echo JHtml::_(
-            Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.panel',
-            Text::_('COM_REDSHOP_RETURNING_CUSTOMERS'),
-            'login'
-        );
-        */
 
         $loginTemplateDesc = RedshopTagsReplacer::_(
             'login',
@@ -103,13 +91,6 @@ if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) 
 
         echo HTMLHelper::_('bootstrap.endTab');
         echo HTMLHelper::_('bootstrap.addTab', 'shippingRateTab', 'tab2', Text::_('COM_REDSHOP_NEW_CUSTOMERS'));
-        /*
-        echo JHtml::_(
-            Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.panel',
-            Text::_('COM_REDSHOP_NEW_CUSTOMERS'),
-            'registration'
-        );
-        */
     }
 
     $allowCustomer = $this->lists['allowCustomer'];
@@ -238,9 +219,6 @@ if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) 
     <?php
     if ($showLogin) {
         echo HTMLHelper::_('bootstrap.endTab');
-        /*
-        echo JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.end');
-        */
         echo '</div>';
     }
     echo HTMLHelper::_('bootstrap.endTabSet');
