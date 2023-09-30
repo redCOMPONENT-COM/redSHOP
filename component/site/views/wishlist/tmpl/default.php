@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Frontend
  * @subpackage  Template
@@ -9,73 +10,72 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::_('redshopjquery.framework');
 
 $url         = JUri::base();
 $input       = JFactory::getApplication()->input;
 $wishlists   = $this->wishlists;
 $productId   = $input->getString('product_id', '');
-$hasWishlist = ($productId && count($wishlists) > 0) ? true : false;
+$hasWishlist = (/*$productId && */count($wishlists) > 0) ? true : false;
 $itemId      = $input->getInt('Itemid', 0);
 ?>
 <div class="divnewwishlist">
     <?php if ($hasWishlist && Redshop::getConfig()->get('WISHLIST_LIST')) : ?>
-        <label>
-            <input type="checkbox" name="chkNewwishlist" id="chkNewwishlist"
-                   onchange="changeDiv(this);"/>
-            <?php echo JText::_('COM_REDSHOP_CREATE_NEW_WISHLIST'); ?>
-        </label>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="chkNewwishlist" id="chkNewwishlist" onchange="changeDiv(this);" />
+            <label class="form-check-label" for="chkNewwishlist">
+                <?php echo Text::_('COM_REDSHOP_CREATE_NEW_WISHLIST'); ?>
+            </label>
+        </div>
     <?php endif;
     ?>
     <div id="newwishlist" style="display:<?php echo $hasWishlist ? 'none' : 'block'; ?>">
-        <?php if ($this->params->get('show_page_heading', 1)): ?>
+        <?php if ($this->params->get('show_page_heading', 1)) : ?>
             <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-                <?php echo JText::_('COM_REDSHOP_CREATE_NEWWISHLIST'); ?>
+                <?php echo Text::_('COM_REDSHOP_CREATE_NEWWISHLIST'); ?>
             </h1>
         <?php endif; ?>
         <form name="newwishlistForm" method="post" action="">
             <div class="row">
                 <div class="col-sm-4 span4">
-                    <label for="txtWishlistname"><?php echo JText::_('COM_REDSHOP_WISHLIST_NAME'); ?>:</label>
+                    <label for="txtWishlistname"><?php echo Text::_('COM_REDSHOP_WISHLIST_NAME'); ?>:</label>
                 </div>
                 <div class="col-sm-8 span8">
-                    <input type="input" class="form-control" name="txtWishlistname" id="txtWishlistname"/>
+                    <input type="input" class="form-control" name="txtWishlistname" id="txtWishlistname" />
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div class="row wishlistbtn">
                 <div class="col-sm-12 span12">
-                    <input type="button" class="btn btn-primary"
-                           value="<?php echo JText::_('COM_REDSHOP_CREATE_SAVE'); ?>"
-                           onclick="checkValidation()"/>&nbsp;
+                    <input type="button" class="btn btn-primary" value="<?php echo Text::_('COM_REDSHOP_CREATE_SAVE'); ?>" onclick="checkValidation()" />&nbsp;
                     <?php if (JFactory::getApplication()->input->getInt('loginwishlist') == 1) : ?>
                         <a href="<?PHP echo Redshop\IO\Route::_(
-                            'index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=' . $itemId
-                        ); ?>">
-                            <input type="button" class="btn btn-primary"
-                                   value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"/>
+                                        'index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=' . $itemId
+                                    ); ?>">
+                            <input type="button" class="btn btn-primary" value="<?php echo Text::_('COM_REDSHOP_CANCEL'); ?>" onclick="createUserAccount();" />
                         </a>
                     <?php else : ?>
-                        <input type="button" class="btn" value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"
-                               onclick="window.parent.redBOX.close();"/>
+                        <input type="button" class="btn" value="<?php echo Text::_('COM_REDSHOP_CANCEL'); ?>" onclick="window.parent.redBOX.close();" />
                     <?php endif; ?>
                 </div>
             </div>
-            <input type="hidden" name="<?php echo JSession::getFormToken() ?>" value="1"/>
-            <input type="hidden" name="product_id" value="<?php echo $input->getString('product_id', '') ?>"/>
-            <input type="hidden" name="attribute_id" value="<?php echo $input->getRaw('attribute_id', '') ?>"/>
-            <input type="hidden" name="property_id" value="<?php echo $input->getRaw('property_id', '') ?>"/>
-            <input type="hidden" name="subattribute_id" value="<?php echo $input->getRaw('subattribute_id', '') ?>"/>
-            <input type="hidden" name="view" value="wishlist"/>
-            <input type="hidden" name="option" value="com_redshop"/>
-            <input type="hidden" name="task" value="createsave"/>
+            <input type="hidden" name="<?php echo JSession::getFormToken() ?>" value="1" />
+            <input type="hidden" name="product_id" value="<?php echo $input->getString('product_id', '') ?>" />
+            <input type="hidden" name="attribute_id" value="<?php echo $input->getRaw('attribute_id', '') ?>" />
+            <input type="hidden" name="property_id" value="<?php echo $input->getRaw('property_id', '') ?>" />
+            <input type="hidden" name="subattribute_id" value="<?php echo $input->getRaw('subattribute_id', '') ?>" />
+            <input type="hidden" name="view" value="wishlist" />
+            <input type="hidden" name="option" value="com_redshop" />
+            <input type="hidden" name="task" value="createsave" />
         </form>
     </div>
     <?php if ($hasWishlist) : ?>
         <div id="wishlist">
-            <?php if ($this->params->get('show_page_heading', 1)): ?>
+            <?php if ($this->params->get('show_page_heading', 1)) : ?>
                 <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-                    <?php echo JText::_('COM_REDSHOP_MY_WISHLIST'); ?>
+                    <?php echo Text::_('COM_REDSHOP_MY_WISHLIST'); ?>
                 </h1>
                 <div>&nbsp;</div>
             <?php endif; ?>
@@ -83,75 +83,72 @@ $itemId      = $input->getInt('Itemid', 0);
                 <div class="table-responsive">
                     <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
                         <thead>
-                        <tr>
-                            <th width="1" align="center">
-                                <?php echo JText::_('COM_REDSHOP_NUM'); ?>
-                            </th>
-                            <th width="1" class="title" align="center">
-                                <?php echo JHtml::_('redshopgrid.checkall'); ?>
-                            </th>
-                            <th class="title" width="auto">
-                                <?php echo JText::_('COM_REDSHOP_WISHLIST_NAME'); ?>
-                            </th>
-                        </tr>
+                            <tr>
+                                <th width="1" align="center">
+                                    <?php echo Text::_('COM_REDSHOP_NUM'); ?>
+                                </th>
+                                <th width="1" class="title" align="center">
+                                    <?php echo JHtml::_('redshopgrid.checkall'); ?>
+                                </th>
+                                <th class="title" width="auto">
+                                    <?php echo Text::_('COM_REDSHOP_WISHLIST_NAME'); ?>
+                                </th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <?php
-                        $k       = 0;
-                        $firstId = 0;
+                            <?php
+                            $k       = 0;
+                            $firstId = 0;
 
-                        foreach ($wishlists as $wishlist) {
-                            $i = 0;
+                            foreach ($wishlists as $wishlist) {
+                                $i = 0;
 
-                            if ($i == 0) {
-                                $firstId = $wishlist->wishlist_id;
-                            }
+                                if ($i == 0) {
+                                    $firstId = $wishlist->wishlist_id;
+                                }
 
                             ?>
-                            <tr class="<?php echo "row$i"; ?>">
-                                <td align="center">
-                                    <?php echo($i + 1); ?>
-                                </td>
-                                <td align="center">
-                                    <?php echo JHTML::_('grid.id', $i, $wishlist->wishlist_id, false, 'wishlist_id'); ?>
-                                </td>
-                                <td>
-                                    <?php echo $wishlist->wishlist_name; ?>
+                                <tr class="<?php echo "row$i"; ?>">
+                                    <td align="center">
+                                        <?php echo ($i + 1); ?>
+                                    </td>
+                                    <td align="center">
+                                        <?php echo JHTML::_('grid.id', $i, $wishlist->wishlist_id, false, 'wishlist_id'); ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $wishlist->wishlist_name; ?>
+                                    </td>
+                                </tr>
+                            <?php
+                                $i++;
+                            }
+                            ?>
+                            <tr>
+                                <td colspan="3" align="center">
+                                    <input type="button" class="btn btn-primary" value="<?php echo Text::_('COM_REDSHOP_ADD_TO_WISHLIST'); ?>" 
+                                            onclick="Joomla.submitform();" />&nbsp;
+                                    <input type="button" class="btn" value="<?php echo Text::_('COM_REDSHOP_CANCEL'); ?>" onclick="window.parent.redBOX.close();" />
                                 </td>
                             </tr>
-                            <?php
-                            $i++;
-                        }
-                        ?>
-                        <tr>
-                            <td colspan="3" align="center">
-                                <input type="button" class="btn btn-primary"
-                                       value="<?php echo JText::_('COM_REDSHOP_ADD_TO_WISHLIST'); ?>"
-                                       onclick="Joomla.submitform();"/>&nbsp;
-                                <input type="button" class="btn" value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"
-                                       onclick="window.parent.redBOX.close();"/>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
-                <input type="hidden" name="<?php echo JSession::getFormToken() ?>" value="1"/>
-                <input type="hidden" name="product_id" value="<?php echo $input->getString('product_id', '') ?>"/>
-                <input type="hidden" name="attribute_id" value="<?php echo $input->getRaw('attribute_id', '') ?>"/>
-                <input type="hidden" name="property_id" value="<?php echo $input->getRaw('property_id', '') ?>"/>
-                <input type="hidden" name="subattribute_id"
-                       value="<?php echo $input->getRaw('subattribute_id', '') ?>"/>
-                <input type="hidden" name="view" value="wishlist"/>
-                <input type="hidden" name="boxchecked" value="0"/>
-                <input type="hidden" name="option" value="com_redshop"/>
-                <input type="hidden" name="task" value="savewishlist"/>
+                <input type="hidden" name="<?php echo JSession::getFormToken() ?>" value="1" />
+                <input type="hidden" name="product_id" value="<?php echo $input->getString('product_id', '') ?>" />
+                <input type="hidden" name="attribute_id" value="<?php echo $input->getRaw('attribute_id', '') ?>" />
+                <input type="hidden" name="property_id" value="<?php echo $input->getRaw('property_id', '') ?>" />
+                <input type="hidden" name="subattribute_id" value="<?php echo $input->getRaw('subattribute_id', '') ?>" />
+                <input type="hidden" name="view" value="wishlist" />
+                <input type="hidden" name="boxchecked" value="0" />
+                <input type="hidden" name="option" value="com_redshop" />
+                <input type="hidden" name="task" value="savewishlist" />
             </form>
         </div>
 
         <script language="javascript" type="text/javascript">
             function submitform() {
                 if (document.adminForm.boxchecked.value == '0')
-                    alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_WISHLIST')?>");
+                    alert("<?php echo Text::_('COM_REDSHOP_PLEASE_SELECT_WISHLIST') ?>");
                 else
                     document.adminForm.submit();
             }
@@ -167,15 +164,15 @@ $itemId      = $input->getInt('Itemid', 0);
             }
 
             <?php if (!Redshop::getConfig()->get('WISHLIST_LIST')) : ?>
-            document.getElementsByName('checkall-toggle')[0].click();
-            submitform();
+                document.getElementsByName('checkall-toggle')[0].click();
+                submitform();
             <?php endif; ?>
         </script>
     <?php endif; ?>
     <script language="javascript" type="text/javascript">
         function checkValidation() {
             if (trim(document.newwishlistForm.txtWishlistname.value) == "")
-                alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_WISHLIST_NAME')?>");
+                alert("<?php echo Text::_('COM_REDSHOP_PLEASE_ENTER_WISHLIST_NAME') ?>");
             else
                 document.newwishlistForm.submit();
         }

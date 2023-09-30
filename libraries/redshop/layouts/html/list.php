@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Redshop.Site
  * @subpackage  Layout
@@ -9,6 +10,7 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 extract($displayData);
@@ -43,7 +45,7 @@ $idText = $idtag ? $idtag : $name;
         <?php foreach ($data as $i => $obj) : ?>
             <?php
             $key   = $obj->$optKey;
-            $title = $translate ? JText::_($obj->$optText) : $obj->$optText;
+            $title = $translate ? Text::_($obj->$optText) : $obj->$optText;
             $id    = (isset($obj->id) ? $obj->id : null);
 
             $extra = '';
@@ -62,12 +64,13 @@ $idText = $idtag ? $idtag : $name;
                 $extra .= ((string)$key == (string)$selected ? ' checked="checked" ' : '');
             }
             ?>
-            <input type="<?php echo $type; ?>" id="<?php echo $id; ?>" name="<?php echo $name; ?>"
-                   value="<?php echo $key; ?>"
-                <?php echo $extra; ?> <?php echo $attribs; ?> rel="noicheck"/>
-            <label class="<?php echo $type; ?>" for="<?php echo $id; ?>" id="<?php echo $id; ?>-lbl">
-                <?php echo $title ?>
-            </label>
+            <div class="form-check">
+                <input class="form-check-input" type="<?php echo $type; ?>" id="<?php echo $id; ?>" name="<?php echo $name; ?>" 
+                        value="<?php echo $key; ?>" <?php echo $extra; ?> <?php echo $attribs; ?> rel="noicheck" />
+                <label class="form-check-label" for="<?php echo $id; ?>" id="<?php echo $id; ?>-lbl">
+                    <?php echo $title ?>
+                </label>
+            </div>
         <?php endforeach; ?>
     <?php endif; ?>
 </fieldset>

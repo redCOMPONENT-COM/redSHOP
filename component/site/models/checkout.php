@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Redshop\Economic\RedshopEconomic;
 use Redshop\Environment as RedshopEnvironment;
 
@@ -257,7 +258,7 @@ class RedshopModelCheckout extends RedshopModel
         $cart = $session->get('cart');
 
         if ($cart['idx'] < 1) {
-            $msg = JText::_('COM_REDSHOP_EMPTY_CART');
+            $msg = Text::_('COM_REDSHOP_EMPTY_CART');
 			$app->enqueueMessage($msg);
             $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&Itemid=' . $Itemid));
         }
@@ -1501,7 +1502,7 @@ class RedshopModelCheckout extends RedshopModel
         // The Data should be in the session.
         if (!isset($creditCardData)) {
             $validPayment [0] = 0;
-            $validPayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCDATA');
+            $validPayment [1] = Text::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCDATA');
 
             return $validPayment;
         }
@@ -1509,7 +1510,7 @@ class RedshopModelCheckout extends RedshopModel
         if (isset($creditCardData['order_payment_name'])) {
             if (preg_match("/[0-9]+/", $creditCardData['order_payment_name']) == true) {
                 $validPayment [0] = 0;
-                $validPayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCNM_FOUND');
+                $validPayment [1] = Text::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCNM_FOUND');
 
                 return $validPayment;
             }
@@ -1517,7 +1518,7 @@ class RedshopModelCheckout extends RedshopModel
 
         if (!$creditCardData['order_payment_number']) {
             $validPayment [0] = 0;
-            $validPayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCNR_FOUND');
+            $validPayment [1] = Text::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCNR_FOUND');
 
             return $validPayment;
         }
@@ -1525,7 +1526,7 @@ class RedshopModelCheckout extends RedshopModel
         if ($creditCardData['order_payment_number']) {
             if (!is_numeric($creditCardData['order_payment_number'])) {
                 $validPayment [0] = 0;
-                $validPayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCNR_NUM_FOUND');
+                $validPayment [1] = Text::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCNR_NUM_FOUND');
 
                 return $validPayment;
             }
@@ -1533,7 +1534,7 @@ class RedshopModelCheckout extends RedshopModel
 
         if (!$creditCardData['order_payment_expire_month']) {
             $validPayment [0] = 0;
-            $validPayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_MON_FOUND');
+            $validPayment [1] = Text::_('COM_REDSHOP_CHECKOUT_ERR_NO_MON_FOUND');
 
             return $validPayment;
         }
@@ -1656,11 +1657,11 @@ class RedshopModelCheckout extends RedshopModel
             )
         );
 
-        $creditCardErrors [0] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_UNKNOWN_CCTYPE');
-        $creditCardErrors [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_PROVIDED');
-        $creditCardErrors [2] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_INVALIDFORMAT');
-        $creditCardErrors [3] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_INVALIDNUMBER');
-        $creditCardErrors [4] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_WRONGLENGTH');
+        $creditCardErrors [0] = Text::_('COM_REDSHOP_CHECKOUT_ERR_NO_UNKNOWN_CCTYPE');
+        $creditCardErrors [1] = Text::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_PROVIDED');
+        $creditCardErrors [2] = Text::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_INVALIDFORMAT');
+        $creditCardErrors [3] = Text::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_INVALIDNUMBER');
+        $creditCardErrors [4] = Text::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_WRONGLENGTH');
 
         // Establish card type
         $cardType = -1;

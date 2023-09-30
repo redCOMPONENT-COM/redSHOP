@@ -17,6 +17,9 @@ defined('_JEXEC') or die;
  * @var   integer $productId   Product id
  * @var   string  $formId      Form id
  */
+
+ use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 $user          = JFactory::getUser();
@@ -29,14 +32,14 @@ if ($checkWishlist) {
 ?>
 
 <?php if (!$user->guest) : ?>
-    <i class="<?php echo $wishlistExist; ?>"></i>
-    <input type="button" class="btn btn-primary redshop-wishlist-button"
-           data-productid="<?php echo $productId ?>" data-href="<?php echo $link ?>"
-           data-formid="<?php echo $formId ?>" value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>"/>
+    <button class="btn btn-primary redshop-wishlist-button modalAddToWishlistButton" type="button" data-url="<?php echo $link ?>"
+            data-productid="<?php echo $productId ?>" data-formid="<?php echo $formId ?>" >
+        <i class="<?php echo $wishlistExist; ?>"></i> <?php echo Text::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>
+    </button>
 <?php else : ?>
     <?php if (Redshop::getConfig()->get('WISHLIST_LOGIN_REQUIRED') != 0) : ?>
         <input type="submit" class="btn btn-primary redshop-wishlist-form-button" name="btnwishlist" 
-               id="btnwishlist" value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>"
+               id="btnwishlist" value="<?php echo Text::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>"
                onclick="window.location='<?php echo $link ?>'"/>
     <?php else : ?>
         <form method="post" action="" id="form_wishlist_<?php echo $productId ?>_link"
@@ -51,7 +54,7 @@ if ($checkWishlist) {
 
             <input type="submit" data-productid="<?php echo $productId ?>" data-formid="<?php echo $formId ?>"
                    class="btn btn-primary redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist"
-                   value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>"/>
+                   value="<?php echo Text::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>"/>
         </form>
     <?php endif; ?>
 <?php endif; ?>
