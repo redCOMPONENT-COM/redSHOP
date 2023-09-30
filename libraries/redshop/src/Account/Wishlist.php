@@ -100,10 +100,10 @@ class Wishlist
                     false
                 );
                 $thumbImage  = \Redshop\Product\Image\Image::getImage(
-                    $row->product_id,
-                    $link,
                     \Redshop::getConfig()->get('THUMB_WIDTH'),
-                    \Redshop::getConfig()->get('THUMB_HEIGHT')
+                    \Redshop::getConfig()->get('THUMB_HEIGHT'),
+                    $row->product_id,
+                    $link
                 );
 
                 $dataAdd .= $thumbImage;
@@ -163,10 +163,10 @@ class Wishlist
                     -1
                 );
                 $thumbImage   = \Redshop\Product\Image\Image::getImage(
-                    $row->product_id,
-                    $link,
                     $thumbWidth,
-                    $thumbHeight
+                    $thumbHeight,
+                    $row->product_id,
+                    $link
                 );
                 $productName  = $row->product_name;
                 $wishlistData = str_replace($tag, $thumbImage, $wishlistDescription);

@@ -10,14 +10,15 @@
 defined('_JEXEC') or die;
 
 use Redshop\App;
-JHTML::_('bootstrap.modal');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 $config = App::getInstance();
 
 $url       = JURI::base();
 $wishlists = $this->wishlists;
 $productId = $this->input->getInt('product_id');
-$user      = JFactory::getUser();
+$user      = Factory::getApplication()->getIdentity();
 
 if (!$user->id) {
     $rows = $this->wish_products;
@@ -29,11 +30,11 @@ if (!$user->id) {
         echo $mail_link = '<div class="mod_wishlist_mail_icon"><a class="modal" href="' . $mlink . '" rel="{handler:\'iframe\',size:{x:450,y:400}}" ><img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'mailcenter16.png" ></a></div>';
         display_products($rows);
         $reglink = JURI::root() . "index.php?option=com_redshop&view=registration";
-        echo "<br /><div><a href=" . $reglink . "><input type='button' value='" . JText::_(
+        echo "<br /><div><a href=" . $reglink . "><input type='button' value='" . Text::_(
                 'COM_REDSHOP_SAVE_WISHLIST'
             ) . "></a></div>";
     } else {
-        echo "<div>" . JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') . "</div>";
+        echo "<div>" . Text::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') . "</div>";
     }
 
     echo "</div>";
@@ -47,7 +48,7 @@ if (!$user->id) {
         display_products($this->wish_session);
         echo "<br />";
         $mywishlist_link = "index.php?option=com_redshop&view=wishlist&task=addtowishlist&tmpl=component";
-        echo "<a class=\"modal\" href=\"" . $mywishlist_link . "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" ><input type='submit' value='" . JText::_(
+        echo "<a class=\"modal\" href=\"" . $mywishlist_link . "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" ><input type='submit' value='" . Text::_(
                 'COM_REDSHOP_SAVE_WISHLIST'
             ) . "'></a>";
         echo "<br /><br />";
@@ -67,7 +68,7 @@ if (!$user->id) {
             echo "<br />";
         }
     } else {
-        echo "<div>" . JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') . "</div>";
+        echo "<div>" . Text::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') . "</div>";
     }
 
     echo "</div>";
@@ -88,7 +89,7 @@ function display_products($rows)
 
         if ($row->product_full_image) {
             echo "<div class='mod_wishlist_product_image' >"
-                . Redshop\Product\Image\Image::getImage($row->product_id, $link, "100", "100") . '</div>';
+                . Redshop\Product\Image\Image::getImage("100", "100", $row->product_id, $link) . '</div>';
         }
 
         echo "<a href='" . $link . "'>" . $row->product_name . "</a><br>";
@@ -105,7 +106,7 @@ function display_products($rows)
                     echo "<div id='mod_redmainprice' class='mod_redmainprice'>" . RedshopHelperProductPrice::formattedPrice(
                             $product_price_discount
                         ) . "</div>";
-                    echo "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_(
+                    echo "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . Text::_(
                             'COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED'
                         ) . ' ' . RedshopHelperProductPrice::formattedPrice($s_price) . "</div>";
                 } else {
@@ -125,7 +126,7 @@ function display_products($rows)
                 ) . "</div>";
         }
 
-        echo "<br><a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>&nbsp;";
+        echo "<br><a href='" . $link . "'>" . Text::_('COM_REDSHOP_READ_MORE') . "</a>&nbsp;";
 
         echo $addtocartdata = Redshop\Cart\Render::replace($row->product_id);
 

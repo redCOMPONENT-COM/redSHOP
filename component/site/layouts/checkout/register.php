@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 ?>
@@ -22,13 +24,13 @@ extract($displayData);
             <label>
                 <input type="checkbox" name="createaccount" <?php echo $checked_style; ?> id="createaccount"
                        value="1" onclick="createUserAccount(this);"/>
-                <?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>
+                <?php echo Text::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>
             </label>
         </div>
     <?php endif; ?>
 
     <fieldset>
-        <legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION'); ?></legend>
+        <legend><?php echo Text::_('COM_REDSHOP_ADDRESS_INFORMATION'); ?></legend>
 
         <?php echo RedshopHelperBilling::render(
             $post,
@@ -57,7 +59,7 @@ extract($displayData);
 
         <div id="divShipping" <?php echo $billingisshipping; ?>>
             <fieldset class="adminform subTable">
-                <legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES'); ?></legend>
+                <legend><?php echo Text::_('COM_REDSHOP_SHIPPING_ADDRESSES'); ?></legend>
                 <?php
                 echo RedshopTagsReplacer::_(
                     'shippingtable',
@@ -78,9 +80,9 @@ extract($displayData);
 
     <div class="btn-group">
         <input type="button" class="btn btn-default btn-lg" name="back"
-               value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>" onclick="javascript:window.history.go(-1);">
+               value="<?php echo Text::_('COM_REDSHOP_BACK'); ?>" onclick="javascript:window.history.go(-1);">
         <input type="submit" class="btn btn-primary btn-lg" name="submitbtn" id="submitbtn"
-               value="<?php echo JText::_('COM_REDSHOP_PROCEED'); ?>">
+               value="<?php echo Text::_('COM_REDSHOP_PROCEED'); ?>">
     </div>
 
     <div class="clr"></div>

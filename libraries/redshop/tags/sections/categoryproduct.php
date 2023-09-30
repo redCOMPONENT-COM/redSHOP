@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -65,7 +67,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
                 [
                     'tag'   => 'div',
                     'class' => 'product-empty',
-                    'text'  => JText::_('COM_REDSHOP_ALL_CATEGORY_VIEW_NO_RESULT_TEXT')
+                    'text'  => Text::_('COM_REDSHOP_ALL_CATEGORY_VIEW_NO_RESULT_TEXT')
                 ],
                 '',
                 $this->optionLayout
@@ -98,7 +100,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
         }
 
         if ($this->isTagExists('{template_selector_category}')) {
-            $this->replacements['{template_selector_category_lbl}'] = JText::_(
+            $this->replacements['{template_selector_category_lbl}'] = Text::_(
                 'COM_REDSHOP_TEMPLATE_SELECTOR_CATEGORY_LBL'
             );
             $this->replacements['{template_selector_category}']     = RedshopLayoutHelper::render(
@@ -267,7 +269,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
                 'tags.common.link',
                 [
                     'link'    => $link,
-                    'content' => JText::_('COM_REDSHOP_READ_MORE'),
+                    'content' => Text::_('COM_REDSHOP_READ_MORE'),
                     'class'   => 'category_name',
                     'attr'    => 'title="' . $category->name . '"'
                 ],
@@ -310,7 +312,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
             );
 
             $replaceCategoryItemData['{category_total_product}']     = count($totalProduct);
-            $replaceCategoryItemData['{category_total_product_lbl}'] = JText::_('COM_REDSHOP_TOTAL_PRODUCT');
+            $replaceCategoryItemData['{category_total_product_lbl}'] = Text::_('COM_REDSHOP_TOTAL_PRODUCT');
         }
 
         /*
@@ -460,10 +462,10 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
             $pItemid = RedshopHelperRouter::getItemId($productId);
         }
 
-        $replaceProductItemData['{product_id_lbl}']     = JText::_('COM_REDSHOP_PRODUCT_ID_LBL');
+        $replaceProductItemData['{product_id_lbl}']     = Text::_('COM_REDSHOP_PRODUCT_ID_LBL');
         $replaceProductItemData['{product_id}']         = $productId;
-        $replaceProductItemData['{product_number_lbl}'] = JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL');
-        $replaceProductItemData['{product_number_lbl}'] = JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL');
+        $replaceProductItemData['{product_number_lbl}'] = Text::_('COM_REDSHOP_PRODUCT_NUMBER_LBL');
+        $replaceProductItemData['{product_number_lbl}'] = Text::_('COM_REDSHOP_PRODUCT_NUMBER_LBL');
         $replaceProductItemData['{product_number}']     = RedshopLayoutHelper::render(
             'tags.common.tag',
             [
@@ -547,7 +549,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
                 [
                     'link'    => $link,
                     'attr'    => 'title="' . $product->product_name . '"',
-                    'content' => JText::_('COM_REDSHOP_READ_MORE')
+                    'content' => Text::_('COM_REDSHOP_READ_MORE')
                 ],
                 '',
                 $this->optionLayout
@@ -624,7 +626,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
                     ),
                     'class'   => 'btn btn-primary',
                     'attr'    => 'title="' . $manufacturerName . '"',
-                    'content' => JText::_(
+                    'content' => Text::_(
                             "COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS"
                         ) . ' ' . $manufacturerName
                 ],
@@ -646,10 +648,10 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
 
         // Product image flying addwishlist time start.
         $thumImage = Redshop\Product\Image\Image::getImage(
-            $productId,
-            $link,
             $productThumbImgData['width'],
             $productThumbImgData['height'],
+            $productId,
+            $link,
             2,
             1
         );

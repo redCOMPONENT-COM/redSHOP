@@ -209,10 +209,10 @@ class Image
      * @since   2.1.0
      */
     public static function getImage(
-        $id = 0,
-        $link = '',
         $width,
         $height,
+        $id = 0,
+        $link = '',
         $isLight = 2,
         $enableHover = 0,
         $suffixId = 0,

@@ -6,7 +6,11 @@
  * @copyright  Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 JLoader::import('redshop.library');
 
@@ -16,7 +20,7 @@ $pk         = $displayData["post"];
 $cid        = $pk["cid"] ? $pk["cid"] : 0;
 $keyword    = $displayData['keyword'];
 $model      = $displayData["model"];
-$app        = JFactory::getApplication();
+$app        = Factory::getApplication();
 $input      = $app->input;
 
 /** @var RedshopModelCategory $categoryModel */
@@ -31,10 +35,10 @@ $redTemplate      = Redtemplate::getInstance();
 $redconfiguration = Redconfiguration::getInstance();
 
 $list = array(
-    JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT')),
-    JHtml::_('select.option', 'p.product_price', JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC')),
-    JHtml::_('select.option', 'p.product_price desc', JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC')),
-    JHtml::_('select.option', 'p.product_id', JText::_('COM_REDSHOP_NEWEST'))
+    JHtml::_('select.option', '', Text::_('COM_REDSHOP_SELECT')),
+    JHtml::_('select.option', 'p.product_price', Text::_('COM_REDSHOP_PRODUCT_PRICE_ASC')),
+    JHtml::_('select.option', 'p.product_price desc', Text::_('COM_REDSHOP_PRODUCT_PRICE_DESC')),
+    JHtml::_('select.option', 'p.product_id', Text::_('COM_REDSHOP_NEWEST'))
 );
 
 $orderBy = JHtml::_(
@@ -63,7 +67,7 @@ $templateDesc      = $templateArray[0]->template_desc;
 $attributeTemplate = \Redshop\Template\Helper::getAttribute($templateDesc);
 
 // Begin replace template
-$templateDesc   = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $templateDesc);
+$templateDesc   = str_replace("{total_product_lbl}", Text::_('COM_REDSHOP_TOTAL_PRODUCT'), $templateDesc);
 $templateDesc   = str_replace("{total_product}", $displayData['total'], $templateDesc);
 $categoryDetail = RedshopHelperCategory::getCategoryById($cid);
 
@@ -84,7 +88,7 @@ if (strpos($templateDesc, "{template_selector_category}") !== false) {
     if ($renderTemplate != "") {
         $templateDesc = str_replace(
             "{template_selector_category_lbl}",
-            JText::_('COM_REDSHOP_TEMPLATE_SELECTOR_CATEGORY_LBL'),
+            Text::_('COM_REDSHOP_TEMPLATE_SELECTOR_CATEGORY_LBL'),
             $templateDesc
         );
         $templateDesc = str_replace("{template_selector_category}", $renderTemplate, $templateDesc);
@@ -97,7 +101,7 @@ if (strpos($templateDesc, "{template_selector_category}") !== false) {
 $templateDesc = RedshopHelperProductTag::getExtraSectionTag($extraFieldCategory, $cid, "2", $templateDesc);
 
 if (strpos($templateDesc, "{load_more}") !== false) {
-    $loadMore     = '<button class="btn btn-success" name="load-more" id="load-more" total="' . $displayData['total'] . '" onclick="loadMore(this);">' . JText::_(
+    $loadMore     = '<button class="btn btn-success" name="load-more" id="load-more" total="' . $displayData['total'] . '" onclick="loadMore(this);">' . Text::_(
             'COM_REDSHOP_LOAD_MORE'
         ) . '</button>';
     $templateDesc = str_replace("{load_more}", $loadMore, $templateDesc);
@@ -227,7 +231,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos(
         }
 
         if (strpos($dataAdd, '{category_readmore}') !== false) {
-            $catName = '<a href="' . $link . '" ' . $title . '>' . JText::_('COM_REDSHOP_READ_MORE') . '</a>';
+            $catName = '<a href="' . $link . '" ' . $title . '>' . Text::_('COM_REDSHOP_READ_MORE') . '</a>';
             $dataAdd = str_replace("{category_readmore}", $catName, $dataAdd);
         }
 
@@ -254,7 +258,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos(
         if (strpos($dataAdd, '{category_total_product}') !== false) {
             $totalprd = RedshopHelperProduct::getProductCategory($row->id);
             $dataAdd  = str_replace("{category_total_product}", count($totalprd), $dataAdd);
-            $dataAdd  = str_replace("{category_total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $dataAdd);
+            $dataAdd  = str_replace("{category_total_product_lbl}", Text::_('COM_REDSHOP_TOTAL_PRODUCT'), $dataAdd);
         }
 
         /*
@@ -399,9 +403,9 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
         $pItemid  = count($itemData) > 0 ? $itemData->id : RedshopHelperRouter::getItemId($product->product_id, $cid);
 
         $dataAdd = str_replace("{product_price}", RedshopHelperProductPrice::formattedPrice($productPrice), $dataAdd);
-        $dataAdd = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $dataAdd);
+        $dataAdd = str_replace("{product_id_lbl}", Text::_('COM_REDSHOP_PRODUCT_ID_LBL'), $dataAdd);
         $dataAdd = str_replace("{product_id}", $product->product_id, $dataAdd);
-        $dataAdd = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $dataAdd);
+        $dataAdd = str_replace("{product_number_lbl}", Text::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $dataAdd);
 
         $productNumberOutput = '<span id="product_number_variable' . $product->product_id . '">' . $product->product_number . '</span>';
         $dataAdd             = str_replace("{product_number}", $productNumberOutput, $dataAdd);
@@ -437,7 +441,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
         }
 
         if (strstr($dataAdd, '{read_more}')) {
-            $rmore   = "<a href='" . $link . "' title='" . $product->product_name . "'>" . JText::_(
+            $rmore   = "<a href='" . $link . "' title='" . $product->product_name . "'>" . Text::_(
                     'COM_REDSHOP_READ_MORE'
                 ) . "</a>";
             $dataAdd = str_replace("{read_more}", $rmore, $dataAdd);
@@ -505,7 +509,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
         if (strstr($dataAdd, '{manufacturer_product_link}')) {
             $manufacturerPLink = "<a href='" . Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $product->manufacturer_id . '&Itemid=' . $itemId
-                ) . "'>" . JText::_(
+                ) . "'>" . Text::_(
                     "COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS"
                 ) . " " . $product->manufacturer_name . "</a>";
             $dataAdd           = str_replace("{manufacturer_product_link}", $manufacturerPLink, $dataAdd);
@@ -561,20 +565,20 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
         $hiddenThumbImage = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pwThumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $phThumb . "'>";
         $thumbImage       = Redshop\Product\Image\Image::getImage(
-            $product->product_id,
-            $link,
             $pwThumb,
             $phThumb,
+            $product->product_id,
+            $link,
             2,
             1
         );
 
         // Product image flying addwishlist time start
         $thumbImage = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . Redshop\Product\Image\Image::getImage(
-                $product->product_id,
-                $link,
                 $pwThumb,
                 $phThumb,
+                $product->product_id,
+                $link,
                 2,
                 1
             ) . "</span>";
@@ -601,10 +605,10 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
             $aHrefPath     = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_full_image;
             $aHrefBackPath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_back_full_image;
 
-            $productFrontImageLink = "<a href='#' onClick='javascript:changeproductImage(" . $product->product_id . ",\"" . $mainsrcPath . "\",\"" . $aHrefPath . "\");'>" . JText::_(
+            $productFrontImageLink = "<a href='#' onClick='javascript:changeproductImage(" . $product->product_id . ",\"" . $mainsrcPath . "\",\"" . $aHrefPath . "\");'>" . Text::_(
                     'COM_REDSHOP_FRONT_IMAGE'
                 ) . "</a>";
-            $productBackImageLink  = "<a href='#' onClick='javascript:changeproductImage(" . $product->product_id . ",\"" . $backsrcPath . "\",\"" . $aHrefBackPath . "\");'>" . JText::_(
+            $productBackImageLink  = "<a href='#' onClick='javascript:changeproductImage(" . $product->product_id . ",\"" . $backsrcPath . "\",\"" . $aHrefBackPath . "\");'>" . Text::_(
                     'COM_REDSHOP_BACK_IMAGE'
                 ) . "</a>";
 
@@ -654,10 +658,10 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
                     . "&swap=" . Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
             }
 
-            $productFrontImageLink = "<a href='#' onClick='javascript:changeproductPreviewImage(" . $product->product_id . ",\"" . $mainPreviewSrcPath . "\");'>" . JText::_(
+            $productFrontImageLink = "<a href='#' onClick='javascript:changeproductPreviewImage(" . $product->product_id . ",\"" . $mainPreviewSrcPath . "\");'>" . Text::_(
                     'COM_REDSHOP_FRONT_IMAGE'
                 ) . "</a>";
-            $productBackImageLink  = "<a href='#' onClick='javascript:changeproductPreviewImage(" . $product->product_id . ",\"" . $backPreviewSrcPath . "\");'>" . JText::_(
+            $productBackImageLink  = "<a href='#' onClick='javascript:changeproductPreviewImage(" . $product->product_id . ",\"" . $backPreviewSrcPath . "\");'>" . Text::_(
                     'COM_REDSHOP_BACK_IMAGE'
                 ) . "</a>";
 
@@ -834,7 +838,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
         $temps = array(
             (object)array(
                 'id'   => 0,
-                'name' => JText::_('COM_REDSHOP_SELECT_MANUFACTURE')
+                'name' => Text::_('COM_REDSHOP_SELECT_MANUFACTURE')
             )
         );
 
@@ -861,12 +865,12 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
         $templateDesc = str_replace(
             array('{filter_by_lbl}', '{filter_by}'),
-            array(JText::_('COM_REDSHOP_SELECT_FILTER_BY'), $filterByForm),
+            array(Text::_('COM_REDSHOP_SELECT_FILTER_BY'), $filterByForm),
             $templateDesc
         );
     }
 
-    $templateDesc = str_replace("{order_by_lbl}", JText::_('COM_REDSHOP_SELECT_ORDER_BY'), $templateDesc);
+    $templateDesc = str_replace("{order_by_lbl}", Text::_('COM_REDSHOP_SELECT_ORDER_BY'), $templateDesc);
     $templateDesc = str_replace("{order_by}", $orderBy, $templateDesc);
     $templateDesc = str_replace("{filter_by_lbl}", '', $templateDesc);
     $templateDesc = str_replace("{product_loop_start}", "", $templateDesc);

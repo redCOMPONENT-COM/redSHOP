@@ -1100,7 +1100,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                 'class'   => 'redcolorproductimg',
                 'link'    => JURI::root(
                     ) . 'index.php?option=com_redshop&view=send_friend&pid=' . $this->product->product_id . '&tmpl=component&Itemid=' . $this->itemId,
-                'content' => Text::_('COM_REDSHOP_SEND_FRIEND')
+                'content' => '<i class="fas fa-mail-bulk send-to-friend"></i>'
             ],
             '',
             $this->optionLayout
@@ -1647,10 +1647,10 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
     {
         if ($this->isTagExists($this->infoTagImg['imageTag'])) {
             $thumbImg = Redshop\Product\Image\Image::getImage(
-                $this->product->product_id,
-                Redshop\IO\Route::_('index.php?option=com_redshop&view=product&pid=' . $this->product->product_id),
                 $this->infoTagImg['width'],
                 $this->infoTagImg['height'],
+                $this->product->product_id,
+                Redshop\IO\Route::_('index.php?option=com_redshop&view=product&pid=' . $this->product->product_id),
                 Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'),
                 0,
                 0,

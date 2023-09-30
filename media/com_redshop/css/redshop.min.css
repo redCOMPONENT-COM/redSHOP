@@ -50,6 +50,9 @@ a:active,
 a:hover {
   outline: 0; }
 
+a > .send-to-friend {
+  color:#000; }
+
 abbr[title] {
   border-bottom: 1px dotted; }
 
@@ -5281,16 +5284,30 @@ body {
   .redshop_links a {
     display: inline-block; }
 
-.product_detail .product_image {
+.product_image {
   text-align: center; }
 
-.product_detail .product_price {
-  font-weight: bold;
-  padding: 5px 0; }
-  .product_detail .product_price .product_oldprice {
+.product_more_images {
+  padding-top: 10px;
+  padding-bottom: 10px; }
+
+.product_price {
+  padding-top: 10px;
+  padding-bottom: 10px; }
+
+.product_main_price {
+    font-weight: bold;
+    display: inline-block;
+    font-size: 30px; }
+
+.product_oldprice {
     text-decoration: line-through;
     display: inline-block;
     color: #ccc; }
+
+.product-wishlist {
+  padding-top: 10px;
+  padding-bottom: 10px; }
 
 .product_detail .attribute_wrapper .row {
   margin-bottom: 5px; }

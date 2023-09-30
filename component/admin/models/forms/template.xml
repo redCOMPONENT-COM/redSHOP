@@ -68,7 +68,7 @@
         />
         <field
                 name="published"
-                type="redshop.radio"
+                type="radio"
                 label-class="radio-inline"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"

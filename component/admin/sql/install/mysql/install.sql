@@ -2388,7 +2388,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_wishlist` (
   `wishlist_id` INT(11) NOT NULL AUTO_INCREMENT,
   `wishlist_name` VARCHAR(100) NOT NULL,
   `user_id` INT(11) NOT NULL,
-  `comment` MEDIUMTEXT NOT NULL,
+  `comment` MEDIUMTEXT NOT NULL DEFAULT '',
   `cdate` DOUBLE NOT NULL,
   PRIMARY KEY (`wishlist_id`),
   INDEX `idx_user_id` (`user_id` ASC))

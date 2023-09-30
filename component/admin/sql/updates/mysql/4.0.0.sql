@@ -298,3 +298,5 @@ ALTER TABLE `#__redshop_product_discount_calc_extra` CHANGE `oprand` `oprand` CH
 ALTER TABLE `#__redshop_quotation_attribute_item` CHANGE `section_price` `section_price` DECIMAL(15,4) NOT NULL DEFAULT '0.0000';
 ALTER TABLE `#__redshop_quotation_attribute_item` CHANGE `section_vat` `section_vat` DECIMAL(15,4) NOT NULL DEFAULT '0.0000';
 ALTER TABLE `#__redshop_quotation_attribute_item` CHANGE `section_oprand` `section_oprand` CHAR(1) NOT NULL DEFAULT '';
+
+ALTER TABLE `#__redshop_wishlist` CHANGE `comment` `comment` MEDIUMTEXT NOT NULL DEFAULT '';

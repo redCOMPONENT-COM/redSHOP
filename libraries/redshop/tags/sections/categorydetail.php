@@ -1079,10 +1079,10 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                         'id'    => 'productImageWrapID_' . $product->product_id,
                         'attr'  => '',
                         'text'  => Redshop\Product\Image\Image::getImage(
-                            $product->product_id,
-                            $link,
                             $pwThumb,
                             $phThumb,
+                            $product->product_id,
+                            $link,
                             2,
                             1
                         )

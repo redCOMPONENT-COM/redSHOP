@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -85,10 +87,10 @@ class RedshopTagsSectionsRelatedProduct extends RedshopTagsAbstract
         );
 
         $relImage = Redshop\Product\Image\Image::getImage(
-            $product->product_id,
-            $rLink,
             $imgData['width'],
-            $imgData['height']
+            $imgData['height'],
+            $product->product_id,
+            $rLink
         );
 
         $replacement[$imgData['imageTag']] = RedshopLayoutHelper::render(
@@ -152,7 +154,7 @@ class RedshopTagsSectionsRelatedProduct extends RedshopTagsAbstract
             $template
         );
 
-        $replacement['{relproduct_number_lbl}'] = JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL');
+        $replacement['{relproduct_number_lbl}'] = Text::_('COM_REDSHOP_PRODUCT_NUMBER_LBL');
         $replacement['{relproduct_number}']     = $product->product_number;
         $replacement['{relproduct_s_desc}']     = $rpShortDesc;
         $replacement['{relproduct_desc}']       = $rpDesc;
@@ -166,7 +168,7 @@ class RedshopTagsSectionsRelatedProduct extends RedshopTagsAbstract
                     'link'    => Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $product->manufacturer_id . '&Itemid=' . $this->itemId
                     ),
-                    'content' => JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS")
+                    'content' => Text::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS")
                 ],
                 '',
                 $this->optionLayout
@@ -209,7 +211,7 @@ class RedshopTagsSectionsRelatedProduct extends RedshopTagsAbstract
             [
                 'link'    => $relMoreLink,
                 'attr'    => 'title="' . $product->product_name . '"',
-                'content' => JText::_('COM_REDSHOP_READ_MORE')
+                'content' => Text::_('COM_REDSHOP_READ_MORE')
             ],
             '',
             $this->optionLayout

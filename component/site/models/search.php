@@ -8,6 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+ use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -390,9 +391,9 @@ class RedshopModelSearch extends RedshopModel
                 $columnsCondition[] = 'c.name';
             }
 
-	        if ($input->getString('searchProductByFieldsData') == 'yes') {
-		        $columnsCondition[] = 'fds.data_txt';
-	        }
+            if ($input->getString('searchProductByFieldsData') == 'yes') {
+                $columnsCondition[] = 'fds.data_txt';
+            }
 
             $query->where($this->getSearchCondition($columnsCondition, $keyword));
 
@@ -461,10 +462,10 @@ class RedshopModelSearch extends RedshopModel
             }
 
             $q = "SELECT a.product_id
-						  FROM #__redproductfinder_association_tag AS ta
-						  LEFT JOIN #__redproductfinder_associations AS a ON a.id = ta.association_id
-						  LEFT JOIN #__redshop_product AS p ON p.product_id = a.product_id
-						  LEFT JOIN #__redshop_product_category_xref x ON x.product_id = a.product_id ";
+                          FROM #__redproductfinder_association_tag AS ta
+                          LEFT JOIN #__redproductfinder_associations AS a ON a.id = ta.association_id
+                          LEFT JOIN #__redshop_product AS p ON p.product_id = a.product_id
+                          LEFT JOIN #__redshop_product_category_xref x ON x.product_id = a.product_id ";
 
             for ($i = 0, $in = count($main_sal_type); $i < $in; $i++) {
                 if ($i != 0) {
@@ -652,9 +653,9 @@ class RedshopModelSearch extends RedshopModel
     {
         $db    = JFactory::getDbo();
         $query = "SELECT t.*, f.formname AS form_name FROM #__redproductfinder_types t
-		LEFT JOIN #__redproductfinder_forms f
-		ON t.form_id = f.id
-		ORDER BY ordering";
+        LEFT JOIN #__redproductfinder_forms f
+        ON t.form_id = f.id
+        ORDER BY ordering";
 
         $types   = $this->_getList($query);
         $session = JSession::getInstance('none', array());
@@ -703,8 +704,8 @@ class RedshopModelSearch extends RedshopModel
                     $tagids  = implode(",", $tag_id);
 
                     $query = "SELECT ra.product_id FROM `#__redproductfinder_association_tag` as rat
-					LEFT JOIN #__redproductfinder_associations as ra ON rat.`association_id` = ra.id
-					WHERE  rat.`type_id` = " . $db->quote($lasttypeid) . " ";
+                    LEFT JOIN #__redproductfinder_associations as ra ON rat.`association_id` = ra.id
+                    WHERE  rat.`type_id` = " . $db->quote($lasttypeid) . " ";
 
                     $query .= "AND  rat.`tag_id` = " . $db->quote($lasttagid) . " ";
 
@@ -721,11 +722,11 @@ class RedshopModelSearch extends RedshopModel
                 }
 
                 $q = "SELECT DISTINCT j.tag_id as tagid ,ra.product_id,count(ra.product_id) as ptotal ,CONCAT(j.tag_id,'.',j.type_id) AS tag_id, t.tag_name
-					FROM ((#__redproductfinder_tag_type j, #__redproductfinder_tags t )
-					LEFT JOIN #__redproductfinder_association_tag as rat ON  t.`id` = rat.`tag_id`)
-					LEFT JOIN #__redproductfinder_associations as ra ON ra.id = rat.association_id
-					WHERE j.tag_id = t.id
-					AND j.type_id = " . (int)$id . "  ";
+                    FROM ((#__redproductfinder_tag_type j, #__redproductfinder_tags t )
+                    LEFT JOIN #__redproductfinder_association_tag as rat ON  t.`id` = rat.`tag_id`)
+                    LEFT JOIN #__redproductfinder_associations as ra ON ra.id = rat.association_id
+                    WHERE j.tag_id = t.id
+                    AND j.type_id = " . (int)$id . "  ";
 
                 if ($productids != "") {
                     // Sanitize ids
@@ -747,9 +748,9 @@ class RedshopModelSearch extends RedshopModel
                         $type_id = explode('.', $tags[$t]->tag_id);
 
                         $query = "SELECT count(*) as count FROM #__redproductfinder_association_tag as ra
-							left join #__redproductfinder_associations as a on ra.association_id = a.id
-							left join #__redshop_product as rp on rp.product_id = a.product_id
-							WHERE type_id = " . $db->quote($type_id[1]) . " AND tag_id = " . $db->quote(
+                            left join #__redproductfinder_associations as a on ra.association_id = a.id
+                            left join #__redshop_product as rp on rp.product_id = a.product_id
+                            WHERE type_id = " . $db->quote($type_id[1]) . " AND tag_id = " . $db->quote(
                                 $type_id[0]
                             ) . " AND rp.published = 1";
 
@@ -799,9 +800,9 @@ class RedshopModelSearch extends RedshopModel
                             // Create the selection boxes
                             for ($t = 0, $tn = count($tags); $t < $tn; $t++) {
                                 if ($tags[$t]->tagid == $tag_id) {
-                                    $tagname .= "<span style='float:left;'>&nbsp;&nbsp;" . $tags[$t]->tag_name . "</span><span style='float:right;'><a href='javascript:deleteTag(\"$type->id\",\"$Itemid\");' title='" . JText::_(
+                                    $tagname .= "<span style='float:left;'>&nbsp;&nbsp;" . $tags[$t]->tag_name . "</span><span style='float:right;'><a href='javascript:deleteTag(\"$type->id\",\"$Itemid\");' title='" . Text::_(
                                             'COM_REDSHOP_DELETE'
-                                        ) . "' >" . JText::_('COM_REDSHOP_DELETE') . "</a></span><br/>";
+                                        ) . "' >" . Text::_('COM_REDSHOP_DELETE') . "</a></span><br/>";
                                 }
                             }
 
@@ -818,7 +819,7 @@ class RedshopModelSearch extends RedshopModel
 
         if (count($getredfilter) != 0) {
             ?>
-            <div id="pfsearchheader"><?php echo JText::_('COM_REDSHOP_SEARCH_RESULT'); ?></div>
+            <div id="pfsearchheader"><?php echo Text::_('COM_REDSHOP_SEARCH_RESULT'); ?></div>
 
             <div class="hrdivider"></div>
             <?php
@@ -831,7 +832,7 @@ class RedshopModelSearch extends RedshopModel
                             <?php echo $type->type_name; ?>
                             <?php
                             if (strlen($type->tooltip) > 0) {
-								HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+                                HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
                                 echo ' ' . JHtml::_('redshop.tooltip',
                                         $type->tooltip,
@@ -852,8 +853,8 @@ class RedshopModelSearch extends RedshopModel
             <div>
                 <a href="<?php echo Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=search&layout=redfilter&remove=1&Itemid=' . $Itemid
-                ); ?>" title="<?php echo JText::_('COM_REDSHOP_CLEAR_ALL'); ?>">
-                    <?php echo JText::_('COM_REDSHOP_CLEAR_ALL'); ?></a>
+                ); ?>" title="<?php echo Text::_('COM_REDSHOP_CLEAR_ALL'); ?>">
+                    <?php echo Text::_('COM_REDSHOP_CLEAR_ALL'); ?></a>
             </div>
             <div id="spacer">&nbsp;_________________________</div>
             <?php
@@ -861,7 +862,7 @@ class RedshopModelSearch extends RedshopModel
 
         if (count($types) > 0) {
             ?>
-            <div id="pfsearchheader"><?php echo JText::_('COM_REDSHOP_SEARCH_CRITERIA'); ?></div>
+            <div id="pfsearchheader"><?php echo Text::_('COM_REDSHOP_SEARCH_CRITERIA'); ?></div>
 
             <div class="hrdivider"></div>
             <?php
@@ -873,7 +874,7 @@ class RedshopModelSearch extends RedshopModel
                         <?php echo $type->type_name; ?>
                         <?php
                         if (strlen($type->tooltip) > 0) {
-							HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+                            HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                             echo ' ' . JHtml::_('redshop.tooltip',$type->tooltip, $type->type_name);
                         } ?>
                     </div>
@@ -996,7 +997,7 @@ class RedshopModelSearch extends RedshopModel
         $keyword                         = $app->input->getString('keyword', '');
         $search_type                     = $app->input->getCmd('search_type', '');
         $search_product_by_category_name = $params->get('searchProductByCategoryName');
-	    $search_product_by_fields_data   = $params->get('searchProductByFieldsData');
+        $search_product_by_fields_data   = $params->get('searchProductByFieldsData');
         $category_id                     = $app->input->getInt('category_id', 0);
         $manufacture_id                  = $app->input->getInt('manufacture_id', 0);
 
@@ -1055,9 +1056,9 @@ class RedshopModelSearch extends RedshopModel
             $columnsCondition[] = 'c.name';
         }
 
-	    if ($search_product_by_fields_data == 'yes') {
-		    $columnsCondition[] = 'fds.data_txt';
-	    }
+        if ($search_product_by_fields_data == 'yes') {
+            $columnsCondition[] = 'fds.data_txt';
+        }
 
         $query->where($this->getSearchCondition($columnsCondition, $keyword));
 
@@ -1115,10 +1116,10 @@ class RedshopModelSearch extends RedshopModel
 
                 //get product image
                 $row->product_image = Redshop\Product\Image\Image::getImage(
-                    $row->id,
-                    $row->link,
                     Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3', 80),
-                    Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3', 40)
+                    Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3', 40),
+                    $row->id,
+                    $row->link
                 );
 
                 //get product price

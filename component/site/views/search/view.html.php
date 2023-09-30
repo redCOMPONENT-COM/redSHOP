@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 class RedshopViewSearch extends RedshopView
 {
     public function display($tpl = null)
     {
-        $app = JFactory::getApplication();
+        $app = Factory::getApplication();
 
         $lists = array();
 
@@ -25,7 +27,7 @@ class RedshopViewSearch extends RedshopView
         $model  = $this->getModel('search');
 
         if ($layout == 'default') {
-            $pagetitle = JText::_('COM_REDSHOP_SEARCH');
+            $pagetitle = Text::_('COM_REDSHOP_SEARCH');
             $document->setTitle($pagetitle);
         }
 
@@ -79,7 +81,7 @@ class RedshopViewSearch extends RedshopView
             $app->getUserState('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'))
         );
         $app->setUserState('order_by', $getorderby);
-        JFactory::getApplication()->input->set('order_by', $app->getUserState('order_by'));
+        Factory::getApplication()->input->set('order_by', $app->getUserState('order_by'));
         $lists['order_select'] = JHTML::_(
             'select.genericlist',
             $order_data,
@@ -108,8 +110,8 @@ class RedshopViewSearch extends RedshopView
         if (count($this->search) > 0) {
             JPluginHelper::importPlugin('redshop_product');
 
-            $app   = JFactory::getApplication();
-            $input = JFactory::getApplication()->input;
+            $app   = Factory::getApplication();
+            $input = Factory::getApplication()->input;
             $input->set('order_by', $app->getUserState('order_by'));
 
             $dispatcher = RedshopHelperUtility::getDispatcher();
@@ -125,7 +127,7 @@ class RedshopViewSearch extends RedshopView
             $keyword = $app->input->getString('keyword');
             $layout  = $app->input->getCmd('layout', 'default');
 
-            $db    = JFactory::getDbo();
+            $db    = Factory::getContainer()->get('DatabaseDriver');
             $query = $db->getQuery(true)
                 ->select($db->qn('name'))
                 ->from($db->qn('#__redshop_category'))
@@ -142,7 +144,7 @@ class RedshopViewSearch extends RedshopView
             if ($this->params->get('page_title') != "") {
                 $pagetitle = $this->params->get('page_title');
             } else {
-                $pagetitle = JText::_('COM_REDSHOP_SEARCH');
+                $pagetitle = Text::_('COM_REDSHOP_SEARCH');
             }
 
             if ($this->params->get('show_page_heading', 1)) {
@@ -179,18 +181,18 @@ class RedshopViewSearch extends RedshopView
             $print_tag    = '';
 
             if ($print) {
-                $print_tag = "<a onclick='window.print();' title='" . JText::_(
+                $print_tag = "<a onclick='window.print();' title='" . Text::_(
                         'COM_REDSHOP_PRINT_LBL'
-                    ) . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_(
+                    ) . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . Text::_(
                         'COM_REDSHOP_PRINT_LBL'
-                    ) . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
+                    ) . "' title='" . Text::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
             } else {
                 $print_url = $url . "index.php?option=com_redshop&view=search&print=1&tmpl=component";
-                $print_tag = "<a href='#' onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")' title='" . JText::_(
+                $print_tag = "<a href='#' onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")' title='" . Text::_(
                         'COM_REDSHOP_PRINT_LBL'
-                    ) . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_(
+                    ) . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . Text::_(
                         'COM_REDSHOP_PRINT_LBL'
-                    ) . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
+                    ) . "' title='" . Text::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
             }
 
             if (strstr($template_org, '{compare_product_div}')) {
@@ -233,7 +235,7 @@ class RedshopViewSearch extends RedshopView
             $template_org = str_replace("{redproductfinderfilter:rp_myfilter}", '', $template_org);
             $template_org = str_replace("{redproductfinderfilter_formend}", '', $template_org);
             $template_org = str_replace("{total_product}", $total, $template_org);
-            $template_org = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $template_org);
+            $template_org = str_replace("{total_product_lbl}", Text::_('COM_REDSHOP_TOTAL_PRODUCT'), $template_org);
 
             // Replace redproductfilder filter tag
             if (strstr($template_org, "{redproductfinderfilter:")) {
@@ -276,11 +278,11 @@ class RedshopViewSearch extends RedshopView
             $orderby_form = "<form name='orderby_form' action='' method='post' >";
             $orderby_form .= $this->lists['order_select'];
             $orderby_form .= "<input type='hidden' name='view' value='search'>
-			<input type='hidden' name='layout' value='$layout'>
-			<input type='hidden' name='keyword' value='$keyword'>
-			<input type='hidden' name='category_id' value='$cid'>
-			<input type='hidden' name='manufacture_id' value='$manufacture_id'>
-			<input type='hidden' name='templateid' value='$templateid'></form>";
+            <input type='hidden' name='layout' value='$layout'>
+            <input type='hidden' name='keyword' value='$keyword'>
+            <input type='hidden' name='category_id' value='$cid'>
+            <input type='hidden' name='manufacture_id' value='$manufacture_id'>
+            <input type='hidden' name='templateid' value='$templateid'></form>";
 
             if (strstr($templateDesc, '{order_by}')) {
                 $order_by = $orderby_form;
@@ -427,7 +429,7 @@ class RedshopViewSearch extends RedshopView
                     $data_add = str_replace("{product_name_nolink}", $pname, $data_add);
                 }
 
-                $readmore = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
+                $readmore = "<a href='" . $link . "'>" . Text::_('COM_REDSHOP_READ_MORE') . "</a>";
                 $data_add = str_replace("{read_more}", $readmore, $data_add);
                 $data_add = str_replace("{read_more_link}", $link, $data_add);
 
@@ -437,7 +439,7 @@ class RedshopViewSearch extends RedshopView
                     );
 
                     if ($product_delivery_time != "") {
-                        $data_add = str_replace("{delivery_time_lbl}", JText::_('DELIVERY_TIME'), $data_add);
+                        $data_add = str_replace("{delivery_time_lbl}", Text::_('DELIVERY_TIME'), $data_add);
                         $data_add = str_replace("{product_delivery_time}", $product_delivery_time, $data_add);
                     } else {
                         $data_add = str_replace("{delivery_time_lbl}", "", $data_add);
@@ -465,9 +467,9 @@ class RedshopViewSearch extends RedshopView
 
                 $data_add = str_replace("{product_s_desc}", $pro_s_desc, $data_add);
                 $data_add = str_replace("{product_desc}", $pro_desc, $data_add);
-                $data_add = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $data_add);
+                $data_add = str_replace("{product_id_lbl}", Text::_('COM_REDSHOP_PRODUCT_ID_LBL'), $data_add);
                 $data_add = str_replace("{product_id}", $this->search[$i]->product_id, $data_add);
-                $data_add = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $data_add);
+                $data_add = str_replace("{product_number_lbl}", Text::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $data_add);
                 $data_add = str_replace("{product_number}", $product_number, $data_add);
 
                 // Product category tags
@@ -509,7 +511,7 @@ class RedshopViewSearch extends RedshopView
                     if (count($related_product) > 0) {
                         $linktortln = JURI::root(
                             ) . "index.php?option=com_redshop&view=product&pid=" . $this->search[$i]->product_id . "&tmpl=component&template=" . $rtln . "&for=rtln";
-                        $rtlna      = '<a class="modal" href="' . $linktortln . '" rel="{handler:\'iframe\',size:{x:' . $rtlnfwidth . ',y:' . $rtlnfheight . '}}" >' . JText::_(
+                        $rtlna      = '<a class="modal" href="' . $linktortln . '" rel="{handler:\'iframe\',size:{x:' . $rtlnfwidth . ',y:' . $rtlnfheight . '}}" >' . Text::_(
                                 'COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX'
                             ) . '</a>';
                     } else {
@@ -554,10 +556,10 @@ class RedshopViewSearch extends RedshopView
 
                 $hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $cw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ch_thumb . "'>";
                 $thum_image         = Redshop\Product\Image\Image::getImage(
+                    $cw_thumb,
+                    $ch_thumb,
                     $this->search[$i]->product_id,
                     $link,
-                    $cw_thumb,
-                    $ch_thumb
                 );
                 $data_add           = str_replace($cimg_tag, $thum_image . $hidden_thumb_image, $data_add);
 
@@ -838,7 +840,7 @@ class RedshopViewSearch extends RedshopView
                 $data .= $data_add;
             }
 
-            $app    = JFactory::getApplication();
+            $app    = Factory::getApplication();
             $router = $app->getRouter();
 
             $getorderby = $app->input->get('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
@@ -882,9 +884,9 @@ class RedshopViewSearch extends RedshopView
                     $limitBox = '';
                 } else {
                     $limitBox = "<form action='' method='post'>
-						<input type='hidden' name='keyword' value='$keyword'>
-						<input type='hidden' name='category_id' value='$cid'>
-						<input type='hidden' name='manufacture_id' value='$manufacture_id'>"
+                        <input type='hidden' name='keyword' value='$keyword'>
+                        <input type='hidden' name='category_id' value='$cid'>
+                        <input type='hidden' name='manufacture_id' value='$manufacture_id'>"
                         . $pagination->getLimitBox() . "</form>";
                 }
 
@@ -892,8 +894,8 @@ class RedshopViewSearch extends RedshopView
             }
 
             $template_org = str_replace("{order_by}", $orderby_form, $template_org);
-            $template_org = str_replace("{order_by_lbl}", JText::_('COM_REDSHOP_SELECT_ORDER_BY'), $template_org);
-            $template_org = str_replace("{filter_by_lbl}", JText::_('COM_REDSHOP_SELECT_FILTER_BY'), $template_org);
+            $template_org = str_replace("{order_by_lbl}", Text::_('COM_REDSHOP_SELECT_ORDER_BY'), $template_org);
+            $template_org = str_replace("{filter_by_lbl}", Text::_('COM_REDSHOP_SELECT_FILTER_BY'), $template_org);
             $template_org = str_replace("{attribute_price_with_vat}", "", $template_org);
             $template_org = str_replace("{attribute_price_without_vat}", "", $template_org);
             $template_org = str_replace("{product_loop_start}", "", $template_org);
@@ -908,7 +910,7 @@ class RedshopViewSearch extends RedshopView
 
             eval("?>" . $template_org . "<?php ");
         } else {
-            echo "<br><h3>" . JText::_('COM_REDSHOP_MSG_SORRY_NO_RESULT_FOUND') . "</h3>";
+            echo "<br><h3>" . Text::_('COM_REDSHOP_MSG_SORRY_NO_RESULT_FOUND') . "</h3>";
         }
     }
 }

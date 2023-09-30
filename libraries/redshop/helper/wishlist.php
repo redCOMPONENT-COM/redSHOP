@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory; 
+
 /**
  * Wishlist functions for redSHOP
  *
@@ -156,12 +158,12 @@ class RedshopHelperWishlist
             return null;
         }
 
-        $db = JFactory::getDbo();
+        $db = Factory::getContainer()->get('DatabaseDriver');
 
         $wishlist                = new stdClass;
         $wishlist->wishlist_name = 'Default';
         $wishlist->user_id       = $userId;
-        $wishlist->cdate         = $db->quote(time());
+        $wishlist->cdate         = time();
 
         // Insert the object into the user profile table.
         if ($db->insertObject('#__redshop_wishlist', $wishlist)) {

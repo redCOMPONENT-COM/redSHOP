@@ -35,9 +35,9 @@ class RedshopHelperBilling
      *
      */
     public static function render(
+        $lists,
         $post = array(),
         $isCompany = 0,
-        $lists,
         $showShipping = 0,
         $showNewsletter = 0,
         $createAccount = 1

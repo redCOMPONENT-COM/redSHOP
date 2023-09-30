@@ -9,9 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('bootstrap.modal');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 
 $Itemid                   = $app->input->getInt('Itemid');
 $texpricemin              = $app->input->getFloat('texpricemin');
@@ -45,10 +46,10 @@ $configobj = Redconfiguration::getInstance();
             <tr>
                 <td>
                     <?php $thum_image = Redshop\Product\Image\Image::getImage(
-                        $row->product_id,
-                        $link,
                         $thumbwidth,
-                        $thumbheight
+                        $thumbheight,
+                        $row->product_id,
+                        $link
                     );
                     echo "<div class='mod_redshop_pricefilter'>";
 
@@ -90,7 +91,7 @@ $configobj = Redconfiguration::getInstance();
                                         $pricetext .= "<div id='mod_redmainprice' class='mod_redmainprice'>" . RedshopHelperProductPrice::formattedPrice(
                                                 $product_price_discount
                                             ) . "</div>";
-                                        $pricetext .= "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_(
+                                        $pricetext .= "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . Text::_(
                                                 'COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED'
                                             ) . ' ' . RedshopHelperProductPrice::formattedPrice($s_price) . "</div>";
                                     } else {
@@ -109,7 +110,7 @@ $configobj = Redconfiguration::getInstance();
                     }
 
                     if ($show_readmore) {
-                        echo "<br><a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>&nbsp;";
+                        echo "<br><a href='" . $link . "'>" . Text::_('COM_REDSHOP_READ_MORE') . "</a>&nbsp;";
                     }
 
                     if ($show_addtocart) {
@@ -127,6 +128,6 @@ $configobj = Redconfiguration::getInstance();
     }
 
     if (!$k) {
-        echo "<tr><td>" . JText::_('COM_REDSHOP_NO_PRODUCT_FOUND') . "</td></tr>";
+        echo "<tr><td>" . Text::_('COM_REDSHOP_NO_PRODUCT_FOUND') . "</td></tr>";
     } ?>
 </table>

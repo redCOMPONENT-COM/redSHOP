@@ -172,9 +172,9 @@ if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) 
                 <legend><?php echo Text::_('COM_REDSHOP_ADDRESS_INFORMATION'); ?></legend>
 
                 <?php echo RedshopHelperBilling::render(
+                    $this->lists,
                     $post,
                     $isCompany,
-                    $this->lists,
                     Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'),
                     1,
                     Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX')

@@ -36,6 +36,7 @@ if ($checkWishlist) {
 <?php else : ?>
     <?php if (Redshop::getConfig()->get('WISHLIST_LOGIN_REQUIRED') != 0) : ?>
         <a class="redshop-wishlist-link-login" href="<?php echo $link ?>">
+        <i class="<?php echo $wishlistExist; ?>"></i>
             <?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>
         </a>
     <?php else : ?>
@@ -50,6 +51,7 @@ if ($checkWishlist) {
             <input type='hidden' name='rurl' value='<?php echo base64_encode(JUri::getInstance()->toString()) ?>'/>
             <a href="javascript:void(0);" data-productid="<?php echo $productId ?>" data-formid="<?php echo $formId ?>"
                class="redshop-wishlist-form-link" data-target="form_wishlist_<?php echo $productId ?>_link">
+                <i class="<?php echo $wishlistExist; ?>"></i> 
                 <?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>
             </a>
         </form>

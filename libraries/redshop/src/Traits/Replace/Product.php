@@ -135,10 +135,10 @@ trait Product
         );
 
         $prodThumbImage = \Redshop\Product\Image\Image::getImage(
-            $productData->product_id,
-            $link,
             $infoImg['width'],
-            $infoImg['height']
+            $infoImg['height'],
+            $productData->product_id,
+            $link
         );
 
         $replaceProduct[$infoImg['imageTag']] = $prodThumbImage;

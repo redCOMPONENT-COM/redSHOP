@@ -989,8 +989,8 @@ class RedshopHelperProduct
                 }
 
                 /*
-				 * Process the prepare Product plugins
-				 */
+                 * Process the prepare Product plugins
+                 */
                 $params  = array();
                 $results = $dispatcher->trigger('onPrepareProduct', array(& $dataAdd, &$params, $product));
 
@@ -1352,11 +1352,18 @@ class RedshopHelperProduct
                 }
 
                 $hiddenThumbImage = "<input type='hidden' name='prd_main_imgwidth'  id='prd_main_imgwidth' value='" . $pwThumb . "'>
-								<input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $phThumb . "'>";
+                                <input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $phThumb . "'>";
 
                 // Product image flying addwishlist time start
                 $thumbImage = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" .
-                    Redshop\Product\Image\Image::getImage($product->product_id, $link, $pwThumb, $phThumb, 2, 1) .
+                    Redshop\Product\Image\Image::getImage(
+                        $pwThumb, 
+                        $phThumb, 
+                        $product->product_id, 
+                        $link, 
+                        2, 
+                        1
+                    ) .
                     "</span>";
 
                 // Product image flying addwishlist time end
@@ -1433,11 +1440,11 @@ class RedshopHelperProduct
                 $dataAdd = self::getJcommentEditor($product, $dataAdd);
 
                 /*
-				 * product loop template extra field
-				 * lat arg set to "1" for indetify parsing data for product tag loop in category
-				 * last arg will parse {producttag:NAMEOFPRODUCTTAG} nameing tags.
-				 * "1" is for section as product
-				 */
+                 * product loop template extra field
+                 * lat arg set to "1" for indetify parsing data for product tag loop in category
+                 * last arg will parse {producttag:NAMEOFPRODUCTTAG} nameing tags.
+                 * "1" is for section as product
+                 */
                 if ($extraFieldsForCurrentTemplate && !empty($loadCategorytemplate)) {
                     $dataAdd = Redshop\Helper\ExtraFields::displayExtraFields(
                         1,
@@ -2056,10 +2063,10 @@ class RedshopHelperProduct
     }
 
     /*
-	 * function to get products parent id
-	 *
-	 * @return: int
-	 */
+     * function to get products parent id
+     *
+     * @return: int
+     */
 
     /**
      * @param   integer  $productId              Product id
@@ -2436,10 +2443,10 @@ class RedshopHelperProduct
                     . $rpWidthThumb . "'><input type='hidden' name='rel_main_imgheight' id='rel_main_imgheight' value='"
                     . $rpHeightThumb . "'>";
                 $relatedImage     = Redshop\Product\Image\Image::getImage(
-                    $relatedProduct [$r]->product_id,
-                    $relatedUrl,
                     $rpWidthThumb,
-                    $rpHeightThumb
+                    $rpHeightThumb,
+                    $relatedProduct [$r]->product_id,
+                    $relatedUrl
                 );
 
                 $relatedTemplateData = str_replace($rpImgTag, $relatedImage . $hiddenThumbImage, $relatedTemplateData);
@@ -2571,9 +2578,9 @@ class RedshopHelperProduct
                 $relatedTemplateData = str_replace("{read_more_link}", $relatedUrl, $relatedTemplateData);
 
                 /*
-				 *  related product Required Attribute start
-				 * 	this will parse only Required Attributes
-				 */
+                 *  related product Required Attribute start
+                 * 	this will parse only Required Attributes
+                 */
                 $relatedId      = $relatedProduct [$r]->product_id;
                 $attributes_set = array();
 
@@ -3155,9 +3162,9 @@ class RedshopHelperProduct
 
         // Todo: For QA to check all cases.
         /*if ($this->getApplyVatOrNot($data, $userId))
-		{
-			$productPrice += $productVatPrice;
-		}*/
+        {
+            $productPrice += $productVatPrice;
+        }*/
 
         $data = array(
             $isDisplayAttribute, #0
@@ -3653,10 +3660,10 @@ class RedshopHelperProduct
     }
 
     /*
-	 * load Products Under categoriesd ACL Sopper Group
-	 *
-	 *  return : "," separated product string
-	 */
+     * load Products Under categoriesd ACL Sopper Group
+     *
+     *  return : "," separated product string
+     */
 
     public static function makeAttributeOrder(
         $order_item_id = 0,
@@ -4113,8 +4120,8 @@ class RedshopHelperProduct
     }
 
     /*
-	 *  Update used seraial number status
-	 */
+     *  Update used seraial number status
+     */
 
     public static function getProdcutSerialNumber($productId, $is_used = 0)
     {
@@ -4280,7 +4287,7 @@ class RedshopHelperProduct
         $subproperty     = array();
 
         /** @scrutinizer ignore-deprecated */
-		HTMLHelper::script('com_redshop/redshop.thumbscroller.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.thumbscroller.min.js', ['relative' => true]);
         $chkvatArr = JFactory::getSession()->get('chkvat');
         $chktag    = $chkvatArr['chkvat'];
 
