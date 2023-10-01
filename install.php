@@ -6,13 +6,11 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\Installer\Adapter\ComponentAdapter;
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
-
 use Joomla\CMS\Installer\Adapter\ComponentAdapter;
-
-defined('_JEXEC') or die;
 
 /**
  * Script file of redSHOP component

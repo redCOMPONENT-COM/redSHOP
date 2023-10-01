@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopControllerAttributeprices_detail extends RedshopController
 {
@@ -35,7 +36,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 
         $post['product_currency']    = Redshop::getConfig()->get('CURRENCY_CODE');
         $post['cdate']               = time();
-        $post['discount_start_date'] = strtotime($post ['discount_start_date']);
+        $post['discount_start_date'] = strtotime($post['discount_start_date']);
 
         if ($post['discount_end_date']) {
             $post ['discount_end_date'] = strtotime($post['discount_end_date']) + (23 * 59 * 59);
@@ -49,14 +50,14 @@ class RedshopControllerAttributeprices_detail extends RedshopController
         $model = $this->getModel('attributeprices_detail');
 
         if ($model->store($post)) {
-            $msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
+            $msg = Text::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
         } else {
             $type = 'error';
             $msg  = /** @scrutinizer ignore-deprecated */
                 $model->/** @scrutinizer ignore-call */ getError();
 
             if (empty($msg)) {
-                $msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL');
+                $msg = Text::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL');
             }
         }
 
@@ -76,9 +77,9 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 
         if (empty($cid)) {
             $type = 'warning';
-            $msg  = JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE');
+            $msg  = Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE');
         } else {
-            $msg = JText::_('COM_REDSHOP_ATTRIBUTE_PRICE_DETAIL_DELETED_SUCCESSFULLY');
+            $msg = Text::_('COM_REDSHOP_ATTRIBUTE_PRICE_DETAIL_DELETED_SUCCESSFULLY');
         }
 
         /** @var RedshopModelAttributeprices_detail $model */
@@ -102,7 +103,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
     {
         $section_id = $this->input->get('section_id');
 
-        $msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
+        $msg = Text::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=com_redshop&view=attributeprices&section_id=' . $section_id, $msg);
     }
 }
