@@ -92,7 +92,7 @@ echo RedshopLayoutHelper::render(
 	'modal.iframe',
 	[
 		'modalButton' => '.ModalConfigDetailButton',
-		'modalFrame' => 'ModalConfigDetail',
+		'selector'    => 'ModalConfigDetail',
 	]
 );
 

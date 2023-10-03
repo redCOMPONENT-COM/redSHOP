@@ -485,18 +485,29 @@ class RedshopViewProduct extends RedshopView
             'modal.iframe',
             [
                 'modalButton'     => '.modalAddToWishlistButton',
-                'modalFrame'      => 'modalAddToWishlist',
+                'selector'        => 'modalAddToWishlist',
                 'params'          => [
                             'title'      => '',
-                            'width'      => '300px',
-                            'height'     => '600px',
-                            'backdrop'   => '',
-                            'animation'  => '',
-                            'closebtn'   => '',
-                            'keyboard'   => '',
                             'footer'     => '',
-                            'bodyHeight' => '',
-                            'modalWidth' => '',
+                            'modalWidth' => '50',
+                            'bodyHeight' => '70',
+                            'modalCss'   => '',
+                ]
+            ]
+        );
+
+        // Modal button for Product rating
+        echo RedshopLayoutHelper::render(
+            'modal.iframe',
+            [
+                'modalButton'     => '.ModalProductRatingButton',
+                'selector'        => 'ModalProductRating',
+                'params'          => [
+                            'title'      => Text::_('COM_REDSHOP_WRITE_REVIEW'),
+                            'footer'     => '',
+                            'modalWidth' => '50',
+                            'bodyHeight' => '70',
+                            'modalCss'   => '',
                 ]
             ]
         );

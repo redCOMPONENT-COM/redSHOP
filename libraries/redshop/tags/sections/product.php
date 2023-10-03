@@ -1026,16 +1026,13 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
             if ($this->isTagExists('{form_rating}')) {
                 $reviewForm = RedshopLayoutHelper::render(
-                    'tags.common.modal',
+                    'tags.common.modal_iframe',
                     [
-                        'name'  => 'product-rating-iframe',
-                        'class' => 'redbox btn btn-primary',
+                        'class' => 'ModalProductRatingButton',
                         'link'  => JURI::root(
                             ) . 'index.php?option=com_redshop&view=product_rating&tmpl=component&product_id=' . $this->product->product_id .
                             '&category_id=' . $this->product->category_id .
                             '&Itemid=' . $this->itemId,
-                        'x'     => 500,
-                        'y'     => 500,
                         'text'  => Text::_('COM_REDSHOP_WRITE_REVIEW')
                     ],
                     '',

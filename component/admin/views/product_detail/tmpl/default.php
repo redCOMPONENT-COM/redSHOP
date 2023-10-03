@@ -333,6 +333,6 @@ echo RedshopLayoutHelper::render(
 	'modal.iframe',
 	[
 		'modalButton' => '.ModalProductDetailButton',
-		'modalFrame' => 'ModalProductDetail',
+		'selector'    => 'ModalProductDetail',
 	]
 );

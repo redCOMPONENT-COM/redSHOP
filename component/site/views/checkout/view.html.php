@@ -185,18 +185,13 @@ class RedshopViewCheckout extends RedshopView
             'modal.iframe',
             [
                 'modalButton'     => '.ModalAddShippingAddressButton',
-                'modalFrame'      => 'ModalAddShippingAddress',
+                'selector'        => 'ModalAddShippingAddress',
                 'params'          => [
                             'title'      => '',
-                            'width'      => '470px',
-                            'height'     => '720px',
-                            'backdrop'   => '',
-                            'animation'  => '',
-                            'closebtn'   => '',
-                            'keyboard'   => '',
                             'footer'     => '',
-                            'bodyHeight' => '',
-                            'modalWidth' => '',
+                            'modalWidth' => '40',
+                            'bodyHeight' => '80',
+                            'modalCss'   => '',
                 ]
             ]
         );

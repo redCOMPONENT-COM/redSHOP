@@ -379,10 +379,10 @@ class Com_RedshopInstallerScript
      */
     public function postflight($type, $parent)
     {
-		if ($type == 'uninstall')
-		{
-			return;
-		}
+        if ($type == 'uninstall')
+        {
+            return;
+        }
 
         // Respond json for ajax request and redirect with standard request
         if (
@@ -518,10 +518,10 @@ class Com_RedshopInstallerScript
     {
         $this->type = $type;
 
-		if ($type != 'uninstall')
-		{
-			$this->implementProcedure();
-		}
+        if ($type != 'uninstall')
+        {
+            $this->implementProcedure();
+        }
 
         if ($type == 'update' || $type == 'discover_install') {
             if (!class_exists('RedshopHelperJoomla')) {
@@ -575,6 +575,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Column_Remove") . "(
@@ -598,13 +599,14 @@ class Com_RedshopInstallerScript
                 END IF ;
             END";
 
-            try
-            {
-                $db->setQuery($query)->execute();
-            }
-            catch (Exception $e)
-            {
-            }
+        try
+        {
+            $db->setQuery($query)->execute();
+        }
+        catch (Exception $e)
+        {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+        }
     }
 
     /**
@@ -625,6 +627,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Column_Update") . "(
@@ -684,13 +687,14 @@ class Com_RedshopInstallerScript
                 END IF;
             END";
 
-            try
-            {
-                $db->setQuery($query)->execute();
-            }
-            catch (Exception $e)
-            {
-            }
+        try
+        {
+            $db->setQuery($query)->execute();
+        }
+        catch (Exception $e)
+        {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+        }
     }
 
     /**
@@ -711,6 +715,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Index_Remove") . "(
@@ -737,13 +742,14 @@ class Com_RedshopInstallerScript
                 END IF ;
             END";
 
-            try
-            {
-                $db->setQuery($query)->execute();
-            }
-            catch (Exception $e)
-            {
-            }
+        try
+        {
+            $db->setQuery($query)->execute();
+        }
+        catch (Exception $e)
+        {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+        }
     }
 
     /**
@@ -764,6 +770,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Index_Add") . "(
@@ -792,13 +799,14 @@ class Com_RedshopInstallerScript
                 deallocate prepare DynamicStatement ;
             END";
 
-            try
-            {
-                $db->setQuery($query)->execute();
-            }
-            catch (Exception $e)
-            {
-            }
+        try
+        {
+            $db->setQuery($query)->execute();
+        }
+        catch (Exception $e)
+        {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+        }
     }
 
     /**
@@ -819,6 +827,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Index_Unique_Add") . "(
@@ -849,13 +858,14 @@ class Com_RedshopInstallerScript
                 deallocate prepare DynamicStatement ;
             END";
 
-            try
-            {
-                $db->setQuery($query)->execute();
-            }
-            catch (Exception $e)
-            {
-            }
+        try
+        {
+            $db->setQuery($query)->execute();
+        }
+        catch (Exception $e)
+        {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+        }
     }
 
     /**
@@ -876,6 +886,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Index_Fulltext_Add") . "(
@@ -906,13 +917,14 @@ class Com_RedshopInstallerScript
                 deallocate prepare DynamicStatement ;
             END";
 
-            try
-            {
-                $db->setQuery($query)->execute();
-            }
-            catch (Exception $e)
-            {
-            }
+        try
+        {
+            $db->setQuery($query)->execute();
+        }
+        catch (Exception $e)
+        {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+        }
     }
 
     /**
@@ -933,6 +945,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Constraint_Remove") . "(
@@ -963,13 +976,14 @@ class Com_RedshopInstallerScript
                 END IF ;
             END";
 
-            try
-            {
-                $db->setQuery($query)->execute();
-            }
-            catch (Exception $e)
-            {
-            }
+        try
+        {
+            $db->setQuery($query)->execute();
+        }
+        catch (Exception $e)
+        {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+        }
     }
 
     /**
@@ -990,6 +1004,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Constraint_Update") . "(
@@ -1032,13 +1047,14 @@ class Com_RedshopInstallerScript
                 SET FOREIGN_KEY_CHECKS = 1;
             END";
 
-            try
-            {
-                $db->setQuery($query)->execute();
-            }
-            catch (Exception $e)
-            {
-            }
+        try
+        {
+            $db->setQuery($query)->execute();
+        }
+        catch (Exception $e)
+        {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+        }
     }
 
     /**
@@ -1059,6 +1075,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Primary_Remove") . "(
@@ -1085,13 +1102,14 @@ class Com_RedshopInstallerScript
                 END IF ;
             END";
 
-            try
-            {
-                $db->setQuery($query)->execute();
-            }
-            catch (Exception $e)
-            {
-            }
+        try
+        {
+            $db->setQuery($query)->execute();
+        }
+        catch (Exception $e)
+        {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+        }
     }
 
     /**
@@ -1112,6 +1130,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Primary_Add") . "(
@@ -1136,12 +1155,13 @@ class Com_RedshopInstallerScript
                 deallocate prepare DynamicStatement ;
             END";
 
-            try
-            {
-                $db->setQuery($query)->execute();
-            }
-            catch (Exception $e)
-            {
-            }
+        try
+        {
+            $db->setQuery($query)->execute();
+        }
+        catch (Exception $e)
+        {
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+        }
     }
 }

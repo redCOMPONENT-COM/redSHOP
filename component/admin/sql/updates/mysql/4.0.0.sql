@@ -310,8 +310,8 @@ CALL redSHOP_Column_Update('#__redshop_tax_rate', 'is_eu_country' 'is_eu_country
 -- ------------------------------------------------------
 -- Table '#__redshop_order_payment'
 -- ------------------------------------------------------
-CALL redSHOP_Column_Update('#__redshop_order_payment', 'order_payment_cardname' 'order_payment_cardname' 'BLOB "NULL DEFAULT NULL"');
-CALL redSHOP_Column_Update('#__redshop_order_payment', 'order_payment_ccv' 'order_payment_ccv' 'BLOB "NULL DEFAULT NULL"');
+CALL redSHOP_Column_Update('#__redshop_order_payment', 'order_payment_cardname' 'order_payment_cardname' 'BLOB NULL DEFAULT NULL');
+CALL redSHOP_Column_Update('#__redshop_order_payment', 'order_payment_ccv' 'order_payment_ccv' 'BLOB NULL DEFAULT NULL');
 CALL redSHOP_Column_Update('#__redshop_order_payment', 'order_payment_amount' 'order_payment_amount' 'DOUBLE(10,2) NOT NULL DEFAULT 0');
 CALL redSHOP_Column_Update('#__redshop_order_payment', 'order_payment_trans_id' 'order_payment_trans_id' 'TEXT');
 CALL redSHOP_Column_Update('#__redshop_order_payment', 'order_transfee' 'order_transfee' 'DOUBLE(10,2) NOT NULL DEFAULT 0');
@@ -346,7 +346,6 @@ CALL redSHOP_Column_Update('#__redshop_order_users_info', 'thirdparty_email' 'th
 -- Table '#__redshop_shipping_rate'
 -- ------------------------------------------------------
 CALL redSHOP_Column_Update('#__redshop_shipping_rate', 'deliver_type' 'deliver_type' 'INT(11) NOT NULL DEFAULT "0"');
-CALL redSHOP_Column_Update('#__redshop_shipping_rate', 'shipping_rate_weight_start' 'shipping_rate_weight_start' "DECIMAL(10,2) NOT NULL' AFTER 'apply_vat'";
 
 -- ------------------------------------------------------
 -- Table '#__redshop_order_attribute_item'
@@ -366,5 +365,5 @@ CALL redSHOP_Column_Update('#__redshop_product_discount_calc_extra', 'oprand' 'o
 -- Table '#__redshop_quotation_attribute_item'
 -- ------------------------------------------------------
 CALL redSHOP_Column_Update('#__redshop_quotation_attribute_item', 'section_price' 'section_price' 'DECIMAL(15,4) NOT NULL DEFAULT "0.0000"');
-CALL redSHOP_Column_Update('#__redshop_quotation_attribute_item', 'section_vat' 'section_vat' 'DECIMAL(15,4) NOT NULL DEFAULT "0.0000"');
+CALL redSHOP_Column_Update('#__redshop_quotation_attribute_item', 'section_vat' 'section_vat' 'DECIMAL(15,4) NOT NULL DEFAULT 0.0000');
 CALL redSHOP_Column_Update('#__redshop_quotation_attribute_item', 'section_oprand' 'section_oprand' 'CHAR(1) NOT NULL DEFAULT ""');
