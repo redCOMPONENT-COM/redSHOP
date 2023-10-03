@@ -17,7 +17,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 ?>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_DEFAULT_IMAGE') ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_DEFAULT_IMAGE') ?>">
         <?php echo JText::_('COM_REDSHOP_CATEGORY_DEFAULT_IMAGE_LBL'); ?>
     </label>
     <div class="col-md-8">
@@ -43,7 +43,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DEFAULT_IMAGE_LBL') ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DEFAULT_IMAGE_LBL') ?>">
         <?php echo JText::_('COM_REDSHOP_PRODUCT_DEFAULT_IMAGE_LBL'); ?>
     </label>
     <div class="col-md-8">
@@ -69,7 +69,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
     </div>
 </div>
 <div class="form-group row-fluid">
-    <label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_IMAGE') ?>">
+    <label class="col-md-4 hasPopover" data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_IMAGE') ?>">
         <?php echo JText::_('COM_REDSHOP_WATERMARK_IMAGE_LBL'); ?>
     </label>
     <div class="col-md-8">
@@ -95,7 +95,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_OUTOFSTOCK_IMAGE') ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_OUTOFSTOCK_IMAGE') ?>">
         <?php echo JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_IMAGE_LBL'); ?>
     </label>
     <div class="col-md-8">
@@ -121,7 +121,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE') ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE') ?>">
         <?php echo JText::_('COM_REDSHOP_PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE_LBL'); ?>
     </label>
     <div class="col-md-8">

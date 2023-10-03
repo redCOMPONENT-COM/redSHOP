@@ -58,7 +58,7 @@ echo RedshopLayoutHelper::render(
 </script>
 <div class="form-group row-fluid" id="compare_product_thumb_width_height-wrapper">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_COMPARE_PRODUCT_THUMB_WIDTH_LBL'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_COMPARE_PRODUCT_THUMB_WIDTH_LBL'); ?>">
         <?php echo JText::_('COM_REDSHOP_COMPARE_PRODUCT_THUMB_WIDTH_HEIGHT'); ?>
     </label>
     <div class="col-md-8">

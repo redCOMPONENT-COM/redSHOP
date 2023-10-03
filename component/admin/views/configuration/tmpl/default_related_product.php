@@ -127,7 +127,7 @@ defined('_JEXEC') or die;
             <div class="box-body">
                 <div class="form-group row-fluid">
                     <label class="col-md-4 hasPopover"
-                           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_THUMB_WIDTH'); ?>">
+                           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_THUMB_WIDTH'); ?>">
                         <?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT_THUMB_WIDTH_HEIGHT'); ?>
                     </label>
                     <div class="col-md-8">
@@ -147,7 +147,7 @@ defined('_JEXEC') or die;
                 </div>
                 <div class="form-group row-fluid">
                     <label class="col-md-4 hasPopover"
-                           data-content="<?php echo JText::_(
+                           data-bs-content="<?php echo JText::_(
                                'COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_THUMB_WIDTH_TWO'
                            ); ?>">
                         <?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT_THUMB_WIDTH_HEIGHT_TWO'); ?>
@@ -170,7 +170,7 @@ defined('_JEXEC') or die;
                 </div>
                 <div class="form-group row-fluid">
                     <label class="col-md-4 hasPopover"
-                           data-content="<?php echo JText::_(
+                           data-bs-content="<?php echo JText::_(
                                'COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_THUMB_WIDTH_THREE'
                            ); ?>">
                         <?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT_THUMB_WIDTH_HEIGHT_THREE'); ?>

@@ -47,7 +47,7 @@ echo RedshopLayoutHelper::render(
     </script>
     <div class="form-group row-fluid" id="default_stockamount_thumb_width_height_wrapper">
         <label class="col-md-4 hasPopover"
-               data-content="<?php echo JText::_(
+               data-bs-content="<?php echo JText::_(
                    'COM_REDSHOP_TOOLTIP_DEFAULT_STOCKAMOUNT_IMAGE_THUMB_WIDTH_HEIGHT_LBL'
                ); ?>">
             <?php echo JText::_('COM_REDSHOP_DEFAULT_STOCKAMOUNT_IMAGE_THUMB_WIDTH_HEIGHT_LBL'); ?>

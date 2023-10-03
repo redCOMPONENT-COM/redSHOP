@@ -39,7 +39,7 @@ $id = (isset($id)) ? $id : '';
     </script>
 <?php endif; ?>
 <div class="form-group row-fluid" id="<?php echo !empty($id) ? $id . '-wrapper' : '' ?>">
-    <label class="col-md-4 hasPopover" data-content="<?php echo $desc ?>"
+    <label class="col-md-4 hasPopover" data-bs-content="<?php echo $desc ?>"
            title="<?php echo $title ?>"><?php echo $title ?></label>
     <div class="col-md-8"><?php echo $field ?></div>
 </div>

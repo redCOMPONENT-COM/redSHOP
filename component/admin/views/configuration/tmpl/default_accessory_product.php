@@ -102,7 +102,7 @@ defined('_JEXEC') or die;
             <div class="box-body">
                 <div class="form-group row-fluid">
                     <label class="col-md-4 hasPopover"
-                           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_THUMB_WIDTH_LBL'); ?>">
+                           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_THUMB_WIDTH_LBL'); ?>">
                         <?php echo JText::_('COM_REDSHOP_ACCESSORY_THUMB_WIDTH_HEIGHT'); ?>
                     </label>
                     <div class="col-md-8">
@@ -122,7 +122,7 @@ defined('_JEXEC') or die;
                 </div>
                 <div class="form-group row-fluid">
                     <label class="col-md-4 hasPopover"
-                           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_THUMB_WIDTH_LBL_TWO'); ?>">
+                           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_THUMB_WIDTH_LBL_TWO'); ?>">
                         <?php echo JText::_('COM_REDSHOP_ACCESSORY_THUMB_WIDTH_HEIGHT_TWO'); ?>
                     </label>
                     <div class="col-md-8">
@@ -142,7 +142,7 @@ defined('_JEXEC') or die;
                 </div>
                 <div class="form-group row-fluid">
                     <label class="col-md-4 hasPopover"
-                           data-content="<?php echo JText::_(
+                           data-bs-content="<?php echo JText::_(
                                'COM_REDSHOP_TOOLTIP_ACCESSORY_THUMB_WIDTH_LBL_THREE'
                            ); ?>">
                         <?php echo JText::_('COM_REDSHOP_ACCESSORY_THUMB_WIDTH_HEIGHT_THREE'); ?>

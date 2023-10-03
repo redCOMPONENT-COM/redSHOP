@@ -62,7 +62,7 @@ abstract class JHtmlRedshop
         }
 
         if (version_compare(JVERSION, '4.0', '<')) {
-            $attr .= ' data-content="' . htmlspecialchars($tooltip) . '"';
+            $attr .= ' data-bs-content="' . htmlspecialchars($tooltip) . '"';
         } else {
             $attr .= ' data-bs-content="' . htmlspecialchars($tooltip) . '"';
         }

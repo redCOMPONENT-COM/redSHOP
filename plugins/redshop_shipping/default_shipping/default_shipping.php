@@ -35,9 +35,7 @@ class  plgredshop_shippingdefault_shipping extends JPlugin
         return true;
     }
 
-    function onListRates(&$d)
-    {
-        $shippinghelper = shipping::getInstance();
+    function onListRates(&$d) {
         $shippingrate   = array();
         $rate           = 0;
         $shipping       = RedshopHelperShipping::getShippingMethodByClass($this->classname);
@@ -68,10 +66,10 @@ class  plgredshop_shippingdefault_shipping extends JPlugin
             $rate++;
         }
 
-        $ratelist = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
+        $rateList = RedshopHelperShipping::listShippingRates($shipping->element, $d['users_info_id'], $d);
 
-        for ($i = 0, $in = count($ratelist); $i < $in; $i++) {
-            $rs                      = $ratelist[$i];
+        for ($i = 0, $in = count($rateList); $i < $in; $i++) {
+            $rs                      = $rateList[$i];
             $shippingRate            = $rs->shipping_rate_value;
             $rs->shipping_rate_value = Redshop\Shipping\Rate::applyVat($rs, $d);
             $shippingVatRate         = $rs->shipping_rate_value - $shippingRate;

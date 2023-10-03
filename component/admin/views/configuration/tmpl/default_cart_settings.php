@@ -105,7 +105,7 @@ echo RedshopLayoutHelper::render(
     </script>
     <div class="row form-group" id="ajax_detail_box_width_height_wrapper">
         <label class="col-md-4 hasPopover"
-               data-content="<?php echo JText::_('COM_REDSHOP_AJAX_DETAIL_BOX_WIDTH_AND_HEIGHT_TOOLTIP'); ?>">
+               data-bs-content="<?php echo JText::_('COM_REDSHOP_AJAX_DETAIL_BOX_WIDTH_AND_HEIGHT_TOOLTIP'); ?>">
             <?php echo JText::_('COM_REDSHOP_AJAX_DETAIL_BOX_WIDTH_AND_HEIGHT_TOOLTIP_LBL'); ?>
         </label>
         <div class="col-md-8">
@@ -124,7 +124,7 @@ echo RedshopLayoutHelper::render(
     <hr/>
     <div class="row form-group" id="ajax_box_width_height_wrapper">
         <label class="col-md-4 hasPopover"
-               data-content="<?php echo JText::_('COM_REDSHOP_AJAX_BOX_WIDTH_AND_HEIGHT_TOOLTIP'); ?>">
+               data-bs-content="<?php echo JText::_('COM_REDSHOP_AJAX_BOX_WIDTH_AND_HEIGHT_TOOLTIP'); ?>">
             <?php echo JText::_('COM_REDSHOP_AJAX_BOX_WIDTH_AND_HEIGHT_TOOLTIP_LBL'); ?>
         </label>
         <div class="col-md-8">

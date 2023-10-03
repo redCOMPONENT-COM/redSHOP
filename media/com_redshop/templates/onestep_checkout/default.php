@@ -23,8 +23,13 @@
         </div>
     </div>
 </div>
-
 {shippingbox_template:shipping_box}
-{shipping_template:shipping_method}
-{payment_template:payment_method}
+<div class="row">
+    <div class="col-sm-6">
+        {shipping_template:shipping_method}
+    </div>
+    <div class="col-sm-6">
+        {payment_template:payment_method}
+    </div>
+</div>
 {checkout_template:checkout}

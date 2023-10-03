@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 class RedshopViewShipping_rate extends RedshopViewAdmin
 {
@@ -17,30 +19,30 @@ class RedshopViewShipping_rate extends RedshopViewAdmin
         $context = 'shipping_rate';
 
         $uri = JUri::getInstance();
-        $app = JFactory::getApplication();
+        $app = Factory::getApplication();
 
-        $lists['order']     = $app->getUserStateFromRequest(
+        $lists['order'] = $app->getUserStateFromRequest(
             $context . 'filter_order',
             'filter_order',
             'shipping_rate_id'
         );
         $lists['order_Dir'] = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-        $id                 = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
+        $id = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
 
-        if ((int)$id == 0) {
-            throw new \Exception(
-                "Direct Access not allowed, go to <a href='index.php?option=com_redshop&view=shipping'>" . JText::_(
-                    'COM_REDSHOP_SHIPPING'
-                ) . "</a>"
+        if ((int) $id == 0) {
+            Factory::getApplication()->enqueueMessage(Text::_('Direct Access not allowed'), 'warning');
+
+            $app->redirect(
+                Redshop\IO\Route::_(
+                    JURI::base() . "index.php?option=com_redshop"
+                )
             );
-
-            return false;
         }
 
         $shipping = RedshopHelperShipping::getShippingMethodById($id);
 
         $shipping_rates = $this->get('Data');
-        $pagination     = $this->get('Pagination');
+        $pagination = $this->get('Pagination');
 
         // Load language file of the shipping plugin
         JFactory::getLanguage()->load(
@@ -48,10 +50,10 @@ class RedshopViewShipping_rate extends RedshopViewAdmin
             JPATH_ADMINISTRATOR
         );
 
-        $plugin       = JPluginHelper::getPlugin($shipping->folder, $shipping->element);
+        $plugin = JPluginHelper::getPlugin($shipping->folder, $shipping->element);
         $pluginParams = new JRegistry($plugin->params);
 
-        $is_shipper       = $pluginParams->get('is_shipper');
+        $is_shipper = $pluginParams->get('is_shipper');
         $shipper_location = $pluginParams->get('shipper_location');
 
         $jtitle = ($shipper_location) ? JText::_('COM_REDSHOP_SHIPPING_LOCATION') : JText::_(
@@ -71,13 +73,13 @@ class RedshopViewShipping_rate extends RedshopViewAdmin
         JToolBarHelper::deleteList();
         JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 
-        $this->lists            = $lists;
-        $this->shipping_rates   = $shipping_rates;
-        $this->shipping         = $shipping;
-        $this->pagination       = $pagination;
-        $this->is_shipper       = $is_shipper;
+        $this->lists = $lists;
+        $this->shipping_rates = $shipping_rates;
+        $this->shipping = $shipping;
+        $this->pagination = $pagination;
+        $this->is_shipper = $is_shipper;
         $this->shipper_location = $shipper_location;
-        $this->request_url      = $uri->toString();
+        $this->request_url = $uri->toString();
 
         parent::display($tpl);
     }

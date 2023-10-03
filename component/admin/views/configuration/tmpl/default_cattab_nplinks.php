@@ -73,7 +73,7 @@ echo RedshopLayoutHelper::render(
 ?>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_PREVIOUS_LINK'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_PREVIOUS_LINK'); ?>">
         <?php echo JText::_('COM_REDSHOP_IMAGE_PREVIOUS_LINK'); ?>
     </label>
     <div class="col-md-8">
@@ -101,7 +101,7 @@ echo RedshopLayoutHelper::render(
     </div>
 </div>
 <div class="form-group row-fluid">
-    <label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_NEXT_LINK'); ?>">
+    <label class="col-md-4 hasPopover" data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_NEXT_LINK'); ?>">
         <?php echo JText::_('COM_REDSHOP_IMAGE_NEXT_LINK'); ?>
     </label>
     <div class="col-md-8">

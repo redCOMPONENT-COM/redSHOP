@@ -34,7 +34,7 @@ $title = '';
 if (!empty($desc)) {
     JHtml::_('redshopjquery.popover');
     $classes[] = 'hasPopover';
-    $title     = ' title="' . trim($text) . '" data-content="' . trim($desc) . '"';
+    $title     = ' title="' . trim($text) . '" data-bs-content="' . trim($desc) . '"';
 }
 
 // If required, there's a class for that.

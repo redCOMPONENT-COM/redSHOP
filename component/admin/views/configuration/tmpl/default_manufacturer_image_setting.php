@@ -28,7 +28,7 @@ echo RedshopLayoutHelper::render(
 ?>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_MANUFACTURER_THUMB_WIDTH') ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_MANUFACTURER_THUMB_WIDTH') ?>">
         <?php echo JText::_('COM_REDSHOP_MANUFACTURER_THUMB_WIDTH_HEIGHT'); ?>
     </label>
     <div class="col-md-8">
@@ -47,7 +47,7 @@ echo RedshopLayoutHelper::render(
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_MANUFACTURER_PRODUCT_THUMB_WIDTH_LBL') ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_MANUFACTURER_PRODUCT_THUMB_WIDTH_LBL') ?>">
         <?php echo JText::_('COM_REDSHOP_TOOLTIP_MANUFACTURER_PRODUCT_THUMB_WIDTH'); ?>
     </label>
     <div class="col-md-8">
@@ -67,7 +67,7 @@ echo RedshopLayoutHelper::render(
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_MANUFACTURER_PRODUCT_THUMB_WIDTH_LBL_TWO_LBL') ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_MANUFACTURER_PRODUCT_THUMB_WIDTH_LBL_TWO_LBL') ?>">
         <?php echo JText::_('COM_REDSHOP_MANUFACTURER_PRODUCT_THUMB_WIDTH_HEIGHT_TWO'); ?>
     </label>
     <div class="col-md-8">
@@ -87,7 +87,7 @@ echo RedshopLayoutHelper::render(
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_MANUFACTURER_PRODUCT_THUMB_WIDTH_THREE') ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_MANUFACTURER_PRODUCT_THUMB_WIDTH_THREE') ?>">
         <?php echo JText::_('COM_REDSHOP_MANUFACTURER_PRODUCT_THUMB_WIDTH_LBL_THREE'); ?>
     </label>
     <div class="col-md-8">
