@@ -909,13 +909,13 @@ class RedshopHelperShipping
             }
 
             if ($isAdmin == false) {
-                $shipping = Redshop\Shipping\Rate::filterRatesByPriority($shipping);
+            //  $shipping = Redshop\Shipping\Rate::filterRatesByPriority($shipping);
             }
 
             return $shipping;
         } else {
             if ($isAdmin == false) {
-                $shippingRate = Redshop\Shipping\Rate::filterRatesByPriority($shippingRate);
+            //  $shippingRate = Redshop\Shipping\Rate::filterRatesByPriority($shippingRate);
             }
 
             return $shippingRate;

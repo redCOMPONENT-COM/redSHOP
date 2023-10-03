@@ -14,7 +14,7 @@ $addToCartPath = "/components/com_redshop/assets/images/";
 ?>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CART_THUMB_WIDTH_LBL'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CART_THUMB_WIDTH_LBL'); ?>">
         <?php echo JText::_('COM_REDSHOP_CART_THUMB_WIDTH_HEIGHT'); ?>
     </label>
     <div class="col-md-8">
@@ -42,7 +42,7 @@ echo RedshopLayoutHelper::render(
 ?>
 <legend class="no-border text-danger"><?php echo JText::_('COM_REDSHOP_CART_DEFAULT_IMAGE_SETTINGS') ?></legend>
 <div class="form-group row-fluid">
-    <label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_IMAGE'); ?>">
+    <label class="col-md-4 hasPopover" data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_IMAGE'); ?>">
         <?php echo JText::_('COM_REDSHOP_ADDTOCART_IMAGE_LBL'); ?>
     </label>
     <div class="col-md-8">
@@ -80,7 +80,7 @@ echo RedshopLayoutHelper::render(
 ?>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_REQUESTQUOTE_IMAGE_LBL'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_REQUESTQUOTE_IMAGE_LBL'); ?>">
         <?php echo JText::_('COM_REDSHOP_REQUESTQUOTE_IMAGE_LBL'); ?>
     </label>
     <div class="col-md-8">
@@ -116,7 +116,7 @@ echo RedshopLayoutHelper::render(
 ?>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_UPDATE_LBL'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_UPDATE_LBL'); ?>">
         <?php echo JText::_('COM_REDSHOP_ADDTOCART_UPDATE_LBL'); ?>
     </label>
     <div class="col-md-8">
@@ -141,7 +141,7 @@ echo RedshopLayoutHelper::render(
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_DELETE_LBL'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_DELETE_LBL'); ?>">
         <?php echo JText::_('COM_REDSHOP_ADDTOCART_DELETE_LBL'); ?>
     </label>
     <div class="col-md-8">

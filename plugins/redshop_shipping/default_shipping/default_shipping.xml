@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
+<extension version="4.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
     <name>PLG_DEFAULT_SHIPPING</name>
-    <version>1.5.3</version>
-    <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <version>4.0.0</version>
+    <redshop>4.0.0</redshop>
+    <creationDate>October 2023</creationDate>
     <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>

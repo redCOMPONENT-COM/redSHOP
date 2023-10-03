@@ -64,13 +64,12 @@ $idText = $idtag ? $idtag : $name;
                 $extra .= ((string)$key == (string)$selected ? ' checked="checked" ' : '');
             }
             ?>
-            <div class="form-check">
-                <input class="form-check-input" type="<?php echo $type; ?>" id="<?php echo $id; ?>" name="<?php echo $name; ?>" 
-                        value="<?php echo $key; ?>" <?php echo $extra; ?> <?php echo $attribs; ?> rel="noicheck" />
-                <label class="form-check-label" for="<?php echo $id; ?>" id="<?php echo $id; ?>-lbl">
-                    <?php echo $title ?>
-                </label>
-            </div>
+            <input type="<?php echo $type; ?>" id="<?php echo $id; ?>" name="<?php echo $name; ?>"
+                   value="<?php echo $key; ?>"
+                <?php echo $extra; ?> <?php echo $attribs; ?> rel="noicheck"/>
+            <label class="<?php echo $type; ?>" for="<?php echo $id; ?>" id="<?php echo $id; ?>-lbl">
+                <?php echo $title ?>
+            </label>
         <?php endforeach; ?>
     <?php endif; ?>
 </fieldset>

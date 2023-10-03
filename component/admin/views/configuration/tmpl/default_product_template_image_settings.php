@@ -75,7 +75,7 @@ echo RedshopLayoutHelper::render(
 ?>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MAIN_IMAGE_LBL'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MAIN_IMAGE_LBL'); ?>">
         <?php echo JText::_('COM_REDSHOP_PRODUCT_MAIN_IMAGE'); ?>
     </label>
     <div class="col-md-8">
@@ -94,7 +94,7 @@ echo RedshopLayoutHelper::render(
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MAIN_IMAGE_LBL_TWO'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MAIN_IMAGE_LBL_TWO'); ?>">
         <?php echo JText::_('COM_REDSHOP_PRODUCT_MAIN_IMAGE_TWO'); ?>
     </label>
     <div class="col-md-8">
@@ -113,7 +113,7 @@ echo RedshopLayoutHelper::render(
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MAIN_IMAGE_LBL_THREE'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MAIN_IMAGE_LBL_THREE'); ?>">
         <?php echo JText::_('COM_REDSHOP_PRODUCT_MAIN_IMAGE_THREE'); ?>
     </label>
     <div class="col-md-8">
@@ -132,7 +132,7 @@ echo RedshopLayoutHelper::render(
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_ADDITIONAL_IMAGE_LBL'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_ADDITIONAL_IMAGE_LBL'); ?>">
         <?php echo JText::_('COM_REDSHOP_PRODUCT_ADDITIONAL_IMAGE_HEIGHT_WIDTH'); ?>
     </label>
     <div class="col-md-8">
@@ -151,7 +151,7 @@ echo RedshopLayoutHelper::render(
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_ADDITIONAL_IMAGE_TWO'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_ADDITIONAL_IMAGE_TWO'); ?>">
         <?php echo JText::_('COM_REDSHOP_PRODUCT_ADDITIONAL_IMAGE_LBL_TWO'); ?>
     </label>
     <div class="col-md-8">
@@ -171,7 +171,7 @@ echo RedshopLayoutHelper::render(
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_ADDITIONAL_IMAGE_LBL_THREE'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_ADDITIONAL_IMAGE_LBL_THREE'); ?>">
         <?php echo JText::_('COM_REDSHOP_PRODUCT_ADDITIONAL_IMAGE_WIDTH_HEIGHT_THREE'); ?>
     </label>
     <div class="col-md-8">
@@ -226,7 +226,7 @@ echo RedshopLayoutHelper::render(
 ?>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_HOVER_IMAGE_WIDTH'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_HOVER_IMAGE_WIDTH'); ?>">
         <?php echo JText::_('COM_REDSHOP_PRODUCT_HOVER_IMAGE_WIDTH_HEIGHT'); ?>
     </label>
     <div class="col-md-8">
@@ -256,7 +256,7 @@ echo RedshopLayoutHelper::render(
 ?>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDITIONAL_HOVER_IMAGE_WIDTH_LBL'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDITIONAL_HOVER_IMAGE_WIDTH_LBL'); ?>">
         <?php echo JText::_('COM_REDSHOP_ADDITIONAL_HOVER_IMAGE_WIDTH_HEIGHT'); ?>
     </label>
     <div class="col-md-8">
@@ -276,7 +276,7 @@ echo RedshopLayoutHelper::render(
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREVIEW_IMAGE_WIDTH'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREVIEW_IMAGE_WIDTH'); ?>">
         <?php echo JText::_('COM_REDSHOP_PRODUCT_PREVIEW_IMAGE_WIDTH_HEIGHT_LBL'); ?>
     </label>
     <div class="col-md-8">
@@ -296,7 +296,7 @@ echo RedshopLayoutHelper::render(
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH_LBL'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH_LBL'); ?>">
         <?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH_HEIGHT_LBL'); ?>
     </label>
     <div class="col-md-8">
@@ -316,7 +316,7 @@ echo RedshopLayoutHelper::render(
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
-           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ATTRIBUTE_SCROLLER_THUMB_WIDTH_LBL'); ?>">
+           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ATTRIBUTE_SCROLLER_THUMB_WIDTH_LBL'); ?>">
         <?php echo JText::_('COM_REDSHOP_ATTRIBUTE_SCROLLER_THUMB_WIDTH_HEIGHT_LBL'); ?>
     </label>
     <div class="col-md-8">
@@ -355,7 +355,7 @@ echo RedshopLayoutHelper::render(
 );
 ?>
 <div class="form-group row-fluid">
-    <label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRE_ORDER_IMAGE'); ?>">
+    <label class="col-md-4 hasPopover" data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRE_ORDER_IMAGE'); ?>">
         <?php echo JText::_('COM_REDSHOP_PRE_ORDER_IMAGE_LBL'); ?>
     </label>
     <div class="col-md-8">
