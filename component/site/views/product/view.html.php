@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -68,10 +69,9 @@ class RedshopViewProduct extends RedshopView
     public function display($tpl = null)
     {
         // Request variables
-        $this->redTemplate = Redtemplate::getInstance();
-        $this->textHelper  = new text_library;
-
-        $this->app             = JFactory::getApplication();
+        $this->redTemplate     = Redtemplate::getInstance();
+        $this->textHelper      = new text_library; // Not used anymore?
+        $this->app             = Factory::getApplication();
         $this->input           = $this->app->input;
         $this->model           = $this->getModel('product');
         $this->document        = JFactory::getDocument();
@@ -114,7 +114,7 @@ class RedshopViewProduct extends RedshopView
             // Ajax box
             if ($template == 'cartbox' && Redshop::getConfig()->get('AJAX_CART_BOX') == 1) {
                 $this->loadTemplate('cartbox');
-                JFactory::getApplication()->close();
+                Factory::getApplication()->close();
             } else {
                 $this->setLayout('default');
             }

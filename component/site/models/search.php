@@ -8,7 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
- use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -62,8 +63,8 @@ class RedshopModelSearch extends RedshopModel
             return $this->cache[$store];
         }
 
-        $post         = JFactory::getApplication()->input->post->getArray();
-        $db           = JFactory::getDbo();
+        $post         = Factory::getApplication()->input->post->getArray();
+        $db           = Factory::getContainer()->get('DatabaseDriver');
         $items        = array();
         $query        = $this->_buildQuery($post);
         $templateDesc = $this->getState('templateDesc');
@@ -86,7 +87,7 @@ class RedshopModelSearch extends RedshopModel
                 ->where('p.product_id IN (' . implode(',', $productIds) . ')')
                 ->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
 
-            $user  = JFactory::getUser();
+            $user  = Factory::getApplication()->getIdentity();
             $query = \Redshop\Product\Product::getMainProductQuery($query, $user->id)
                 ->select(
                     array(
@@ -150,9 +151,9 @@ class RedshopModelSearch extends RedshopModel
      */
     public function _buildQuery($manudata = 0, $getTotal = false)
     {
-        $app   = JFactory::getApplication();
+        $app   = Factory::getApplication();
         $input = $app->input;
-        $db    = JFactory::getDbo();
+        $db    = Factory::getContainer()->get('DatabaseDriver');
 
         $orderByMethod = $input->getString(
             'order_by',
@@ -497,7 +498,7 @@ class RedshopModelSearch extends RedshopModel
 
             $q .= implode(" AND ", $dep_cond);
 
-            $q       .= ") AND p.published = '1' AND x.category_id = " . (int)JRequest::getInt(
+            $q       .= ") AND p.published = '1' AND x.category_id = " . (int)Factory::getApplication()->input->getInt(
                     'cid',
                     0
                 ) . " order by p.product_name ";
@@ -517,7 +518,7 @@ class RedshopModelSearch extends RedshopModel
 
     public function getSearchableProductCustomfields()
     {
-        $db = JFactory::getDbo();
+        $db = Factory::getContainer()->get('DatabaseDriver');
 
         $subQuery = $db->getQuery(true)
             ->select($db->qn('id'))
@@ -548,7 +549,7 @@ class RedshopModelSearch extends RedshopModel
         }
 
         $where      = array();
-        $db         = JFactory::getDbo();
+        $db         = Factory::getContainer()->get('DatabaseDriver');
         $conditions = explode(' ', trim($condition));
 
         foreach ((array)$fields as $field) {
@@ -625,7 +626,7 @@ class RedshopModelSearch extends RedshopModel
         $productlimit = $this->getState('productlimit');
         $layout       = $this->getState('layout', 'default');
 
-        $db    = JFactory::getDbo();
+        $db    = Factory::getContainer()->get('DatabaseDriver');
         $subQueryCount = clone $this->_buildQuery(0, true);
         $subQueryCount->clear('select')->clear('group')->clear('limit')->clear('order')
             ->select($db->qn('p.product_id'))
@@ -651,7 +652,7 @@ class RedshopModelSearch extends RedshopModel
 
     public function mod_redProductfilter($Itemid)
     {
-        $db    = JFactory::getDbo();
+        $db    = Factory::getContainer()->get('DatabaseDriver');
         $query = "SELECT t.*, f.formname AS form_name FROM #__redproductfinder_types t
         LEFT JOIN #__redproductfinder_forms f
         ON t.form_id = f.id
@@ -892,7 +893,7 @@ class RedshopModelSearch extends RedshopModel
         // For session
         $session      = JSession::getInstance('none', array());
         $getredfilter = $session->get('redfilter');
-        $db           = JFactory::getDbo();
+        $db           = Factory::getContainer()->get('DatabaseDriver');
         $products     = array();
 
         if (count($getredfilter) > 0 && $all == 1) {
@@ -954,7 +955,7 @@ class RedshopModelSearch extends RedshopModel
      */
     public function loadCatProductsManufacturer($cid)
     {
-        $db    = JFactory::getDbo();
+        $db    = Factory::getContainer()->get('DatabaseDriver');
         $query = "SELECT  p.product_id, p.manufacturer_id FROM #__redshop_product_category_xref AS cx "
             . ", #__redshop_product AS p "
             . "WHERE cx.category_id = " . (int)$cid . " "
@@ -1001,7 +1002,7 @@ class RedshopModelSearch extends RedshopModel
         $category_id                     = $app->input->getInt('category_id', 0);
         $manufacture_id                  = $app->input->getInt('manufacture_id', 0);
 
-        $db    = JFactory::getDbo();
+        $db    = Factory::getContainer()->get('DatabaseDriver');
         $query = $db->getQuery(true)
             ->select('p.product_id AS id, p.product_name AS value, p.cat_in_sefurl')
             ->from($db->qn('#__redshop_product', 'p'))
@@ -1142,7 +1143,7 @@ class RedshopModelSearch extends RedshopModel
     public function getItem()
     {
         $query      = $this->getListQuery();
-        $db         = JFactory::getDbo();
+        $db         = Factory::getContainer()->get('DatabaseDriver');
         $start      = $this->getState('list.start');
         $limit      = $this->getState('list.limit');
         $templateId = $this->getState('template_id');
@@ -1172,7 +1173,7 @@ class RedshopModelSearch extends RedshopModel
     {
         $pk = $this->getState('filter.data', array());
 
-        $db    = JFactory::getDbo();
+        $db    = Factory::getContainer()->get('DatabaseDriver');
         $query = $db->getQuery(true)
             ->select($db->qn("p.product_id"))
             ->from($db->qn("#__redshop_product", "p"))
@@ -1423,7 +1424,7 @@ class RedshopModelSearch extends RedshopModel
 
         $this->setState('templateid', $templateid);
 
-        $db    = JFactory::getDbo();
+        $db    = Factory::getContainer()->get('DatabaseDriver');
         $query = $db->getQuery(true)
             ->select('c.template AS category_template, t.*')
             ->from($db->qn('#__redshop_template', 't'))

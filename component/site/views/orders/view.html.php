@@ -9,17 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 
 class RedshopViewOrders extends RedshopView
 {
     public function display($tpl = null)
     {
-        $app  = JFactory::getApplication();
-        $user = JFactory::getUser();
+        $app  = Factory::getApplication();
+        $user = Factory::getApplication()->getIdentity();
 
         // Preform security checks
         if ($user->id == 0) {
-            $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
+            $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=login&Itemid=' . Factory::getApplication()->input->getInt('Itemid')));
             $app->close();
         }
 

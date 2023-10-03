@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
@@ -25,14 +27,14 @@ class RedshopModelMedia extends RedshopModel
     {
         parent::__construct($config);
 
-        $jInput        = JFactory::getApplication()->input;
+        $jInput         = Factory::getApplication()->input;
         $this->context .= '.' . $jInput->getCmd('media_section', 'none') . '.' . $jInput->getInt('section_id', 0);
     }
 
     public function _buildQuery()
     {
-        $app   = JFactory::getApplication();
-        $db    = JFactory::getDbo();
+        $app   = Factory::getApplication();
+        $db    = Factory::getContainer()->get('DatabaseDriver');
         $query = $db->getQuery(true)
             ->select('m.*')
             ->from($db->qn('#__redshop_media', 'm'));
@@ -89,7 +91,7 @@ class RedshopModelMedia extends RedshopModel
             $current = '';
         }
 
-        $fdownload = JRequest::getInt('fdownload');
+        $fdownload = Factory::getApplication()->input->getInt('fdownload');
 
         if ($fdownload != 1) {
             // Initialize variables
@@ -279,7 +281,7 @@ class RedshopModelMedia extends RedshopModel
     public function saveorder($cid = array(), $order)
     {
         $row        = $this->getTable('media_detail');
-        $order      = JFactory::getApplication()->input->post->get('order', array(0), 'array');
+        $order      = Factory::getApplication()->input->post->get('order', array(0), 'array');
         $conditions = array();
 
         // Update ordering values
@@ -327,7 +329,7 @@ class RedshopModelMedia extends RedshopModel
      */
     public function all()
     {
-        $db    = JFactory::getDbo();
+        $db    = Factory::getContainer()->get('DatabaseDriver');
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn("#__redshop_media"));
@@ -346,7 +348,7 @@ class RedshopModelMedia extends RedshopModel
      */
     public function deleteFile($id)
     {
-        $db = JFactory::getDbo();
+        $db = Factory::getContainer()->get('DatabaseDriver');
 
         // Check item is existed
         $query = $db->getQuery(true)
@@ -381,7 +383,7 @@ class RedshopModelMedia extends RedshopModel
      */
     public function newFile($file)
     {
-        $db      = JFactory::getDbo();
+        $db      = Factory::getContainer()->get('DatabaseDriver');
         $fileObj = new stdClass;
 
         $fileObj->media_name     = $file['media_name'];
@@ -439,7 +441,7 @@ class RedshopModelMedia extends RedshopModel
         $media_type = $this->getUserStateFromRequest($this->context . '.media_type', 'media_type', '');
         $this->setState('media_type', $media_type);
 
-        $folder = JFactory::getApplication()->input->getPath('folder', '');
+        $folder = Factory::getApplication()->input->getPath('folder', '');
         $this->setState('folder', $folder);
 
         $parent = str_replace("\\", "/", dirname($folder));

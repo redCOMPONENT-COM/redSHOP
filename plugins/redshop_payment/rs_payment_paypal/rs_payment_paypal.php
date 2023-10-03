@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
 class plgRedshop_paymentrs_payment_paypal extends JPlugin
 {
     /**
@@ -43,7 +46,7 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
             return;
         }
 
-        $request         = JRequest::get('request');
+        $request         = Factory::getApplication()->input->getInt('request');
         $verify_status   = $this->params->get('verify_status', '');
         $invalid_status  = $this->params->get('invalid_status', '');
         $order_id        = $request["orderid"];
@@ -65,13 +68,13 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
         if (($status == 'Completed' || $pending_reason == 'authorization') && $request['key'] == $key) {
             $values->order_status_code         = $verify_status;
             $values->order_payment_status_code = 'Paid';
-            $values->log                       = JText::_('PLG_RS_PAYMENT_PAYPAL_ORDER_PLACED');
-            $values->msg                       = JText::_('PLG_RS_PAYMENT_PAYPAL_ORDER_PLACED');
+            $values->log                       = Text::_('PLG_RS_PAYMENT_PAYPAL_ORDER_PLACED');
+            $values->msg                       = Text::_('PLG_RS_PAYMENT_PAYPAL_ORDER_PLACED');
         } else {
             $values->order_status_code         = $invalid_status;
             $values->order_payment_status_code = 'Unpaid';
-            $values->log                       = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
-            $values->msg                       = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
+            $values->log                       = Text::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
+            $values->msg                       = Text::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
             $values->type                      = 'error';
         }
 

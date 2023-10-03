@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Account Billing To view
@@ -31,10 +32,10 @@ class RedshopViewAccount_Billto extends RedshopView
     public function display($tpl = null)
     {
         /** @var JApplicationSite $app */
-        $app    = JFactory::getApplication();
+        $app    = Factory::getApplication();
         $params = $app->getParams('com_redshop');
-        $input  = JFactory::getApplication()->input;
-        $user   = JFactory::getUser();
+        $input  = Factory::getApplication()->input;
+        $user   = Factory::getUser();
         $itemId = $input->getInt('Itemid', 0);
         $isEdit = $input->getInt('is_edit', 0);
         $return = $input->getString('return', "");
@@ -49,7 +50,7 @@ class RedshopViewAccount_Billto extends RedshopView
         }
 
         $uri     = JUri::getInstance();
-        $session = JFactory::getSession();
+        $session = Factory::getSession();
         $auth    = $session->get('auth');
 
         if (!is_array($auth)) {
@@ -61,24 +62,24 @@ class RedshopViewAccount_Billto extends RedshopView
         $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false);
 
         $accountBilltoJs = ['isEdit' => $isEdit, 'link' => $link];
-        $document        = JFactory::getDocument();
+        $document        = Factory::getDocument();
         $document->addScriptOptions('account_billto', $accountBilltoJs);
 
-        JHtml::_('redshopjquery.framework');
-        JHtml::_('script', 'com_redshop/jquery.validate.min.js', false, true);
-        JHtml::_('script', 'com_redshop/redshop.common.min.js', false, true);
-        JHtml::_('script', 'com_redshop/redshop.registration.min.js', false, true);
-        JHtml::_('script', 'com_redshop/account/billto.min.js', false, true);
+        HTMLHelper::_('redshopjquery.framework');
+        HTMLHelper::_('script', 'com_redshop/jquery.validate.min.js', false, true);
+        HTMLHelper::_('script', 'com_redshop/redshop.common.min.js', false, true);
+        HTMLHelper::_('script', 'com_redshop/redshop.registration.min.js', false, true);
+        HTMLHelper::_('script', 'com_redshop/account/billto.min.js', false, true);
 		HTMLHelper::stylesheet('com_redshop/redshop.validation.min.css', ['relative' => true]);
 
         // Preform security checks
         if ($user->id == 0 && $auth['users_info_id'] == 0) {
-            $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
+            $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=login&Itemid=' . Factory::getApplication()->input->getInt('Itemid')));
             $app->close();
         }
 
         $lists = array(
-            'requesting_tax_exempt' => JHtml::_(
+            'requesting_tax_exempt' => HTMLHelper::_(
                 'select.booleanlist',
                 'requesting_tax_exempt',
                 'class="inputbox"',

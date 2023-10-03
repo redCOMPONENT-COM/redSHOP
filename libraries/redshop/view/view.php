@@ -7,11 +7,12 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Application\CMSApplication;
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.viewlegacy');
+//jimport('joomla.application.component.viewlegacy');
 
 /**
  * Base view.
@@ -20,7 +21,7 @@ jimport('joomla.application.component.viewlegacy');
  * @subpackage  View
  * @since       1.5
  */
-class RedshopView extends JViewLegacy
+class RedshopView extends HtmlView
 {
     /**
      * @var  \JInput
