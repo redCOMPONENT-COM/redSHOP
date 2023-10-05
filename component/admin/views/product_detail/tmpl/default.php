@@ -76,18 +76,18 @@ JHtml::_('behavior.formvalidator');
         }
 
         if (pressbutton == 'cancel') {
-			Joomla.submitform(pressbutton);
+            Joomla.submitform(pressbutton);
             return;
         }
 
         if (pressbutton == 'prices') {
             document.adminForm.view.value = 'prices';
-			Joomla.submitform(pressbutton);
+            Joomla.submitform(pressbutton);
             return;
         }
         if (pressbutton == 'wrapper') {
             document.adminForm.view.value = 'wrapper';
-			Joomla.submitform(pressbutton);
+            Joomla.submitform(pressbutton);
             return;
         }
 
@@ -146,7 +146,7 @@ JHtml::_('behavior.formvalidator');
             resetAttributeset();
         }
 
-		Joomla.submitform(pressbutton);
+        Joomla.submitform(pressbutton);
     };
 
     function oprand_check(s) {
@@ -186,20 +186,24 @@ JHtml::_('behavior.formvalidator');
     }
 </script>
 
-<?php if ($this->input->getBool('showbuttons', false)) : ?>
+<?php if ($this->input->getBool('showbuttons', false)): ?>
     <fieldset>
         <div style="float: right">
-            <button type="button" onclick="Joomla.submitbutton('save');"> <?php echo JText::_('COM_REDSHOP_SAVE'); ?> </button>
-            <button type="button"
-                    onclick="window.parent.SqueezeBox.close();"> <?php echo JText::_('COM_REDSHOP_CANCEL'); ?> </button>
+            <button type="button" onclick="Joomla.submitbutton('save');">
+                <?php echo JText::_('COM_REDSHOP_SAVE'); ?>
+            </button>
+            <button type="button" onclick="window.parent.SqueezeBox.close();">
+                <?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
+            </button>
         </div>
-        <div class="configuration"><?php echo JText::_('COM_REDSHOP_ADD_PRODUCT'); ?></div>
+        <div class="configuration">
+            <?php echo JText::_('COM_REDSHOP_ADD_PRODUCT'); ?>
+        </div>
     </fieldset>
 <?php endif; ?>
 
 <form action="<?php echo Redshop\IO\Route::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
-      class="form-validate"
-      enctype="multipart/form-data">
+    class="form-validate" enctype="multipart/form-data">
 
     <?php
     echo RedshopLayoutHelper::render(
@@ -215,26 +219,26 @@ JHtml::_('behavior.formvalidator');
     ?>
 
     <div class="clr"></div>
-    <input type="hidden" name="cid[]" value="<?php echo $this->detail->product_id; ?>"/>
-    <input type="hidden" name="product_id" id="product_id" value="<?php echo $this->detail->product_id; ?>"/>
-    <input type="hidden" name="old_manufacturer_id" value="<?php echo $this->detail->manufacturer_id; ?>"/>
+    <input type="hidden" name="cid[]" value="<?php echo $this->detail->product_id; ?>" />
+    <input type="hidden" name="product_id" id="product_id" value="<?php echo $this->detail->product_id; ?>" />
+    <input type="hidden" name="old_manufacturer_id" value="<?php echo $this->detail->manufacturer_id; ?>" />
     <input type="hidden" name="old_image" id="old_image" value="<?php echo $this->detail->product_full_image; ?>">
     <input type="hidden" name="old_thumb_image" id="old_thumb_image"
-           value="<?php echo $this->detail->product_thumb_image; ?>">
+        value="<?php echo $this->detail->product_thumb_image; ?>">
     <input type="hidden" name="product_back_full_image" id="product_back_full_image"
-           value="<?php echo $this->detail->product_back_full_image; ?>">
+        value="<?php echo $this->detail->product_back_full_image; ?>">
     <input type="hidden" name="product_back_thumb_image" id="product_back_thumb_image"
-           value="<?php echo $this->detail->product_back_thumb_image; ?>">
+        value="<?php echo $this->detail->product_back_thumb_image; ?>">
     <input type="hidden" name="product_preview_image" id="product_preview_image"
-           value="<?php echo $this->detail->product_preview_image; ?>">
+        value="<?php echo $this->detail->product_preview_image; ?>">
     <input type="hidden" name="product_preview_back_image" id="product_preview_back_image"
-           value="<?php echo $this->detail->product_preview_back_image; ?>">
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="section_id" value=""/>
-    <input type="hidden" name="template_id" value=""/>
-    <input type="hidden" name="visited" value="<?php echo $this->detail->visited ?>"/>
-    <input type="hidden" name="view" value="product_detail"/>
-    <input type="hidden" name="selectedTabPosition" value=""/>
+        value="<?php echo $this->detail->product_preview_back_image; ?>">
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="section_id" value="" />
+    <input type="hidden" name="template_id" value="" />
+    <input type="hidden" name="visited" value="<?php echo $this->detail->visited ?>" />
+    <input type="hidden" name="view" value="product_detail" />
+    <input type="hidden" name="selectedTabPosition" value="" />
 </form>
 <script type="text/javascript">
 
@@ -270,7 +274,7 @@ JHtml::_('behavior.formvalidator');
 
     function jimage_insert(main_path, fid, fsec) {
 
-        var path_url = "<?php echo JURI::getInstance()->root();?>";
+        var path_url = "<?php echo JURI::getInstance()->root(); ?>";
         var propimg;
 
         if (!fid && !fsec) {
@@ -330,9 +334,16 @@ JHtml::_('behavior.formvalidator');
 </script>
 <?php
 echo RedshopLayoutHelper::render(
-	'modal.iframe',
-	[
-		'modalButton' => '.ModalProductDetailButton',
-		'selector'    => 'ModalProductDetail',
-	]
+    'modal.iframe',
+    [
+        'modalButton' => '.ModalProductDetailButton',
+        'selector' => 'ModalProductDetail',
+        'params' => [
+            'title' => '',
+            'footer' => '',
+            'modalWidth' => '40',
+            'bodyHeight' => '80',
+            'modalCss' => '',
+        ]
+    ]
 );

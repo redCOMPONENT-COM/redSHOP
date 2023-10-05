@@ -2,11 +2,11 @@
 <extension type="component" method="upgrade">
     <name>COM_REDSHOP</name>
     <creationDate>September 2023</creationDate>
-    <author>redShop community</author>
+    <author>redCOMPONENT.com</author>
     <authorUrl>https://github.com/redCOMPONENT-COM/redSHOP</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>4.0.0</version>
+    <version>4.0.1</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
     <scriptfile>install.php</scriptfile>
     <install>

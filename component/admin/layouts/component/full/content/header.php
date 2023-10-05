@@ -22,7 +22,7 @@ if ($view == 'redshop') {
 ?>
 
 <div class="component-title">
-    <?php echo JFactory::getApplication()->get('JComponentTitle'); ?>
+    <?php echo JFactory::getApplication()->JComponentTitle; ?>
 </div>
 
 <div<?php echo $classtoolbar ?>>

@@ -356,7 +356,7 @@ class Com_RedshopInstallerScript
     {
         $db    = Factory::getContainer()->get('DatabaseDriver');
         $query = $db->getQuery(true);
-        $query->update($db->qn("#__extensions"))
+        $query->update($db->quoteName("#__extensions"))
             ->set("enabled = " . (int)$state)
             ->where('type = ' . $db->quote('plugin'))
             ->where('element = ' . $db->quote($extName))
@@ -567,7 +567,7 @@ class Com_RedshopInstallerScript
     protected function procedureRemoveColumn()
     {
         $db    = Factory::getContainer()->get('DatabaseDriver');
-        $query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Column_Remove');
+        $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Column_Remove');
 
         try
         {
@@ -575,12 +575,12 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureRemoveColumn DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
 
-        $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Column_Remove") . "(
-            IN " . $db->qn('tableName') . " VARCHAR(50),
-            IN " . $db->qn('columnName') . " VARCHAR(50)
+        $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Column_Remove") . "(
+            IN " . $db->quoteName('tableName') . " VARCHAR(50),
+            IN " . $db->quoteName('columnName') . " VARCHAR(50)
             )
             LANGUAGE SQL
             NOT DETERMINISTIC
@@ -605,7 +605,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureRemoveColumn CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
     }
 
@@ -619,7 +619,7 @@ class Com_RedshopInstallerScript
     protected function procedureUpdateColumn()
     {
         $db    = Factory::getContainer()->get('DatabaseDriver');
-        $query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Column_Update');
+        $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Column_Update');
 
         try
         {
@@ -627,14 +627,14 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureUpdateColumn DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
 
-        $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Column_Update") . "(
-            IN " . $db->qn('tableName') . " VARCHAR(50),
-            IN " . $db->qn('columnName') . " VARCHAR(50),
-            IN " . $db->qn('newColumnName') . " VARCHAR(50),
-            IN " . $db->qn('columnDetail') . " VARCHAR(255)
+        $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Column_Update") . "(
+            IN " . $db->quoteName('tableName') . " VARCHAR(50),
+            IN " . $db->quoteName('columnName') . " VARCHAR(50),
+            IN " . $db->quoteName('newColumnName') . " VARCHAR(50),
+            IN " . $db->quoteName('columnDetail') . " VARCHAR(255)
             )
             LANGUAGE SQL
             NOT DETERMINISTIC
@@ -693,7 +693,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureUpdateColumn CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
     }
 
@@ -707,7 +707,7 @@ class Com_RedshopInstallerScript
     protected function procedureIndexRemove()
     {
         $db    = Factory::getContainer()->get('DatabaseDriver');
-        $query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Index_Remove');
+        $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Index_Remove');
 
         try
         {
@@ -715,12 +715,12 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureIndexRemove DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
 
-        $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Index_Remove") . "(
-            IN " . $db->qn('tableName') . " VARCHAR(50),
-            IN " . $db->qn('indexName') . " VARCHAR(50)
+        $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Index_Remove") . "(
+            IN " . $db->quoteName('tableName') . " VARCHAR(50),
+            IN " . $db->quoteName('indexName') . " VARCHAR(50)
             )
             LANGUAGE SQL
             NOT DETERMINISTIC
@@ -748,7 +748,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureIndexRemove CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
     }
 
@@ -762,7 +762,7 @@ class Com_RedshopInstallerScript
     protected function procedureIndexAdd()
     {
         $db    = Factory::getContainer()->get('DatabaseDriver');
-        $query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Index_Add');
+        $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Index_Add');
 
         try
         {
@@ -770,13 +770,13 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureIndexAdd DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
 
-        $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Index_Add") . "(
-            IN " . $db->qn('tableName') . " VARCHAR(50),
-            IN " . $db->qn('indexName') . " VARCHAR(50),
-            IN " . $db->qn('indexData') . " VARCHAR(255)
+        $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Index_Add") . "(
+            IN " . $db->quoteName('tableName') . " VARCHAR(50),
+            IN " . $db->quoteName('indexName') . " VARCHAR(50),
+            IN " . $db->quoteName('indexData') . " VARCHAR(255)
             )
             LANGUAGE SQL
             NOT DETERMINISTIC
@@ -805,7 +805,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureIndexAdd CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
     }
 
@@ -819,7 +819,7 @@ class Com_RedshopInstallerScript
     protected function procedureUniqueIndexAdd()
     {
         $db    = Factory::getContainer()->get('DatabaseDriver');
-        $query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Index_Unique_Add');
+        $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Index_Unique_Add');
 
         try
         {
@@ -827,13 +827,13 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureUniqueIndexAdd DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
 
-        $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Index_Unique_Add") . "(
-            IN " . $db->qn('tableName') . " VARCHAR(50),
-            IN " . $db->qn('indexName') . " VARCHAR(50),
-            IN " . $db->qn('indexData') . " VARCHAR(255)
+        $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Index_Unique_Add") . "(
+            IN " . $db->quoteName('tableName') . " VARCHAR(50),
+            IN " . $db->quoteName('indexName') . " VARCHAR(50),
+            IN " . $db->quoteName('indexData') . " VARCHAR(255)
             )
             LANGUAGE SQL
             NOT DETERMINISTIC
@@ -864,7 +864,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureUniqueIndexAdd CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
     }
 
@@ -878,7 +878,7 @@ class Com_RedshopInstallerScript
     protected function procedureFulltextIndexAdd()
     {
         $db    = Factory::getContainer()->get('DatabaseDriver');
-        $query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Index_Fulltext_Add');
+        $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Index_Fulltext_Add');
 
         try
         {
@@ -886,13 +886,13 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureFulltextIndexAdd DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
 
-        $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Index_Fulltext_Add") . "(
-            IN " . $db->qn('tableName') . " VARCHAR(50),
-            IN " . $db->qn('indexName') . " VARCHAR(50),
-            IN " . $db->qn('indexData') . " VARCHAR(255)
+        $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Index_Fulltext_Add") . "(
+            IN " . $db->quoteName('tableName') . " VARCHAR(50),
+            IN " . $db->quoteName('indexName') . " VARCHAR(50),
+            IN " . $db->quoteName('indexData') . " VARCHAR(255)
             )
             LANGUAGE SQL
             NOT DETERMINISTIC
@@ -923,7 +923,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureFulltextIndexAdd CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
     }
 
@@ -937,7 +937,7 @@ class Com_RedshopInstallerScript
     protected function procedureConstraintRemove()
     {
         $db    = Factory::getContainer()->get('DatabaseDriver');
-        $query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Constraint_Remove');
+        $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Constraint_Remove');
 
         try
         {
@@ -945,12 +945,12 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureConstraintRemove DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
 
-        $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Constraint_Remove") . "(
-            IN " . $db->qn('tableName') . " VARCHAR(50),
-            IN " . $db->qn('refName') . " VARCHAR(50)
+        $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Constraint_Remove") . "(
+            IN " . $db->quoteName('tableName') . " VARCHAR(50),
+            IN " . $db->quoteName('refName') . " VARCHAR(50)
             )
             LANGUAGE SQL
             NOT DETERMINISTIC
@@ -982,7 +982,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureConstraintRemove CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
     }
 
@@ -996,7 +996,7 @@ class Com_RedshopInstallerScript
     protected function procedureConstraintUpdate()
     {
         $db    = Factory::getContainer()->get('DatabaseDriver');
-        $query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Constraint_Update');
+        $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Constraint_Update');
 
         try
         {
@@ -1004,17 +1004,17 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureConstraintUpdate DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
 
-        $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Constraint_Update") . "(
-            IN " . $db->qn('tableName') . " VARCHAR(50),
-            IN " . $db->qn('constraintName') . " VARCHAR(50),
-            IN " . $db->qn('columnName') . " VARCHAR(50),
-            IN " . $db->qn('tableRef') . " VARCHAR(50),
-            IN " . $db->qn('columnRef') . " VARCHAR(50),
-            IN " . $db->qn('onUpdateAction') . " ENUM('RESTRICT','CASCADE','SET NULL','NO ACTION'),
-            IN " . $db->qn('onDeleteAction') . " ENUM('RESTRICT','CASCADE','SET NULL','NO ACTION')
+        $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Constraint_Update") . "(
+            IN " . $db->quoteName('tableName') . " VARCHAR(50),
+            IN " . $db->quoteName('constraintName') . " VARCHAR(50),
+            IN " . $db->quoteName('columnName') . " VARCHAR(50),
+            IN " . $db->quoteName('tableRef') . " VARCHAR(50),
+            IN " . $db->quoteName('columnRef') . " VARCHAR(50),
+            IN " . $db->quoteName('onUpdateAction') . " ENUM('RESTRICT','CASCADE','SET NULL','NO ACTION'),
+            IN " . $db->quoteName('onDeleteAction') . " ENUM('RESTRICT','CASCADE','SET NULL','NO ACTION')
             )
             LANGUAGE SQL
             NOT DETERMINISTIC
@@ -1053,7 +1053,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureConstraintUpdate CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
     }
 
@@ -1067,7 +1067,7 @@ class Com_RedshopInstallerScript
     protected function procedurePrimaryRemove()
     {
         $db    = Factory::getContainer()->get('DatabaseDriver');
-        $query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Primary_Remove');
+        $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Primary_Remove');
 
         try
         {
@@ -1075,11 +1075,11 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedurePrimaryRemove DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
 
-        $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Primary_Remove") . "(
-            IN " . $db->qn('tableName') . " VARCHAR(50)
+        $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Primary_Remove") . "(
+            IN " . $db->quoteName('tableName') . " VARCHAR(50)
             )
             LANGUAGE SQL
             NOT DETERMINISTIC
@@ -1108,7 +1108,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedurePrimaryRemove CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
     }
 
@@ -1122,7 +1122,7 @@ class Com_RedshopInstallerScript
     protected function procedurePrimaryAdd()
     {
         $db    = Factory::getContainer()->get('DatabaseDriver');
-        $query = "DROP PROCEDURE IF EXISTS " . $db->qn('redSHOP_Primary_Add');
+        $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Primary_Add');
 
         try
         {
@@ -1130,12 +1130,12 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedurePrimaryAdd DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
 
-        $query = "CREATE PROCEDURE " . $db->qn("redSHOP_Primary_Add") . "(
-            IN " . $db->qn('tableName') . " VARCHAR(50),
-            IN " . $db->qn('keyData') . " VARCHAR(255)
+        $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Primary_Add") . "(
+            IN " . $db->quoteName('tableName') . " VARCHAR(50),
+            IN " . $db->quoteName('keyData') . " VARCHAR(255)
             )
             LANGUAGE SQL
             NOT DETERMINISTIC
@@ -1161,7 +1161,7 @@ class Com_RedshopInstallerScript
         }
         catch (Exception $e)
         {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode (), $e->getMessage ()), 'ERROR');
+            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedurePrimaryAdd CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
         }
     }
 }

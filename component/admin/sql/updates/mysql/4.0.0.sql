@@ -51,7 +51,7 @@ CALL redSHOP_Column_Update('#__redshop_product', 'published' 'published' 'TINYIN
 CALL redSHOP_Column_Update('#__redshop_product', 'product_thumb_image' 'product_thumb_image' 'VARCHAR(250) NOT NULL DEFAULT ""');
 CALL redSHOP_Column_Update('#__redshop_product', 'product_full_image' 'product_full_image' 'VARCHAR(250) NOT NULL DEFAULT ""');
 CALL redSHOP_Column_Update('#__redshop_product', 'publish_date' 'publish_date' 'DATETIME NOT NULL DEFAULT "0000-00-00 00:00:00"');
-CALL redSHOP_Column_Update('#__redshop_product', 'update_date' 'update_date' 'TIMESTAMP NOT NULL DEFAULT "0000-00-00 00:00:00"');
+ALTER TABLE `#__redshop_product` CHANGE `update_date` `update_date` TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT '0000-00-00 00:00:00';
 CALL redSHOP_Column_Update('#__redshop_product', 'visited' 'visited' 'INT(11) NOT NULL DEFAULT "0"');
 CALL redSHOP_Column_Update('#__redshop_product', 'metakey' 'metakey' 'TEXT');
 CALL redSHOP_Column_Update('#__redshop_product', 'metadesc' 'metadesc' 'TEXT');

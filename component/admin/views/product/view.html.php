@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 class RedshopViewProduct extends RedshopViewAdmin
 {
@@ -190,24 +191,24 @@ class RedshopViewProduct extends RedshopViewAdmin
      */
     protected function addToolbar()
     {
-        JToolBarHelper::title(Text::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
+        ToolBarHelper::title(Text::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
         $layout = JFactory::getApplication()->input->getCmd('layout', '');
 
         if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product') {
-            JToolbarHelper::addNew('product_detail.addRedirect');
-            JToolbarHelper::editList('product_detail.editRedirect');
-            JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', Text::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-            JToolBarHelper::deleteList();
-            JToolBarHelper::publishList();
-            JToolBarHelper::unpublishList();
-            JToolBarHelper::custom(
+            ToolbarHelper::addNew('product_detail.addRedirect');
+            ToolbarHelper::editList('product_detail.editRedirect');
+            ToolbarHelper::custom('copy', 'copy.png', 'copy_f2.png', Text::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+            ToolbarHelper::deleteList();
+            ToolbarHelper::publishList();
+            ToolbarHelper::unpublishList();
+            ToolbarHelper::custom(
                 'assignCategory',
                 'save.png',
                 'save_f2.png',
                 Text::_('COM_REDSHOP_ASSIGN_CATEGORY'),
                 true
             );
-            JToolBarHelper::custom(
+            ToolbarHelper::custom(
                 'removeCategory',
                 'delete.png',
                 'delete_f2.png',
@@ -217,7 +218,7 @@ class RedshopViewProduct extends RedshopViewAdmin
         }
 
         if ($layout == 'listing') {
-            JToolBarHelper::title(Text::_('COM_REDSHOP_PRODUCT_PRICE_MANAGEMENT'));
+            ToolbarHelper::title(Text::_('COM_REDSHOP_PRODUCT_PRICE_MANAGEMENT'));
         }
     }
 }
