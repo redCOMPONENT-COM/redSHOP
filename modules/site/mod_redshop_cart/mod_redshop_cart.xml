@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.0" client="site" method="upgrade">
+<extension type="module" version="4.0" client="site" method="upgrade">
     <name>MOD_REDSHOP_CART</name>
-    <version>1.7.0</version>
-    <redshop>2.0</redshop>
+    <version>4.0.0</version>
+    <redshop>4.0.1</redshop>
     <creationDate>September 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -27,7 +27,7 @@
                 <field
                         name="cart_output"
                         type="list"
-                        default="0"
+                        default="1"
                         label="MOD_REDSHOP_CART_CART_OUTPUT">
                     <option value="simple">MOD_REDSHOP_CART_SIMPLE</option>
                     <option value="extended">MOD_REDSHOP_CART_EXTENDED</option>

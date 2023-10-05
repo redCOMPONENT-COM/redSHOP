@@ -35,8 +35,7 @@ $user      = JFactory::getUser();
     </li>
 
     <li>
-        <a title="<?php echo JText::_('JGLOBAL_VIEW_SITE'); ?>" href="<?php echo JUri::root() ?>" target="_blank"><i
-                    class="fa fa-external-link"></i></a>
+        <a title="<?php echo JText::_('JGLOBAL_VIEW_SITE'); ?>" href="<?php echo JUri::root() ?>" target="_blank"></a>
     </li>
     <li>
         <a title="<?php echo JText::_('JLOGOUT'); ?>" href="<?php echo $logoutUrl ?>"><i class="fa fa-sign-out"></i></a>

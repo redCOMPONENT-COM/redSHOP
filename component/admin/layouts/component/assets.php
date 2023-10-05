@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 JHtml::_('redshopjquery.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_(
@@ -18,7 +20,7 @@ JHtml::_(
 );
 JHtml::_('redshopjquery.popover', '.hasPopover', array('placement' => 'top'));
 
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 $doc = new RedshopHelperDocument;
 
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.admin.min.js');

@@ -12,7 +12,7 @@
             <div class="col-md-9 product_title">
                 <h1>{product_name}</h1>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 product-icons">
                 {send_to_friend}
                 {print}
             </div>
@@ -38,7 +38,8 @@
             </div>
             <div class="product-stock-sku-cont row row-condensed">
                 <div class="product-stock-cont col-sm-6">
-                    <span class="normal-stock text-success hasTooltip" title="" data-original-title="We have plenty of Stock for this product">In Stock</span>
+                    <span class="normal-stock text-success hasTooltip" title=""
+                        data-original-title="We have plenty of Stock for this product">In Stock</span>
                 </div>
                 <div class="product-sku-cont col-sm-6">
                     {product_number}
@@ -48,26 +49,48 @@
         <div class="product-short-desc-cont">
             {product_s_desc}
         </div>
-        <div class="product-addtocart-cont">
-            <div class "attributes">
+        <div class="product-attributes-cont">
+            <div class="attributes">
                 {attribute_template:attributes}
             </div>
 
             {accessory_template:accessory}
-
-            <div class="product_addtocart">
-                {form_addtocart:add_to_cart1}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-9 product-wishlist">
-                {wishlist_link}
-            </div>
-            <div class="col-md-3 product-compare">
-                {compare_products_button}
-            </div>
         </div>
     </div>
 </div>
-<div class="product_desc_full">{product_desc}</div>
+<div class="row">
+    <div class="col-md-4 product-wishlist-cont">
+        <div class="wishlist_link">
+            {wishlist_link}
+        </div>
+    </div>
+    <div class="col-md-4 product-compare-cont">
+        {compare_products_button}
+    </div>
+    <div class="col-md-4 product-addtocart-cont">
+        <div class="product_addtocart">
+            {form_addtocart:add_to_cart1}
+        </div>
+    </div>
+</div>
+<ul class="nav nav-tabs" id="ex1" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="ex1-tab-Description" data-mdb-toggle="tab" href="#ex1-tabs-Description" role="tab"
+            aria-controls="ex1-tabs-Description" aria-selected="true">Description</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="ex1-tab-Reviews" data-mdb-toggle="tab" href="#ex1-tabs-Reviews" role="tab"
+            aria-controls="ex1-tabs-Reviews" aria-selected="false">Reviews</a>
+    </li>
+</ul>
+<div class="tab-content" id="ex1-content">
+    <div class="tab-pane fade show active" id="exDescription-tabs-Description" role="tabpanel" aria-labelledby="exDescription-tab-Description">
+        <div class="product_desc_full">{product_desc}</div>
+    </div>
+    <div class="tab-pane fade" id="ex1-tabs-Reviews" role="tabpanel" aria-labelledby="ex1-tab-Reviews">
+        {product_rating}
+        {form_rating}
+        {form_rating_without_lightbox}
+    </div>
+</div>
 {related_product:related_products}

@@ -366,7 +366,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             if ($attDisplayType == 'radio') {
                 unset($properties[0]);
 
-                $attributeListType = ($attribute->allow_multiple_selection) ? 'redshopselect.checklist' : 'redshopselect.radiolist';
+                $attributeListType = ($attribute->allow_multiple_selection) ? 'select.checklist' : 'select.radiolist';
 
                 $chkListAttributes['cssClassSuffix'] = ' no-group';
                 $chkListAttributes['onClick']        = "javascript:" . $changePropertyDropdown;
