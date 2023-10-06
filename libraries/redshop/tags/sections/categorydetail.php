@@ -1351,9 +1351,10 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 $productTmpl = RedshopLayoutHelper::render(
                     'tags.common.tag',
                     array(
-                        'tag'  => 'div',
-                        'id'   => 'redcatproducts',
-                        'text' => $productData
+                        'class' => 'row',
+                        'tag'   => 'div',
+                        'id'    => 'redcatproducts',
+                        'text'  => $productData
                     ),
                     '',
                     RedshopLayoutHelper::$layoutOption
@@ -1486,9 +1487,10 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
             $productTmpl = RedshopLayoutHelper::render(
                 'tags.common.tag',
                 array(
-                    'tag'  => 'div',
-                    'id'   => 'productlist',
-                    'text' => $productTmpl
+                    'class' => 'row',
+                    'tag'   => 'div',
+                    'id'    => 'productlist',
+                    'text'  => $productTmpl
                 ),
                 '',
                 RedshopLayoutHelper::$layoutOption

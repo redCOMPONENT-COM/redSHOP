@@ -179,7 +179,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
         /** @var RedshopModelQuestion $model */
         $model = $this->getModel('Question');
 
-        $model->saveorder($cid, $order);
+        $model->saveorder($order, $cid);
 
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=com_redshop&view=questions', $msg);

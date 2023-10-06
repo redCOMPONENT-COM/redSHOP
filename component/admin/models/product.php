@@ -437,7 +437,7 @@ class RedshopModelProduct extends RedshopModel
         return $list;
     }
 
-    public function saveorder($cid = array(), $order = 0)
+    public function saveorder($order = 0, $cid = array())
     {
         $category_id_my = $this->getState('category_id');
 

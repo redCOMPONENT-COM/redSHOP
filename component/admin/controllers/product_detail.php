@@ -865,7 +865,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
         /** @var RedshopModelProduct_Detail $model */
         $model = $this->getModel('product_detail');
-        $model->saveorder($cid, $order);
+        $model->saveorder($order, $cid);
 
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=com_redshop&view=product', $msg);

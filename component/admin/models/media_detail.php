@@ -330,7 +330,7 @@ class RedshopModelMedia_detail extends RedshopModel
      *
      * @return  boolean
      */
-    public function saveorder($cid = array(), $order)
+    public function saveorder($order, $cid = array())
     {
         $row = $this->getTable();
 

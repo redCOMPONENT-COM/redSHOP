@@ -377,12 +377,12 @@ class RedshopModelCategory extends RedshopModelForm
      *
      * @since   1.6
      */
-    public function saveorder($pks = array(), $order = null)
+    public function saveorder($order = null, $pks = array())
     {
         // Get an instance of the table object.
         $table = $this->getTable();
 
-        if (!$table->saveorder($pks, $order)) {
+        if (!$table->saveorder($order, $pks)) {
             /** @scrutinizer ignore-deprecated */
             $this->setError(/** @scrutinizer ignore-deprecated */ $table->getError());
 

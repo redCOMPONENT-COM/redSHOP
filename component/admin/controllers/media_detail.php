@@ -1009,7 +1009,7 @@ class RedshopControllerMedia_Detail extends RedshopController
         /** @var RedshopModelMedia_detail $model */
         $model = $this->getModel('media_detail');
 
-        if (!$model->saveorder($cid, $order)) {
+        if (!$model->saveorder($order, $cid)) {
             echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError(
                 ) . "'); window.history.go(-1); </script>\n";
         }

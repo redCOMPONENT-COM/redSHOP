@@ -3877,7 +3877,7 @@ class RedshopModelProduct_Detail extends RedshopModel
      *
      * @return boolean
      */
-    public function saveorder($cid = array(), $order = array())
+    public function saveorder($order = array(), $cid = array())
     {
         // Get global category id.
         $category_id_my = $this->app->getUserStateFromRequest('category_id', 'category_id', 0);
