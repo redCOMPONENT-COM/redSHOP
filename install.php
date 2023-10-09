@@ -112,7 +112,7 @@ class Com_RedshopInstallerScript
      */
     protected function searchExtension($element, $type, $state = null, $folder = null)
     {
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select('extension_id')
             ->from($db->quoteName("#__extensions"))
@@ -354,7 +354,7 @@ class Com_RedshopInstallerScript
      */
     protected function enablePlugin($extName, $extGroup, $state = 1)
     {
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
         $query->update($db->quoteName("#__extensions"))
             ->set("enabled = " . (int)$state)
@@ -566,7 +566,7 @@ class Com_RedshopInstallerScript
      */
     protected function procedureRemoveColumn()
     {
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Column_Remove');
 
         try
@@ -618,7 +618,7 @@ class Com_RedshopInstallerScript
      */
     protected function procedureUpdateColumn()
     {
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Column_Update');
 
         try
@@ -706,7 +706,7 @@ class Com_RedshopInstallerScript
      */
     protected function procedureIndexRemove()
     {
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Index_Remove');
 
         try
@@ -761,7 +761,7 @@ class Com_RedshopInstallerScript
      */
     protected function procedureIndexAdd()
     {
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Index_Add');
 
         try
@@ -818,7 +818,7 @@ class Com_RedshopInstallerScript
      */
     protected function procedureUniqueIndexAdd()
     {
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Index_Unique_Add');
 
         try
@@ -877,7 +877,7 @@ class Com_RedshopInstallerScript
      */
     protected function procedureFulltextIndexAdd()
     {
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Index_Fulltext_Add');
 
         try
@@ -936,7 +936,7 @@ class Com_RedshopInstallerScript
      */
     protected function procedureConstraintRemove()
     {
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Constraint_Remove');
 
         try
@@ -995,7 +995,7 @@ class Com_RedshopInstallerScript
      */
     protected function procedureConstraintUpdate()
     {
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Constraint_Update');
 
         try
@@ -1066,7 +1066,7 @@ class Com_RedshopInstallerScript
      */
     protected function procedurePrimaryRemove()
     {
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Primary_Remove');
 
         try
@@ -1121,7 +1121,7 @@ class Com_RedshopInstallerScript
      */
     protected function procedurePrimaryAdd()
     {
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Primary_Add');
 
         try

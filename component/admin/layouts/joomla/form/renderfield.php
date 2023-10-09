@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Layout variables
  * ---------------------
@@ -18,16 +20,16 @@ defined('_JEXEC') or die;
  */
 
 if (!empty($displayData['options']['showonEnabled'])) {
-    JHtml::_('redshopjquery.framework');
-    JHtml::_('script', 'jui/cms.js', false, true);
+    HtmlHelper::_('redshopjquery.framework');
+    HtmlHelper::script('system/showon.min.js', ['version' => 'auto', 'relative' => true]);
 }
 
 $class = empty($displayData['options']['class']) ? "" : " " . $displayData['options']['class'];
 $rel   = empty($displayData['options']['rel']) ? "" : " " . $displayData['options']['rel'];
 ?>
-<?php if (!empty($displayData['label']) || !empty($displayData['input'])) : ?>
-    <div class="form-group row-fluid <?php echo $class; ?>"<?php echo $rel; ?>>
-        <?php if (empty($displayData['options']['hiddenLabel'])) : ?>
+<?php if (!empty($displayData['label']) || !empty($displayData['input'])): ?>
+    <div class="form-group row-fluid <?php echo $class; ?>" <?php echo $rel; ?>>
+        <?php if (empty($displayData['options']['hiddenLabel'])): ?>
             <?php echo $displayData['label']; ?>
         <?php endif; ?>
         <div class="col-md-10">

@@ -34,7 +34,7 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
     {
         if ($type == 'update' || $type == 'discover_install') {
             // Reads current (old) version from manifest
-            $db      = Factory::getContainer()->get('DatabaseDriver');
+            $db      = Factory::getDbo();
             $version = $db->setQuery(
                 $db->getQuery(true)
                     ->select($db->qn('manifest_cache'))

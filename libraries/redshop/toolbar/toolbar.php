@@ -10,6 +10,8 @@
 // No direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Utility class for the button bar.
  *
@@ -55,7 +57,7 @@ class RedshopToolbar extends JToolbar
     {
         $html = RedshopLayoutHelper::render('toolbar.redshopgroup', array('toolbar' => $this));
 
-        $bar = JToolbar::getInstance('toolbar');
+        $bar = Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar('toolbar'); // JToolbar::getInstance('toolbar');
         $bar->appendButton('Custom', $html);
     }
 

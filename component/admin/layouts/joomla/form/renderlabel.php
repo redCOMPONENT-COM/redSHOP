@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Layout variables
  * ---------------------
@@ -32,7 +34,7 @@ $title = '';
 
 // If a description is specified, use it to build a tooltip.
 if (!empty($desc)) {
-    JHtml::_('redshopjquery.popover');
+//  HtmlHelper::_('redshopjquery.popover');
     $classes[] = 'hasPopover';
     $title     = ' title="' . trim($text) . '" data-bs-content="' . trim($desc) . '"';
 }

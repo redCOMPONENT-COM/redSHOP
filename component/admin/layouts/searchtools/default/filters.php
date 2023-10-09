@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 $data = $displayData;
 
 // Check for show on fields.
@@ -23,11 +25,13 @@ foreach ($filters as $field) {
             $showonarr[] = array(
                 'field'  => $showon[0],
                 'values' => explode(',', $showon[1]),
-                'op'     => (preg_match(
-                    '%\[(AND|OR)\]' . $showonfield . '%',
-                    $showonstring,
-                    $matches
-                )) ? $matches[1] : ''
+                'op'     => (
+                    preg_match(
+                        '%\[(AND|OR)\]' . $showonfield . '%',
+                        $showonstring,
+                        $matches
+                    )
+                ) ? $matches[1] : ''
             );
         }
 
@@ -43,18 +47,18 @@ foreach ($filters as $field) {
 // Load the form filters
 $filters = $data['view']->filterForm->getGroup('filter');
 ?>
-<?php if ($filters) : ?>
-    <?php foreach ($filters as $fieldName => $field) : ?>
-        <?php if ($fieldName != 'filter_search') : ?>
+<?php if ($filters): ?>
+    <?php foreach ($filters as $fieldName => $field): ?>
+        <?php if ($fieldName != 'filter_search'): ?>
             <?php
             $showOn = '';
             if ($showOnData = $field->getAttribute('dataShowOn')) {
-                JHtml::_('redshopjquery.framework');
-                JHtml::_('script', 'jui/cms.js', false, true);
+                HtmlHelper::_('redshopjquery.framework');
+                HtmlHelper::script('system/showon.min.js', ['version' => 'auto', 'relative' => true]);
                 $showOn = " data-showon='" . $showOnData . "'";
             }
             ?>
-            <div class="js-stools-field-filter"<?php echo $showOn; ?>>
+            <div class="js-stools-field-filter" <?php echo $showOn; ?>>
                 <?php echo $field->input; ?>
             </div>
         <?php endif; ?>

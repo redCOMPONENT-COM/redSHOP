@@ -10,15 +10,16 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('redshopjquery.framework');
-JHtml::_('bootstrap.tooltip');
-JHtml::_(
+HTMLHelper::_('redshopjquery.framework');
+HTMLHelper::_('bootstrap.tooltip');
+HTMLHelper::_(
     'redshopjquery.select2',
     'select:not(".disableBootstrapChosen")',
     array("width" => "auto", "dropdownAutoWidth" => "auto")
 );
-JHtml::_('redshopjquery.popover', '.hasPopover', array('placement' => 'top'));
+HTMLHelper::_('redshopjquery.popover', '.hasPopover', ['placement' => 'top']);
 
 $app = Factory::getApplication();
 $doc = new RedshopHelperDocument;
@@ -26,8 +27,8 @@ $doc = new RedshopHelperDocument;
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.admin.min.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.validation.min.js');
 $doc->addTopScript(JURI::root() . 'media/com_redshop/js/redshop.alert.min.js');
-$doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/redshop.admin.min.css');
-$doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/font-awesome.min.css');
+HTMLHelper::stylesheet('com_redshop/redshop.admin.min.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::stylesheet('com_redshop/font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
 
 // Disable default template files
 $doc->disableStylesheet('media/templates/administrator/atum/css/template.css');
@@ -50,8 +51,3 @@ $doc->disableScript('media/redcore/lib/jquery-migrate.min.js');
 $doc->disableScript('media/redcore/lib/jquery-noconflict.js');
 $doc->disableScript('media/redcore/lib/bootstrap.min.js');
 $doc->disableScript('media/redcore/lib/bootstrap/js/bootstrap.min.js');
-
-// Disable core things
-$doc->disableScript('media/jui/js/jquery.min.js');
-$doc->disableScript('media/jui/js/jquery-noconflict.js');
-$doc->disableScript('media/jui/js/jquery-migrate.min.js');

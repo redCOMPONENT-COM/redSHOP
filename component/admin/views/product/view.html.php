@@ -52,7 +52,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 
         // We don't need toolbar in the modal window.
         if ($layout !== 'element') {
-            $this->/** @scrutinizer ignore-call */ addToolbar();
+            $this-> /** @scrutinizer ignore-call */addToolbar();
         }
 
         $state       = $this->get('State');

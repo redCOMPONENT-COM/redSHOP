@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory; 
+use Joomla\CMS\Factory;
 
 /**
  * Wishlist functions for redSHOP
@@ -75,7 +75,7 @@ class RedshopHelperWishlist
      */
     public static function checkWishlistExist($productId = 0)
     {
-        $productId = (int)$productId;
+        $productId = (int) $productId;
 
         if (!$productId) {
             return false;
@@ -107,7 +107,7 @@ class RedshopHelperWishlist
      */
     public static function getUserWishlist($userId = 0)
     {
-        $userId = (int)$userId;
+        $userId = (int) $userId;
 
         if (!$userId) {
             $userId = JFactory::getUser()->id;
@@ -158,7 +158,7 @@ class RedshopHelperWishlist
             return null;
         }
 
-        $db = Factory::getContainer()->get('DatabaseDriver');
+        $db = Factory::getDbo();
 
         $wishlist                = new stdClass;
         $wishlist->wishlist_name = 'Default';
@@ -186,7 +186,7 @@ class RedshopHelperWishlist
      */
     public static function getWishlist($wishlistId = 0)
     {
-        $wishlistId = (int)$wishlistId;
+        $wishlistId = (int) $wishlistId;
 
         if (!$wishlistId) {
             return false;
@@ -314,7 +314,7 @@ class RedshopHelperWishlist
             ->select('*')
             ->from($db->qn('#__redshop_wishlist_userfielddata'))
             ->where($db->qn('wishlist_id') . ' = ' . $db->quote($wishlistId))
-            ->where($db->qn('product_id') . ' = ' . (int)$productId)
+            ->where($db->qn('product_id') . ' = ' . (int) $productId)
             ->order($db->qn('fieldid') . ' ASC');
 
         return $db->setQuery($query)->loadObjectList();

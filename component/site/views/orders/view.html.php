@@ -13,6 +13,13 @@ use Joomla\CMS\Factory;
 
 class RedshopViewOrders extends RedshopView
 {
+    /**
+     * The pagination object.
+     *
+     * @var  JPagination
+     */
+    public $pagination;
+    
     public function display($tpl = null)
     {
         $app  = Factory::getApplication();

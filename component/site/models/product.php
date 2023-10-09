@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 defined('_JEXEC') or die;
-
 
 /**
  * Class productModelproduct
@@ -52,7 +52,7 @@ class RedshopModelProduct extends RedshopModel
 
         $GLOBALS['childproductlist'] = array();
 
-        $this->setId((int)$pid);
+        $this->setId((int) $pid);
         $this->_catid = $this->input->getInt('cid', 0);
     }
 
@@ -82,7 +82,7 @@ class RedshopModelProduct extends RedshopModel
         // Shopper group - choose from manufactures Start
         $shopperGroupManufactures = RedshopHelperShopper_Group::getShopperGroupManufacturers();
 
-        $db    = JFactory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select('p.*')
             ->select($db->qn('c.id', 'category_id'))
@@ -111,7 +111,7 @@ class RedshopModelProduct extends RedshopModel
                     'ppx.product_id'
                 )
             )
-            ->where($db->qn('p.product_id') . ' = ' . $db->q((int)$this->_id));
+            ->where($db->qn('p.product_id') . ' = ' . $db->q((int) $this->_id));
 
         if (!empty($shopperGroupManufactures)) {
             $shopperGroupManufactures = explode(',', $shopperGroupManufactures);
@@ -154,8 +154,8 @@ class RedshopModelProduct extends RedshopModel
     {
         $db    = JFactory::getDbo();
         $query = "SELECT email from " . $this->_table_prefix . "product_rating WHERE email = " . $db->quote(
-                $email
-            ) . " AND email != '' AND product_id = " . (int)$productId . " limit 0,1 ";
+            $email
+        ) . " AND email != '' AND product_id = " . (int) $productId . " limit 0,1 ";
         $db->setQuery($query);
         $chkemail = $db->loadResult();
 
@@ -183,14 +183,14 @@ class RedshopModelProduct extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -238,16 +238,18 @@ class RedshopModelProduct extends RedshopModel
         if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != "") {
             $sendto = explode(",", Redshop::getConfig()->get('ADMINISTRATOR_EMAIL'));
 
-            if (JFactory::getMailer()->sendMail(
-                $from,
-                $fromname,
-                $sendto,
-                $subject,
-                $data_add,
-                $mode = 1,
-                null,
-                $mailbcc
-            )) {
+            if (
+                JFactory::getMailer()->sendMail(
+                    $from,
+                    $fromname,
+                    $sendto,
+                    $subject,
+                    $data_add,
+                    $mode = 1,
+                    null,
+                    $mailbcc
+                )
+            ) {
                 return true;
             } else {
                 return false;
@@ -275,7 +277,7 @@ class RedshopModelProduct extends RedshopModel
     {
         $query = "UPDATE " . $this->_table_prefix . "product "
             . "SET visited=visited + 1 "
-            . "WHERE product_id = " . (int)$productId;
+            . "WHERE product_id = " . (int) $productId;
         $this->_db->setQuery($query);
         $this->_db->execute();
     }
@@ -286,14 +288,14 @@ class RedshopModelProduct extends RedshopModel
 
         if (!$tags->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $tags->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$tags->getError());
 
             return false;
         }
 
         if (!$tags->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $tags->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$tags->getError());
 
             return false;
         }
@@ -307,14 +309,14 @@ class RedshopModelProduct extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -359,7 +361,7 @@ class RedshopModelProduct extends RedshopModel
 
         $wishlist             = new stdClass;
         $wishlist->product_id = $data['product_id'];
-        $wishlist->comment    = isset($data ['comment']) ? $data ['comment'] : "";
+        $wishlist->comment    = isset($data['comment']) ? $data['comment'] : "";
         $wishlist->cdate      = $data['cdate'];
 
         for ($k = 0, $kn = count($row_data); $k < $kn; $k++) {
@@ -413,7 +415,7 @@ class RedshopModelProduct extends RedshopModel
     {
         $user  = JFactory::getUser();
         $query = "INSERT INTO " . $this->_table_prefix . "product_tags_xref "
-            . "VALUES('" . (int)$tags->tags_id . "','" . (int)$post['product_id'] . "','" . (int)$user->id . "')";
+            . "VALUES('" . (int) $tags->tags_id . "','" . (int) $post['product_id'] . "','" . (int) $user->id . "')";
         $this->_db->setQuery($query);
         $this->_db->execute();
 
@@ -427,8 +429,8 @@ class RedshopModelProduct extends RedshopModel
             . "LEFT JOIN " . $this->_table_prefix . "product_tags_xref AS ptx ON pt.tags_id=ptx.tags_id "
             . "WHERE pt.tags_name LIKE " . /** @scrutinizer ignore-type */
             $this->_db->quote($tagname) . " "
-            . "AND ptx.product_id = " . (int)$productid . " "
-            . "AND ptx.users_id = " . (int)$user->id;
+            . "AND ptx.product_id = " . (int) $productid . " "
+            . "AND ptx.users_id = " . (int) $user->id;
         $this->_db->setQuery($query);
         $list = $this->_db->loadObject();
 
@@ -439,8 +441,8 @@ class RedshopModelProduct extends RedshopModel
     {
         $user  = JFactory::getUser();
         $query = "SELECT * FROM " . $this->_table_prefix . "wishlist "
-            . "WHERE product_id = " . (int)$productId . " "
-            . "AND user_id = " . (int)$user->id;
+            . "WHERE product_id = " . (int) $productId . " "
+            . "AND user_id = " . (int) $user->id;
         $this->_db->setQuery($query);
         $list = $this->_db->loadObject();
 
@@ -471,11 +473,11 @@ class RedshopModelProduct extends RedshopModel
         $where = "";
 
         if ($mid != 0) {
-            $where .= "AND media_id = " . (int)$mid . " ";
+            $where .= "AND media_id = " . (int) $mid . " ";
         }
 
         if ($id != 0) {
-            $where .= "AND id = " . (int)$id . " ";
+            $where .= "AND id = " . (int) $id . " ";
         }
 
         if ($media != 0) {
@@ -496,7 +498,7 @@ class RedshopModelProduct extends RedshopModel
     {
         $query = "UPDATE " . $this->_table_prefix . "product_download "
             . "SET download_max=(download_max - 1) "
-            . "WHERE download_id = " . (int)$did;
+            . "WHERE download_id = " . (int) $did;
         $this->_db->setQuery($query);
         $ret = $this->_db->execute();
 
@@ -536,14 +538,14 @@ class RedshopModelProduct extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }

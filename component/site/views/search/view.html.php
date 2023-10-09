@@ -127,11 +127,11 @@ class RedshopViewSearch extends RedshopView
             $keyword = $app->input->getString('keyword');
             $layout  = $app->input->getCmd('layout', 'default');
 
-            $db    = Factory::getContainer()->get('DatabaseDriver');
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select($db->qn('name'))
                 ->from($db->qn('#__redshop_category'))
-                ->where($db->qn('id') . ' = ' . $db->q((int)$input->getInt('cid', 0)));
+                ->where($db->qn('id') . ' = ' . $db->q((int) $input->getInt('cid', 0)));
 
             $cat_name = $db->setQuery($query)->loadResult();
 
@@ -177,22 +177,22 @@ class RedshopViewSearch extends RedshopView
             $template_org = str_replace("{category_loop_start}", "", $template_org);
             $template_org = str_replace("{category_loop_end}", "", $template_org);
             $print        = $app->input->getInt('print');
-            $p_url        = @ explode('?', $app->input->server->get('REQUEST_URI', '', 'raw'));
+            $p_url        = @explode('?', $app->input->server->get('REQUEST_URI', '', 'raw'));
             $print_tag    = '';
 
             if ($print) {
                 $print_tag = "<a onclick='window.print();' title='" . Text::_(
-                        'COM_REDSHOP_PRINT_LBL'
-                    ) . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . Text::_(
-                        'COM_REDSHOP_PRINT_LBL'
-                    ) . "' title='" . Text::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
+                    'COM_REDSHOP_PRINT_LBL'
+                ) . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . Text::_(
+                            'COM_REDSHOP_PRINT_LBL'
+                        ) . "' title='" . Text::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
             } else {
                 $print_url = $url . "index.php?option=com_redshop&view=search&print=1&tmpl=component";
                 $print_tag = "<a href='#' onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")' title='" . Text::_(
-                        'COM_REDSHOP_PRINT_LBL'
-                    ) . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . Text::_(
-                        'COM_REDSHOP_PRINT_LBL'
-                    ) . "' title='" . Text::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
+                    'COM_REDSHOP_PRINT_LBL'
+                ) . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . Text::_(
+                            'COM_REDSHOP_PRINT_LBL'
+                        ) . "' title='" . Text::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
             }
 
             if (strstr($template_org, '{compare_product_div}')) {
@@ -510,10 +510,10 @@ class RedshopViewSearch extends RedshopView
 
                     if (count($related_product) > 0) {
                         $linktortln = JURI::root(
-                            ) . "index.php?option=com_redshop&view=product&pid=" . $this->search[$i]->product_id . "&tmpl=component&template=" . $rtln . "&for=rtln";
+                        ) . "index.php?option=com_redshop&view=product&pid=" . $this->search[$i]->product_id . "&tmpl=component&template=" . $rtln . "&for=rtln";
                         $rtlna      = '<a class="modal" href="' . $linktortln . '" rel="{handler:\'iframe\',size:{x:' . $rtlnfwidth . ',y:' . $rtlnfheight . '}}" >' . Text::_(
-                                'COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX'
-                            ) . '</a>';
+                            'COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX'
+                        ) . '</a>';
                     } else {
                         $rtlna = "";
                     }
@@ -585,11 +585,13 @@ class RedshopViewSearch extends RedshopView
                             $alttext = $media_documents[$m]->media_name;
                         }
 
-                        if (JFile::exists(
-                            REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name
-                        )) {
+                        if (
+                            JFile::exists(
+                                REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name
+                            )
+                        ) {
                             $downlink = JURI::root(
-                                ) . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
+                            ) . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
                             $more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
                             $more_doc .= $alttext;
                             $more_doc .= "</a></div>";
@@ -624,7 +626,7 @@ class RedshopViewSearch extends RedshopView
                             0,
                             $this->search[$i]->product_id
                         );
-                        $ufield            .= $productUserFields[1];
+                        $ufield .= $productUserFields[1];
 
                         if ($productUserFields[1] != "") {
                             $count_no_user_field++;
@@ -669,7 +671,7 @@ class RedshopViewSearch extends RedshopView
                                 0,
                                 $this->search[$i]->product_id
                             );
-                            $ufield            .= $productUserFields[1];
+                            $ufield .= $productUserFields[1];
 
                             if ($productUserFields[1] != "") {
                                 $count_no_user_field++;

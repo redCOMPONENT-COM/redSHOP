@@ -43,7 +43,7 @@ abstract class JHtmlRedshop
         string $alt = 'Tooltip'
     ): string {
         if (!$text) {
-            $alt = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
+            $alt  = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
             $text = HTMLHelper::image($image, $alt, null, true);
         }
 
@@ -62,11 +62,11 @@ abstract class JHtmlRedshop
         }
 
         if (version_compare(JVERSION, '4.0', '<')) {
-            $attr .= ' data-bs-content="' . htmlspecialchars($tooltip) . '"';
+            $attr .= ' data-content="' . htmlspecialchars($tooltip) . '"';
         } else {
             $attr .= ' data-bs-content="' . htmlspecialchars($tooltip) . '"';
         }
 
-        return '<span class="hasPopover far fa-question-circle" ' . $attr . ' data-bs-content="' . $attr . '"></span>';
+        return '<span class="hasPopover far fa-question-circle" ' . $attr . '"></span>';
     }
 }
