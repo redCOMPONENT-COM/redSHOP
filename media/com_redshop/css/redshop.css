@@ -2863,13 +2863,6 @@ input[type="button"].btn-block {
   width: 100%;
 }
 
-[class^="icon-"]::before,
-[class*=" icon-"]::before {
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-}
-
 .tab-content>.tab-pane {
   display: none;
 }
@@ -5794,6 +5787,11 @@ body {
 .wishlist_link {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+a.redshop-wishlist-link {
+    color: inherit;
+    text-decoration: none;
 }
 
 .product-addtocart-cont {

@@ -73,21 +73,21 @@
         </div>
     </div>
 </div>
-<ul class="nav nav-tabs" id="ex1" role="tablist">
+<ul class="joomla-tabs nav nav-tabs" id="ex1" role="tablist">
     <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="ex1-tab-Description" data-mdb-toggle="tab" href="#ex1-tabs-Description" role="tab"
-            aria-controls="ex1-tabs-Description" aria-selected="true">Description</a>
+        <a class="nav-link active" id="tabs-description" data-bs-toggle="tab" href="#tab-description" role="tab"
+            aria-controls="tabs-description" aria-selected="true">Description</a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" id="ex1-tab-Reviews" data-mdb-toggle="tab" href="#ex1-tabs-Reviews" role="tab"
-            aria-controls="ex1-tabs-Reviews" aria-selected="false">Reviews</a>
+        <a class="nav-link" id="tabs-reviews" data-bs-toggle="tab" href="#tab-reviews" role="tab"
+            aria-controls="tabs-reviews" aria-selected="false">Reviews</a>
     </li>
 </ul>
 <div class="tab-content" id="ex1-content">
-    <div class="tab-pane fade show active" id="exDescription-tabs-Description" role="tabpanel" aria-labelledby="exDescription-tab-Description">
+    <div class="tab-pane fade show active" id="tab-description" role="tabpanel" aria-labelledby="tab-description">
         <div class="product_desc_full">{product_desc}</div>
     </div>
-    <div class="tab-pane fade" id="ex1-tabs-Reviews" role="tabpanel" aria-labelledby="ex1-tab-Reviews">
+    <div class="tab-pane fade" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews">
         {product_rating}
         {form_rating}
         {form_rating_without_lightbox}

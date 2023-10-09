@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal');
+use Joomla\CMS\HTML\HTMLHelper;
+
+HtmlHelper::_('bootstrap.modal');
+HTMLHelper::_('bootstrap.tab', '.joomla-tabs', []);
 
 $watched = $this->session->get('watched_product', array());
 
@@ -44,5 +47,3 @@ echo $templateDesc = \RedshopTagsReplacer::_(
  * passed by reference.
  */
 $this->dispatcher->trigger('onAfterDisplayProduct', array(&$templateDesc, $this->params, $this->data));
-
-

@@ -22,10 +22,12 @@
 <div class="clr"></div>
 <div class="category_box_wrapper row grid">
     {product_loop_start}
-    <div class="category_box_outside col-sm-6 col-md-4">
+    <div class="category_box_outside col-lg-3 col-md-4 col-sm-6 col-xs-6">
         <div class="category_box_inside">
             <div class="category_product_image">{product_thumb_image}</div>
-            <div class="category_product_title"><h3>{product_name}</h3></div>
+            <div class="category_product_title">
+                <h3>{product_name}</h3>
+            </div>
             <div class="category_product_price">
                 {if product_on_sale}
                 <div class="category_product_oldprice">

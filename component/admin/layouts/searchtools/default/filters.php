@@ -7,13 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 
 $data = $displayData;
 
-// Check for show on fields.
+// Load the form filters
 $filters = $data['view']->filterForm->getGroup('filter');
 
 foreach ($filters as $field) {
@@ -44,21 +45,18 @@ foreach ($filters as $field) {
     }
 }
 
-// Load the form filters
-$filters = $data['view']->filterForm->getGroup('filter');
 ?>
-<?php if ($filters): ?>
-    <?php foreach ($filters as $fieldName => $field): ?>
-        <?php if ($fieldName != 'filter_search'): ?>
-            <?php
-            $showOn = '';
-            if ($showOnData = $field->getAttribute('dataShowOn')) {
-                HtmlHelper::_('redshopjquery.framework');
-                HtmlHelper::script('system/showon.min.js', ['version' => 'auto', 'relative' => true]);
-                $showOn = " data-showon='" . $showOnData . "'";
-            }
-            ?>
-            <div class="js-stools-field-filter" <?php echo $showOn; ?>>
+<?php if ($filters) : ?>
+    <?php foreach ($filters as $fieldName => $field) : ?>
+        <?php if ($fieldName !== 'filter_search') : ?>
+            <?php $dataShowOn = ''; ?>
+            <?php if ($field->showon) : ?>
+                <?php HtmlHelper::_('redshopjquery.framework'); ?>
+                <?php HtmlHelper::script('system/showon.min.js', ['version' => 'auto', 'relative' => true]); ?>
+                <?php $dataShowOn = " data-showon='" . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . "'"; ?>
+            <?php endif; ?>
+            <div class="js-stools-field-filter"<?php echo $dataShowOn; ?>>
+                <span class="visually-hidden"><?php echo $field->label; ?></span>
                 <?php echo $field->input; ?>
             </div>
         <?php endif; ?>

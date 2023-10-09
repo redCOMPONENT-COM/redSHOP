@@ -3,10 +3,13 @@
  * @package     RedSHOP.Library
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2023 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 defined('JPATH_PLATFORM') or die;
@@ -28,8 +31,8 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
      * @var     array
      * @since   1.5
      */
-    static protected $optionDefaults = array(
-        'option' => array(
+    protected static $optionDefaults = [
+        'option' => [
             'option.attr'         => null,
             'option.disable'      => 'disable',
             'option.id'           => null,
@@ -40,15 +43,15 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
             'option.text'         => 'text',
             'option.text.toHtml'  => true,
             'option.class'        => 'class',
-            'option.onclick'      => 'onclick'
-        )
-    );
+            'option.onclick'      => 'onclick',
+        ],
+    ];
 
     /**
      * Generates a yes/no radio list.
      *
      * @param   string  $name      The value of the HTML name attribute
-     * @param   array   $attribs   Additional HTML attributes for the <select> tag
+     * @param   array   $attribs   Additional HTML attributes for the `<select>` tag
      * @param   string  $selected  The key that is selected
      * @param   string  $yes       Language key for Yes
      * @param   string  $no        Language key for no
@@ -57,19 +60,19 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
      * @return  string  HTML for the radio list
      *
      * @since   1.5
-     * @see     JFormFieldRadio
+     * @see     \Joomla\CMS\Form\Field\RadioField
      */
     public static function booleanlist(
         $name,
-        $attribs = array(),
+        $attribs = [],
         $selected = null,
         $yes = 'JYES',
         $no = 'JNO',
         $id = false
     ) {
-        $arr = array(JHtml::_('select.option', '0', JText::_($no)), JHtml::_('select.option', '1', JText::_($yes)));
+        $arr = [HTMLHelper::_('select.option', '0', Text::_($no)), HTMLHelper::_('select.option', '1', Text::_($yes))];
 
-        return JHtml::_('redshopselect.radiolist', $arr, $name, $attribs, 'value', 'text', (int)$selected, $id);
+        return HTMLHelper::_('redshopselect.radiolist', $arr, $name, $attribs, 'value', 'text', (int) $selected, $id);
     }
 
     /**

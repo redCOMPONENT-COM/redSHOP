@@ -20,7 +20,7 @@ class RedshopConfig
 
     public $CATEGORY_PRODUCT_THUMB_WIDTH = '150';
 
-    public $CATEGORY_PRODUCT_THUMB_HEIGHT = '100';
+    public $CATEGORY_PRODUCT_THUMB_HEIGHT = '150';
 
     public $CATEGORY_PRODUCT_THUMB_WIDTH_2 = '0';
 

@@ -10,7 +10,11 @@
 
 defined('_JEXEC') or die;
 
-$app              = JFactory::getApplication();
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
+$app              = Factory::getApplication();
 $extraFieldHelper = extra_field::getInstance();
 
 $model      = $this->getModel('product');
@@ -21,14 +25,14 @@ $allowOrder = ($listOrder == 'x.ordering' && strtolower($listDirn) == 'asc');
 
 if ($allowOrder) {
     $saveOrderingUrl = 'index.php?option=com_redshop&task=product.saveOrderAjax';
-    JHtml::_('redshopsortable.sortable', 'adminForm', 'adminForm', 'asc', $saveOrderingUrl);
+    HtmlHelper::_('redshopsortable.sortable', 'adminForm', 'adminForm', 'asc', $saveOrderingUrl);
 }
 
 $category_id = $this->state->get('category_id', 0);
 
-$user   = JFactory::getUser();
+$user   = Factory::getUser();
 $userId = (int) $user->id;
-JHtml::_('redshopjquery.framework');
+HtmlHelper::_('redshopjquery.framework');
 ?>
 <script language="javascript" type="text/javascript">
     Joomla.submitform = submitform = Joomla.submitbutton = submitbutton = function (pressbutton) {
@@ -47,7 +51,7 @@ JHtml::_('redshopjquery.framework');
         }
 
         if (pressbutton == 'remove') {
-            if (confirm("<?php echo JText::_('COM_REDSHOP_PRODUCT_DELETE_CONFIRM') ?>") != true) {
+            if (confirm("<?php echo Text::_('COM_REDSHOP_PRODUCT_DELETE_CONFIRM') ?>") != true) {
                 form.view.value = 'product';
                 form.task.value = '';
                 return false;
@@ -67,10 +71,10 @@ JHtml::_('redshopjquery.framework');
         var form = document.adminForm;
         if (form.boxchecked.value == 0) {
             jQuery('#product_template').val(0).trigger("liszt:updated");
-            alert('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_PRODUCT'); ?>');
+            alert('<?php echo Text::_('COM_REDSHOP_PLEASE_SELECT_PRODUCT'); ?>');
         } else {
             form.task.value = 'assignTemplate';
-            if (confirm("<?php echo JText::_('COM_REDSHOP_SURE_WANT_TO_ASSIGN_TEMPLATE'); ?>")) {
+            if (confirm("<?php echo Text::_('COM_REDSHOP_SURE_WANT_TO_ASSIGN_TEMPLATE'); ?>")) {
                 form.submit();
             } else {
                 jQuery('#product_template').val(0).trigger("liszt:updated");
@@ -95,10 +99,10 @@ JHtml::_('redshopjquery.framework');
             <div class="filterItem">
                 <div class="btn-wrapper input-append">
                     <input type="text" name="keyword" id="keyword" value="<?php echo $this->keyword; ?>"
-                        placeholder="<?php echo JText::_("COM_REDSHOP_USER_FILTER") ?>">
-                    <input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+                        placeholder="<?php echo Text::_("COM_REDSHOP_USER_FILTER") ?>">
+                    <input type="submit" class="btn" value="<?php echo Text::_("COM_REDSHOP_SEARCH") ?>">
                     <input type="button" class="btn reset" onclick="resetFilter();this.form.submit();"
-                        value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>" />
+                        value="<?php echo Text::_('COM_REDSHOP_RESET'); ?>" />
                 </div>
             </div>
             <div class="filterItem">
@@ -106,29 +110,29 @@ JHtml::_('redshopjquery.framework');
                     <option value="p.product_name" <?php if ($this->search_field == 'p.product_name') {
                         echo "selected='selected'";
                     } ?>>
-                        <?php echo JText::_("COM_REDSHOP_PRODUCT_NAME") ?>
+                        <?php echo Text::_("COM_REDSHOP_PRODUCT_NAME") ?>
                     </option>
                     <option value="c.name" <?php if ($this->search_field == 'c.category_name') {
                         echo "selected='selected'";
                     } ?>>
-                        <?php echo JText::_("COM_REDSHOP_CATEGORY") ?>
+                        <?php echo Text::_("COM_REDSHOP_CATEGORY") ?>
                     </option>
                     <option value="p.product_number" <?php if ($this->search_field == 'p.product_number') {
                         echo "selected='selected'";
                     } ?>>
-                        <?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER") ?>
+                        <?php echo Text::_("COM_REDSHOP_PRODUCT_NUMBER") ?>
                     </option>
                     <option value="p.name_number" <?php if ($this->search_field == 'p.name_number') {
                         echo "selected='selected'";
                     } ?>>
-                        <?php echo JText::_("COM_REDSHOP_PRODUCT") . ' ' . JText::_(
+                        <?php echo Text::_("COM_REDSHOP_PRODUCT") . ' ' . Text::_(
                             "COM_REDSHOP_NAME_AND_NUMBER"
                         ); ?>
                     </option>
                     <option value="pa.property_number" <?php if ($this->search_field == 'pa.property_number') {
                         echo "selected='selected'";
                     } ?>>
-                        <?php echo JText::_("COM_REDSHOP_ATTRIBUTE_SKU") ?>
+                        <?php echo Text::_("COM_REDSHOP_ATTRIBUTE_SKU") ?>
                     </option>
                 </select>
             </div>
@@ -148,7 +152,7 @@ JHtml::_('redshopjquery.framework');
                 <tr>
                     <?php if ($category_id < 0): ?>
                         <th width="5">
-                            <?php echo JText::_('COM_REDSHOP_NUM'); ?>
+                            <?php echo Text::_('COM_REDSHOP_NUM'); ?>
                         </th>
                     <?php endif ?>
                     <?php if ($category_id > 0): ?>
@@ -160,10 +164,10 @@ JHtml::_('redshopjquery.framework');
                         </th>
                     <?php endif; ?>
                     <th width="20">
-                        <?php echo JHtml::_('redshopgrid.checkall'); ?>
+                        <?php echo HtmlHelper::_('redshopgrid.checkall'); ?>
                     </th>
                     <th class="title">
-                        <?php echo JHTML::_(
+                        <?php echo HtmlHelper::_(
                             'grid.sort',
                             'COM_REDSHOP_PRODUCT_NAME',
                             'p.product_name',
@@ -172,7 +176,7 @@ JHtml::_('redshopjquery.framework');
                         ); ?>
                     </th>
                     <th class="title">
-                        <?php echo JHTML::_(
+                        <?php echo HtmlHelper::_(
                             'grid.sort',
                             'COM_REDSHOP_PRODUCT_NUMBER',
                             'p.product_number',
@@ -181,7 +185,7 @@ JHtml::_('redshopjquery.framework');
                         ); ?>
                     </th>
                     <th class="title">
-                        <?php echo JHTML::_(
+                        <?php echo HtmlHelper::_(
                             'grid.sort',
                             'COM_REDSHOP_PRODUCT_PRICE',
                             'p.product_price',
@@ -191,17 +195,17 @@ JHtml::_('redshopjquery.framework');
                     </th>
                     <?php foreach ($this->list_in_products as $listInProduct): ?>
                         <th nowrap="nowrap">
-                            <?php echo JText::_($listInProduct->title); ?>
+                            <?php echo Text::_($listInProduct->title); ?>
                         </th>
                     <?php endforeach; ?>
                     <th>
-                        <?php echo JText::_('COM_REDSHOP_MEDIA'); ?>
+                        <?php echo Text::_('COM_REDSHOP_MEDIA'); ?>
                     </th>
                     <th>
-                        <?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>
+                        <?php echo Text::_('COM_REDSHOP_WRAPPER'); ?>
                     </th>
                     <th>
-                        <?php echo JHTML::_(
+                        <?php echo HtmlHelper::_(
                             'grid.sort',
                             'COM_REDSHOP_NUMBER_OF_VIEWS',
                             'p.visited',
@@ -211,7 +215,7 @@ JHtml::_('redshopjquery.framework');
                     </th>
 
                     <th>
-                        <?php echo JHTML::_(
+                        <?php echo HtmlHelper::_(
                             'grid.sort',
                             'COM_REDSHOP_CATEGORY',
                             'category_id',
@@ -220,7 +224,7 @@ JHtml::_('redshopjquery.framework');
                         ); ?>
                     </th>
                     <th>
-                        <?php echo JHTML::_(
+                        <?php echo HtmlHelper::_(
                             'grid.sort',
                             'COM_REDSHOP_MANUFACTURER',
                             'm.name',
@@ -229,10 +233,10 @@ JHtml::_('redshopjquery.framework');
                         ); ?>
                     </th>
                     <th>
-                        <?php echo JText::_('COM_REDSHOP_CUSTOMER_REVIEWS'); ?>
+                        <?php echo Text::_('COM_REDSHOP_CUSTOMER_REVIEWS'); ?>
                     </th>
                     <th width="5%" nowrap="nowrap">
-                        <?php echo JHTML::_(
+                        <?php echo HtmlHelper::_(
                             'grid.sort',
                             'COM_REDSHOP_PUBLISHED',
                             'p.published',
@@ -241,7 +245,7 @@ JHtml::_('redshopjquery.framework');
                         ); ?>
                     </th>
                     <th width="5%" nowrap="nowrap">
-                        <?php echo JHTML::_(
+                        <?php echo HtmlHelper::_(
                             'grid.sort',
                             'COM_REDSHOP_ID',
                             'p.product_id',
@@ -258,8 +262,8 @@ JHtml::_('redshopjquery.framework');
                 $link        = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $product->product_id
                 );
-                $published   = JHtml::_('jgrid.published', $product->published, $index, '', 1);
-                ?>
+                $published   = HtmlHelper::_('jgrid.published', $product->published, $index, '', 1);
+                ?> 
                 <tr class="<?php echo "row$k"; ?>">
                     <?php if ($category_id < 0): ?>
                         <td>
@@ -276,7 +280,7 @@ JHtml::_('redshopjquery.framework');
                         </td>
                     <?php } ?>
                     <td>
-                        <?php echo @JHTML::_('grid.checkedout', $product, $index); ?>
+                        <?php echo @HtmlHelper::_('grid.checkedout', $product, $index); ?>
                     </td>
                     <td>
                         <?php
@@ -287,8 +291,8 @@ JHtml::_('redshopjquery.framework');
                         ) || $product->checked_out == $userId || $product->checked_out == 0;
                         ?>
                         <?php if ($product->checked_out): ?>
-                            <?php $checkedOut = JFactory::getUser($product->checked_out); ?>
-                            <?php echo JHtml::_(
+                            <?php $checkedOut = Factory::getUser($product->checked_out); ?>
+                            <?php echo HtmlHelper::_(
                                 'jgrid.checkedout',
                                 $index,
                                 $checkedOut->name,
@@ -301,7 +305,7 @@ JHtml::_('redshopjquery.framework');
                         if ($canCheckin) {
                             if (isset($product->children)) {
                                 ?>
-                                <a href="<?php echo $link; ?>" title="<?php echo JText::_(
+                                <a href="<?php echo $link; ?>" title="<?php echo Text::_(
                                        'COM_REDSHOP_EDIT_PRODUCT'
                                    ); ?>">
                                     <?php echo $product->treename; ?>
@@ -310,7 +314,7 @@ JHtml::_('redshopjquery.framework');
                             } else {
                                 if ($product->product_parent_id == 0) {
                                     ?>
-                                    <a href="<?php echo $link; ?>" title="<?php echo JText::_(
+                                    <a href="<?php echo $link; ?>" title="<?php echo Text::_(
                                            'COM_REDSHOP_EDIT_PRODUCT'
                                        ); ?>">
                                         <?php echo $product->treename; ?>
@@ -320,7 +324,7 @@ JHtml::_('redshopjquery.framework');
                                     $pro_array = Redshop::product((int) $product->product_parent_id);
 
                                     ?>
-                                    <a href="<?php echo $link; ?>" title="<?php echo JText::_(
+                                    <a href="<?php echo $link; ?>" title="<?php echo Text::_(
                                            'COM_REDSHOP_EDIT_PRODUCT'
                                        ); ?>">
                                         <?php echo $product->treename; ?>
@@ -334,7 +338,7 @@ JHtml::_('redshopjquery.framework');
                             <?php
                             if (isset($product->children)) {
                                 ?>
-                                <a href="<?php echo $link; ?>" title="<?php echo JText::_(
+                                <a href="<?php echo $link; ?>" title="<?php echo Text::_(
                                        'COM_REDSHOP_EDIT_PRODUCT'
                                    ); ?>">
                                     <?php echo $product->treename; ?>
@@ -343,7 +347,7 @@ JHtml::_('redshopjquery.framework');
                             } else {
                                 if ($product->product_parent_id == 0) {
                                     ?>
-                                    <a href="<?php echo $link; ?>" title="<?php echo JText::_(
+                                    <a href="<?php echo $link; ?>" title="<?php echo Text::_(
                                            'COM_REDSHOP_EDIT_PRODUCT'
                                        ); ?>">
                                         <?php echo $product->treename; ?>
@@ -353,7 +357,7 @@ JHtml::_('redshopjquery.framework');
                                     $pro_array = Redshop::product((int) $product->product_parent_id);
 
                                     ?>
-                                    <a href="<?php echo $link; ?>" title="<?php echo JText::_(
+                                    <a href="<?php echo $link; ?>" title="<?php echo Text::_(
                                            'COM_REDSHOP_EDIT_PRODUCT'
                                        ); ?>">
                                         <?php echo $product->treename; ?>
@@ -407,7 +411,7 @@ JHtml::_('redshopjquery.framework');
                             id="ModalSelectWrapperButton<?php echo $index ?>"
                             data-url="<?php echo 'index.php?option=com_redshop&showall=1&view=wrapper&layout=edit&tmpl=component&product_id=' . $product->product_id ?>">
                             <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
-                                alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>">
+                                alt="<?php echo Text::_('COM_REDSHOP_WRAPPER'); ?>">
                             <?php echo "(" . count(
                                 $wrapper
                             ) . ")"; ?>
@@ -432,7 +436,7 @@ JHtml::_('redshopjquery.framework');
                     <td>
                         <a
                             href="index.php?option=com_redshop&view=rating&task=edit&cid[]=0&pid=<?php echo $product->product_id ?>">
-                            <?php echo JText::_(
+                            <?php echo Text::_(
                                 'COM_REDSHOP_ADD_REVIEW'
                             ); ?>
                         </a>
@@ -462,7 +466,7 @@ JHtml::_('redshopjquery.framework');
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
     <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
-    <?php echo JHtml::_('form.token'); ?>
+    <?php echo HtmlHelper::_('form.token'); ?>
 </form>
 <?php
 
