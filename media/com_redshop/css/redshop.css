@@ -611,3 +611,47 @@ hr {
     margin-bottom: 15px;
     margin-top: 15px;
 }
+
+label.btn.btn-outline-secondary {
+    background: rgb(234 237 240);
+    border-color: #ced4da;
+    padding: 10px;
+}
+
+label.btn.btn-outline-secondary.active.btn-success {
+    background: rgb(0, 117, 0);
+    border-color: #ced4da;
+    padding: 10px;
+}
+
+div#redshopcomponent {
+    margin-bottom: 20px;
+}
+
+.product_rating {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.nav.nav-tabs {
+    background-color: unset;
+    border: unset;
+    -webkit-box-shadow: unset;
+    box-shadow: unset;
+}
+
+.nav.nav-tabs .nav-link,
+.nav.nav-tabs .nav-item:last-of-type .nav-link {
+    -webkit-box-shadow: unset;
+    box-shadow: unset;
+}
+
+.nav.nav-tabs .nav-link.active {
+    background-color: unset;
+    background-image: unset;
+}
+
+.nav.nav-tabs .nav-item:first-of-type .nav-link.active {
+    -webkit-box-shadow: unset;
+    box-shadow: unset;
+}
