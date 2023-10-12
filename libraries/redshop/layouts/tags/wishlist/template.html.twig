@@ -37,23 +37,34 @@
                 <br/>
             {% else %}
                 <div style="clear:both">
-                    <a class="redcolorproductimg" href='{{ link }}' data-productid='{{ myProductId }}'>
-                        <input type='button' value='{{ jtext('COM_REDSHOP_SAVE_WISHLIST') }}'>
-                    </a>
+                    {{ saveWishlistModal }}
                 </div>
                 <br/>
             {% endif %}
         {% endif %}
 
         {% if wishlists|length > 0 %}
-            <table>
-                {% for wishlist in wishlists %}
-                    <tr>
-                        <td><a href='{{ wishlist.wishlistLink }}'>{{ wishlist.wishlistName }}</a></td>
-                        <td><a href='{{ wishlist.delWishlist }}'>{{ jtext('COM_REDSHOP_DELETE') }}</a></td>
-                    </tr>
-                {% endfor %}
-            </table>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{jtext('COM_REDSHOP_WISHLIST_NAME') }}
+                    </div>
+                    {% for wishlist in wishlists %}
+                        <div class="col-sm-4">
+                            <div>
+                                <a class="btn btn-secondary wishlist-btn" href='{{ wishlist.wishlistLink }}'>
+                                    {{wishlist.wishlistName }}
+                                </a>
+                            </div>
+                            <div>
+                                <a href='{{ wishlist.delWishlist }}'>
+                                    {{jtext('COM_REDSHOP_DELETE') }}
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         {% else %}
             <div>{{ jtext('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') }}</div>
         {% endif %}

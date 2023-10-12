@@ -18,13 +18,13 @@ $app = JFactory::getApplication();
     </div>
 <?php endif; ?>
 <?php
-/*
+
 $displayData = array(
     'form'      => $this->form,
     'modal'     => 1,
     'productId' => $this->productId
 );
-*/
+
 $form = RedshopModelForm::getInstance(
     'Product_Rating',
     'RedshopModel',
@@ -33,5 +33,5 @@ $form = RedshopModelForm::getInstance(
     )
 )-> /** @scrutinizer ignore-call */getForm();
 
-echo RedshopLayoutHelper::render('product.product_rating', $form);
+echo RedshopLayoutHelper::render('product.product_rating', $displayData);
 ?>

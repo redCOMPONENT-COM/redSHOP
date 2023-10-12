@@ -125,7 +125,7 @@ $itemId      = $input->getInt('Itemid', 0);
                             ?>
                             <tr>
                                 <td colspan="3" align="center">
-                                    <input type="button" class="btn btn-primary" value="<?php echo Text::_('COM_REDSHOP_ADD_TO_WISHLIST'); ?>" 
+                                    <input type="button" class="btn btn-primary btn-sm" value="<?php echo Text::_('COM_REDSHOP_ADD_TO_WISHLIST'); ?>" 
                                             onclick="Joomla.submitform();" />&nbsp;
                                     <input type="button" class="btn" value="<?php echo Text::_('COM_REDSHOP_CANCEL'); ?>" onclick="window.parent.redBOX.close();" />
                                 </td>

@@ -480,22 +480,6 @@ class RedshopViewProduct extends RedshopView
             // End
         }
 
-        // Modal button for Add to wishlist
-        echo RedshopLayoutHelper::render(
-            'modal.iframe',
-            [
-                'modalButton'     => '.modalAddToWishlistButton',
-                'selector'        => 'modalAddToWishlist',
-                'params'          => [
-                            'title'      => '',
-                            'footer'     => '',
-                            'modalWidth' => '50',
-                            'bodyHeight' => '70',
-                            'modalCss'   => '',
-                ]
-            ]
-        );
-
         // Modal button for Product rating
         echo RedshopLayoutHelper::render(
             'modal.iframe',

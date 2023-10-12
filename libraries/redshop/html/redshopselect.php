@@ -238,9 +238,11 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
                 $initSelection[] = $object;
                 $value[]         = $val->{$options['option.key']};
             }
-        } elseif (is_object(
+        } elseif (
+            is_object(
                 $data
-            ) && isset($data->{$options['option.key']}) && isset($data->{$options['option.text']})) {
+            ) && isset($data->{$options['option.key']}) && isset($data->{$options['option.text']})
+        ) {
             $initSelection       = new stdClass;
             $initSelection->id   = $data->{$options['option.key']};
             $initSelection->text = $data->{$options['option.text']};
@@ -370,9 +372,11 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
                 $initSelection[] = $object;
                 $value[]         = $val->{$options['option.key']};
             }
-        } elseif (is_object(
+        } elseif (
+            is_object(
                 $data
-            ) && isset($data->{$options['option.key']}) && isset($data->{$options['option.text']})) {
+            ) && isset($data->{$options['option.key']}) && isset($data->{$options['option.text']})
+        ) {
             $initSelection       = new stdClass;
             $initSelection->id   = $data->{$options['option.key']};
             $initSelection->text = $data->{$options['option.text']};

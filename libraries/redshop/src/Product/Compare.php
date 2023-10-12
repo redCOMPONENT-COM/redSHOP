@@ -124,7 +124,7 @@ class Compare
                 'redshopselect.checklist',
                 array($compareButton),
                 'rsProductCompareChk',
-                array('cssClassSuffix' => ' no-group'),
+                array('cssClassSuffix' => ' no-group', 'inputClass' => 'form-check-input', 'labelClass' => ' form-check-label'),
                 'value',
                 'text',
                 (new \RedshopProductCompare)->getItemKey($productId)

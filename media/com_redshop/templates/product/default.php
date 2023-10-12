@@ -23,7 +23,6 @@
         <div class="product-price-stock-sku-cont">
             <div class="product-price-stock-sku-cont">
                 <div class="stock_status">{stock_status:instock:outofstock}</div>
-
                 <div class="product_price" id="product_price">
                     {if product_on_sale}
                     <div class="product_oldprice">
@@ -53,7 +52,6 @@
             <div class="attributes">
                 {attribute_template:attributes}
             </div>
-
             {accessory_template:accessory}
         </div>
     </div>
@@ -65,7 +63,9 @@
         </div>
     </div>
     <div class="col-md-4 product-compare-cont">
-        {compare_products_button}
+        <div class="compare_link">
+            {compare_products_button}
+        </div>
     </div>
     <div class="col-md-4 product-addtocart-cont">
         <div class="product_addtocart">

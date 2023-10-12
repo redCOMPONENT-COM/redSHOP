@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
 /**
  * Wishlist View
  *
@@ -26,7 +29,7 @@ class RedshopViewWishlist extends RedshopView
      */
     public function display($tpl = null)
     {
-        $app = JFactory::getApplication();
+        $app = Factory::getApplication();
 
         // Request variables
         $task   = $app->input->getCmd('task', 'com_redshop');
@@ -46,6 +49,22 @@ class RedshopViewWishlist extends RedshopView
         } else {
             $this->wish_session = $model->getWishlistProductFromSession();
         }
+
+        // Modal button for Add to wishlist
+        echo RedshopLayoutHelper::render(
+            'modal.iframe',
+            [
+                'modalButton'     => '.modalAddToWishlistButton',
+                'selector'        => 'modalAddToWishlist',
+                'params'          => [
+                            'title'      => Text::_('COM_REDSHOP_ADD_TOO_WISHLIST'),
+                            'footer'     => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">' . Text::_('COM_REDSHOP_CLOSE') . '</button>',
+                            'modalWidth' => '50',
+                            'bodyHeight' => '40',
+                            'modalCss'   => '',
+                ]
+            ]
+        );
 
         parent::display($tpl);
     }
