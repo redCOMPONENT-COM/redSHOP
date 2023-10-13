@@ -21431,7 +21431,36 @@ input.search-query {
 }
 
 .control-group {
-    margin-bottom: 9px;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 0 0 1rem;
+}
+.control-group > .form-check {
+  display: inline-block;
+}
+.control-group::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+.control-group .control-label {
+  width: 240px;
+  padding: 0.3rem 1rem 0.3rem 0;
+}
+.control-group .controls {
+  position: relative;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  min-width: 210px;
+}
+.control-group .controls + div {
+  width: 100%;
+  margin: 5px 0 10px;
 }
 
 legend+.control-group {

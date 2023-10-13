@@ -23,7 +23,7 @@ if (!empty($displayData['options']['showonEnabled'])) {
     HtmlHelper::_('redshopjquery.framework');
     HtmlHelper::script('system/showon.min.js', ['version' => 'auto', 'relative' => true]);
 }
-
+/*
 $class = empty($displayData['options']['class']) ? "" : " " . $displayData['options']['class'];
 $rel   = empty($displayData['options']['rel']) ? "" : " " . $displayData['options']['rel'];
 ?>
@@ -37,3 +37,33 @@ $rel   = empty($displayData['options']['rel']) ? "" : " " . $displayData['option
         </div>
     </div>
 <?php endif ?>
+*/
+$class           = empty($displayData['options']['class']) ? '' : ' ' . $displayData['options']['class'];
+$rel             = empty($displayData['options']['rel']) ? '' : ' ' . $displayData['options']['rel'];
+$id              = ($displayData['id'] ?? $displayData['name']) . '-desc';
+$hideLabel       = !empty($displayData['options']['hiddenLabel']);
+$hideDescription = empty($displayData['options']['hiddenDescription']) ? false : $displayData['options']['hiddenDescription'];
+$descClass       = ($displayData['options']['descClass'] ?? '') ?: (!empty($displayData['options']['inlineHelp']) ? 'hide-aware-inline-help d-none' : '');
+
+if (!empty($parentclass)) {
+    $class .= ' ' . $parentclass;
+}
+
+?>
+<div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
+    <?php if ($hideLabel) : ?>
+        <div class="visually-hidden"><?php echo $displayData['label']; ?></div>
+    <?php else : ?>
+        <div class="control-label"><?php echo $displayData['label']; ?></div>
+    <?php endif; ?>
+    <div class="controls">
+        <?php echo $displayData['input']; ?>
+        <?php if (!$hideDescription && !empty($description)) : ?>
+            <div id="<?php echo $id; ?>" class="<?php echo $descClass ?>">
+                <small class="form-text">
+                    <?php echo $description; ?>
+                </small>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>

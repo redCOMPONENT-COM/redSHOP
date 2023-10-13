@@ -45,7 +45,8 @@ if ($req) {
 }
 
 ?>
-<label id="<?php echo $id ?>" for="<?php echo $for ?>"
-       class="col-md-2 control-label <?php echo implode(' ', $classes) ?>"<?php echo $title ?><?php echo $position ?>>
+<label id="<?php echo $id ?>" for="<?php echo $for ?>"<?php if (!empty($classes)) {
+    echo ' class="' . implode(' ', $classes) . '"';
+           } ?><?php echo $title ?><?php echo $position ?>>
     <?php echo $text ?><?php if ($req) : ?><span class="star text-danger">&#160;*</span><?php endif; ?>
 </label>

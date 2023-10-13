@@ -33,8 +33,8 @@ $cssClassSuffix = ' btn-group redRadioGroup';
 
 if (is_array($attribs)) {
     $cssClassSuffix = (isset($attribs['cssClassSuffix'])) ? $attribs['cssClassSuffix'] : ' btn-group redRadioGroup';
-    $inputClass = (isset($attribs['inputClass'])) ? $attribs['inputClass'] : '';
-    $labelClass = (isset($attribs['labelClass'])) ? $attribs['labelClass'] : '';
+    $inputClass     = (isset($attribs['inputClass'])) ? $attribs['inputClass'] : '';
+    $labelClass     = (isset($attribs['labelClass'])) ? $attribs['labelClass'] : '';
 
     $attribs = ArrayHelper::toString($attribs);
 }
@@ -66,13 +66,12 @@ $idText = $idtag ? $idtag : $name;
                 $extra .= ((string) $key == (string) $selected ? ' checked="checked" ' : '');
             }
             ?>
-            <div class="form-check">
-                <input class="<?php echo $inputClass; ?>" type="<?php echo $type; ?>" id="<?php echo $id; ?>" name="<?php echo $name; ?>"
-                    value="<?php echo $key; ?>" <?php echo $extra; ?>         <?php echo $attribs; ?> rel="noicheck" />
-                <label class="<?php echo $labelClass; ?>" for="<?php echo $id; ?>" id="<?php echo $id; ?>-lbl">
-                    <?php echo $title ?>
-                </label>
-            </div>
+            <input class="<?php echo $inputClass; ?>" type="<?php echo $type; ?>" id="<?php echo $id; ?>"
+                name="<?php echo $name; ?>" value="<?php echo $key; ?>" <?php echo $extra; ?>         <?php echo $attribs; ?>
+                rel="noicheck" />
+            <label class="<?php echo $labelClass; ?>" for="<?php echo $id; ?>" id="<?php echo $id; ?>-lbl">
+                <?php echo $title ?>
+            </label>
         <?php endforeach; ?>
     <?php endif; ?>
 </fieldset>

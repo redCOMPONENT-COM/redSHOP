@@ -102,18 +102,19 @@
         />
         <field
                 name="show_in_front"
-                type="redshop.radio"
-                label-class="radio-inline"
+                type="radio"
+                label-class="joomla.form.field.radio.switcher"
                 default="1"
                 label="COM_REDSHOP_SHOW_AT_FRONT"
                 table-hide="1"
-                required="true">
+                required="true"
+                >
             <option value="1">JYES</option>
             <option value="0">JNO</option>
         </field>
         <field
                 name="display_in_product"
-                type="redshop.radio"
+                type="radio"
                 label-class="radio-inline"
                 default="1"
                 label="COM_REDSHOP_DISPLAY_IN_PRODUCT_LIST"
@@ -124,7 +125,7 @@
         </field>
         <field
                 name="is_searchable"
-                type="redshop.radio"
+                type="radio"
                 label-class="radio-inline"
                 default="0"
                 label="COM_REDSHOP_CUSTOM_FIELD_IS_SEARCHABLE_LBL"
@@ -136,7 +137,7 @@
         </field>
         <field
                 name="display_in_checkout"
-                type="redshop.radio"
+                type="radio"
                 label-class="radio-inline"
                 default="1"
                 label="COM_REDSHOP_DISPLAY_IN_CHECKOUT"
@@ -147,7 +148,7 @@
         </field>
         <field
                 name="required"
-                type="redshop.radio"
+                type="radio"
                 label-class="radio-inline"
                 default="1"
                 label="COM_REDSHOP_IS_REQUIRED"
@@ -158,7 +159,7 @@
         </field>
         <field
                 name="published"
-                type="redshop.radio"
+                type="radio"
                 label-class="radio-inline"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"
