@@ -248,71 +248,48 @@ body {
   word-wrap: break-word;
 }
 
-.category_front_wrapper .category_front {
+.category_front {
   margin-bottom: 20px;
 }
 
-.category_front_wrapper .category_front .category_front_title {
+.category_front_title {
   text-align: center;
 }
 
-.category_front_wrapper .category_front .category_front_title h3 a {
+.category_front_title h3 a {
   color: #000;
   font-size: 16px;
   font-weight: normal;
 }
 
-.category_front_wrapper .category_front .category_front_image {
-  text-align: center;
-}
-
-.category_front_wrapper .category_front .category_front_inside {
+.category_front_inside {
   padding: 10px;
 }
 
-.category_box_wrapper.grid .category_product_title {
-  text-align: center;
-}
-
-.category_box_wrapper.grid .category_product_image {
-  text-align: center;
-}
-
-.category_box_wrapper.grid .category_product_price {
-  text-align: center;
-}
-
-.category_box_wrapper.grid .category_product_addtocart {
-  text-align: center;
-}
-
-.category_box_wrapper.list .category_product_addtocart {
-  text-align: right;
-}
-
-.category_box_wrapper .category_box_inside {
+.category_box_inside {
   padding: 10px;
   margin-bottom: 30px;
+  text-align: center;
 }
 
-.category_box_wrapper .category_product_title h3 a {
+.category_product_title h3 a {
   color: #737373;
   font-size: 16px;
   font-weight: normal;
 }
 
-.category_box_wrapper .category_product_price {
+.category_product_price {
   font-weight: bold;
   padding: 5px 0;
 }
 
-.category_box_wrapper .category_product_price .category_product_oldprice {
+.category_product_oldprice {
   text-decoration: line-through;
   display: inline-block;
   color: #ccc;
 }
 
-.category_box_wrapper .category_product_addtocart .addtocart_formclass {
+.addtocart_formclass {
   margin-bottom: 0px;
 }
 
@@ -649,9 +626,19 @@ div#redshopcomponent {
 .nav.nav-tabs .nav-link.active {
     background-color: unset;
     background-image: unset;
+    font-weight: 700;
 }
 
 .nav.nav-tabs .nav-item:first-of-type .nav-link.active {
     -webkit-box-shadow: unset;
     box-shadow: unset;
+}
+
+.product-rating-row {
+    margin-bottom: 5px;
+}
+
+.product-rating-header {
+    text-align: center;
+    margin-top: 20px;
 }

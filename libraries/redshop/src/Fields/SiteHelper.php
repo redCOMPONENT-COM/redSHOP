@@ -9,6 +9,7 @@
 
 namespace Redshop\Fields;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Redshop\Helper\ExtraFields;
 
@@ -102,7 +103,7 @@ class SiteHelper
                     }
 
                     $inputField .= '<label for="' . $field->name . '[]" class="error">'
-                        . \JText::_('COM_REDSHOP_PLEASE_SELECT_YOUR') . '&nbsp;' . $field->title . '</label>';
+                        . Text::_('COM_REDSHOP_PLEASE_SELECT_YOUR') . '&nbsp;' . $field->title . '</label>';
                     break;
 
                 case \RedshopHelperExtrafields::TYPE_RADIO_BUTTON:
@@ -414,9 +415,9 @@ class SiteHelper
                             $ajax   = 'ajax';
                         }
 
-                        $exField .= '<p>' . \JText::_(
+                        $exField .= '<p>' . Text::_(
                                 'COM_REDSHOP_UPLOADED_FILE'
-                            ) . ':</p>' . ExtraFields::displayUserDocuments($productId, $data, $ajax) . '</div>';
+                            ) . ':</p>' . ExtraFields::displayUserDocuments($productId, $data, $ajax);
                         break;
 
                     case \RedshopHelperExtrafields::TYPE_IMAGE_SELECT:
@@ -509,7 +510,7 @@ class SiteHelper
                             if ($dateStart <= $todayStart && $dateEnd >= $todayEnd) {
                                 $exField .= '<div class="userfield_input">';
                                 $exField .= '' . $asterisk . $data->title . ' : <select name="extrafields' . $productId . '[]" id="' . $data->name . '" userfieldlbl="' . $data->title . '" ' . $req . ' >';
-                                $exField .= '<option value="">' . \JText::_('COM_REDSHOP_SELECT') . '</option>';
+                                $exField .= '<option value="">' . Text::_('COM_REDSHOP_SELECT') . '</option>';
 
                                 foreach ($mainSplitDateExtra as $aMainSplitDateExtra) {
                                     if ($aMainSplitDateExtra != "") {

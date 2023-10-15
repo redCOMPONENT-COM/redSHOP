@@ -11,6 +11,8 @@ namespace Redshop\Product;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Compare helper
  *
@@ -117,14 +119,14 @@ class Compare
             }
 
             $compareButton        = new \stdClass;
-            $compareButton->text  = \JText::_("COM_REDSHOP_ADD_TO_COMPARE");
+            $compareButton->text  = Text::_("COM_REDSHOP_ADD_TO_COMPARE");
             $compareButton->value = $productId . '.' . $categoryId;
 
             $compareProduct = \JHtml::_(
                 'redshopselect.checklist',
                 array($compareButton),
                 'rsProductCompareChk',
-                array('cssClassSuffix' => ' no-group', 'inputClass' => 'form-check-input', 'labelClass' => ' form-check-label'),
+                ['cssClassSuffix' => ' form-check', 'inputClass' => 'form-check-input', 'labelClass' => ' form-check-label'],
                 'value',
                 'text',
                 (new \RedshopProductCompare)->getItemKey($productId)

@@ -11,6 +11,8 @@ use Redshop\Filesystem\Mime;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Product Controller.
@@ -33,20 +35,20 @@ class RedshopControllerProduct extends RedshopController
      */
     public function __construct($config = array())
     {
-        $this->input = JFactory::getApplication()->input;
+        $this->input = Factory::getApplication()->input;
 
         // Article frontpage Editor product proxying:
         if ($this->input->get('layout') === 'element') {
-            JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+            JSession::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
 
             $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 
-            $lang = JFactory::getLanguage();
+            $lang = Factory::getLanguage();
             $lang->load('com_redshop', JPATH_ADMINISTRATOR);
 
             JHtml::_('redshopjquery.framework');
 
-            $document = JFactory::getDocument();
+            $document = Factory::getDocument();
 
             if (version_compare(JVERSION, '3.0', '>=')) {
                 JHtml::_(
@@ -141,7 +143,7 @@ class RedshopControllerProduct extends RedshopController
         $seoProductSavingPrice  = $ProductPriceArr['seoProductSavingPrice'] * $quantity;
 
         echo $product_price . ":" . $product_main_price . ":" . $product_old_price . ":" . $product_price_saving . ":" . $product_discount_price . ":" . $product_price_novat . ":" . $product_price_incl_vat . ":" . $price_excluding_vat . ":" . $seoProductPrice . ":" . $seoProductSavingPrice;
-        JFactory::getApplication()->close();
+        Factory::getApplication()->close();
     }
 
     /**
@@ -192,7 +194,7 @@ class RedshopControllerProduct extends RedshopController
         }
 
         echo $response;
-        JFactory::getApplication()->close();
+        Factory::getApplication()->close();
     }
 
     /**
@@ -279,7 +281,7 @@ class RedshopControllerProduct extends RedshopController
             . "`_`" . $productAvaiDateLbl
             . "`_`" . $productAvaiDate
             . "`_`" . $additionalVideos;
-        JFactory::getApplication()->close();
+        Factory::getApplication()->close();
     }
 
     /**
@@ -290,8 +292,8 @@ class RedshopControllerProduct extends RedshopController
      */
     public function addtowishlist()
     {
-        $app  = JFactory::getApplication();
-        $user = JFactory::getUser();
+        $app  = Factory::getApplication();
+        $user = Factory::getApplication()->getIdentity();
 
         ob_clean();
         $section  = 12;
@@ -400,19 +402,19 @@ class RedshopControllerProduct extends RedshopController
         if ($user->id && $ajaxOn != '1') {
             if ($model->checkWishlist($post['product_id']) == null) {
                 if ($model->addToWishlist($post)) {
-                    $app->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
+                    $app->enqueueMessage(Text::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
                 } else {
-                    $app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_SAVING_WISHLIST'));
+                    $app->enqueueMessage(Text::_('COM_REDSHOP_ERROR_SAVING_WISHLIST'));
                 }
             } else {
-                $app->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
+                $app->enqueueMessage(Text::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
             }
         } else {
             // User can store wishlist in session
             if ($model->addtowishlist2session($post)) {
-                $app->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
+                $app->enqueueMessage(Text::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
             } else {
-                $app->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
+                $app->enqueueMessage(Text::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
             }
         }
 
@@ -428,7 +430,7 @@ class RedshopControllerProduct extends RedshopController
             }
 
             echo "<span id='basketWrap' ><a href='index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=" . $Itemid . "&pid=" . $post['product_id'] . "'><img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . $mainimg . "' height='30' width='30'/></a></span>:-:" . $proname->product_name . "";
-            JFactory::getApplication()->close();
+            Factory::getApplication()->close();
         } elseif ($wishlistId == 1) {
             $this->setRedirect('index.php?option=com_redshopwishlist=1&view=login&Itemid=' . $Itemid);
         }
@@ -451,7 +453,7 @@ class RedshopControllerProduct extends RedshopController
 
     public function addProductTags()
     {
-        $app = JFactory::getApplication();
+        $app = Factory::getApplication();
 
         // GetVariables
         $cid    = $this->input->getInt('cid');
@@ -502,12 +504,12 @@ class RedshopControllerProduct extends RedshopController
                 if ($tags = $model->addProductTags($ntag)) {
                     $model->addProductTagsXref($ntag, $tags);
 
-                    $app->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_TAGS_ARE_ADDED'));
+                    $app->enqueueMessage($tagname . '&nbsp;' . Text::_('COM_REDSHOP_TAGS_ARE_ADDED'));
                 } else {
-                    $app->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ERROR_ADDING_TAGS'));
+                    $app->enqueueMessage($tagname . '&nbsp;' . Text::_('COM_REDSHOP_ERROR_ADDING_TAGS'));
                 }
             } else {
-                $app->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ALLREADY_ADDED'));
+                $app->enqueueMessage($tagname . '&nbsp;' . Text::_('COM_REDSHOP_ALLREADY_ADDED'));
             }
         }
 
@@ -562,7 +564,7 @@ class RedshopControllerProduct extends RedshopController
 
         echo json_encode($response);
 
-        JFactory::getApplication()->close();
+        Factory::getApplication()->close();
     }
 
     /**
@@ -591,7 +593,7 @@ class RedshopControllerProduct extends RedshopController
 
         $this->setRedirect(
             Redshop\IO\Route::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid, false),
-            JText::_('COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY')
+            Text::_('COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY')
         );
     }
 
@@ -620,21 +622,21 @@ class RedshopControllerProduct extends RedshopController
             $end_date = $data->end_date;
 
             if ($end_date == 0 || ($data->download_max != 0 && $today <= $end_date)) {
-                $msg = JText::_("COM_REDSHOP_DOWNLOADABLE_THIS_PRODUCT");
+                $msg = Text::_("COM_REDSHOP_DOWNLOADABLE_THIS_PRODUCT");
 
                 $this->setRedirect(
                     "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $download_id . "&Itemid=" . $Itemid,
                     $msg
                 );
             } else {
-                $msg = JText::_("COM_REDSHOP_DOWNLOAD_LIMIT_OVER");
+                $msg = Text::_("COM_REDSHOP_DOWNLOAD_LIMIT_OVER");
                 $this->setRedirect(
                     "index.php?option=com_redshop&view=product&layout=downloadproduct&Itemid=" . $Itemid,
                     $msg
                 );
             }
         } else {
-            $msg = JText::_("COM_REDSHOP_TOKEN_VERIFICATION_FAIL");
+            $msg = Text::_("COM_REDSHOP_TOKEN_VERIFICATION_FAIL");
             $this->setRedirect(
                 "index.php?option=com_redshop&view=product&layout=downloadproduct&Itemid=" . $Itemid,
                 $msg
@@ -667,7 +669,7 @@ class RedshopControllerProduct extends RedshopController
         $end_date = $data->end_date;
 
         if ($end_date != 0 && ($limit == 0 || $today > $end_date)) {
-            $msg = JText::_("COM_REDSHOP_DOWNLOAD_LIMIT_OVER");
+            $msg = Text::_("COM_REDSHOP_DOWNLOAD_LIMIT_OVER");
             $this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct", $msg, 'error');
         } elseif (isset($post['mainindex']) && isset($post['additional'])) {
             $task = $post['mainindex'];
@@ -684,7 +686,7 @@ class RedshopControllerProduct extends RedshopController
                 $name = $finalname[0]->name;
             }
         } else {
-            $msg = JText::_('COM_REDSHOP_NO_FILE_SELECTED');
+            $msg = Text::_('COM_REDSHOP_NO_FILE_SELECTED');
             $this->setRedirect('index.php?option=com_redshop&view=product&layout=downloadproduct&tid=' . $tid, $msg, 'error');
 
             return;
@@ -745,7 +747,7 @@ class RedshopControllerProduct extends RedshopController
 
                 // Red file using chunksize
                 $this->readfile_chunked($name);
-                JFactory::getApplication()->close();
+                Factory::getApplication()->close();
             }
         }
     }
@@ -819,13 +821,13 @@ class RedshopControllerProduct extends RedshopController
 
             // If Extension is not legal than don't upload file
             if (!in_array(strtolower($fileExtension), $legalExts)) {
-                echo '<li class="error">' . JText::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED') . '</li>';
+                echo '<li class="error">' . Text::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED') . '</li>';
 
                 return;
             }
 
             if (JFile::upload($uploadFileData['tmp_name'], $uploadFilePath)) {
-                $id                     = JFile::stripExt(JFile::getName($fileName));
+                $id                     = JFile::stripExt(basename($fileName));
                 $sendData               = array();
                 $sendData['id']         = $id;
                 $sendData['product_id'] = $productId;
@@ -835,7 +837,7 @@ class RedshopControllerProduct extends RedshopController
                 $sendData['fileName']   = $fileName;
                 $sendData['action']     = JURI::root(
                     ) . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload';
-                $session                = JFactory::getSession();
+                $session                = Factory::getApplication()->getSession();
                 $userDocuments          = $session->get('userDocument', array());
 
                 if (!isset($userDocuments[$productId])) {
@@ -847,7 +849,7 @@ class RedshopControllerProduct extends RedshopController
 
                 echo "<li id='uploadNameSpan" . $id . "' name='" . $fileName . "'>"
                     . "<span>" . $fileName . "</span>"
-                    . "<a href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>&nbsp;" . JText::_(
+                    . "<a href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>&nbsp;" . Text::_(
                         'COM_REDSHOP_DELETE'
                     ) . "</a>"
                     . "</li>";
@@ -857,10 +859,10 @@ class RedshopControllerProduct extends RedshopController
                 echo "error";
             }
         } else {
-            echo '<li class="error">' . JText::_('COM_REDSHOP_NO_FILE_SELECTED') . '</li>';
+            echo '<li class="error">' . Text::_('COM_REDSHOP_NO_FILE_SELECTED') . '</li>';
         }
 
-        JFactory::getApplication()->close();
+        Factory::getApplication()->close();
     }
 
     /**
@@ -872,7 +874,7 @@ class RedshopControllerProduct extends RedshopController
     {
         $id            = $this->input->getString('id', '');
         $productId     = $this->input->getInt('product_id', 0);
-        $session       = JFactory::getSession();
+        $session       = Factory::getApplication()->getSession();
         $userDocuments = $session->get('userDocument', array());
         $deleteFile    = true;
 
@@ -936,7 +938,7 @@ class RedshopControllerProduct extends RedshopController
 
         // Read file using chunksize
         $this->readfile_chunked($filePath);
-        JFactory::getApplication()->close();
+        Factory::getApplication()->close();
     }
 
     /**
@@ -1008,9 +1010,9 @@ class RedshopControllerProduct extends RedshopController
         $model = $this->getModel('product');
 
         if ($model->addNotifystock($productId, $propertyId, $subPropertyId, $emailNotLogin)) {
-            echo $message = JText::_("COM_REDSHOP_STOCK_NOTIFICATION_ADDED_SUCCESSFULLY");
+            echo $message = Text::_("COM_REDSHOP_STOCK_NOTIFICATION_ADDED_SUCCESSFULLY");
         }
 
-        JFactory::getApplication()->close();
+        Factory::getApplication()->close();
     }
 }

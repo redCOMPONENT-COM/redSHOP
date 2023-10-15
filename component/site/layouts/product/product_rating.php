@@ -65,24 +65,24 @@ if ($user->id) {
             <div class="col-xs-9"><?php echo $form->getInput('images'); ?></div>
         </div>
 
-        <div class="row">
+        <div class="row product-rating-row">
             <label class="col-xs-3"><?php echo $form->getLabel('username'); ?></label>
             <div class="col-xs-9"><?php echo $form->getInput('username'); ?></div>
         </div>
 
         <?php if ($user->guest): ?>
-            <div class="row">
+            <div class="row product-rating-row">
                 <label class="col-xs-3"><?php echo $form->getLabel('email'); ?></label>
                 <div class="col-xs-9"><?php echo $form->getInput('email'); ?></div>
             </div>
         <?php endif; ?>
 
-        <div class="row">
+        <div class="row product-rating-row">
             <label class="col-xs-3"><?php echo $form->getLabel('title'); ?></label>
             <div class="col-xs-9"><?php echo $form->getInput('title'); ?></div>
         </div>
 
-        <div class="row">
+        <div class="row product-rating-row">
             <label class="col-xs-3"><?php echo $form->getLabel('comment'); ?></label>
             <div class="col-xs-9"><?php echo $form->getInput('comment'); ?></div>
         </div>

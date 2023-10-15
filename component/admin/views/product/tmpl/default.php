@@ -96,54 +96,75 @@ HtmlHelper::_('redshopjquery.framework');
 
     <div id="editcell">
         <div class="filterTool">
-            <div class="filterItem">
-                <div class="btn-wrapper input-append">
-                    <input type="text" name="keyword" id="keyword" value="<?php echo $this->keyword; ?>"
-                        placeholder="<?php echo Text::_("COM_REDSHOP_USER_FILTER") ?>">
-                    <input type="submit" class="btn" value="<?php echo Text::_("COM_REDSHOP_SEARCH") ?>">
-                    <input type="button" class="btn reset" onclick="resetFilter();this.form.submit();"
-                        value="<?php echo Text::_('COM_REDSHOP_RESET'); ?>" />
+            <div class="js-stools" role="search">
+                <div class="js-stools-container-bar">
+                    <div class="btn-toolbar">
+                        <div class="filter-search-bar btn-group">
+                            <div class="input-group">
+                                <input type="text" name="keyword" id="keyword" class="js-enter-submits"
+                                    value="<?php echo $this->keyword; ?>"
+                                    placeholder="<?php echo Text::_("COM_REDSHOP_USER_FILTER") ?>">
+                                <span class="filter-search-bar__label visually-hidden">
+                                    <?php echo $filters['filter_search']->label; ?>
+                                </span>
+                                <button type="submit" class="filter-search-bar__button btn btn-primary"
+                                    aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
+                                    <span class="filter-search-bar__button-icon icon-search" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="filterItem">
+                            <div class="js-stools-field-list">
+                                <select id="search_field" name="search_field"
+                                    onchange="javascript:document.adminForm.submit();">
+                                    <option value="p.product_name" <?php if ($this->search_field == 'p.product_name') {
+                                        echo "selected='selected'";
+                                    } ?>>
+                                        <?php echo Text::_("COM_REDSHOP_PRODUCT_NAME") ?>
+                                    </option>
+                                    <option value="c.name" <?php if ($this->search_field == 'c.category_name') {
+                                        echo "selected='selected'";
+                                    } ?>>
+                                        <?php echo Text::_("COM_REDSHOP_CATEGORY") ?>
+                                    </option>
+                                    <option value="p.product_number" <?php if ($this->search_field == 'p.product_number') {
+                                        echo "selected='selected'";
+                                    } ?>>
+                                        <?php echo Text::_("COM_REDSHOP_PRODUCT_NUMBER") ?>
+                                    </option>
+                                    <option value="p.name_number" <?php if ($this->search_field == 'p.name_number') {
+                                        echo "selected='selected'";
+                                    } ?>>
+                                        <?php echo Text::_("COM_REDSHOP_PRODUCT") . ' ' . Text::_(
+                                            "COM_REDSHOP_NAME_AND_NUMBER"
+                                        ); ?>
+                                    </option>
+                                    <option value="pa.property_number" <?php if ($this->search_field == 'pa.property_number') {
+                                        echo "selected='selected'";
+                                    } ?>>
+                                        <?php echo Text::_("COM_REDSHOP_ATTRIBUTE_SKU") ?>
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filterItem">
+                            <?php echo $this->lists['category']; ?>
+                        </div>
+                        <div class="filterItem">
+                            <?php echo $this->lists['manufacturer']; ?>
+                        </div>
+                        <div class="filterItem">
+                            <?php echo $this->lists['product_sort']; ?>
+                        </div>
+                        <div class="filterItem">
+                            <button type="button"
+                                class="filter-search-actions__button btn btn-primary js-stools-btn-clear"
+                                onclick="resetFilter();this.form.submit();">
+                                <?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="filterItem">
-                <select id="search_field" name="search_field" onchange="javascript:document.adminForm.submit();">
-                    <option value="p.product_name" <?php if ($this->search_field == 'p.product_name') {
-                        echo "selected='selected'";
-                    } ?>>
-                        <?php echo Text::_("COM_REDSHOP_PRODUCT_NAME") ?>
-                    </option>
-                    <option value="c.name" <?php if ($this->search_field == 'c.category_name') {
-                        echo "selected='selected'";
-                    } ?>>
-                        <?php echo Text::_("COM_REDSHOP_CATEGORY") ?>
-                    </option>
-                    <option value="p.product_number" <?php if ($this->search_field == 'p.product_number') {
-                        echo "selected='selected'";
-                    } ?>>
-                        <?php echo Text::_("COM_REDSHOP_PRODUCT_NUMBER") ?>
-                    </option>
-                    <option value="p.name_number" <?php if ($this->search_field == 'p.name_number') {
-                        echo "selected='selected'";
-                    } ?>>
-                        <?php echo Text::_("COM_REDSHOP_PRODUCT") . ' ' . Text::_(
-                            "COM_REDSHOP_NAME_AND_NUMBER"
-                        ); ?>
-                    </option>
-                    <option value="pa.property_number" <?php if ($this->search_field == 'pa.property_number') {
-                        echo "selected='selected'";
-                    } ?>>
-                        <?php echo Text::_("COM_REDSHOP_ATTRIBUTE_SKU") ?>
-                    </option>
-                </select>
-            </div>
-            <div class="filterItem">
-                <?php echo $this->lists['category']; ?>
-            </div>
-            <div class="filterItem">
-                <?php echo $this->lists['manufacturer']; ?>
-            </div>
-            <div class="filterItem">
-                <?php echo $this->lists['product_sort']; ?>
             </div>
         </div>
         <input type="hidden" name="unpublished_data" value="">
@@ -263,7 +284,7 @@ HtmlHelper::_('redshopjquery.framework');
                     'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $product->product_id
                 );
                 $published   = HtmlHelper::_('jgrid.published', $product->published, $index, '', 1);
-                ?> 
+                ?>
                 <tr class="<?php echo "row$k"; ?>">
                     <?php if ($category_id < 0): ?>
                         <td>

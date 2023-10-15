@@ -64,7 +64,7 @@ class RedshopConfig
 
     public $DEFAULT_AJAX_DETAILBOX_TEMPLATE = '112';
 
-    public $ASTERISK_POSITION = '0';
+    public $ASTERISK_POSITION = '1';
 
     public $MANUFACTURER_THUMB_WIDTH = '250';
 

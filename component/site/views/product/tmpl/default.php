@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 
 HtmlHelper::_('bootstrap.modal');
+HtmlHelper::_('bootstrap.popover', '.hasPopover', ['trigger' => 'hover']);
 HTMLHelper::_('bootstrap.tab', '.joomla-tabs', []);
 
 $watched = $this->session->get('watched_product', array());

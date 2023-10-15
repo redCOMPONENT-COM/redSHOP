@@ -126,7 +126,7 @@ class RedshopTagsSectionsRelatedProduct extends RedshopTagsAbstract
             );
         }
 
-        $rpDesc      = RedshopHelperUtility::maxChars(
+        $rpDesc = RedshopHelperUtility::maxChars(
             $product->product_desc,
             Redshop::getConfig()->get('RELATED_PRODUCT_DESC_MAX_CHARS'),
             Redshop::getConfig()->get('RELATED_PRODUCT_DESC_END_SUFFIX')
@@ -154,6 +154,7 @@ class RedshopTagsSectionsRelatedProduct extends RedshopTagsAbstract
             $template
         );
 
+        $replacement['{relproduct_header}']     = Text::_('COM_REDSHOP_RELATED_PRODUCT_HEADER');
         $replacement['{relproduct_number_lbl}'] = Text::_('COM_REDSHOP_PRODUCT_NUMBER_LBL');
         $replacement['{relproduct_number}']     = $product->product_number;
         $replacement['{relproduct_s_desc}']     = $rpShortDesc;

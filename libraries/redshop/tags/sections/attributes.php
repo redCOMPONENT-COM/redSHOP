@@ -7,9 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') || die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Tags replacer abstract class
@@ -151,7 +153,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             return str_replace("{attribute_template:$attributeTemplate->name}", '', $this->template);
         }
 
-        JHtml::_('script', 'com_redshop/redshop.thumbscroller.min.js', array('version' => 'auto', 'relative' => true));
+        HTMLHelper::_('script', 'com_redshop/redshop.thumbscroller.min.js', array('version' => 'auto', 'relative' => true));
         $layout = JFactory::getApplication()->input->getCmd('layout', '');
 
         $prePrefix    = "";
@@ -266,9 +268,11 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             $attribute->properties;
         $propertyAll = array_values($propertyAll);
 
-        if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get(
+        if (
+            !Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get(
                 'USE_STOCKROOM'
-            )) {
+            )
+        ) {
             $property = \Redshop\Helper\Stockroom::getAttributePropertyWithStock($propertyAll);
         } else {
             $property = $propertyAll;
@@ -341,7 +345,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             RedshopHelperUtility::getDispatcher()->trigger('onPrepareProductProperties', array($product, &$property));
 
             $properties        = array_merge(
-                array(JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT') . ' ' . urldecode($attribute->text))),
+                array(HTMLHelper::_('select.option', 0, Text::_('COM_REDSHOP_SELECT') . ' ' . urldecode($attribute->text))),
                 $property
             );
             $defaultPropertyId = array();
@@ -387,7 +391,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 $defaultPropertyId[] = $selectedProperty;
             }
 
-            $lists['property_id'] = JHTML::_(
+            $lists['property_id'] = HTMLHelper::_(
                 $attributeListType,
                 $properties,
                 $propertyId . '[]',
@@ -411,8 +415,12 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
 
             if ($attribute->attribute_required > 0) {
                 $pos       = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? urldecode(
-                        $attribute->text
-                    ) . "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>" . urldecode(
+                    $attribute->text
+                ) . '<span class="hasPopover red" id="asterisk_right"
+                        data-bs-content="' . Text::_("COM_REDSHOP_IS_REQUIRED") . '"> *' : '
+                        <span class="hasPopover red" id="asterisk_left" 
+                            data-bs-content="' . Text::_("COM_REDSHOP_IS_REQUIRED") . '">
+                        * </span>' . urldecode(
                         $attribute->text
                     );
                 $attrTitle = $pos;
@@ -422,8 +430,9 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
 
             if (strpos($attributeTable, '{attribute_tooltip}') !== false) {
                 if (!empty($attribute->attribute_description)) {
-					HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
-                    $replaceAttr['{attribute_tooltip}'] = JHtml::_('redshop.tooltip',
+                    HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+                    $replaceAttr['{attribute_tooltip}'] = HTMLHelper::_(
+                        'redshop.tooltip',
                         $attribute->attribute_description,
                         $attribute->attribute_description
                     );
@@ -563,9 +572,11 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
         }
 
         // Filter Out of stock data
-        if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get(
+        if (
+            !Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get(
                 'USE_STOCKROOM'
-            )) {
+            )
+        ) {
             $subProperty = \Redshop\Helper\Stockroom::getAttributeSubPropertyWithStock($subPropertyAll);
         } else {
             $subProperty = $subPropertyAll;
@@ -587,17 +598,17 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
         );
 
         foreach ($subProperty as $sub) {
-            $subPropertyStock         += isset($subPropertyStockrooms[$sub->value]) ? (int)$subPropertyStockrooms[$sub->value] : 0;
+            $subPropertyStock += isset($subPropertyStockrooms[$sub->value]) ? (int) $subPropertyStockrooms[$sub->value] : 0;
             $preOrderSubPropertyStock += isset($subPropertyPreOrderStockrooms[$sub->value]) ?
-                (int)$subPropertyPreOrderStockrooms[$sub->value] : 0;
+                (int) $subPropertyPreOrderStockrooms[$sub->value] : 0;
         }
 
-        $propertyStock = isset(self::$propertyStockRooms[$property->value]) ? (int)self::$propertyStockRooms[$property->value] : 0;
+        $propertyStock = isset(self::$propertyStockRooms[$property->value]) ? (int) self::$propertyStockRooms[$property->value] : 0;
         $propertyStock += $subPropertyStock;
 
         // Preorder stock data
         self::$preOrderPropertyStock = isset(self::$propertyPreOrderStockRooms[$property->value]) ?
-            (int)self::$propertyPreOrderStockRooms[$property->value] : 0;
+            (int) self::$propertyPreOrderStockRooms[$property->value] : 0;
         self::$preOrderPropertyStock += $preOrderSubPropertyStock;
 
         if ($property->property_image) {
@@ -693,15 +704,18 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
 
             $property->property_price += $attributesPropertyVat;
 
-            $attributesPropertyVatShow  += $property->property_price;
+            $attributesPropertyVatShow += $property->property_price;
             $attributesPropertyOldPrice += $attributesPropertyOldPriceVat;
 
-            if (Redshop::getConfig()->get('SHOW_PRICE')
+            if (
+                Redshop::getConfig()->get('SHOW_PRICE')
                 && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
                     || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get(
-                            'SHOW_QUOTATION_PRICE'
-                        )))
-                && (!$attribute->hide_attribute_price)) {
+                        'SHOW_QUOTATION_PRICE'
+                    )
+                    ))
+                && (!$attribute->hide_attribute_price)
+            ) {
                 $property->text = urldecode($property->property_name) . " (" . $property->oprand
                     . strip_tags(RedshopHelperProductPrice::formattedPrice($attributesPropertyVatShow)) . ")";
             } else {

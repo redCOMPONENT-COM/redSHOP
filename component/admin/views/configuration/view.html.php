@@ -42,7 +42,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         }
 
         $document->setTitle(Text::_('COM_REDSHOP_CONFIG'));
-		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
 
         /** @var RedshopModelConfiguration $model */
         $model         = $this->getModel('configuration');
@@ -91,10 +91,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         }
 
         $tmp                              = array();
-        $tmp[]                            = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
+        $tmp[]                            = HTMLHelper::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
         $new_shopper_group_get_value_from = array_merge($tmp, $shopper_groups);
 
-        $lists['new_shopper_group_get_value_from'] = JHtml::_(
+        $lists['new_shopper_group_get_value_from'] = HTMLHelper::_(
             'select.genericlist',
             $new_shopper_group_get_value_from,
             'new_shopper_group_get_value_from',
@@ -103,20 +103,20 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'text',
             $this->config->get('NEW_SHOPPER_GROUP_GET_VALUE_FROM')
         );
-        $lists['accessory_product_in_lightbox']    = JHtml::_(
+        $lists['accessory_product_in_lightbox']    = HTMLHelper::_(
             'redshopselect.booleanlist',
             'accessory_product_in_lightbox',
             'class="form-control" ',
             $this->config->get('ACCESSORY_PRODUCT_IN_LIGHTBOX')
         );
 
-        $lists['webpack_enable_sms']         = JHtml::_(
+        $lists['webpack_enable_sms']         = HTMLHelper::_(
             'redshopselect.booleanlist',
             'webpack_enable_sms',
             'class="form-control" size="1"',
             $this->config->get('WEBPACK_ENABLE_SMS')
         );
-        $lists['webpack_enable_email_track'] = JHtml::_(
+        $lists['webpack_enable_email_track'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'webpack_enable_email_track',
             'class="form-control" size="1"',
@@ -141,14 +141,14 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             ->order($db->qn('name') . ' ASC');
         $db->setQuery($q);
 
-        $stockroom = $db->loadObjectList();
+        $stockroom    = $db->loadObjectList();
         $country_list = explode(',', $this->config->get('COUNTRY_LIST'));
 
         $tmp                                       = array();
-        $tmp[]                                     = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
+        $tmp[]                                     = HTMLHelper::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
         $economic_accountgroup                     = RedshopHelperUtility::getEconomicAccountGroup();
         $economic_accountgroup                     = array_merge($tmp, $economic_accountgroup);
-        $lists['default_economic_account_group']   = JHtml::_(
+        $lists['default_economic_account_group']   = HTMLHelper::_(
             'select.genericlist',
             $economic_accountgroup,
             'default_economic_account_group',
@@ -158,20 +158,20 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $this->config->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP')
         );
         $tmpoption                                 = array();
-        $tmpoption[]                               = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_NO'));
-        $tmpoption[]                               = JHtml::_(
+        $tmpoption[]                               = HTMLHelper::_('select.option', 0, Text::_('COM_REDSHOP_NO'));
+        $tmpoption[]                               = HTMLHelper::_(
             'select.option',
             1,
             Text::_('COM_REDSHOP_ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC_LBL')
         );
-        $tmpoption[]                               = JHtml::_(
+        $tmpoption[]                               = HTMLHelper::_(
             'select.option',
             2,
             Text::_(
                 'COM_REDSHOP_ATTRIBUTE_PLUS_PRODUCT_IN_ECONOMIC_LBL'
             )
         );
-        $lists['attribute_as_product_in_economic'] = JHtml::_(
+        $lists['attribute_as_product_in_economic'] = HTMLHelper::_(
             'select.genericlist',
             $tmpoption,
             'attribute_as_product_in_economic',
@@ -181,14 +181,14 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $this->config->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC')
         );
 
-        $lists['detail_error_message_on'] = JHtml::_(
+        $lists['detail_error_message_on'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'detail_error_message_on',
             'class="form-control" ',
             $this->config->get('DETAIL_ERROR_MESSAGE_ON')
         );
 
-        $lists['newsletters']   = JHtml::_(
+        $lists['newsletters']   = HTMLHelper::_(
             'select.genericlist',
             $newsletters,
             'default_newsletter',
@@ -197,7 +197,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'text',
             $this->config->get('DEFAULT_NEWSLETTER')
         );
-        $lists['currency_data'] = JHtml::_(
+        $lists['currency_data'] = HTMLHelper::_(
             'select.genericlist',
             $currency_data,
             'currency_code',
@@ -207,39 +207,39 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $this->config->get('CURRENCY_CODE')
         );
 
-        $lists['use_encoding']        = JHtml::_(
+        $lists['use_encoding']        = HTMLHelper::_(
             'redshopselect.booleanlist',
             'use_encoding',
             'class="form-control" ',
             $this->config->get('USE_ENCODING')
         );
-        $lists['required_vat_number'] = JHtml::_(
+        $lists['required_vat_number'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'required_vat_number',
             'class="form-control" ',
             $this->config->get('REQUIRED_VAT_NUMBER')
         );
 
-        $lists['coupons_enable']           = JHtml::_(
+        $lists['coupons_enable']           = HTMLHelper::_(
             'redshopselect.booleanlist',
             'coupons_enable',
             'class="form-control" ',
             $this->config->get('COUPONS_ENABLE')
         );
-        $lists['vouchers_enable']          = JHtml::_(
+        $lists['vouchers_enable']          = HTMLHelper::_(
             'redshopselect.booleanlist',
             'vouchers_enable',
             'class="form-control" ',
             $this->config->get('VOUCHERS_ENABLE')
         );
-        $lists['manufacturer_mail_enable'] = JHtml::_(
+        $lists['manufacturer_mail_enable'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'manufacturer_mail_enable',
             'class="form-control" ',
             $this->config->get('MANUFACTURER_MAIL_ENABLE')
         );
 
-        $lists['apply_voucher_coupon_already_discount'] = JHtml::_(
+        $lists['apply_voucher_coupon_already_discount'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'apply_voucher_coupon_already_discount',
             'class="form-control" ',
@@ -248,39 +248,39 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             )
         );
 
-        $lists['supplier_mail_enable'] = JHtml::_(
+        $lists['supplier_mail_enable'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'supplier_mail_enable',
             'class="form-control" ',
             $this->config->get('SUPPLIER_MAIL_ENABLE')
         );
 
-        $lists['create_account_checkbox']   = JHtml::_(
+        $lists['create_account_checkbox']   = HTMLHelper::_(
             'redshopselect.booleanlist',
             'create_account_checkbox',
             'class="form-control"',
             $this->config->get('CREATE_ACCOUNT_CHECKBOX')
         );
-        $lists['show_email_verification']   = JHtml::_(
+        $lists['show_email_verification']   = HTMLHelper::_(
             'redshopselect.booleanlist',
             'show_email_verification',
             'class="form-control"',
             $this->config->get('SHOW_EMAIL_VERIFICATION')
         );
-        $lists['quantity_text_display']     = JHtml::_(
+        $lists['quantity_text_display']     = HTMLHelper::_(
             'redshopselect.booleanlist',
             'quantity_text_display',
             'class="form-control"',
             $this->config->get('QUANTITY_TEXT_DISPLAY')
         );
-        $lists['enable_sef_product_number'] = JHtml::_(
+        $lists['enable_sef_product_number'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'enable_sef_product_number',
             'class="form-control"',
             $this->config->get('ENABLE_SEF_PRODUCT_NUMBER')
         );
 
-        $lists['enable_sef_number_name'] = JHtml::_(
+        $lists['enable_sef_number_name'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'enable_sef_number_name',
             'class="form-control"',
@@ -288,20 +288,20 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'COM_REDSHOP_NAME',
             'COM_REDSHOP_ID'
         );
-        $lists['category_in_sef_url']    = JHtml::_(
+        $lists['category_in_sef_url']    = HTMLHelper::_(
             'redshopselect.booleanlist',
             'category_in_sef_url',
             'class="form-control"',
             $this->config->get('CATEGORY_IN_SEF_URL')
         );
 
-        $lists['autogenerated_seo']        = JHtml::_(
+        $lists['autogenerated_seo']        = HTMLHelper::_(
             'redshopselect.booleanlist',
             'autogenerated_seo',
             'class="form-control"',
             $this->config->get('AUTOGENERATED_SEO')
         );
-        $lists['shop_country']             = JHtml::_(
+        $lists['shop_country']             = HTMLHelper::_(
             'select.genericlist',
             $countries,
             'shop_country',
@@ -310,7 +310,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'text',
             $this->config->get('SHOP_COUNTRY')
         );
-        $lists['default_shipping_country'] = JHtml::_(
+        $lists['default_shipping_country'] = HTMLHelper::_(
             'select.genericlist',
             $countries,
             'default_shipping_country',
@@ -321,35 +321,35 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         // Default_shipping_country
-        $lists['show_shipping_in_cart']      = JHtml::_(
+        $lists['show_shipping_in_cart']      = HTMLHelper::_(
             'redshopselect.booleanlist',
             'show_shipping_in_cart',
             'class="form-control"',
             $this->config->get('SHOW_SHIPPING_IN_CART')
         );
-        $lists['discount_mail_send']         = JHtml::_(
+        $lists['discount_mail_send']         = HTMLHelper::_(
             'redshopselect.booleanlist',
             'discount_mail_send',
             'class="form-control"',
             $this->config->get('DISCOUNT_MAIL_SEND')
         );
-        $lists['special_discount_mail_send'] = JHtml::_(
+        $lists['special_discount_mail_send'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'special_discount_mail_send',
             'class="form-control"',
             $this->config->get('SPECIAL_DISCOUNT_MAIL_SEND')
         );
-        $lists['economic_integration']       = JHtml::_(
+        $lists['economic_integration']       = HTMLHelper::_(
             'redshopselect.booleanlist',
             'economic_integration',
             'class="form-control"',
             $this->config->get('ECONOMIC_INTEGRATION')
         );
         $discoupon_percent_or_total          = array(
-            JHtml::_('select.option', 0, Text::_('COM_REDSHOP_TOTAL')),
-            JHtml::_('select.option', 1, Text::_('COM_REDSHOP_PERCENTAGE'))
+            HTMLHelper::_('select.option', 0, Text::_('COM_REDSHOP_TOTAL')),
+            HTMLHelper::_('select.option', 1, Text::_('COM_REDSHOP_PERCENTAGE'))
         );
-        $lists['discoupon_percent_or_total'] = JHtml::_(
+        $lists['discoupon_percent_or_total'] = HTMLHelper::_(
             'select.genericlist',
             $discoupon_percent_or_total,
             'discoupon_percent_or_total',
@@ -358,47 +358,47 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'text',
             $this->config->get('DISCOUPON_PERCENT_OR_TOTAL')
         );
-        $lists['use_stockroom']              = JHtml::_(
+        $lists['use_stockroom']              = HTMLHelper::_(
             'redshopselect.booleanlist',
             'use_stockroom',
             'class="form-control" size="1"',
             $this->config->get('USE_STOCKROOM')
         );
-        $lists['use_blank_as_infinite']      = JHtml::_(
+        $lists['use_blank_as_infinite']      = HTMLHelper::_(
             'redshopselect.booleanlist',
             'use_blank_as_infinite',
             'class="form-control" size="1"',
             $this->config->get('USE_BLANK_AS_INFINITE')
         );
 
-        $lists['allow_pre_order']         = JHtml::_(
+        $lists['allow_pre_order']         = HTMLHelper::_(
             'redshopselect.booleanlist',
             'allow_pre_order',
             'class="form-control" size="1"',
             $this->config->get('ALLOW_PRE_ORDER')
         );
-        $lists['onestep_checkout_enable'] = JHtml::_(
+        $lists['onestep_checkout_enable'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'onestep_checkout_enable',
             'class="form-control" size="1"',
             $this->config->get('ONESTEP_CHECKOUT_ENABLE')
         );
-        $lists['ssl_enable_in_checkout']  = JHtml::_(
+        $lists['ssl_enable_in_checkout']  = HTMLHelper::_(
             'redshopselect.booleanlist',
             'ssl_enable_in_checkout',
             'class="form-control" size="1"',
             $this->config->get('SSL_ENABLE_IN_CHECKOUT')
         );
-        $lists['twoway_related_product']  = JHtml::_(
+        $lists['twoway_related_product']  = HTMLHelper::_(
             'redshopselect.booleanlist',
             'twoway_related_product',
             'class="form-control" size="1"',
             $this->config->get('TWOWAY_RELATED_PRODUCT')
         );
 
-        // For child product opttion
+        // For child product option
         $chilproduct_data                       = RedshopHelperUtility::getChildProductOption();
-        $lists['childproduct_dropdown']         = JHtml::_(
+        $lists['childproduct_dropdown']         = HTMLHelper::_(
             'select.genericlist',
             $chilproduct_data,
             'childproduct_dropdown',
@@ -407,67 +407,75 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'text',
             $this->config->get('CHILDPRODUCT_DROPDOWN')
         );
-        $lists['purchase_parent_with_child']    = JHtml::_(
+        $lists['purchase_parent_with_child']    = HTMLHelper::_(
             'redshopselect.booleanlist',
             'purchase_parent_with_child',
             'class="form-control" size="1"',
             $this->config->get('PURCHASE_PARENT_WITH_CHILD')
         );
-        $lists['product_hover_image_enable']    = JHtml::_(
+        $lists['product_hover_image_enable']    = HTMLHelper::_(
             'redshopselect.booleanlist',
             'product_hover_image_enable',
             'class="form-control" size="1"',
             $this->config->get('PRODUCT_HOVER_IMAGE_ENABLE')
         );
-        $lists['additional_hover_image_enable'] = JHtml::_(
+        $lists['asterisk_postion']              = HTMLHelper::_(
+            'redshopselect.booleanlist',
+            'asterisk_postion',
+            'class="form-control" size="1"',
+            $this->config->get('ASTERISK_POSITION'),
+            $yes = Text::_('COM_REDSHOP_RIGHT'),
+            $no = Text::_('COM_REDSHOP_LEFT')
+        );
+        $lists['additional_hover_image_enable'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'additional_hover_image_enable',
             'class="form-control" size="1"',
             $this->config->get('ADDITIONAL_HOVER_IMAGE_ENABLE')
         );
-        $lists['ssl_enable_in_backend']         = JHtml::_(
+        $lists['ssl_enable_in_backend']         = HTMLHelper::_(
             'redshopselect.booleanlist',
             'ssl_enable_in_backend',
             'class="form-control" size="1"',
             $this->config->get('SSL_ENABLE_IN_BACKEND')
         );
-        $lists['use_tax_exempt']                = JHtml::_(
+        $lists['use_tax_exempt']                = HTMLHelper::_(
             'redshopselect.booleanlist',
             'use_tax_exempt',
             'class="form-control" size="1"',
             $this->config->get('USE_TAX_EXEMPT')
         );
-        $lists['tax_exempt_apply_vat']          = JHtml::_(
+        $lists['tax_exempt_apply_vat']          = HTMLHelper::_(
             'redshopselect.booleanlist',
             'tax_exempt_apply_vat',
             'class="form-control" size="1"',
             $this->config->get('TAX_EXEMPT_APPLY_VAT')
         );
-        $lists['couponinfo']                    = JHtml::_(
+        $lists['couponinfo']                    = HTMLHelper::_(
             'redshopselect.booleanlist',
             'couponinfo',
             'class="form-control" size="1"',
             $this->config->get('COUPONINFO')
         );
-        $lists['my_tags']                       = JHtml::_(
+        $lists['my_tags']                       = HTMLHelper::_(
             'redshopselect.booleanlist',
             'my_tags',
             'class="form-control" size="1"',
             $this->config->get('MY_TAGS')
         );
-        $lists['my_wishlist']                   = JHtml::_(
+        $lists['my_wishlist']                   = HTMLHelper::_(
             'redshopselect.booleanlist',
             'my_wishlist',
             'class="form-control" size="1"',
             $this->config->get('MY_WISHLIST')
         );
-        $lists['compare_products']              = JHtml::_(
+        $lists['compare_products']              = HTMLHelper::_(
             'redshopselect.booleanlist',
             'compare_products',
             'class="form-control" size="1"',
             $this->config->get('COMPARE_PRODUCTS')
         );
-        $lists['country_list']                  = JHtml::_(
+        $lists['country_list']                  = HTMLHelper::_(
             'select.genericlist',
             $countries,
             'country_list[]',
@@ -476,55 +484,55 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'text',
             $country_list
         );
-        $lists['product_detail_is_lightbox']    = JHtml::_(
+        $lists['product_detail_is_lightbox']    = HTMLHelper::_(
             'redshopselect.booleanlist',
             'product_detail_is_lightbox',
             'class="form-control" size="1"',
             $this->config->get('PRODUCT_DETAIL_IS_LIGHTBOX')
         );
-        $lists['new_customer_selection']        = JHtml::_(
+        $lists['new_customer_selection']        = HTMLHelper::_(
             'redshopselect.booleanlist',
             'new_customer_selection',
             'class="form-control" size="1"',
             $this->config->get('NEW_CUSTOMER_SELECTION')
         );
-        $lists['ajax_cart_box']                 = JHtml::_(
+        $lists['ajax_cart_box']                 = HTMLHelper::_(
             'redshopselect.booleanlist',
             'ajax_cart_box',
             'class="form-control" size="1"',
             $this->config->get('AJAX_CART_BOX')
         );
-        $lists['enable_clear_user_info']                 = JHtml::_(
+        $lists['enable_clear_user_info']        = HTMLHelper::_(
             'redshopselect.booleanlist',
             'enable_clear_user_info',
             'class="form-control" size="1"',
             $this->config->get('ENABLE_CLEAR_USER_INFO')
         );
-        $lists['is_product_reserve']            = JHtml::_(
+        $lists['is_product_reserve']            = HTMLHelper::_(
             'redshopselect.booleanlist',
             'is_product_reserve',
             'class="form-control" size="1"',
             $this->config->get('IS_PRODUCT_RESERVE')
         );
-        $lists['product_is_lightbox']           = JHtml::_(
+        $lists['product_is_lightbox']           = HTMLHelper::_(
             'redshopselect.booleanlist',
             'product_is_lightbox',
             'class="form-control" size="1"',
             $this->config->get('PRODUCT_IS_LIGHTBOX')
         );
-        $lists['product_addimg_is_lightbox']    = JHtml::_(
+        $lists['product_addimg_is_lightbox']    = HTMLHelper::_(
             'redshopselect.booleanlist',
             'product_addimg_is_lightbox',
             'class="form-control" size="1"',
             $this->config->get('PRODUCT_ADDIMG_IS_LIGHTBOX')
         );
-        $lists['cat_is_lightbox']               = JHtml::_(
+        $lists['cat_is_lightbox']               = HTMLHelper::_(
             'redshopselect.booleanlist',
             'cat_is_lightbox',
             'class="form-control" size="1"',
             $this->config->get('CAT_IS_LIGHTBOX')
         );
-        $lists['default_stockroom']             = JHtml::_(
+        $lists['default_stockroom']             = HTMLHelper::_(
             'select.genericlist',
             $stockroom,
             'default_stockroom',
@@ -533,7 +541,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'text',
             $this->config->get('DEFAULT_STOCKROOM')
         );
-        $lists['portalshop']                    = JHtml::_(
+        $lists['portalshop']                    = HTMLHelper::_(
             'redshopselect.booleanlist',
             'portal_shop',
             'class="form-control" size="1"',
@@ -541,31 +549,31 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         // Default checkout required
-        $lists['required_postal_code']  = JHtml::_(
+        $lists['required_postal_code']  = HTMLHelper::_(
             'redshopselect.booleanlist',
             'required_postal_code',
             'class="form-control" size="1"',
             $this->config->get('REQUIRED_POSTAL_CODE')
         );
-        $lists['required_ean_number']   = JHtml::_(
+        $lists['required_ean_number']   = HTMLHelper::_(
             'redshopselect.booleanlist',
             'required_ean_number',
             'class="form-control" size="1"',
             $this->config->get('REQUIRED_EAN_NUMBER')
         );
-        $lists['required_address']      = JHtml::_(
+        $lists['required_address']      = HTMLHelper::_(
             'redshopselect.booleanlist',
             'required_address',
             'class="form-control" size="1"',
             $this->config->get('REQUIRED_ADDRESS')
         );
-        $lists['required_country_code'] = JHtml::_(
+        $lists['required_country_code'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'required_country_code',
             'class="form-control" size="1"',
             $this->config->get('REQUIRED_COUNTRY_CODE')
         );
-        $lists['required_phone']        = JHtml::_(
+        $lists['required_phone']        = HTMLHelper::_(
             'redshopselect.booleanlist',
             'required_phone',
             'class="form-control" size="1"',
@@ -573,22 +581,22 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $imageSizeSwapping                = array();
-        $imageSizeSwapping[]              = JHtml::_(
+        $imageSizeSwapping[]              = HTMLHelper::_(
             'select.option',
             0,
             Text::_('COM_REDSHOP_CONFIG_NO_PROPORTIONAL_RESIZED')
         );
-        $imageSizeSwapping[]              = JHtml::_(
+        $imageSizeSwapping[]              = HTMLHelper::_(
             'select.option',
             1,
             Text::_('COM_REDSHOP_CONFIG_PROPORTIONAL_RESIZED')
         );
-        $imageSizeSwapping[]              = JHtml::_(
+        $imageSizeSwapping[]              = HTMLHelper::_(
             'select.option',
             2,
             Text::_('COM_REDSHOP_CONFIG_PROPORTIONAL_RESIZED_AND_CROP')
         );
-        $lists['use_image_size_swapping'] = JHtml::_(
+        $lists['use_image_size_swapping'] = HTMLHelper::_(
             'select.genericlist',
             $imageSizeSwapping,
             'use_image_size_swapping',
@@ -598,7 +606,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $this->config->get('USE_IMAGE_SIZE_SWAPPING')
         );
 
-        $lists['apply_vat_on_discount']   = JHtml::_(
+        $lists['apply_vat_on_discount']   = HTMLHelper::_(
             'redshopselect.booleanlist',
             'apply_vat_on_discount',
             'class="form-control" size="1"',
@@ -606,25 +614,25 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $yes = Text::_('COM_REDSHOP_BEFORE_DISCOUNT'),
             $no = Text::_('COM_REDSHOP_AFTER_DISCOUNT')
         );
-        $lists['auto_scroll_wrapper']     = JHtml::_(
+        $lists['auto_scroll_wrapper']     = HTMLHelper::_(
             'redshopselect.booleanlist',
             'auto_scroll_wrapper',
             'class="form-control" size="1"',
             $this->config->get('AUTO_SCROLL_WRAPPER')
         );
-        $lists['allow_multiple_discount'] = JHtml::_(
+        $lists['allow_multiple_discount'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'allow_multiple_discount',
             'class="form-control" size="1"',
             $this->config->get('ALLOW_MULTIPLE_DISCOUNT')
         );
-        $lists['show_product_detail']     = JHtml::_(
+        $lists['show_product_detail']     = HTMLHelper::_(
             'redshopselect.booleanlist',
             'show_product_detail',
             'class="form-control" size="1"',
             $this->config->get('SHOW_PRODUCT_DETAIL')
         );
-        $lists['compare_template_id']     = JHtml::_(
+        $lists['compare_template_id']     = HTMLHelper::_(
             'select.genericlist',
             $compare_template,
             'compare_template_id',
@@ -634,7 +642,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $this->config->get('COMPARE_TEMPLATE_ID')
         );
 
-        $lists['show_terms_and_conditions'] = JHtml::_(
+        $lists['show_terms_and_conditions'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'show_terms_and_conditions',
             'class="form-control" size="1"',
@@ -643,7 +651,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $no = Text::_('COM_REDSHOP_SHOW_PER_ORDER')
         );
 
-        $lists['rating_review_login_required'] = JHtml::_(
+        $lists['rating_review_login_required'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'rating_review_login_required',
             'class="form-control" size="1"',
@@ -651,11 +659,11 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $product_comparison   = array();
-        $product_comparison[] = JHtml::_('select.option', '', Text::_('COM_REDSHOP_SELECT'));
-        $product_comparison[] = JHtml::_('select.option', 'category', Text::_('COM_REDSHOP_CATEGORY'));
-        $product_comparison[] = JHtml::_('select.option', 'global', Text::_('COM_REDSHOP_GLOBAL'));
+        $product_comparison[] = HTMLHelper::_('select.option', '', Text::_('COM_REDSHOP_SELECT'));
+        $product_comparison[] = HTMLHelper::_('select.option', 'category', Text::_('COM_REDSHOP_CATEGORY'));
+        $product_comparison[] = HTMLHelper::_('select.option', 'global', Text::_('COM_REDSHOP_GLOBAL'));
 
-        $lists['product_comparison_type'] = JHtml::_(
+        $lists['product_comparison_type'] = HTMLHelper::_(
             'select.genericlist',
             $product_comparison,
             'product_comparison_type',
@@ -664,86 +672,86 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'text',
             $this->config->get('PRODUCT_COMPARISON_TYPE')
         );
-        $lists['newsletter_enable']       = JHtml::_(
+        $lists['newsletter_enable']       = HTMLHelper::_(
             'redshopselect.booleanlist',
             'newsletter_enable',
             'class="form-control" size="1"',
             $this->config->get('NEWSLETTER_ENABLE')
         );
-        $lists['newsletter_confirmation'] = JHtml::_(
+        $lists['newsletter_confirmation'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'newsletter_confirmation',
             'class="form-control" size="1"',
             $this->config->get('NEWSLETTER_CONFIRMATION')
         );
 
-        $lists['watermark_category_image']            = JHtml::_(
+        $lists['watermark_category_image']           = HTMLHelper::_(
             'redshopselect.booleanlist',
             'watermark_category_image',
             'class="form-control" size="1"',
             $this->config->get('WATERMARK_CATEGORY_IMAGE')
         );
-        $lists['watermark_category_thumb_image']      = JHtml::_(
+        $lists['watermark_category_thumb_image']     = HTMLHelper::_(
             'redshopselect.booleanlist',
             'watermark_category_thumb_image',
             'class="form-control" size="1"',
             $this->config->get('WATERMARK_CATEGORY_THUMB_IMAGE')
         );
-        $lists['watermark_product_image']             = JHtml::_(
+        $lists['watermark_product_image']            = HTMLHelper::_(
             'redshopselect.booleanlist',
             'watermark_product_image',
             'class="form-control" size="1"',
             $this->config->get('WATERMARK_PRODUCT_IMAGE')
         );
-        $lists['watermark_product_thumb_image']       = JHtml::_(
+        $lists['watermark_product_thumb_image']      = HTMLHelper::_(
             'redshopselect.booleanlist',
             'watermark_product_thumb_image',
             'class="form-control" size="1"',
             $this->config->get('WATERMARK_PRODUCT_THUMB_IMAGE')
         );
-        $lists['watermark_product_additional_image']  = JHtml::_(
+        $lists['watermark_product_additional_image'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'watermark_product_additional_image',
             'class="form-control" size="1"',
             $this->config->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE')
         );
-        $lists['watermark_cart_thumb_image']          = JHtml::_(
+        $lists['watermark_cart_thumb_image']         = HTMLHelper::_(
             'redshopselect.booleanlist',
             'watermark_cart_thumb_image',
             'class="form-control" size="1"',
             $this->config->get('WATERMARK_CART_THUMB_IMAGE')
         );
-        $lists['watermark_giftcart_image']            = JHtml::_(
+        $lists['watermark_giftcart_image']           = HTMLHelper::_(
             'redshopselect.booleanlist',
             'watermark_giftcart_image',
             'class="form-control" size="1"',
             $this->config->get('WATERMARK_GIFTCART_IMAGE')
         );
-        $lists['watermark_giftcart_thumb_image']      = JHtml::_(
+        $lists['watermark_giftcart_thumb_image']     = HTMLHelper::_(
             'redshopselect.booleanlist',
             'watermark_giftcart_thumb_image',
             'class="form-control" size="1"',
             $this->config->get('WATERMARK_GIFTCART_THUMB_IMAGE')
         );
-        $lists['watermark_manufacturer_thumb_image']  = JHtml::_(
+        $lists['watermark_manufacturer_thumb_image'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'watermark_manufacturer_thumb_image',
             'class="form-control" size="1"',
             $this->config->get('WATERMARK_MANUFACTURER_THUMB_IMAGE')
         );
-        $lists['watermark_manufacturer_image']        = JHtml::_(
+        $lists['watermark_manufacturer_image']       = HTMLHelper::_(
             'redshopselect.booleanlist',
             'watermark_manufacturer_image',
             'class="form-control" size="1"',
             $this->config->get('WATERMARK_MANUFACTURER_IMAGE')
         );
-        $lists['clickatell_enable']                   = JHtml::_(
+        $lists['clickatell_enable']                  = HTMLHelper::_(
             'redshopselect.booleanlist',
             'clickatell_enable',
             'class="form-control" size="1"',
             $this->config->get('CLICKATELL_ENABLE')
         );
-        $lists['quotation_mode']                      = JHtml::_(
+        $lists['quotation_mode']                     = HTMLHelper::_(
             'redshopselect.booleanlist',
             'default_quotation_mode',
             'class="form-control" size="1"',
@@ -751,39 +759,39 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $yes = Text::_('COM_REDSHOP_ON'),
             $no = Text::_('COM_REDSHOP_OFF')
         );
-        $lists['wanttoshowattributeimage']            = JHtml::_(
+        $lists['wanttoshowattributeimage']   = HTMLHelper::_(
             'redshopselect.booleanlist',
             'wanttoshowattributeimage',
             'class="form-control" size="1"',
             $this->config->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART')
         );
-        $lists['show_quotation_price']                = JHtml::_(
+        $lists['show_quotation_price']       = HTMLHelper::_(
             'redshopselect.booleanlist',
             'show_quotation_price',
             'class="form-control" size="1"',
             $this->config->get('SHOW_QUOTATION_PRICE')
         );
-        $lists['display_out_of_stock_after'] = JHtml::_(
+        $lists['display_out_of_stock_after'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'display_out_of_stock_after',
             'class="form-control" size="1"',
             $this->config->get('DISPLAY_OUT_OF_STOCK_AFTER')
         );
 
-        $lists['display_out_of_stock_attribute_data'] = JHtml::_(
+        $lists['display_out_of_stock_attribute_data'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'display_out_of_stock_attribute_data',
             'class="form-control"',
             $this->config->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA')
         );
 
-        $lists['category_tree_in_sef_url'] = JHtml::_(
+        $lists['category_tree_in_sef_url'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'category_tree_in_sef_url',
             'class="form-control"',
             $this->config->get('CATEGORY_TREE_IN_SEF_URL')
         );
-        $lists['statistics_enable']        = JHtml::_(
+        $lists['statistics_enable']        = HTMLHelper::_(
             'redshopselect.booleanlist',
             'statistics_enable',
             'class="form-control" size="1"',
@@ -791,9 +799,9 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
         $orderstatus                       = $model->getOrderstatus();
         $tmp                               = array();
-        $tmp[]                             = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
+        $tmp[]                             = HTMLHelper::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
         $orderstatus                       = array_merge($tmp, $orderstatus);
-        $lists['clickatell_order_status']  = JHtml::_(
+        $lists['clickatell_order_status']  = HTMLHelper::_(
             'select.genericlist',
             $orderstatus,
             'clickatell_order_status',
@@ -820,7 +828,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $menuitem[$i + 1]->text  = $menuitemlist[$i]->name;
         }
 
-        $lists['url_after_portal_login']  = JHtml::_(
+        $lists['url_after_portal_login']  = HTMLHelper::_(
             'select.genericlist',
             $menuitem,
             'portal_login_itemid',
@@ -829,7 +837,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'text',
             $this->config->get('PORTAL_LOGIN_ITEMID')
         );
-        $lists['url_after_portal_logout'] = JHtml::_(
+        $lists['url_after_portal_logout'] = HTMLHelper::_(
             'select.genericlist',
             $menuitem,
             'portal_logout_itemid',
@@ -841,18 +849,18 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
         $default_vat_group = $model->getVatGroup();
         $tmp               = array();
-        $tmp[]             = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
+        $tmp[]             = HTMLHelper::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
         $default_vat_group = array_merge($tmp, $default_vat_group);
 
         $tmp                 = array();
-        $tmp[]               = JHtml::_('select.option', '', Text::_('COM_REDSHOP_SELECT'));
+        $tmp[]               = HTMLHelper::_('select.option', '', Text::_('COM_REDSHOP_SELECT'));
         $default_vat_country = array_merge($tmp, $countries);
 
         $default_customer_register_type          = array();
-        $default_customer_register_type[]        = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_SELECT'));
-        $default_customer_register_type[]        = JHtml::_('select.option', '1', Text::_('COM_REDSHOP_PRIVATE'));
-        $default_customer_register_type[]        = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_COMPANY'));
-        $lists['default_customer_register_type'] = JHtml::_(
+        $default_customer_register_type[]        = HTMLHelper::_('select.option', '0', Text::_('COM_REDSHOP_SELECT'));
+        $default_customer_register_type[]        = HTMLHelper::_('select.option', '1', Text::_('COM_REDSHOP_PRIVATE'));
+        $default_customer_register_type[]        = HTMLHelper::_('select.option', '2', Text::_('COM_REDSHOP_COMPANY'));
+        $lists['default_customer_register_type'] = HTMLHelper::_(
             'select.genericlist',
             $default_customer_register_type,
             'default_customer_register_type',
@@ -863,10 +871,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $addtocart_behaviour          = array();
-        $addtocart_behaviour[]        = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_SELECT'));
-        $addtocart_behaviour[]        = JHtml::_('select.option', '1', Text::_('COM_REDSHOP_DIRECT_TO_CART'));
-        $addtocart_behaviour[]        = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_STAY_ON_CURRENT_VIEW'));
-        $lists['addtocart_behaviour'] = JHtml::_(
+        $addtocart_behaviour[]        = HTMLHelper::_('select.option', '0', Text::_('COM_REDSHOP_SELECT'));
+        $addtocart_behaviour[]        = HTMLHelper::_('select.option', '1', Text::_('COM_REDSHOP_DIRECT_TO_CART'));
+        $addtocart_behaviour[]        = HTMLHelper::_('select.option', '2', Text::_('COM_REDSHOP_STAY_ON_CURRENT_VIEW'));
+        $lists['addtocart_behaviour'] = HTMLHelper::_(
             'select.genericlist',
             $addtocart_behaviour,
             'addtocart_behaviour',
@@ -877,10 +885,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $allow_customer_register_type          = array();
-        $allow_customer_register_type[]        = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_BOTH'));
-        $allow_customer_register_type[]        = JHtml::_('select.option', '1', Text::_('COM_REDSHOP_PRIVATE'));
-        $allow_customer_register_type[]        = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_COMPANY'));
-        $lists['allow_customer_register_type'] = JHtml::_(
+        $allow_customer_register_type[]        = HTMLHelper::_('select.option', '0', Text::_('COM_REDSHOP_BOTH'));
+        $allow_customer_register_type[]        = HTMLHelper::_('select.option', '1', Text::_('COM_REDSHOP_PRIVATE'));
+        $allow_customer_register_type[]        = HTMLHelper::_('select.option', '2', Text::_('COM_REDSHOP_COMPANY'));
+        $lists['allow_customer_register_type'] = HTMLHelper::_(
             'select.genericlist',
             $allow_customer_register_type,
             'allow_customer_register_type',
@@ -891,20 +899,20 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         // Optional shipping address select box
-        $lists['optional_shipping_address'] = JHtml::_(
+        $lists['optional_shipping_address'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'optional_shipping_address',
             'class="form-control" ',
             $this->config->get('OPTIONAL_SHIPPING_ADDRESS')
         );
-        $lists['shipping_method_enable']    = JHtml::_(
+        $lists['shipping_method_enable']    = HTMLHelper::_(
             'redshopselect.booleanlist',
             'shipping_method_enable',
             'class="form-control" ',
             $this->config->get('SHIPPING_METHOD_ENABLE')
         );
 
-        $lists['default_vat_group'] = JHtml::_(
+        $lists['default_vat_group'] = HTMLHelper::_(
             'select.genericlist',
             $default_vat_group,
             'default_vat_group',
@@ -915,10 +923,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $vat_based_on          = array();
-        $vat_based_on[]        = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_WEBSHOP_MODE'));
-        $vat_based_on[]        = JHtml::_('select.option', '1', Text::_('COM_REDSHOP_CUSTOMER_MODE'));
-        $vat_based_on[]        = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_EU_MODE'));
-        $lists['vat_based_on'] = JHtml::_(
+        $vat_based_on[]        = HTMLHelper::_('select.option', '0', Text::_('COM_REDSHOP_WEBSHOP_MODE'));
+        $vat_based_on[]        = HTMLHelper::_('select.option', '1', Text::_('COM_REDSHOP_CUSTOMER_MODE'));
+        $vat_based_on[]        = HTMLHelper::_('select.option', '2', Text::_('COM_REDSHOP_EU_MODE'));
+        $lists['vat_based_on'] = HTMLHelper::_(
             'select.genericlist',
             $vat_based_on,
             'vat_based_on',
@@ -928,7 +936,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $this->config->get('VAT_BASED_ON')
         );
 
-        $lists['default_vat_country'] = JHtml::_(
+        $lists['default_vat_country'] = HTMLHelper::_(
             'select.genericlist',
             $default_vat_country,
             'default_vat_country',
@@ -960,10 +968,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
         // Build the State lists for each Country
         $script       = "<script language=\"javascript\" type=\"text/javascript\">//<![CDATA[\n";
-        $script       .= "<!--\n";
-        $script       .= "var originalOrder = '1';\n";
-        $script       .= "var originalPos = '$selected_country_code';\n";
-        $script       .= "var states = new Array();	// array in the format [key,value,text]\n";
+        $script .= "<!--\n";
+        $script .= "var originalOrder = '1';\n";
+        $script .= "var originalPos = '$selected_country_code';\n";
+        $script .= "var states = new Array();	// array in the format [key,value,text]\n";
         $i            = 0;
         $prev_country = '';
 
@@ -974,8 +982,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             if ($state->state_name) {
                 if ($prev_country != $country_3_code) {
                     $script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','',' -= " . Text::_(
-                            "COM_REDSHOP_SELECT"
-                        ) . " =-' );\n";
+                        "COM_REDSHOP_SELECT"
+                    ) . " =-' );\n";
                 }
 
                 $prev_country = $country_3_code;
@@ -987,12 +995,12 @@ class RedshopViewConfiguration extends RedshopViewAdmin
                     . "' );\n";
             } else {
                 $script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','','" . Text::_(
-                        "COM_REDSHOP_NONE"
-                    ) . "' );\n";
+                    "COM_REDSHOP_NONE"
+                ) . "' );\n";
             }
         }
 
-        $script                     .= "window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
+        $script .= "window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
 		var select = document.createElement('select');
 		var params = selectParams.split(' ');
 
@@ -1060,10 +1068,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $shopper_Group_private = $model->getShopperGroupPrivate();
 
         $tmp   = array();
-        $tmp[] = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
+        $tmp[] = HTMLHelper::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
         $tmp   = array_merge($tmp, $shopper_Group_private);
 
-        $lists['shopper_group_default_private'] = JHtml::_(
+        $lists['shopper_group_default_private'] = HTMLHelper::_(
             'select.genericlist',
             $tmp,
             'shopper_group_default_private',
@@ -1075,9 +1083,9 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
         $shopper_Group_company                  = $model->getShopperGroupCompany();
         $tmp                                    = array();
-        $tmp[]                                  = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
+        $tmp[]                                  = HTMLHelper::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
         $tmp                                    = array_merge($tmp, $shopper_Group_company);
-        $lists['shopper_group_default_company'] = JHtml::_(
+        $lists['shopper_group_default_company'] = HTMLHelper::_(
             'select.genericlist',
             $tmp,
             'shopper_group_default_company',
@@ -1088,13 +1096,13 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $tmp                                         = array();
-        $tmp[]                                       = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
+        $tmp[]                                       = HTMLHelper::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
         $tmp                                         = array_merge(
             $tmp,
             $shopper_Group_private,
             $shopper_Group_company ?: [] // Fix scrutinizer.
         );
-        $lists['shopper_group_default_unregistered'] = JHtml::_(
+        $lists['shopper_group_default_unregistered'] = HTMLHelper::_(
             'select.genericlist',
             $tmp,
             'shopper_group_default_unregistered',
@@ -1105,19 +1113,19 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $register_methods         = array();
-        $register_methods[]       = JHtml::_(
+        $register_methods[]       = HTMLHelper::_(
             'select.option',
             '0',
             Text::_('COM_REDSHOP_REGISTER_WITH_ACCOUNT_CREATION')
         );
-        $register_methods[]       = JHtml::_(
+        $register_methods[]       = HTMLHelper::_(
             'select.option',
             '1',
             Text::_('COM_REDSHOP_REGISTER_WITHOUT_ACCOUNT_CREATION')
         );
-        $register_methods[]       = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_REGISTER_ACCOUNT_OPTIONAL'));
-        $register_methods[]       = JHtml::_('select.option', '3', Text::_('COM_REDSHOP_REGISTER_ACCOUNT_SILENT'));
-        $lists['register_method'] = JHtml::_(
+        $register_methods[]       = HTMLHelper::_('select.option', '2', Text::_('COM_REDSHOP_REGISTER_ACCOUNT_OPTIONAL'));
+        $register_methods[]       = HTMLHelper::_('select.option', '3', Text::_('COM_REDSHOP_REGISTER_ACCOUNT_SILENT'));
+        $lists['register_method'] = HTMLHelper::_(
             'select.genericlist',
             $register_methods,
             'register_method',
@@ -1127,7 +1135,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $this->config->get('REGISTER_METHOD')
         );
 
-        $lists['product_template']              = JHtml::_(
+        $lists['product_template']              = HTMLHelper::_(
             'select.genericlist',
             $product_template,
             'default_product_template',
@@ -1136,7 +1144,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'name',
             $this->config->get('PRODUCT_TEMPLATE')
         );
-        $lists['ajax_detail_template']          = JHtml::_(
+        $lists['ajax_detail_template']          = HTMLHelper::_(
             'select.genericlist',
             $ajax_detail_template,
             'default_ajax_detailbox_template',
@@ -1145,7 +1153,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'name',
             $this->config->get('DEFAULT_AJAX_DETAILBOX_TEMPLATE')
         );
-        $lists['category_template']             = JHtml::_(
+        $lists['category_template']             = HTMLHelper::_(
             'select.genericlist',
             $category_template,
             'default_category_template',
@@ -1154,7 +1162,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'name',
             $this->config->get('CATEGORY_TEMPLATE')
         );
-        $lists['default_categorylist_template'] = JHtml::_(
+        $lists['default_categorylist_template'] = HTMLHelper::_(
             'select.genericlist',
             $categorylist_template,
             'default_categorylist_template',
@@ -1163,7 +1171,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'name',
             $this->config->get('DEFAULT_CATEGORYLIST_TEMPLATE')
         );
-        $lists['manufacturer_template']         = JHtml::_(
+        $lists['manufacturer_template']         = HTMLHelper::_(
             'select.genericlist',
             $manufacturer_template,
             'default_manufacturer_template',
@@ -1172,26 +1180,26 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'name',
             $this->config->get('MANUFACTURER_TEMPLATE')
         );
-        $lists['show_price']                    = JHtml::_(
+        $lists['show_price']                    = HTMLHelper::_(
             'redshopselect.booleanlist',
             'show_price',
             'class="form-control" size="1"',
             $this->config->get('SHOW_PRICE_PRE')
         );
 
-        $lists['use_as_catalog']                      = JHtml::_(
+        $lists['use_as_catalog']                      = HTMLHelper::_(
             'redshopselect.booleanlist',
             'use_as_catalog',
             'class="form-control" size="1"',
             $this->config->get('PRE_USE_AS_CATALOG', 0)
         );
-        $lists['show_tax_exempt_infront']             = JHtml::_(
+        $lists['show_tax_exempt_infront']             = HTMLHelper::_(
             'redshopselect.booleanlist',
             'show_tax_exempt_infront',
             'class="form-control" size="1"',
             $this->config->get('SHOW_TAX_EXEMPT_INFRONT')
         );
-        $lists['individual_add_to_cart_enable']       = JHtml::_(
+        $lists['individual_add_to_cart_enable']       = HTMLHelper::_(
             'redshopselect.booleanlist',
             'individual_add_to_cart_enable',
             'class="form-control" size="1"',
@@ -1199,32 +1207,32 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             Text::_('COM_REDSHOP_INDIVIDUAL_ADD_TO_CART_PER_PROPERTY'),
             Text::_('COM_REDSHOP_ADD_TO_CART_PER_PRODUCT')
         );
-        $lists['enable_performance_mode']             = JHtml::_(
+        $lists['enable_performance_mode']             = HTMLHelper::_(
             'redshopselect.booleanlist',
             'enable_performance_mode',
             'class="form-control" size="1"',
             $this->config->get('ENABLE_PERFORMANCE_MODE')
         );
-        $lists['accessory_as_product_in_cart_enable'] = JHtml::_(
+        $lists['accessory_as_product_in_cart_enable'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'accessory_as_product_in_cart_enable',
             'class="form-control" size="1"',
             $this->config->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE')
         );
-        $lists['use_product_outofstock_image']        = JHtml::_(
+        $lists['use_product_outofstock_image']        = HTMLHelper::_(
             'redshopselect.booleanlist',
             'use_product_outofstock_image',
             'class="form-control" size="1"',
             $this->config->get('USE_PRODUCT_OUTOFSTOCK_IMAGE')
         );
-        $lists['enable_address_detail_in_shipping']   = JHtml::_(
+        $lists['enable_address_detail_in_shipping']   = HTMLHelper::_(
             'redshopselect.booleanlist',
             'enable_address_detail_in_shipping',
             'class="form-control" size="1"',
             $this->config->get('ENABLE_ADDRESS_DETAIL_IN_SHIPPING')
         );
 
-        $lists['send_mail_to_customer'] = JHtml::_(
+        $lists['send_mail_to_customer'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'send_mail_to_customer',
             'class="form-control" size="1"',
@@ -1232,10 +1240,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $bookinvoice                     = array();
-        $bookinvoice[]                   = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_DIRECTLY_BOOK'));
-        $bookinvoice[]                   = JHtml::_('select.option', '1', Text::_('COM_REDSHOP_MANUALLY_BOOK'));
-        $bookinvoice[]                   = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_BOOK_ON_ORDER_STATUS'));
-        $lists['economic_invoice_draft'] = JHtml::_(
+        $bookinvoice[]                   = HTMLHelper::_('select.option', '0', Text::_('COM_REDSHOP_DIRECTLY_BOOK'));
+        $bookinvoice[]                   = HTMLHelper::_('select.option', '1', Text::_('COM_REDSHOP_MANUALLY_BOOK'));
+        $bookinvoice[]                   = HTMLHelper::_('select.option', '2', Text::_('COM_REDSHOP_BOOK_ON_ORDER_STATUS'));
+        $lists['economic_invoice_draft'] = HTMLHelper::_(
             'select.genericlist',
             $bookinvoice,
             'economic_invoice_draft',
@@ -1246,14 +1254,14 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $bookInvoiceNumbers                    = array(
-            JHtml::_('select.option', '0', Text::_('COM_REDSHOP_SAME_AS_ORDER_NUMBER')),
-            JHtml::_(
+            HTMLHelper::_('select.option', '0', Text::_('COM_REDSHOP_SAME_AS_ORDER_NUMBER')),
+            HTMLHelper::_(
                 'select.option',
                 '1',
                 Text::_('COM_REDSHOP_SEQUENTIALLY_IN_ECONOMIC_NO_MATCH_UP_WITH_ORDER_NUMBER')
             )
         );
-        $lists['economic_book_invoice_number'] = JHtml::_(
+        $lists['economic_book_invoice_number'] = HTMLHelper::_(
             'select.genericlist',
             $bookInvoiceNumbers,
             'economic_book_invoice_number',
@@ -1265,10 +1273,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
         // NEXT-PREVIOUS LINK
         $link_type                   = array();
-        $link_type[]                 = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_DEFAULT_LINK'));
-        $link_type[]                 = JHtml::_('select.option', '1', Text::_('COM_REDSHOP_CUSTOM_LINK'));
-        $link_type[]                 = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_IMAGE_LINK'));
-        $lists['next_previous_link'] = JHtml::_(
+        $link_type[]                 = HTMLHelper::_('select.option', '0', Text::_('COM_REDSHOP_DEFAULT_LINK'));
+        $link_type[]                 = HTMLHelper::_('select.option', '1', Text::_('COM_REDSHOP_CUSTOM_LINK'));
+        $link_type[]                 = HTMLHelper::_('select.option', '2', Text::_('COM_REDSHOP_IMAGE_LINK'));
+        $lists['next_previous_link'] = HTMLHelper::_(
             'select.genericlist',
             $link_type,
             'next_previous_link',
@@ -1279,7 +1287,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $order_data                                            = RedshopHelperUtility::getOrderByList();
-        $lists['default_product_ordering_method']              = JHtml::_(
+        $lists['default_product_ordering_method']              = HTMLHelper::_(
             'select.genericlist',
             $order_data,
             'default_product_ordering_method',
@@ -1288,7 +1296,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'text',
             $this->config->get('DEFAULT_PRODUCT_ORDERING_METHOD')
         );
-        $lists['default_manufacturer_product_ordering_method'] = JHtml::_(
+        $lists['default_manufacturer_product_ordering_method'] = HTMLHelper::_(
             'select.genericlist',
             $order_data,
             'default_manufacturer_product_ordering_method',
@@ -1299,7 +1307,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $order_data                                 = RedshopHelperUtility::getRelatedOrderByList();
-        $lists['default_related_ordering_method']   = JHtml::_(
+        $lists['default_related_ordering_method']   = HTMLHelper::_(
             'select.genericlist',
             $order_data,
             'default_related_ordering_method',
@@ -1309,7 +1317,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $this->config->get('DEFAULT_RELATED_ORDERING_METHOD')
         );
         $order_data                                 = RedshopHelperUtility::getAccessoryOrderByList();
-        $lists['default_accessory_ordering_method'] = JHtml::_(
+        $lists['default_accessory_ordering_method'] = HTMLHelper::_(
             'select.genericlist',
             $order_data,
             'default_accessory_ordering_method',
@@ -1365,7 +1373,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $order_data[2]->value = "c.ordering ASC";
         $order_data[2]->text  = Text::_('COM_REDSHOP_ORDERING');
 
-        $lists['default_category_ordering_method'] = JHtml::_(
+        $lists['default_category_ordering_method'] = HTMLHelper::_(
             'select.genericlist',
             $order_data,
             'default_category_ordering_method',
@@ -1376,7 +1384,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         $order_data                                    = RedshopHelperUtility::getManufacturerOrderByList();
-        $lists['default_manufacturer_ordering_method'] = JHtml::_(
+        $lists['default_manufacturer_ordering_method'] = HTMLHelper::_(
             'select.genericlist',
             $order_data,
             'default_manufacturer_ordering_method',
@@ -1403,7 +1411,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $symbol_position[3]->value = "none";
         $symbol_position[3]->text  = Text::_('COM_REDSHOP_NONE');
 
-        $lists['currency_symbol_position'] = JHtml::_(
+        $lists['currency_symbol_position'] = HTMLHelper::_(
             'select.genericlist',
             $symbol_position,
             'currency_symbol_position',
@@ -1416,11 +1424,11 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $optionsDateformat  = RedshopHelperDatetime::getDateFormat();
         $selectedDateformat = $this->config->get('DEFAULT_DATEFORMAT');
 
-        if ((string)$selectedDateformat === '0') {
+        if ((string) $selectedDateformat === '0') {
             $selectedDateformat = 'Y-m-d';
         }
 
-        $lists['default_dateformat'] = JHtml::_(
+        $lists['default_dateformat'] = HTMLHelper::_(
             'select.genericlist',
             $optionsDateformat,
             'default_dateformat',
@@ -1430,25 +1438,25 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             $selectedDateformat
         );
 
-        $lists['discount_enable']         = JHtml::_(
+        $lists['discount_enable']         = HTMLHelper::_(
             'redshopselect.booleanlist',
             'discount_enable',
             'class="form-control" ',
             $this->config->get('DISCOUNT_ENABLE')
         );
-        $lists['invoice_mail_enable']     = JHtml::_(
+        $lists['invoice_mail_enable']     = HTMLHelper::_(
             'redshopselect.booleanlist',
             'invoice_mail_enable',
             'class="form-control"',
             $this->config->get('INVOICE_MAIL_ENABLE')
         );
-        $lists['wishlist_login_required'] = JHtml::_(
+        $lists['wishlist_login_required'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'wishlist_login_required',
             'class="form-control"',
             $this->config->get('WISHLIST_LOGIN_REQUIRED')
         );
-        $lists['wishlist_list']           = JHtml::_(
+        $lists['wishlist_list']           = HTMLHelper::_(
             'redshopselect.booleanlist',
             'wishlist_list',
             'class="form-control"',
@@ -1456,13 +1464,13 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
 
         // Product general
-        $lists['product_default_category'] = JHtml::_(
+        $lists['product_default_category']   = HTMLHelper::_(
             'redshopselect.booleanlist',
             'product_default_category',
             'class="form-control" size="1"',
             $this->config->get('PRODUCT_DEFAULT_CATEGORY')
         );
-        $lists['show_discontinued_products'] = JHtml::_(
+        $lists['show_discontinued_products'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'show_discontinued_products',
             'class="form-control" size="1"',
@@ -1486,7 +1494,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $invoice_mail_send_option[3]->value = 3;
         $invoice_mail_send_option[3]->text  = Text::_('COM_REDSHOP_BOTH');
 
-        $lists['invoice_mail_send_option'] = JHtml::_(
+        $lists['invoice_mail_send_option'] = HTMLHelper::_(
             'redshopselect.radiolist',
             $invoice_mail_send_option,
             'invoice_mail_send_option',
@@ -1509,7 +1517,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $order_mail_after[2]->value = 2;
         $order_mail_after[2]->text  = Text::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT');
 
-        $lists['order_mail_after'] = JHtml::_(
+        $lists['order_mail_after'] = HTMLHelper::_(
             'select.genericlist',
             $order_mail_after,
             'order_mail_after',
@@ -1540,7 +1548,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $discount_type[4]->value = 4;
         $discount_type[4]->text  = Text::_('COM_REDSHOP_DISCOUNT_VOUCHER_COUPON_MULTIPLE');
 
-        $lists['discount_type'] = JHtml::_(
+        $lists['discount_type'] = HTMLHelper::_(
             'select.genericlist',
             $discount_type,
             'discount_type',
@@ -1586,7 +1594,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $option[5]->value = 'ml';
         $option[5]->text  = Text::_('COM_REDSHOP_MILLILITER');
 
-        $lists['default_volume_unit'] = JHtml::_(
+        $lists['default_volume_unit'] = HTMLHelper::_(
             'select.genericlist',
             $option,
             'default_volume_unit',
@@ -1614,7 +1622,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $option[3]->value = 'kg';
         $option[3]->text  = Text::_('COM_REDSHOP_KG');
 
-        $lists['default_weight_unit'] = JHtml::_(
+        $lists['default_weight_unit'] = HTMLHelper::_(
             'select.genericlist',
             $option,
             'default_weight_unit',
@@ -1625,41 +1633,41 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         );
         unset($option);
 
-        $lists['postdk_integration']         = JHtml::_(
+        $lists['postdk_integration']         = HTMLHelper::_(
             'redshopselect.booleanlist',
             'postdk_integration',
             'class="form-control" size="1"',
             $this->config->get('POSTDK_INTEGRATION')
         );
-        $lists['send_catalog_reminder_mail'] = JHtml::_(
+        $lists['send_catalog_reminder_mail'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'send_catalog_reminder_mail',
             'class="form-control" size="1"',
             $this->config->get('SEND_CATALOG_REMINDER_MAIL')
         );
 
-        $lists['load_redshop_style'] = JHtml::_(
+        $lists['load_redshop_style'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'load_redshop_style',
             'class="form-control" size="1"',
             $this->config->get('LOAD_REDSHOP_STYLE')
         );
 
-        $lists['enable_stockroom_notification'] = JHtml::_(
+        $lists['enable_stockroom_notification'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'enable_stockroom_notification',
             'class="form-control" size="1"',
             $this->config->get('ENABLE_STOCKROOM_NOTIFICATION')
         );
 
-        $lists['inline_editing'] = JHtml::_(
+        $lists['inline_editing'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'inline_editing',
             'class="form-control" size="1"',
             $this->config->get('INLINE_EDITING')
         );
 
-        $lists['currency_libraries'] = JHtml::_(
+        $lists['currency_libraries'] = HTMLHelper::_(
             'redshopselect.booleanlist',
             'currency_libraries',
             'class="form-control" size="1"',

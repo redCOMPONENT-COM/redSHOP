@@ -93,7 +93,8 @@ class RedshopHelperJs
             'REQUIRED_EAN_NUMBER'               => $config->get('REQUIRED_EAN_NUMBER'),
             'REQUIRED_COUNTRY_CODE'             => $config->get('REQUIRED_COUNTRY_CODE'),
             'REQUIRED_PHONE'                    => $config->get('REQUIRED_PHONE'),
-            'MINIMUM_ORDER_TOTAL'               => $config->get('MINIMUM_ORDER_TOTAL')
+            'MINIMUM_ORDER_TOTAL'               => $config->get('MINIMUM_ORDER_TOTAL'),
+            'ASTERISK_POSITION'                 => $config->get('ASTERISK_POSITION'),
         );
 
         // Current Shopper Group - Show price with VAT config

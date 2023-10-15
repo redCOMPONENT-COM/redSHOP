@@ -262,7 +262,7 @@ class App
             "ACCESSORY_THUMB_HEIGHT_3"                     => $data["accessory_thumb_height_3"],
             "ACCESSORY_THUMB_WIDTH_3"                      => $data["accessory_thumb_width_3"],
             "DEFAULT_AJAX_DETAILBOX_TEMPLATE"              => $data["default_ajax_detailbox_template"],
-            "ASTERISK_POSITION"                            => 0,
+            "ASTERISK_POSITION"                            => $data["asterisk_postion"],
             "MANUFACTURER_THUMB_WIDTH"                     => $data["manufacturer_thumb_width"],
             "MANUFACTURER_THUMB_HEIGHT"                    => $data["manufacturer_thumb_height"],
             "MANUFACTURER_PRODUCT_THUMB_WIDTH"             => $data["manufacturer_product_thumb_width"],

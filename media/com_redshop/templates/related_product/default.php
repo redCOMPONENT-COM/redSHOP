@@ -1,6 +1,8 @@
-<div class="gd_header"><h4>You may also interested in this/these product(s)</h4></div>
-<div class="gd_content clearfix">
-    <div class="related_product_wrapper category_box_wrapper row grid">
+<div class="product-rating-header">
+    <h4>{relproduct_header}</h4>
+</div>
+<div class="product-rating-content">
+    <div class="row related_product_wrapper category_box_wrapper">
         {related_product_start}
         <div class="category_box_outside col-sm-6 col-md-4">
             <div class="category_box_inside">

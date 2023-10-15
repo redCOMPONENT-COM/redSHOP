@@ -378,3 +378,14 @@ echo RedshopLayoutHelper::render(
         <?php endif; ?>
     </div>
 </div>
+<?php
+echo RedshopLayoutHelper::render(
+    'config.config',
+    array(
+        'title' => JText::_('COM_REDSHOP_ASTERISK_POSITION'),
+        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_ASTERISK_POSITION'),
+        'field' => $this->lists['asterisk_postion'],
+        'line'  => false
+    )
+);
+?>

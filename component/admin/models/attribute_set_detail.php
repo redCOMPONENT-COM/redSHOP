@@ -1121,7 +1121,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
     {
         $src            = JPATH_ROOT . '/' . $imagePath;
         $imgname        = RedshopHelperMedia::cleanFileName($imagePath);
-        $property_image = $section_id . '_' . JFile::getName($imgname);
+        $property_image = $section_id . '_' . basename($imgname);
         $dest           = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
         copy($src, $dest);
 

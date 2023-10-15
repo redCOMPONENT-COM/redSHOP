@@ -117,7 +117,7 @@ class RedshopHelperProduct
         $productTax          = 0;
 
         if ($productId) {
-            $productInfo = Redshop::product((int)$productId);
+            $productInfo = Redshop::product((int) $productId);
 
             if ($newProductPrice != 0) {
                 $productPriceExclVat = $newProductPrice;
@@ -262,7 +262,7 @@ class RedshopHelperProduct
 
         for ($a = 0, $an = count($accessory); $a < $an; $a++) {
             $acId   = $accessory[$a]->child_product_id;
-            $cpData = Redshop::product((int)$acId);
+            $cpData = Redshop::product((int) $acId);
 
             $accessoryName = RedshopHelperUtility::maxChars(
                 $accessory[$a]->product_name,
@@ -341,11 +341,11 @@ class RedshopHelperProduct
             return '';
         }
 
-        $wArray                  = array();
-        $wArray[0]               = new stdClass;
+        $wArray          = array();
+        $wArray[0]       = new stdClass;
         $wArray[0]->id   = 0;
         $wArray[0]->name = Text::_('COM_REDSHOP_SELECT');
-        $commonId                = $productId . $uniqueId;
+        $commonId        = $productId . $uniqueId;
 
         for ($i = 0, $in = count($wrapper); $i < $in; $i++) {
             $wrapperVat = 0;
@@ -372,7 +372,7 @@ class RedshopHelperProduct
 
         $wrapper = array_merge($wArray, $wrapper);
 
-        $lists['wrapper_id'] = JHtml::_(
+        $lists['wrapper_id'] = HTMLHelper::_(
             'select.genericlist',
             $wrapper,
             'wrapper_id_' . $commonId . '[]',
@@ -382,7 +382,7 @@ class RedshopHelperProduct
             0
         );
 
-        $wrapperList .= "<tr><td>" . Text::_('COM_REDSHOP_WRAPPER') . " : " . $lists ['wrapper_id'] . "</td></tr>";
+        $wrapperList .= "<tr><td>" . Text::_('COM_REDSHOP_WRAPPER') . " : " . $lists['wrapper_id'] . "</td></tr>";
 
         return $wrapperList;
     }
@@ -394,14 +394,14 @@ class RedshopHelperProduct
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_product_category_xref'))
-            ->where($db->qn('product_id') . ' = ' . $db->q((int)$productId));
+            ->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
 
         $db->setQuery($query);
         $cat        = $db->loadObjectList();
-        $subQuery[] = " FIND_IN_SET(" . (int)$productId . ", " . $db->qn('product_id') . ") ";
+        $subQuery[] = " FIND_IN_SET(" . (int) $productId . ", " . $db->qn('product_id') . ") ";
 
         for ($i = 0, $in = count($cat); $i < $in; $i++) {
-            $subQuery[] = " FIND_IN_SET(" . (int)$cat[$i]->category_id . ", " . $db->qn('category_id') . ") ";
+            $subQuery[] = " FIND_IN_SET(" . (int) $cat[$i]->category_id . ", " . $db->qn('category_id') . ") ";
         }
 
         if ($default != 0) {
@@ -411,7 +411,7 @@ class RedshopHelperProduct
         $query = $db->getQuery(true);
 
         if ($wrapper_id != 0) {
-            $query->where($db->qn('id') . ' = ' . (int)$wrapper_id);
+            $query->where($db->qn('id') . ' = ' . (int) $wrapper_id);
         }
 
         $query->select('*')
@@ -512,8 +512,8 @@ class RedshopHelperProduct
             if (count($rate) > 0) {
                 for ($i = 0, $in = count($rate); $i < $in; $i++) {
                     $displayrate        = ($rate[$i]->rate > 0) ? " (" . RedshopHelperProductPrice::formattedPrice(
-                            $rate[$i]->rate
-                        ) . " )" : "";
+                        $rate[$i]->rate
+                    ) . " )" : "";
                     $rateArr[$r]        = new stdClass;
                     $rateArr[$r]->text  = strip_tags(Text::_($rs->name) . " - " . $rate[$i]->text . $displayrate);
                     $rateArr[$r]->value = $rate[$i]->value;
@@ -530,7 +530,7 @@ class RedshopHelperProduct
             $shippingRateId = $rateArr[0]->value;
         }
 
-        return JHtml::_(
+        return HTMLHelper::_(
             'select.genericlist',
             $rateArr,
             'shipping_rate_id',
@@ -573,7 +573,7 @@ class RedshopHelperProduct
     {
         $db      = JFactory::getDbo();
         $columns = array('fieldid', 'data_txt', 'itemid', 'section');
-        $values  = array($db->q((int)$fieldId), $db->q($value), $db->q((int)$orderItemId), $db->q((int)$sectionId));
+        $values  = array($db->q((int) $fieldId), $db->q($value), $db->q((int) $orderItemId), $db->q((int) $sectionId));
 
         $query = $db->getQuery(true)
             ->insert($db->qn('#__redshop_fields_data'))
@@ -711,16 +711,16 @@ class RedshopHelperProduct
                         'p.shopper_group_id'
                     )
                 )
-                ->where($db->qn('p.product_id') . ' = ' . $db->q((int)$productId))
-                ->where($db->qn('u.user_id') . ' = ' . $db->q((int)$userId))
+                ->where($db->qn('p.product_id') . ' = ' . $db->q((int) $productId))
+                ->where($db->qn('u.user_id') . ' = ' . $db->q((int) $userId))
                 ->where($db->qn('u.address_type') . ' = ' . $db->q('BT'))
                 ->order($db->qn('p.price_quantity_start') . ' ASC');
         } else {
             $query = $db->getQuery(true)
                 ->select('*')
                 ->from($db->qn('#__redshop_product_price'))
-                ->where($db->qn('product_id') . ' = ' . $db->q((int)$productId))
-                ->where($db->qn('shopper_group_id') . ' = ' . $db->q((int)$shopperGroupId))
+                ->where($db->qn('product_id') . ' = ' . $db->q((int) $productId))
+                ->where($db->qn('shopper_group_id') . ' = ' . $db->q((int) $shopperGroupId))
                 ->order($db->qn('price_quantity_start') . ' ASC');
         }
 
@@ -733,10 +733,10 @@ class RedshopHelperProduct
         return RedshopLayoutHelper::render(
             'product.product_price_table',
             array(
-                'result'    => $result,
-                'productId' => $productId,
-                'userId'    => $userId,
-                'isApplyTax'=> $isApplyTax
+                'result'     => $result,
+                'productId'  => $productId,
+                'userId'     => $userId,
+                'isApplyTax' => $isApplyTax
             ),
             '',
             array(
@@ -793,16 +793,16 @@ class RedshopHelperProduct
 
             if ($userId) {
                 $query->leftJoin($db->qn('#__redshop_users_info', 'u') . ' ON u.shopper_group_id = p.shopper_group_id')
-                    ->where('u.user_id = ' . (int)$userId)
+                    ->where('u.user_id = ' . (int) $userId)
                     ->where('u.address_type = ' . $db->quote('BT'));
             } else {
-                $query->where('p.shopper_group_id = ' . (int)$shopperGroupId);
+                $query->where('p.shopper_group_id = ' . (int) $shopperGroupId);
             }
 
-            $query->where('p.product_id = ' . (int)$productId)
+            $query->where('p.product_id = ' . (int) $productId)
                 ->where(
-                    '((p.price_quantity_start <= ' . (int)$quantity . ' AND p.price_quantity_end >= '
-                    . (int)$quantity . ') OR (p.price_quantity_start = 0 AND p.price_quantity_end = 0))'
+                    '((p.price_quantity_start <= ' . (int) $quantity . ' AND p.price_quantity_end >= '
+                    . (int) $quantity . ') OR (p.price_quantity_start = 0 AND p.price_quantity_end = 0))'
                 )
                 ->order('p.price_quantity_start ASC');
 
@@ -821,11 +821,13 @@ class RedshopHelperProduct
             }
         }
 
-        if (!empty($result) && $result->discount_price != 0
+        if (
+            !empty($result) && $result->discount_price != 0
             && $result->discount_start_date != 0 && $result->discount_end_date != 0
             && $result->discount_start_date <= time()
             && $result->discount_end_date >= time()
-            && $result->discount_price < $result->product_price) {
+            && $result->discount_price < $result->product_price
+        ) {
             $result->product_price = $result->discount_price;
         }
 
@@ -932,13 +934,15 @@ class RedshopHelperProduct
 
     public static function replaceProductSubCategory(&$templateDesc, $category)
     {
-        if (strpos($templateDesc, "{product_loop_start}") !== false && strpos(
+        if (
+            strpos($templateDesc, "{product_loop_start}") !== false && strpos(
                 $templateDesc,
                 "{product_loop_end}"
-            ) !== false) {
+            ) !== false
+        ) {
             $templateD1        = explode("{product_loop_start}", $templateDesc);
-            $templateD2        = explode("{product_loop_end}", $templateD1 [1]);
-            $templateProduct   = $templateD2 [0];
+            $templateD2        = explode("{product_loop_end}", $templateD1[1]);
+            $templateProduct   = $templateD2[0];
             $categoryId        = $category->id;
             $listSectionFields = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
             $products          = RedshopHelperCategory::getCategoryProductList($categoryId);
@@ -953,21 +957,21 @@ class RedshopHelperProduct
 
             $attributeTemplate = \Redshop\Template\Helper::getAttribute($templateProduct);
 
-            $extraFieldName                = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
-            $extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate(
+            $extraFieldName                         = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
+            $extraFieldsForCurrentTemplate          = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate(
                 $extraFieldName,
                 $templateProduct,
                 1
             );
-            $productData                   = '';
+            $productData                            = '';
             list($templateUserfield, $userfieldArr) = self::getProductUserfieldFromTemplate($templateProduct);
-            $templateProduct = RedshopHelperTax::replaceVatInformation($templateProduct);
+            $templateProduct                        = RedshopHelperTax::replaceVatInformation($templateProduct);
 
             if (strpos($templateDesc, "{subproductlimit:") !== false) {
-                $perpage         = explode('{subproductlimit:', $templateDesc);
-                $perpage         = explode('}', $perpage[1]);
-                $limitProduct    = intval($perpage[0]) > $limitProduct ? $limitProduct : intval($perpage[0]);
-                $templateDesc    = str_replace("{subproductlimit:" . intval($perpage[0]) . "}", "", $templateDesc);
+                $perpage      = explode('{subproductlimit:', $templateDesc);
+                $perpage      = explode('}', $perpage[1]);
+                $limitProduct = intval($perpage[0]) > $limitProduct ? $limitProduct : intval($perpage[0]);
+                $templateDesc = str_replace("{subproductlimit:" . intval($perpage[0]) . "}", "", $templateDesc);
             }
 
             for ($i = 0; $i < $limitProduct; $i++) {
@@ -992,7 +996,7 @@ class RedshopHelperProduct
                  * Process the prepare Product plugins
                  */
                 $params  = array();
-                $results = $dispatcher->trigger('onPrepareProduct', array(& $dataAdd, &$params, $product));
+                $results = $dispatcher->trigger('onPrepareProduct', array(&$dataAdd, &$params, $product));
 
                 if (strpos($dataAdd, "{product_delivery_time}") !== false) {
                     $productDeliveryTime = self::getProductMinDeliveryTime($product->product_id);
@@ -1028,17 +1032,19 @@ class RedshopHelperProduct
                             $alttext = $mediaDocuments[$m]->media_name;
                         }
 
-                        if (JFile::exists(
-                            REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $mediaDocuments[$m]->media_name
-                        )) {
+                        if (
+                            JFile::exists(
+                                REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $mediaDocuments[$m]->media_name
+                            )
+                        ) {
                             $downlink = JURI::root() .
                                 'index.php?tmpl=component&option=com_redshop' .
                                 '&view=product&pid=' . $product->product_id .
                                 '&task=downloadDocument&fname=' . $mediaDocuments[$m]->media_name .
                                 '&Itemid=' . $itemId;
-                            $moreDoc  .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
-                            $moreDoc  .= $alttext;
-                            $moreDoc  .= "</a></div>";
+                            $moreDoc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
+                            $moreDoc .= $alttext;
+                            $moreDoc .= "</a></div>";
                         }
                     }
 
@@ -1066,7 +1072,7 @@ class RedshopHelperProduct
                             0,
                             $product->product_id
                         );
-                        $ufield            .= $productUserFields[1];
+                        $ufield .= $productUserFields[1];
 
                         if ($productUserFields[1] != "") {
                             $countNoUserField++;
@@ -1110,7 +1116,7 @@ class RedshopHelperProduct
                                 0,
                                 $product->product_id
                             );
-                            $ufield            .= $productUserFields[1];
+                            $ufield .= $productUserFields[1];
 
                             if ($productUserFields[1] != "") {
                                 $countNoUserField++;
@@ -1166,15 +1172,15 @@ class RedshopHelperProduct
                 $dataAdd             = str_replace("{product_number}", $productNumberOutput, $dataAdd);
 
                 $productVolumeUnit = '<span class="product_unit_variable">' . Redshop::getConfig()->get(
-                        'DEFAULT_VOLUME_UNIT'
-                    ) . "3" . '</span>';
+                    'DEFAULT_VOLUME_UNIT'
+                ) . "3" . '</span>';
 
                 $dataAddStr = self::redunitDecimal($product->product_volume) . "&nbsp;" . $productVolumeUnit;
                 $dataAdd    = str_replace("{product_size}", $dataAddStr, $dataAdd);
 
                 $productUnit = '<span class="product_unit_variable">' . Redshop::getConfig()->get(
-                        'DEFAULT_VOLUME_UNIT'
-                    ) . '</span>';
+                    'DEFAULT_VOLUME_UNIT'
+                ) . '</span>';
                 $dataAdd     = str_replace(
                     "{product_length}",
                     self::redunitDecimal($product->product_length) . "&nbsp;" . $productUnit,
@@ -1230,8 +1236,8 @@ class RedshopHelperProduct
 
                 if (strpos($dataAdd, '{read_more}') !== false) {
                     $readMore = "<a href='" . $link . "' title='" . $product->product_name . "'>" . Text::_(
-                            'COM_REDSHOP_READ_MORE'
-                        ) . "</a>";
+                        'COM_REDSHOP_READ_MORE'
+                    ) . "</a>";
                     $dataAdd  = str_replace("{read_more}", $readMore, $dataAdd);
                 }
 
@@ -1262,8 +1268,8 @@ class RedshopHelperProduct
                             "index.php?option=com_redshop&view=product&pid=" . $product->product_id .
                             "&tmpl=component&template=" . $rtln . "&for=rtln";
                         $rtlna      = '<a class="redcolorproductimg" href="' . $linktortln . '"  >' . Text::_(
-                                'COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX'
-                            ) . '</a>';
+                            'COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX'
+                        ) . '</a>';
                     } else {
                         $rtlna = "";
                     }
@@ -1357,11 +1363,11 @@ class RedshopHelperProduct
                 // Product image flying addwishlist time start
                 $thumbImage = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" .
                     Redshop\Product\Image\Image::getImage(
-                        $pwThumb, 
-                        $phThumb, 
-                        $product->product_id, 
-                        $link, 
-                        2, 
+                        $pwThumb,
+                        $phThumb,
+                        $product->product_id,
+                        $link,
+                        2,
                         1
                     ) .
                     "</span>";
@@ -1618,10 +1624,12 @@ class RedshopHelperProduct
         foreach ($fieldsArray as $fieldArray) {
             $fieldValueArray = RedshopHelperExtrafields::getData($fieldArray->id, 17, $productid);
 
-            if ($fieldValueArray->data_txt != ""
+            if (
+                $fieldValueArray->data_txt != ""
                 && $fieldArray->show_in_front == 1
                 && $fieldArray->published == 1
-                && $giftCard == 0) {
+                && $giftCard == 0
+            ) {
                 $templatedata = str_replace('{' . $fieldArray->name . '}', $fieldValueArray->data_txt, $templatedata);
                 $templatedata = str_replace('{' . $fieldArray->name . '_lbl}', $fieldArray->title, $templatedata);
             } else {
@@ -1642,11 +1650,11 @@ class RedshopHelperProduct
         if (!$sectionId && !$section) {
             $query
                 ->from($db->qn('#__redshop_product_stockroom_xref') . ' AS ps')
-                ->where($db->qn('ps.product_id') . ' = ' . (int)$productId);
+                ->where($db->qn('ps.product_id') . ' = ' . (int) $productId);
         } else {
             $query
                 ->from($db->qn('#__redshop_product_attribute_stockroom_xref') . ' AS ps')
-                ->where($db->qn('ps.section_id') . ' = ' . (int)$sectionId)
+                ->where($db->qn('ps.section_id') . ' = ' . (int) $sectionId)
                 ->where($db->qn('ps.section') . ' = ' . $db->q($section));
         }
 
@@ -1668,7 +1676,8 @@ class RedshopHelperProduct
 
         try {
             $result = $db->loadObject();
-        } catch (RuntimeException $e) {
+        }
+        catch (RuntimeException $e) {
             throw new RuntimeException($e->getMessage(), $e->getCode());
         }
 
@@ -1676,14 +1685,15 @@ class RedshopHelperProduct
 
         if ($result) {
             // Append where clause to get Maximum Delivery time of Minimum Delivery stockroom
-            $query->where($db->qn('s.min_del_time') . ' = ' . (int)$result->deltime);
+            $query->where($db->qn('s.min_del_time') . ' = ' . (int) $result->deltime);
 
             // Set the query and load the row.
             $db->setQuery($query, 0, 1);
 
             try {
                 $row = $db->loadObject();
-            } catch (RuntimeException $e) {
+            }
+            catch (RuntimeException $e) {
                 throw new RuntimeException($e->getMessage(), $e->getCode());
             }
 
@@ -1698,7 +1708,7 @@ class RedshopHelperProduct
                     $duration          = Text::_('COM_REDSHOP_WEEKS');
                 }
 
-                $product_delivery_time = (int)$row->deltime . "-" . (int)$row->max_del_time . " " . $duration;
+                $product_delivery_time = (int) $row->deltime . "-" . (int) $row->max_del_time . " " . $duration;
             }
         }
 
@@ -1825,11 +1835,13 @@ class RedshopHelperProduct
             $where .= $db->qn('r.product_id') . ' IN (' . implode(',', $productIds) . ') ';
 
             if (Redshop::getConfig()->get('TWOWAY_RELATED_PRODUCT')) {
-                if (Redshop::getConfig()->get(
+                if (
+                    Redshop::getConfig()->get(
                         'DEFAULT_RELATED_ORDERING_METHOD'
                     ) == "r.ordering ASC" || Redshop::getConfig()->get(
                         'DEFAULT_RELATED_ORDERING_METHOD'
-                    ) == "r.ordering DESC") {
+                    ) == "r.ordering DESC"
+                ) {
                     $orderby        = "";
                     $orderbyRelated = Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
                 }
@@ -1866,7 +1878,7 @@ class RedshopHelperProduct
                 $relatedArr = array_unique($relatedArr);
 
                 $query = $db->getQuery(true)
-                    ->select((int)$productId . ' AS ' . $db->qn('mainproduct_id'))
+                    ->select((int) $productId . ' AS ' . $db->qn('mainproduct_id'))
                     ->select('p.*')
                     ->from($db->qn('#__redshop_product', 'p'))
                     ->where($db->qn('published') . ' = 1')
@@ -1896,7 +1908,7 @@ class RedshopHelperProduct
             ->select(array($db->qn('r.product_id', 'mainproduct_id'), 'p.*'));
 
         if ($relatedId != 0) {
-            $query->where($db->qn('r.related_id') . ' = ' . (int)$relatedId);
+            $query->where($db->qn('r.related_id') . ' = ' . (int) $relatedId);
         }
 
         /* REDSHOP-5987 */
@@ -1907,9 +1919,11 @@ class RedshopHelperProduct
         }
         /* REDSHOP-5987 */
 
-        if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
+        if (
+            count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
             && (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig(
-                )->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC')) {
+            )->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC')
+        ) {
             $query->select('e.*');
         }
 
@@ -1918,9 +1932,11 @@ class RedshopHelperProduct
                 $db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('r.related_id')
             );
 
-        if (!empty($finaltypetype_result) && !empty($finaltypetype_result->extrafield)
+        if (
+            !empty($finaltypetype_result) && !empty($finaltypetype_result->extrafield)
             && (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
-                || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC')) {
+                || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC')
+        ) {
             $query->leftJoin(
                 $db->qn('#__redshop_fields_data', 'e') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('e.itemid')
             );
@@ -1928,10 +1944,12 @@ class RedshopHelperProduct
 
         $query->where($db->qn('p.published') . ' = 1');
 
-        if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
+        if (
+            count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
             && (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig(
-                )->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC')) {
-            $query->where($db->qn('e.fieldid') . ' = ' . (int)$finaltypetype_result->extrafield)
+            )->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC')
+        ) {
+            $query->where($db->qn('e.fieldid') . ' = ' . (int) $finaltypetype_result->extrafield)
                 ->where($db->qn('e.section') . ' = 17');
         }
 
@@ -1941,8 +1959,10 @@ class RedshopHelperProduct
 
         $query->group($db->qn('r.related_id'));
 
-        if ((Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
-            || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC')) {
+        if (
+            (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
+                || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC')
+        ) {
             if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC') {
                 $s = "STR_TO_DATE( e.data_txt, '%d-%m-%Y' ) ASC";
             } else {
@@ -1967,10 +1987,12 @@ class RedshopHelperProduct
         $product_reviews = "";
         $productId       = $product->product_id;
 
-        if ($productId && strpos($data_add, "{jcomments off}") === false && strpos(
+        if (
+            $productId && strpos($data_add, "{jcomments off}") === false && strpos(
                 $data_add,
                 "{jcomments on}"
-            ) !== false) {
+            ) !== false
+        ) {
             $comments = $app->getCfg('absolute_path') . '/components/com_jcomments/jcomments.php';
 
             if (file_exists($comments)) {
@@ -1990,8 +2012,10 @@ class RedshopHelperProduct
     public static function getProductOnSaleComment($product = array(), $data_add = "")
     {
         if (strpos($data_add, "{if product_on_sale}") && strpos($data_add, "{product_on_sale end if}") !== false) {
-            if ($product->product_on_sale == 1 && (($product->discount_stratdate == 0 && $product->discount_enddate == 0) || ($product->discount_stratdate <= time(
-                        ) && $product->discount_enddate >= time()))) {
+            if (
+                $product->product_on_sale == 1 && (($product->discount_stratdate == 0 && $product->discount_enddate == 0) || ($product->discount_stratdate <= time(
+                ) && $product->discount_enddate >= time()))
+            ) {
                 $data_add = str_replace(
                     "{discount_start_date}",
                     RedshopHelperDatetime::convertDateFormat($product->discount_stratdate),
@@ -2035,9 +2059,9 @@ class RedshopHelperProduct
             $applytax = \Redshop\Template\Helper::isApplyVat($data_add);
 
             if ($applytax) {
-                $GLOBAL ['without_vat'] = false;
+                $GLOBAL['without_vat'] = false;
             } else {
-                $GLOBAL ['without_vat'] = true;
+                $GLOBAL['without_vat'] = true;
             }
 
             $data_add = RedshopHelperProductPrice::getShowPrice(
@@ -2110,7 +2134,7 @@ class RedshopHelperProduct
             ->leftJoin(
                 $db->qn('#__redproductfinder_types', 'ty') . ' ON ' . $db->qn('at.type_id') . ' = ' . $db->qn('ty.id')
             )
-            ->where($db->qn('a.product_id') . ' = ' . (int)$productId);
+            ->where($db->qn('a.product_id') . ' = ' . (int) $productId);
         $db->setQuery($query);
         $res = $db->loadObjectlist();
 
@@ -2130,20 +2154,20 @@ class RedshopHelperProduct
                     'pcx.category_id'
                 )
             )
-            ->where($db->qn('pcx.product_id') . ' = ' . $db->q((int)$productId))
+            ->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $productId))
             ->where($db->qn('c.published') . ' = 1');
 
         $rows = $db->setQuery($query)->loadObjectList();
 
         for ($i = 0, $in = count($rows); $i < $in; $i++) {
             $ppCat = $pCat = '';
-            $row   = $rows[$i];
+            $row = $rows[$i];
 
             $query = $db->getQuery(true)
                 ->select($db->qn('parent_id'))
                 ->select($db->qn('name'))
                 ->from($db->qn('#__redshop_category'))
-                ->where($db->qn('id') . ' = ' . $db->q((int)$row->id));
+                ->where($db->qn('id') . ' = ' . $db->q((int) $row->id));
 
             $parentCat = $db->setQuery($query)->loadObject();
 
@@ -2154,7 +2178,7 @@ class RedshopHelperProduct
                     ->select($db->qn('parent_id'))
                     ->select($db->qn('name'))
                     ->from($db->qn('#__redshop_category'))
-                    ->where($db->qn('id') . ' = ' . $db->q((int)$parentCat->parent_id));
+                    ->where($db->qn('id') . ' = ' . $db->q((int) $parentCat->parent_id));
 
                 $pparentCat = $db->setQuery($query)->loadObject();
 
@@ -2170,7 +2194,7 @@ class RedshopHelperProduct
             if ($displayLink) {
                 $catItem = RedshopHelperRouter::getCategoryItemid($row->id);
 
-                if (!(boolean)$catItem) {
+                if (!(boolean) $catItem) {
                     $catItem = JFactory::getApplication()->input->getInt('Itemid');
                 }
 
@@ -2197,11 +2221,11 @@ class RedshopHelperProduct
             ->select($db->qn('product_parent_id'))
             ->from($db->qn('#__redshop_product'))
             ->where($db->qn('published') . ' = 1')
-            ->where($db->qn('product_id') . ' = ' . (int)$parent_id);
+            ->where($db->qn('product_id') . ' = ' . (int) $parent_id);
         $db->setQuery($query);
         $product_parent_id = $db->loadResult();
 
-        if ((int)$product_parent_id !== 0) {
+        if ((int) $product_parent_id !== 0) {
             $parent_id = self::getMainParentProduct($product_parent_id);
         }
 
@@ -2209,10 +2233,10 @@ class RedshopHelperProduct
     }
 
     public static function getProductCategoryImage(
-        $width, 
+        $width,
         $height,
-        $productId = 0, 
-        $category_img = '', 
+        $productId = 0,
+        $category_img = '',
         $link = ''
     ) {
         $result     = \Redshop\Product\Product::getProductById($productId);
@@ -2283,7 +2307,7 @@ class RedshopHelperProduct
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_product_subscription'))
-            ->where($db->qn('product_id') . ' = ' . (int)$productId)
+            ->where($db->qn('product_id') . ' = ' . (int) $productId)
             ->order($db->qn('subscription_id'));
         $db->setQuery($query);
         $list = $db->loadObjectlist();
@@ -2316,8 +2340,8 @@ class RedshopHelperProduct
             }
         } else {
             $and .= " AND " . $db->qn('q.product_id') . " = " . $db->q($productId) . " AND " . $db->qn(
-                    'q.parent_id'
-                ) . " = 0 ";
+                'q.parent_id'
+            ) . " = 0 ";
         }
 
         if ($front != 0) {
@@ -2379,16 +2403,18 @@ class RedshopHelperProduct
             return $templateDesc;
         }
 
-        if (!empty($relatedProduct)
+        if (
+            !empty($relatedProduct)
             && strpos($relatedTemplate->template_desc, "{related_product_start}") !== false
-            && strpos($relatedTemplate->template_desc, "{related_product_end}") !== false) {
+            && strpos($relatedTemplate->template_desc, "{related_product_end}") !== false
+        ) {
             $relatedTemplateData = '';
             $productStart        = explode("{related_product_start}", $relatedTemplate->template_desc);
-            $productEnd          = explode("{related_product_end}", $productStart [1]);
+            $productEnd          = explode("{related_product_end}", $productStart[1]);
 
-            $tempDataDivStart  = $productStart [0];
-            $tempDataDivMiddle = $productEnd [0];
-            $tempDataDivEnd    = $productEnd [1];
+            $tempDataDivStart  = $productStart[0];
+            $tempDataDivMiddle = $productEnd[0];
+            $tempDataDivEnd    = $productEnd[1];
 
             $attributeTemplate = \Redshop\Template\Helper::getAttribute($tempDataDivMiddle);
 
@@ -2445,16 +2471,16 @@ class RedshopHelperProduct
                 $relatedImage     = Redshop\Product\Image\Image::getImage(
                     $rpWidthThumb,
                     $rpHeightThumb,
-                    $relatedProduct [$r]->product_id,
+                    $relatedProduct[$r]->product_id,
                     $relatedUrl
                 );
 
                 $relatedTemplateData = str_replace($rpImgTag, $relatedImage . $hiddenThumbImage, $relatedTemplateData);
 
                 if (strpos($relatedTemplateData, "{relproduct_link}") !== false) {
-                    $relatedProductName = "<a href='" . $relatedUrl . "' title='" . $relatedProduct [$r]->product_name . "'>"
+                    $relatedProductName = "<a href='" . $relatedUrl . "' title='" . $relatedProduct[$r]->product_name . "'>"
                         . RedshopHelperUtility::maxChars(
-                            $relatedProduct [$r]->product_name,
+                            $relatedProduct[$r]->product_name,
                             Redshop::getConfig()->getInt(
                                 'RELATED_PRODUCT_TITLE_MAX_CHARS'
                             ),
@@ -2465,7 +2491,7 @@ class RedshopHelperProduct
                         . "</a>";
                 } else {
                     $relatedProductName = RedshopHelperUtility::maxChars(
-                        $relatedProduct [$r]->product_name,
+                        $relatedProduct[$r]->product_name,
                         Redshop::getConfig()->getInt(
                             'RELATED_PRODUCT_TITLE_MAX_CHARS'
                         ),
@@ -2476,7 +2502,7 @@ class RedshopHelperProduct
                 }
 
                 $relatedProductDesc      = RedshopHelperUtility::maxChars(
-                    $relatedProduct [$r]->product_desc,
+                    $relatedProduct[$r]->product_desc,
                     Redshop::getConfig()->getInt(
                         'RELATED_PRODUCT_DESC_MAX_CHARS'
                     ),
@@ -2485,7 +2511,7 @@ class RedshopHelperProduct
                     )
                 );
                 $relatedProductShortDesc = RedshopHelperUtility::maxChars(
-                    $relatedProduct [$r]->product_s_desc,
+                    $relatedProduct[$r]->product_s_desc,
                     Redshop::getConfig()->getInt(
                         'RELATED_PRODUCT_SHORT_DESC_MAX_CHARS'
                     ),
@@ -2503,7 +2529,7 @@ class RedshopHelperProduct
                 }
 
                 if (strstr($relatedTemplateData, "{relproduct_rating_summary}")) {
-                    $finalAvgReviewData = Redshop\Product\Rating::getRating($relatedProduct [$r]->product_id);
+                    $finalAvgReviewData = Redshop\Product\Rating::getRating($relatedProduct[$r]->product_id);
 
                     if ($finalAvgReviewData != "") {
                         $relatedTemplateData = str_replace(
@@ -2517,13 +2543,19 @@ class RedshopHelperProduct
                 }
 
                 $relatedTemplateData = str_replace(
+                    "{relproduct_header}",
+                    Text::_('COM_REDSHOP_RELATED_PRODUCT_HEADER'),
+                    $relatedTemplateData
+                );
+
+                $relatedTemplateData = str_replace(
                     "{relproduct_number_lbl}",
                     Text::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'),
                     $relatedTemplateData
                 );
                 $relatedTemplateData = str_replace(
                     "{relproduct_number}",
-                    $relatedProduct [$r]->product_number,
+                    $relatedProduct[$r]->product_number,
                     $relatedTemplateData
                 );
                 $relatedTemplateData = str_replace(
@@ -2540,10 +2572,12 @@ class RedshopHelperProduct
                     $fieldArray
                 );
 
-                if (strpos($relatedTemplateData, "{manufacturer_name}") !== false || strpos(
+                if (
+                    strpos($relatedTemplateData, "{manufacturer_name}") !== false || strpos(
                         $relatedTemplateData,
                         "{manufacturer_link}"
-                    ) !== false) {
+                    ) !== false
+                ) {
                     $manufacturer = RedshopEntityManufacturer::getInstance(
                         $relatedProduct[$r]->manufacturer_id
                     )->getItem();
@@ -2553,8 +2587,8 @@ class RedshopHelperProduct
                             'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $relatedProduct[$r]->manufacturer_id . '&Itemid=' . $productItemId
                         );
                         $manufacturerLink    = "<a class='btn btn-primary' href='" . $manufacturerUrl . "'>" . Text::_(
-                                "COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS"
-                            ) . "</a>";
+                            "COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS"
+                        ) . "</a>";
                         $relatedTemplateData = str_replace(
                             "{manufacturer_name}",
                             $manufacturer->name,
@@ -2571,7 +2605,7 @@ class RedshopHelperProduct
                     }
                 }
 
-                $readMore            = '<a href="' . $relatedUrl . '" title="' . $relatedProduct [$r]->product_name . '">'
+                $readMore            = '<a href="' . $relatedUrl . '" title="' . $relatedProduct[$r]->product_name . '">'
                     . Text::_('COM_REDSHOP_READ_MORE')
                     . '</a>';
                 $relatedTemplateData = str_replace("{read_more}", $readMore, $relatedTemplateData);
@@ -2581,13 +2615,13 @@ class RedshopHelperProduct
                  *  related product Required Attribute start
                  * 	this will parse only Required Attributes
                  */
-                $relatedId      = $relatedProduct [$r]->product_id;
+                $relatedId      = $relatedProduct[$r]->product_id;
                 $attributes_set = array();
 
-                if ($relatedProduct [$r]->attribute_set_id > 0) {
+                if ($relatedProduct[$r]->attribute_set_id > 0) {
                     $attributes_set = \Redshop\Product\Attribute::getProductAttribute(
                         0,
-                        $relatedProduct [$r]->attribute_set_id
+                        $relatedProduct[$r]->attribute_set_id
                     );
                 }
 
@@ -2660,9 +2694,9 @@ class RedshopHelperProduct
 
                 if (strpos($relatedTemplateData, "{wishlist_link}") !== false) {
                     $wishListUrl         = "<div class=\"wishlist\">" . RedshopHelperWishlist::replaceWishlistTag(
-                            $relatedProduct[$r]->product_id,
-                            '{wishlist_link}'
-                        ) . "</div>";
+                        $relatedProduct[$r]->product_id,
+                        '{wishlist_link}'
+                    ) . "</div>";
                     $relatedTemplateData = str_replace("{wishlist_link}", $wishListUrl, $relatedTemplateData);
                 }
 
@@ -2732,13 +2766,15 @@ class RedshopHelperProduct
 
     public static function getSpecialProductComment($product = array(), $data_add = "")
     {
-        if (strpos($data_add, "{if product_special}") !== false && strpos(
+        if (
+            strpos($data_add, "{if product_special}") !== false && strpos(
                 $data_add,
                 "{product_special end if}"
-            ) !== false) {
+            ) !== false
+        ) {
             if ($product->product_special == 0) {
                 $template_pd_sdata = explode('{if product_special}', $data_add);
-                $template_pd_edata = explode('{product_special end if}', $template_pd_sdata [1]);
+                $template_pd_edata = explode('{product_special end if}', $template_pd_sdata[1]);
                 $data_add          = $template_pd_sdata[0] . $template_pd_edata[1];
             }
 
@@ -2940,7 +2976,7 @@ class RedshopHelperProduct
             ->leftJoin(
                 $db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id')
             )
-            ->where($db->qn('category_id') . ' = ' . (int)$id);
+            ->where($db->qn('category_id') . ' = ' . (int) $id);
 
         /* REDSHOP-5967 */
         if (\Redshop::getConfig()->getInt('SHOW_DISCONTINUED_PRODUCTS')) {
@@ -3006,8 +3042,8 @@ class RedshopHelperProduct
             $productOldprice = $productPrices['product_old_price_excl_vat'];
         }
 
-        $isStock          = RedshopHelperStockroom::isStockExists($productId);
-        $isPreorderStock  = RedshopHelperStockroom::isPreorderStockExists($productId);
+        $isStock            = RedshopHelperStockroom::isStockExists($productId);
+        $isPreorderStock    = RedshopHelperStockroom::isPreorderStockExists($productId);
         $isDisplayAttribute = 0;
 
         for ($i = 0, $in = count($attributes); $i < $in; $i++) {
@@ -3037,8 +3073,10 @@ class RedshopHelperProduct
 
                 if ($propertyPriceWithoutVat > 0) {
                     // Set property vat to 1 when price is 1. For * and / math rules.
-                    if ($propertyPriceWithoutVat == 1
-                        && ($propertyOperator == '*' || $propertyOperator == '/')) {
+                    if (
+                        $propertyPriceWithoutVat == 1
+                        && ($propertyOperator == '*' || $propertyOperator == '/')
+                    ) {
                         $propertyVat = 1;
                     }
 
@@ -3065,7 +3103,7 @@ class RedshopHelperProduct
                     }
 
                     // Continue if there is no subproperty id
-                    if (!(int)$subProperties[$l]['subproperty_id']) {
+                    if (!(int) $subProperties[$l]['subproperty_id']) {
                         continue;
                     }
 
@@ -3076,8 +3114,10 @@ class RedshopHelperProduct
 
                     if ($subPropertyPriceWithoutVat > 0) {
                         // Set property vat to 1 when price is 1. For * and / math rules.
-                        if ($subPropertyPriceWithoutVat == 1
-                            && ($subPropertyOperator == '*' || $subPropertyOperator == '/')) {
+                        if (
+                            $subPropertyPriceWithoutVat == 1
+                            && ($subPropertyOperator == '*' || $subPropertyOperator == '/')
+                        ) {
                             $subPropertyVat = 1;
                         }
 
@@ -3167,14 +3207,22 @@ class RedshopHelperProduct
         }*/
 
         $data = array(
-            $isDisplayAttribute, #0
-            $productPrice, #1
-            $productVatPrice, #2
-            $selectedAttributs, #3
-            $isStock, #4
-            $productOldprice, #5
-            $productVatOldPrice, #6
-            $isPreorderStock, #7
+            $isDisplayAttribute,
+            #0
+            $productPrice,
+            #1
+            $productVatPrice,
+            #2
+            $selectedAttributs,
+            #3
+            $isStock,
+            #4
+            $productOldprice,
+            #5
+            $productVatOldPrice,
+            #6
+            $isPreorderStock,
+            #7
             $selectedProperty #8
         );
 
@@ -3182,16 +3230,16 @@ class RedshopHelperProduct
         RedshopHelperUtility::getDispatcher()->trigger('onMakeAttributeCart', array(&$data, $attributes, $productId));
 
         if ($isReturnObject) {
-            $o = new stdClass();
-            $o->html = $data[0];
-            $o->productPrice = $data[1];
-            $o->productVatPrice = $data[2];
-            $o->selectedAttributs = $data[3];
-            $o->isStock = $data[4];
-            $o->productOldprice = $data[5];
+            $o                     = new stdClass();
+            $o->html               = $data[0];
+            $o->productPrice       = $data[1];
+            $o->productVatPrice    = $data[2];
+            $o->selectedAttributs  = $data[3];
+            $o->isStock            = $data[4];
+            $o->productOldprice    = $data[5];
             $o->productVatOldPrice = $data[6];
-            $o->isPreorderStock = $data[7];
-            $o->selectedProperty = $data[8];
+            $o->isPreorderStock    = $data[7];
+            $o->selectedProperty   = $data[8];
 
             return $o;
         }
@@ -3379,8 +3427,8 @@ class RedshopHelperProduct
         $query = $db->getQuery(true);
         $query->select('*')
             ->from($db->qn('#__redshop_product_subscription'))
-            ->where($db->qn('product_id') . ' = ' . (int)$productId)
-            ->where($db->qn('subscription_id') . ' = ' . (int)$subscription_id);
+            ->where($db->qn('product_id') . ' = ' . (int) $productId)
+            ->where($db->qn('subscription_id') . ' = ' . (int) $subscription_id);
         $db->setQuery($query);
 
         return $db->loadObject();
@@ -3638,8 +3686,8 @@ class RedshopHelperProduct
                             if (trim($userfield[$j]->data_txt) != "") {
                                 $resultArr[] = '<span class="userfield-label"">' . $userfield[$j]->title
                                     . '</span> : <span class="userfield-value">' . stripslashes(
-                                        $userfield[$j]->data_txt
-                                    );
+                                    $userfield[$j]->data_txt
+                                );
                             }
                         }
                     }
@@ -3654,9 +3702,9 @@ class RedshopHelperProduct
         }
 
         return "<div>" . Text::_("COM_REDSHOP_PRODUCT_USERFIELD") . "</div><div>" . implode(
-                "<br/>",
-                $resultArr
-            ) . "</div>";
+            "<br/>",
+            $resultArr
+        ) . "</div>";
     }
 
     /*
@@ -3761,12 +3809,12 @@ class RedshopHelperProduct
                     if (strpos($data, '{product_attribute_price}') !== false) {
                         if ($export == 1) {
                             $disPrice = ' (' . $orderPropdata[$p]->section_oprand . Redshop::getConfig()->get(
-                                    'CURRENCY_SYMBOL'
-                                ) . $property_price . ')';
+                                'CURRENCY_SYMBOL'
+                            ) . $property_price . ')';
                         } elseif (!$hideAttributePrice) {
                             $disPrice = " (" . $orderPropdata[$p]->section_oprand . RedshopHelperProductPrice::formattedPrice(
-                                    $property_price
-                                ) . ")";
+                                $property_price
+                            ) . ")";
                         }
                     }
 
@@ -3921,12 +3969,12 @@ class RedshopHelperProduct
                         'uf.shopper_group_id'
                     )
                 )
-                ->where($db->qn('uf.user_id') . ' = ' . (int)$user->id)
+                ->where($db->qn('uf.user_id') . ' = ' . (int) $user->id)
                 ->where($db->qn('sg.portal') . ' = 1');
         } else {
             $catquery->select($db->qn('sg.categories'))
                 ->from($db->qn('#__redshop_shopper_group', 'sg'))
-                ->where($db->qn('sg.id') . ' = ' . (int)$shopperGroupId)
+                ->where($db->qn('sg.id') . ' = ' . (int) $shopperGroupId)
                 ->where($db->qn('sg.portal') . ' = 1');
         }
 
@@ -3971,20 +4019,22 @@ class RedshopHelperProduct
 
         if (count($Itemdata) > 0) {
             $displayaccessory .= "<div class='checkout_accessory_static'>" . Text::_(
-                    "COM_REDSHOP_ACCESSORY"
-                ) . ":</div>";
+                "COM_REDSHOP_ACCESSORY"
+            ) . ":</div>";
 
             for ($i = 0, $in = count($Itemdata); $i < $in; $i++) {
                 $displayaccessory .= "<div class='checkout_accessory_title'>" . urldecode(
-                        $Itemdata[$i]->accessory_item_name
-                    ) . " ";
+                    $Itemdata[$i]->accessory_item_name
+                ) . " ";
 
-                if ($quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get(
-                            'SHOW_QUOTATION_PRICE'
-                        ) == 1)) {
+                if (
+                    $quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get(
+                        'SHOW_QUOTATION_PRICE'
+                    ) == 1)
+                ) {
                     $displayaccessory .= "(" . RedshopHelperProductPrice::formattedPrice(
-                            $Itemdata[$i]->accessory_price + $Itemdata[$i]->accessory_vat
-                        ) . ")";
+                        $Itemdata[$i]->accessory_price + $Itemdata[$i]->accessory_vat
+                    ) . ")";
                 }
 
                 $displayaccessory .= "</div>";
@@ -4010,11 +4060,11 @@ class RedshopHelperProduct
         $quotation_status = 2,
         $stock = 0
     ) {
-        $isDisplayAttribute  = "";
-        $product_attribute = "";
-        $quantity          = 0;
-        $stockroom_id      = "0";
-        $Itemdata          = RedshopHelperQuotation::getQuotationProduct(0, $quotation_item_id);
+        $isDisplayAttribute = "";
+        $product_attribute  = "";
+        $quantity           = 0;
+        $stockroom_id       = "0";
+        $Itemdata           = RedshopHelperQuotation::getQuotationProduct(0, $quotation_item_id);
 
         if (count($Itemdata) > 0 && $is_accessory != 1) {
             $product_attribute = $Itemdata[0]->product_attribute;
@@ -4050,7 +4100,7 @@ class RedshopHelperProduct
 
     public static function getValidityDate($period, $data)
     {
-        $todate = mktime(0, 0, 0, (int)date('m'), (int)date('d') + $period, (int)date('Y'));
+        $todate = mktime(0, 0, 0, (int) date('m'), (int) date('d') + $period, (int) date('Y'));
 
         $todate   = RedshopHelperDatetime::convertDateFormat($todate);
         $fromdate = RedshopHelperDatetime::convertDateFormat(strtotime(date('d M Y')));
@@ -4090,9 +4140,9 @@ class RedshopHelperProduct
 
             if (!empty(trim($userFields))) {
                 $values = array(
-                    (int)$fieldList->id,
+                    (int) $fieldList->id,
                     $db->quote(addslashes($userFields)),
-                    (int)$orderId,
+                    (int) $orderId,
                     $db->quote($sectionId)
                 );
                 $query->values(implode(',', $values));
@@ -4112,7 +4162,7 @@ class RedshopHelperProduct
             ->where($db->qn('media_section') . ' = ' . $db->q('product'))
             ->where($db->qn('media_type') . ' = ' . $db->q('download'))
             ->where($db->qn('published') . ' = 1')
-            ->where($db->qn('section_id') . ' = ' . (int)$productId);
+            ->where($db->qn('section_id') . ' = ' . (int) $productId);
         $db->setQuery($query);
         $res = $db->loadObjectList();
 
@@ -4130,8 +4180,8 @@ class RedshopHelperProduct
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_product_serial_number'))
-            ->where($db->qn('product_id') . ' = ' . (int)$productId)
-            ->where($db->qn('is_used') . ' = ' . (int)$is_used)
+            ->where($db->qn('product_id') . ' = ' . (int) $productId)
+            ->where($db->qn('is_used') . ' = ' . (int) $is_used)
             ->setLimit(0, 1);
         $db->setQuery($query);
         $rs = $db->loadObject();
@@ -4152,7 +4202,7 @@ class RedshopHelperProduct
         $update_query = $db->getQuery(true)
             ->update($db->qn('#__redshop_product_serial_number'))
             ->set($db->qn('is_used') . ' = 1')
-            ->where($db->qn('serial_id') . ' = ' . (int)$serial_id);
+            ->where($db->qn('serial_id') . ' = ' . (int) $serial_id);
         $db->setQuery($update_query);
         $db->execute();
     }
@@ -4172,7 +4222,8 @@ class RedshopHelperProduct
         $product_download_clock     = ($downloadable_product->product_download_clock > 0) ? $downloadable_product->product_download_clock : 0;
         $product_download_clock_min = ($downloadable_product->product_download_clock_min > 0) ? $downloadable_product->product_download_clock_min : 0;
 
-        $product_download_days = (date(
+        $product_download_days = (
+            date(
                 "H"
             ) > $product_download_clock && $product_download_days == 0) ? 1 : $product_download_days;
 
@@ -4182,9 +4233,9 @@ class RedshopHelperProduct
             $product_download_clock,
             $product_download_clock_min,
             0,
-            (int)date("m", $product_download_days_time),
-            (int)date("d", $product_download_days_time),
-            (int)date("Y", $product_download_days_time)
+            (int) date("m", $product_download_days_time),
+            (int) date("d", $product_download_days_time),
+            (int) date("Y", $product_download_days_time)
         );
 
         // if download product is set to infinit
@@ -4213,11 +4264,11 @@ class RedshopHelperProduct
                 implode(
                     ',',
                     array(
-                        (int)$productId,
-                        (int)$user_id,
-                        (int)$order_id,
-                        (int)$endtime,
-                        (int)$product_download_limit,
+                        (int) $productId,
+                        (int) $user_id,
+                        (int) $order_id,
+                        (int) $endtime,
+                        (int) $product_download_limit,
                         $db->quote($token),
                         $db->quote($media_name),
                         $db->quote($serial_number)
@@ -4257,9 +4308,9 @@ class RedshopHelperProduct
                             implode(
                                 ',',
                                 array(
-                                    (int)$rowData[$i]->id,
+                                    (int) $rowData[$i]->id,
                                     $db->quote(addslashes($user_fields)),
-                                    (int)$order_item_id,
+                                    (int) $order_item_id,
                                     $db->quote($sectionId)
                                 )
                             )
@@ -4304,9 +4355,11 @@ class RedshopHelperProduct
             $attributes      = $attributes[0];
             $subproperty_all = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $propertyId);
             // filter Out of stock data
-            if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get(
+            if (
+                !Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get(
                     'USE_STOCKROOM'
-                )) {
+                )
+            ) {
                 $subproperty = \Redshop\Helper\Stockroom::getAttributeSubPropertyWithStock($subproperty_all);
             } else {
                 $subproperty = $subproperty_all;
@@ -4323,8 +4376,8 @@ class RedshopHelperProduct
             $preOrderStockrooms = RedshopHelperStockroom::getMultiSectionsPreOrderStock($subPropertyIds, 'subproperty');
 
             foreach ($subproperty as $i => $item) {
-                $subproperty[$i]->stock          = isset($stockrooms[$item->value]) ? (int)$stockrooms[$item->value] : 0;
-                $subproperty[$i]->preorder_stock = isset($preOrderStockrooms[$item->value]) ? (int)$preOrderStockrooms[$item->value] : 0;
+                $subproperty[$i]->stock          = isset($stockrooms[$item->value]) ? (int) $stockrooms[$item->value] : 0;
+                $subproperty[$i]->preorder_stock = isset($preOrderStockrooms[$item->value]) ? (int) $preOrderStockrooms[$item->value] : 0;
             }
         }
 
@@ -4363,7 +4416,7 @@ class RedshopHelperProduct
 
             if (count($subproperty) > 0) {
                 $attribute_table     = $subAttributeHtml;
-                $attribute_table     .= '<span id="subprop_lbl" style="display:none;">'
+                $attribute_table .= '<span id="subprop_lbl" style="display:none;">'
                     . Text::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED') . '</span>';
                 $commonid            = $prefix . $productId . '_' . $accessoryId . '_' . $attributeId . '_'
                     . $propertyId;
@@ -4397,9 +4450,11 @@ class RedshopHelperProduct
                     }
 
                     if (!empty($subproperty[$i]->subattribute_color_image)) {
-                        if (JFile::exists(
-                            REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image
-                        )) {
+                        if (
+                            JFile::exists(
+                                REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image
+                            )
+                        ) {
                             $borderstyle    = ($selectedsubproperty == $subproperty[$i]->value) ? " 1px solid " : "";
                             $thumbUrl       = RedshopHelperMedia::getImagePath(
                                 $subproperty[$i]->subattribute_color_image,
@@ -4434,8 +4489,8 @@ class RedshopHelperProduct
                     $attributes_subproperty_withoutvat = 0;
                     $attributes_subproperty_oldprice   = 0;
 
-                    if ($subproperty [$i]->subattribute_color_price > 0) {
-                        $attributes_subproperty_oldprice = $subproperty [$i]->subattribute_color_price;
+                    if ($subproperty[$i]->subattribute_color_price > 0) {
+                        $attributes_subproperty_oldprice = $subproperty[$i]->subattribute_color_price;
 
                         $pricelist = RedshopHelperProduct_Attribute::getPropertyPrice(
                             $subproperty[$i]->value,
@@ -4447,12 +4502,12 @@ class RedshopHelperProduct
                             $subproperty[$i]->subattribute_color_price = $pricelist->product_price;
                         }
 
-                        $attributes_subproperty_withoutvat = $subproperty [$i]->subattribute_color_price;
+                        $attributes_subproperty_withoutvat = $subproperty[$i]->subattribute_color_price;
 
                         if ($chktag) {
                             $attributes_subproperty_vat_show = self::getProductTax(
                                 $productId,
-                                $subproperty [$i]->subattribute_color_price
+                                $subproperty[$i]->subattribute_color_price
                             );
 
                             $attributes_subproperty_oldprice_vat = self::getProductTax(
@@ -4461,33 +4516,36 @@ class RedshopHelperProduct
                             );
                         }
 
-                        $attributes_subproperty_vat_show += $subproperty [$i]->subattribute_color_price;
+                        $attributes_subproperty_vat_show += $subproperty[$i]->subattribute_color_price;
                         $attributes_subproperty_oldprice += $attributes_subproperty_oldprice_vat;
 
-                        if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get(
-                                    'DEFAULT_QUOTATION_MODE'
-                                ) || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get(
-                                        'SHOW_QUOTATION_PRICE'
-                                    ))) && (!$attributes->hide_attribute_price)) {
-                            $subproperty [$i]->text = urldecode(
-                                    $subproperty [$i]->subattribute_color_name
-                                ) . " (" . $subproperty [$i]->oprand . strip_tags(
-                                    RedshopHelperProductPrice::formattedPrice($attributes_subproperty_vat_show)
-                                ) . ")";
+                        if (
+                            Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get(
+                                'DEFAULT_QUOTATION_MODE'
+                            ) || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get(
+                                    'SHOW_QUOTATION_PRICE'
+                                )
+                            )) && (!$attributes->hide_attribute_price)
+                        ) {
+                            $subproperty[$i]->text = urldecode(
+                                $subproperty[$i]->subattribute_color_name
+                            ) . " (" . $subproperty[$i]->oprand . strip_tags(
+                                RedshopHelperProductPrice::formattedPrice($attributes_subproperty_vat_show)
+                            ) . ")";
                         } else {
-                            $subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name);
+                            $subproperty[$i]->text = urldecode($subproperty[$i]->subattribute_color_name);
                         }
                     } else {
-                        $subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name);
+                        $subproperty[$i]->text = urldecode($subproperty[$i]->subattribute_color_name);
                     }
 
-                    $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_name' . $subproperty [$i]->value . '" value="' . $subproperty [$i]->subattribute_color_name . '" />';
-                    $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_oprand' . $subproperty [$i]->value . '" value="' . $subproperty [$i]->oprand . '" />';
-                    $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_proprice' . $subproperty [$i]->value . '" value="' . $attributes_subproperty_vat_show . '" />';
-                    $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_proprice_withoutvat' . $subproperty [$i]->value . '" value="' . $attributes_subproperty_withoutvat . '" />';
-                    $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_prooldprice' . $subproperty [$i]->value . '" value="' . $attributes_subproperty_oldprice . '" />';
-                    $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_stock' . $subproperty [$i]->value . '" value="' . $subproperty[$i]->stock . '" />';
-                    $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_preOrderStock' . $subproperty [$i]->value . '" value="' . $subproperty[$i]->preorder_stock . '" />';
+                    $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_name' . $subproperty[$i]->value . '" value="' . $subproperty[$i]->subattribute_color_name . '" />';
+                    $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_oprand' . $subproperty[$i]->value . '" value="' . $subproperty[$i]->oprand . '" />';
+                    $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_proprice' . $subproperty[$i]->value . '" value="' . $attributes_subproperty_vat_show . '" />';
+                    $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_proprice_withoutvat' . $subproperty[$i]->value . '" value="' . $attributes_subproperty_withoutvat . '" />';
+                    $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_prooldprice' . $subproperty[$i]->value . '" value="' . $attributes_subproperty_oldprice . '" />';
+                    $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_stock' . $subproperty[$i]->value . '" value="' . $subproperty[$i]->stock . '" />';
+                    $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_preOrderStock' . $subproperty[$i]->value . '" value="' . $subproperty[$i]->preorder_stock . '" />';
                 }
 
                 if (strpos($subAttributeHtml, "{subproperty_image_without_scroller}") !== false) {
@@ -4523,7 +4581,7 @@ class RedshopHelperProduct
                 }
 
                 $subproperties  = array_merge(
-                    array(JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT') . ' ' . $displayPropertyName)),
+                    array(HTMLHelper::_('select.option', 0, Text::_('COM_REDSHOP_SELECT') . ' ' . $displayPropertyName)),
                     $subproperty
                 );
                 $attDisplayType = (isset($subproperty[0]->setdisplay_type)) ? $subproperty[0]->setdisplay_type : 'radio';
@@ -4561,7 +4619,9 @@ class RedshopHelperProduct
 
                     $attributeListType = ($subproperty[0]->setmulti_selected) ? 'redshopselect.checklist' : 'redshopselect.radiolist';
 
-                    $chkListAttributes['cssClassSuffix'] = ' no-group';
+                    $chkListAttributes['cssClassSuffix'] = ' form-check';
+                    $chkListAttributes['inputClass']     = ' form-check-input';
+                    $chkListAttributes['labelClass']     = ' form-check-label';
                     $chkListAttributes['onClick']        = "javascript:" . $onChangeJSFunction;
                 } // Dropdown list
                 else {
@@ -4569,7 +4629,7 @@ class RedshopHelperProduct
                     $chkListAttributes['onchange'] = "javascript:" . $onChangeJSFunction;
                 }
 
-                $lists['subproperty_id'] = JHTML::_(
+                $lists['subproperty_id'] = HTMLHelper::_(
                     $attributeListType,
                     $subproperties,
                     $subpropertyid . '[]',
@@ -4608,10 +4668,13 @@ class RedshopHelperProduct
                 if ($subproperty[0]->setrequire_selected == 1) {
                     $displayPropertyName = Redshop::getConfig()->get(
                         'ASTERISK_POSITION'
-                    ) > 0 ? $displayPropertyName . "<span id='asterisk_right'> * </span>" : "<span id='asterisk_left'>* </span>" . $displayPropertyName;
+                    ) > 0 ? $displayPropertyName . "<span class='hasPopover red' id='asterisk_right' 
+                        data-bs-content='<?php echo Text::_('COM_REDSHOP_IS_REQUIRED'); ?>'> *</span>" :
+                        "<span class='hasPopover red' id='asterisk_left' data-bs-content='<?php echo Text::_('COM_REDSHOP_IS_REQUIRED'); ?>'>
+                     * </span>" . $displayPropertyName;
                 }
                 $attribute_table = str_replace("{property_title}", $displayPropertyName, $attribute_table);
-                $attribute_table = str_replace("{subproperty_dropdown}", $lists ['subproperty_id'], $attribute_table);
+                $attribute_table = str_replace("{subproperty_dropdown}", $lists['subproperty_id'], $attribute_table);
 
                 if (strpos($subAttributeHtml, "{subproperty_image_without_scroller}") !== false) {
                     $attribute_table = str_replace("{subproperty_image_scroller}", "", $attribute_table);
@@ -4647,7 +4710,7 @@ class RedshopHelperProduct
                     'ps.subscription_id'
                 ) . ' = ' . $db->qn('p.subscription_id')
             )
-            ->where($db->qn('order_item_id') . ' = ' . (int)$order_item_id);
+            ->where($db->qn('order_item_id') . ' = ' . (int) $order_item_id);
         $db->setQuery($query);
         $list = $db->loadObject();
 
@@ -4676,7 +4739,7 @@ class RedshopHelperProduct
                 ->select('ps.discount_product_id')
                 ->from($db->qn('#__redshop_discount_product_shoppers', 'ps'))
                 ->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = ps.shopper_group_id')
-                ->where('ui.user_id = ' . (int)$userId)
+                ->where('ui.user_id = ' . (int) $userId)
                 ->where('ui.address_type = ' . $db->q('BT'));
         } else {
             $userArr = JFactory::getSession()->get('rs_user');
@@ -4691,7 +4754,7 @@ class RedshopHelperProduct
             $query = $db->getQuery(true)
                 ->select('dps.discount_product_id')
                 ->from($db->qn('#__redshop_discount_product_shoppers', 'dps'))
-                ->where('dps.shopper_group_id =' . (int)$shopperGroupId);
+                ->where('dps.shopper_group_id =' . (int) $shopperGroupId);
         }
 
         $result = $db->setQuery($query)->loadColumn();
@@ -4741,8 +4804,8 @@ class RedshopHelperProduct
                 $dateQuery = $db->getQuery(true)
                     ->select($db->qn('data_txt'))
                     ->from($db->qn('#__redshop_fields_data'))
-                    ->where($db->qn('fieldid') . ' = ' . (int)$field_id)
-                    ->where($db->qn('itemid') . ' = ' . (int)$productId);
+                    ->where($db->qn('fieldid') . ' = ' . (int) $field_id)
+                    ->where($db->qn('itemid') . ' = ' . (int) $productId);
                 $db->setQuery($dateQuery);
                 $datedata = $db->loadObject();
 
@@ -4755,30 +4818,30 @@ class RedshopHelperProduct
                         0,
                         0,
                         0,
-                        (int)date('m', $mainsplit_date[0]),
-                        (int)date('d', $mainsplit_date[0]),
-                        (int)date('Y', $mainsplit_date[0])
+                        (int) date('m', $mainsplit_date[0]),
+                        (int) date('d', $mainsplit_date[0]),
+                        (int) date('Y', $mainsplit_date[0])
                     );
 
                     $dateEnd = mktime(
                         23,
                         59,
                         59,
-                        (int)date('m', $mainsplit_date[1]),
-                        (int)date('d', $mainsplit_date[1]),
-                        (int)date('Y', $mainsplit_date[1])
+                        (int) date('m', $mainsplit_date[1]),
+                        (int) date('d', $mainsplit_date[1]),
+                        (int) date('Y', $mainsplit_date[1])
                     );
 
                     $todayStart = mktime(
                         0,
                         0,
                         0,
-                        (int)date('m'),
-                        (int)date('d'),
-                        (int)date('Y')
+                        (int) date('m'),
+                        (int) date('d'),
+                        (int) date('Y')
                     );
 
-                    $todayEnd = mktime(23, 59, 59, (int)date('m'), (int)date('d'), (int)date('Y'));
+                    $todayEnd = mktime(23, 59, 59, (int) date('m'), (int) date('d'), (int) date('Y'));
 
                     if ($dateStart <= $todayStart && $dateEnd >= $todayEnd) {
                         // Show add to cart button
@@ -4868,9 +4931,9 @@ class RedshopHelperProduct
         }
 
         return "<div>" . Text::_("COM_REDSHOP_PRODUCT_USERFIELD") . "</div><div>" . implode(
-                "<br/>",
-                $resultArr
-            ) . "</div>";
+            "<br/>",
+            $resultArr
+        ) . "</div>";
     }
 
     public static function getProductField_order($orderitemid = 'NULL', $sectionId = 1)
@@ -4996,7 +5059,7 @@ class RedshopHelperProduct
         $db = JFactory::getDbo();
 
         if (!empty($productId)) {
-            $productPriceList = \Redshop\Repositories\Product::getPrices((int)$productId);
+            $productPriceList = \Redshop\Repositories\Product::getPrices((int) $productId);
         }
 
         if (!empty($propertyIds)) {
@@ -5048,7 +5111,7 @@ class RedshopHelperProduct
                 . $db->qn('ui.user_id') . '=' . $db->qn('pr.userid')
                 . ' AND ' . $db->qn('ui.address_type') . '=' . $db->q('BT')
             )
-            ->where($db->qn('pr.product_id') . ' = ' . (int)$productId)
+            ->where($db->qn('pr.product_id') . ' = ' . (int) $productId)
             ->where($db->qn('pr.published') . ' = 1')
             ->where($db->qn('pr.email') . ' != ' . $db->q(''))
             ->order($db->qn('pr.time') . ' DESC')
@@ -5056,7 +5119,8 @@ class RedshopHelperProduct
 
         try {
             $reviews = $db->setQuery($query)->loadObjectList();
-        } catch (RuntimeException $e) {
+        }
+        catch (RuntimeException $e) {
             throw new RuntimeException($e->getMessage(), $e->getCode());
         }
 
@@ -5082,11 +5146,11 @@ class RedshopHelperProduct
                 case 'category':
                     return RedshopEntityCategory::getInstance($id)->getItem();
                 default:
-                    $db    = JFactory::getDbo();
+                    $db = JFactory::getDbo();
                     $query = $db->getQuery(true)
                         ->select('*')
                         ->from($db->qn('#__redshop_' . $section))
-                        ->where($db->qn($section . '_id') . ' = ' . (int)$id);
+                        ->where($db->qn($section . '_id') . ' = ' . (int) $id);
 
                     return $db->setQuery($query)->loadObject();
             }
@@ -5104,7 +5168,7 @@ class RedshopHelperProduct
             ->leftjoin(
                 $db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id')
             )
-            ->where($db->qn('pcx.product_id') . ' = ' . $db->q((int)$pid))
+            ->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
             ->where($db->qn('c.name') . ' IS NOT NULL')
             ->order($db->qn('c.id') . ' ASC')
             ->setLimit(0, 1);
@@ -5123,7 +5187,7 @@ class RedshopHelperProduct
      */
     public static function checkCompareProduct($productId)
     {
-        $productId = (int)$productId;
+        $productId = (int) $productId;
 
         if (!$productId) {
             return '';
@@ -5135,7 +5199,7 @@ class RedshopHelperProduct
             return '';
         }
 
-        $idx = (int)($compareProducts['idx']);
+        $idx = (int) ($compareProducts['idx']);
 
         foreach ($compareProducts[$idx] as $compareProduct) {
             if ($compareProduct["product_id"] == $productId) {
