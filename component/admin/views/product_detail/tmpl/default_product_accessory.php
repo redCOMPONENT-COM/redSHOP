@@ -13,7 +13,7 @@ JText::script('COM_REDSHOP_DELETE');
 
 <div class="row">
     <div class="col-lg-12">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'); ?></h3>

@@ -229,7 +229,7 @@ foreach ($media->getAll() as $mediaItem) {
                             </label>
 
                             <div class="input-group">
-                                <span class="input-group-addon"><?php echo Redshop::getConfig()->get(
+                                <span class="input-group-text"><?php echo Redshop::getConfig()->get(
                                         'REDCURRENCY_SYMBOL'
                                     ) ?></span>
                                 <input class="form-control" type="text" name="product_price" id="product_price"
@@ -262,7 +262,7 @@ foreach ($media->getAll() as $mediaItem) {
                             </label>
 
                             <div class="input-group">
-                                <span class="input-group-addon"><?php echo Redshop::getConfig()->get(
+                                <span class="input-group-text"><?php echo Redshop::getConfig()->get(
                                         'REDCURRENCY_SYMBOL'
                                     ) ?></span>
                                 <input class="form-control" type="text" name="discount_price" id="discount_price"
@@ -369,7 +369,7 @@ foreach ($media->getAll() as $mediaItem) {
                         "product_desc",
                         $this->detail->product_desc,
                         '100%',
-                        '$heightPx',
+                        '400px !important',
                         '100',
                         '20'
                     ); ?>
@@ -382,15 +382,13 @@ foreach ($media->getAll() as $mediaItem) {
                         "product_s_desc",
                         $this->detail->product_s_desc,
                         '100%',
-                        '$heightPx',
+                        '400px !important',
                         '100',
                         '20'
                     ); ?>
                 </div>
             </div>
         </div>
-
-
     </div>
 
     <div class="col-sm-4">

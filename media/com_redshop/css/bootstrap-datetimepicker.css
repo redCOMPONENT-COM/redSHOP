@@ -416,7 +416,8 @@
     line-height: 1.8em !important;
 }
 
-.input-group.date .input-group-addon {
+.input-group.date, 
+.input-group-text {
     cursor: pointer;
 }
 

@@ -18,7 +18,7 @@ echo RedshopLayoutHelper::render(
             value="' . $this->config->get(
                 'IMPORT_MIN_FILE_SIZE',
                 1
-            ) . '"/><span class="input-group-addon">bytes</span></div>'
+            ) . '"/><span class="input-group-text">bytes</span></div>'
     )
 );
 echo RedshopLayoutHelper::render(
@@ -30,7 +30,7 @@ echo RedshopLayoutHelper::render(
             value="' . $this->config->get(
                 'IMPORT_MAX_FILE_SIZE',
                 2000000
-            ) . '"/><span class="input-group-addon">bytes</span></div>'
+            ) . '"/><span class="input-group-text">bytes</span></div>'
     )
 );
 echo RedshopLayoutHelper::render(

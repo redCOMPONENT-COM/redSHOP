@@ -660,12 +660,14 @@ div#redshopcomponent {
 }
 
 .select2-container .select2-choice .select2-arrow {
+    background-image: unset;
     background-color: #f0f4fb;
 }
 
-.pull-right {
-  float: right !important;
+.select2-container .select2-choice .select2-arrow b {
+    background: url(/media/com_redshop/css/select2/select2.png) no-repeat 0 5px;
 }
-.pull-left {
-  float: left !important;
+
+.align-right {
+  text-align: right;
 }

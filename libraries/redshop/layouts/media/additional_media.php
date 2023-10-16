@@ -67,7 +67,7 @@ extract($displayData);
                                 </div>
                                 <div class="col-md-4 pull-right">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        <span class="input-group-text"><i class="fa fa-search"></i></span>
                                         <input type="text" class="form-control" placeholder="Search..."
                                                aria-describedby="addon-search">
                                     </div>

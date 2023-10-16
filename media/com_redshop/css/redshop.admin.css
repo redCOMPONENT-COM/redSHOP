@@ -3703,7 +3703,7 @@ tbody.collapse.in {
     padding-left: 0;
     padding-right: 0;
 }
-
+/*
 .input-group .form-control {
     position: relative;
     z-index: 2;
@@ -3711,7 +3711,7 @@ tbody.collapse.in {
     width: 100%;
     margin-bottom: 0;
 }
-
+*/
 .input-group-lg>.form-control,
 .input-group-lg>.input-group-addon,
 .input-group-lg>.input-group-btn>.btn {
@@ -18284,34 +18284,6 @@ Searchtools
     margin-left: 5px;
 }
 
-.select2-container {
-    width: 100%;
-    max-width: 100%;
-}
-
-.select2-container .select2-choice {
-    background-image: none !important;
-    background-color: #f7f7f7 !important;
-    height: 30px !important;
-    border: 0 !important;
-    box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
-    color: #555;
-    padding-left: 10px;
-}
-
-.select2-container .select2-choice span {
-    color: #555;
-}
-
-.select2-container .select2-choice .select2-arrow {
-    background: transparent !important;
-    border: 0px !important;
-}
-
-.select2-container .select2-choice .select2-arrow b {
-    background: transparent url("../images/chosen-sprite.png") no-repeat scroll 0 5px !important;
-}
-
 .sortable-options .sortable-move {
     cursor: grab;
     line-height: 34px;
@@ -18548,12 +18520,11 @@ dl.tabs h3 a {
 
 .current {
     clear: both;
-    / / margin-top: 10 px;
+    /* margin-top: 10 px;*/
     float: left;
 }
 
 select,
-textarea,
 input[type="text"],
 input[type="password"],
 input[type="datetime"],
@@ -18569,9 +18540,11 @@ input[type="search"],
 input[type="tel"],
 input[type="color"],
 .uneditable-input {
+    height: 42px !important;
+}
+
+textarea {
     height: auto !important;
-    font-size: 14px;
-    border: 0;
 }
 
 table.admintable td {
@@ -20622,7 +20595,7 @@ input[type="color"],
 input,
 textarea,
 .uneditable-input {
-    width: 220px;
+    /*width: 220px;*/
 }
 
 textarea {
@@ -28960,4 +28933,34 @@ joomla-toolbar-button {
 
 h3.popover-header {
     margin: 0px;
+}
+
+.select2-container {
+    width: 100%;
+    max-width: 100%;
+}
+
+.select2-container .select2-choice {
+    background-image: none !important;
+    background-color: #ffffff !important;
+    height: 42px !important;
+    line-height: 40px;
+    border: 1px solid #ccc !important;
+    box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+    color: #555;
+    padding-left: 10px;
+}
+
+.select2-container .select2-choice span {
+    color: #555;
+}
+
+.select2-container .select2-choice .select2-arrow {
+    background-image: unset;
+    background-color: #f0f4fb;
+    border: 0px !important;
+}
+
+.select2-container .select2-choice .select2-arrow b {
+    background: url(/media/com_redshop/css/select2/select2.png) no-repeat 0 5px;
 }

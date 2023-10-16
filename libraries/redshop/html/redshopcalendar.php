@@ -54,11 +54,11 @@ abstract class JHtmlRedshopcalendar
             $tz = date_default_timezone_get();
         }
 
-		HTMLHelper::script('com_redshop/moment.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/moment-timezone-with-data.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/bootstrap-datetimepicker.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/jquery.inputmask.min.js', ['relative' => true]);
-		HTMLHelper::stylesheet('com_redshop/bootstrap-datetimepicker.min.css', ['relative' => true]);
+        HTMLHelper::script('com_redshop/moment.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/moment-timezone-with-data.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/bootstrap-datetimepicker.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/jquery.inputmask.min.js', ['relative' => true]);
+        HTMLHelper::stylesheet('com_redshop/bootstrap-datetimepicker.min.css', ['relative' => true]);
 
         $momentValue = false;
 
@@ -71,15 +71,15 @@ abstract class JHtmlRedshopcalendar
 
         JFactory::getDocument()->addScriptDeclaration(
             '(function($){
-				$(document).ready(function(){
-                    addDateTimePicker();
-				});
-				
-				$(document).on("AfterGetBillingTemplate", function(){
+                $(document).ready(function(){
                     addDateTimePicker();
                 });
-				
-				function addDateTimePicker(){
+                
+                $(document).on("AfterGetBillingTemplate", function(){
+                    addDateTimePicker();
+                });
+                
+                function addDateTimePicker(){
                     $("#' . $id . '_wrapper").datetimepicker({
                         timeZone: "' . $userTz . '",
                         collapse: true,
@@ -104,15 +104,15 @@ abstract class JHtmlRedshopcalendar
                         }
                     });
                 }
-			})(jQuery);'
+            })(jQuery);'
         );
 
         if (!$inline) {
             // Hide button using inline styles for readonly/disabled fields
             return '<div class="input-group redshop-datepicker" id="' . $id . '_wrapper">'
-                . '<span class="input-group-addon" id="' . $id . '_img"><i class="fa fa-calendar"></i></span>'
+                . '<span class="input-group-text" id="' . $id . '_img"><i class="fa fa-calendar"></i></span>'
                 . '<input type="text" name="' . $name . '" id="' . $id . '" ' . $attribs . ' />'
-                . '<span class="input-group-addon"><strong>' . strtolower($format) . '</strong></span>'
+                . '<span class="input-group-text"><strong>' . strtolower($format) . '</strong></span>'
                 . '</div>';
         }
 

@@ -851,7 +851,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                                             </td>
                                                             <td width="10%">
                                                                 <div class="input-group">
-                                                                    <span class="input-group-addon"><?php echo Redshop::getConfig(
+                                                                    <span class="input-group-text"><?php echo Redshop::getConfig(
                                                                         )->get('REDCURRENCY_SYMBOL'); ?></span>
                                                                     <input type="number" min="0" name="update_price"
                                                                            id="update_price"
@@ -1194,7 +1194,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                                           name="update_discount<?php echo $orderId; ?>"
                                                           id="update_discount<?php echo $orderId; ?>">
                                                         <div class="input-group">
-                                                            <span class="input-group-addon"><?php echo Redshop::getConfig(
+                                                            <span class="input-group-text"><?php echo Redshop::getConfig(
                                                                 )->get('REDCURRENCY_SYMBOL'); ?></span>
                                                             <input type="number" min="0" name="update_discount"
                                                                    id="update_discount" class="form-control"
@@ -1202,7 +1202,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                                                        $this->detail->order_discount
                                                                    ); ?>"
                                                                    size="10">
-                                                            <span class="input-group-addon">
+                                                            <span class="input-group-text">
                                                                     <a href="#"
                                                                        onclick="javascript:validateDiscount('#update_discount<?php echo $orderId; ?>');">
                                                                     <?php echo JText::_('COM_REDSHOP_UPDATE'); ?>
@@ -1233,12 +1233,12 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                                           name="special_discount<?php echo $orderId; ?>"
                                                           id="special_discount<?php echo $orderId; ?>">
                                                         <div class="input-group">
-                                                            <span class="input-group-addon">%&nbsp;</span>
+                                                            <span class="input-group-text">%&nbsp;</span>
                                                             <input type="number" min="0" name="special_discount"
                                                                    id="special_discount" class="form-control"
                                                                    value="<?php echo $this->detail->special_discount; ?>"
                                                                    size="10">
-                                                            <span class="input-group-addon">
+                                                            <span class="input-group-text">
                                                                     <a href="#"
                                                                        onclick="javascript:validateDiscount('#special_discount<?php echo $orderId; ?>');">
                                                                     <?php echo JText::_('COM_REDSHOP_UPDATE'); ?>

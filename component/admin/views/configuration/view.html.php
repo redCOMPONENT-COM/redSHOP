@@ -1727,7 +1727,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $app                 = JFactory::getApplication();
         $selectedTabPosition = $app->getUserState('com_redshop.configuration.selectedTabPosition', 'general');
 
-        $tabMenu = RedshopAdminMenu::getInstance()->init();
+        $tabMenu = new RedshopMenu();
         $tabMenu->section('tab')
             ->title('COM_REDSHOP_GENERAL_CONFIGURATION')
             ->addItem(

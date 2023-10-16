@@ -110,7 +110,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         // Fail if checked out not by 'me'
         if ($model->isCheckedOut($user->get('id'))) {
             $msg = Text::_('COM_REDSHOP_PRODUCT_BEING_EDITED');
-			$app->enqueueMessage($msg);
+            $app->enqueueMessage($msg);
             $app->redirect('index.php?option=com_redshop&view=product');
         }
 
@@ -161,8 +161,8 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
                 // Add the type
 
                 $html .= '<div class="select_box_parent" onClick="showBox(' . $rand . ')">' . Text::_(
-                        'COM_REDSHOP_TYPE_LIST'
-                    )
+                    'COM_REDSHOP_TYPE_LIST'
+                )
                     . ' ' . $type['type_name'] . '</div>';
                 $html .= '<div id="' . $rand . '" class="select_box_child';
                 $html .= '">';
@@ -211,7 +211,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
                             foreach ($sel_type['tags'] as $sel_tagid => $sel_tag) {
                                 $selected = in_array($sel_tagid, $dependent_tag) ? "selected" : "";
-                                $html     .= '<option value="' . $sel_tagid . '" ' . $selected . ' >' . $sel_tag['tag_name'] . '</option>';
+                                $html .= '<option value="' . $sel_tagid . '" ' . $selected . ' >' . $sel_tag['tag_name'] . '</option>';
                             }
 
                             $html .= '</optgroup>';
@@ -227,7 +227,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             }
         }
 
-        $html              .= '</div>';
+        $html .= '</div>';
         $lists['tags']     = $html;
         $templates         = RedshopHelperTemplate::getTemplate("product");
         $manufacturers     = $model->getmanufacturers();
@@ -296,12 +296,12 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
         if (!$loadedFromAPlugin) {
             /** @scrutinizer ignore-deprecated */
-			HTMLHelper::script('com_redshop/redshop.fields.min.js', ['relative' => true]);
+            HTMLHelper::script('com_redshop/redshop.fields.min.js', ['relative' => true]);
         }
 
-		HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.attribute-manipulation.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.attribute-manipulation.min.js', ['relative' => true]);
 
         if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder.css')) {
             $document->addStyleSheet('components/com_redproductfinder/helpers/redproductfinder.css');
@@ -435,7 +435,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $detail->use_individual_payment_method = isset($detail->use_individual_payment_method) ? $detail->use_individual_payment_method : null;
 
         $lists['use_individual_payment_method'] = HtmlHelper::_(
-            'select.booleanlist',
+            'redshopselect.booleanlist',
             'use_individual_payment_method',
             'class="inputbox"',
             $detail->use_individual_payment_method
@@ -467,12 +467,17 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             $detail->published
         );
         $lists['product_on_sale']  = HtmlHelper::_(
-            'select.booleanlist',
+            'redshopselect.booleanlist',
             'product_on_sale',
             'class="inputbox"',
             $detail->product_on_sale
         );
-        $lists['copy_attribute']   = HtmlHelper::_('select.booleanlist', 'copy_attribute', 'class="inputbox"', 0);
+        $lists['copy_attribute']   = HtmlHelper::_(
+            'redshopselect.booleanlist',
+            'copy_attribute',
+            'class="inputbox"',
+            0
+        );
         $lists['product_special']  = HtmlHelper::_(
             'redshopselect.booleanlist',
             'product_special',
@@ -480,7 +485,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             $detail->product_special
         );
         $lists['product_download'] = HtmlHelper::_(
-            'select.booleanlist',
+            'redshopselect.booleanlist',
             'product_download',
             'class="inputbox"',
             $detail->product_download
@@ -494,21 +499,26 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         }
 
         $lists['not_for_sale']           = HtmlHelper::_(
-            'select.booleanlist',
+            'redshopselect.booleanlist',
             'not_for_sale',
             'class="inputbox"',
             $detail->not_for_sale
         );
         $lists['not_for_sale_showprice'] = HtmlHelper::_(
-            'select.booleanlist',
+            'redshopselect.booleanlist',
             'not_for_sale_showprice',
             'class="inputbox"',
             $detail->not_for_sale_showprice
         );
 
-        $lists['expired']             = HtmlHelper::_('select.booleanlist', 'expired', 'class="inputbox"', $detail->expired);
+        $lists['expired'] = HtmlHelper::_(
+            'redshopselect.booleanlist', 
+            'expired', 
+            'class="inputbox"', 
+            $detail->expired
+        );
         $lists['allow_decimal_piece'] = HtmlHelper::_(
-            'select.booleanlist',
+            'redshopselect.booleanlist',
             'allow_decimal_piece',
             'class="inputbox"',
             $detail->allow_decimal_piece
@@ -528,7 +538,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
         // Discount calculator
         $lists['use_discount_calc'] = HtmlHelper::_(
-            'select.booleanlist',
+            'redshopselect.booleanlist',
             'use_discount_calc',
             'class="inputbox"',
             $detail->use_discount_calc
@@ -646,9 +656,10 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
         $lists['prop_oprand'] = $propOprand;
 
-        $cat_in_sefurl          = $model->catin_sefurl($detail->product_id);
+        $cat_in_sefurl = $model->catin_sefurl($detail->product_id);
+        
         $lists['cat_in_sefurl'] = HtmlHelper::_(
-            'select.genericlist',
+            'redshopselect.genericlist',
             $cat_in_sefurl,
             'cat_in_sefurl',
             'class="inputbox" size="1" ',
@@ -775,7 +786,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $app                 = JFactory::getApplication();
         $selectedTabPosition = $app->getUserState('com_redshop.product_detail.selectedTabPosition', 'general_data');
 
-        $tabMenu = RedshopAdminMenu::getInstance()->init();
+        $tabMenu = new RedshopMenu();
         $tabMenu->section('tab')
             ->title('COM_REDSHOP_PRODUCT_INFORMATION')
             ->addItem(
@@ -800,21 +811,21 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             ($selectedTabPosition === 'extrafield') ? true : false,
             'extrafield'
         )->addItem(
-            '#product_images',
-            'COM_REDSHOP_PRODUCT_IMAGES',
-            ($selectedTabPosition === 'product_images') ? true : false,
-            'product_images'
-        )->addItem(
-            '#product_attribute',
-            'COM_REDSHOP_PRODUCT_ATTRIBUTES',
-            ($selectedTabPosition === 'product_attribute') ? true : false,
-            'product_attribute'
-        )->addItem(
-            '#product_accessory',
-            'COM_REDSHOP_ACCESSORY_RELATED_PRODUCT',
-            ($selectedTabPosition === 'product_accessory') ? true : false,
-            'product_accessory'
-        );
+                '#product_images',
+                'COM_REDSHOP_PRODUCT_IMAGES',
+                ($selectedTabPosition === 'product_images') ? true : false,
+                'product_images'
+            )->addItem(
+                '#product_attribute',
+                'COM_REDSHOP_PRODUCT_ATTRIBUTES',
+                ($selectedTabPosition === 'product_attribute') ? true : false,
+                'product_attribute'
+            )->addItem(
+                '#product_accessory',
+                'COM_REDSHOP_ACCESSORY_RELATED_PRODUCT',
+                ($selectedTabPosition === 'product_accessory') ? true : false,
+                'product_accessory'
+            );
 
         if ($this->CheckRedProductFinder > 0) {
             $tabMenu->addItem(

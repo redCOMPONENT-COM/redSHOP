@@ -3,16 +3,19 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Layouts
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2023 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
 
-JHtml::_('redshopjquery.framework');
-JHtml::_(
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
+$app = Factory::getApplication();
+
+HTMLHelper::_('redshopjquery.framework');
+HTMLHelper::_(
     'redshopjquery.select2',
     'select:not(".disableBootstrapChosen")',
     array("width" => "auto", "dropdownAutoWidth" => "auto")
@@ -20,19 +23,14 @@ JHtml::_(
 
 HTMLHelper::script('com_redshop/redshop.attribute.min.js', ['relative' => true]);
 HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
-/** @scrutinizer ignore-deprecated - remove rs4 */
-// HTMLHelper::script('com_redshop/redshop.redbox.min.js', ['relative' => true]);
 HTMLHelper::script('com_redshop/bootstrap.min.js', ['relative' => true]);
 
-$app = JFactory::getApplication();
-$doc = new RedshopHelperDocument;
-
 if (Redshop::getConfig()->getBool('LOAD_REDSHOP_STYLE', true)) {
-    $doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/redshop.min.css');
-    $doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/bootstrap-grid.min.css');
+    HTMLHelper::stylesheet('com_redshop/redshop.min.css', ['version' => 'auto', 'relative' => true]);
+    HTMLHelper::stylesheet('com_redshop/bootstrap-grid.min.css', ['version' => 'auto', 'relative' => true]);
 }
 
 // Use different CSS for print layout
 if ($app->input->getCmd('print', '')) {
-    $doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/redshop.print.min.css');
+    HTMLHelper::stylesheet('com_redshop/css/redshop.print.min.css', ['version' => 'auto', 'relative' => true]);
 }
