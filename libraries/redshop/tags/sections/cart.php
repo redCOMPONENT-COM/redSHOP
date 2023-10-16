@@ -169,7 +169,7 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
             $shopMore = RedshopLayoutHelper::render(
                 'tags.common.button',
                 array(
-                    'class' => 'blackbutton btn',
+                    'class' => 'btn btn-secondary btn-sm shop-more-btn',
                     'text'  => JText::_('COM_REDSHOP_SHOP_MORE'),
                     'attr'  => 'onclick="javascript:document.location=\'' . $shopMoreLink . '\'" type="button"'
                 ),

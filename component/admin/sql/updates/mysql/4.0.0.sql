@@ -367,3 +367,9 @@ CALL redSHOP_Column_Update('#__redshop_product_discount_calc_extra', 'oprand' 'o
 CALL redSHOP_Column_Update('#__redshop_quotation_attribute_item', 'section_price' 'section_price' 'DECIMAL(15,4) NOT NULL DEFAULT "0.0000"');
 CALL redSHOP_Column_Update('#__redshop_quotation_attribute_item', 'section_vat' 'section_vat' 'DECIMAL(15,4) NOT NULL DEFAULT 0.0000');
 CALL redSHOP_Column_Update('#__redshop_quotation_attribute_item', 'section_oprand' 'section_oprand' 'CHAR(1) NOT NULL DEFAULT ""');
+
+-- ------------------------------------------------------
+-- Table '#__redshop_coupons'
+-- ------------------------------------------------------
+CALL redSHOP_Column_Update('#__redshop_coupons', 'userid' 'userid' 'INT(11) NOT NULL DEFAULT "0"');
+CALL redSHOP_Column_Update('#__redshop_coupons', 'orderid' 'orderid' 'INT(11) NOT NULL DEFAULT "0"');

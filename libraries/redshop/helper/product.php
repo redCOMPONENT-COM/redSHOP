@@ -2543,12 +2543,6 @@ class RedshopHelperProduct
                 }
 
                 $relatedTemplateData = str_replace(
-                    "{relproduct_header}",
-                    Text::_('COM_REDSHOP_RELATED_PRODUCT_HEADER'),
-                    $relatedTemplateData
-                );
-
-                $relatedTemplateData = str_replace(
                     "{relproduct_number_lbl}",
                     Text::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'),
                     $relatedTemplateData
@@ -2758,6 +2752,12 @@ class RedshopHelperProduct
         } else {
             $templateDesc = str_replace("{related_product:$relatedTemplate->name}", "", $templateDesc);
         }
+
+        $templateDesc = str_replace(
+            "{relproduct_header}",
+            Text::_('COM_REDSHOP_RELATED_PRODUCT_HEADER'),
+            $templateDesc
+        );
 
         $templateDesc = RedshopHelperText::replaceTexts($templateDesc);
 

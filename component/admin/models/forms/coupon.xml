@@ -20,7 +20,7 @@
         />
         <field
                 name="type"
-                type="redshop.radio"
+                type="radio"
                 label="COM_REDSHOP_COUPON_TYPE"
                 description="COM_REDSHOP_COUPON_TYPE_DESC"
                 label-class="radio-inline"
@@ -46,7 +46,7 @@
         />
         <field
                 name="start_date"
-                type="redshop.calendar"
+                type="calendar"
                 label="COM_REDSHOP_COUPON_START_DATE"
                 description="COM_REDSHOP_COUPON_START_DATE_DESC"
                 class="form-control"
@@ -66,7 +66,7 @@
         />
         <field
                 name="effect"
-                type="redshop.radio"
+                type="radio"
                 label="COM_REDSHOP_COUPON_EFFECT"
                 description="COM_REDSHOP_COUPON_EFFECT_DESC"
                 label-class="radio-inline"
@@ -84,7 +84,7 @@
                 showon="effect:1"
                 class="form-control"
                 multiple="true"
-                default=""
+                default="0"
                 table-hide="1">
             <option value="">COM_REDSHOP_COUPON_USER_SPECIFIC_SELECT</option>
         </field>
@@ -100,7 +100,7 @@
         />
         <field
                 name="free_shipping"
-                type="redshop.radio"
+                type="radio"
                 label="COM_REDSHOP_COUPON_FREE_SHIPPING"
                 description="COM_REDSHOP_COUPON_FREE_SHIPPING_DESC"
                 label-class="radio-inline"
@@ -123,7 +123,7 @@
         />
         <field
                 name="published"
-                type="redshop.radio"
+                type="radio"
                 default="1"
                 label-class="radio-inline"
                 label="COM_REDSHOP_PUBLISHED"

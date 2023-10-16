@@ -26,7 +26,7 @@
         <div class="category_box_inside">
             <div class="category_product_image">{product_thumb_image}</div>
             <div class="category_product_title">
-                <h3>{product_name}</h3>
+                {product_name}
             </div>
             <div class="category_product_price">
                 {if product_on_sale}

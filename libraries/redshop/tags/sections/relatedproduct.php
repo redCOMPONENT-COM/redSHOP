@@ -154,7 +154,6 @@ class RedshopTagsSectionsRelatedProduct extends RedshopTagsAbstract
             $template
         );
 
-        $replacement['{relproduct_header}']     = Text::_('COM_REDSHOP_RELATED_PRODUCT_HEADER');
         $replacement['{relproduct_number_lbl}'] = Text::_('COM_REDSHOP_PRODUCT_NUMBER_LBL');
         $replacement['{relproduct_number}']     = $product->product_number;
         $replacement['{relproduct_s_desc}']     = $rpShortDesc;

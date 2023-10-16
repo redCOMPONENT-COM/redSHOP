@@ -642,3 +642,30 @@ div#redshopcomponent {
     text-align: center;
     margin-top: 20px;
 }
+
+.category_product_title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.category_box_wrapper {
+    margin-top: 10px;
+}
+
+.select2-container .select2-choice {
+    height: 40px;
+    line-height: 40px;
+}
+
+.select2-container .select2-choice .select2-arrow {
+    background-color: #f0f4fb;
+}
+
+.pull-right {
+  float: right !important;
+}
+.pull-left {
+  float: left !important;
+}
