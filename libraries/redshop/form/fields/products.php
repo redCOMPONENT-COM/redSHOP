@@ -9,6 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
 /**
  * element for default product layout
  *
@@ -38,20 +43,21 @@ class JFormFieldProducts extends JFormField
         if ($this->value) {
             $product->load($this->value);
         } else {
-            $product->product_name = JText::_('COM_REDSHOP_SELECT_A_PRODUCT');
+            $product->product_name = Text::_('COM_REDSHOP_SELECT_A_PRODUCT');
         }
 
-        JFactory::getDocument()->addScriptDeclaration(
+        Factory::getDocument()->addScriptDeclaration(
             "
-			function jSelectProduct(id, title, object) {
-				document.getElementById(object + '_id').value = id;
-				document.getElementById(object + '_name').value = title;
-				window.parent.SqueezeBox.close();
-			}
-		"
+            function jSelectProduct(id, title, object) {
+                document.getElementById(object + '_id').value = id;
+                document.getElementById(object + '_name').value = title;
+                window.parent.SqueezeBox.close();
+            }
+        "
         );
 
-        $link = 'index.php?option=com_redshop&amp;view=product&amp;layout=element&amp;tmpl=component&amp;object=' . $name;
+        $footer = '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+            . Text::_('JTOOLBAR_CLOSE') . '</button>';
 
         $value         = htmlspecialchars($product->product_name, ENT_QUOTES, 'UTF-8');
         $attributes [] = 'style="background: #ffffff;"';
@@ -60,19 +66,31 @@ class JFormFieldProducts extends JFormField
         $attributes    = array_merge($attributes, $class);
         $attributes    = trim(implode(' ', array_unique($attributes)));
 
-        $html = '<div style="float: left;">';
-        $html .= '<input type="text" id="' . $name . '_name" value="' . $value . '" ' . 'disabled="disabled"' . ' />';
-        $html .= '</div>';
-        $html .= '<div class="button2-left">';
-        $html .= '<div class="blank">';
-        $html .= '<a class="modal btn btn-primary" title="' . JText::_(
-                'COM_REDSHOP_SELECT_A_PRODUCT'
-            ) . '"  href="' . $link . '" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">' . JText::_(
-                'COM_REDSHOP_Select'
-            ) . '</a>';
+        $html  = '<div class="controls">';
+        $html .= '<div class="input-group">';
+        $html .= '<input type="text" class="form-control" id="' . $name . '_name" value="' . $value . '" ' . 'disabled="disabled"' . ' />';
+        $html .= '<button data-bs-target="#selectProductModal" class="btn btn-primary" data-bs-toggle="modal">
+                    <span class="icon-list icon-white" aria-hidden="true"></span> ' . Text::_('COM_REDSHOP_Select') . '
+                  </button>';
         $html .= '</div>';
         $html .= '</div>';
         $html .= '<input type="hidden" id="' . $name . '_id" name="' . $fieldName . '" value="' . (int)$this->value . '"' . $attributes . ' />';
+
+        $html .= HTMLHelper::_(
+            'bootstrap.renderModal',
+            'selectProductModal',
+            [
+                'title'       => Text::_('COM_REDSHOP_SELECT_A_PRODUCT'),
+                'backdrop'    => 'static',
+                'keyboard'    => true,
+                'closeButton' => false,
+                'footer'      => $footer,
+                'url'         => Route::_('index.php?option=com_redshop&amp;view=product&amp;layout=element&amp;tmpl=component&amp;object=' . $name),
+                'height'      => '400px',
+                'width'       => '800px',
+                'modalWidth'  => '70',
+            ]
+        );
 
         return $html;
     }

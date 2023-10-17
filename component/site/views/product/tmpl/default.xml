@@ -5,14 +5,17 @@
             <![CDATA[COM_REDSHOP_STANDARD_PRODUCT_LAYOUT_DESC]]>
         </message>
     </layout>
+
     <fields name="request">
         <fieldset name="request"
-                  addfieldpath="/libraries/redshop/form/fields">
+            addfieldpath="/libraries/redshop/form/fields">
 
-            <field name="pid" type="products"
-                   label="COM_REDSHOP_SELECT_PRODUCTS"
-                   required="true"
-                   description="COM_REDSHOP_A_PRODUCT"
+            <field 
+                name="pid" 
+                type="products"
+                label="COM_REDSHOP_SELECT_PRODUCTS"
+                required="true"
+                description="COM_REDSHOP_A_PRODUCT"
             />
         </fieldset>
     </fields>

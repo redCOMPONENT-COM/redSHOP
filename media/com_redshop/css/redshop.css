@@ -9,23 +9,23 @@
  */
 
 .jviewport-height10 {
-  height: 10vh;
+  height: 100px;
   max-height: 95%;
 }
 .jviewport-height20 {
-  height: 20vh;
+  height: 200px;
   max-height: 95%;
 }
 .jviewport-height30 {
-  height: 30vh;
+  height: 300px;
   max-height: 95%;
 }
 .jviewport-height40 {
-  height: 40vh;
+  height: 400px;
   max-height: 95%;
 }
 .jviewport-height50 {
-  height: 50vh;
+  height: 500px;
   max-height: 95%;
 }
 .jviewport-height60 {
@@ -33,35 +33,35 @@
   max-height: 95%;
 }
 .jviewport-height70 {
-  height: 70vh;
+  height: 700px;
   max-height: 95%;
 }
 .jviewport-height80 {
-  height: 80vh;
+  height: 800px;
   max-height: 95%;
 }
 .jviewport-height90 {
-  height: 90vh;
+  height: 900px;
   max-height: 95%;
 }
 .jviewport-height100 {
-  height: 100vh;
+  height: 1000px;
   max-height: 95%;
 }
 
 .modal-dialog.jviewport-width10 {
-  width: 10vw;
+  width: 100px;
   max-width: 95%;
 }
 .modal-dialog.jviewport-width20 {
-  width: 20vw;
+  width: 200px;
   max-width: 95%;
 }
 .modal-dialog.jviewport-width30 {
   width: 300px;
 }
 .modal-dialog.jviewport-width40 {
-  width: 40vw;
+  width: 400px;
   max-width: 95%;
 }
 .modal-dialog.jviewport-width50 {
@@ -73,19 +73,19 @@
   max-width: 95%;
 }
 .modal-dialog.jviewport-width70 {
-  width: 70vw;
+  width: 700px;
   max-width: 95%;
 }
 .modal-dialog.jviewport-width80 {
-  width: 80vw;
+  width: 800px;
   max-width: 95%;
 }
 .modal-dialog.jviewport-width90 {
-  width: 90vw;
+  width: 900px;
   max-width: 95%;
 }
 .modal-dialog.jviewport-width100 {
-  width: 100vw;
+  width: 1000px;
   max-width: 95%;
 }
 

@@ -11,6 +11,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 JFormHelper::loadFieldClass('list');
 
@@ -156,7 +157,7 @@ class JFormFieldCategoryList extends JFormFieldList
 
         // Create a read-only list (no name) with hidden input(s) to store the value(s).
         if ((string)$this->readonly == '1' || (string)$this->readonly == 'true') {
-            $html[] = JHtml::_(
+            $html[] = HTMLHelper::_(
                 'select.genericlist',
                 $options,
                 '',
@@ -189,7 +190,7 @@ class JFormFieldCategoryList extends JFormFieldList
             }
         } else // Create a regular list.
         {
-            $html[] = JHtml::_(
+            $html[] = HTMLHelper::_(
                 'select.genericlist',
                 $options,
                 $this->name,
@@ -367,7 +368,12 @@ class JFormFieldCategoryList extends JFormFieldList
                 array_unshift($options, $parent);
             }
 
-            array_unshift($options, JHtml::_('select.option', '0', JText::_('JGLOBAL_ROOT_PARENT')));
+            array_unshift($options, HTMLHelper::_(
+                                'select.option', 
+                                '0', 
+                                JText::_('JGLOBAL_ROOT_PARENT')
+                            )
+                        );
         }
 
         if (!isset($this->element['show_root'])) {

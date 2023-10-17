@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -31,8 +33,10 @@ class JFormFieldmanufacturer extends JFormFieldList
 
     protected function getInput()
     {
-        $db = JFactory::getDbo();
+        $db   = JFactory::getDbo();
         $name = $this->name;
+        $class = array();
+        $attr  = '';
 
         // This might get a conflict with the dynamic translation - TODO: search for better solution
         $query = 'SELECT id,name ' .
@@ -41,7 +45,7 @@ class JFormFieldmanufacturer extends JFormFieldList
         $options = $db->loadObjectList();
         array_unshift(
             $options,
-            JHTML::_(
+            HTMLHelper::_(
                 'select.option',
                 '',
                 '- ' . JText::_('COM_REDSHOP_SELECT_MANUFACTURER') . ' -',
@@ -50,8 +54,23 @@ class JFormFieldmanufacturer extends JFormFieldList
             )
         );
 
-        $attr = $this->required ? ' required aria-required="true"' : '';
+        // Initialize some field attributes.
+        $class[] = !empty($this->class) ? $this->class : '';
 
-        return JHTML::_('select.genericlist', $options, $name, trim($attr), 'id', 'name', $this->value, $this->id);
+        $attr .= $this->required ? ' required aria-required="true"' : '';
+
+        if ($class) {
+            $attr .= 'class="' . implode(' ', $class) . '"';
+        }
+
+        return HTMLHelper::_('
+            select.genericlist', 
+            $options, 
+            $name, 
+            trim($attr), 
+            'id', 
+            'name', 
+            $this->value, 
+            $this->id);
     }
 }

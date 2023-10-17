@@ -287,16 +287,35 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
                 }
             }
 
+/*
             $saveWishlistModal = RedshopLayoutHelper::render(
                 'tags.common.modal_iframe',
                 [
-                    'class'          => 'modalAddToWishlistButton',
-                    'link'           => $link ?? '',
-                    'text'           => Text::_('COM_REDSHOP_SAVE_WISHLIST'),
-                    'dataInfo'       => 'data-productid=' . $myProductId ?? '',
+                    'class'    => 'modalAddToWishlistButton',
+                    'link'     => $link ?? '',
+                    'text'     => Text::_('COM_REDSHOP_SAVE_WISHLIST'),
+                    'dataInfo' => 'data-productid=' . $myProductId ?? '',
                 ],
                 '',
                 $this->optionLayout
+            );
+*/
+            $footer = '<button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">'
+                . Text::_('COM_REDSHOP_CLOSE') . '</button>';
+
+            $saveWishlistModal = HTMLHelper::_(
+                'bootstrap.renderModal',
+                'modalAddToWishlist',
+                [
+                    'title'       => Text::_('COM_REDSHOP_SAVE_WISHLIST'),
+                    'backdrop'    => 'static',
+                    'keyboard'    => true,
+                    'closeButton' => true,
+                    'footer'      => $footer,
+                    'url'         => $link,
+                    'modalWidth'  => '50',
+                    'bodyHeight'  => '40',
+                ]
             );
 
             $layout = RedshopLayoutHelper::render(
