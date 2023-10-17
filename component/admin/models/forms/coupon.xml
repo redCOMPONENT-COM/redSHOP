@@ -46,7 +46,7 @@
         />
         <field
                 name="start_date"
-                type="calendar"
+                type="redshop.calendar"
                 label="COM_REDSHOP_COUPON_START_DATE"
                 description="COM_REDSHOP_COUPON_START_DATE_DESC"
                 class="form-control"

@@ -310,8 +310,8 @@ CALL redSHOP_Column_Update('#__redshop_tax_rate', 'is_eu_country' 'is_eu_country
 -- ------------------------------------------------------
 -- Table '#__redshop_order_payment'
 -- ------------------------------------------------------
-CALL redSHOP_Column_Update('#__redshop_order_payment', 'order_payment_cardname' 'order_payment_cardname' 'BLOB NULL DEFAULT NULL');
-CALL redSHOP_Column_Update('#__redshop_order_payment', 'order_payment_ccv' 'order_payment_ccv' 'BLOB NULL DEFAULT NULL');
+CALL redSHOP_Column_Update('#__redshop_order_payment', 'order_payment_cardname' 'order_payment_cardname' 'BLOB NULL');
+CALL redSHOP_Column_Update('#__redshop_order_payment', 'order_payment_ccv' 'order_payment_ccv' 'BLOB NULL');
 CALL redSHOP_Column_Update('#__redshop_order_payment', 'order_payment_amount' 'order_payment_amount' 'DOUBLE(10,2) NOT NULL DEFAULT 0');
 CALL redSHOP_Column_Update('#__redshop_order_payment', 'order_payment_trans_id' 'order_payment_trans_id' 'TEXT');
 CALL redSHOP_Column_Update('#__redshop_order_payment', 'order_transfee' 'order_transfee' 'DOUBLE(10,2) NOT NULL DEFAULT 0');
