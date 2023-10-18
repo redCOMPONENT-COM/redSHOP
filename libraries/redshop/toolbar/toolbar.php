@@ -56,8 +56,9 @@ class RedshopToolbar extends JToolbar
     public function renderGroup()
     {
         $html = RedshopLayoutHelper::render('toolbar.redshopgroup', array('toolbar' => $this));
-
-        $bar = Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar('toolbar'); // JToolbar::getInstance('toolbar');
+		
+		//Replace redshop toolbar with Joomla default one to fix admin order screen - Shardul (18-10-2023)
+        $bar = JToolbar::getInstance('toolbar'); //Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar('toolbar');
         $bar->appendButton('Custom', $html);
     }
 
