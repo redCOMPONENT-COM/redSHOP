@@ -1115,7 +1115,6 @@ DROP TABLE IF EXISTS `#__redshop_order_payment` ;
 CREATE TABLE IF NOT EXISTS `#__redshop_order_payment` (
   `payment_order_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `order_id` INT(11) NOT NULL DEFAULT '0',
-  `payment_method_id` INT(11) NULL DEFAULT NULL,
   `order_payment_code` VARCHAR(30) NOT NULL DEFAULT '',
   `order_payment_cardname` BLOB NULL DEFAULT NULL,
   `order_payment_number` BLOB NULL DEFAULT NULL,
@@ -1128,8 +1127,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_order_payment` (
   `authorize_status` VARCHAR(255) NULL DEFAULT NULL,
   `order_transfee` DOUBLE(10,2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`payment_order_id`),
-  INDEX `idx_order_id` (`order_id` ASC),
-  INDEX `idx_payment_method_id` (`payment_method_id` ASC))
+  INDEX `idx_order_id` (`order_id` ASC)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Order Payment Detail';
