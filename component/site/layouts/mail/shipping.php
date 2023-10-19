@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 $order_functions = order_functions::getInstance();
@@ -18,66 +20,102 @@ $extra_section   = ($shippingaddresses->is_company == 1) ?
 ?>
 
 <table border="0">
-    <?php if ($shippingaddresses->is_company == 1) : ?>
+    <?php if ($shippingaddresses->is_company == 1): ?>
         <tr>
-            <td><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>:</td>
-            <td><?php echo $shippingaddresses->company_name; ?></td>
+            <td>
+                <?php echo Text::_('COM_REDSHOP_COMPANY_NAME'); ?>:
+            </td>
+            <td>
+                <?php echo $shippingaddresses->company_name; ?>
+            </td>
         </tr>
     <?php endif; ?>
 
     <tr>
-        <td><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:</td>
-        <td><?php echo $shippingaddresses->firstname; ?></td>
+        <td>
+            <?php echo Text::_('COM_REDSHOP_FIRSTNAME'); ?>:
+        </td>
+        <td>
+            <?php echo $shippingaddresses->firstname; ?>
+        </td>
     </tr>
 
     <tr>
-        <td><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</td>
-        <td><?php echo $shippingaddresses->lastname; ?></td>
+        <td>
+            <?php echo Text::_('COM_REDSHOP_LASTNAME'); ?>:
+        </td>
+        <td>
+            <?php echo $shippingaddresses->lastname; ?>
+        </td>
     </tr>
 
-    <?php if ($shippingaddresses->address != "") : ?>
+    <?php if ($shippingaddresses->address != ""): ?>
         <tr>
-            <td><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</td>
-            <td><?php echo $shippingaddresses->address; ?></td>
+            <td>
+                <?php echo Text::_('COM_REDSHOP_ADDRESS'); ?>:
+            </td>
+            <td>
+                <?php echo $shippingaddresses->address; ?>
+            </td>
         </tr>
     <?php endif; ?>
 
-    <?php if ($shippingaddresses->zipcode != "") : ?>
+    <?php if ($shippingaddresses->zipcode != ""): ?>
         <tr>
-            <td><?php echo JText::_('COM_REDSHOP_ZIP'); ?>:</td>
-            <td><?php echo $shippingaddresses->zipcode; ?></td>
+            <td>
+                <?php echo Text::_('COM_REDSHOP_ZIP'); ?>:
+            </td>
+            <td>
+                <?php echo $shippingaddresses->zipcode; ?>
+            </td>
         </tr>
     <?php endif; ?>
 
-    <?php if ($shippingaddresses->city != "") : ?>
+    <?php if ($shippingaddresses->city != ""): ?>
         <tr>
-            <td><?php echo JText::_('COM_REDSHOP_CITY'); ?>:</td>
-            <td><?php echo $shippingaddresses->city; ?></td>
+            <td>
+                <?php echo Text::_('COM_REDSHOP_CITY'); ?>:
+            </td>
+            <td>
+                <?php echo $shippingaddresses->city; ?>
+            </td>
         </tr>
     <?php endif; ?>
 
-    <?php if ($shippingaddresses->country_code != "") : ?>
+    <?php if ($shippingaddresses->country_code != ""): ?>
         <tr>
-            <td><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
-            <td><?php echo JText::_(RedshopHelperOrder::getCountryName($shippingaddresses->country_code)); ?></td>
+            <td>
+                <?php echo Text::_('COM_REDSHOP_COUNTRY'); ?>:
+            </td>
+            <td>
+                <?php echo Text::_(RedshopHelperOrder::getCountryName($shippingaddresses->country_code)); ?>
+            </td>
         </tr>
     <?php endif; ?>
 
     <?php $state = RedshopHelperOrder::getStateName(
         $shippingaddresses->state_code,
-        $shippingaddresses->country_code
+        $shippingaddresses->country_code,
     ); ?>
-    <?php if ($state != "") : ?>
+    <?php if ($state != ""): ?>
         <tr>
-            <td><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
-            <td><?php echo $state; ?></td>
+            <td>
+                <?php echo Text::_('COM_REDSHOP_STATE'); ?>:
+            </td>
+            <td>
+                <?php echo $state; ?>
+            </td>
         </tr>
     <?php endif; ?>
 
-    <?php if ($shippingaddresses->phone != "") : ?>
+    <?php if ($shippingaddresses->phone != ""): ?>
         <tr>
-            <td><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
-            <td><?php echo $shippingaddresses->phone; ?></td>
+            <td>
+                <?php echo Text::_('COM_REDSHOP_PHONE'); ?>:
+            </td>
+            <td>
+                <?php echo $shippingaddresses->phone; ?>
+            </td>
         </tr>
     <?php endif; ?>
 
@@ -87,8 +125,7 @@ $extra_section   = ($shippingaddresses->is_company == 1) ?
         0,
         "",
         "",
-        true
+        true,
     );
     ?>
 </table>
-

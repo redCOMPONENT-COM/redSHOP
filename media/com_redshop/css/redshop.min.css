@@ -657,6 +657,8 @@ div#redshopcomponent {
 .select2-container .select2-choice {
     height: 40px;
     line-height: 40px;
+    border: 1px solid #ced4da;
+    background-image: unset;
 }
 
 .select2-container .select2-choice .select2-arrow {

@@ -41,90 +41,52 @@ $discountCalcUnit = HTMLHelper::_(
 
 unset($calcoption);
 
-$height = "<div class='input-group'>
-                <span class='input-group-text' id='addon-height'>" . Text::_('COM_REDSHOP_HEIGHT') . "</span>
-                <input type='text' class='form-control' name='calc_height' id='calc_height' value='' 
-                    placeholder='" . Text::_('COM_REDSHOP_HEIGHT') . "' aria-label='" . Text::_('COM_REDSHOP_HEIGHT') . "' 
-                    aria-describedby='addon-height'>
+$height = "<div class='form-group'>
+                <div class='input-group'>
+                    <span class='input-group-text' id='addon-height'>" . Text::_('COM_REDSHOP_HEIGHT') . "</span>
+                    <input type='text' class='form-control' name='calc_height' id='calc_height' value='' 
+                        aria-label='" . Text::_('COM_REDSHOP_HEIGHT') . "' aria-describedby='addon-height'>
+                </div>
             </div>";
-/*
-$height    = "<tr><td><label for='calc_height'>" . Text::_(
-    'COM_REDSHOP_HEIGHT'
-) . "</label></td><td><input type='text' class='form-control' name='calc_height' id='calc_height' value='' /></td></tr>";
-*/
-$width = "<div class='input-group'>
-                <span class='input-group-text' id='addon-width'>" . Text::_('COM_REDSHOP_WIDTH') . "</span>
-                <input type='text' class='form-control' name='calc_width' id='calc_width' value='' 
-                    placeholder='" . Text::_('COM_REDSHOP_WIDTH') . "' aria-label='" . Text::_('COM_REDSHOP_WIDTH') . "' 
-                    aria-describedby='addon-width'>
-            </div>";
-/*
-$width     = "<tr><td><label>" . Text::_(
-    'COM_REDSHOP_WIDTH'
-) . "</label></td><td><input type='text' class='form-control' name='calc_width' id='calc_width' value='' /></td></tr>";
-*/
-$depth = "<div class='input-group'>
-                <span class='input-group-text' id='addon-depth'>" . Text::_('COM_REDSHOP_LENGTH') . "</span>
-                <input type='text' class='form-control' name='calc_depth' id='calc_depth' value='' 
-                    placeholder='" . Text::_('COM_REDSHOP_LENGTH') . "' aria-label='" . Text::_('COM_REDSHOP_LENGTH') . "' 
-                    aria-describedby='addon-depth'>
-            </div>";
-/*
-$depth     = "<tr><td><label>" . Text::_(
-    'COM_REDSHOP_LENGTH'
-) . "</label></td><td><input type='text' class='form-control' name='calc_depth' id='calc_depth' value='' /></td></tr>";
-*/
-$radius = "<div class='input-group'>
-                <span class='input-group-text' id='addon-radius'>" . Text::_('COM_REDSHOP_RADIUS') . "</span>
-                <input type='text' class='form-control' name='calc_radius' id='calc_radius' value='' 
-                    placeholder='" . Text::_('COM_REDSHOP_RADIUS') . "' aria-label='" . Text::_('COM_REDSHOP_RADIUS') . "' 
-                    aria-describedby='addon-radius'>
-            </div>";
-/*
-$radius    = "<tr><td><label>" . Text::_(
-    'COM_REDSHOP_RADIUS'
-) . "</label></td><td><input type='text' class='form-control' name='calc_radius' id='calc_radius' value='' /></td></tr>";
-$calculate = "<tr><td>&nbsp;</td><td>";
-*/
-$calculate = '<div class="input-group">
-                <button type="button" class="btn btn-primary calculator-btn" name="calc_calculate" 
-                        id="calc_calculate" onclick="discountCalculation(\'' . $this->pid . '\')" />
-                    ' . Text::_('COM_REDSHOP_CALCULATE') . '
-                </button>
-            </div>';
-/*
-$calculate .= '<input type="button" class="btn btn-primary calculator-btn" name="calc_calculate" 
-    id="calc_calculate" onclick="discountCalculation(\'' . $this->pid . '\')" value="' . Text::_(
-    'COM_REDSHOP_CALCULATE'
-) . '" /></td></tr>';
-*/
-$hiddenVar = "<input type='hidden' name='calc_unit' id='calc_unit' value='' />
-              <input type='hidden' name='calc_method' id='calc_method' value='" . $calcMethod . "' />";
 
-$calcOutput = "<div class='form-group'>
-                    <div class='input-group'><span id='discount_cal_final_price'></span></div>";
+$width = "<div class='form-group'>
+                <div class='input-group'>
+                    <span class='input-group-text' id='addon-width'>" . Text::_('COM_REDSHOP_WIDTH') . "</span>
+                    <input type='text' class='form-control' name='calc_width' id='calc_width' value='' 
+                        aria-label='" . Text::_('COM_REDSHOP_WIDTH') . "' aria-describedby='addon-width'>
+                </div>
+            </div>";
 
-$calcOutput .= "<div class='input-group'><label>" . Text::_('COM_REDSHOP_UNIT') . "</label>" . $discountCalcUnit . "</div>";
-/*
-$calcOutput = "<table><tr><td colspan='2'><span id='discount_cal_final_price'></span></td></tr>";
+$depth = "<div class='form-group'>
+                <div class='input-group'>
+                    <span class='input-group-text' id='addon-depth'>" . Text::_('COM_REDSHOP_LENGTH') . "</span>
+                    <input type='text' class='form-control' name='calc_depth' id='calc_depth' value='' 
+                        aria-label='" . Text::_('COM_REDSHOP_LENGTH') . "' aria-describedby='addon-depth'>
+                </div>
+            </div>";
 
-$calcOutput .= "<tr><td><label>" . Text::_('COM_REDSHOP_UNIT') . "</label></td><td>" . $discountCalcUnit . "</td></tr>";
-*/
+$radius = "<div class='form-group'>
+                <div class='input-group'>
+                    <span class='input-group-text' id='addon-radius'>" . Text::_('COM_REDSHOP_RADIUS') . "</span>
+                    <input type='text' class='form-control' name='calc_radius' id='calc_radius' value='' 
+                        aria-label='" . Text::_('COM_REDSHOP_RADIUS') . "' aria-describedby='addon-radius'>
+                </div>
+            </div>";
 
 switch ($calcMethod) {
     case "volume":
-        $calcOutput .= $height;
-        $calcOutput .= $width;
-        $calcOutput .= $depth;
+        $calcOutputOption  = $height;
+        $calcOutputOption .= $width;
+        $calcOutputOption .= $depth;
         break;
 
     case "area":
-        $calcOutput .= $depth;
-        $calcOutput .= $width;
+        $calcOutputOption  = $depth;
+        $calcOutputOption .= $width;
         break;
 
     case "circumference":
-        $calcOutput .= $radius;
+        $calcOutputOption  = $radius;
         break;
 }
 
@@ -140,12 +102,59 @@ for ($p = 0, $pn = count($pdcExtraDatas); $p < $pn; $p++) {
 
     $pdcString = $optionName . ' (' . $pdcOprand . ' ' . $pdcPrice . ' )';
 
-    $pdcExtraOutput .= '<div class="input-group">';
-    $pdcExtraOutput .= '<div>' . $pdcString . ' <input type="checkbox" class="form-control" name="pdc_option_name[]" onclick="discountCalculation(\'' . $this->pid . '\')" value="' . $pdcExtraId . '"></div>';
-    $pdcExtraOutput .= "</div>";
+    $pdcExtraOutput .= '<div class="form-group">
+                            <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="pdc-extra" name="pdc_option_name[]" 
+                                    onclick="discountCalculation(\'' . $this->pid . '\')" value="' . $pdcExtraId . '">
+                            <label class="form-check-label" for="pdc-extra">' . $pdcString . '</label>
+                        </div>
+                        </div>';
 }
 
-$calcOutput .= $pdcExtraOutput . $calculate . $hiddenVar;
-$calcOutput .= "</div>";
+$calcOutput =  '<div class="container discount-calculator-container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span id="discount_cal_final_price"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            ' . $calcOutputOption . '
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            ' . $pdcExtraOutput . '
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="hidden" name="calc_unit" id="calc_unit" value="" />
+                            <input type="hidden" name="calc_method" id="calc_method" value="' . $calcMethod . '" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group">
+                                <span class="input-group-text" id="addon-unit">' . Text::_('COM_REDSHOP_UNIT') . '</span>
+                                ' . $discountCalcUnit . '
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="align-right">
+                                <button type="button" class="btn btn-primary calculator-btn" name="calc_calculate" 
+                                        id="calc_calculate" onclick="discountCalculation(\'' . $this->pid . '\')" />
+                                    ' . Text::_('COM_REDSHOP_CALCULATE') . '
+                                </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
 
 echo $calcOutput;
