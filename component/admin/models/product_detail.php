@@ -58,7 +58,7 @@ class RedshopModelProduct_Detail extends RedshopModel
         $this->input        = $this->app->input;
         $array              = $this->input->get('cid', array(0), 'array');
 
-        $this->setId((int)$array[0]);
+        $this->setId((int) $array[0]);
     }
 
     /**
@@ -110,18 +110,19 @@ class RedshopModelProduct_Detail extends RedshopModel
             $query = $db->getQuery(true)
                 ->select('*')
                 ->from($db->qn('#__redshop_product'))
-                ->where($db->qn('product_id') . ' = ' . (int)$this->id);
+                ->where($db->qn('product_id') . ' = ' . (int) $this->id);
 
             // Set the query and load the result.
             $db->setQuery($query);
 
             try {
                 $this->data = $db->loadObject();
-            } catch (RuntimeException $e) {
+            }
+            catch (RuntimeException $e) {
                 throw new RuntimeException($e->getMessage(), $e->getCode());
             }
 
-            return (boolean)$this->data;
+            return (boolean) $this->data;
         }
 
         return true;
@@ -216,7 +217,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         $this->data = $detail;
 
-        return (boolean)$this->data;
+        return (boolean) $this->data;
     }
 
     /**
@@ -254,7 +255,7 @@ class RedshopModelProduct_Detail extends RedshopModel
             ->where($db->qn('product_parent_id') . ' IN (' . $productIds . ')')
             ->group($db->qn('product_parent_id'));
 
-        $parentIds = (array)$db->setQuery($query)->loadObjectList();
+        $parentIds = (array) $db->setQuery($query)->loadObjectList();
 
         foreach ($parentIds as $parentId) {
             $parents[]  = $parentId->product_parent_id;
@@ -303,17 +304,17 @@ class RedshopModelProduct_Detail extends RedshopModel
                 $imagename->property_id . '" ';
             $this->_db->setQuery($subattr_delete);
 
-			$this->_db->execute();
+            $this->_db->execute();
 
             $attr_delete = 'DELETE FROM ' . $this->table_prefix . 'product_attribute WHERE attribute_id ="' . $imagename->attribute_id . '" ';
             $this->_db->setQuery($attr_delete);
 
-			$this->_db->execute();
+            $this->_db->execute();
 
             $prop_delete = 'DELETE FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id ="' . $imagename->attribute_id . '" ';
             $this->_db->setQuery($prop_delete);
 
-			$this->_db->execute();
+            $this->_db->execute();
         }
 
         $imageQuery = 'SELECT p.product_thumb_image,
@@ -363,30 +364,30 @@ class RedshopModelProduct_Detail extends RedshopModel
         $query = 'DELETE FROM ' . $this->table_prefix . 'product WHERE product_id IN ( ' . $productIds . ' )';
         $this->_db->setQuery($query);
 
-		$this->_db->execute();
+        $this->_db->execute();
 
         $query_related = 'DELETE FROM ' . $this->table_prefix . 'product_accessory WHERE product_id IN ( ' . $productIds . ' )';
 
         $this->_db->setQuery($query_related);
 
-		$this->_db->execute();
+        $this->_db->execute();
 
         $query_related = 'DELETE FROM ' . $this->table_prefix . 'product_related WHERE product_id IN ( ' . $productIds . ' )';
 
         $this->_db->setQuery($query_related);
 
-		$this->_db->execute();
+        $this->_db->execute();
 
         $query_media = 'DELETE FROM ' . $this->table_prefix . 'media WHERE section_id IN ( ' . $productIds . ' ) AND media_section = "product"';
         $this->_db->setQuery($query_media);
 
-		$this->_db->execute();
+        $this->_db->execute();
 
         // Remove product category xref relation
         $query_relation = 'DELETE FROM ' . $this->table_prefix . 'product_category_xref WHERE product_id IN ( ' . $productIds . ' ) ';
         $this->_db->setQuery($query_relation);
 
-		$this->_db->execute();
+        $this->_db->execute();
 
         // Delete Association if Exist
 
@@ -400,32 +401,33 @@ class RedshopModelProduct_Detail extends RedshopModel
         $query = 'DELETE FROM ' . $this->table_prefix . 'product_tags_xref  WHERE product_id IN ( ' . $productIds . ' ) ';
         $this->_db->setQuery($query);
 
-		$this->_db->execute();
+        $this->_db->execute();
 
         // Remove product wishlist relation
         $query = 'DELETE FROM ' . $this->table_prefix . 'wishlist_product  WHERE product_id IN ( ' . $productIds . ' ) ';
         $this->_db->setQuery($query);
 
-		$this->_db->execute();
+        $this->_db->execute();
 
         // Remove product compare relation
         $query = 'DELETE FROM ' . $this->table_prefix . 'product_compare  WHERE product_id IN ( ' . $productIds . ' ) ';
         $this->_db->setQuery($query);
 
-		$this->_db->execute();
+        $this->_db->execute();
 
         // Remove fields_data relation
-        $fieldModel = RedshopModel::getInstance('fields', 'RedshopModel');
-        $section = explode(',', RedshopHelperExtrafields::SECTION_PRODUCT
-                              . ', ' . RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD
-                              . ', ' . RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER);
-        $fields  = $fieldModel->getFieldsBySection($section);
+        $fieldModel    = RedshopModel::getInstance('fields', 'RedshopModel');
+        $section       = explode(',', RedshopHelperExtrafields::SECTION_PRODUCT
+            . ', ' . RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD
+            . ', ' . RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER);
+        $fields        = $fieldModel->getFieldsBySection($section);
         $productFields = array();
 
         if (!empty($fields)) {
             foreach ($fields as $field) {
                 $productFields[] = $field->id;
-            };
+            }
+            ;
         }
 
         $db = JFactory::getDbo();
@@ -440,7 +442,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         $db->setQuery($query);
 
-		$db->execute();
+        $db->execute();
 
         RedshopHelperUtility::getDispatcher()->trigger('onAfterProductDelete', array($cid));
 
@@ -522,7 +524,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                 . ' WHERE product_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
 
-			$this->_db->execute();
+            $this->_db->execute();
         }
 
         return true;
@@ -592,7 +594,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
                 // Accessory_product.
                 for ($i = 0, $in = count($accessorydata); $i < $in; $i++) {
-                    $copyaccessory[$i] = (array)$accessorydata[$i];
+                    $copyaccessory[$i] = (array) $accessorydata[$i];
                 }
 
                 if (!isset($pdata->use_individual_payment_method)) {
@@ -662,7 +664,7 @@ class RedshopModelProduct_Detail extends RedshopModel
             } else {
                 $post = $this->input->post->getArray();
                 $this->_initData();
-                $post = array_merge($post, (array)$this->data);
+                $post = array_merge($post, (array) $this->data);
             }
 
             $post['copy_product']     = 1;
@@ -710,7 +712,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                     $query = $db->getQuery(true)
                         ->select('*')
                         ->from($db->qn('#__redshop_product_related'))
-                        ->where('product_id = ' . (int)$pdata->product_id);
+                        ->where('product_id = ' . (int) $pdata->product_id);
 
                     $relatedProductData = $db->setQuery($query)->loadObjectList();
 
@@ -718,11 +720,11 @@ class RedshopModelProduct_Detail extends RedshopModel
                         foreach ($relatedProductData as $relatedData) {
                             $query = $db->getQuery(true)
                                 ->insert($db->qn('#__redshop_product_related'))
-                                ->set('related_id = ' . (int)$relatedData->related_id)
-                                ->set('product_id = ' . (int)$row->product_id)
-                                ->set('ordering = ' . (int)$relatedData->ordering);
+                                ->set('related_id = ' . (int) $relatedData->related_id)
+                                ->set('product_id = ' . (int) $row->product_id)
+                                ->set('ordering = ' . (int) $relatedData->ordering);
 
-							$db->setQuery($query)->execute();
+                            $db->setQuery($query)->execute();
                         }
                     }
                 }
@@ -746,14 +748,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 
                     if (!$rowprices_detail->bind($data)) {
                         /** @scrutinizer ignore-deprecated */
-                        $this->setError(/** @scrutinizer ignore-deprecated */ $rowprices_detail->getError());
+                        $this->setError( /** @scrutinizer ignore-deprecated */$rowprices_detail->getError());
 
                         return false;
                     }
 
                     if (!$rowprices_detail->store()) {
                         /** @scrutinizer ignore-deprecated */
-                        $this->setError(/** @scrutinizer ignore-deprecated */ $rowprices_detail->getError());
+                        $this->setError( /** @scrutinizer ignore-deprecated */$rowprices_detail->getError());
 
                         return false;
                     }
@@ -785,14 +787,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 
                     if (!$rowmedia->bind($data)) {
                         /** @scrutinizer ignore-deprecated */
-                        $this->setError(/** @scrutinizer ignore-deprecated */ $rowmedia->getError());
+                        $this->setError( /** @scrutinizer ignore-deprecated */$rowmedia->getError());
 
                         return false;
                     }
 
                     if (!$rowmedia->store()) {
                         /** @scrutinizer ignore-deprecated */
-                        $this->setError(/** @scrutinizer ignore-deprecated */ $rowmedia->getError());
+                        $this->setError( /** @scrutinizer ignore-deprecated */$rowmedia->getError());
 
                         return false;
                     }
@@ -846,15 +848,15 @@ class RedshopModelProduct_Detail extends RedshopModel
         }
 
         if ($data['task'] == 'save2copy') {
-            $data['product_name']   = $this->renameToUniqueValue('product_name', $data['product_name']);
-            $data['product_number'] = $this->renameToUniqueValue('product_number', $data['product_number'], 'dash');
+            $data['product_name']       = $this->renameToUniqueValue('product_name', $data['product_name']);
+            $data['product_number']     = $this->renameToUniqueValue('product_number', $data['product_number'], 'dash');
             $data['product_full_image'] = $this->changeCopyImageName($data['old_image']);
         }
 
         $this->handleDateTimeRange($data['discount_stratdate'], $data['discount_enddate']);
 
         if (!$row->bind($data)) {
-            $this->app->enqueueMessage(/** @scrutinizer ignore-deprecated */ $row->getError(), 'error');
+            $this->app->enqueueMessage( /** @scrutinizer ignore-deprecated */$row->getError(), 'error');
 
             return false;
         }
@@ -922,7 +924,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                 ->where($db->qn('section_id') . ' = ' . $row->product_id);
             $this->_db->setQuery($query);
 
-			$this->_db->execute();
+            $this->_db->execute();
         }
 
         if (isset($data['product_full_image_delete']) && boolval($data['product_full_image_delete']) === true) {
@@ -1061,14 +1063,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         if (in_array(false, $result, true)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -1077,7 +1079,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         if ($data['task'] === 'save2copy') {
             $this->storeMediaSave2Copy($data, $row);
-	        $this->storeAdditionalPriceSave2Copy($data, $row);
+            $this->storeAdditionalPriceSave2Copy($data, $row);
         }
 
         // Upgrade media reference Id if needed
@@ -1116,7 +1118,7 @@ class RedshopModelProduct_Detail extends RedshopModel
             $query = 'DELETE FROM ' . $this->table_prefix . 'product_category_xref WHERE product_id="' . $prodid . '" ';
             $this->_db->setQuery($query);
 
-			$this->_db->execute();
+            $this->_db->execute();
 
             // Delete redshop_product_payment_xref
             $db    = $this->_db;
@@ -1124,7 +1126,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                 ->delete($db->qn('#__redshop_product_payment_xref'))
                 ->where($db->qn('product_id') . ' = ' . $db->q($prodid));
 
-			$db->setQuery($query)->execute();
+            $db->setQuery($query)->execute();
         }
 
         $catDiscountQuery = $this->_db->getQuery(true);
@@ -1135,7 +1137,7 @@ class RedshopModelProduct_Detail extends RedshopModel
         // Building product categories relationship
         foreach ($categories as $index => $category) {
             if (array_key_exists($category, $catOrder)) {
-                $ordering = $catOrder [$category];
+                $ordering = $catOrder[$category];
             } else {
                 $queryorder = "SELECT max(ordering)  FROM " . $this->table_prefix . "product_category_xref WHERE  category_id ='" . $category . "' ";
                 $this->_db->setQuery($queryorder);
@@ -1147,16 +1149,16 @@ class RedshopModelProduct_Detail extends RedshopModel
 					  VALUES ("' . $category . '","' . $prodid . '","' . $ordering . '")';
             $this->_db->setQuery($query);
 
-			$this->_db->execute();
+            $this->_db->execute();
 
             if ((count($categories) - 1) != $index) {
                 $catDiscountQuery->where(
-                    ' FIND_IN_SET(' . (int)$category . ',' . $this->_db->quoteName('category_id') . ')',
+                    ' FIND_IN_SET(' . (int) $category . ',' . $this->_db->quoteName('category_id') . ')',
                     'OR'
                 );
             } else {
                 $catDiscountQuery->where(
-                    ' FIND_IN_SET(' . (int)$category . ',' . $this->_db->quoteName('category_id') . ')'
+                    ' FIND_IN_SET(' . (int) $category . ',' . $this->_db->quoteName('category_id') . ')'
                 );
             }
         }
@@ -1192,7 +1194,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                     ->values(implode(',', $values));
                 $this->_db->setQuery($query);
 
-				$this->_db->execute();
+                $this->_db->execute();
             }
         }
 
@@ -1257,7 +1259,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
                 if (!$accdetail->store()) {
                     /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $accdetail->getError());
+                    $this->setError( /** @scrutinizer ignore-deprecated */$accdetail->getError());
 
                     return false;
                 }
@@ -1267,25 +1269,23 @@ class RedshopModelProduct_Detail extends RedshopModel
         $query_rel_del = 'DELETE FROM ' . $this->table_prefix . 'product_related ' . 'WHERE product_id IN ( ' . $row->product_id . ' )';
         $this->_db->setQuery($query_rel_del);
 
-		$this->_db->execute();
+        $this->_db->execute();
 
-		if (!empty($data['related_product']))
-		{
-			$relatedProducts = array_filter(
-				ArrayHelper::toInteger(
-					explode(',', $data['related_product'])
-				)
-			);
+        if (!empty($data['related_product'])) {
+            $relatedProducts = array_filter(
+                ArrayHelper::toInteger(
+                    explode(',', $data['related_product'])
+                )
+            );
 
-			foreach ($relatedProducts as $ordering => $relatedData)
-			{
-				$obj             = new stdClass;
-				$obj->related_id = $relatedData;
-				$obj->product_id = $row->product_id;
-				$obj->ordering   = $ordering;
-				$this->_db->insertObject($this->table_prefix . 'product_related', $obj);
-			}
-		}
+            foreach ($relatedProducts as $ordering => $relatedData) {
+                $obj             = new stdClass;
+                $obj->related_id = $relatedData;
+                $obj->product_id = $row->product_id;
+                $obj->ordering   = $ordering;
+                $this->_db->insertObject($this->table_prefix . 'product_related', $obj);
+            }
+        }
 
         // Discount calculator start
         $query = "DELETE FROM `" . $this->table_prefix . "product_discount_calc` WHERE product_id='" . $row->product_id . "' ";
@@ -1336,7 +1336,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                 if ($calcrow->check()) {
                     if (!$calcrow->store()) {
                         /** @scrutinizer ignore-deprecated */
-                        $this->setError(/** @scrutinizer ignore-deprecated */ $calcrow->getError());
+                        $this->setError( /** @scrutinizer ignore-deprecated */$calcrow->getError());
 
                         return false;
                     }
@@ -1371,7 +1371,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                     if (!$pdcextrarow->store()) {
                         $calc_extra    = 1;
                         $extra_err_msg = /** @scrutinizer ignore-deprecated */
-							$pdcextrarow->getError();
+                            $pdcextrarow->getError();
                     }
                 }
             }
@@ -1412,8 +1412,10 @@ class RedshopModelProduct_Detail extends RedshopModel
         if (isset($data['subscription_period']) && count($data['subscription_period']) > 0) {
             for (
                 $sub = 0, $countSubscription = count(
-                $data['subscription_period']
-            ); $sub < $countSubscription; $sub++
+                    $data['subscription_period']
+                );
+                $sub < $countSubscription;
+                $sub++
             ) {
                 $sub_row                      = $this->getTable('product_subscription');
                 $sub_row->subscription_id     = $data['subscription_id'][$sub];
@@ -1424,7 +1426,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
                 if (!$sub_row->store()) {
                     /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $sub_row->getError());
+                    $this->setError( /** @scrutinizer ignore-deprecated */$sub_row->getError());
 
                     return false;
                 }
@@ -1447,7 +1449,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         try {
             $subscriptionRenewal->store();
-        } catch (\RuntimeException $e) {
+        }
+        catch (\RuntimeException $e) {
             /** @scrutinizer ignore-deprecated */
             \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
@@ -1473,7 +1476,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
                             if (!$product_serial->store()) {
                                 /** @scrutinizer ignore-deprecated */
-                                $this->setError(/** @scrutinizer ignore-deprecated */ $product_serial->getError());
+                                $this->setError( /** @scrutinizer ignore-deprecated */$product_serial->getError());
 
                                 return false;
                             }
@@ -1505,125 +1508,131 @@ class RedshopModelProduct_Detail extends RedshopModel
 
     public function storeMediaSave2Copy($data, $row)
     {
-	    $oldProductId = $data['cid']['0'];
-    	$db = JFactory::getDbo();
+        $oldProductId = $data['cid']['0'];
+        $db           = JFactory::getDbo();
 
-	    $newProduct_thumb_image        = $this->changeCopyImageName($data['old_thumb_image']);
-	    $newProduct_back_full_image    = $this->changeCopyImageName($data['product_back_full_image']);
-	    $newProduct_back_thumb_image   = $this->changeCopyImageName($data['product_back_thumb_image']);
-	    $newProduct_preview_image      = $this->changeCopyImageName($data['product_preview_image']);
-	    $newProduct_preview_back_image = $this->changeCopyImageName($data['product_preview_back_image']);
-	    $newProduct_full_image         = $data['product_full_image'];
+        $newProduct_thumb_image        = $this->changeCopyImageName($data['old_thumb_image']);
+        $newProduct_back_full_image    = $this->changeCopyImageName($data['product_back_full_image']);
+        $newProduct_back_thumb_image   = $this->changeCopyImageName($data['product_back_thumb_image']);
+        $newProduct_preview_image      = $this->changeCopyImageName($data['product_preview_image']);
+        $newProduct_preview_back_image = $this->changeCopyImageName($data['product_preview_back_image']);
+        $newProduct_full_image         = $data['product_full_image'];
 
-	    $path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/';
-	    copy($path . $data['old_image'], $path . $newProduct_full_image);
-	    copy($path . $data['old_thumb_image'], $path . $newProduct_thumb_image);
-	    copy($path . $data['product_preview_image'], $path . $newProduct_preview_image);
-	    copy($path . $data['product_preview_back_image'], $path . $newProduct_preview_back_image);
-	    copy($path . $data['product_back_full_image'], $path . $newProduct_back_full_image);
-	    copy($path . $data['product_back_thumb_image'], $path . $newProduct_back_thumb_image);
+        $path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/';
+        copy($path . $data['old_image'], $path . $newProduct_full_image);
+        copy($path . $data['old_thumb_image'], $path . $newProduct_thumb_image);
+        copy($path . $data['product_preview_image'], $path . $newProduct_preview_image);
+        copy($path . $data['product_preview_back_image'], $path . $newProduct_preview_back_image);
+        copy($path . $data['product_back_full_image'], $path . $newProduct_back_full_image);
+        copy($path . $data['product_back_thumb_image'], $path . $newProduct_back_thumb_image);
 
-	    $query = $db->getQuery(true)->clear()
-		    ->select('*')
-		    ->from($db->qn('#__redshop_media'))
-		    ->where($db->qn('media_section') . ' = "product"')
-		    ->where($db->qn('section_id') . ' = ' . $db->q($oldProductId))
-		    ->order($db->qn('media_id') . ' ASC ');
+        $query = $db->getQuery(true)->clear()
+            ->select('*')
+            ->from($db->qn('#__redshop_media'))
+            ->where($db->qn('media_section') . ' = "product"')
+            ->where($db->qn('section_id') . ' = ' . $db->q($oldProductId))
+            ->order($db->qn('media_id') . ' ASC ');
 
-	    $mediadata = $db->setQuery($query)->loadObjectList();
+        $mediadata = $db->setQuery($query)->loadObjectList();
 
-	    for ($j = 0, $jn = count($mediadata); $j < $jn; $j++) {
-		    $old_img   = $mediadata[$j]->media_name;
-		    $new_img   = strstr($old_img, '_') ? strstr($old_img, '_') : $old_img;
-		    $old_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediadata[$j]->media_name;
-		    $mediaName = RedshopHelperMedia::cleanFileName($new_img);
+        for ($j = 0, $jn = count($mediadata); $j < $jn; $j++) {
+            $old_img   = $mediadata[$j]->media_name;
+            $new_img   = strstr($old_img, '_') ? strstr($old_img, '_') : $old_img;
+            $old_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediadata[$j]->media_name;
+            $mediaName = RedshopHelperMedia::cleanFileName($new_img);
 
-		    if (strstr($data['product_full_image']) == $new_img) {
-			    $mediaName = $newProduct_full_image;
-		    }
+            if (strstr($data['product_full_image']) == $new_img) {
+                $mediaName = $newProduct_full_image;
+            }
 
-		    $new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediaName;
-		    copy($old_media, $new_media);
+            $new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediaName;
+            copy($old_media, $new_media);
 
-		    $rowmedia                     = $this->getTable('media_detail');
-		    $data['media_id ']            = 0;
-		    $data['media_name']           = $mediaName;
-		    $data['media_alternate_text'] = $mediadata[$j]->media_alternate_text;
-		    $data['media_section']        = $mediadata[$j]->media_section;
-		    $data['section_id']           = $row->product_id;
-		    $data['media_type']           = $mediadata[$j]->media_type;
-		    $data['media_mimetype']       = $mediadata[$j]->media_mimetype;
-		    $data['published']            = $mediadata[$j]->published;
-		    $data['ordering']             = $mediadata[$j]->ordering;
+            $rowmedia                     = $this->getTable('media_detail');
+            $data['media_id ']            = 0;
+            $data['media_name']           = $mediaName;
+            $data['media_alternate_text'] = $mediadata[$j]->media_alternate_text;
+            $data['media_section']        = $mediadata[$j]->media_section;
+            $data['section_id']           = $row->product_id;
+            $data['media_type']           = $mediadata[$j]->media_type;
+            $data['media_mimetype']       = $mediadata[$j]->media_mimetype;
+            $data['published']            = $mediadata[$j]->published;
+            $data['ordering']             = $mediadata[$j]->ordering;
 
-		    if (!$rowmedia->bind($data)) {
-			    /** @scrutinizer ignore-deprecated */
-			    $this->setError(/** @scrutinizer ignore-deprecated */ $rowmedia->getError());
+            if (!$rowmedia->bind($data)) {
+                /** @scrutinizer ignore-deprecated */
+                $this->setError( /** @scrutinizer ignore-deprecated */$rowmedia->getError());
 
-			    return false;
-		    }
+                return false;
+            }
 
-		    if (!$rowmedia->store()) {
-			    /** @scrutinizer ignore-deprecated */
-			    $this->setError(/** @scrutinizer ignore-deprecated */ $rowmedia->getError());
+            if (!$rowmedia->store()) {
+                /** @scrutinizer ignore-deprecated */
+                $this->setError( /** @scrutinizer ignore-deprecated */$rowmedia->getError());
 
-			    return false;
-		    }
-	    }
+                return false;
+            }
+        }
     }
 
-	/**
-	 * Function storeAdditionalPriceSave2Copy.
-	 *
-	 * @param   array   $data  data
-	 * @param   array  $row     row
-	 *
-	 * @since   3.0.3
-	 */
-	public function storeAdditionalPriceSave2Copy($data, $row)
-	{
-		$oldProductId = $data['cid']['0'];
-		$priceDatas = $this->getProductPriceDetail($oldProductId);
+    /**
+     * Function storeAdditionalPriceSave2Copy.
+     *
+     * @param   array   $data  data
+     * @param   array  $row     row
+     *
+     * @since   3.0.3
+     */
+    public function storeAdditionalPriceSave2Copy($data, $row)
+    {
+        $oldProductId = $data['cid']['0'];
+        $priceDatas   = $this->getProductPriceDetail($oldProductId);
 
-		if ($priceDatas)
-		{
-			foreach ($priceDatas as $priceData)
-			{
-				$db = JFactory::getDbo();
-				$values = array($row->product_id, $priceData['product_price'], $priceData['product_currency'], $priceData['cdate'], $priceData['shopper_group_id'], $priceData['price_quantity_start'],
-					$priceData['price_quantity_end'], $priceData['discount_price'], $priceData['discount_start_date'], $priceData['discount_end_date']
-				);
-				$columns = array('product_id', 'product_price', 'product_currency', 'cdate', 'shopper_group_id', 'price_quantity_start', 'price_quantity_end', 'discount_price', 'discount_start_date', 'discount_end_date');
+        if ($priceDatas) {
+            foreach ($priceDatas as $priceData) {
+                $db      = JFactory::getDbo();
+                $values  = array($row->product_id,
+                    $priceData['product_price'],
+                    $priceData['product_currency'],
+                    $priceData['cdate'],
+                    $priceData['shopper_group_id'],
+                    $priceData['price_quantity_start'],
+                    $priceData['price_quantity_end'],
+                    $priceData['discount_price'],
+                    $priceData['discount_start_date'],
+                    $priceData['discount_end_date']
+                );
+                $columns = array('product_id', 'product_price', 'product_currency', 'cdate', 'shopper_group_id', 'price_quantity_start', 'price_quantity_end', 'discount_price', 'discount_start_date', 'discount_end_date');
 
-				$query = $db->getQuery(true);
-				$query->insert($db->qn('#__redshop_product_price'))
-					->columns($db->qn($columns))
-					->values(implode(',', $db->q($values)));
+                $query = $db->getQuery(true);
+                $query->insert($db->qn('#__redshop_product_price'))
+                    ->columns($db->qn($columns))
+                    ->values(implode(',', $db->q($values)));
 
-				$db->setQuery($query)->execute();
-			}
-		}
-	}
+                $db->setQuery($query)->execute();
+            }
+        }
+    }
 
-	/**
-	 * Function getProductPriceDetail.
-	 *
-	 * @param   int   $oldProductId  oldproductID
-	 *
-	 * @return  object      records of price row if success. False otherwise.
-	 *
-	 * @since   3.0.3
-	 */
-	public function getProductPriceDetail($oldProductId)
-	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_product_price'))
-			->where($db->qn('product_id') . ' = ' . $db->q($oldProductId));
+    /**
+     * Function getProductPriceDetail.
+     *
+     * @param   int   $oldProductId  oldproductID
+     *
+     * @return  object      records of price row if success. False otherwise.
+     *
+     * @since   3.0.3
+     */
+    public function getProductPriceDetail($oldProductId)
+    {
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true)
+            ->select('*')
+            ->from($db->qn('#__redshop_product_price'))
+            ->where($db->qn('product_id') . ' = ' . $db->q($oldProductId));
 
-		return $db->setQuery($query)->loadAssocList();
-	}
+        return $db->setQuery($query)->loadAssocList();
+    }
 
     /**
      * Method for store media.
@@ -1658,14 +1667,16 @@ class RedshopModelProduct_Detail extends RedshopModel
             if (strpos($key, 'media-') !== false) {
                 $mediaTable->load(str_replace('media-', '', $key));
             } else {
-                if (!$mediaTable->load(
-                    array(
-                        'media_name'    => $row->product_full_image,
-                        'media_section' => 'product',
-                        'section_id'    => $row->product_id,
-                        'media_type'    => 'images'
+                if (
+                    !$mediaTable->load(
+                        array(
+                            'media_name'    => $row->product_full_image,
+                            'media_section' => 'product',
+                            'section_id'    => $row->product_id,
+                            'media_type'    => 'images'
+                        )
                     )
-                )) {
+                ) {
                     if (!empty($row->product_id)) {
                         $mediaTable->set('section_id', $row->product_id);
                     }
@@ -1686,19 +1697,19 @@ class RedshopModelProduct_Detail extends RedshopModel
 
             // Copy new image for this media
             $fileName = md5(basename($value)) . '.' . JFile::getExt($value);
-	        $typeFile = explode('.', $fileName);
+            $typeFile = explode('.', $fileName);
             $file     = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
 
             JFile::move(JPATH_ROOT . '/' . $value, $file);
 
             $mediaTable->set('media_name', $fileName);
-	        $mediaTable->set('media_mimetype', 'image/'.$typeFile[1]);
+            $mediaTable->set('media_mimetype', 'image/' . $typeFile[1]);
 
             if (!$mediaTable->store()) {
                 continue;
             }
 
-            $mediaId            = (int)$mediaTable->media_id;
+            $mediaId            = (int) $mediaTable->media_id;
             $row->{$mediaField} = $fileName;
 
             // Optimize image
@@ -1958,14 +1969,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -2040,14 +2051,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -2079,7 +2090,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						  "' . $ordered_preorder . '")';
         $this->_db->setQuery($query);
 
-		$this->_db->execute();
+        $this->_db->execute();
 
         return true;
     }
@@ -2162,14 +2173,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         if (!$rowmedia->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $rowmedia->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$rowmedia->getError());
 
             return false;
         }
 
         if (!$rowmedia->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $rowmedia->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$rowmedia->getError());
 
             return false;
         }
@@ -2218,14 +2229,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -2283,7 +2294,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				  VALUE("' . (int) $productId . '","' . (int) $stockroom_id . '","' . (int) $quantiy . '","' . (int) $preorder_stock . '","' . (int) $ordered_preorder . '")';
         $this->_db->setQuery($query);
 
-		$this->_db->execute();
+        $this->_db->execute();
 
         // For stockroom Notify Email.
         $stockroom_data                   = array();
@@ -2389,14 +2400,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 
                     if (!$attribute_price_detail->bind($attr_price)) {
                         /** @scrutinizer ignore-deprecated */
-                        $this->setError(/** @scrutinizer ignore-deprecated */ $attribute_price_detail->getError());
+                        $this->setError( /** @scrutinizer ignore-deprecated */$attribute_price_detail->getError());
 
                         return false;
                     }
 
                     if (!$attribute_price_detail->store()) {
                         /** @scrutinizer ignore-deprecated */
-                        $this->setError(/** @scrutinizer ignore-deprecated */ $attribute_price_detail->getError());
+                        $this->setError( /** @scrutinizer ignore-deprecated */$attribute_price_detail->getError());
 
                         return false;
                     }
@@ -2583,7 +2594,7 @@ class RedshopModelProduct_Detail extends RedshopModel
             } else {
                 if ($preorder_stock < $ordered_preorder && $preorder_stock != "" && $ordered_preorder != "") {
                     $msg = JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED');
-					Factory::getApplication()->enqueueMessage($msg, 'warning');
+                    Factory::getApplication()->enqueueMessage($msg, 'warning');
 
                     return false;
                 } else {
@@ -2603,8 +2614,8 @@ class RedshopModelProduct_Detail extends RedshopModel
                             $post['section_id'],
                             $post['section'],
                             $post['stockroom_id'][$i],
-                            (int)$post['quantity'][$i],
-                            (int)$preorder_stock,
+                            (int) $post['quantity'][$i],
+                            (int) $preorder_stock,
                             $ordered_preorder
                         );
 
@@ -2740,7 +2751,7 @@ class RedshopModelProduct_Detail extends RedshopModel
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_product_discount_calc'))
-            ->where($db->qn('product_id') . ' = ' . (int)$old_product_id);
+            ->where($db->qn('product_id') . ' = ' . (int) $old_product_id);
 
         $list = $db->setQuery($query)->loadObjectList();
 
@@ -2783,14 +2794,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 
             if (!$calcrow->check()) {
                 /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $calcrow->getError());
+                $this->setError( /** @scrutinizer ignore-deprecated */$calcrow->getError());
 
                 return false;
             }
 
             if (!$calcrow->store()) {
                 /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $calcrow->getError());
+                $this->setError( /** @scrutinizer ignore-deprecated */$calcrow->getError());
 
                 return false;
             }
@@ -2909,7 +2920,7 @@ class RedshopModelProduct_Detail extends RedshopModel
             ->leftjoin(
                 $db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id')
             )
-            ->where($db->qn('pcx.product_id') . ' = ' . $db->q((int)$this->id));
+            ->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $this->id));
 
         return $db->setQuery($query)->loadObjectlist();
     }
@@ -3026,7 +3037,7 @@ class RedshopModelProduct_Detail extends RedshopModel
      *
      * @return  boolean
      */
-    public function deleteprop($cid = array(), $image_name = array())
+    public function deleteprop($image_name = array(), $cid = array())
     {
         if (!empty($cid)) {
             $cids = implode(',', $cid);
@@ -3048,13 +3059,13 @@ class RedshopModelProduct_Detail extends RedshopModel
             $query = 'DELETE FROM ' . $this->table_prefix . 'product_attribute_property WHERE property_id IN ( ' . $cids . ' )';
             $this->_db->setQuery($query);
 
-			$this->_db->execute();
+            $this->_db->execute();
 
-			// Changed 5 feb
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_subattribute_color  WHERE subattribute_id IN (' . $cids . ' )';
-			$this->_db->setQuery($query);
+            // Changed 5 feb
+            $query = 'DELETE FROM ' . $this->table_prefix . 'product_subattribute_color  WHERE subattribute_id IN (' . $cids . ' )';
+            $this->_db->setQuery($query);
 
-			$this->_db->execute();
+            $this->_db->execute();
         }
 
         return true;
@@ -3149,7 +3160,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                         "' WHERE subattribute_color_id ='" . $post['section_id'] . "' ";
                     $this->_db->setQuery($query);
 
-					$this->_db->execute();
+                    $this->_db->execute();
                 } else {
                     $main_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $main_name;
 
@@ -3159,7 +3170,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                         . "' WHERE property_id ='" . $post['section_id'] . "' ";
                     $this->_db->setQuery($query);
 
-					$this->_db->execute();
+                    $this->_db->execute();
                 }
             }
         }
@@ -3235,7 +3246,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         $this->_db->setQuery($query);
 
-		$this->_db->execute();
+        $this->_db->execute();
 
         return true;
     }
@@ -3341,7 +3352,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                 $diff->subattribute_color_id . '"';
             $this->_db->setQuery($query);
 
-			$this->_db->execute();
+            $this->_db->execute();
         }
 
         return true;
@@ -3899,7 +3910,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                 if ($order >= 0) {
                     // Update ordering.
                     $query = 'UPDATE ' . $this->table_prefix . 'product_category_xref
-					 		  SET ordering = ' . (int)$i . '
+					 		  SET ordering = ' . (int) $i . '
 					 		  WHERE product_id=' . $productid . '
 					 		  AND category_id = ' . $category_id_my;
                     $this->_db->setQuery($query);
@@ -4132,7 +4143,7 @@ class RedshopModelProduct_Detail extends RedshopModel
             // Make sure we have a user id to checkout the article with.
             if (is_null($uid)) {
                 $user = JFactory::getUser();
-                $uid  = (int)$user->get('id');
+                $uid  = (int) $user->get('id');
             }
 
             // Lets get to it and checkout the thing.
@@ -4140,7 +4151,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
             if (!$product_detail->checkout($uid, $this->id)) {
                 /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $product_detail->getError());
+                $this->setError( /** @scrutinizer ignore-deprecated */$product_detail->getError());
 
                 return false;
             }
@@ -4162,12 +4173,12 @@ class RedshopModelProduct_Detail extends RedshopModel
      */
     public function checkin($pks = array())
     {
-        $pks   = (array)$pks;
+        $pks   = (array) $pks;
         $table = $this->getTable('product_detail');
         $count = 0;
 
         if (empty($pks)) {
-            $pks = array((int)$this->getState($this->getName() . '.id'));
+            $pks = array((int) $this->getState($this->getName() . '.id'));
         }
 
         // Check in all items.
@@ -4182,7 +4193,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                 }
             } else {
                 /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $table->getError());
+                $this->setError( /** @scrutinizer ignore-deprecated */$table->getError());
 
                 return false;
             }
@@ -4202,7 +4213,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
             if (!$table->load($pk)) {
                 /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $table->getError());
+                $this->setError( /** @scrutinizer ignore-deprecated */$table->getError());
 
                 return false;
             }
@@ -4213,10 +4224,12 @@ class RedshopModelProduct_Detail extends RedshopModel
             }
 
             // Check if this is the user having previously checked out the row.
-            if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise(
+            if (
+                $table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise(
                     'core.admin',
                     'com_checkin'
-                )) {
+                )
+            ) {
                 /** @scrutinizer ignore-deprecated */
                 $this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
@@ -4226,7 +4239,7 @@ class RedshopModelProduct_Detail extends RedshopModel
             // Attempt to check the row in.
             if (!$table->checkin($pk)) {
                 /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $table->getError());
+                $this->setError( /** @scrutinizer ignore-deprecated */$table->getError());
 
                 return false;
             }
@@ -4346,7 +4359,7 @@ class RedshopModelProduct_Detail extends RedshopModel
         if (count($propertyList) <= 1) {
             $query = "UPDATE `" . $this->table_prefix . "product_attribute`
 						SET `attribute_required` = '0'
-						WHERE `attribute_id` = " . (int)$attributeId;
+						WHERE `attribute_id` = " . (int) $attributeId;
             $this->_db->setQuery($query);
             $this->_db->execute();
         }
@@ -4396,8 +4409,10 @@ class RedshopModelProduct_Detail extends RedshopModel
             $this->_db->setQuery($query);
             $this->_db->execute();
 
-            if (isset($subproperty[$j]->subattribute_color_image)
-                && $subproperty[$j]->subattribute_color_image) {
+            if (
+                isset($subproperty[$j]->subattribute_color_image)
+                && $subproperty[$j]->subattribute_color_image
+            ) {
                 $this->delete_image($subproperty[$j]->subattribute_color_image, 'subcolor');
             }
         }
@@ -4405,7 +4420,7 @@ class RedshopModelProduct_Detail extends RedshopModel
         if (count($subPropertyList) <= 1) {
             $query = "UPDATE `" . $this->table_prefix . "product_attribute_property`
 						SET `setrequire_selected` = '0'
-						WHERE `property_id` = " . (int)$subattribute_id;
+						WHERE `property_id` = " . (int) $subattribute_id;
             $this->_db->setQuery($query);
             $this->_db->execute();
         }
@@ -4540,18 +4555,18 @@ class RedshopModelProduct_Detail extends RedshopModel
             ->delete($db->qn('#__redshop_product_accessory'));
 
         if ($category_id != 0) {
-            $query->where('category_id = ' . (int)$category_id);
+            $query->where('category_id = ' . (int) $category_id);
         } else {
-            $query->where('accessory_id = ' . (int)$accessoryId);
+            $query->where('accessory_id = ' . (int) $accessoryId);
         }
 
         if ($child_product_id != 0) {
-            $query->where('child_product_id = ' . (int)$child_product_id);
+            $query->where('child_product_id = ' . (int) $child_product_id);
         }
 
-		$db->setQuery($query)->execute();
+        $db->setQuery($query)->execute();
 
-		return true;
+        return true;
     }
 
     /**

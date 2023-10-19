@@ -20,16 +20,16 @@
         />
         <field
                 name="published"
-                type="redshop.radio"
-                label-class="radio-inline"
+                type="radio"
+                layout="joomla.form.field.radio.switcher"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"
                 description="COM_REDSHOP_PUBLISHED"
                 required="true"
                 table-sortable="1"
                 table-width="5%">
-            <option value="1">JYES</option>
-            <option value="0">JNO</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="1">JPUBLISHED</option>
         </field>
     </fieldset>
 </form>

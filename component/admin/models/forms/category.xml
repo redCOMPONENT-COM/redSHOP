@@ -92,16 +92,16 @@
         />
         <field
                 name="published"
-                type="redshop.radio"
+                type="radio"
                 class="btn-group"
                 default="1"
-                label-class="radio-inline"
+                layout="joomla.form.field.radio.switcher"
                 label="COM_REDSHOP_PUBLISHED"
                 description="COM_REDSHOP_PUBLISHED"
                 table-sortable="1"
                 table-width="5%">
-            <option value="1">JPUBLISHED</option>
             <option value="0">JUNPUBLISHED</option>
+            <option value="1">JPUBLISHED</option>
         </field>
         <field
                 name="asset_id"
@@ -273,11 +273,12 @@
         <fieldset name="filters">
             <field
                     name="enable"
-                    type="redshop.radio"
+                    type="radio"
+                    layout="joomla.form.field.radio.switcher"
                     default="0"
                     label="COM_REDSHOP_FILTER_ENABLE">
-                <option value="1">JYES</option>
                 <option value="0">JNO</option>
+                <option value="1">JYES</option>
             </field>
             <field
                     name="product_attributes"
@@ -290,39 +291,43 @@
             <field
                     name="category_enable"
                     showon="enable:1"
-                    type="redshop.radio"
+                    type="radio"
+                    layout="joomla.form.field.radio.switcher"
                     default="0"
                     label="COM_REDSHOP_FILTER_ENABLE_CATEGORY"
                     description="COM_REDSHOP_FILTER_ENABLE_CATEGORY_NOTICE">
-                <option value="1">JYES</option>
                 <option value="0">JNO</option>
+                <option value="1">JYES</option>
             </field>
             <field
                     name="manufacturer_enable"
                     showon="enable:1"
-                    type="redshop.radio"
+                    type="radio"
+                    layout="joomla.form.field.radio.switcher"
                     default="0"
                     label="COM_REDSHOP_FILTER_ENABLE_MANUFACTURER">
-                <option value="1">JYES</option>
                 <option value="0">JNO</option>
+                <option value="1">JYES</option>
             </field>
             <field
                     name="price_enable"
                     showon="enable:1"
-                    type="redshop.radio"
+                    type="radio"
+                    layout="joomla.form.field.radio.switcher"
                     default="0"
                     label="COM_REDSHOP_FILTER_ENABLE_PRICE">
-                <option value="1">JYES</option>
                 <option value="0">JNO</option>
+                <option value="1">JYES</option>
             </field>
             <field
                     name="customfield_enable"
                     showon="enable:1"
-                    type="redshop.radio"
+                    type="radio"
+                    layout="joomla.form.field.radio.switcher"
                     default="0"
                     label="COM_REDSHOP_FILTER_ENABLE_CUSTOM_FIELDS">
-                <option value="1">JYES</option>
                 <option value="0">JNO</option>
+                <option value="1">JYES</option>
             </field>
             <field
                     name="customfields"

@@ -1,20 +1,52 @@
 {% if isPromotionAward == true %}
-    <label id="quantitybox{{ i }}">{{ quantity }}</label>
+<label id="quantitybox{{ i }}">{{ quantity }}</label>
 {% else %}
 <form name="update_cart{{ i }}" method="POST">
-    <input type="text" id="quantitybox{{ i }}" name="quantity" size="1" value="{{ quantity }}"/>
+    <input type="text" id="quantitybox{{ i }}" name="quantity" size="1" value="{{ quantity }}" />
     <input type="button" id="minus" value="-"
-           onClick="quantity.value = (quantity.value) ; var qty1 = quantity.value; if( !isNaN( qty1 ) &amp;&amp; qty1 > 1 ) quantity.value--;return false;">
+        onClick="quantity.value = (quantity.value) ; var qty1 = quantity.value; if( !isNaN( qty1 ) &amp;&amp; qty1 > 1 ) quantity.value--;return false;">
 
-    <input type="button" id="plus" value="+"
-           onClick="quantity.value = (+quantity.value+1)"><input type="hidden" name="{{ cartItem }}"
-                                                                 value="{{ productId }}">
+    <input type="button" id="plus" value="+" onClick="quantity.value = (+quantity.value+1)">
+    <input type="hidden" name="{{ cartItem }}" value="{{ productId }}">
     <input type="hidden" name="cart_index" value="{{ i }}">
     <input type="hidden" name="Itemid" value="{{ itemId }}">
     <input type="hidden" name="task" value="">
     <img class="update_cart" src="{{ constant('REDSHOP_FRONT_IMAGES_ABSPATH') ~ updateImage }}"
-         title="{{ jtext('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') }}"
-         alt="{{ jtext('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') }}"
-         onclick="document.update_cart{{ i }}.task.value='update';document.update_cart{{ i }}.submit();">
+        title="{{ jtext('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') }}"
+        alt="{{ jtext('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') }}"
+        onclick="document.update_cart{{ i }}.task.value='update';document.update_cart{{ i }}.submit();">
+</form>
+{% endif %}
+
+{% if isPromotionAward == true %}
+<label class="form-control form-control-cart" id="quantitybox{{ i }}">{{ quantity }}</label>
+{% else %}
+<form name="update_cart{{ i }}" method="POST">
+    <span class="quantity-box-cont quantity-box">
+        <input class="form-control quantity-input" type="text" id="quantitybox{{ i }}" name="quantity" size="1"
+            value="{{ quantity }}" />
+        <span class="quantity-controls-cont">
+            <span class="quantity_sp01">
+                <button class="quantity-controls quantity-plus" type="button" id="plus" value="+"
+                    onClick="quantity.value = (+quantity.value+1)">
+                    <i class="fa fa-angle-up"></i>
+                </button>
+            </span>
+            <span class="quantity_sp02">
+                <button class="quantity-controls quantity-minus" type="button" id="minus" value="-"
+                    onClick="quantity.value = (quantity.value) ; var qty1 = quantity.value; if( !isNaN( qty1 ) &amp;&amp; qty1 > 1 ) quantity.value--;return false;">
+                    <i class="fa fa-angle-down"></i>
+                </button>
+            </span>
+        </span>
+        <input type="hidden" name="{{ cartItem }}" value="{{ productId }}">
+        <input type="hidden" name="cart_index" value="{{ i }}">
+        <input type="hidden" name="Itemid" value="{{ itemId }}">
+        <input type="hidden" name="task" value="">
+    </span>
+    <img class="update_cart" src="{{ constant('REDSHOP_FRONT_IMAGES_ABSPATH') ~ updateImage }}"
+        title="{{ jtext('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') }}"
+        alt="{{ jtext('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') }}"
+        onclick="document.update_cart{{ i }}.task.value='update';document.update_cart{{ i }}.submit();">
 </form>
 {% endif %}

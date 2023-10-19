@@ -36,7 +36,7 @@ class Tableproduct_discount_calc extends JTable
 
     public function bind($array, $ignore = '')
     {
-        if (array_key_exists('params', $array) && is_array($array['params'])) {
+        if (array_key_exists('params', (array) $array) && is_array($array['params'])) {
             $registry = new JRegistry;
             $registry->loadArray($array['params']);
             $array['params'] = $registry->toString();
@@ -62,15 +62,15 @@ class Tableproduct_discount_calc extends JTable
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_product_discount_calc'))
-            ->where($db->qn('product_id') . ' = ' . (int)$this->product_id)
+            ->where($db->qn('product_id') . ' = ' . (int) $this->product_id)
             ->where(
                 '('
                 . $convertedAreaStart . ' BETWEEN ' . $db->qn('area_start_converted') . ' AND ' . $db->qn(
-                    'area_end_converted'
-                )
+                        'area_end_converted'
+                    )
                 . ' || ' . $convertedAreaEnd . ' BETWEEN ' . $db->qn('area_start_converted') . ' AND ' . $db->qn(
-                    'area_end_converted'
-                )
+                        'area_end_converted'
+                    )
                 . ')'
             );
 

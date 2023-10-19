@@ -27,7 +27,8 @@
         <field
                 id="delivery_time"
                 name="delivery_time"
-                type="redshop.radio"
+                type="radio"
+                layout="joomla.form.field.radio.switcher"
                 label="COM_REDSHOP_DELIVERY_TIME_IN"
                 default="1">
             <option value="Days">Days</option>
@@ -52,20 +53,22 @@
         <field
                 id="show_in_front"
                 name="show_in_front"
-                type="redshop.radio"
+                type="radio"
+                layout="joomla.form.field.radio.switcher"
                 label="COM_REDSHOP_SHOW_ON_STOCKLIST"
                 default="1">
-            <option value="1">JYES</option>
             <option value="0">JNO</option>
+            <option value="1">JYES</option>
         </field>
         <field
                 id="published"
                 name="published"
-                type="redshop.radio"
+                type="radio"
+                layout="joomla.form.field.radio.switcher"
                 label="COM_REDSHOP_PUBLISHED"
                 default="1">
-            <option value="1">JYES</option>
             <option value="0">JNO</option>
+            <option value="1">JYES</option>
         </field>
         <field
                 id="desc"

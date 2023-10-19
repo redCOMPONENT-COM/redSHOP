@@ -202,7 +202,8 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
                 array(
                     'name'    => 'customer_note',
                     'id'      => 'customer_note',
-                    'content' => $customerNoteValue
+                    'class'   => 'form-control',
+                    'content' => $customerNoteValue,
                 ),
                 '',
                 $layoutOptions
@@ -290,7 +291,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
                     'id'    => 'requisition_number',
                     'type'  => 'text',
                     'value' => $requisitionNumber,
-                    'class' => 'inputbox'
+                    'class' => 'form-control'
                 ),
                 '',
                 $layoutOptions
@@ -322,7 +323,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
             $shopMore = RedshopLayoutHelper::render(
                 'tags.common.button',
                 array(
-                    'class' => 'blackbutton btn',
+                    'class' => 'btn btn-secondary btn-sm shop-more-btn',
                     'text'  => JText::_('COM_REDSHOP_SHOP_MORE'),
                     'attr'  => 'onclick="javascript:document.location=\'' . $shopMoreLink . '\'" type="button"'
                 ),
@@ -337,7 +338,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
             $checkoutBack = RedshopLayoutHelper::render(
                 'tags.common.button',
                 array(
-                    'class' => 'blackbutton btn',
+                    'class' => 'btn btn-secondary btn-sm checkout-back-btn',
                     'text'  => JText::_('COM_REDSHOP_BACK_BUTTON'),
                     'attr'  => 'onclick="javascript: history.go(-1);"'
                 ),
@@ -351,9 +352,9 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
         $this->template = $this->replaceConditionTag($this->template, $paymentAmount, 0, $paymentOprand);
 
         if (!empty($shippingRateId) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) {
-            $shippinPriceWithVat = RedshopHelperProductPrice::formattedPrice($cart ['shipping']);
+            $shippinPriceWithVat = RedshopHelperProductPrice::formattedPrice($cart['shipping']);
             $shippinPrice        = RedshopHelperProductPrice::formattedPrice(
-                $cart ['shipping'] - $cart['shipping_vat']
+                $cart['shipping'] - $cart['shipping_vat']
             );
         } else {
             $this->addReplace('{shipping_lbl}', '');
@@ -424,7 +425,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 
         $this->template = Redshop\Cart\Render\Label::replace($this->template);
 
-        \Redshop\Cart\Helper::setCart((array)$cart);
+        \Redshop\Cart\Helper::setCart((array) $cart);
 
         return parent::replace();
     }

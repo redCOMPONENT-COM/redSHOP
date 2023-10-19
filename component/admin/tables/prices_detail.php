@@ -41,7 +41,7 @@ class Tableprices_detail extends JTable
 
     public function bind($array, $ignore = '')
     {
-        if (array_key_exists('params', $array) && is_array($array['params'])) {
+        if (array_key_exists('params', (array) $array) && is_array($array['params'])) {
             $registry = new JRegistry;
             $registry->loadArray($array['params']);
             $array['params'] = $registry->toString();
@@ -55,7 +55,7 @@ class Tableprices_detail extends JTable
         // Check for valid name
 
         $query = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_price WHERE shopper_group_id = "'
-            . $this->shopper_group_id . '" AND product_id = ' . (int)$this->product_id
+            . $this->shopper_group_id . '" AND product_id = ' . (int) $this->product_id
             . ' AND price_quantity_start <= ' . $this->_db->quote($this->price_quantity_start)
             . ' AND price_quantity_end >= ' . $this->_db->quote($this->price_quantity_start) . '';
 
@@ -63,16 +63,18 @@ class Tableprices_detail extends JTable
         $xid = intval($this->_db->loadResult());
 
         $query_end = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_price WHERE shopper_group_id = "'
-            . $this->shopper_group_id . '" AND product_id = ' . (int)$this->product_id
+            . $this->shopper_group_id . '" AND product_id = ' . (int) $this->product_id
             . ' AND price_quantity_start <= ' . $this->_db->quote($this->price_quantity_end)
             . ' AND price_quantity_end >= ' . $this->_db->quote($this->price_quantity_end) . '';
 
         $this->_db->setQuery($query_end);
         $xid_end = intval($this->_db->loadResult());
 
-        if (($xid || $xid_end) && (($xid != intval($this->price_id) && $xid != 0) || ($xid_end != intval(
-                        $this->price_id
-                    ) && $xid_end != 0))) {
+        if (
+            ($xid || $xid_end) && (($xid != intval($this->price_id) && $xid != 0) || ($xid_end != intval(
+                $this->price_id
+            ) && $xid_end != 0))
+        ) {
             $this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));
 
             return false;

@@ -6,32 +6,32 @@
     <div class="table-responsive">
         <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
             <thead>
-            <tr>
-                <th>{product_name_lbl}</th>
-                <th></th>
-                <th>{product_price_excl_lbl}</th>
-                <th>{quantity_lbl}</th>
-                <th>{total_price_exe_lbl}</th>
-            </tr>
+                <tr>
+                    <th>{product_name_lbl}</th>
+                    <th></th>
+                    <th>{product_price_excl_lbl}</th>
+                    <th>{quantity_lbl}</th>
+                    <th>{total_price_exe_lbl}</th>
+                </tr>
             </thead>
             <tbody>
-            <!-- {product_loop_start} -->
-            <tr class="tdborder">
-                <td>
-                    <div class="cartproducttitle">{product_name}</div>
-                    <div class="cartproducttitle">{product_old_price}</div>
-                    <div class="cartattribut">{product_attribute}{product_attribute_number}</div>
-                    <div class="cartaccessory">{product_accessory}</div>
-                    <div class="cartwrapper">{product_wrapper}</div>
-                    <div class="cartuserfields">{product_userfields}</div>
-                    {attribute_price_without_vat}
-                </td>
-                <td>{product_thumb_image}</td>
-                <td>{product_price_excl_vat}</td>
-                <td>{update_cart}</td>
-                <td>{product_total_price_excl_vat}</td>
-            </tr>
-            <!-- {product_loop_end} -->
+                <!-- {product_loop_start} -->
+                <tr class="tdborder">
+                    <td>
+                        <div class="cartproducttitle">{product_name}</div>
+                        <div class="cartproducttitle">{product_old_price}</div>
+                        <div class="cartattribut">{product_attribute}{product_attribute_number}</div>
+                        <div class="cartaccessory">{product_accessory}</div>
+                        <div class="cartwrapper">{product_wrapper}</div>
+                        <div class="cartuserfields">{product_userfields}</div>
+                        {attribute_price_without_vat}
+                    </td>
+                    <td>{product_thumb_image}</td>
+                    <td>{product_price_excl_vat}</td>
+                    <td>{update_cart}</td>
+                    <td>{product_total_price_excl_vat}</td>
+                </tr>
+                <!-- {product_loop_end} -->
             </tbody>
         </table>
     </div>
@@ -42,19 +42,23 @@
         <div class="cart_totals">
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="form-group cart_customer_note">
-                        <label>{customer_note_lbl}:</label>
-                        {customer_note}
+                    <div class="form-group">
+                        <div class="input-group cart_customer_note">
+                            <span class="input-group-text">{customer_note_lbl}</span>
+                            {customer_note}
+                        </div>
                     </div>
 
-                    <div class="form-group cart_requisition_number">
-                        <label>{requisition_number_lbl}:</label>
-                        {requisition_number}
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">{requisition_number_lbl}</span>
+                            {requisition_number}
+                        </div>
                     </div>
                 </div>
 
                 <div class="col-sm-6">
-                    <div class="redshop-login form-horizontal">
+                    <div class="cart-prices">
                         <div class="form-group">
                             <div class="row">
                                 <label class="col-sm-6">{product_subtotal_excl_vat_lbl}:</label>
@@ -102,21 +106,25 @@
 
                         <div class="form-group total">
                             <div class="row">
-                                <label class="col-sm-6">{total_lbl}:</label>
-                                <div class="col-sm-6">{total}</div>
+                                <div class="checkout-total">
+                                    <label class="col-sm-6">{total_lbl}:</label>
+                                    <div class="col-sm-6">{total}</div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="form-check">
+                                    <div class="checkbox">
                                         {newsletter_signup_chk}
                                         <label class="form-check-label">
                                             {newsletter_signup_lbl}
                                         </label>
                                     </div>
-                                    <div class="checkbox">{terms_and_conditions:width=500 height=450}</div>
+                                    <div class="checkbox">
+                                        {terms_and_conditions:width=500 height=450}
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -68,7 +68,7 @@ class Tablexmlexport_detail extends JTable
 
     public function bind($array, $ignore = '')
     {
-        if (array_key_exists('params', $array) && is_array($array['params'])) {
+        if (array_key_exists('params', (array) $array) && is_array($array['params'])) {
             $registry = new JRegistry;
             $registry->loadArray($array['params']);
             $array['params'] = $registry->toString();

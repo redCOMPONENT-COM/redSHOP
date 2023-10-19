@@ -82,10 +82,10 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'name'  => 'email1',
                     'value' => (isset($data["email1"]) ? $data["email1"] : ''),
                     'type'  => 'text',
-                    'class' => 'inputbox required',
+                    'class' => 'form-control required',
                     'attr'  => 'size="32" maxlength="250" title="' . JText::_(
-                            'COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS'
-                        ) . '"'
+                        'COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS'
+                    ) . '"'
                 ),
                 '',
                 $options
@@ -132,10 +132,10 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'name'  => 'firstname',
                     'type'  => 'text',
                     'value' => (isset($data["firstname"]) ? $data["firstname"] : ''),
-                    'class' => 'inputbox required',
+                    'class' => 'form-control required',
                     'attr'  => 'size="32" maxlength="250" title="' . JText::_(
-                            'COM_REDSHOP_PLEASE_ENTER_FIRST_NAME'
-                        ) . '"'
+                        'COM_REDSHOP_PLEASE_ENTER_FIRST_NAME'
+                    ) . '"'
                 ),
                 '',
                 $options
@@ -167,10 +167,10 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'name'  => 'lastname',
                     'type'  => 'text',
                     'value' => (isset($data["lastname"]) ? $data["lastname"] : ''),
-                    'class' => 'inputbox required',
+                    'class' => 'form-control required',
                     'attr'  => 'size="32" maxlength="250" title="' . JText::_(
-                            'COM_REDSHOP_PLEASE_ENTER_LAST_NAME'
-                        ) . '"'
+                        'COM_REDSHOP_PLEASE_ENTER_LAST_NAME'
+                    ) . '"'
                 ),
                 '',
                 $options
@@ -203,7 +203,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'name'  => 'address',
                     'type'  => 'text',
                     'value' => (isset($data["address"]) ? $data["address"] : ''),
-                    'class' => 'inputbox required',
+                    'class' => 'form-control required',
                     'attr'  => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS') . '"'
                 ),
                 '',
@@ -236,10 +236,10 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'name'  => 'zipcode',
                     'type'  => 'text',
                     'value' => (isset($data["zipcode"]) ? $data["zipcode"] : ''),
-                    'class' => 'inputbox required',
+                    'class' => 'form-control required',
                     'attr'  => 'size="32" maxlength="250" onblur="return autoFillCity(this.value,\'BT\');" title="' . JText::_(
-                            'COM_REDSHOP_PLEASE_ENTER_ZIPCODE'
-                        ) . '"'
+                        'COM_REDSHOP_PLEASE_ENTER_ZIPCODE'
+                    ) . '"'
                 ),
                 '',
                 $options
@@ -271,7 +271,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'name'  => 'city',
                     'type'  => 'text',
                     'value' => (isset($data["city"]) ? $data["city"] : ''),
-                    'class' => 'inputbox required',
+                    'class' => 'form-control required',
                     'attr'  => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_CITY') . '"'
                 ),
                 '',
@@ -308,10 +308,10 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'name'  => 'phone',
                     'type'  => 'text',
                     'value' => (isset($data["phone"]) ? $data["phone"] : ''),
-                    'class' => 'inputbox phone required',
+                    'class' => 'form-control phone required',
                     'attr'  => 'size="32" maxlength="250" title="' . JText::_(
-                            'COM_REDSHOP_PLEASE_ENTER_PHONE'
-                        ) . '" onblur="return searchByPhone(this.value,\'BT\');" ' . $phoneIsRequired
+                        'COM_REDSHOP_PLEASE_ENTER_PHONE'
+                    ) . '" onblur="return searchByPhone(this.value,\'BT\');" ' . $phoneIsRequired
                 ),
                 '',
                 $options
@@ -343,10 +343,10 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'name'  => 'company_name',
                     'type'  => 'text',
                     'value' => (isset($data["company_name"]) ? $data["company_name"] : ''),
-                    'class' => 'inputbox required',
+                    'class' => 'form-control required',
                     'attr'  => 'size="32" maxlength="250" title="' . JText::_(
-                            'COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME'
-                        ) . '"'
+                        'COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME'
+                    ) . '"'
                 ),
                 '',
                 $options
@@ -404,10 +404,10 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                         'name'  => 'email2',
                         'type'  => 'text',
                         'value' => $data['email1'],
-                        'class' => 'inputbox required',
+                        'class' => 'form-control required',
                         'attr'  => 'size="32" maxlength="250" title="' . JText::_(
-                                'COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS'
-                            ) . '" required'
+                            'COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS'
+                        ) . '" required'
                     ),
                     '',
                     $options

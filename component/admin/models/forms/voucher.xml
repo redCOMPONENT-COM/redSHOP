@@ -33,10 +33,10 @@
         />
         <field
                 name="type"
-                type="redshop.radio"
+                type="radio"
                 label="COM_REDSHOP_VOUCHER_TYPE"
                 description="COM_REDSHOP_VOUCHER_TYPE_DESC"
-                label-class="radio-inline"
+                layout="joomla.form.field.radio.switcher"
                 default="Total"
                 table-sortable="1"
                 table-width="5%">
@@ -65,27 +65,27 @@
         />
         <field
                 name="free_ship"
-                type="redshop.radio"
+                type="radio"
                 label="COM_REDSHOP_VOUCHER_FREE_SHIP"
                 description="COM_REDSHOP_VOUCHER_FREE_SHIP_DESC"
-                label-class="radio-inline"
+                layout="joomla.form.field.radio.switcher"
                 default="0"
                 table-sortable="1"
                 table-width="10%">
-            <option value="1">JYES</option>
             <option value="0">JNO</option>
+            <option value="1">JYES</option>
         </field>
         <field
                 name="published"
-                type="redshop.radio"
+                type="radio"
                 default="1"
-                label-class="radio-inline"
+                layout="joomla.form.field.radio.switcher"
                 label="COM_REDSHOP_PUBLISHED"
                 description="COM_REDSHOP_PUBLISHED"
                 table-sortable="1"
                 table-width="5%">
-            <option value="1">JYES</option>
-            <option value="0">JNO</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="1">JPUBLISHED</option>
         </field>
         <field
                 name="voucher_left"
