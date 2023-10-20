@@ -816,13 +816,14 @@ a.redshop-wishlist-link {
   padding: 0;
 }
 
+/*
 .redSHOPSiteViewCart .update_cart form input,
 .redSHOPSiteViewCart .remove_product form input {
   margin-bottom: 0;
   display: inline-block;
   width: auto;
 }
-
+*/
 .redSHOPSiteViewCart .cart_button span {
   display: inline-block;
 }
@@ -925,7 +926,7 @@ iframe {
   vertical-align: middle;
 }
 
-.form-control.quantity-input,
+.quantity-input,
 .quantity-controls-cont {
   height: 44px;
 }
@@ -941,14 +942,14 @@ iframe {
   vertical-align: middle;
 }
 
-.quantity-controls-cont .quantity-controls {
+.quantity-controls {
   height: 22px;
 }
 
-.quantity-controls-cont .quantity-controls {
+.quantity-controls {
   display: block;
   width: 20px;
-  height: 19px;
+  height: 22px;
   padding: 0;
   background: 0 none;
   color: #333;
@@ -958,19 +959,29 @@ iframe {
   line-height: 14px;
 }
 
-.form-control.quantity-input {
+.quantity-controls-cart {
+  background: #d9d9d9;
+}
+
+.quantity-input {
   display: inline-block;
   padding-left: 6px;
   padding-right: 6px;
   text-align: center;
   width: 40px;
-  height: 39px;
+  height: 44px !important;
   float: left;
   font-size: 14px;
   border: 0 none;
-  background: 0 none;
+  background: #ffffff;
   outline: 0 none;
   box-shadow: none;
+}
+
+.quantity-input-cart {
+  border-left: 1px solid hsl(210, 14%, 83%);
+  border-top: 1px solid hsl(210, 14%, 83%);
+  border-bottom: 1px solid hsl(210, 14%, 83%);
 }
 
 .pdaddtocart_link {

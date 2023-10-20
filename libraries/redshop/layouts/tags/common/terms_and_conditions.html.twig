@@ -1,8 +1,8 @@
-<input class="form-check-input" type="checkbox" id="termscondition" name="termscondition" value="1"/>
+<input class="form-check-input" type="checkbox" id="termscondition" name="termscondition" value="1" />
 <label class="form-check-label">
     {{ jtext('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL') }}
-    <a class="modal-termscondition" href="{{ articleUrl }}"
-       rel="{handler: \'iframe\', size: {x: {{ finalWidth }}, y: {{ finalHeight }}">
+    <a class="joom-box modal-termscondition" data-bs-target="#modalTerms" data-bs-toggle="modal">
         {{ jtext('COM_REDSHOP_TERMS_AND_CONDITIONS_FOR_LBL') }}
     </a>
+    {{ termsModal }}
 </label>

@@ -3,42 +3,40 @@
     <div class="panel-heading">
         <h3 class="panel-title">{cart_lbl}</h3>
     </div>
-    <div class="table-responsive">
-        <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
-            <thead>
-                <tr>
-                    <th>{product_name_lbl}</th>
-                    <th></th>
-                    <th>{product_price_excl_lbl}</th>
-                    <th>{quantity_lbl}</th>
-                    <th>{total_price_exe_lbl}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- {product_loop_start} -->
-                <tr class="tdborder">
-                    <td>
-                        <div class="cartproducttitle">{product_name}</div>
-                        <div class="cartproducttitle">{product_old_price}</div>
-                        <div class="cartattribut">{product_attribute}{product_attribute_number}</div>
-                        <div class="cartaccessory">{product_accessory}</div>
-                        <div class="cartwrapper">{product_wrapper}</div>
-                        <div class="cartuserfields">{product_userfields}</div>
-                        {attribute_price_without_vat}
-                    </td>
-                    <td>{product_thumb_image}</td>
-                    <td>{product_price_excl_vat}</td>
-                    <td>{update_cart}</td>
-                    <td>{product_total_price_excl_vat}</td>
-                </tr>
-                <!-- {product_loop_end} -->
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div class="panel panel-default">
     <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>{product_name_lbl}</th>
+                        <th></th>
+                        <th>{product_price_excl_lbl}</th>
+                        <th>{quantity_lbl}</th>
+                        <th>{total_price_exe_lbl}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- {product_loop_start} -->
+                    <tr class="tdborder">
+                        <td>
+                            <div class="cartproducttitle">{product_name}</div>
+                            <div class="cartproducttitle">{product_old_price}</div>
+                            <div class="cartattribut">{product_attribute}{product_attribute_number}</div>
+                            <div class="cartaccessory">{product_accessory}</div>
+                            <div class="cartwrapper">{product_wrapper}</div>
+                            <div class="cartuserfields">{product_userfields}</div>
+                            {attribute_price_without_vat}
+                        </td>
+                        <td>{product_thumb_image}</td>
+                        <td>{product_price_excl_vat}</td>
+                        <td>{update_cart}</td>
+                        <td>{product_total_price_excl_vat}</td>
+                    </tr>
+                    <!-- {product_loop_end} -->
+                </tbody>
+            </table>
+        </div>
+
         <div class="cart_totals">
             <div class="row">
                 <div class="col-sm-6">

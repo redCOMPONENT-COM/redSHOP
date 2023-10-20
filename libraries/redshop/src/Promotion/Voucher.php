@@ -77,7 +77,7 @@ class Voucher
                         . ' OR ' . $db->qn('v.end_date') . ' >= ' . $db->quote($currentTime) . ')'
                         . ')'
                     )
-                    ->where('vt.user_id = ' . (int)$user->id)
+                    ->where('vt.user_id = ' . (int) $user->id)
                     ->order('vt.transaction_voucher_id DESC');
 
                 $voucher = $db->setQuery($query)->loadObject();
@@ -211,7 +211,7 @@ class Voucher
             );
 
         if ($user->id) {
-            $userQuery = clone($query);
+            $userQuery = clone ($query);
             $userQuery->select(
                 array(
                     $db->qn('ct.coupon_value', 'coupon_value'),
@@ -225,18 +225,18 @@ class Voucher
                 )
                 ->where($db->qn('ct.coupon_value') . ' > 0')
                 ->where($db->qn('ct.coupon_code') . ' = ' . $db->quote($couponCode))
-                ->where($db->qn('ct.userid') . ' = ' . (int)$user->id)
+                ->where($db->qn('ct.userid') . ' = ' . (int) $user->id)
                 ->order($db->qn('ct.transaction_coupon_id') . ' DESC');
 
             $db->setQuery($userQuery, 0, 1);
             $coupon = $db->loadObject();
 
-            if (count($coupon) > 0) {
+            if (count((array) $coupon) > 0) {
                 self::$couponRemain = 1;
             }
         }
 
-        if (count($coupon) <= 0) {
+        if (count((array) $coupon) <= 0) {
             $query->where($db->qn('c.code') . ' = ' . $db->quote($couponCode))
                 ->where($db->qn('c.amount_left') . ' > 0')
                 ->where(

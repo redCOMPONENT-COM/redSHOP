@@ -10,6 +10,9 @@ namespace Redshop\Traits\Replace;
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * For classes extends class RedshopTagsAbstract
  *
@@ -27,11 +30,11 @@ trait TermsConditions
     public function replaceTermsConditions($templateDesc = "", $itemId = 1)
     {
         if (strpos($templateDesc, "{terms_and_conditions") !== false) {
-            $user    = \JFactory::getUser();
-            $session = \JFactory::getSession();
-            $auth    = $session->get('auth');
-	        $userId = $user->id ?: ($auth['users_info_id'] < 0 ? $auth['users_info_id'] : 0);
-            $userInfo = \RedshopHelperUser::getUserInformation($userId);
+            $user           = \JFactory::getUser();
+            $session        = \JFactory::getSession();
+            $auth           = $session->get('auth');
+            $userId         = $user->id ?: ($auth['users_info_id'] < 0 ? $auth['users_info_id'] : 0);
+            $userInfo       = \RedshopHelperUser::getUserInformation($userId);
             $termsLeftFinal = "";
 
             if (strpos($templateDesc, "{terms_and_conditions:") !== false && strpos($templateDesc, "}") !== false) {
@@ -44,9 +47,11 @@ trait TermsConditions
             $finalTag       = ($termsLeftFinal != "") ? "{terms_and_conditions:$termsLeftFinal}" : "{terms_and_conditions}";
             $termsCondition = '';
 
-            if (\Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 0 || (\Redshop::getConfig()->get(
-                        'SHOW_TERMS_AND_CONDITIONS'
-                    ) == 1 && ((is_object($userInfo) && $userInfo->accept_terms_conditions == 0) || count((array) $userInfo) == 0))) {
+            if (
+                \Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 0 || (\Redshop::getConfig()->get(
+                    'SHOW_TERMS_AND_CONDITIONS'
+                ) == 1 && ((is_object($userInfo) && $userInfo->accept_terms_conditions == 0) || count((array) $userInfo) == 0))
+            ) {
                 $finalWidth  = "500";
                 $finalHeight = "450";
 
@@ -72,15 +77,34 @@ trait TermsConditions
                     }
                 }
 
-                $articleUrl = \JRoute::_('index.php?option=com_content&view=article&id='.\Redshop::getConfig(
-                    )->get('TERMS_ARTICLE_ID').'&tmpl=component');
+                $articleUrl = 'index.php?option=com_content&view=article&id=' . \Redshop::getConfig(
+                )->get('TERMS_ARTICLE_ID') . '&tmpl=component';
+
+                $footer = '<button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">'
+                    . Text::_('COM_REDSHOP_CLOSE') . '</button>';
+
+                $termsModal = HTMLHelper::_(
+                    'bootstrap.renderModal',
+                    'modalTerms',
+                    [
+                        'title'       => Text::_('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL'),
+                        'backdrop'    => 'static',
+                        'keyboard'    => true,
+                        'closeButton' => true,
+                        'footer'      => $footer,
+                        'url'         => $articleUrl,
+                        'modalWidth'  => '50',
+                        'bodyHeight'  => '40',
+                    ]
+                );
 
                 $termsCondition = \RedshopLayoutHelper::render(
                     'tags.common.terms_and_conditions',
                     array(
                         'articleUrl'  => $articleUrl,
                         'finalWidth'  => $finalWidth,
-                        'finalHeight' => $finalHeight
+                        'finalHeight' => $finalHeight,
+                        'termsModal'  => $termsModal,
                     ),
                     '',
                     \RedshopLayoutHelper::$layoutOption

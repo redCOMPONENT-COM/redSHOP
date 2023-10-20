@@ -10,6 +10,8 @@ namespace Redshop\Traits\Replace;
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * For classes extends class RedshopTagsAbstract
  *
@@ -56,7 +58,7 @@ trait Discount
                 $replacement['{discount_in_percentage}'] = $percentage;
             }
 
-            $replacement['{discount_lbl}']    = \JText::_('COM_REDSHOP_CHECKOUT_DISCOUNT_LBL');
+            $replacement['{discount_lbl}']    = Text::_('COM_REDSHOP_CHECKOUT_DISCOUNT_LBL');
             $replacement['{discount end if}'] = '';
 
             $template = $this->strReplace($replacement, $template);

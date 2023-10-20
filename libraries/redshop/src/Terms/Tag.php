@@ -11,6 +11,8 @@ namespace Redshop\Terms;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Terms & Condition tag
  *
@@ -51,9 +53,11 @@ class Tag
             $finalTag       = ($termsLeftFinal != "") ? "{terms_and_conditions:$termsLeftFinal}" : "{terms_and_conditions}";
             $termsCondition = '';
 
-            if (\Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 0 || (\Redshop::getConfig()->get(
-                        'SHOW_TERMS_AND_CONDITIONS'
-                    ) == 1 && ((count($list) > 0 && $list->accept_terms_conditions == 0) || count($list) == 0))) {
+            if (
+                \Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 0 || (\Redshop::getConfig()->get(
+                    'SHOW_TERMS_AND_CONDITIONS'
+                ) == 1 && ((count($list) > 0 && $list->accept_terms_conditions == 0) || count($list) == 0))
+            ) {
                 $finalWidth  = "500";
                 $finalHeight = "450";
 
@@ -81,14 +85,14 @@ class Tag
 
                 $url            = \JURI::base();
                 $articleUrl     = $url . "index.php?option=com_content&amp;view=article&amp;id=" . \Redshop::getConfig(
-                    )->get('TERMS_ARTICLE_ID') . "&Itemid=" . $itemId . "&tmpl=component";
+                )->get('TERMS_ARTICLE_ID') . "&Itemid=" . $itemId . "&tmpl=component";
                 $termsCondition = '<label class="checkbox"><input type="checkbox" id="termscondition" name="termscondition" value="1" /> ';
-                $termsCondition .= \JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL');
+                $termsCondition .= Text::_('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL');
                 $termsCondition .= ' <a class="modal modal-termscondition" href="'
                     . $articleUrl . '" rel="{handler: \'iframe\', size: {x: '
-                    . $finalWidth . ', y: ' . $finalHeight . '}}">' . \JText::_(
-                        'COM_REDSHOP_TERMS_AND_CONDITIONS_FOR_LBL'
-                    ) . '</a></label>';
+                    . $finalWidth . ', y: ' . $finalHeight . '}}">' . Text::_(
+                            'COM_REDSHOP_TERMS_AND_CONDITIONS_FOR_LBL'
+                        ) . '</a></label>';
             }
 
             $templateDesc = str_replace($finalTag, $termsCondition, $templateDesc);
