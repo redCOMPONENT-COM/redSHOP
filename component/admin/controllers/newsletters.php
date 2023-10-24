@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * Newsletters controller
@@ -102,18 +105,18 @@ class RedshopControllerNewsletters extends RedshopControllerAdmin
         $responcemsg = "";
 
         for ($i = 0, $in = count($cid); $i < $in; $i++) {
-            $subscriber  = $model->getNewsletterSubscriber($newsletterId, $cid[$i]);
+            $subscriber = $model->getNewsletterSubscriber($newsletterId, $cid[$i]);
 
             $responcemsg .= "<div>" . $incNo . ": " . $subscriber[$incNo - 1]->name . "( " . $subscriber[$incNo - 1]->email . " ) -> ";
 
             if ($retuser[$i]) {
-                $responcemsg .= "<span style='color: #00ff00'>" . JText::_(
-                        'COM_REDSHOP_NEWSLETTER_SENT_SUCCESSFULLY'
-                    ) . "</span>";
+                $responcemsg .= "<span style='color: #00ff00'>" . Text::_(
+                    'COM_REDSHOP_NEWSLETTER_SENT_SUCCESSFULLY'
+                ) . "</span>";
             } else {
-                $responcemsg .= "<span style='color: #ff0000'>" . JText::_(
-                        'COM_REDSHOP_NEWSLETTER_MAIL_NOT_SENT'
-                    ) . "</span>";
+                $responcemsg .= "<span style='color: #ff0000'>" . Text::_(
+                    'COM_REDSHOP_NEWSLETTER_MAIL_NOT_SENT'
+                ) . "</span>";
             }
 
             $responcemsg .= "</div>";

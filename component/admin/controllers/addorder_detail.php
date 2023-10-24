@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 /**
@@ -56,7 +57,7 @@ class RedshopControllerAddorder_Detail extends RedshopController
         $post = $this->input->post->getArray();
 
         $cid               = $this->input->post->get('cid', array(0), 'array');
-        $post ['order_id'] = $cid [0];
+        $post['order_id'] = $cid[0];
 
         /** @var RedshopModelAddorder_detail $model */
         $model                = $this->getModel('addorder_detail');
@@ -66,7 +67,7 @@ class RedshopControllerAddorder_Detail extends RedshopController
         $post['order_item'] = $orderItem;
 
         if (empty($orderItem[0]->product_id)) {
-            $msg = JText::_('COM_REDSHOP_PLEASE_SELECT_PRODUCT');
+            $msg = Text::_('COM_REDSHOP_PLEASE_SELECT_PRODUCT');
             $this->setRedirect(
                 'index.php?option=com_redshop&view=addorder_detail&user_id=' .
                 $post['user_id'] .
@@ -85,31 +86,31 @@ class RedshopControllerAddorder_Detail extends RedshopController
         if (Redshop::getConfig()->get('USE_STOCKROOM') == 1) {
             for ($i = 0, $n = count($orderItem); $i < $n; $i++) {
                 $quantity    = $orderItem[$i]->quantity;
-                $productData = Redshop::product((int)$orderItem[$i]->product_id);
+                $productData = Redshop::product((int) $orderItem[$i]->product_id);
 
                 if ($productData->min_order_product_quantity > 0 && $productData->min_order_product_quantity > $quantity) {
-                    $msg       = $productData->product_name . ' ' . JText::_('WARNING_MSG_MINIMUM_QUANTITY');
+                    $msg       = $productData->product_name . ' ' . Text::_('WARNING_MSG_MINIMUM_QUANTITY');
                     $stockNote .= sprintf($msg, $productData->min_order_product_quantity) . "<br/>";
                     $quantity  = $productData->min_order_product_quantity;
                 }
 
                 $currentStock  = RedshopHelperStockroom::getStockroomTotalAmount($orderItem[$i]->product_id);
-                $finalquantity = ($currentStock >= $quantity) ? (int)$quantity : (int)$currentStock;
+                $finalquantity = ($currentStock >= $quantity) ? (int) $quantity : (int) $currentStock;
 
                 if ($finalquantity > 0) {
                     if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $finalquantity) {
-                        $msg           = $productData->product_name . " " . JText::_(
-                                'WARNING_MSG_MAXIMUM_QUANTITY'
-                            ) . "<br/>";
-                        $stockNote     .= sprintf($msg, $productData->max_order_product_quantity);
+                        $msg           = $productData->product_name . " " . Text::_(
+                            'WARNING_MSG_MAXIMUM_QUANTITY'
+                        ) . "<br/>";
+                        $stockNote .= sprintf($msg, $productData->max_order_product_quantity);
                         $finalquantity = $productData->max_order_product_quantity;
                     }
 
                     $orderItem[$i]->quantity = $finalquantity;
                 } else {
-                    $stockNote .= $productData->product_name . ' ' . JText::_(
-                            'COM_REDSHOP_PRODUCT_OUT_OF_STOCK'
-                        ) . "<br/>";
+                    $stockNote .= $productData->product_name . ' ' . Text::_(
+                        'COM_REDSHOP_PRODUCT_OUT_OF_STOCK'
+                    ) . "<br/>";
                     unset($orderItem[$i]);
                 }
             }
@@ -117,7 +118,7 @@ class RedshopControllerAddorder_Detail extends RedshopController
             $orderItem = array_merge(array(), $orderItem);
 
             if (count($orderItem) <= 0) {
-                $msg = JText::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK');
+                $msg = Text::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK');
                 $this->setRedirect(
                     'index.php?option=com_redshop&view=addorder_detail&user_id=' . $post['user_id']
                     . '&shipping_users_info_id=' . $post['shipp_users_info_id'],
@@ -227,7 +228,7 @@ class RedshopControllerAddorder_Detail extends RedshopController
         $row = $model->store($post);
 
         if (!$row) {
-            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_ORDER_DETAIL');
+            $msg = Text::_('COM_REDSHOP_ERROR_SAVING_ORDER_DETAIL');
             $this->setRedirect(
                 'index.php?option=com_redshop&view=addorder_detail&user_id=' . $post['user_id']
                 . '&shipping_users_info_id=' . $post['shipp_users_info_id'],
@@ -242,7 +243,7 @@ class RedshopControllerAddorder_Detail extends RedshopController
             // @TODO Consider about this method name. get should return value instead of "set"
             RedshopHelperOrder::getPaymentInformation($row, $post);
         } else {
-            $msg = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
+            $msg = Text::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
             $this->setRedirect('index.php?option=com_redshop&view=order', $msg . $stockNote);
         }
     }
@@ -266,7 +267,7 @@ class RedshopControllerAddorder_Detail extends RedshopController
      */
     public function cancel()
     {
-        $msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
+        $msg = Text::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=com_redshop&view=order', $msg);
     }
 

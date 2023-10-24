@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Attribute Set controller
  *
@@ -28,7 +30,7 @@ class RedshopControllerAttribute_Set extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         /** @var RedshopModelAttribute_set_detail $model */
@@ -38,7 +40,7 @@ class RedshopControllerAttribute_Set extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_PUBLISHED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_ATTRIBUTE_SET_PUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
     }
 
@@ -47,7 +49,7 @@ class RedshopControllerAttribute_Set extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         /** @var RedshopModelAttribute_set_detail $model */
@@ -57,7 +59,7 @@ class RedshopControllerAttribute_Set extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_UNPUBLISHED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_ATTRIBUTE_SET_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
     }
 }

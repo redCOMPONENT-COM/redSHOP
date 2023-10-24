@@ -11,6 +11,8 @@ namespace Redshop\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Stockroom helper
  *
@@ -102,16 +104,16 @@ class Stockroom
     public static function replaceProductStockData($productId, $propertyId, $subPropertyId, $html, $stockStatuses)
     {
         $product = \RedshopProduct::getInstance($productId);
-        $db = \JFactory::getDbo();
-        $query = $db->getQuery(true)
+        $db      = \JFactory::getDbo();
+        $query   = $db->getQuery(true)
             ->select('SUM(quantity)')
             ->from($db->qn('#__redshop_product_stockroom_xref'))
             ->where($db->qn('product_id') . ' = ' . $db->quote($productId));
 
         $stockValues = $db->setQuery($query)->loadResult();
 
-        $stockTag = strstr($html, "{stock_status");
-        $newStockTag = explode("}", $stockTag);
+        $stockTag     = strstr($html, "{stock_status");
+        $newStockTag  = explode("}", $stockTag);
         $realStockTag = $newStockTag[0] . "}";
 
         if (strpos($html, '{stock_status') !== false) {
@@ -144,18 +146,18 @@ class Stockroom
                 } elseif (!isset($stockStatuses['regular_stock']) || !$stockStatuses['regular_stock'] || $stockValues < 1) {
                     if (($stockStatuses['preorder'] && !$stockStatuses['preorder_stock']) || !$stockStatuses['preorder']) {
                         $stockStatus = "<span id='stock_status_div" . $productId . "'><div id='" . $outStockClass
-                            . "' class='" . $outStockClass . "'>" . \JText::_(
-                                'COM_REDSHOP_OUT_OF_STOCK'
-                            ) . "</div></span>";
+                            . "' class='" . $outStockClass . "'>" . Text::_(
+                                    'COM_REDSHOP_OUT_OF_STOCK'
+                                ) . "</div></span>";
                     } else {
                         $stockStatus = "<span id='stock_status_div" . $productId . "'><div id='" . $preOrderClass
-                            . "' class='" . $preOrderClass . "'>" . \JText::_(
-                                'COM_REDSHOP_PRE_ORDER'
-                            ) . "</div></span>";
+                            . "' class='" . $preOrderClass . "'>" . Text::_(
+                                    'COM_REDSHOP_PRE_ORDER'
+                                ) . "</div></span>";
                     }
                 } else {
                     $stockStatus = "<span id='stock_status_div" . $productId . "'><div id='" . $availableClass . "' class='"
-                        . $availableClass . "'>" . \JText::_('COM_REDSHOP_AVAILABLE_STOCK') . "</div></span>";
+                        . $availableClass . "'>" . Text::_('COM_REDSHOP_AVAILABLE_STOCK') . "</div></span>";
                 }
             }
 
@@ -167,9 +169,9 @@ class Stockroom
             $html,
             'product',
             array(
-                'productId' => $productId,
-                'propertyId' => $propertyId,
-                'subPropertyId' => $subPropertyId,
+                'productId'          => $productId,
+                'propertyId'         => $propertyId,
+                'subPropertyId'      => $subPropertyId,
                 'productStockStatus' => $stockStatuses
             )
         );
@@ -182,7 +184,7 @@ class Stockroom
                     $html = str_replace(
                         "{product_availability_date_lbl}",
                         "<span id='stock_availability_date_lbl" . $productId . "'>"
-                        . \JText::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL') . ": </span>",
+                        . Text::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL') . ": </span>",
                         $html
                     );
                     $html = str_replace(

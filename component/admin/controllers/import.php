@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Controller Import
  *
@@ -30,7 +32,7 @@ class RedshopControllerImport extends RedshopControllerAdmin
     {
         \Redshop\Helper\Ajax::validateAjaxRequest();
 
-        $response = array('status' => 1, 'msg' => JText::_('COM_REDSHOP_IMPORT_MESSAGE_UPLOAD_FILE_SUCCESS'));
+        $response = array('status' => 1, 'msg' => Text::_('COM_REDSHOP_IMPORT_MESSAGE_UPLOAD_FILE_SUCCESS'));
         $plugin   = $this->input->getCmd('plugin_name', '');
         $file     = $this->input->files->get('csv_file', null);
         $data     = $this->input->post->getArray();
@@ -41,7 +43,7 @@ class RedshopControllerImport extends RedshopControllerAdmin
 
         if (in_array(false, $result, false)) {
             $response['status'] = 0;
-            $response['msg']    = JText::_('COM_REDSHOP_IMPORT_ERROR_UPLOAD_FILE');
+            $response['msg']    = Text::_('COM_REDSHOP_IMPORT_ERROR_UPLOAD_FILE');
         } else {
             $response['folder'] = $result[0]['folder'];
             $response['lines']  = $result[0]['lines'];
@@ -52,5 +54,3 @@ class RedshopControllerImport extends RedshopControllerAdmin
         JFactory::getApplication()->close();
     }
 }
-
-

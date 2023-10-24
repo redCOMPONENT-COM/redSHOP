@@ -11,6 +11,7 @@ namespace Redshop\View;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Doctrine\Common\Inflector\Inflector;
 
 jimport('joomla.application.component.viewlegacy');
@@ -226,7 +227,7 @@ abstract class AbstractView extends \JViewLegacy
      */
     public function getTitle()
     {
-        return \JText::_('COM_REDSHOP_' . strtoupper($this->getInstanceName()));
+        return Text::_('COM_REDSHOP_' . strtoupper($this->getInstanceName()));
     }
 
     /**

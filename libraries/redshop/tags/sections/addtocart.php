@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -121,7 +123,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 }
 
                 if (!$isStockExist) {
-                    $isStockExist = (boolean)\RedshopHelperStockroom::isStockExists(
+                    $isStockExist = (boolean) \RedshopHelperStockroom::isStockExists(
                         implode(',', $propertyIds),
                         'property'
                     );
@@ -152,12 +154,14 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
         $stockDisplay    = false;
         $preOrderDisplay = false;
         $cartDisplay     = false;
-        $displayText     = \JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
+        $displayText     = Text::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
 
         if (!$isStockExist) {
-            if (($productPreOrder == "global" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+            if (
+                ($productPreOrder == "global" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
                 || ($productPreOrder == "yes")
-                || ($productPreOrder == "" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))) {
+                || ($productPreOrder == "" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+            ) {
                 // Get preorder stock for Product
                 $isPreOrderStockExists = \RedshopHelperStockroom::isPreorderStockExists($productId);
 
@@ -203,7 +207,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 if (!$isPreOrderStockExists) {
                     $stockDisplay = true;
                     $addCartFlag  = true;
-                    $displayText  = \JText::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE');
+                    $displayText  = Text::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE');
                 } else {
                     //$pre_order_value = 1;
                     $preOrderDisplay      = true;
@@ -226,7 +230,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
         }
 
         $productAvailableDate = "";
-        $preOrderLabel        = \JText::_('COM_REDSHOP_PRE_ORDER');
+        $preOrderLabel        = Text::_('COM_REDSHOP_PRE_ORDER');
         $allowPreOrderLabel   = str_replace(
             "{availability_date}",
             $productAvailableDate,
@@ -234,9 +238,9 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
         );
         $preOrderImage        = \Redshop::getConfig()->get('PRE_ORDER_IMAGE');
         $tooltip              = (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ?
-            \JText::_('COM_REDSHOP_REQUEST_A_QUOTE_TOOLTIP') : \JText::_('COM_REDSHOP_ADD_TO_CART_TOOLTIP');
+            Text::_('COM_REDSHOP_REQUEST_A_QUOTE_TOOLTIP') : Text::_('COM_REDSHOP_ADD_TO_CART_TOOLTIP');
         $requestLabel         = (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ?
-            \JText::_('COM_REDSHOP_REQUEST_A_QUOTE') : \JText::_('COM_REDSHOP_ADD_TO_CART');
+            Text::_('COM_REDSHOP_REQUEST_A_QUOTE') : Text::_('COM_REDSHOP_ADD_TO_CART');
         $requestImage         = (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ?
             \Redshop::getConfig()->get('REQUESTQUOTE_IMAGE') : \Redshop::getConfig()->get('ADDTOCART_IMAGE');
         $requestBackground    = (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ?
@@ -259,14 +263,14 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
             $requiredAttributes = array_merge($requiredAttributes, $attributeSets);
 
             foreach ($requiredAttributes as $requiredAttribute) {
-                $totalRequiredAttributes .= \JText::_('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED') . " "
+                $totalRequiredAttributes .= Text::_('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED') . " "
                     . urldecode($requiredAttribute->attribute_name) . "\n";
             }
 
             $requiredProperties = \RedshopHelperProduct_Attribute::getAttributeProperties(0, 0, $productId, 0, 1);
 
             foreach ($requiredProperties as $requiredProperty) {
-                $totalRequiredProperties .= \JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED') . " "
+                $totalRequiredProperties .= Text::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED') . " "
                     . urldecode($requiredProperty->property_name) . "\n";
             }
         }
@@ -284,7 +288,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 $idx                     = 0;
 
                 if (isset($cart['idx'])) {
-                    $idx = (int)($cart['idx']);
+                    $idx = (int) ($cart['idx']);
                 }
 
                 for ($j = 0; $j < $idx; $j++) {
@@ -443,25 +447,21 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                     . $productId . '\',\'' . $relatedProductId . '\',\'' . $giftCardId . '\', \'user_fields_form\',\''
                     . $totalAttr . '\',\'' . $totalAccessory . '\',\'' . $countNoUserField . '\');}" ';
 
-                if ($product->product_type == "subscription")
-                {
+                if ($product->product_type == "subscription") {
                     $subscriptionId = $input->getInt('subscription_id', 0);
                 }
 
                 $ajaxDetailTemplate = \Redshop\Template\Helper::getAjaxDetailBox($product);
 
-                if (null !== $ajaxDetailTemplate)
-                {
+                if (null !== $ajaxDetailTemplate) {
                     $ajaxCartDetailDesc = $ajaxDetailTemplate->template_desc;
 
-                    if (strpos($ajaxCartDetailDesc, "{if product_userfield}") !== false)
-                    {
+                    if (strpos($ajaxCartDetailDesc, "{if product_userfield}") !== false) {
                         $ajaxExtraField1      = explode("{if product_userfield}", $ajaxCartDetailDesc);
-                        $ajaxExtraField2      = explode("{product_userfield end if}", $ajaxExtraField1 [1]);
-                        $ajaxExtraFieldCenter = $ajaxExtraField2 [0];
+                        $ajaxExtraField2      = explode("{product_userfield end if}", $ajaxExtraField1[1]);
+                        $ajaxExtraFieldCenter = $ajaxExtraField2[0];
 
-                        if (strpos($ajaxExtraFieldCenter, "{") === false)
-                        {
+                        if (strpos($ajaxExtraFieldCenter, "{") === false) {
                         }
                     }
                 }
@@ -488,7 +488,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 $this->replaceQuantity($productId, $stockId, $quantity, $template);
             } elseif ($this->isTagExists('{addtocart_quantity_increase_decrease}')) {
                 $checkTag = true;
-                $this->replaceQuantityIncreaseDecrease($productId, $cartId, $itemId, $quantity,$minQuantity, $template);
+                $this->replaceQuantityIncreaseDecrease($productId, $cartId, $itemId, $quantity, $minQuantity, $template);
             } elseif ($this->isTagExists('{addtocart_quantity_selectbox}')) {
                 $checkTag       = true;
                 $selectBoxValue = ($product->quantity_selectbox_value) ?
@@ -676,16 +676,16 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
         );
     }
 
-    public function replaceQuantityIncreaseDecrease($productId, $cartId, $itemId, $quantity, $minQuantity ,&$template)
+    public function replaceQuantityIncreaseDecrease($productId, $cartId, $itemId, $quantity, $minQuantity, &$template)
     {
         $quantityIncreaseDecrease = RedshopLayoutHelper::render(
             'tags.addtocart.quantity_increase_decrease',
             array(
-                'productId' => $productId,
-                'cartId'    => $cartId,
-                'itemId'    => $itemId,
-                'quantity'  => $quantity,
-	            'minQuantity'  => $minQuantity
+                'productId'   => $productId,
+                'cartId'      => $cartId,
+                'itemId'      => $itemId,
+                'quantity'    => $quantity,
+                'minQuantity' => $minQuantity
             ),
             '',
             RedshopLayoutHelper::$layoutOption

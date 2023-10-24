@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\Factory;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 class RedshopControllerPrices_detail extends RedshopController
 {
@@ -56,7 +56,7 @@ class RedshopControllerPrices_detail extends RedshopController
         $post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
         $post['cdate']            = Factory::getDate()->format('Y-m-d');
         $cid                      = $this->input->post->get('cid', array(0), 'array');
-        $post ['price_id']        = $cid [0];
+        $post['price_id']        = $cid[0];
 
         $this->handleDateTimeRange($post['discount_start_date'], $post['discount_end_date']);
 
@@ -71,16 +71,14 @@ class RedshopControllerPrices_detail extends RedshopController
 
         if ($row) {
             $type = '';
-            $msg  = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
+            $msg  = Text::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
             JFactory::getApplication()->setUserState($context . '.data', array());
-            $post ['price_id'] = $row->price_id;
+            $post['price_id'] = $row->price_id;
         } elseif ($post['discount_start_date'] > $post['discount_end_date']) {
-            $msg = JText::_('COM_REDSHOP_PRODUCT_PRICE_END_DATE_MUST_MORE_THAN_START_DATE');
+            $msg = Text::_('COM_REDSHOP_PRODUCT_PRICE_END_DATE_MUST_MORE_THAN_START_DATE');
+        } else {
+            $msg = $model->getError();
         }
-		else
-		{
-			$msg = $model->getError();
-		}
 
         if ($apply == 0) {
             $this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $productId, $msg, $type);
@@ -89,7 +87,7 @@ class RedshopControllerPrices_detail extends RedshopController
         }
 
         $this->setRedirect(
-            'index.php?option=com_redshop&view=prices_detail&task=edit&product_id=' . $productId . '&cid[]=' . $post ['price_id'],
+            'index.php?option=com_redshop&view=prices_detail&task=edit&product_id=' . $productId . '&cid[]=' . $post['price_id'],
             $msg,
             $type
         );
@@ -101,20 +99,20 @@ class RedshopControllerPrices_detail extends RedshopController
         $cid       = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         /** @var RedshopModelPrices_detail $model */
         $model = $this->getModel('prices_detail');
 
         if (!$model->delete($cid)) {
-            echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError(
-                    null,
-                    true
-                ) . "'); window.history.go(-1); </script>\n";
+            echo "<script> alert('" . /** @scrutinizer ignore-deprecated */$model->getError(
+                null,
+                true
+            ) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_PRICE_DETAIL_DELETED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_PRICE_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $productId, $msg);
     }
 
@@ -122,7 +120,7 @@ class RedshopControllerPrices_detail extends RedshopController
     {
         $productId = $this->input->get('product_id');
 
-        $msg     = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
+        $msg     = Text::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
         $context = "com_redshop.edit.product_price";
         JFactory::getApplication()->setUserState($context . '.data', null);
         $this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $productId, $msg);

@@ -11,6 +11,8 @@ namespace Redshop\Cart;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Render class
  *
@@ -100,7 +102,7 @@ class Render
             // New type custom field - Selection based on selected conditions
             return str_replace(
                 "{form_addtocart:$cartTemplate->name}",
-                \JText::_('COM_REDSHOP_PRODUCT_DATE_FIELD_EXPIRED'),
+                Text::_('COM_REDSHOP_PRODUCT_DATE_FIELD_EXPIRED'),
                 $content
             );
         } elseif (isset($product->not_for_sale) && ($product->not_for_sale)) {
@@ -159,7 +161,8 @@ class Render
      * @return mixed
      * @since __DEPLOY_VERSION__
      */
-    public static function getTemplateCart() {
+    public static function getTemplateCart()
+    {
         return self::getTemplate();
     }
 
@@ -176,9 +179,9 @@ class Render
         $totalQuantity    = 0;
         $idx              = $cart['idx'];
         $cartParams       = \Redshop\Cart\Module::getParams();
-        $html             = (string)$cartParams->get('cart_output', 'simple');
-        $showShippingLine = (int)$cartParams->get('show_shipping_line', 0);
-        $showWithVAT      = (int)$cartParams->get('show_with_vat', 0);
+        $html             = (string) $cartParams->get('cart_output', 'simple');
+        $showShippingLine = (int) $cartParams->get('show_shipping_line', 0);
+        $showWithVAT      = (int) $cartParams->get('show_with_vat', 0);
         $ajax             = \JFactory::getApplication()->input->getInt('ajax_cart_box');
 
         for ($i = 0; $i < $idx; $i++) {
@@ -219,7 +222,8 @@ class Render
      * @throws \Exception
      * @since  __DEPLOY_VERSION__
      */
-    public static function getTemplate() {
+    public static function getTemplate()
+    {
         if (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) {
             return \RedshopHelperTemplate::getTemplate("quotation_cart");
         } else {

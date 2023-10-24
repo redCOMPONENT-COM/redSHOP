@@ -9,9 +9,10 @@
 
 namespace Redshop\Stock;
 
-use Joomla\CMS\Factory;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Wrapper Helper
@@ -93,11 +94,11 @@ class Helper
         $productPreOrder = $productData->preorder;
 
         if ($productData->min_order_product_quantity > 0 && $productData->min_order_product_quantity > $newQuantity) {
-            $msg = $productData->product_name . " " . \JText::_('COM_REDSHOP_WARNING_MSG_MINIMUM_QUANTITY');
-			Factory::getApplication()->enqueueMessage(
-				sprintf($msg, $productData->min_order_product_quantity),
-				'warning'
-			);
+            $msg = $productData->product_name . " " . Text::_('COM_REDSHOP_WARNING_MSG_MINIMUM_QUANTITY');
+            Factory::getApplication()->enqueueMessage(
+                sprintf($msg, $productData->min_order_product_quantity),
+                'warning'
+            );
             $newQuantity = $productData->min_order_product_quantity;
         }
 
@@ -108,15 +109,19 @@ class Helper
         $productStock  = 0;
         $allowPreOrder = \Redshop::getConfig()->getBool('ALLOW_PRE_ORDER');
 
-        if (($productPreOrder == 'global' && !$allowPreOrder)
+        if (
+            ($productPreOrder == 'global' && !$allowPreOrder)
             || $productPreOrder == 'no'
-            || ($productPreOrder == "" && !$allowPreOrder)) {
+            || ($productPreOrder == "" && !$allowPreOrder)
+        ) {
             $productStock = \RedshopHelperStockroom::getStockroomTotalAmount($data['product_id']);
         }
 
-        if (($productPreOrder == "global" && $allowPreOrder)
+        if (
+            ($productPreOrder == "global" && $allowPreOrder)
             || $productPreOrder == "yes"
-            || ($productPreOrder == "" && $allowPreOrder)) {
+            || ($productPreOrder == "" && $allowPreOrder)
+        ) {
             $productStock = \RedshopHelperStockroom::getStockroomTotalAmount($data['product_id']);
             $productStock += \RedshopHelperStockroom::getPreorderStockroomTotalAmount($data['product_id']);
         }
@@ -134,11 +139,11 @@ class Helper
             }
 
             if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newQuantity) {
-                $msg = $productData->product_name . " " . \JText::_('COM_REDSHOP_WARNING_MSG_MAXIMUM_QUANTITY');
-				Factory::getApplication()->enqueueMessage(
-					sprintf($msg, $productData->max_order_product_quantity),
-					'warning'
-				);
+                $msg = $productData->product_name . " " . Text::_('COM_REDSHOP_WARNING_MSG_MAXIMUM_QUANTITY');
+                Factory::getApplication()->enqueueMessage(
+                    sprintf($msg, $productData->max_order_product_quantity),
+                    'warning'
+                );
                 $newQuantity = $productData->max_order_product_quantity;
             }
 
@@ -163,22 +168,30 @@ class Helper
                     );
                     $propertyStock           = 0;
 
-                    if (($productPreOrder == "global" && !\Redshop::getConfig()->get(
+                    if (
+                        ($productPreOrder == "global" && !\Redshop::getConfig()->get(
+                            'ALLOW_PRE_ORDER'
+                        )
+                        ) || ($productPreOrder == "no") || ($productPreOrder == "" && !\Redshop::getConfig()->get(
                                 'ALLOW_PRE_ORDER'
-                            )) || ($productPreOrder == "no") || ($productPreOrder == "" && !\Redshop::getConfig()->get(
-                                'ALLOW_PRE_ORDER'
-                            ))) {
+                            )
+                        )
+                    ) {
                         $propertyStock = \RedshopHelperStockroom::getStockroomTotalAmount(
                             $properties[$k]['property_id'],
                             "property"
                         );
                     }
 
-                    if (($productPreOrder == "global" && \Redshop::getConfig()->get(
+                    if (
+                        ($productPreOrder == "global" && \Redshop::getConfig()->get(
+                            'ALLOW_PRE_ORDER'
+                        )
+                        ) || ($productPreOrder == "yes") || ($productPreOrder == "" && \Redshop::getConfig()->get(
                                 'ALLOW_PRE_ORDER'
-                            )) || ($productPreOrder == "yes") || ($productPreOrder == "" && \Redshop::getConfig()->get(
-                                'ALLOW_PRE_ORDER'
-                            ))) {
+                            )
+                        )
+                    ) {
                         $propertyStock = \RedshopHelperStockroom::getStockroomTotalAmount(
                             $properties[$k]['property_id'],
                             "property"
@@ -222,20 +235,26 @@ class Helper
                         for ($l = 0; $l < $totalSubProperty; $l++) {
                             $subPropertyStock = 0;
 
-                            if (($productPreOrder == "global" && !\Redshop::getConfig()->get(
-                                        'ALLOW_PRE_ORDER'
-                                    )) || ($productPreOrder == "no") || ($productPreOrder == "" && !\Redshop::getConfig(
-                                    )->get('ALLOW_PRE_ORDER'))) {
+                            if (
+                                ($productPreOrder == "global" && !\Redshop::getConfig()->get(
+                                    'ALLOW_PRE_ORDER'
+                                )
+                                ) || ($productPreOrder == "no") || ($productPreOrder == "" && !\Redshop::getConfig(
+                                    )->get('ALLOW_PRE_ORDER'))
+                            ) {
                                 $subPropertyStock = \RedshopHelperStockroom::getStockroomTotalAmount(
                                     $subProperties[$l]['subproperty_id'],
                                     "subproperty"
                                 );
                             }
 
-                            if (($productPreOrder == "global" && \Redshop::getConfig()->get(
-                                        'ALLOW_PRE_ORDER'
-                                    )) || ($productPreOrder == "yes") || ($productPreOrder == "" && \Redshop::getConfig(
-                                    )->get('ALLOW_PRE_ORDER'))) {
+                            if (
+                                ($productPreOrder == "global" && \Redshop::getConfig()->get(
+                                    'ALLOW_PRE_ORDER'
+                                )
+                                ) || ($productPreOrder == "yes") || ($productPreOrder == "" && \Redshop::getConfig(
+                                    )->get('ALLOW_PRE_ORDER'))
+                            ) {
                                 $subPropertyStock = \RedshopHelperStockroom::getStockroomTotalAmount(
                                     $subProperties[$l]['subproperty_id'],
                                     "subproperty"

@@ -11,6 +11,8 @@ use Joomla\Registry\Registry;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class RedshopControllerWizard
  */
@@ -119,11 +121,11 @@ class RedshopControllerWizard extends RedshopController
         if ($configHelper->save($config)) {
             // Clear temporary redshop wizard configuration
             $session->clear('redshop.wizard');
-            $msg  .= JText::_('COM_REDSHOP_FINISH_WIZARD');
+            $msg .= JText::_('COM_REDSHOP_FINISH_WIZARD');
             $link = 'index.php?option=com_redshop';
         } else {
             $subStep = 4;
-            $msg     .= \JText::_('COM_REDSHOP_ERROR_SAVING_DETAIL');
+            $msg .= Text::_('COM_REDSHOP_ERROR_SAVING_DETAIL');
             $link    = 'index.php?option=com_redshop&step=' . $subStep;
         }
 

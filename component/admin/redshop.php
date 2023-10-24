@@ -15,7 +15,10 @@
  * @copyright  Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 $app = \JFactory::getApplication();
 
@@ -41,7 +44,7 @@ $user->usertype = $userType[0];
 $user->gid      = $user->groups[$user->usertype];
 
 if (!$user->authorise('core.manage', 'com_redshop') && !$json) {
-    $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+    $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 
     return false;
 }

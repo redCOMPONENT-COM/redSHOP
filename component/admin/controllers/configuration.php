@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JLoader::import('joomla.filesystem.folder');
 
 /**
@@ -67,7 +69,7 @@ class RedshopControllerConfiguration extends RedshopController
             if (!empty($emails)) {
                 foreach ($emails as $email) {
                     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                        $msg = JText::_('COM_REDSHOP_INVALID_EMAIL');
+                        $msg = Text::_('COM_REDSHOP_INVALID_EMAIL');
                         $this->setRedirect('index.php?option=com_redshop&view=configuration', $msg, 'error');
 
                         return;
@@ -84,7 +86,7 @@ class RedshopControllerConfiguration extends RedshopController
         // Only check if this email is filled
         if (!empty($newsletterTestEmail)) {
             if (!filter_var($newsletterTestEmail, FILTER_VALIDATE_EMAIL)) {
-                $msg = JText::_('COM_REDSHOP_INVALID_EMAIL');
+                $msg = Text::_('COM_REDSHOP_INVALID_EMAIL');
                 $this->setRedirect('index.php?option=com_redshop&view=configuration', $msg, 'error');
 
                 return;
@@ -110,11 +112,11 @@ class RedshopControllerConfiguration extends RedshopController
         if (isset($post['product_download_root']) && !is_dir($post['product_download_root'])) {
             $msg = "";
             JFactory::getApplication()->enqueueMessage(
-                JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_DIRECTORY_DOES_NO_EXIST'),
+                Text::_('COM_REDSHOP_PRODUCT_DOWNLOAD_DIRECTORY_DOES_NO_EXIST'),
                 'error'
             );
         } elseif ($model->store($post)) {
-            $msg = JText::_('COM_REDSHOP_CONFIG_SAVED');
+            $msg = Text::_('COM_REDSHOP_CONFIG_SAVED');
 
             if ($newsletterTestEmail) {
                 $model->newsletterEntry($post);
@@ -122,13 +124,14 @@ class RedshopControllerConfiguration extends RedshopController
             }
 
             // Thumb folder deleted and created
-            if ($post['image_quality_output'] != Redshop::getConfig()->get('IMAGE_QUALITY_OUTPUT')
+            if (
+                $post['image_quality_output'] != Redshop::getConfig()->get('IMAGE_QUALITY_OUTPUT')
                 || $post['use_image_size_swapping'] != Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
             ) {
                 $this->removeThumbImages();
             }
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_IN_CONFIG_SAVE');
+            $msg = Text::_('COM_REDSHOP_ERROR_IN_CONFIG_SAVE');
         }
 
         $redirect = $apply ? 'index.php?option=com_redshop&view=configuration' : 'index.php?option=com_redshop';
@@ -217,8 +220,9 @@ class RedshopControllerConfiguration extends RedshopController
 
         try {
             $model->resetTemplate();
-            $app->enqueueMessage(JText::_('COM_REDSHOP_TEMPLATE_HAS_BEEN_RESET'), 'success');
-        } catch (Exception $exception) {
+            $app->enqueueMessage(Text::_('COM_REDSHOP_TEMPLATE_HAS_BEEN_RESET'), 'success');
+        }
+        catch (Exception $exception) {
             $app->enqueueMessage($exception->getMessage(), 'error');
         }
 

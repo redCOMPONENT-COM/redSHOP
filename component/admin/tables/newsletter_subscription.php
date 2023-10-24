@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * The Newsletter Subscription table
  *
@@ -18,62 +20,61 @@ defined('_JEXEC') or die;
  */
 class RedshopTableNewsletter_Subscription extends RedshopTable
 {
-	public $user_id = null;
+    public $user_id = null;
 
-	public $date = '0000-00-00';
+    public $date = '0000-00-00';
 
-	public $name = null;
+    public $name = null;
 
-	public $email = null;
+    public $email = null;
 
-	public $published = null;
+    public $published = null;
 
-	/**
-	 * The table name without prefix.
-	 *
-	 * @var string
-	 */
-	protected $_tableName = 'redshop_newsletter_subscription';
+    /**
+     * The table name without prefix.
+     *
+     * @var string
+     */
+    protected $_tableName = 'redshop_newsletter_subscription';
 
-	/**
-	 * Do the database store.
-	 *
-	 * @param   boolean  $updateNulls  True to update null values as well.
-	 *
-	 * @return  boolean
-	 */
-	public function doStore($updateNulls = false)
-	{
-		$app        = JFactory::getApplication();
-		$data       = $app->input->post->get('jform', array(), 'array');
+    /**
+     * Do the database store.
+     *
+     * @param   boolean  $updateNulls  True to update null values as well.
+     *
+     * @return  boolean
+     */
+    public function doStore($updateNulls = false)
+    {
+        $app  = JFactory::getApplication();
+        $data = $app->input->post->get('jform', array(), 'array');
 
-		if (empty($data['name'])) {
-			$this->name = \RedshopEntityNewsletter_Subscription::getUserFullName($data['user_id']);
-		}
+        if (empty($data['name'])) {
+            $this->name = \RedshopEntityNewsletter_Subscription::getUserFullName($data['user_id']);
+        }
 
-		return parent::doStore($updateNulls);
-	}
+        return parent::doStore($updateNulls);
+    }
 
-	/**
-	 * Checks that the object is valid and able to be stored.
-	 *
-	 * This method checks that the parent_id is non-zero and exists in the database.
-	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
-	 *
-	 * @return  boolean  True if all checks pass.
-	 */
-	protected function doCheck()
-	{
-		$app        = JFactory::getApplication();
-		$data       = $app->input->post->get('jform', array(), 'array');
+    /**
+     * Checks that the object is valid and able to be stored.
+     *
+     * This method checks that the parent_id is non-zero and exists in the database.
+     * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+     *
+     * @return  boolean  True if all checks pass.
+     */
+    protected function doCheck()
+    {
+        $app  = JFactory::getApplication();
+        $data = $app->input->post->get('jform', array(), 'array');
 
-		if (($data['email'] == '') || !JMailHelper::isEmailAddress($data['email']))
-		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+        if (($data['email'] == '') || !JMailHelper::isEmailAddress($data['email'])) {
+            $this->setError(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 
-			return false;
-		}
+            return false;
+        }
 
-		return parent::doCheck();
-	}
+        return parent::doCheck();
+    }
 }

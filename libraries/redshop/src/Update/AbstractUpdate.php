@@ -11,6 +11,8 @@ namespace Redshop\Update;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Abstract update class
  *
@@ -83,7 +85,7 @@ abstract class AbstractUpdate
     protected function task($name, $function)
     {
         $task       = new \stdClass;
-        $task->name = \JText::_($name);
+        $task->name = Text::_($name);
         $task->func = $function;
 
         return $task;

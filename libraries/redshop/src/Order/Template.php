@@ -9,9 +9,12 @@
 
 namespace Redshop\Order;
 
-use Joomla\Registry\Registry;
+
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
 
 /**
  * Order helper
@@ -41,7 +44,7 @@ class Template
             return $template;
         }
 
-        $orderId            = (int)$orderEntity->get('order_id');
+        $orderId            = (int) $orderEntity->get('order_id');
         $subTotalExcludeVAT = 0.0;
 
         // Replace products
@@ -92,7 +95,7 @@ class Template
 
         // Replace Tracking
         $search[]      = "{tracking_number_lbl}";
-        $replace[]     = \JText::_('COM_REDSHOP_ORDER_TRACKING_NUMBER');
+        $replace[]     = Text::_('COM_REDSHOP_ORDER_TRACKING_NUMBER');
         $search[]      = "{tracking_number}";
         $replace[]     = $order->track_no;
         $orderTrackURL = '';
@@ -105,7 +108,7 @@ class Template
 
         if ($order->track_no) {
             $search[]  = "{tracking_url}";
-            $replace[] = "<a href='" . $orderTrackURL . "'>" . \JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
+            $replace[] = "<a href='" . $orderTrackURL . "'>" . Text::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
         } else {
             $search[]  = "{tracking_url}";
             $replace[] = "";
@@ -116,25 +119,27 @@ class Template
         $search[]  = "{order_subtotal_excl_vat}";
         $replace[] = \RedshopHelperProductPrice::formattedPrice($totalExcludeVAT);
         $search[]  = "{order_number_lbl}";
-        $replace[] = \JText::_('COM_REDSHOP_ORDER_NUMBER_LBL');
+        $replace[] = Text::_('COM_REDSHOP_ORDER_NUMBER_LBL');
         $search[]  = "{order_number}";
         $replace[] = $order->order_number;
 
         $orderDetailUrl = \JUri::root(
-            ) . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $order->encr_key;
+        ) . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $order->encr_key;
         $search[]       = "{order_detail_link}";
-        $replace[]      = "<a href='" . $orderDetailUrl . "'>" . \JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
+        $replace[]      = "<a href='" . $orderDetailUrl . "'>" . Text::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
         // Replace product downloads
         self::replaceDownloadProducts($template, $orderId);
 
-        if ((strpos($template, "{discount_denotation}") !== false || strpos(
-                    $template,
-                    "{shipping_denotation}"
-                ) !== false)
-            && ($totalDiscount != 0 || $order->order_shipping != 0)) {
+        if (
+            (strpos($template, "{discount_denotation}") !== false || strpos(
+                $template,
+                "{shipping_denotation}"
+            ) !== false)
+            && ($totalDiscount != 0 || $order->order_shipping != 0)
+        ) {
             $search[]  = "{denotation_label}";
-            $replace[] = \JText::_('COM_REDSHOP_DENOTATION_TXT');
+            $replace[] = Text::_('COM_REDSHOP_DENOTATION_TXT');
         } else {
             $search[]  = "{denotation_label}";
             $replace[] = "";
@@ -176,11 +181,11 @@ class Template
             $discountTypes = explode(':', $discount);
 
             if ($discountTypes[0] == 'c') {
-                $discountType .= \JText::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $discountTypes[1] . '<br>';
+                $discountType .= Text::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $discountTypes[1] . '<br>';
             }
 
             if ($discountTypes[0] == 'v') {
-                $discountType .= \JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $discountTypes[1] . '<br>';
+                $discountType .= Text::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $discountTypes[1] . '<br>';
             }
         }
 
@@ -192,7 +197,7 @@ class Template
         $search[]  = "{order_status}";
         $replace[] = \RedshopHelperOrder::getOrderStatusTitle($orderEntity->get('order_status'));
         $search[]  = "{order_id_lbl}";
-        $replace[] = \JText::_('COM_REDSHOP_ORDER_ID_LBL');
+        $replace[] = Text::_('COM_REDSHOP_ORDER_ID_LBL');
         $search[]  = "{order_date}";
         $replace[] = \RedshopHelperDatetime::convertDateFormat($order->cdate);
         $search[]  = "{customer_note}";
@@ -208,7 +213,7 @@ class Template
         $billingAddresses  = $orderEntity->getBilling()->getItem();
         $shippingAddresses = $orderEntity->getShipping()->getItem();
 
-        $search [] = "{requisition_number}";
+        $search[] = "{requisition_number}";
         $replace[] = !empty($order->requisition_number) ? $order->requisition_number : "N/A";
 
         $template = \RedshopHelperBillingTag::replaceBillingAddress($template, $billingAddresses, $sendMail);
@@ -287,7 +292,7 @@ class Template
         $paymentMethod = $orderEntity->getPayment()->getItem();
 
         // Initialize Transaction label
-        $transactionIdLabel = $paymentMethod->order_payment_trans_id != null ? \JText::_(
+        $transactionIdLabel = $paymentMethod->order_payment_trans_id != null ? Text::_(
             'COM_REDSHOP_PAYMENT_TRANSACTION_ID_LABEL'
         ) : '';
 
@@ -297,7 +302,7 @@ class Template
 
         // Get Payment Method information
         $paymentMethodDetail = \RedshopHelperOrder::getPaymentMethodInfo($paymentMethod->payment_method_class);
-        $paymentMethodDetail = $paymentMethodDetail [0];
+        $paymentMethodDetail = $paymentMethodDetail[0];
 
         // For Payment and Extra Fields
         if (strpos($template, '{payment_extrafields}') !== false) {
@@ -312,7 +317,7 @@ class Template
             } else {
                 $template = str_replace(
                     "{payment_extrafields_lbl}",
-                    \JText::_("COM_REDSHOP_ORDER_PAYMENT_EXTRA_FILEDS"),
+                    Text::_("COM_REDSHOP_ORDER_PAYMENT_EXTRA_FILEDS"),
                     $template
                 );
                 $template = str_replace("{payment_extrafields}", $paymentExtraFields, $template);
@@ -322,7 +327,7 @@ class Template
         \RedshopHelperPayment::loadLanguages();
 
         // Replace payment method
-        $template = str_replace("{payment_method}", \JText::_("$paymentMethod->order_payment_name"), $template);
+        $template = str_replace("{payment_method}", Text::_("$paymentMethod->order_payment_name"), $template);
 
         // Replace extra infor
         $textExtraInfor = '';
@@ -332,7 +337,7 @@ class Template
 
         if ($isBankTransferPaymentType) {
             $paymentParams  = new Registry($paymentMethodDetail->params);
-            $textExtraInfor = (string)$paymentParams->get('txtextra_info', '');
+            $textExtraInfor = (string) $paymentParams->get('txtextra_info', '');
         }
 
         $template = str_replace("{payment_extrainfo}", $textExtraInfor, $template);
@@ -342,7 +347,7 @@ class Template
         $orderTransFee      = '';
 
         if ($paymentMethod->order_transfee > 0) {
-            $orderTransFeeLabel = \JText::_('COM_REDSHOP_ORDER_TRANSACTION_FEE_LABEL');
+            $orderTransFeeLabel = Text::_('COM_REDSHOP_ORDER_TRANSACTION_FEE_LABEL');
             $orderTransFee      = \RedshopHelperProductPrice::formattedPrice($paymentMethod->order_transfee);
         }
 
@@ -351,20 +356,20 @@ class Template
         $template = str_replace(
             "{order_total_incl_transfee}",
             \RedshopHelperProductPrice::formattedPrice(
-                $paymentMethod->order_transfee + (float)$orderEntity->get('order_total')
+                $paymentMethod->order_transfee + (float) $orderEntity->get('order_total')
             ),
             $template
         );
 
         // Payment status
-        $orderPaymentStatus = (string)$orderEntity->get('order_payment_status');
+        $orderPaymentStatus = (string) $orderEntity->get('order_payment_status');
 
         if (trim($orderPaymentStatus) === 'Paid') {
-            $orderPaymentStatus = \JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
+            $orderPaymentStatus = Text::_('COM_REDSHOP_PAYMENT_STA_PAID');
         } elseif (trim($orderPaymentStatus) == 'Unpaid') {
-            $orderPaymentStatus = \JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
+            $orderPaymentStatus = Text::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
         } elseif (trim($orderPaymentStatus) == 'Partial Paid') {
-            $orderPaymentStatus = \JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID');
+            $orderPaymentStatus = Text::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID');
         }
 
         $orderPaymentStatus .= " " . \JFactory::getApplication()->input->get('order_payment_log');
@@ -389,7 +394,7 @@ class Template
     {
         $template = str_replace(
             '{shipping_address_info_lbl}',
-            \JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'),
+            Text::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'),
             $template
         );
 
@@ -410,7 +415,7 @@ class Template
             } else {
                 $template = str_replace(
                     "{shipping_extrafields_lbl}",
-                    \JText::_("COM_REDSHOP_ORDER_SHIPPING_EXTRA_FILEDS"),
+                    Text::_("COM_REDSHOP_ORDER_SHIPPING_EXTRA_FILEDS"),
                     $template
                 );
                 $template = str_replace("{shipping_extrafields}", $shippingExtraFields, $template);
@@ -463,10 +468,12 @@ class Template
             $tokenHtml .= "</table>";
         }
 
-        if (!empty($tokenHtml) && $orderEntity->get('order_status') == "C" && $orderEntity->get(
+        if (
+            !empty($tokenHtml) && $orderEntity->get('order_status') == "C" && $orderEntity->get(
                 'order_payment_status'
-            ) == "Paid") {
-            $tokenLabel = \JText::_('COM_REDSHOP_DOWNLOAD_TOKEN');
+            ) == "Paid"
+        ) {
+            $tokenLabel = Text::_('COM_REDSHOP_DOWNLOAD_TOKEN');
         }
 
         $template = str_replace('{download_token}', $tokenHtml, $template);
@@ -492,7 +499,7 @@ class Template
 
         if (\JFactory::getApplication()->input->get('order_delivery')) {
             $search[]  = "{delivery_time_lbl}";
-            $replace[] = \JText::_('COM_REDSHOP_DELIVERY_TIME');
+            $replace[] = Text::_('COM_REDSHOP_DELIVERY_TIME');
         } else {
             $search[]  = "{delivery_time_lbl}";
             $replace[] = " ";
@@ -506,39 +513,39 @@ class Template
         $replace[] = '';
 
         if (strpos($template, '{order_detail_link_lbl}') !== false) {
-            $search [] = "{order_detail_link_lbl}";
-            $replace[] = \JText::_('COM_REDSHOP_ORDER_DETAIL_LINK_LBL');
+            $search[] = "{order_detail_link_lbl}";
+            $replace[] = Text::_('COM_REDSHOP_ORDER_DETAIL_LINK_LBL');
         }
 
         if (strpos($template, '{product_subtotal_lbl}') !== false) {
-            $search [] = "{product_subtotal_lbl}";
-            $replace[] = \JText::_('COM_REDSHOP_PRODUCT_SUBTOTAL_LBL');
+            $search[] = "{product_subtotal_lbl}";
+            $replace[] = Text::_('COM_REDSHOP_PRODUCT_SUBTOTAL_LBL');
         }
 
         if (strpos($template, '{product_subtotal_excl_vat_lbl}') !== false) {
-            $search [] = "{product_subtotal_excl_vat_lbl}";
-            $replace[] = \JText::_('COM_REDSHOP_PRODUCT_SUBTOTAL_EXCL_LBL');
+            $search[] = "{product_subtotal_excl_vat_lbl}";
+            $replace[] = Text::_('COM_REDSHOP_PRODUCT_SUBTOTAL_EXCL_LBL');
         }
 
         if (strpos($template, '{shipping_with_vat_lbl}') !== false) {
-            $search [] = "{shipping_with_vat_lbl}";
-            $replace[] = \JText::_('COM_REDSHOP_SHIPPING_WITH_VAT_LBL');
+            $search[] = "{shipping_with_vat_lbl}";
+            $replace[] = Text::_('COM_REDSHOP_SHIPPING_WITH_VAT_LBL');
         }
 
         if (strpos($template, '{shipping_excl_vat_lbl}') !== false) {
-            $search [] = "{shipping_excl_vat_lbl}";
-            $replace[] = \JText::_('COM_REDSHOP_SHIPPING_EXCL_VAT_LBL');
+            $search[] = "{shipping_excl_vat_lbl}";
+            $replace[] = Text::_('COM_REDSHOP_SHIPPING_EXCL_VAT_LBL');
         }
 
         if (strpos($template, '{product_price_excl_lbl}') !== false) {
-            $search [] = "{product_price_excl_lbl}";
-            $replace[] = \JText::_('COM_REDSHOP_PRODUCT_PRICE_EXCL_LBL');
+            $search[] = "{product_price_excl_lbl}";
+            $replace[] = Text::_('COM_REDSHOP_PRODUCT_PRICE_EXCL_LBL');
         }
 
-        $search [] = "{requisition_number_lbl}";
-        $replace[] = \JText::_('COM_REDSHOP_REQUISITION_NUMBER');
+        $search[] = "{requisition_number_lbl}";
+        $replace[] = Text::_('COM_REDSHOP_REQUISITION_NUMBER');
 
-        $search [] = "{product_attribute_calculated_price}";
+        $search[] = "{product_attribute_calculated_price}";
         $replace[] = "";
     }
 
@@ -553,7 +560,7 @@ class Template
     protected static function replaceOrderStatusLog($template, $orderId)
     {
         if (strpos($template, '{order_status_log}') !== false) {
-            $orderStatusLogs = \RedshopEntityOrder::getInstance((int)$orderId)->getStatusLog();
+            $orderStatusLogs = \RedshopEntityOrder::getInstance((int) $orderId)->getStatusLog();
 
             $logLayout = \RedshopLayoutHelper::render(
                 'order.status_log',

@@ -11,6 +11,8 @@ namespace Redshop\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Extra Fields helper
  *
@@ -128,8 +130,10 @@ class ExtraFields
             unset($templateEndData, $templateStartData);
         }
 
-        if (empty($fieldValue) || !$field->published || (!$field->show_in_front && \JFactory::getApplication(
-                )->isClient('site'))) {
+        if (
+            empty($fieldValue) || !$field->published || (!$field->show_in_front && \JFactory::getApplication(
+            )->isClient('site'))
+        ) {
             if ($hasIfTag) {
                 $templateContent = $templateIfStart . $templateIfEnd;
             } else {
@@ -179,7 +183,7 @@ class ExtraFields
             case \RedshopHelperExtrafields::TYPE_SELECT_COUNTRY_BOX:
                 if (!empty($fieldValue->data_txt)) {
                     $displayValue = \RedshopHelperExtrafields::getDisplayFieldData(
-                        (int)$fieldValue->data_txt,
+                        (int) $fieldValue->data_txt,
                         'country'
                     );
                 }
@@ -232,10 +236,10 @@ class ExtraFields
             case \RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK:
                 $documentValues = \RedshopEntityField::getInstance($field->id)->getFieldValues();
                 $tmpImagesHover = !empty($fieldValue->alt_text) ? explode(',,,,,', $fieldValue->alt_text) : array();
-                $tmpImagesLink  = !empty($fieldValue->image_link) ? explode(',,,,,', $fieldValue->image_link) : array();
+                $tmpImagesLink = !empty($fieldValue->image_link) ? explode(',,,,,', $fieldValue->image_link) : array();
 
-                $dataList    = explode(",", $fieldValue->data_txt);
-                $imagesLink  = array();
+                $dataList = explode(",", $fieldValue->data_txt);
+                $imagesLink = array();
                 $imagesHover = array();
 
                 foreach ($dataList as $index => $dataItem) {
@@ -281,7 +285,7 @@ class ExtraFields
         $displayValue    = \RedshopHelperTemplate::parseRedshopPlugin($displayValue);
         $templateContent = str_replace(
             array('{' . $tagLabel . '}', '{' . $tag . '}'),
-            array(\JText::_($displayTitle), $displayValue),
+            array(Text::_($displayTitle), $displayValue),
             $templateContent
         );
     }
@@ -315,12 +319,12 @@ class ExtraFields
                     'ajaxFlag'   => $ajaxFlag,
                     'fileName'   => $userDocument['fileName'],
                     'action'     => \JUri::root(
-                        ) . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload'
+                    ) . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload'
                 );
 
                 $html[] = '<li id="uploadNameSpan' . $id . '"><span>' . $userDocument['fileName'] . '</span>&nbsp;'
                     . '<a href="javascript:removeAjaxUpload(' . htmlspecialchars(json_encode($sendData)) . ');">'
-                    . \JText::_('COM_REDSHOP_DELETE') . '</a></li>';
+                    . Text::_('COM_REDSHOP_DELETE') . '</a></li>';
             }
         }
 

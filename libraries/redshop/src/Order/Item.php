@@ -11,6 +11,8 @@ namespace Redshop\Order;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Order item helper
  *
@@ -49,7 +51,7 @@ class Item
         $cart          = '';
         $url           = \JUri::root();
         $wrapperName   = '';
-        $orderDetail   = \RedshopEntityOrder::getInstance((int)$items[0]->order_id)->getItem();
+        $orderDetail   = \RedshopEntityOrder::getInstance((int) $items[0]->order_id)->getItem();
         $orderCount    = count($items);
         $thumbWidth    = \Redshop::getConfig()->getInt('CART_THUMB_WIDTH');
         $thumbHeight   = \Redshop::getConfig()->getInt('CART_THUMB_HEIGHT');
@@ -104,10 +106,12 @@ class Item
                 );
                 $attributeImage     = '<img src="' . $attributeImagePath . '">';
             } else {
-                if (\JFile::exists(
+                if (
+                    \JFile::exists(
                         JPATH_COMPONENT_SITE . '/assets/images/product_attributes/' . $items[$i]->attribute_image
                     )
-                    && \Redshop::getConfig()->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART')) {
+                    && \Redshop::getConfig()->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART')
+                ) {
                     $attributeImagePath = \RedshopHelperMedia::getImagePath(
                         $items[$i]->attribute_image,
                         '',
@@ -140,11 +144,13 @@ class Item
                             );
                             $attributeImage     = '<img src="' . $attributeImagePath . '">';
                         } else {
-                            if (\JFile::exists(
-                                REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->getString(
-                                    'PRODUCT_DEFAULT_IMAGE'
+                            if (
+                                \JFile::exists(
+                                    REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->getString(
+                                        'PRODUCT_DEFAULT_IMAGE'
+                                    )
                                 )
-                            )) {
+                            ) {
                                 $attributeImagePath = \RedshopHelperMedia::getImagePath(
                                     \Redshop::getConfig()->getString('PRODUCT_DEFAULT_IMAGE'),
                                     '',
@@ -158,11 +164,13 @@ class Item
                             }
                         }
                     } else {
-                        if (\JFile::exists(
-                            REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->get(
-                                'PRODUCT_DEFAULT_IMAGE'
+                        if (
+                            \JFile::exists(
+                                REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->get(
+                                    'PRODUCT_DEFAULT_IMAGE'
+                                )
                             )
-                        )) {
+                        ) {
                             $attributeImagePath = \RedshopHelperMedia::getImagePath(
                                 \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
                                 '',
@@ -206,7 +214,7 @@ class Item
                 $productPrice .= \RedshopHelperProductPrice::formattedPrice($items[$i]->product_item_price);
             }
 
-            $productPrice    .= "</div>";
+            $productPrice .= "</div>";
             $productOldPrice = \RedshopHelperProductPrice::formattedPrice($items[$i]->product_item_old_price);
             $productQuantity = '<div class="update_cart">' . $quantity . '</div>';
 
@@ -218,13 +226,13 @@ class Item
                 }
 
                 $wrapperPrice = \RedshopHelperProductPrice::formattedPrice($items[$i]->wrapper_price);
-                $wrapperName  = \JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapperName . "(" . $wrapperPrice . ")";
+                $wrapperName  = Text::_('COM_REDSHOP_WRAPPER') . ": " . $wrapperName . "(" . $wrapperPrice . ")";
             }
 
             $cartHtmlContent = str_replace("{product_name}", $productName, $cartHtmlContent);
 
             $categoryId   = \RedshopHelperProduct::getCategoryProduct($productId);
-            $category     = \RedshopEntityCategory::getInstance((int)$categoryId)->getItem();
+            $category     = \RedshopEntityCategory::getInstance((int) $categoryId)->getItem();
             $categoryLink = '';
 
             if (!empty($category)) {
@@ -246,18 +254,21 @@ class Item
                 if (!$isStockExists) {
                     $productPreorder = $product->preorder;
 
-                    if (($productPreorder == "global" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+                    if (
+                        ($productPreorder == "global" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
                         || ($productPreorder == "yes") || ($productPreorder == "" && \Redshop::getConfig()->get(
                                 'ALLOW_PRE_ORDER'
-                            ))) {
-                        $stockStatus = !$isPreorderStockExists ? \JText::_('COM_REDSHOP_OUT_OF_STOCK') : \JText::_(
+                            )
+                        )
+                    ) {
+                        $stockStatus = !$isPreorderStockExists ? Text::_('COM_REDSHOP_OUT_OF_STOCK') : Text::_(
                             'COM_REDSHOP_PRE_ORDER'
                         );
                     } else {
-                        $stockStatus = \JText::_('COM_REDSHOP_OUT_OF_STOCK');
+                        $stockStatus = Text::_('COM_REDSHOP_OUT_OF_STOCK');
                     }
                 } else {
-                    $stockStatus = \JText::_('COM_REDSHOP_AVAILABLE_STOCK');
+                    $stockStatus = Text::_('COM_REDSHOP_AVAILABLE_STOCK');
                 }
 
                 $cartHtmlContent = str_replace("{stock_status}", $stockStatus, $cartHtmlContent);
@@ -317,7 +328,7 @@ class Item
             $cartHtmlContent   = str_replace("{product_customfields}", $userCustomFields, $cartHtmlContent);
             $cartHtmlContent   = str_replace(
                 "{product_customfields_lbl}",
-                \JText::_("COM_REDSHOP_PRODUCT_CUSTOM_FIELD"),
+                Text::_("COM_REDSHOP_PRODUCT_CUSTOM_FIELD"),
                 $cartHtmlContent
             );
 
@@ -350,7 +361,7 @@ class Item
 
                     $cartHtmlContent = str_replace(
                         "{product_subscription_lbl}",
-                        \JText::_('COM_REDSHOP_SUBSCRIPTION'),
+                        Text::_('COM_REDSHOP_SUBSCRIPTION'),
                         $cartHtmlContent
                     );
                     $cartHtmlContent = str_replace("{product_subscription}", $selectedSubscription, $cartHtmlContent);
@@ -362,10 +373,10 @@ class Item
 
             $cartHtmlContent = str_replace(
                 "{product_number_lbl}",
-                \JText::_('COM_REDSHOP_PRODUCT_NUMBER'),
+                Text::_('COM_REDSHOP_PRODUCT_NUMBER'),
                 $cartHtmlContent
             );
-            $productVat      = ($items[$i]->product_item_price - $items[$i]->product_item_price_excl_vat) * $items [$i]->product_quantity;
+            $productVat      = ($items[$i]->product_item_price - $items[$i]->product_item_price_excl_vat) * $items[$i]->product_quantity;
             $cartHtmlContent = str_replace("{product_vat}", $productVat, $cartHtmlContent);
             $cartHtmlContent = \RedshopHelperProduct::getProductOnSaleComment($product, $cartHtmlContent);
             $cartHtmlContent = str_replace("{attribute_price_without_vat}", '', $cartHtmlContent);
@@ -384,9 +395,10 @@ class Item
 
             $dispatcher->trigger(
                 'OnSetCartOrderItemImage',
-                array(
-                    &$prepareCartAttributes,
-                    &$attributeImage,
+                array(&
+                    $prepareCartAttributes,
+            &
+                    $attributeImage,
                     $items[$i],
                     $i
                 )
@@ -404,16 +416,16 @@ class Item
             $cartHtmlContent = str_replace("{product_total_price}", $productTotalPrice, $cartHtmlContent);
             $cartHtmlContent = str_replace(
                 "{product_price_excl_vat}",
-                \RedshopHelperProductPrice::formattedPrice($items [$i]->product_item_price_excl_vat),
+                \RedshopHelperProductPrice::formattedPrice($items[$i]->product_item_price_excl_vat),
                 $cartHtmlContent
             );
             $cartHtmlContent = str_replace(
                 "{product_total_price_excl_vat}",
-                \RedshopHelperProductPrice::formattedPrice($items [$i]->product_item_price_excl_vat * $quantity),
+                \RedshopHelperProductPrice::formattedPrice($items[$i]->product_item_price_excl_vat * $quantity),
                 $cartHtmlContent
             );
 
-            $subTotalNoVat += $items [$i]->product_item_price_excl_vat * $quantity;
+            $subTotalNoVat += $items[$i]->product_item_price_excl_vat * $quantity;
 
             \JPluginHelper::importPlugin('redshop_stockroom');
             $dispatcher->trigger('onReplaceStockStatus', array($items[$i], &$cartHtmlContent));
@@ -428,8 +440,8 @@ class Item
                         false
                     )
                     . '"><img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'add.jpg" '
-                    . 'title="' . \JText::_("COM_REDSHOP_COPY_TO_CART") . '" '
-                    . 'alt="' . \JText::_("COM_REDSHOP_COPY_TO_CART") . '" /></a>';
+                    . 'title="' . Text::_("COM_REDSHOP_COPY_TO_CART") . '" '
+                    . 'alt="' . Text::_("COM_REDSHOP_COPY_TO_CART") . '" /></a>';
                 $cartHtmlContent = str_replace("{copy_orderitem}", $copyToCart, $cartHtmlContent);
             } else {
                 $cartHtmlContent = str_replace("{copy_orderitem}", "", $cartHtmlContent);
@@ -452,8 +464,10 @@ class Item
             }
 
             // Download Product Tag Replace
-            if (isset($prepareDownloadProducts[$productId]) && count($prepareDownloadProducts[$productId]) > 0
-                && $orderDetail->order_status == "C" && $orderDetail->order_payment_status == "Paid") {
+            if (
+                isset($prepareDownloadProducts[$productId]) && count($prepareDownloadProducts[$productId]) > 0
+                && $orderDetail->order_status == "C" && $orderDetail->order_payment_status == "Paid"
+            ) {
                 $downloads    = $prepareDownloadProducts[$productId];
                 $downloadHtml = "<table class='download_token'>";
                 $limit        = $downloadHtml;
@@ -477,34 +491,34 @@ class Item
                     $downloadHtml .= "</tr>";
                     $downloadHtml .= "<td>(" . $g . ") " . $productName . ": " . $mailToken . "</td>";
                     $downloadHtml .= "</tr>";
-                    $limit        .= "</tr>";
-                    $limit        .= "<td>(" . $g . ") " . $downloadMax . "</td>";
-                    $limit        .= "</tr>";
-                    $endHtml      .= "</tr>";
-                    $endHtml      .= "<td>(" . $g . ") " . date("d-m-Y H:i", $endDate) . "</td>";
-                    $endHtml      .= "</tr>";
+                    $limit .= "</tr>";
+                    $limit .= "<td>(" . $g . ") " . $downloadMax . "</td>";
+                    $limit .= "</tr>";
+                    $endHtml .= "</tr>";
+                    $endHtml .= "<td>(" . $g . ") " . date("d-m-Y H:i", $endDate) . "</td>";
+                    $endHtml .= "</tr>";
                     $g++;
                 }
 
                 $downloadHtml .= "</table>";
-                $limit        .= "</table>";
-                $endHtml      .= "</table>";
+                $limit .= "</table>";
+                $endHtml .= "</table>";
 
                 $cartHtmlContent = str_replace(
                     "{download_token_lbl}",
-                    \JText::_('COM_REDSHOP_DOWNLOAD_TOKEN'),
+                    Text::_('COM_REDSHOP_DOWNLOAD_TOKEN'),
                     $cartHtmlContent
                 );
                 $cartHtmlContent = str_replace("{download_token}", $downloadHtml, $cartHtmlContent);
                 $cartHtmlContent = str_replace(
                     "{download_counter_lbl}",
-                    \JText::_('COM_REDSHOP_DOWNLOAD_LEFT'),
+                    Text::_('COM_REDSHOP_DOWNLOAD_LEFT'),
                     $cartHtmlContent
                 );
                 $cartHtmlContent = str_replace("{download_counter}", $limit, $cartHtmlContent);
                 $cartHtmlContent = str_replace(
                     "{download_date_lbl}",
-                    \JText::_('COM_REDSHOP_DOWNLOAD_ENDDATE'),
+                    Text::_('COM_REDSHOP_DOWNLOAD_ENDDATE'),
                     $cartHtmlContent
                 );
                 $cartHtmlContent = str_replace("{download_date}", $endHtml, $cartHtmlContent);
@@ -518,8 +532,10 @@ class Item
             }
 
             // Download Product log Tags Replace
-            if (isset($preparedDownloadProductLogs[$productId])
-                && count($preparedDownloadProductLogs[$productId]) > 0 && $orderDetail->order_status == "C") {
+            if (
+                isset($preparedDownloadProductLogs[$productId])
+                && count($preparedDownloadProductLogs[$productId]) > 0 && $orderDetail->order_status == "C"
+            ) {
                 $downloadsLog = $preparedDownloadProductLogs[$productId];
                 $downloadHtml = "<table class='download_token'>";
                 $g            = 1;
@@ -542,16 +558,16 @@ class Item
 
                     $downloadHtml .= "</tr>";
                     $downloadHtml .= "<td>(" . $g . ") " . $mailToken . " "
-                        . \JText::_('COM_REDSHOP_ON') . " " . $downloadDate . " "
-                        . \JText::_('COM_REDSHOP_FROM') . " " . $ip . "</td>";
+                        . Text::_('COM_REDSHOP_ON') . " " . $downloadDate . " "
+                        . Text::_('COM_REDSHOP_FROM') . " " . $ip . "</td>";
                     $downloadHtml .= "</tr>";
                     $g++;
                 }
 
-                $downloadHtml    .= "</table>";
+                $downloadHtml .= "</table>";
                 $cartHtmlContent = str_replace(
                     "{download_date_list_lbl}",
-                    \JText::_('COM_REDSHOP_DOWNLOAD_LOG'),
+                    Text::_('COM_REDSHOP_DOWNLOAD_LOG'),
                     $cartHtmlContent
                 );
                 $cartHtmlContent = str_replace("{download_date_list}", $downloadHtml, $cartHtmlContent);

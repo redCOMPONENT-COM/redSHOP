@@ -8,6 +8,7 @@
 
 namespace Redshop\Traits\Replace;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -133,11 +134,11 @@ trait CartItem
                 [
                     'tag'   => 'div',
                     'class' => 'reciverInfo',
-                    'text'  => \JText::_(
-                            'LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'
-                        ) . ': ' . $cart[$i]['reciver_name'] . '<br />' . \JText::_(
-                            'LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'
-                        ) . ': ' . $cart[$i]['reciver_email']
+                    'text'  => Text::_(
+                        'LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'
+                    ) . ': ' . $cart[$i]['reciver_name'] . '<br />' . Text::_(
+                                'LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'
+                            ) . ': ' . $cart[$i]['reciver_email']
                 ],
                 '',
                 $optionLayout
@@ -145,29 +146,29 @@ trait CartItem
 
             if (strpos($cartHtml, "{product_name_nolink}") !== false) {
                 $replaceData['{product_name_nolink}'] = \RedshopLayoutHelper::render(
-                        'tags.common.tag',
-                        [
-                            'tag'   => 'div',
-                            'class' => 'product_name',
-                            'text'  => $giftCard->giftcard_name
-                        ],
-                        '',
-                        $optionLayout
-                    ) . $receiverInfor;
+                    'tags.common.tag',
+                    [
+                        'tag'   => 'div',
+                        'class' => 'product_name',
+                        'text'  => $giftCard->giftcard_name
+                    ],
+                    '',
+                    $optionLayout
+                ) . $receiverInfor;
 
                 if (strpos($cartHtml, "{product_name}") !== false) {
                     $replaceData['product_name'] = '';
                 }
             } else {
                 $replaceData['{product_name}'] = \RedshopLayoutHelper::render(
-                        'tags.product.name',
-                        [
-                            'link' => $link,
-                            'text' => isset($giftCard->giftcard_name) ? $giftCard->giftcard_name : ''
-                        ],
-                        '',
-                        $optionLayout
-                    ) . $receiverInfor;
+                    'tags.product.name',
+                    [
+                        'link' => $link,
+                        'text' => isset($giftCard->giftcard_name) ? $giftCard->giftcard_name : ''
+                    ],
+                    '',
+                    $optionLayout
+                ) . $receiverInfor;
             }
 
             $replaceData['{product_attribute}']           = '';
@@ -254,10 +255,12 @@ trait CartItem
             $replaceData['{remove_product}'] = $removeProduct;
 
             // Replace attribute tags to empty on giftcard
-            if (strpos($cartHtml, "{product_attribute_loop_start}") !== false && strpos(
+            if (
+                strpos($cartHtml, "{product_attribute_loop_start}") !== false && strpos(
                     $cartHtml,
                     "{product_attribute_loop_end}"
-                ) !== false) {
+                ) !== false
+            ) {
                 $templateAttr                           = $this->getTemplateBetweenLoop(
                     '{product_attribute_loop_start}',
                     '{product_attribute_loop_end}',
@@ -313,8 +316,8 @@ trait CartItem
                 $productName = \RedshopLayoutHelper::render(
                     'tags.product.name',
                     [
-                        'link' => $link,
-                        'text' => $product->product_name,
+                        'link'             => $link,
+                        'text'             => $product->product_name,
                         'isPromotionAward' => $cart[$i]['isPromotionAward'] ?? false
                     ],
                     '',
@@ -326,8 +329,10 @@ trait CartItem
             $productImg   = '';
             $type         = 'product';
 
-            if (\Redshop::getConfig()->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART')
-                && isset($cart[$i]['hidden_attribute_cartimage'])) {
+            if (
+                \Redshop::getConfig()->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART')
+                && isset($cart[$i]['hidden_attribute_cartimage'])
+            ) {
                 $imagePath    = REDSHOP_FRONT_IMAGES_ABSPATH;
                 $productImage = str_replace($imagePath, '', $cart[$i]['hidden_attribute_cartimage']);
             }
@@ -336,13 +341,17 @@ trait CartItem
                 $val        = explode("/", $productImage);
                 $productImg = $val[1];
                 $type       = $val[0];
-            } elseif (isset($product->product_full_image)
-                && \JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image)) {
+            } elseif (
+                isset($product->product_full_image)
+                && \JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image)
+            ) {
                 $productImg = $product->product_full_image;
                 $type       = 'product';
-            } elseif (\JFile::exists(
-                REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')
-            )) {
+            } elseif (
+                \JFile::exists(
+                    REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')
+                )
+            ) {
                 $productImg = \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
                 $type       = 'product';
             }
@@ -361,10 +370,12 @@ trait CartItem
             }
 
             if ($productImg !== '') {
-                if (\Redshop::getConfig()->getBool('WATERMARK_CART_THUMB_IMAGE')
+                if (
+                    \Redshop::getConfig()->getBool('WATERMARK_CART_THUMB_IMAGE')
                     && \JFile::exists(
                         REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->get('WATERMARK_IMAGE')
-                    )) {
+                    )
+                ) {
                     $productCartImg = \RedshopHelperMedia::watermark(
                         $type,
                         $productImg,
@@ -475,13 +486,13 @@ trait CartItem
                 $wrapper = \RedshopHelperProduct::getWrapper($productId, $cart[$i]['wrapper_id']);
 
                 if (count($wrapper) > 0) {
-                    $wrapperName = \JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper[0]->name;
+                    $wrapperName = Text::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper[0]->name;
 
                     if (!$quotationMode || ($quotationMode && \Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))) {
                         $wrapperName .= "(" . \RedshopHelperProductPrice::formattedPrice(
-                                $wrapper[0]->price,
-                                true
-                            ) . ")";
+                            $wrapper[0]->price,
+                            true
+                        ) . ")";
                     }
                 }
             }
@@ -508,10 +519,12 @@ trait CartItem
             $replaceData['{product_s_desc}'] = $product->product_s_desc ?? '';
 
             // Replace Attribute data
-            if (strpos($cartHtml, "{product_attribute_loop_start}") !== false && strpos(
+            if (
+                strpos($cartHtml, "{product_attribute_loop_start}") !== false && strpos(
                     $cartHtml,
                     "{product_attribute_loop_end}"
-                ) !== false) {
+                ) !== false
+            ) {
                 $templateAttrData   = $this->getTemplateBetweenLoop(
                     '{product_attribute_loop_start}',
                     '{product_attribute_loop_end}',
@@ -565,12 +578,12 @@ trait CartItem
                             }
 
                             $productAttributeValuePrice = \RedshopHelperProductPrice::formattedPrice(
-                                (double)$productAttributeValuePrice
+                                (double) $productAttributeValuePrice
                             );
                         }
 
                         $productAttributeCalculatedPrice = \RedshopHelperProductPrice::formattedPrice(
-                            (double)$productAttributeCalculatedPrice
+                            (double) $productAttributeCalculatedPrice
                         );
                         $productAttributeCalculatedPrice = \JText::sprintf(
                             'COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE',
@@ -590,7 +603,7 @@ trait CartItem
             }
 
             if (isset($cart[$i]['cart_attribute'])) {
-                $replaceData['{attribute_label}'] = \JText::_("COM_REDSHOP_ATTRIBUTE");
+                $replaceData['{attribute_label}'] = Text::_("COM_REDSHOP_ATTRIBUTE");
             } else {
                 $replaceData['{attribute_label}'] = '';
             }
@@ -599,7 +612,7 @@ trait CartItem
             $replaceData['{product_vat}']              = ($cart[$i]['product_vat'] ?? 0) * ($cart[$i]['quantity'] ?? 0);
             $replaceData['{product_userfields}']       = \RedshopHelperProduct::getProductUserField($i);
             $replaceData['{product_customfields}']     = \RedshopHelperProduct::getProductField($i);
-            $replaceData['{product_customfields_lbl}'] = \JText::_("COM_REDSHOP_PRODUCT_CUSTOM_FIELD");
+            $replaceData['{product_customfields_lbl}'] = Text::_("COM_REDSHOP_PRODUCT_CUSTOM_FIELD");
             $discountCalcOutput                        = isset($cart[$i]['discount_calc_output']) && $cart[$i]['discount_calc_output']
                 ? $cart[$i]['discount_calc_output'] . "<br />" : "";
 
@@ -647,7 +660,7 @@ trait CartItem
                     $cart[$i]['subscription_id']
                 );
                 $selectedSubscription                      = $subscriptionDetail->subscription_period . " " . $subscriptionDetail->period_type;
-                $replaceData['{product_subscription_lbl}'] = \JText::_('COM_REDSHOP_SUBSCRIPTION');
+                $replaceData['{product_subscription_lbl}'] = Text::_('COM_REDSHOP_SUBSCRIPTION');
                 $replaceData['{product_subscription}']     = $selectedSubscription;
             } else {
                 $replaceData['{product_subscription_lbl}'] = '';
@@ -665,8 +678,8 @@ trait CartItem
                             'x'     => '550',
                             'y'     => '400',
                             'link'  => \JURI::root(
-                                ) . 'index.php?option=com_redshop&view=cart&layout=change_attribute&tmpl=component&pid=' . $productId . '&cart_index=' . $i,
-                            'text'  => \JText::_('COM_REDSHOP_CHANGE_ATTRIBUTE')
+                            ) . 'index.php?option=com_redshop&view=cart&layout=change_attribute&tmpl=component&pid=' . $productId . '&cart_index=' . $i,
+                            'text'  => Text::_('COM_REDSHOP_CHANGE_ATTRIBUTE')
                         ],
                         '',
                         $optionLayout
@@ -711,13 +724,13 @@ trait CartItem
                 $updateCart = \RedshopLayoutHelper::render(
                     'tags.cart.update_cart',
                     [
-                        'i'           => $i,
-                        'token'       => $token,
-                        'quantity'    => $quantity,
-                        'cartItem'    => $cartItem,
-                        'productId'   => ${$cartItem},
-                        'itemId'      => $itemId,
-                        'updateImage' => $updateImage,
+                        'i'                => $i,
+                        'token'            => $token,
+                        'quantity'         => $quantity,
+                        'cartItem'         => $cartItem,
+                        'productId'        => ${$cartItem},
+                        'itemId'           => $itemId,
+                        'updateImage'      => $updateImage,
                         'isPromotionAward' => $cart[$i]['isPromotionAward'] ?? false
                     ],
                     '',
@@ -728,12 +741,12 @@ trait CartItem
             $updateCartMinusPlus = \RedshopLayoutHelper::render(
                 'tags.cart.quantity_increase_decrease',
                 [
-                    'i'           => $i,
-                    'quantity'    => $quantity,
-                    'cartItem'    => $cartItem,
-                    'productId'   => ${$cartItem},
-                    'itemId'      => $itemId,
-                    'updateImage' => $updateImage,
+                    'i'                => $i,
+                    'quantity'         => $quantity,
+                    'cartItem'         => $cartItem,
+                    'productId'        => ${$cartItem},
+                    'itemId'           => $itemId,
+                    'updateImage'      => $updateImage,
                     'isPromotionAward' => $cart[$i]['isPromotionAward'] ?? false
                 ],
                 '',

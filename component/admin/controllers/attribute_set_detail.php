@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Attribute Set Detail controller
  *
@@ -53,7 +55,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
         if ($row = $model->store($post)) {
             $this->attribute_save($post, $row);
 
-            $msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_DETAIL_SAVED');
+            $msg = Text::_('COM_REDSHOP_ATTRIBUTE_SET_DETAIL_SAVED');
         }
 
         if ($apply == 1) {
@@ -209,7 +211,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         /** @var RedshopModelAttribute_set_detail $model */
@@ -220,13 +222,13 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
                 $model->getError() . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_DELETED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_ATTRIBUTE_SET_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
     }
 
     public function cancel()
     {
-        $msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_EDITING_CANCELLED');
+        $msg = Text::_('COM_REDSHOP_ATTRIBUTE_SET_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
     }
 
@@ -260,8 +262,8 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
         $post = $this->input->post->getArray();
 
-        $main_img = (array)$this->input->files->get('property_main_img', array(), 'array');
-        $sub_img  = (array)$this->input->files->get('property_sub_img', array(), 'array');
+        $main_img = (array) $this->input->files->get('property_main_img', array(), 'array');
+        $sub_img  = (array) $this->input->files->get('property_sub_img', array(), 'array');
 
         /** @var RedshopModelProduct_Detail $model */
         $model = $this->getModel('product_detail');
@@ -270,11 +272,12 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
         $filetype_sub = strtolower(JFile::getExt($sub_img['name'][0]));
 
-        if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg' && $main_img['name'] != ''
+        if (
+            $filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg' && $main_img['name'] != ''
             && $filetype_sub != 'png' && $filetype_sub != 'gif' && $filetype_sub != 'jpeg'
             && $filetype_sub != 'jpg' && $sub_img['name'][0] != ''
         ) {
-            $msg  = JText::_("COM_REDSHOP_FILE_EXTENTION_WRONG_PROPERTY");
+            $msg  = Text::_("COM_REDSHOP_FILE_EXTENTION_WRONG_PROPERTY");
             $link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $post['section_id']
                 . "&cid=" . $post['cid'] . "&layout=property_images&showbuttons=1";
             $this->setRedirect($link, $msg);
@@ -302,7 +305,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
         $model = $this->getModel('product_detail');
 
         if ($model->deletesubimage($mediaid)) {
-            $msg  = JText::_("COM_REDSHOP_PROPERTY_SUB_IMAGE_IS_DELETE");
+            $msg  = Text::_("COM_REDSHOP_PROPERTY_SUB_IMAGE_IS_DELETE");
             $link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
                 . $section_id . "&cid=" . $cid . "&layout=property_images&showbuttons=1";
             $this->setRedirect($link, $msg);
@@ -374,10 +377,10 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
         $type  = '';
 
         if ($model->SaveAttributeStockroom($post)) {
-            $msg = JText::_('COM_REDSHOP_STOCKROOM_ATTRIBUTE_XREF_SAVE');
+            $msg = Text::_('COM_REDSHOP_STOCKROOM_ATTRIBUTE_XREF_SAVE');
         } else {
             $type = 'error';
-            $msg  = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
+            $msg  = Text::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
         }
 
         $link = "index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
@@ -394,9 +397,9 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
         $model = $this->getModel('attribute_set_detail');
 
         if ($model->copy($cid)) {
-            $msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_COPIED');
+            $msg = Text::_('COM_REDSHOP_ATTRIBUTE_SET_COPIED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_COPY_ATTRIBUTE_SET');
+            $msg = Text::_('COM_REDSHOP_ERROR_COPY_ATTRIBUTE_SET');
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);

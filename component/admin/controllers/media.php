@@ -11,6 +11,8 @@ use Joomla\Utilities\ArrayHelper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 jimport('joomla.filesystem.file');
 
 class RedshopControllerMedia extends RedshopController
@@ -35,7 +37,7 @@ class RedshopControllerMedia extends RedshopController
         $model = $this->getModel('media');
 
         // Default message
-        $msg = JText::_('COM_REDSHOP_UPLOAD_FAIL');
+        $msg = Text::_('COM_REDSHOP_UPLOAD_FAIL');
 
         $productDownloadRoot = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
 
@@ -53,9 +55,9 @@ class RedshopControllerMedia extends RedshopController
             }
 
             if ($model->store($post)) {
-                $msg = JText::_('COM_REDSHOP_UPLOAD_COMPLETE');
+                $msg = Text::_('COM_REDSHOP_UPLOAD_COMPLETE');
             } else {
-                $msg = JText::_('COM_REDSHOP_UPLOAD_FAIL');
+                $msg = Text::_('COM_REDSHOP_UPLOAD_FAIL');
             }
         }
 
@@ -72,15 +74,15 @@ class RedshopControllerMedia extends RedshopController
                     $fileUpload = JFile::upload($src, $dest);
 
                     if ($fileUpload != 1) {
-                        $msg = JText::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
+                        $msg = Text::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
                         JFactory::getApplication()->enqueueMessage($msg, 'error');
                     } else {
                         $post['name'] = $dest;
 
                         if ($model->store($post)) {
-                            $msg = JText::_('COM_REDSHOP_UPLOAD_COMPLETE');
+                            $msg = Text::_('COM_REDSHOP_UPLOAD_COMPLETE');
                         } else {
-                            $msg = JText::_('COM_REDSHOP_UPLOAD_FAIL');
+                            $msg = Text::_('COM_REDSHOP_UPLOAD_FAIL');
                         }
                     }
                 }
@@ -103,9 +105,9 @@ class RedshopControllerMedia extends RedshopController
         $model = $this->getModel('media');
 
         if ($model->deleteAddtionalFiles($fileId)) {
-            $msg = JText::_('COM_REDSHOP_FILE_DELETED');
+            $msg = Text::_('COM_REDSHOP_FILE_DELETED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_FILE_DELETING');
+            $msg = Text::_('COM_REDSHOP_ERROR_FILE_DELETING');
         }
 
         $this->setRedirect(
@@ -127,19 +129,19 @@ class RedshopControllerMedia extends RedshopController
         $order = ArrayHelper::toInteger($order);
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_ORDERING'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_ORDERING'));
         }
 
         /** @var RedshopModelMedia $model */
         $model = $this->getModel('media');
 
         if (!$model->saveorder($order, $cid)) {
-            echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError(
-                    true
-                ) . "'); window.history.go(-1); </script>\n";
+            echo "<script> alert('" . /** @scrutinizer ignore-deprecated */$model->getError(
+                true
+            ) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+        $msg = Text::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 
         if (isset($sectionId)) {
             $this->setRedirect(
@@ -152,7 +154,8 @@ class RedshopControllerMedia extends RedshopController
             $link = 'index.php?option=com_redshop&view=manufacturer'; ?>
             <script language="javascript" type="text/javascript">
                 window.parent.document.location = "<?php echo $link; ?>";
-            </script><?php
+            </script>
+            <?php
         } else {
             $this->setRedirect('index.php?option=com_redshop&view=media', $msg);
         }
@@ -171,10 +174,10 @@ class RedshopControllerMedia extends RedshopController
         $media_section = $this->input->get('media_section');
         $cid           = $this->input->post->get('cid', array(0), 'array');
 
-        $msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+        $msg = Text::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_MAKE_PRIMARY_MEDIA'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_MAKE_PRIMARY_MEDIA'));
         }
 
         /** @var RedshopModelMedia_detail $model */
@@ -198,7 +201,8 @@ class RedshopControllerMedia extends RedshopController
             $link = 'index.php?option=com_redshop&view=manufacturer'; ?>
             <script language="javascript" type="text/javascript">
                 window.parent.document.location = "<?php echo $link; ?>";
-            </script><?php
+            </script>
+            <?php
         } else {
             $this->setRedirect('index.php?option=com_redshop&view=media', $msg);
         }
@@ -374,7 +378,7 @@ class RedshopControllerMedia extends RedshopController
         $cid           = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         /** @var RedshopModelMedia_detail $model */
@@ -384,7 +388,7 @@ class RedshopControllerMedia extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_PUBLISHED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_MEDIA_DETAIL_PUBLISHED_SUCCESSFULLY');
 
         if ($section_id) {
             $this->setRedirect(
@@ -396,7 +400,8 @@ class RedshopControllerMedia extends RedshopController
             $link = 'index.php?option=com_redshop&view=manufacturer'; ?>
             <script language="javascript" type="text/javascript">
                 window.parent.document.location = "<?php echo $link; ?>";
-            </script><?php
+            </script>
+            <?php
         } else {
             $this->setRedirect('index.php?option=com_redshop&view=media', $msg);
         }
@@ -416,7 +421,7 @@ class RedshopControllerMedia extends RedshopController
         $cid           = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         /** @var RedshopModelMedia_detail $model */
@@ -426,7 +431,7 @@ class RedshopControllerMedia extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_UNPUBLISHED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_MEDIA_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 
         if ($section_id) {
             $this->setRedirect(
@@ -438,7 +443,8 @@ class RedshopControllerMedia extends RedshopController
             $link = 'index.php?option=com_redshop&view=manufacturer'; ?>
             <script language="javascript" type="text/javascript">
                 window.parent.document.location = "<?php echo $link; ?>";
-            </script><?php
+            </script>
+            <?php
         } else {
             $this->setRedirect('index.php?option=com_redshop&view=media', $msg);
         }

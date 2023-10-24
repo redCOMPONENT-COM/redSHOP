@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * redSHOP Dashboard view
  *
@@ -58,8 +60,8 @@ class RedshopViewRedshop extends RedshopViewAdmin
                 \JToolBarHelper::custom(
                     'statistic',
                     'redshop_statistic32',
-                    \JText::_('COM_REDSHOP_STATISTIC'),
-                    \JText::_('COM_REDSHOP_STATISTIC'),
+                    Text::_('COM_REDSHOP_STATISTIC'),
+                    Text::_('COM_REDSHOP_STATISTIC'),
                     false
                 );
             }
@@ -69,7 +71,7 @@ class RedshopViewRedshop extends RedshopViewAdmin
                     'configuration',
                     'redshop_icon-32-settings',
                     JText::_('COM_REDSHOP_CONFIG'),
-                    \JText::_('COM_REDSHOP_CONFIG'),
+                    Text::_('COM_REDSHOP_CONFIG'),
                     false
                 );
             }
@@ -85,7 +87,7 @@ class RedshopViewRedshop extends RedshopViewAdmin
 
         // Check PDF plugin
         if (!\RedshopHelperPdf::isAvailablePdfPlugins()) {
-            \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_WARNING_MISSING_PDF_PLUGIN'), 'warning');
+            \JFactory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_WARNING_MISSING_PDF_PLUGIN'), 'warning');
         }
 
         parent::display($tpl);

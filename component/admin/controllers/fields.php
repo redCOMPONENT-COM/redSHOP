@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Fields list controller
  *
@@ -26,7 +28,7 @@ class RedshopControllerFields extends RedshopControllerAdmin
      */
     public function massAssignGroup()
     {
-        JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
         $app = JFactory::getApplication();
 
@@ -35,15 +37,15 @@ class RedshopControllerFields extends RedshopControllerAdmin
         $groupId = $app->input->getInt('field_assign_group', 0);
 
         if (!is_array($cid) || count($cid) < 1) {
-            JLog::add(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
+            JLog::add(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
         } else {
             /** @var RedshopModelField $model */
             $model = $this->getModel();
 
             if (!$model->massAssignGroup($cid, $groupId)) {
-                $app->enqueueMessage(JText::_('COM_REDSHOP_FIELDS_ERROR_MASS_ASSIGN_GROUP'), 'error');
+                $app->enqueueMessage(Text::_('COM_REDSHOP_FIELDS_ERROR_MASS_ASSIGN_GROUP'), 'error');
             } else {
-                $app->enqueueMessage(JText::_('COM_REDSHOP_FIELDS_SUCCESS_MASS_ASSIGN_GROUP'));
+                $app->enqueueMessage(Text::_('COM_REDSHOP_FIELDS_SUCCESS_MASS_ASSIGN_GROUP'));
             }
         }
 

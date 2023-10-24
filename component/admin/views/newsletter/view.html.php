@@ -6,7 +6,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * View newsletter
@@ -17,26 +20,25 @@ defined('_JEXEC') or die;
  */
 class RedshopViewNewsletter extends RedshopViewForm
 {
-	/**
-	 * Method for prepare field HTML
-	 *
-	 * @param   object  $field  Group object
-	 *
-	 * @return  boolean|string  False if keep. String for HTML content if success.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws \Exception
-	 */
-	protected function prepareField($field)
-	{
-		switch ($field->getAttribute('name'))
-        {
+    /**
+     * Method for prepare field HTML
+     *
+     * @param   object  $field  Group object
+     *
+     * @return  boolean|string  False if keep. String for HTML content if success.
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws \Exception
+     */
+    protected function prepareField($field)
+    {
+        switch ($field->getAttribute('name')) {
             case 'template_id':
                 return RedshopLayoutHelper::render(
                     'newsletter.field_template',
                     [
-                        'htmlField' => parent::/** @scrutinizer ignore-call */ prepareField($field),
-                        'item' => $this->item
+                        'htmlField' => parent:: /** @scrutinizer ignore-call */prepareField($field),
+                        'item'      => $this->item
                     ]
                 );
             case 'tags_default':
@@ -44,7 +46,7 @@ class RedshopViewNewsletter extends RedshopViewForm
             default:
                 return parent::prepareField($field);
         }
-	}
+    }
 
     /**
      * Method for get page title.
@@ -56,9 +58,8 @@ class RedshopViewNewsletter extends RedshopViewForm
      */
     public function getTitle()
     {
-        if ($this->getLayout() == 'statistics')
-        {
-            $title      = \JText::_('COM_REDSHOP_' . strtoupper($this->getInstanceName()));
+        if ($this->getLayout() == 'statistics') {
+            $title = Text::_('COM_REDSHOP_' . strtoupper($this->getInstanceName()));
             return $title . ' <small>[ statistics ]</small>';
         }
 
@@ -75,11 +76,9 @@ class RedshopViewNewsletter extends RedshopViewForm
      */
     protected function addToolbar()
     {
-        if ($this->getLayout() == 'statistics')
-        {
+        if ($this->getLayout() == 'statistics') {
             JToolbarHelper::cancel($this->getInstanceName() . '.cancel');
-        }
-        else {
+        } else {
             parent::addToolbar();
         }
     }

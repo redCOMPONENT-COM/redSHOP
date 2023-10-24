@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopControllerBarcode extends RedshopController
 {
@@ -36,9 +37,9 @@ class RedshopControllerBarcode extends RedshopController
                 $post['order_id']    = $row->order_id;
 
                 if ($model->save($post)) {
-                    $msg = JText::_('COM_REDSHOP_THANKS_FOR_YOUR_REVIEWS');
+                    $msg = Text::_('COM_REDSHOP_THANKS_FOR_YOUR_REVIEWS');
                 } else {
-                    $msg = JText::_('COM_REDSHOP_ERROR_PLEASE_TRY_AGAIN');
+                    $msg = Text::_('COM_REDSHOP_ERROR_PLEASE_TRY_AGAIN');
                 }
 
                 $this->setRedirect('index.php?option=com_redshop&view=barcode&order_id=' . $row->order_id, $msg);
@@ -70,7 +71,7 @@ class RedshopControllerBarcode extends RedshopController
                 $model->updateorderstatus($barcode, $row->order_id);
                 $this->setRedirect(
                     'index.php?option=com_redshop&view=barcode&layout=barcode_order',
-                    JText::_('ORDER_STATUS_CHANGED_TO_SHIPPED')
+                    Text::_('ORDER_STATUS_CHANGED_TO_SHIPPED')
                 );
             } else {
                 $msg = 'Invalid Barcode';

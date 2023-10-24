@@ -12,6 +12,7 @@ namespace Redshop\Mail;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Redshop\Order\Template;
 
@@ -56,10 +57,10 @@ class Order
         // Order mail output should reflect the checkout process"
         $message = str_replace(
             "{order_mail_intro_text_title}",
-            \JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'),
+            Text::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'),
             $message
         );
-        $message = str_replace("{order_mail_intro_text}", \JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
+        $message = str_replace("{order_mail_intro_text}", Text::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
         $message = Template::replaceTemplate($row, $message, true);
 
         $discounts    = array_filter(explode('@', $row->discount_type));
@@ -70,23 +71,23 @@ class Order
                 $tmpDiscountType = explode(':', $discount);
 
                 if ($tmpDiscountType[0] == 'c') {
-                    $discountType .= \JText::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $tmpDiscountType[1] . '<br>';
+                    $discountType .= Text::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $tmpDiscountType[1] . '<br>';
                 }
 
                 if ($tmpDiscountType[0] == 'v') {
-                    $discountType .= \JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $tmpDiscountType[1] . '<br>';
+                    $discountType .= Text::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $tmpDiscountType[1] . '<br>';
                 }
             }
         }
 
-        $discountType   = !$discountType ? \JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE') : $discountType;
+        $discountType   = !$discountType ? Text::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE') : $discountType;
         $orderDetailUrl = \JUri::root(
-            ) . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $row->encr_key;
+        ) . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $row->encr_key;
 
         $search  = array('{discount_type}', '{order_detail_link}');
         $replace = array(
             $discountType,
-            "<a href='" . $orderDetailUrl . "'>" . \JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>"
+            "<a href='" . $orderDetailUrl . "'>" . Text::_("COM_REDSHOP_ORDER_MAIL") . "</a>"
         );
 
         $message = str_replace($search, $replace, $message);
@@ -149,7 +150,8 @@ class Order
                 $bcc             = null;
             }
 
-            if (!empty($thirdPartyEmail)
+            if (
+                !empty($thirdPartyEmail)
                 && !Helper::sendEmail(
                     $from,
                     $fromName,
@@ -162,32 +164,35 @@ class Order
                     null,
                     $mailSection,
                     func_get_args()
-                )) {
-				Factory::getApplication()->enqueueMessage(
-					\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
-					'warning'
-				);
+                )
+            ) {
+                Factory::getApplication()->enqueueMessage(
+                    Text::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
+                    'warning'
+                );
 
                 return false;
             }
 
-            if (!Helper::sendEmail(
-                $from,
-                $fromName,
-                $email,
-                $subject,
-                $body,
-                true,
-                null,
-                $bcc,
-                null,
-                $mailSection,
-                func_get_args()
-            )) {
-				Factory::getApplication()->enqueueMessage(
-					\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
-					'warning'
-				);
+            if (
+                !Helper::sendEmail(
+                    $from,
+                    $fromName,
+                    $email,
+                    $subject,
+                    $body,
+                    true,
+                    null,
+                    $bcc,
+                    null,
+                    $mailSection,
+                    func_get_args()
+                )
+            ) {
+                Factory::getApplication()->enqueueMessage(
+                    Text::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
+                    'warning'
+                );
 
                 return false;
             }
@@ -223,12 +228,13 @@ class Order
                 continue;
             }
 
-            $product = \Redshop::product((int)$orderItem->product_id);
+            $product = \Redshop::product((int) $orderItem->product_id);
 
             if ($useManufacturerEmail) {
                 $manufacturer = \RedshopEntityManufacturer::getInstance($product->manufacturer_id)->getItem();
 
-                if (!empty($manufacturer)
+                if (
+                    !empty($manufacturer)
                     && !empty($manufacturer->email)
                     && !Helper::sendEmail(
                         $from,
@@ -242,18 +248,20 @@ class Order
                         null,
                         $mailSection,
                         func_get_args()
-                    )) {
-					Factory::getApplication()->enqueueMessage(
-						\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
-						'warning'
-					);
+                    )
+                ) {
+                    Factory::getApplication()->enqueueMessage(
+                        Text::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
+                        'warning'
+                    );
                 }
             }
 
             if ($useSupplierEmail) {
                 $supplier = \RedshopEntitySupplier::getInstance($product->supplier_id)->getItem();
 
-                if (!empty($supplier)
+                if (
+                    !empty($supplier)
                     && !empty($supplier->email)
                     && !Helper::sendEmail(
                         $from,
@@ -267,11 +275,12 @@ class Order
                         null,
                         $mailSection,
                         func_get_args()
-                    )) {
-					Factory::getApplication()->enqueueMessage(
-						\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
-						'warning'
-					);
+                    )
+                ) {
+                    Factory::getApplication()->enqueueMessage(
+                        Text::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
+                        'warning'
+                    );
                 }
             }
         }
@@ -330,16 +339,16 @@ class Order
         );
 
         $orderDetailUrl = \JUri::root(
-            ) . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $order->encr_key;
+        ) . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $order->encr_key;
 
         $replace = array(
             \Redshop::getConfig()->get('SHOP_NAME'),
-            \JText::_('COM_REDSHOP_PAYMENT_METHOD'),
+            Text::_('COM_REDSHOP_PAYMENT_METHOD'),
             '',
             $order->special_discount . '%',
             \RedshopHelperProductPrice::formattedPrice($order->special_discount_amount),
-            \JText::_('COM_REDSHOP_SPECIAL_DISCOUNT'),
-            "<a href='" . $orderDetailUrl . "'>" . \JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>"
+            Text::_('COM_REDSHOP_SPECIAL_DISCOUNT'),
+            "<a href='" . $orderDetailUrl . "'>" . Text::_("COM_REDSHOP_ORDER_MAIL") . "</a>"
         );
 
         // Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
@@ -369,23 +378,25 @@ class Order
 
             $bcc = array_merge($bcc, $mailBcc);
 
-            if (!Helper::sendEmail(
-                $from,
-                $fromName,
-                $email,
-                $subject,
-                $body,
-                true,
-                null,
-                $bcc,
-                null,
-                $mailSection,
-                func_get_args()
-            )) {
-				Factory::getApplication()->enqueueMessage(
-					\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
-					'warning'
-				);
+            if (
+                !Helper::sendEmail(
+                    $from,
+                    $fromName,
+                    $email,
+                    $subject,
+                    $body,
+                    true,
+                    null,
+                    $bcc,
+                    null,
+                    $mailSection,
+                    func_get_args()
+                )
+            ) {
+                Factory::getApplication()->enqueueMessage(
+                    Text::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
+                    'warning'
+                );
             }
         }
 
@@ -402,10 +413,11 @@ class Order
                     continue;
                 }
 
-                $product      = \Redshop::product((int)$orderItem->product_id);
+                $product      = \Redshop::product((int) $orderItem->product_id);
                 $manufacturer = \RedshopEntityManufacturer::getInstance($product->manufacturer_id)->getItem();
 
-                if (!empty($manufacturer)
+                if (
+                    !empty($manufacturer)
                     && !empty($manufacturer->email)
                     && !Helper::sendEmail(
                         $from,
@@ -419,11 +431,12 @@ class Order
                         null,
                         $mailSection,
                         func_get_args()
-                    )) {
-					Factory::getApplication()->enqueueMessage(
-						\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
-						'warning'
-					);
+                    )
+                ) {
+                    Factory::getApplication()->enqueueMessage(
+                        Text::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
+                        'warning'
+                    );
                 }
             }
         }

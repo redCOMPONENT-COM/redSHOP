@@ -12,6 +12,7 @@ namespace Redshop\Newsletter;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Newsletter Helper
@@ -55,17 +56,17 @@ class Helper
 
             $totalResult = $db->setQuery($query)->loadResult();
 
-            if ( ! $totalResult) {
+            if (!$totalResult) {
                 $totalResult = 0;
             }
 
             if ($newsletterId != 0) {
                 $totalRead    = self::getReadNewsletter($data[$d]->id);
                 $qs[0]        = new \stdClass;
-                $qs[0]->xdata = \JText::_('COM_REDSHOP_NO_OF_UNREAD_NEWSLETTER');
+                $qs[0]->xdata = Text::_('COM_REDSHOP_NO_OF_UNREAD_NEWSLETTER');
                 $qs[0]->ydata = $totalResult - $totalRead;
                 $qs[1]        = new \stdClass;
-                $qs[1]->xdata = \JText::_('COM_REDSHOP_NO_OF_READ_NEWSLETTER');
+                $qs[1]->xdata = Text::_('COM_REDSHOP_NO_OF_READ_NEWSLETTER');
                 $qs[1]->ydata = $totalRead;
             } else {
                 $qs[$d]        = new \stdClass;
@@ -77,7 +78,7 @@ class Helper
         if ($newsletterId != 0) {
             $return = array($qs, $data[0]->name);
         } else {
-            $return = array($qs, \JText::_('COM_REDSHOP_NO_OF_SENT_NEWSLETTER'));
+            $return = array($qs, Text::_('COM_REDSHOP_NO_OF_SENT_NEWSLETTER'));
         }
 
         return $return;
@@ -99,7 +100,7 @@ class Helper
 
         $result = $db->setQuery($query)->loadObject();
 
-        if ( ! $result) {
+        if (!$result) {
             $result->total = 0;
         }
 

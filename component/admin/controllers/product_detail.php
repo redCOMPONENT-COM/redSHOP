@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 use Redshop\Economic\RedshopEconomic;
 
@@ -126,28 +127,30 @@ class RedshopControllerProduct_Detail extends RedshopController
         //@TODO This is potentially unsafe because $_POST elements are not sanitized.
         $post                 = $this->input->post->getArray();
         $cid                  = $this->input->post->get('cid', array(), 'array');
-        $post ['product_id']  = $cid[0];
+        $post['product_id']  = $cid[0];
         $post['product_name'] = $this->input->post->get('product_name', null, 'string');
 
         $selectedTabPosition = $this->input->get('selectedTabPosition');
         $this->app->setUserState('com_redshop.product_detail.selectedTabPosition', $selectedTabPosition);
 
-		if (is_array($post['product_category'])
-			&& (empty($post['cat_in_sefurl']) || !in_array($post['cat_in_sefurl'], $post['product_category']))) {
-			$post['cat_in_sefurl'] = $post['product_category'][0];
-		}
+        if (
+            is_array($post['product_category'])
+            && (empty($post['cat_in_sefurl']) || !in_array($post['cat_in_sefurl'], $post['product_category']))
+        ) {
+            $post['cat_in_sefurl'] = $post['product_category'][0];
+        }
 
         $this->checkTask($post);
 
-        if (!$post ['product_id']) {
-            $post ['publish_date'] = date("Y-m-d H:i:s");
+        if (!$post['product_id']) {
+            $post['publish_date'] = date("Y-m-d H:i:s");
         }
 
         // Setting default value
         $post['product_on_sale'] = 0;
 
         // Setting product on sale when discount dates are set
-        if ((bool)$post['discount_stratdate'] || (bool)$post['discount_enddate']) {
+        if ((bool) $post['discount_stratdate'] || (bool) $post['discount_enddate']) {
             $post['product_on_sale'] = 1;
         }
 
@@ -204,7 +207,7 @@ class RedshopControllerProduct_Detail extends RedshopController
             RedshopHelperUtility::getDispatcher()->trigger('onAfterProductFullSave', array($row, $post['product_id']));
 
             // Extra Field Data Saved
-            $msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
+            $msg = Text::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
 
             if ($apply == 2) {
                 $this->setRedirect('index.php?option=com_redshop&view=product_detail&task=add', $msg);
@@ -311,9 +314,9 @@ class RedshopControllerProduct_Detail extends RedshopController
                 $propertiesSave['property_image']      = isset($property['property_image']) ? $property['property_image'] : '';
                 $propertiesSave['ordering']            = $property['order'];
                 $propertiesSave['setrequire_selected'] = isset($property['req_sub_att'])
-                && ($property['req_sub_att'] == 'on' || $property['req_sub_att'] == '1') ? '1' : '0';
+                    && ($property['req_sub_att'] == 'on' || $property['req_sub_att'] == '1') ? '1' : '0';
                 $propertiesSave['setmulti_selected']   = isset($property['multi_sub_att'])
-                && ($property['multi_sub_att'] == 'on' || $property['multi_sub_att'] == '1') ? '1' : '0';
+                    && ($property['multi_sub_att'] == 'on' || $property['multi_sub_att'] == '1') ? '1' : '0';
                 $propertiesSave['setdefault_selected'] = !empty($property['default_sel']) && ($property['default_sel'] == 'on' || $property['default_sel'] == '1') ? '1' : '0';
                 $propertiesSave['setdisplay_type']     = $property['setdisplay_type'];
                 $propertiesSave['property_published']  = ($property['published'] == 'on' || $property['published'] == '1') ? '1' : '0';
@@ -366,14 +369,16 @@ class RedshopControllerProduct_Detail extends RedshopController
                     }
                 }
 
-                if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get(
+                if (
+                    Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get(
                         'ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC'
-                    ) != 0) {
+                    ) != 0
+                ) {
                     RedshopEconomic::createPropertyInEconomic($row, $property_array);
                 }
 
                 // Set trigger to save Attribute Property Plugin Data
-                if ((int)$propertyId) {
+                if ((int) $propertyId) {
                     $dispatcher = RedshopHelperUtility::getDispatcher();
                     JPluginHelper::importPlugin('redshop_product_type');
 
@@ -451,8 +456,10 @@ class RedshopControllerProduct_Detail extends RedshopController
                         }
                     }
 
-                    if (Redshop::getConfig()->getInt('ECONOMIC_INTEGRATION') === 1
-                        && Redshop::getConfig()->getInt('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') !== 0) {
+                    if (
+                        Redshop::getConfig()->getInt('ECONOMIC_INTEGRATION') === 1
+                        && Redshop::getConfig()->getInt('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') !== 0
+                    ) {
                         RedshopEconomic::createSubpropertyInEconomic($row, $subproperty_array);
                     }
                 }
@@ -511,13 +518,13 @@ class RedshopControllerProduct_Detail extends RedshopController
         $cid = $this->input->post->get('cid', array(), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            $this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'), 'notice');
+            $this->app->enqueueMessage(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'), 'notice');
         }
 
         /** @var RedshopModelProduct_Detail $model */
         $model = $this->getModel('product_detail');
 
-        $msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_DELETED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_PRODUCT_DETAIL_DELETED_SUCCESSFULLY');
 
         if (!$model->delete($cid)) {
             $msg = "";
@@ -540,7 +547,7 @@ class RedshopControllerProduct_Detail extends RedshopController
         $cid = $this->input->post->get('cid', array(), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            $this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'), 'error');
+            $this->app->enqueueMessage(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'), 'error');
         }
 
         /** @var RedshopModelProduct_Detail $model */
@@ -550,7 +557,7 @@ class RedshopControllerProduct_Detail extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_PUBLISHED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_PRODUCT_DETAIL_PUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
     }
 
@@ -564,7 +571,7 @@ class RedshopControllerProduct_Detail extends RedshopController
         $cid = $this->input->post->get('cid', array(), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            $this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'), 'error');
+            $this->app->enqueueMessage(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'), 'error');
         }
 
         /** @var RedshopModelProduct_Detail $model */
@@ -574,7 +581,7 @@ class RedshopControllerProduct_Detail extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_PRODUCT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
     }
 
@@ -589,7 +596,7 @@ class RedshopControllerProduct_Detail extends RedshopController
         $model    = $this->getModel('product_detail');
         $recordId = $this->input->get('cid');
         $model->checkin($recordId);
-        $msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_EDITING_CANCELLED');
+        $msg = Text::_('COM_REDSHOP_PRODUCT_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
     }
 
@@ -626,9 +633,9 @@ class RedshopControllerProduct_Detail extends RedshopController
         $model = $this->getModel('product_detail');
 
         if ($model->copy($cid)) {
-            $msg = JText::_('COM_REDSHOP_PRODUCT_COPIED');
+            $msg = Text::_('COM_REDSHOP_PRODUCT_COPIED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED');
+            $msg = Text::_('COM_REDSHOP_ERROR_PRODUCT_COPIED');
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
@@ -687,11 +694,12 @@ class RedshopControllerProduct_Detail extends RedshopController
 
         $filetype_sub = strtolower(JFile::getExt($sub_img['name'][0]));
 
-        if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg'
+        if (
+            $filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg'
             && $main_img['name'] != '' && $filetype_sub != 'png' && $filetype_sub != 'gif'
             && $filetype_sub != 'jpeg' && $filetype_sub != 'jpg' && $sub_img['name'][0] != ''
         ) {
-            $msg  = JText::_("COM_REDSHOP_FILE_EXTENTION_WRONG_PROPERTY");
+            $msg  = Text::_("COM_REDSHOP_FILE_EXTENTION_WRONG_PROPERTY");
             $link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
                 . $post['section_id'] . "&cid=" . $post['cid'] . "&layout=property_images&showbuttons=1";
             $this->setRedirect($link, $msg);
@@ -723,7 +731,7 @@ class RedshopControllerProduct_Detail extends RedshopController
         $model = $this->getModel('product_detail');
 
         if ($model->deletesubimage($mediaid)) {
-            $msg  = JText::_("COM_REDSHOP_PROPERTY_SUB_IMAGE_IS_DELETE");
+            $msg  = Text::_("COM_REDSHOP_PROPERTY_SUB_IMAGE_IS_DELETE");
             $link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
                 . $section_id . "&cid=" . $cid . "&layout=property_images&showbuttons=1";
             $this->setRedirect($link, $msg);
@@ -805,10 +813,10 @@ class RedshopControllerProduct_Detail extends RedshopController
         $type  = '';
 
         if ($model->SaveAttributeStockroom($post)) {
-            $msg = JText::_('COM_REDSHOP_STOCKROOM_ATTRIBUTE_XREF_SAVE');
+            $msg = Text::_('COM_REDSHOP_STOCKROOM_ATTRIBUTE_XREF_SAVE');
         } else {
             $type = 'error';
-            $msg  = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
+            $msg  = Text::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
         }
 
         $link = "index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $post['section_id'] . "&cid="
@@ -830,7 +838,7 @@ class RedshopControllerProduct_Detail extends RedshopController
          */
         $model->orderup();
 
-        $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+        $msg = Text::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
     }
 
@@ -847,7 +855,7 @@ class RedshopControllerProduct_Detail extends RedshopController
          * @var RedshopModelProduct_Detail $model
          */
         $model->orderdown();
-        $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+        $msg = Text::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
     }
 
@@ -867,7 +875,7 @@ class RedshopControllerProduct_Detail extends RedshopController
         $model = $this->getModel('product_detail');
         $model->saveorder($order, $cid);
 
-        $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+        $msg = Text::_('COM_REDSHOP_NEW_ORDERING_SAVED');
         $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
     }
 
@@ -884,7 +892,7 @@ class RedshopControllerProduct_Detail extends RedshopController
         $model = $this->getModel('product_detail');
         $model->deleteProdcutSerialNumbers($serial_id);
 
-        $msg = JText::_('COM_REDSHOP_PRODUCT_SERIALNUMBER_DELETED');
+        $msg = Text::_('COM_REDSHOP_PRODUCT_SERIALNUMBER_DELETED');
         $this->setRedirect('index.php?option=com_redshop&view=product_detail&cid=' . $productId, $msg);
     }
 
@@ -953,7 +961,7 @@ class RedshopControllerProduct_Detail extends RedshopController
             $isExists = $model->checkVirtualNumber($productId, $result);
         }
 
-        echo (int)$isExists;
+        echo (int) $isExists;
 
         \JFactory::getApplication()->close();
     }

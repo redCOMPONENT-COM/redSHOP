@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 class RedshopControllerRedshop extends RedshopController
 {
     public function demoContentInsert()
@@ -17,7 +19,7 @@ class RedshopControllerRedshop extends RedshopController
         $model = $this->getModel('redshop');
 
         $model->demoContentInsert();
-        $msg = \JText::_('COM_REDSHOP_SAMPLE_DATA_INSTALLED');
+        $msg = Text::_('COM_REDSHOP_SAMPLE_DATA_INSTALLED');
 
         $this->setRedirect('index.php?option=com_redshop', $msg);
     }
@@ -31,7 +33,7 @@ class RedshopControllerRedshop extends RedshopController
         $app = \JFactory::getApplication();
 
         if (!\Redshop::getConfig()->loadDist()) {
-            $app->enqueueMessage(\JText::_('LIB_REDSHOP_ERROR_WRITE_FAILED'), 'error');
+            $app->enqueueMessage(Text::_('LIB_REDSHOP_ERROR_WRITE_FAILED'), 'error');
         }
 
         $app->redirect('index.php?option=com_redshop');

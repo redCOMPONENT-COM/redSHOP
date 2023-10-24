@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Redshop\Order\Template;
+use Joomla\CMS\Language\Text;
 
 /**
  * Mail Catalog helper
@@ -98,56 +99,62 @@ class Invoice
 
         Helper::imgInMail($mailBody);
 
-        if ((\Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 2
+        if (
+            (\Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 2
                 || \Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 3)
             && $email != ""
         ) {
-            if (!Helper::sendEmail(
-                $from,
-                $fromName,
-                $email,
-                $subject,
-                $mailBody,
-                true,
-                null,
-                $mailBcc,
-                $invoiceAttachment,
-                $mailSection,
-                func_get_args()
-            )) {
-				Factory::getApplication()->enqueueMessage(
-					\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
-					'warning'
-				);
+            if (
+                !Helper::sendEmail(
+                    $from,
+                    $fromName,
+                    $email,
+                    $subject,
+                    $mailBody,
+                    true,
+                    null,
+                    $mailBcc,
+                    $invoiceAttachment,
+                    $mailSection,
+                    func_get_args()
+                )
+            ) {
+                Factory::getApplication()->enqueueMessage(
+                    Text::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
+                    'warning'
+                );
 
                 return false;
             }
         }
 
-        if ((\Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 1 || \Redshop::getConfig()->get(
-                    'INVOICE_MAIL_SEND_OPTION'
-                ) == 3)
+        if (
+            (\Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 1 || \Redshop::getConfig()->get(
+                'INVOICE_MAIL_SEND_OPTION'
+            ) == 3)
             && \Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != ''
         ) {
             $sendTo = explode(",", trim(\Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 
-            if (!Helper::sendEmail(
-                $from,
-                $fromName,
-                $sendTo,
-                $subject,
-                $mailBody,
-                true,
-                null,
-                $mailBcc,
-                $invoiceAttachment,
-                $mailSection,
-                func_get_args()
-            )) {
-				Factory::getApplication()->enqueueMessage(
-					\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
-					'warning'
-				);
+            if (
+                !Helper::sendEmail(
+                    $from,
+                    $fromName,
+                    $sendTo,
+                    $subject,
+                    $mailBody,
+                    true,
+                    null,
+                    $mailBcc,
+                    $invoiceAttachment,
+                    $mailSection,
+                    func_get_args()
+                )
+            ) {
+                Factory::getApplication()->enqueueMessage(
+                    Text::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
+                    'warning'
+                );
 
                 return false;
             }
@@ -178,16 +185,16 @@ class Invoice
             $discountTypes = explode(':', $discount);
 
             if ($discountTypes[0] == 'c') {
-                $discountType .= \JText::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $discountTypes[1] . '<br>';
+                $discountType .= Text::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $discountTypes[1] . '<br>';
             }
 
             if ($discountTypes[0] == 'v') {
-                $discountType .= \JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $discountTypes[1] . '<br>';
+                $discountType .= Text::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $discountTypes[1] . '<br>';
             }
         }
 
         if (empty($discountType)) {
-            $discountType = \JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
+            $discountType = Text::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
         }
 
         // Prepare subject replacement

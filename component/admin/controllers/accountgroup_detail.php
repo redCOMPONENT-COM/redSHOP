@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Account Group Detail controller
  *
@@ -69,9 +71,9 @@ class RedshopControllerAccountgroup_Detail extends RedshopController
         $row   = $model->store($post);
 
         if ($row) {
-            $msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_SAVED');
+            $msg = Text::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_SAVED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_ACCOUNTGROUP_DETAIL');
+            $msg = Text::_('COM_REDSHOP_ERROR_SAVING_ACCOUNTGROUP_DETAIL');
         }
 
         if ($apply == 1) {
@@ -94,7 +96,7 @@ class RedshopControllerAccountgroup_Detail extends RedshopController
     {
         $this->setRedirect(
             'index.php?option=com_redshop&view=accountgroup',
-            JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_EDITING_CANCELLED')
+            Text::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_EDITING_CANCELLED')
         );
     }
 
@@ -110,7 +112,7 @@ class RedshopControllerAccountgroup_Detail extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         /** @var RedshopModelAccountgroup_detail $model */
@@ -120,7 +122,7 @@ class RedshopControllerAccountgroup_Detail extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_DELETED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=accountgroup', $msg);
     }
 }

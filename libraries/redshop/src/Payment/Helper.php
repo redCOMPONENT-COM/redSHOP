@@ -13,6 +13,8 @@ use Joomla\Registry\Registry;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Payment Helper
  *
@@ -30,7 +32,7 @@ class Helper
     {
         if (empty($paymentMethodId)) {
             \JFactory::getApplication()->enqueueMessage(
-                \JText::_('COM_REDSHOP_PAYMENT_NO_CREDIT_CARDS_PLUGIN_LIST_FOUND'),
+                Text::_('COM_REDSHOP_PAYMENT_NO_CREDIT_CARDS_PLUGIN_LIST_FOUND'),
                 'error'
             );
 
@@ -42,14 +44,18 @@ class Helper
 
         $cardInfo = "";
 
-        if (file_exists(
-            JPATH_SITE . '/plugins/redshop_payment/' . $paymentMethod->element . '/' . $paymentMethod->element . '.php'
-        )) {
+        if (
+            file_exists(
+                JPATH_SITE . '/plugins/redshop_payment/' . $paymentMethod->element . '/' . $paymentMethod->element . '.php'
+            )
+        ) {
             $paymentParams      = new Registry($paymentMethod->params);
             $acceptedCreditCard = $paymentParams->get("accepted_credict_card", array());
 
-            if ($paymentParams->get('is_creditcard', 0)
-                && !empty($acceptedCreditCard)) {
+            if (
+                $paymentParams->get('is_creditcard', 0)
+                && !empty($acceptedCreditCard)
+            ) {
                 $cardInfo = \RedshopLayoutHelper::render(
                     'order.payment.creditcard',
                     array(
@@ -58,7 +64,7 @@ class Helper
                 );
             } else {
                 \JFactory::getApplication()->enqueueMessage(
-                    \JText::_('COM_REDSHOP_PAYMENT_CREDIT_CARDS_NOT_FOUND'),
+                    Text::_('COM_REDSHOP_PAYMENT_CREDIT_CARDS_NOT_FOUND'),
                     'error'
                 );
             }

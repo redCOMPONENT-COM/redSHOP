@@ -11,6 +11,8 @@ namespace Redshop\Mail;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Mail Ask Question helper
  *
@@ -80,7 +82,7 @@ class AskQuestion
             }
         }
 
-        $product    = \Redshop::product((int)$productId);
+        $product    = \Redshop::product((int) $productId);
         $link       = \Redshop\IO\Route::_($url . "index.php?option=com_redshop&view=product&pid=" . $productId);
         $dataAdd    = str_replace("{product_name}", $product->product_name, $dataAdd);
         $dataAdd    = str_replace("{product_desc}", $product->product_desc, $dataAdd);
@@ -97,18 +99,18 @@ class AskQuestion
         Helper::imgInMail($dataAdd);
 
         return $email && Helper::sendEmail(
-                $from,
-                $fromName,
-                $email,
-                $subject,
-                $dataAdd,
-                1,
-                null,
-                $mailBcc,
-                null,
-                $mailSection,
-                func_get_args()
-            );
+            $from,
+            $fromName,
+            $email,
+            $subject,
+            $dataAdd,
+            1,
+            null,
+            $mailBcc,
+            null,
+            $mailSection,
+            func_get_args()
+        );
     }
 
     /**
@@ -164,8 +166,8 @@ class AskQuestion
         $subject = str_replace('{shopname}', \Redshop::getConfig()->get('SHOP_NAME'), $subject);
         $content = str_replace('{user_address}', $data['address'], $content);
         $content = str_replace('{user_telephone}', $data['telephone'], $content);
-        $content = str_replace('{user_telephone_lbl}', \JText::_('COM_REDSHOP_USER_PHONE_LBL'), $content);
-        $content = str_replace('{user_address_lbl}', \JText::_('COM_REDSHOP_USER_ADDRESS_LBL'), $content);
+        $content = str_replace('{user_telephone_lbl}', Text::_('COM_REDSHOP_USER_PHONE_LBL'), $content);
+        $content = str_replace('{user_address_lbl}', Text::_('COM_REDSHOP_USER_ADDRESS_LBL'), $content);
 
         Helper::imgInMail($content);
 

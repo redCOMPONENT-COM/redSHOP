@@ -11,6 +11,8 @@ namespace Redshop\Shipping;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Shipping rate
  *
@@ -57,7 +59,7 @@ class Rate
             $asciiNumByteToEncrypt = ord($byteToBeEncrypted);
             $xoredByte             = $asciiNumByteToEncrypt ^ $keyToUse;
             $encryptedByte         = chr($xoredByte);
-            $encrypted             .= $encryptedByte;
+            $encrypted .= $encryptedByte;
         }
 
         return $encrypted;
@@ -204,16 +206,16 @@ class Rate
         $idx  = 0;
 
         if (isset($cart['idx'])) {
-            $idx = (int)($cart['idx']);
+            $idx = (int) ($cart['idx']);
         }
 
         $orderSubtotal = isset($cart['product_subtotal']) ? $cart['product_subtotal'] : null;
         $userId        = \JFactory::getUser()->id;
 
         if (!empty($idx)) {
-            $text = \JText::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE');
+            $text = Text::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE');
         } else {
-            return \JText::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE_WHEN_NOPRODUCT_IN_CART');
+            return Text::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE_WHEN_NOPRODUCT_IN_CART');
         }
 
         $input       = \JFactory::getApplication()->input;
@@ -265,9 +267,9 @@ class Rate
 
             $query->where(
                 '('
-                . 'FIND_IN_SET(' . $db->quote((int)$shopperGroupId) . ',' . $db->qn(
-                    'shipping_rate_on_shopper_group'
-                ) . ')'
+                . 'FIND_IN_SET(' . $db->quote((int) $shopperGroupId) . ',' . $db->qn(
+                        'shipping_rate_on_shopper_group'
+                    ) . ')'
                 . ' OR ' . $db->qn('shipping_rate_on_shopper_group') . ' = ' . $db->quote('')
                 . ')'
             );
@@ -285,8 +287,8 @@ class Rate
             $query->where(
                 '('
                 . 'FIND_IN_SET(' . $db->quote(\Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ',' . $db->qn(
-                    'shipping_rate_country'
-                ) . ')'
+                        'shipping_rate_country'
+                    ) . ')'
                 . ' OR ' . $db->qn('shipping_rate_country') . ' = ' . $db->quote(0)
                 . ' OR ' . $db->qn('shipping_rate_country') . ' = ' . $db->quote('')
                 . ')'
@@ -321,7 +323,7 @@ class Rate
         }
 
         if ($shippingRateId) {
-            $query->where($db->qn('sr.shipping_rate_id') . ' = ' . (int)$shippingRateId);
+            $query->where($db->qn('sr.shipping_rate_id') . ' = ' . (int) $shippingRateId);
         }
 
         $shippingRate = $db->setQuery($query)->loadObject();
@@ -330,15 +332,16 @@ class Rate
             if ($shippingRate->shipping_rate_ordertotal_start > $orderSubtotal) {
                 $diff = $shippingRate->shipping_rate_ordertotal_start - $orderSubtotal;
                 $text = sprintf(
-                    \JText::_('COM_REDSHOP_SHIPPING_TEXT_LBL'),
+                    Text::_('COM_REDSHOP_SHIPPING_TEXT_LBL'),
                     \RedshopHelperProductPrice::formattedPrice($diff)
                 );
-            } elseif ($shippingRate->shipping_rate_ordertotal_start <= $orderSubtotal
+            } elseif (
+                $shippingRate->shipping_rate_ordertotal_start <= $orderSubtotal
                 && ($shippingRate->shipping_rate_ordertotal_end == 0 || $shippingRate->shipping_rate_ordertotal_end >= $orderSubtotal)
             ) {
-                $text = \JText::_('COM_REDSHOP_FREE_SHIPPING_RATE_IS_IN_USED');
+                $text = Text::_('COM_REDSHOP_FREE_SHIPPING_RATE_IS_IN_USED');
             } else {
-                $text = \JText::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE');
+                $text = Text::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE');
             }
         }
 
@@ -362,7 +365,7 @@ class Rate
         $state      = $input->getString('state_code');
         $zip        = $input->getString('zip_code');
         $cart       = \Redshop\Cart\Helper::getCart();
-        $idx        = (int)($cart['idx']);
+        $idx        = (int) ($cart['idx']);
         $orderTotal = 0;
         $rate       = 0;
         $pWhere     = "";
@@ -372,9 +375,9 @@ class Rate
             $orderTotal += ($cart[$i]['product_price'] * $cart[$i]['quantity']);
 
             $productId = $cart[$i]['product_id'];
-            $pWhere    .= 'FIND_IN_SET(' . $db->quote((int)$productId) . ', ' . $db->qn(
-                    'shipping_rate_on_product'
-                ) . ')';
+            $pWhere .= 'FIND_IN_SET(' . $db->quote((int) $productId) . ', ' . $db->qn(
+                'shipping_rate_on_product'
+            ) . ')';
 
             if ($i != $idx - 1) {
                 $pWhere .= " OR ";
@@ -383,7 +386,7 @@ class Rate
             $query = $db->getQuery(true)
                 ->select($db->qn('category_id'))
                 ->from($db->qn('#__redshop_product_category_xref'))
-                ->where($db->qn('product_id') . ' = ' . $db->quote((int)$productId));
+                ->where($db->qn('product_id') . ' = ' . $db->quote((int) $productId));
 
             $categoryData = $db->setQuery($query)->loadObjectList();
 
@@ -391,7 +394,7 @@ class Rate
                 $cWhere = ' ( ';
 
                 foreach ($categoryData as $c => $category) {
-                    $cWhere .= " FIND_IN_SET(" . $db->quote((int)$category->category_id) . ", "
+                    $cWhere .= " FIND_IN_SET(" . $db->quote((int) $category->category_id) . ", "
                         . $db->qn('shipping_rate_on_category') . ") ";
 
                     if ($c != count($categoryData) - 1) {
@@ -429,16 +432,16 @@ class Rate
             }
 
             $whereShippingVolume .= "((" . $db->qn('shipping_rate_length_start') . " <= " . $db->quote(
-                    $length
-                ) . " AND "
+                $length
+            ) . " AND "
                 . $db->qn('shipping_rate_length_end') . " >= "
                 . $db->quote($length) . " AND (" . $db->qn('shipping_rate_width_start') . " <= " . $db->quote(
-                    $width
-                ) . " AND "
+                        $width
+                    ) . " AND "
                 . $db->qn('shipping_rate_width_end') . " >= "
                 . $db->quote($width) . ") AND (" . $db->qn('shipping_rate_height_start') . " <= " . $db->quote(
-                    $length
-                ) . " AND "
+                        $length
+                    ) . " AND "
                 . $db->qn('shipping_rate_height_end') . " >= "
                 . $db->quote($length) . ")) ";
 
@@ -501,13 +504,13 @@ class Rate
 				AND ((" . $db->qn('shipping_rate_weight_start') . " <= " . $db->quote($weightTotal) . " AND "
             . $db->qn('shipping_rate_weight_end') . " >= "
             . $db->quote($weightTotal) . ") OR (" . $db->qn(
-                'shipping_rate_weight_end'
-            ) . " = 0))" . $whereShippingVolume . "
+                    'shipping_rate_weight_end'
+                ) . " = 0))" . $whereShippingVolume . "
 				AND (" . $db->qn('shipping_rate_on_product') . " = '' " . $pWhere . ") AND ("
             . $db->qn('shipping_rate_on_category') . " = '' " . $cWhere . " )
 				ORDER BY " . $db->qn('shipping_rate_priority') . ", " . $db->qn('shipping_rate_value') . ", " . $db->qn(
-                'sr.shipping_rate_id'
-            );
+                    'sr.shipping_rate_id'
+                );
 
         $shippingRates = $db->setQuery($sql)->loadObjectList();
 
@@ -541,9 +544,11 @@ class Rate
                 $len = $userZipLen;
 
                 for ($j = 0; $j < $len; $j++) {
-                    if (ord(strtoupper($zip[$j])) >= ord(strtoupper($start[$j])) && ord(strtoupper($zip[$j])) <= ord(
+                    if (
+                        ord(strtoupper($zip[$j])) >= ord(strtoupper($start[$j])) && ord(strtoupper($zip[$j])) <= ord(
                             strtoupper($end[$j])
-                        )) {
+                        )
+                    ) {
                         $flag = true;
                     } else {
                         $flag = false;

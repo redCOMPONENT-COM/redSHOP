@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopControllerProduct_category extends RedshopController
 {
@@ -24,12 +25,12 @@ class RedshopControllerProduct_category extends RedshopController
         $model = $this->getModel("product_category");
 
         if ($model->saveProduct_Category()) {
-            $msg = JText::_('COM_REDSHOP_CATEGORY_ASSIGNED_TO_PRODUCT_SUCCESSFULLY');
+            $msg = Text::_('COM_REDSHOP_CATEGORY_ASSIGNED_TO_PRODUCT_SUCCESSFULLY');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_WHILE_ASSIGNING_CATEGORY_TO_PRODUCT');
+            $msg = Text::_('COM_REDSHOP_ERROR_WHILE_ASSIGNING_CATEGORY_TO_PRODUCT');
         }
 
-		$app->enqueueMessage($msg);
+        $app->enqueueMessage($msg);
         $app->redirect("index.php?option=com_redshop&view=product");
     }
 
@@ -39,12 +40,12 @@ class RedshopControllerProduct_category extends RedshopController
         $model = $this->getModel("product_category");
 
         if ($model->removeProduct_Category()) {
-            $msg = JText::_('COM_REDSHOP_CATEGORY_REMOVED_FROM_PRODUCT_SUCCESSFULLY');
+            $msg = Text::_('COM_REDSHOP_CATEGORY_REMOVED_FROM_PRODUCT_SUCCESSFULLY');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_WHILE_REMOVING_CATEGORY_FROM_PRODUCT');
+            $msg = Text::_('COM_REDSHOP_ERROR_WHILE_REMOVING_CATEGORY_FROM_PRODUCT');
         }
 
-		$app->enqueueMessage($msg);
+        $app->enqueueMessage($msg);
         $app->redirect("index.php?option=com_redshop&view=product");
     }
 }

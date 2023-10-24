@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class Redshop Controller Discount
  *
@@ -28,7 +30,7 @@ class RedshopControllerAlert extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'), 500);
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'), 500);
         }
 
         /** @var RedshopModelAlert_detail $model */
@@ -38,7 +40,7 @@ class RedshopControllerAlert extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_ALERT_DELETED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_ALERT_DELETED_SUCCESSFULLY');
 
         $this->setRedirect('index.php?option=com_redshop&view=alert', $msg);
     }
@@ -72,7 +74,7 @@ class RedshopControllerAlert extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'), 500);
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'), 500);
         }
 
         /** @var RedshopModelAlert_detail $model */
@@ -82,7 +84,7 @@ class RedshopControllerAlert extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_ALERT_READ_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_ALERT_READ_SUCCESSFULLY');
 
         $this->setRedirect('index.php?option=com_redshop&view=alert', $msg);
     }
@@ -99,7 +101,7 @@ class RedshopControllerAlert extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'), 500);
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'), 500);
         }
 
         $model = $this->getModel('alert_detail');
@@ -108,7 +110,7 @@ class RedshopControllerAlert extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_ALERT_UNREAD_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_ALERT_UNREAD_SUCCESSFULLY');
 
         $this->setRedirect('index.php?option=com_redshop&view=alert', $msg);
     }

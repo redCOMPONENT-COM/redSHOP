@@ -9,9 +9,10 @@
 
 namespace Redshop\Mail;
 
-use Joomla\CMS\Factory;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Mail Quotation helper
@@ -86,7 +87,7 @@ class Quotation
 
         foreach ($quotationProducts as $quotationProduct) {
             $productId                = $quotationProduct->product_id;
-            $product                  = \Redshop::product((int)$productId);
+            $product                  = \Redshop::product((int) $productId);
             $productName              = "<div class='product_name'>" . $quotationProduct->product_name . "</div>";
             $productTotalPrice        = "<div class='product_price'>" .
                 \RedshopHelperProductPrice::formattedPrice(
@@ -112,7 +113,7 @@ class Quotation
                     $wrapperName = $wrapper[0]->wrapper_name;
                 }
 
-                $wrapperName = \JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapperName;
+                $wrapperName = Text::_('COM_REDSHOP_WRAPPER') . ": " . $wrapperName;
             }
 
             $productImagePath = '';
@@ -121,16 +122,20 @@ class Quotation
                 if (\JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image)) {
                     $productImagePath = $product->product_full_image;
                 } else {
-                    if (\JFile::exists(
-                        REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')
-                    )) {
+                    if (
+                        \JFile::exists(
+                            REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')
+                        )
+                    ) {
                         $productImagePath = \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
                     }
                 }
             } else {
-                if (\JFile::exists(
-                    REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')
-                )) {
+                if (
+                    \JFile::exists(
+                        REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')
+                    )
+                ) {
                     $productImagePath = \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
                 }
             }
@@ -162,7 +167,7 @@ class Quotation
             );
 
             $cartMdata = str_replace("{product_userfields}", $productUserFields, $cartMdata);
-            $cartMdata = str_replace("{product_number_lbl}", \JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $cartMdata);
+            $cartMdata = str_replace("{product_number_lbl}", Text::_('COM_REDSHOP_PRODUCT_NUMBER'), $cartMdata);
             $cartMdata = str_replace("{product_number}", $product->product_number, $cartMdata);
             $cartMdata = str_replace(
                 "{product_attribute}",
@@ -200,7 +205,7 @@ class Quotation
             }
 
             $cartMdata = str_replace("{product_quantity}", $productQuantity, $cartMdata);
-            $cart      .= $cartMdata;
+            $cart .= $cartMdata;
         }
 
         // End for
@@ -229,12 +234,12 @@ class Quotation
             $message = \RedshopHelperBillingTag::replaceBillingAddress($message, $quotation, true);
         } else {
             if ($quotation->quotation_email != "") {
-                $billAdd .= \JText::_("COM_REDSHOP_EMAIL") . ' : ' . $quotation->quotation_email . '<br />';
+                $billAdd .= Text::_("COM_REDSHOP_EMAIL") . ' : ' . $quotation->quotation_email . '<br />';
             }
 
             $message = str_replace(
                 "{billing_address_information_lbl}",
-                \JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'),
+                Text::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'),
                 $message
             );
 
@@ -263,12 +268,15 @@ class Quotation
         $subTotalLbl = '';
         $vatLbl      = '';
 
-        if ($quotation->quotation_status != 1 || ($quotation->quotation_status == 1 && \Redshop::getConfig()->get(
-                    'SHOW_QUOTATION_PRICE'
-                ))) {
-            $totalLbl    = \JText::_('COM_REDSHOP_TOTAL_LBL');
-            $subTotalLbl = \JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL');
-            $vatLbl      = \JText::_('COM_REDSHOP_QUOTATION_VAT');
+        if (
+            $quotation->quotation_status != 1 || ($quotation->quotation_status == 1 && \Redshop::getConfig()->get(
+                'SHOW_QUOTATION_PRICE'
+            )
+            )
+        ) {
+            $totalLbl    = Text::_('COM_REDSHOP_TOTAL_LBL');
+            $subTotalLbl = Text::_('COM_REDSHOP_QUOTATION_SUBTOTAL');
+            $vatLbl      = Text::_('COM_REDSHOP_QUOTATION_VAT');
         }
 
         $message = str_replace('{total_lbl}', $totalLbl, $message);
@@ -289,10 +297,10 @@ class Quotation
         } else {
             $tax = $quotation->quotation_tax;
 
-            if ((float)\Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')) {
+            if ((float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')) {
                 $discountVAT = (
-                        (float)\Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $quotation->quotation_discount) /
-                    (1 + (float)\Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
+                    (float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $quotation->quotation_discount) /
+                    (1 + (float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
                     );
 
                 $quotation->quotation_discount = $quotation->quotation_discount - $discountVAT;
@@ -303,8 +311,8 @@ class Quotation
                 $specialDiscount = ($quotation->quotation_special_discount * ($quotation->quotation_subtotal + $quotation->quotation_tax)) / 100;
 
                 $specialDiscountVAT = (
-                        $specialDiscount * (float)\Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')) /
-                    (1 + (float)\Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
+                    $specialDiscount * (float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')) /
+                    (1 + (float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
                     );
 
                 $specialDiscountNoVAT = $specialDiscount - $specialDiscountVAT;
@@ -342,11 +350,11 @@ class Quotation
         $replace[] = $quotationVat;
 
         $quotationDetailUrl = \JUri::root(
-            ) . 'index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotationId . '&encr='
+        ) . 'index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotationId . '&encr='
             . $quotation->quotation_encrkey;
 
         $search[]  = "{quotation_detail_link}";
-        $replace[] = "<a href='" . $quotationDetailUrl . "'>" . \JText::_("COM_REDSHOP_QUOTATION_DETAILS") . "</a>";
+        $replace[] = "<a href='" . $quotationDetailUrl . "'>" . Text::_("COM_REDSHOP_QUOTATION_DETAILS") . "</a>";
 
         $message = str_replace($search, $replace, $message);
 
@@ -371,23 +379,25 @@ class Quotation
 
             $bcc = array_merge($bcc, $mailBcc);
 
-            if (!Helper::sendEmail(
-                $from,
-                $fromname,
-                $email,
-                $subject,
-                $body,
-                true,
-                null,
-                $bcc,
-                null,
-                $mailSection,
-                func_get_args()
-            )) {
-				Factory::getApplication()->enqueueMessage(
-					\JText::_('ERROR_SENDING_QUOTATION_MAIL'),
-					'warning'
-				);
+            if (
+                !Helper::sendEmail(
+                    $from,
+                    $fromname,
+                    $email,
+                    $subject,
+                    $body,
+                    true,
+                    null,
+                    $bcc,
+                    null,
+                    $mailSection,
+                    func_get_args()
+                )
+            ) {
+                Factory::getApplication()->enqueueMessage(
+                    Text::_('ERROR_SENDING_QUOTATION_MAIL'),
+                    'warning'
+                );
             }
         }
 

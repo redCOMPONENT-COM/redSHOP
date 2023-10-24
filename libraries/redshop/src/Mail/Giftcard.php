@@ -9,6 +9,10 @@
 
 namespace Redshop\Mail;
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 /**
  * @package     Redshop\Mail
  *
@@ -27,7 +31,7 @@ class Giftcard
     public static function sendMail($orderId)
     {
         $giftCardTemplate = self::getTemplate();
-        $giftCards        = \RedshopHelperOrder::giftCardItems((int)$orderId);
+        $giftCards        = \RedshopHelperOrder::giftCardItems((int) $orderId);
         $giftcardData     = '';
         $giftCardPrice    = '';
         $giftCardValue    = '';
@@ -70,7 +74,8 @@ class Giftcard
 
                 try {
                     $couponItem->store();
-                } catch (\Exception $exception) {
+                }
+                catch (\Exception $exception) {
                     throw new \Exception($exception->getMessage());
                 }
             }
@@ -88,7 +93,7 @@ class Giftcard
             $mailBody = $giftCardTemplate->mail_body;
             $mailBody = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $mailBody);
             $mailBody = str_replace("{product_userfields}", $userFields, $mailBody);
-            $mailBody = str_replace("{giftcard_price_lbl}", \JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $mailBody);
+            $mailBody = str_replace("{giftcard_price_lbl}", Text::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $mailBody);
             $mailBody = str_replace(
                 "{giftcard_price}",
                 \RedshopHelperProductPrice::formattedPrice($giftCardPrice),
@@ -96,22 +101,22 @@ class Giftcard
             );
             $mailBody = str_replace(
                 "{giftcard_reciver_name_lbl}",
-                \JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'),
+                Text::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'),
                 $mailBody
             );
             $mailBody = str_replace(
                 "{giftcard_reciver_email_lbl}",
-                \JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'),
+                Text::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'),
                 $mailBody
             );
             $mailBody = str_replace("{giftcard_reciver_email}", $eachOrder->giftcard_user_email, $mailBody);
             $mailBody = str_replace("{giftcard_reciver_name}", $eachOrder->giftcard_user_name, $mailBody);
             $mailBody = \RedshopHelperProduct::getValidityDate($giftcardData->giftcard_validity, $mailBody);
             $mailBody = str_replace("{giftcard_value}", $giftCardValue, $mailBody);
-            $mailBody = str_replace("{giftcard_value_lbl}", \JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $mailBody);
+            $mailBody = str_replace("{giftcard_value_lbl}", Text::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $mailBody);
             $mailBody = str_replace("{giftcard_desc}", $giftcardData->giftcard_desc, $mailBody);
             $mailBody = str_replace("{giftcard_validity}", $giftcardData->giftcard_validity, $mailBody);
-            $mailBody = str_replace("{giftcard_code_lbl}", \JText::_('LIB_REDSHOP_GIFTCARD_CODE_LBL'), $mailBody);
+            $mailBody = str_replace("{giftcard_code_lbl}", Text::_('LIB_REDSHOP_GIFTCARD_CODE_LBL'), $mailBody);
             $mailBody = str_replace("{giftcard_code}", $giftCode, $mailBody);
 
             ob_flush();
@@ -123,9 +128,11 @@ class Giftcard
             $pdfImage           = '';
             $mailImage          = '';
 
-            if ($giftcardData->giftcard_image && file_exists(
+            if (
+                $giftcardData->giftcard_image && file_exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image
-                )) {
+                )
+            ) {
                 $pdfImage  = '<img src="' . REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
                 $mailImage = '<img src="components/com_redshop/assets/images/giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
             }

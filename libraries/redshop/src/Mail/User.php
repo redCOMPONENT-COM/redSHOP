@@ -11,6 +11,8 @@ namespace Redshop\Mail;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Mail User helper
  *
@@ -76,7 +78,7 @@ class User
         $replace[] = $mainPassword;
         $replace[] = $data['email'];
         $replace[] = '<a href="' . \JUri::root() . 'index.php?option=com_redshop&view=account'
-            . '" target="_blank">' . \JText::_('COM_REDSHOP_ACCOUNT_LINK') . '</a>';
+            . '" target="_blank">' . Text::_('COM_REDSHOP_ACCOUNT_LINK') . '</a>';
 
         $mailBody = str_replace($search, $replace, $mailData);
 
@@ -91,10 +93,10 @@ class User
                 $bcc = explode(",", trim(\Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
             }
 
-	        \JPluginHelper::importPlugin('redshop_mail');
-	        $dispatcher = \RedshopHelperUtility::getDispatcher();
-	        // Process the product plugin before send mail
-	        $dispatcher->trigger('onRedshopAdjustReceiverBeforeSendMail', array(&$bcc, $mailSection));
+            \JPluginHelper::importPlugin('redshop_mail');
+            $dispatcher = \RedshopHelperUtility::getDispatcher();
+            // Process the product plugin before send mail
+            $dispatcher->trigger('onRedshopAdjustReceiverBeforeSendMail', array(&$bcc, $mailSection));
 
             $bcc = array_merge($bcc, $mailBcc);
             Helper::sendEmail(
@@ -295,7 +297,7 @@ class User
         $app = \JFactory::getApplication();
 
         $mailTemplate = $mailTemplate[0];
-        $data         = (object)$data;
+        $data         = (object) $data;
         $mailFrom     = $app->get('mailfrom');
         $fromName     = $app->get('fromname');
         $mailBcc      = null;
@@ -317,7 +319,7 @@ class User
         $firstName = $userData->firstname;
         $lastName  = $userData->lastname;
 
-        $product             = \Redshop::product((int)$data->product_id);
+        $product             = \Redshop::product((int) $data->product_id);
         $productSubscription = \RedshopHelperProduct::getProductSubscriptionDetail(
             $data->product_id,
             $data->subscription_id

@@ -11,6 +11,8 @@ namespace Redshop\Config;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Abstract class for export plugin
  *
@@ -667,10 +669,12 @@ class App
     {
         if (!$this->isConfigurationFile() && !copy($this->configDistPath, $this->configPath)) {
             return false;
-        } elseif ($this->isConfigurationFile() && copy($this->configPath, $this->configBkpPath) && !copy(
+        } elseif (
+            $this->isConfigurationFile() && copy($this->configPath, $this->configBkpPath) && !copy(
                 $this->configDistPath,
                 $this->configPath
-            )) {
+            )
+        ) {
             return false;
         }
 
@@ -711,7 +715,7 @@ class App
             return true;
         }
 
-        \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_FOUND'), 'error');
+        \JFactory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_FOUND'), 'error');
 
         return false;
     }
@@ -728,7 +732,7 @@ class App
     {
         if (!is_writable($this->configTmpPath)) {
             \JFactory::getApplication()->enqueueMessage(
-                \JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'),
+                Text::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'),
                 'error'
             );
 

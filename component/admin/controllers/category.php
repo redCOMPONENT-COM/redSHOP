@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Category controller
  *
@@ -33,7 +35,7 @@ class RedshopControllerCategory extends RedshopControllerForm
     public function save($key = null, $urlVar = null)
     {
         // Check for request forgeries.
-        JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
         $app  = JFactory::getApplication();
         $lang = JFactory::getLanguage();
@@ -103,7 +105,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 
         // Access check.
         if (!$this->allowSave($data, $key)) {
-            $this->setMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+            $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
             // Redirect to the list screen
             $this->setRedirect(
@@ -118,7 +120,7 @@ class RedshopControllerCategory extends RedshopControllerForm
         $form = $model->getForm($data, false);
 
         if (!$form) {
-            $app->enqueueMessage(/** @scrutinizer ignore-deprecated */ $model->getError(), 'error');
+            $app->enqueueMessage( /** @scrutinizer ignore-deprecated */$model->getError(), 'error');
 
             return false;
         }
@@ -157,7 +159,7 @@ class RedshopControllerCategory extends RedshopControllerForm
         }
 
         // Attempt to save the data.
-        if (!$model->/** @scrutinizer ignore-call */ saveCategory($validData)) {
+        if (!$model-> /** @scrutinizer ignore-call */saveCategory($validData)) {
             // Save the data in the session.
             $app->setUserState($context . '.data', $validData);
 
@@ -189,7 +191,7 @@ class RedshopControllerCategory extends RedshopControllerForm
         }
 
         $this->setMessage(
-            JText::_(
+            Text::_(
                 ($lang->hasKey(
                     $this->text_prefix . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
                 )
@@ -258,9 +260,9 @@ class RedshopControllerCategory extends RedshopControllerForm
         $model = $this->getModel();
 
         if ($model->copy($cid)) {
-            $msg = JText::_('COM_REDSHOP_CATEGORY_COPIED');
+            $msg = Text::_('COM_REDSHOP_CATEGORY_COPIED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_COPING_CATEGORY');
+            $msg = Text::_('COM_REDSHOP_ERROR_COPING_CATEGORY');
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=categories', $msg);

@@ -11,6 +11,8 @@ namespace Redshop\Workflow;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Accessory Workflow
  *
@@ -23,7 +25,8 @@ class Accessory
      * @return bool
      * @since  __DEPLOY_VERSION__
      */
-    protected static function checkCondition($action) {
+    protected static function checkCondition($action)
+    {
         $condition = false;
 
         switch ($action) {
@@ -44,10 +47,11 @@ class Accessory
      * @throws \Exception
      * @since  __DEPLOY_VERSION__
      */
-    public static function prepareAccessoryCart() {
-        $app = \Joomla\CMS\Factory::getApplication();
-        $cart = empty($cart)? \Redshop\Cart\Helper::getCart(): $cart;
-        $post = $app->input->post->getArray();
+    public static function prepareAccessoryCart()
+    {
+        $app       = \Joomla\CMS\Factory::getApplication();
+        $cart      = empty($cart) ? \Redshop\Cart\Helper::getCart() : $cart;
+        $post      = $app->input->post->getArray();
         $condition = self::checkCondition(__FUNCTION__);
 
         if ($condition) {
@@ -86,7 +90,7 @@ class Accessory
                         $cart   = \Redshop\Cart\Helper::getCart();
 
                         if (!is_bool($result) || !$result) {
-                            $errorMessage = ($result) ? $result : \JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
+                            $errorMessage = ($result) ? $result : Text::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
                             $app->enqueueMessage($errorMessage, 'error');
 

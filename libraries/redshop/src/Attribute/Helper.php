@@ -11,6 +11,8 @@ namespace Redshop\Attribute;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Attribute Helper
  *
@@ -38,15 +40,15 @@ class Helper
 
         $query->select('*')
             ->from($db->qn('#__redshop_usercart_attribute_item'))
-            ->where($db->qn('is_accessory_att') . '=' . $db->q((int)$isAccessory))
+            ->where($db->qn('is_accessory_att') . '=' . $db->q((int) $isAccessory))
             ->where($db->qn('section') . '=' . $db->q($section));
 
         if ($cartItemId != 0) {
-            $query->where($db->qn('cart_item_id') . '=' . $db->q((int)$cartItemId));
+            $query->where($db->qn('cart_item_id') . '=' . $db->q((int) $cartItemId));
         }
 
         if ($parentSectionId != 0) {
-            $query->where($db->qn('parent_section_id') . '=' . $db->q((int)$parentSectionId));
+            $query->where($db->qn('parent_section_id') . '=' . $db->q((int) $parentSectionId));
         }
 
 
@@ -231,7 +233,7 @@ class Helper
                 $requiredAttributeName = implode(", ", $requiredAttributeArray);
 
                 // Error message if first attribute is required
-                return $requiredAttributeName . " " . \JText::_('COM_REDSHOP_IS_REQUIRED');
+                return $requiredAttributeName . " " . Text::_('COM_REDSHOP_IS_REQUIRED');
             }
 
             $selectedPropertyId = 0;
@@ -247,12 +249,12 @@ class Helper
             }
 
             $requiredProperty = \RedshopHelperProduct_Attribute::getAttributeProperties(
-            /** @scrutinizer ignore-type */ $selectedPropertyId,
-                /** @scrutinizer ignore-type */ $selectedAttributeId,
-                                            $data['product_id'],
-                                            0,
-                                            1,
-                /** @scrutinizer ignore-type */ $unSelectedSubPropertyId
+                /** @scrutinizer ignore-type */    $selectedPropertyId,
+                /** @scrutinizer ignore-type */    $selectedAttributeId,
+                $data['product_id'],
+                0,
+                1,
+                /** @scrutinizer ignore-type */    $unSelectedSubPropertyId
             );
 
             if (!empty($requiredProperty)) {
@@ -266,7 +268,7 @@ class Helper
 
                 // Give error as second attribute is required
                 if ($data['reorder'] != 1) {
-                    return $requiredSubAttributeName . " " . \JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
+                    return $requiredSubAttributeName . " " . Text::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
                 }
             }
         }
@@ -283,7 +285,8 @@ class Helper
     public static function getAttributePriceStartId($params = null)
     {
         // Validate
-        if (empty($params)
+        if (
+            empty($params)
             || empty($params->shopper_group_id)
             || empty($params->section_id)
             || empty($params->price_quantity_start)
@@ -297,9 +300,9 @@ class Helper
         $query->select($db->qn('price_id'))
             ->from($db->qn('#__redshop_product_attribute_price'))
             ->where($db->qn('shopper_group_id') . ' = ' . $db->q($params->shopper_group_id))
-            ->where($db->qn('section_id') . ' = ' . $db->q((int)$params->section_id))
-            ->where($db->qn('price_quantity_start') . ' <= ' . $db->q((int)$params->price_quantity_start))
-            ->where($db->qn('price_quantity_end') . ' >= ' . $db->q((int)$params->price_quantity_start));
+            ->where($db->qn('section_id') . ' = ' . $db->q((int) $params->section_id))
+            ->where($db->qn('price_quantity_start') . ' <= ' . $db->q((int) $params->price_quantity_start))
+            ->where($db->qn('price_quantity_end') . ' >= ' . $db->q((int) $params->price_quantity_start));
 
         $attributePriceIdStart = \Redshop\DB\Tool::safeSelect($db, $query);
 
@@ -315,7 +318,8 @@ class Helper
     public static function getAttributePriceEndId($params = null)
     {
         // Validate
-        if (empty($params)
+        if (
+            empty($params)
             || empty($params->shopper_group_id)
             || empty($params->section_id)
             || empty($params->price_quantity_end)
@@ -329,9 +333,9 @@ class Helper
         $query->select($db->qn('price_id'))
             ->from($db->qn('#__redshop_product_attribute_price'))
             ->where($db->qn('shopper_group_id') . ' = ' . $db->q($params->shopper_group_id))
-            ->where($db->qn('section_id') . ' = ' . $db->q((int)$params->section_id))
-            ->where($db->qn('price_quantity_start') . ' <= ' . $db->q((int)$params->price_quantity_end))
-            ->where($db->qn('price_quantity_end') . ' >= ' . $db->q((int)$params->price_quantity_end));
+            ->where($db->qn('section_id') . ' = ' . $db->q((int) $params->section_id))
+            ->where($db->qn('price_quantity_start') . ' <= ' . $db->q((int) $params->price_quantity_end))
+            ->where($db->qn('price_quantity_end') . ' >= ' . $db->q((int) $params->price_quantity_end));
 
         $attributePriceIdStart = \Redshop\DB\Tool::safeSelect($db, $query);
 
@@ -344,7 +348,8 @@ class Helper
      * @param $post
      * @since __DEPLOY_VERSION__
      */
-    public static function initAttributeForCart(&$cart, $idx, &$post) {
+    public static function initAttributeForCart(&$cart, $idx, &$post)
+    {
         if (isset($post['hidden_attribute_cartimage'])) {
             $cart[$idx]['hidden_attribute_cartimage'] = $post['hidden_attribute_cartimage'];
         }

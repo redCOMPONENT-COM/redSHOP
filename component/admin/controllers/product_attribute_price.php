@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopControllerProduct_attribute_price extends RedshopController
 {
@@ -45,7 +46,7 @@ class RedshopControllerProduct_attribute_price extends RedshopController
             $query->clear()
                 ->select('COUNT(*)')
                 ->from($db->qn('#__redshop_product_attribute_price'))
-                ->where($db->qn('section_id') . ' = ' . $db->q((int)$sectionId))
+                ->where($db->qn('section_id') . ' = ' . $db->q((int) $sectionId))
                 ->where($db->qn('section') . ' = ' . $db->q($section))
                 ->where($db->qn('price_id') . ' = ' . $db->q($pricesId[$i]))
                 ->where($db->qn('shopper_group_id') . ' = ' . $db->q($shopperGroupId[$i]));
@@ -66,7 +67,7 @@ class RedshopControllerProduct_attribute_price extends RedshopController
 
                 if ($xid && $xid != intval($pricesId[$i])) {
                     echo $xid;
-                    $this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));
+                    $this->_error = JText::sprintf('WARNNAMETRYAGAIN', Text::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));
                 }
 
                 if ($prices[$i] != '') {

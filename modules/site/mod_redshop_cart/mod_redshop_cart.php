@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JLoader::import('redshop.library');
 
 $moduleName = 'mod_redshop_cart';
@@ -40,7 +42,7 @@ $totalQuantity       = \Redshop\Cart\Helper::getTotalQuantity();
 $twigParams          = [];
 $twigParams['token'] = \JSession::getFormToken();
 $twigParams['app']   = \JFactory::getApplication();
-$itemId              = (int)RedshopHelperRouter::getCartItemId();
+$itemId              = (int) RedshopHelperRouter::getCartItemId();
 $getNewItemId        = true;
 
 if ($itemId != 0) {
@@ -55,10 +57,10 @@ if ($itemId != 0) {
 }
 
 if ($getNewItemId) {
-    $itemId = (int)\RedshopHelperRouter::getCategoryItemid();
+    $itemId = (int) \RedshopHelperRouter::getCategoryItemid();
 }
 
-$displayButton = \JText::_('MOD_REDSHOP_CART_CHECKOUT');
+$displayButton = Text::_('MOD_REDSHOP_CART_CHECKOUT');
 
 if ($buttonText != "") {
     $displayButton = $buttonText;

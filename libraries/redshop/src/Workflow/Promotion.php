@@ -11,6 +11,8 @@ namespace Redshop\Workflow;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Promotion Workflow
  *
@@ -50,7 +52,7 @@ class Promotion
             );
 
             $isProductDiscounted = 0;
-            $discountType = \Redshop::getConfig()->getInt('DISCOUNT_TYPE');
+            $discountType        = \Redshop::getConfig()->getInt('DISCOUNT_TYPE');
 
             if ($discountType == 1) {
                 foreach ($cart as $index => $value) {
@@ -62,10 +64,10 @@ class Promotion
                 }
 
                 if ($isProductDiscounted != 0) {
-                    $message     = \JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
+                    $message     = Text::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
                     $messageType = 'error';
                 } else {
-                    $message     = \JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
+                    $message     = Text::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
                     $messageType = 'success';
                 }
 
@@ -73,10 +75,10 @@ class Promotion
             }
 
             if (\Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1) {
-                $message     = \JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
+                $message     = Text::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
                 $messageType = 'warning';
             } else {
-                $message = \JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
+                $message     = Text::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
                 $messageType = 'success';
 
                 $app->enqueueMessage($message, $messageType);
@@ -88,13 +90,13 @@ class Promotion
                 false
             );
 
-            $message     = \JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID');
+            $message     = Text::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID');
             $messageType = 'error';
         }
 
         if ($ajax) {
             $cartObject = \Redshop\Cart\Render::moduleCart(\Redshop\Cart\Helper::getCart());
-            echo json_encode(array($valid, $message, $cartObject->cartHtml? $cartObject->cartHtml: ''));
+            echo json_encode(array($valid, $message, $cartObject->cartHtml ? $cartObject->cartHtml : ''));
             $app->close();
         }
 
@@ -106,7 +108,8 @@ class Promotion
      * @throws \Exception
      * @since  __DEPLOY_VERSION__
      */
-    public static function applyVoucher() {
+    public static function applyVoucher()
+    {
         $app      = \Joomla\CMS\Factory::getApplication();
         $itemId   = \RedshopHelperRouter::getCartItemId();
         $language = \Joomla\CMS\Factory::getLanguage()->getTag();
@@ -117,7 +120,7 @@ class Promotion
             \RedshopHelperCart::modifyCalculation($cart);
             \Redshop\Cart\Ajax::renderModuleCartHtml(false);
 
-            $link = \Redshop\IO\Route::_(
+            $link        = \Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=cart&seldiscount=voucher&lang=' . $language . '&Itemid=' . $itemId,
                 false
             );
@@ -134,24 +137,26 @@ class Promotion
                 }
 
                 if ($isProductDiscounted != 0) {
-                    $message     = \JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
+                    $message     = Text::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
                     $messageType = 'error';
                 } else {
-                    $message     = \JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
+                    $message     = Text::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
                     $messageType = 'success';
                 }
             }
 
             if (\Redshop::getConfig()->getInt('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1) {
-                $app->enqueueMessage(\JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'),
-                    'warning');
+                $app->enqueueMessage(
+                    Text::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'),
+                    'warning'
+                );
                 $app->redirect($link);
             } else {
-                $app->enqueueMessage(\JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID', 'success'));
+                $app->enqueueMessage(Text::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID', 'success'));
                 $app->redirect($link);
             }
         } else {
-            $msg  = \JText::_('COM_REDSHOP_VOUCHER_CODE_IS_NOT_VALID');
+            $msg  = Text::_('COM_REDSHOP_VOUCHER_CODE_IS_NOT_VALID');
             $link = \Redshop\IO\Route::_(
                 'index.php?option=com_redshop&view=cart&msg=' . $msg . '&seldiscount=voucher&lang=' . $language
                 . '&Itemid=' . $itemId,
@@ -167,7 +172,8 @@ class Promotion
      * @return array
      * @since  __DEPLOY_VERSION__
      */
-    public static function apply() {
+    public static function apply()
+    {
         \Redshop\Plugin\Helper::invoke('redshop_promotion', null, 'onApply', []);
     }
 }

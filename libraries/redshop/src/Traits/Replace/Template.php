@@ -10,6 +10,8 @@ namespace Redshop\Traits\Replace;
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * For classes extends class RedshopTagsAbstract
  *
@@ -64,34 +66,36 @@ trait Template
             $total = 0;
         }
 
-        if (isset($cart ['discount_type']) === false) {
-            $cart ['discount_type'] = 0;
+        if (isset($cart['discount_type']) === false) {
+            $cart['discount_type'] = 0;
         }
 
         $tmpDiscount   = $discountTotal;
         $discountTotal = \RedshopHelperProductPrice::formattedPrice($discountTotal + $discountAmount, true);
 
-        if (!\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (\Redshop::getConfig()->get(
-                    'DEFAULT_QUOTATION_MODE'
-                ) && \Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))) {
+        if (
+            !\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (\Redshop::getConfig()->get(
+                'DEFAULT_QUOTATION_MODE'
+            ) && \Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
+        ) {
             if (strpos($cartData, '{product_subtotal_lbl}') !== false) {
-                $replacement['{product_subtotal_lbl}'] = \JText::_('COM_REDSHOP_PRODUCT_SUBTOTAL_LBL');
+                $replacement['{product_subtotal_lbl}'] = Text::_('COM_REDSHOP_PRODUCT_SUBTOTAL_LBL');
             }
 
             if (strpos($cartData, '{product_subtotal_excl_vat_lbl}') !== false) {
-                $replacement['{product_subtotal_excl_vat_lbl}'] = \JText::_('COM_REDSHOP_PRODUCT_SUBTOTAL_EXCL_LBL');
+                $replacement['{product_subtotal_excl_vat_lbl}'] = Text::_('COM_REDSHOP_PRODUCT_SUBTOTAL_EXCL_LBL');
             }
 
             if (strpos($cartData, '{shipping_with_vat_lbl}') !== false) {
-                $replacement['{shipping_with_vat_lbl}'] = \JText::_('COM_REDSHOP_SHIPPING_WITH_VAT_LBL');
+                $replacement['{shipping_with_vat_lbl}'] = Text::_('COM_REDSHOP_SHIPPING_WITH_VAT_LBL');
             }
 
             if (strpos($cartData, '{shipping_excl_vat_lbl}') !== false) {
-                $replacement['{shipping_excl_vat_lbl}'] = \JText::_('COM_REDSHOP_SHIPPING_EXCL_VAT_LBL');
+                $replacement['{shipping_excl_vat_lbl}'] = Text::_('COM_REDSHOP_SHIPPING_EXCL_VAT_LBL');
             }
 
             if (strpos($cartData, '{product_price_excl_lbl}') !== false) {
-                $replacement['{product_price_excl_lbl}'] = \JText::_('COM_REDSHOP_PRODUCT_PRICE_EXCL_LBL');
+                $replacement['{product_price_excl_lbl}'] = Text::_('COM_REDSHOP_PRODUCT_PRICE_EXCL_LBL');
             }
 
             $replacement['{total}'] = \RedshopLayoutHelper::render(
@@ -129,10 +133,13 @@ trait Template
                 );
             }
 
-            if (($this->isTagExists('{discount_denotation}') || $this->isTagExists(
-                        '{shipping_denotation}'
-                    )) && ($discountTotal != 0 || $shipping != 0)) {
-                $replacement['{denotation_label}'] = \JText::_('COM_REDSHOP_DENOTATION_TXT');
+            if (
+                ($this->isTagExists('{discount_denotation}') || $this->isTagExists(
+                    '{shipping_denotation}'
+                )
+                ) && ($discountTotal != 0 || $shipping != 0)
+            ) {
+                $replacement['{denotation_label}'] = Text::_('COM_REDSHOP_DENOTATION_TXT');
             } else {
                 $replacement['{denotation_label}'] = '';
             }
@@ -153,9 +160,11 @@ trait Template
             $rep = true;
 
             if (!$checkout) {
-                if (!\Redshop::getConfig()->get('SHOW_SHIPPING_IN_CART') || !\Redshop::getConfig()->get(
+                if (
+                    !\Redshop::getConfig()->get('SHOW_SHIPPING_IN_CART') || !\Redshop::getConfig()->get(
                         'SHIPPING_METHOD_ENABLE'
-                    )) {
+                    )
+                ) {
                     $rep = false;
                 }
             } else {
@@ -198,8 +207,8 @@ trait Template
                 );
 
                 $replacement['{order_shipping}']        = \RedshopHelperProductPrice::formattedPrice($shipping, true);
-                $replacement['{shipping_lbl}']          = \JText::_('COM_REDSHOP_CHECKOUT_SHIPPING_LBL');
-                $replacement['{tax_with_shipping_lbl}'] = \JText::_('COM_REDSHOP_CHECKOUT_SHIPPING_LBL');
+                $replacement['{shipping_lbl}']          = Text::_('COM_REDSHOP_CHECKOUT_SHIPPING_LBL');
+                $replacement['{tax_with_shipping_lbl}'] = Text::_('COM_REDSHOP_CHECKOUT_SHIPPING_LBL');
                 $replacement['{vat_shipping}']          = \RedshopHelperProductPrice::formattedPrice($shippingVat);
             } else {
                 $replacement['{order_shipping}']        = '';

@@ -8,7 +8,10 @@
  */
 
 defined('_JEXEC') or die;
-require_once ( __DIR__ .'/helpers/Step.php');
+
+use Joomla\CMS\Language\Text;
+
+require_once(__DIR__ . '/helpers/Step.php');
 
 /**
  * Plugin Redshop_PromotionPromotion
@@ -37,12 +40,12 @@ class PlgRedshop_PromotionPromotion extends JPlugin
         parent::__construct($subject, $config);
 
         $this->loadLanguage();
-        $this->app = JFactory::getApplication();
-        $this->db = JFactory::getDbo();
-        $this->query = $this->db->getQuery(true);
-        $this->table = '#__redshop_promotion';
+        $this->app          = JFactory::getApplication();
+        $this->db           = JFactory::getDbo();
+        $this->query        = $this->db->getQuery(true);
+        $this->table        = '#__redshop_promotion';
         $this->layoutFolder = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/layouts';
-        $this->form = JForm::getInstance("promotions", __DIR__ . "/forms/promotion.xml", []);
+        $this->form         = JForm::getInstance("promotions", __DIR__ . "/forms/promotion.xml", []);
     }
 
     /**
@@ -52,7 +55,8 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      *
      * @since __DEPLOY_VERSION__
      */
-    public function isProductAwardByPromotion($cartItem) {
+    public function isProductAwardByPromotion($cartItem)
+    {
         return $cartItem['isPromotionAward'] ?? false;
     }
 
@@ -61,34 +65,40 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @return stdClass
      * @since __DEPLOY_VERSION__
      */
-    public function onValidate($data) {
-        $result = new \stdClass;
+    public function onValidate($data)
+    {
+        $result               = new \stdClass;
         $result->errorMessage = [];
-        $result->isValid = true;
+        $result->isValid      = true;
 
         switch ($data['promotion_type']) {
             case 'amount_product':
-                if (isset($data['from_date'])
+                if (
+                    isset($data['from_date'])
                     && isset($data['to_date'])
-                    && $data['from_date'] > $data['to_date']) {
-                    $result->errorMessage[] = \JText::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_DATE_RANGE');
+                    && $data['from_date'] > $data['to_date']
+                ) {
+                    $result->errorMessage[] = Text::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_DATE_RANGE');
                 }
 
-                if (empty($data['condition_amount']) || (int) $data['condition_amount'] < 0 ) {
-                    $result->errorMessage[] = \JText::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_CONDITION_QUANTITY');;
+                if (empty($data['condition_amount']) || (int) $data['condition_amount'] < 0) {
+                    $result->errorMessage[] = Text::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_CONDITION_QUANTITY');
+                    ;
                 }
 
                 break;
             case 'volume_order':
                 if (empty($data['order_volume']) || (int) $data['order_volume'] < 0) {
-                    $result->errorMessage[] = \JText::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_VOLUME_ORDER');;
+                    $result->errorMessage[] = Text::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_VOLUME_ORDER');
+                    ;
                 }
 
                 break;
         }
 
         if (empty($data['award_amount']) || (int) $data['award_amount'] < 0) {
-            $result->errorMessage[] = \JText::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_AWARD_QUANTITY');;
+            $result->errorMessage[] = Text::_('PLG_RESDSHOP_PROMOTION_PROMOTION_VALIDATE_AWARD_QUANTITY');
+            ;
         }
 
         if (count($result->errorMessage) > 0) {
@@ -103,12 +113,13 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @return array
      * @since __DEPLOY_VERSION__
      */
-    public function onSavePromotion($data) {
+    public function onSavePromotion($data)
+    {
         $result = $data['jform'] ?? [];
 
         if (!empty($result)) {
             unset($data['jform']);
-            $data = Helper::encrypt($data);
+            $data           = Helper::encrypt($data);
             $result['data'] = $data;
         }
 
@@ -120,7 +131,8 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @return mixed|null
      * @since __DEPLOY_VERSION__
      */
-    public function onLoadPromotion($id) {
+    public function onLoadPromotion($id)
+    {
         $this->query->clear()
             ->select('*')
             ->from($this->db->qn($this->table))
@@ -128,7 +140,8 @@ class PlgRedshop_PromotionPromotion extends JPlugin
         return $this->db->setQuery($this->query)->loadAssoc();
     }
 
-    public function onDeletePromotion() {
+    public function onDeletePromotion()
+    {
     }
 
     /**
@@ -137,7 +150,8 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @return mixed
      * @since __DEPLOY_VERSION__
      */
-    public function onProcessPromotion($cart, $saveSession = false) {
+    public function onProcessPromotion($cart, $saveSession = false)
+    {
         return $cart;
     }
 
@@ -145,10 +159,11 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @return string
      * @since __DEPLOY_VERSION__
      */
-    public function onRenderBackEndLayoutConditions() {
-        $post = $this->prepareData();
+    public function onRenderBackEndLayoutConditions()
+    {
+        $post        = $this->prepareData();
         $promotionId = JFactory::getApplication()->input->getInt('id', 0);
-        $layout = new JLayoutFile('conditions', $this->layoutFolder);
+        $layout      = new JLayoutFile('conditions', $this->layoutFolder);
 
         return $layout->render(['form' => $this->form, 'post' => $post, 'promotionId' => $promotionId]);
     }
@@ -157,10 +172,11 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @return string
      * @since __DEPLOY_VERSION__
      */
-    public function onRenderBackEndLayoutAwards() {
-        $post = $this->prepareData();
+    public function onRenderBackEndLayoutAwards()
+    {
+        $post        = $this->prepareData();
         $promotionId = JFactory::getApplication()->input->getInt('id', 0);
-        $layout = new JLayoutFile('awards', $this->layoutFolder);
+        $layout      = new JLayoutFile('awards', $this->layoutFolder);
 
         return $layout->render(['form' => $this->form, 'post' => $post, 'promotionId' => $promotionId]);
     }
@@ -170,16 +186,18 @@ class PlgRedshop_PromotionPromotion extends JPlugin
      * @throws Exception
      * @since __DEPLOY_VERSION__
      */
-    protected function prepareData() {
-        $post = \Redshop\IO\Input::getArray('post');
+    protected function prepareData()
+    {
+        $post        = \Redshop\IO\Input::getArray('post');
         $promotionId = \Redshop\IO\Input::get('id', 0, 'INT');
-        $promotion = $this->onLoadPromotion($promotionId);
-        $data = [];
+        $promotion   = $this->onLoadPromotion($promotionId);
+        $data        = [];
 
         if (!empty($promotion['data'])) {
             try {
                 $data = Helper::decrypt($promotion['data'], true);
-            } catch (Exception $e) {
+            }
+            catch (Exception $e) {
                 $data = [];
             }
         }
@@ -190,7 +208,8 @@ class PlgRedshop_PromotionPromotion extends JPlugin
     /**
      * @since __DEPLOY_VESION__
      */
-    public function onApply() {
+    public function onApply()
+    {
         # Step1: load Promotion into $cart['promotion']
         Step::loadPromotions();
 

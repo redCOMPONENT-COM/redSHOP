@@ -13,6 +13,8 @@ use Redshop\Workflow\Base as BaseWorkflow;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Cart Workflow
  *
@@ -66,7 +68,7 @@ class Cart extends BaseWorkflow
         if ($ajax) {
             $cartObject = \Redshop\Cart\Render::moduleCart(\Redshop\Cart\Helper::getCart());
 
-            echo $cartObject->cartHtml? $cartObject->cartHtml: '';
+            echo $cartObject->cartHtml ? $cartObject->cartHtml : '';
 
             $app->close();
         }
@@ -83,7 +85,8 @@ class Cart extends BaseWorkflow
      * @throws \Exception
      * @since   __DEPLOY_VERSION__
      */
-    public static function updateAll() {
+    public static function updateAll()
+    {
         $post = \JFactory::getApplication()->input->post->getArray();
 
         // Call update_all method of model to update all products info of cart
@@ -106,8 +109,8 @@ class Cart extends BaseWorkflow
      */
     public static function delete()
     {
-        $app  = \JFactory::getApplication();
-        $post = $app->input->post;
+        $app         = \JFactory::getApplication();
+        $post        = $app->input->post;
         $cartElement = $post->getInt('cart_index', 0);
 
         \Redshop\Cart\Helper::removeItemCart($cartElement);
@@ -126,12 +129,14 @@ class Cart extends BaseWorkflow
      * @throws \Exception
      * @since  __DEPLOY_VERSION__
      */
-    public static function removeAll() {
+    public static function removeAll()
+    {
         $app  = \Joomla\CMS\Factory::getApplication();
         $ajax = $app->input->getInt('ajax', 0);
 
         // Call empty_cart method of model to remove all products from cart
-        \RedshopHelperCart::emptyCart();;
+        \RedshopHelperCart::emptyCart();
+        ;
         $user = \JFactory::getUser();
 
         if ($user->id) {
@@ -140,7 +145,7 @@ class Cart extends BaseWorkflow
 
         if ($ajax) {
             $cartObject = \Redshop\Cart\Render::moduleCart(\Redshop\Cart\Helper::getCart());
-            echo $cartObject->cartHtml? $cartObject->cartHtml: '';
+            echo $cartObject->cartHtml ? $cartObject->cartHtml : '';
             $app->close();
         } else {
             $link = \Redshop\IO\Route::_(
@@ -156,30 +161,32 @@ class Cart extends BaseWorkflow
      * Alias of function removeAll()
      * @since __DEPLOY_VERSION__
      */
-    public static function emptyCart() {
-        self:: removeAll();
+    public static function emptyCart()
+    {
+        self::removeAll();
     }
 
     /**
      * @throws \Exception
      * @since  __DEPLOY_VERSION__
      */
-    public static function redMassCart() {
+    public static function redMassCart()
+    {
         $app  = \JFactory::getApplication();
         $post = $app->input->post->getArray();
 
         // Check for request forgeries.
         if (!\JSession::checkToken()) {
-            $msg  = \JText::_('COM_REDSHOP_TOKEN_VARIFICATION');
+            $msg             = Text::_('COM_REDSHOP_TOKEN_VARIFICATION');
             $redMassCartLink = base64_decode($post["rurl"]);
-			$app->enqueueMessage($msg);
+            $app->enqueueMessage($msg);
             $app->redirect($redMassCartLink);
         }
 
         if ($post["numbercart"] == "") {
-            $msg  = \JText::_('COM_REDSHOP_PLEASE_ENTER_PRODUCT_NUMBER');
+            $msg             = Text::_('COM_REDSHOP_PLEASE_ENTER_PRODUCT_NUMBER');
             $redMassCartLink = base64_decode($post["rurl"]);
-			$app->enqueueMessage($msg);
+            $app->enqueueMessage($msg);
             $app->redirect($redMassCartLink);
         }
 

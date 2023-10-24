@@ -11,6 +11,8 @@ namespace Redshop\Accessory;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Accessory Helper
  *
@@ -264,7 +266,7 @@ class Helper
                         $requied_attribute_name = implode(", ", $requiredAttributes);
 
                         // Throw an error as first attribute is required
-                        $msg = urldecode($requied_attribute_name) . " " . \JText::_('IS_REQUIRED');
+                        $msg = urldecode($requied_attribute_name) . " " . Text::_('IS_REQUIRED');
                         \JFactory::getApplication()->enqueueMessage($msg);
 
                         return false;

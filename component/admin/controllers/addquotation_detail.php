@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Add quotation detail controller
  *
@@ -58,7 +60,7 @@ class RedshopControllerAddquotation_Detail extends RedshopController
         $post = $this->input->post->getArray();
 
         $cid                   = $this->input->post->get('cid', array(0), 'array');
-        $post ['quotation_id'] = $cid [0];
+        $post['quotation_id'] = $cid[0];
 
         /** @var RedshopModelAddquotation_detail $model */
         $model = $this->getModel('addquotation_detail');
@@ -85,7 +87,7 @@ class RedshopControllerAddquotation_Detail extends RedshopController
             $user = $userModel->storeUser($post);
 
             if (!$user) {
-                $link     = Redshop\IO\Route::_('index.php?option=com_redshop&view=addquotation_detail', false);
+                $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=addquotation_detail', false);
                 $this->setRedirect($link, $userModel->getError());
 
                 return false;
@@ -110,11 +112,11 @@ class RedshopControllerAddquotation_Detail extends RedshopController
         $row = $model->store($post);
 
         if ($row) {
-            $msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SAVED');
+            $msg = Text::_('COM_REDSHOP_QUOTATION_DETAIL_SAVED');
 
             if ($send == 1) {
                 if ($model->sendQuotationMail($row->quotation_id)) {
-                    $msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
+                    $msg = Text::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
                 }
             }
 
@@ -127,7 +129,7 @@ class RedshopControllerAddquotation_Detail extends RedshopController
                 $this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
             }
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
+            $msg = Text::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
             $this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
         }
     }
@@ -139,7 +141,7 @@ class RedshopControllerAddquotation_Detail extends RedshopController
 
     public function cancel()
     {
-        $msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
+        $msg = Text::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
     }
 

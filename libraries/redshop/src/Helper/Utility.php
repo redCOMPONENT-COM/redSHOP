@@ -11,6 +11,8 @@ namespace Redshop\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Utility helper
  *
@@ -45,7 +47,7 @@ class Utility
 
         if ($captcha != null && !$captcha->checkAnswer($data)) {
             if ($displayWarning) {
-                \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_INVALID_SECURITY'), 'error');
+                \JFactory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_INVALID_SECURITY'), 'error');
             }
 
             return false;
@@ -74,7 +76,7 @@ class Utility
         $query  = $db->getQuery(true)
             ->select($db->qn('name'))
             ->from($db->qn('#__redshop_fields'))
-            ->where($db->qn('section') . ' = ' . (int)$section);
+            ->where($db->qn('section') . ' = ' . (int) $section);
         $fields = $db->setQuery($query)->loadColumn();
 
         if (empty($fields)) {
@@ -323,7 +325,7 @@ class Utility
         $it  = new \RecursiveIteratorIterator($aIt);
 
         while ($it->valid()) {
-            if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
+            if (((isset($index) and ($it->key() == $index)) or (!isset($index))) and ($it->current() == $needle)) {
                 return true;
             }
 

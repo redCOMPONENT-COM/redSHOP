@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Categories list controller
  *
@@ -36,9 +38,9 @@ class RedshopControllerCategories extends RedshopControllerAdmin
         $model                     = $this->getModel('categories');
 
         if ($model->assignTemplate($post)) {
-            $msg = JText::_('COM_REDSHOP_TEMPLATE_ASSIGN_SUCESS');
+            $msg = Text::_('COM_REDSHOP_TEMPLATE_ASSIGN_SUCESS');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
+            $msg = Text::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=categories', $msg);
@@ -62,4 +64,3 @@ class RedshopControllerCategories extends RedshopControllerAdmin
         return $model;
     }
 }
-

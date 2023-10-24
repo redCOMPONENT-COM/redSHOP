@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Access detail
  *
@@ -35,7 +37,7 @@ class RedshopControllerAccess extends RedshopControllerForm
             $this->input->get('selectedTabPosition')
         );
         // Check for request forgeries.
-        JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
         $app  = JFactory::getApplication();
         $data = $app->input->get('jform', array(), 'Array');
@@ -44,9 +46,9 @@ class RedshopControllerAccess extends RedshopControllerForm
         $model = $this->getModel();
 
         if ($model->save($data)) {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_SAVE_SUCCESS', 'success'));
+            $app->enqueueMessage(Text::_('COM_REDSHOP_ACCESS_SAVE_SUCCESS', 'success'));
         } else {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_SAVE_FAIL', 'error'));
+            $app->enqueueMessage(Text::_('COM_REDSHOP_ACCESS_SAVE_FAIL', 'error'));
         }
 
         $this->setRedirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=access', false));

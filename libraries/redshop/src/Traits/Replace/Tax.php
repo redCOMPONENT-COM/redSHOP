@@ -10,6 +10,8 @@ namespace Redshop\Traits\Replace;
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * For classes extends class RedshopTagsAbstract
  *
@@ -56,9 +58,11 @@ trait Tax
         }
 
         if (strpos($template, '{tax_after_discount}') !== false) {
-            if (\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && (float)\Redshop::getConfig()->get(
+            if (
+                \Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && (float) \Redshop::getConfig()->get(
                     'VAT_RATE_AFTER_DISCOUNT'
-                )) {
+                )
+            ) {
                 if ($check) {
                     $taxAfterDiscount = $discount;
                 } else {
@@ -81,8 +85,8 @@ trait Tax
             }
         }
 
-        $template                    = str_replace("{vat_lbl}", \JText::_('COM_REDSHOP_CHECKOUT_VAT_LBL'), $template);
-        $replacement['{vat_lbl}']    = \JText::_('COM_REDSHOP_CHECKOUT_VAT_LBL');
+        $template                    = str_replace("{vat_lbl}", Text::_('COM_REDSHOP_CHECKOUT_VAT_LBL'), $template);
+        $replacement['{vat_lbl}']    = Text::_('COM_REDSHOP_CHECKOUT_VAT_LBL');
         $replacement['{if vat}']     = '';
         $replacement['{vat end if}'] = '';
 

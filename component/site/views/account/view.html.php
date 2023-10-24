@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Account  view
  *
@@ -76,7 +78,7 @@ class RedshopViewAccount extends RedshopView
         $this->userdata = $this->model->getUserAccountInfo($this->user->id);
 
         if (empty($this->userdata) && $layout != 'mywishlist') {
-			$app->enqueueMessage(JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER'));
+            $app->enqueueMessage(JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER'));
             $this->app->redirect(
                 Redshop\IO\Route::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $itemId)
             );
@@ -183,7 +185,7 @@ class RedshopViewAccount extends RedshopView
 
         $twigParams = [
             'model'       => $this->getModel('account'),
-            'pageTitle'   => \JText::_('COM_REDSHOP_MY_TAGS'),
+            'pageTitle'   => Text::_('COM_REDSHOP_MY_TAGS'),
             'maxCategory' => $maxcategory,
             'limit'       => $limit,
             'total'       => $total,

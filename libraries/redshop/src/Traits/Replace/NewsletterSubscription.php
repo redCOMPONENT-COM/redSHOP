@@ -10,6 +10,8 @@ namespace Redshop\Traits\Replace;
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * For classes extends class RedshopTagsAbstract
  *
@@ -30,7 +32,7 @@ trait NewsletterSubscription
         $replacement = [];
 
         if (strpos($templateDesc, "{newsletter_signup_chk}") !== false) {
-            $itemId                                 = (int)\JFactory::getApplication()->input->get('Itemid');
+            $itemId                                 = (int) \JFactory::getApplication()->input->get('Itemid');
             $replacement['{newsletter_signup_chk}'] = "";
             $replacement['{newsletter_signup_lbl}'] = "";
             $link                                   = "";
@@ -69,7 +71,7 @@ trait NewsletterSubscription
                         \RedshopLayoutHelper::$layoutOption
                     );
 
-                    $replacement['{newsletter_signup_lbl}'] = \JText::_('COM_REDSHOP_SIGN_UP_FOR_NEWSLETTER');
+                    $replacement['{newsletter_signup_lbl}'] = Text::_('COM_REDSHOP_SIGN_UP_FOR_NEWSLETTER');
                 }
             }
 

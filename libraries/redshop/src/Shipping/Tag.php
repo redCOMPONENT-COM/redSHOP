@@ -11,6 +11,8 @@ namespace Redshop\Shipping;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Shipping tag
  *
@@ -40,7 +42,7 @@ class Tag
             '{order_shipping_shop_location}'
         );
 
-        if (!\Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE') || empty((array)$shipping)) {
+        if (!\Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE') || empty((array) $shipping)) {
             return str_replace($search, array("", "", "", "", '', '', '', ''), $content);
         }
 
@@ -75,10 +77,10 @@ class Tag
         }
 
         $replace = array(
-            \JText::_($shippingMethod),
+            Text::_($shippingMethod),
             \RedshopHelperProductPrice::formattedPrice($shipping->order_shipping),
             \RedshopHelperProductPrice::formattedPrice($shipping->order_shipping - $shipping->order_shipping_tax),
-            \JText::_($shippingRateName),
+            Text::_($shippingRateName),
             \RedshopHelperProductPrice::formattedPrice($shipping->order_shipping),
             \RedshopHelperProductPrice::formattedPrice($shipping->order_shipping_tax),
             self::getShopLocation($shipping, $shippingDetail)
@@ -135,7 +137,7 @@ class Tag
 
             if ($countLocDet > 6) {
                 $locationsTime = explode('  ', $arrLocationDetails[6]);
-                $shopLocation  .= '<br>';
+                $shopLocation .= '<br>';
 
                 foreach ($locationsTime as $locationTime) {
                     $shopLocation .= $locationTime . '<br>';
@@ -166,14 +168,16 @@ class Tag
     {
         $shippingEnable = \Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE');
 
-        if (strpos($templateHtml, '{shipping_address_start}') !== false
-            && strpos($templateHtml, '{shipping_address_end}') !== false) {
+        if (
+            strpos($templateHtml, '{shipping_address_start}') !== false
+            && strpos($templateHtml, '{shipping_address_end}') !== false
+        ) {
             self::replaceShippingAddressStartEnd($templateHtml, $shippingAddress, $shippingEnable);
         } elseif (strpos($templateHtml, '{shipping_address}') !== false) {
             self::replaceShippingAddressBlock($templateHtml, $shippingAddress, $sendMail, $shippingEnable);
         }
 
-        $shippingText = $shippingEnable === true ? \JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL') : '';
+        $shippingText = $shippingEnable === true ? Text::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL') : '';
         $templateHtml = str_replace("{shipping_address_information_lbl}", $shippingText, $templateHtml);
 
         return $templateHtml;
@@ -214,42 +218,42 @@ class Tag
                 $shippingData,
                 $conditionCompanyName,
                 array('{companyname}', '{companyname_lbl}'),
-                array($shippingAddress->company_name, \JText::_('COM_REDSHOP_COMPANY_NAME'))
+                array($shippingAddress->company_name, Text::_('COM_REDSHOP_COMPANY_NAME'))
             );
 
             self::replaceTag(
                 $shippingData,
                 $shippingAddress->firstname,
                 array('{firstname}', '{firstname_lbl}'),
-                array($shippingAddress->firstname, \JText::_('COM_REDSHOP_FIRSTNAME'))
+                array($shippingAddress->firstname, Text::_('COM_REDSHOP_FIRSTNAME'))
             );
 
             self::replaceTag(
                 $shippingData,
                 $shippingAddress->lastname,
                 array('{lastname}', '{lastname_lbl}'),
-                array($shippingAddress->lastname, \JText::_('COM_REDSHOP_LASTNAME'))
+                array($shippingAddress->lastname, Text::_('COM_REDSHOP_LASTNAME'))
             );
 
             self::replaceTag(
                 $shippingData,
                 $shippingAddress->address,
                 array('{address}', '{address_lbl}'),
-                array($shippingAddress->address, \JText::_('COM_REDSHOP_ADDRESS'))
+                array($shippingAddress->address, Text::_('COM_REDSHOP_ADDRESS'))
             );
 
             self::replaceTag(
                 $shippingData,
                 $shippingAddress->zipcode,
                 array('{zip}', '{zip_lbl}'),
-                array($shippingAddress->zipcode, \JText::_('COM_REDSHOP_ZIP'))
+                array($shippingAddress->zipcode, Text::_('COM_REDSHOP_ZIP'))
             );
 
             self::replaceTag(
                 $shippingData,
                 $shippingAddress->city,
                 array('{city}', '{city_lbl}'),
-                array($shippingAddress->city, \JText::_('COM_REDSHOP_CITY'))
+                array($shippingAddress->city, Text::_('COM_REDSHOP_CITY'))
             );
 
             $cname = \RedshopHelperOrder::getCountryName($shippingAddress->country_code);
@@ -257,7 +261,7 @@ class Tag
                 $shippingData,
                 $cname,
                 array('{country}', '{country_lbl}'),
-                array(\JText::_($cname), \JText::_('COM_REDSHOP_COUNTRY'))
+                array(Text::_($cname), Text::_('COM_REDSHOP_COUNTRY'))
             );
 
             $stateName = \RedshopHelperOrder::getStateName(
@@ -268,14 +272,14 @@ class Tag
                 $shippingData,
                 $stateName,
                 array('{state}', '{state_lbl}'),
-                array($stateName, \JText::_('COM_REDSHOP_STATE'))
+                array($stateName, Text::_('COM_REDSHOP_STATE'))
             );
 
             self::replaceTag(
                 $shippingData,
                 $shippingAddress->phone,
                 array('{phone}', '{phone_lbl}'),
-                array($shippingAddress->phone, \JText::_('COM_REDSHOP_PHONE'))
+                array($shippingAddress->phone, Text::_('COM_REDSHOP_PHONE'))
             );
 
             $shippingData = str_replace(
@@ -445,7 +449,7 @@ class Tag
 
         $boxTemplateDesc = str_replace(
             "{shipping_box_heading}",
-            \JText::_('COM_REDSHOP_SHIPPING_BOXES'),
+            Text::_('COM_REDSHOP_SHIPPING_BOXES'),
             $boxTemplateDesc
         );
 

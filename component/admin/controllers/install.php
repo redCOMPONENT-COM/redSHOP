@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Install controller
  *
@@ -52,7 +54,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 
         if (empty($remainingTasks)) {
             $app->sendHeaders();
-            echo json_encode((object)array('msg' => JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS'), 'continue' => 0));
+            echo json_encode((object) array('msg' => Text::_('COM_REDSHOP_INSTALL_STEP_SUCCESS'), 'continue' => 0));
             $app->close();
         }
 
@@ -63,8 +65,8 @@ class RedshopControllerInstall extends RedshopControllerAdmin
         if (empty($currentTask) || !isset($currentTask['func'])) {
             $app->setHeader('status', 500);
             $app->sendHeaders();
-            $return['msg'] = JText::_('COM_REDSHOP_INSTALL_ERROR_MISSING_PROCESS');
-            echo json_encode((object)$return);
+            $return['msg'] = Text::_('COM_REDSHOP_INSTALL_ERROR_MISSING_PROCESS');
+            echo json_encode((object) $return);
             $app->close();
         }
 
@@ -95,7 +97,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
             $app->setHeader('status', 500);
             $app->sendHeaders();
             $return['msg'] = JText::sprintf('COM_REDSHOP_INSTALL_ERROR_MISSING_CLASS', $className);
-            echo json_encode((object)$return);
+            echo json_encode((object) $return);
             $app->close();
         }
 
@@ -104,7 +106,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
             $app->setHeader('status', 500);
             $app->sendHeaders();
             $return['msg'] = JText::sprintf('COM_REDSHOP_INSTALL_ERROR_MISSING_METHOD_IN_CLASS', $className, $method);
-            echo json_encode((object)$return);
+            echo json_encode((object) $return);
             $app->close();
         }
 
@@ -115,11 +117,12 @@ class RedshopControllerInstall extends RedshopControllerAdmin
                 $class = new $className;
                 call_user_func(array($class, $method));
             }
-        } catch (Exception $error) {
+        }
+        catch (Exception $error) {
             $app->setHeader('status', 500);
             $app->sendHeaders();
             $return['msg'] = $error->getMessage();
-            echo json_encode((object)$return);
+            echo json_encode((object) $return);
             $app->close();
         }
 
@@ -131,8 +134,8 @@ class RedshopControllerInstall extends RedshopControllerAdmin
         }
 
         $app->sendHeaders();
-        $return['msg'] = JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
-        echo json_encode((object)$return);
+        $return['msg'] = Text::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
+        echo json_encode((object) $return);
         $app->close();
     }
 }

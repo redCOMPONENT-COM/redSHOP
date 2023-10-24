@@ -11,6 +11,8 @@ namespace Redshop\Product;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Product stock helper
  *
@@ -105,9 +107,11 @@ class Stock
             $product         = \Redshop\Product\Product::getProductById($productId);
             $productPreOrder = $product->preorder;
 
-            if (($productPreOrder == "global" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+            if (
+                ($productPreOrder == "global" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
                 || ($productPreOrder == "yes")
-                || ($productPreOrder == "" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))) {
+                || ($productPreOrder == "" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+            ) {
                 $productInStock = \RedshopHelperStockroom::getPreorderStockAmountwithReserve($sectionId, $section);
             }
         }
@@ -115,7 +119,7 @@ class Stock
         if (strpos($content, "{products_in_stock}") !== false) {
             $content = str_replace(
                 "{products_in_stock}",
-                \JText::_('COM_REDSHOP_PRODUCT_IN_STOCK_LBL')
+                Text::_('COM_REDSHOP_PRODUCT_IN_STOCK_LBL')
                 . ' <span id="displayProductInStock' . $productId . '">' . $productInStock . '</span>',
                 $content
             );

@@ -10,6 +10,8 @@ namespace Redshop\Traits\Replace;
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * For classes extends class RedshopTagsAbstract
  *
@@ -48,10 +50,10 @@ trait ConditionTag
         $replacement = [];
 
         $replacement['{payment_order_discount}'] = \RedshopHelperProductPrice::formattedPrice($amount);
-        $payText                                 = ($paymentOprand == '+') ? \JText::_(
+        $payText                                 = ($paymentOprand == '+') ? Text::_(
             'COM_REDSHOP_PAYMENT_CHARGES_LBL'
         )
-            : \JText::_('COM_REDSHOP_PAYMENT_DISCOUNT_LBL');
+            : Text::_('COM_REDSHOP_PAYMENT_DISCOUNT_LBL');
 
         $replacement['{payment_discount_lbl}']    = $payText;
         $replacement['{payment_discount end if}'] = '';

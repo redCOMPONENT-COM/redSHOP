@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Catalog request controller
  *
@@ -28,7 +30,7 @@ class RedshopControllerCatalog_Request extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         /** @var RedshopModelCatalog_request $model */
@@ -38,7 +40,7 @@ class RedshopControllerCatalog_Request extends RedshopController
             echo "<script> alert('" . $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_CATALOG_REQUEST_BLOCK_SUCCESFULLY');
+        $msg = Text::_('COM_REDSHOP_CATALOG_REQUEST_BLOCK_SUCCESFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=catalog_request', $msg);
     }
 
@@ -47,7 +49,7 @@ class RedshopControllerCatalog_Request extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         /** @var RedshopModelCatalog_request $model */
@@ -57,7 +59,7 @@ class RedshopControllerCatalog_Request extends RedshopController
             echo "<script> alert('" . $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_CATALOG_REQUEST_DELETED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_CATALOG_REQUEST_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=catalog_request', $msg);
     }
 
@@ -66,7 +68,7 @@ class RedshopControllerCatalog_Request extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         /** @var RedshopModelCatalog_request $model */
@@ -76,7 +78,7 @@ class RedshopControllerCatalog_Request extends RedshopController
             echo "<script> alert('" . $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_CATALOG_REQUEST_BLOCK_UNBLOCK_SUCCESFULLY');
+        $msg = Text::_('COM_REDSHOP_CATALOG_REQUEST_BLOCK_UNBLOCK_SUCCESFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=catalog_request', $msg);
     }
 }

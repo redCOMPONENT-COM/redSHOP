@@ -9,9 +9,10 @@
 
 namespace Redshop\Mail;
 
-use Joomla\CMS\Factory;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Mail Newsletter helper
@@ -114,11 +115,11 @@ class Newsletter
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_newsletter_subscription'))
-            ->where($db->qn('id') . ' = ' . (int)$subscriptionId);
+            ->where($db->qn('id') . ' = ' . (int) $subscriptionId);
 
         $list      = $db->setQuery($query)->loadObject();
         $link      = '<a href="' . $url . 'index.php?option=com_redshop&view=newsletter&sid=' . $subscriptionId . '">' .
-            \JText::_('COM_REDSHOP_CLICK_HERE') . '</a>';
+            Text::_('COM_REDSHOP_CLICK_HERE') . '</a>';
         $search[]  = "{shopname}";
         $replace[] = \Redshop::getConfig()->get('SHOP_NAME');
         $search[]  = "{link}";
@@ -137,23 +138,25 @@ class Newsletter
 
         // Send the e-mail
         if ($email != "") {
-            if (!Helper::sendEmail(
-                $from,
-                $fromName,
-                $email,
-                $subject,
-                $message,
-                1,
-                null,
-                $mailBcc,
-                null,
-                $mailSection,
-                func_get_args()
-            )) {
-				Factory::getApplication()->enqueueMessage(
-					\JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
-					'warning'
-				);
+            if (
+                !Helper::sendEmail(
+                    $from,
+                    $fromName,
+                    $email,
+                    $subject,
+                    $message,
+                    1,
+                    null,
+                    $mailBcc,
+                    null,
+                    $mailSection,
+                    func_get_args()
+                )
+            ) {
+                Factory::getApplication()->enqueueMessage(
+                    Text::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'),
+                    'warning'
+                );
             }
         }
 

@@ -11,6 +11,8 @@ namespace Redshop\Cart;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Cart helper
  *
@@ -23,7 +25,8 @@ class Check
      * @return bool
      * @since  __DEPLOY_VERSION__
      */
-    public static function checkCondition($action) {
+    public static function checkCondition($action)
+    {
         $condition = false;
 
         switch ($action) {
@@ -34,7 +37,7 @@ class Check
 
                 // Invalid request then redirect to dashboard
                 if (!$condition) {
-                    $app->enqueueMessage(\JText::_('COM_REDSHOP_CART_INVALID_REQUEST'), 'error');
+                    $app->enqueueMessage(Text::_('COM_REDSHOP_CART_INVALID_REQUEST'), 'error');
                     $app->redirect(\Redshop\IO\Route::_('index.php?option=com_redshop'));
                 }
 

@@ -11,6 +11,8 @@ namespace Redshop\Order;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Order helper
  *
@@ -33,14 +35,14 @@ class Helper
         $orderItemData = \RedshopHelperOrder::getOrderItemAccessoryDetail($orderItemId);
 
         if (count($orderItemData) > 0) {
-            $accessoryHtml .= '<div class="checkout_accessory_static">' . \JText::_(
-                    "COM_REDSHOP_ACCESSORY"
-                ) . ':</div>';
+            $accessoryHtml .= '<div class="checkout_accessory_static">' . Text::_(
+                "COM_REDSHOP_ACCESSORY"
+            ) . ':</div>';
 
             foreach ($orderItemData as $orderItemDatum) {
-                $accessoryQuantity = " [" . \JText::_(
-                        'COM_REDSHOP_ACCESSORY_QUANTITY_LBL'
-                    ) . " " . $orderItemDatum->product_quantity . "] ";
+                $accessoryQuantity  = " [" . Text::_(
+                    'COM_REDSHOP_ACCESSORY_QUANTITY_LBL'
+                ) . " " . $orderItemDatum->product_quantity . "] ";
                 $accessoryHtml .= "<div class='checkout_accessory_title'>"
                     . urldecode($orderItemDatum->order_acc_item_name)
                     . " ("
@@ -80,7 +82,7 @@ class Helper
         }
 
         $orderItem = array();
-        $i = -1;
+        $i         = -1;
 
         foreach ($post as $key => $value) {
             if (!strcmp("product", substr($key, 0, 7)) && strlen($key) < 10) {
@@ -165,7 +167,7 @@ class Helper
      */
     public static function getOrderTotalAmountByUserId($userId)
     {
-        $db = \JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select('SUM(' . $db->qn('o.order_total') . ') AS order_total')
             ->from($db->qn('#__redshop_orders', 'o'))
@@ -191,7 +193,7 @@ class Helper
      */
     public static function getAvgAmountById($userId)
     {
-        $db = \JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select(
             '(SUM(' . $db->qn('o.order_total') . ')/COUNT(DISTINCT('
@@ -215,14 +217,14 @@ class Helper
      */
     public static function getTotalOrderById($id = 0)
     {
-        $db = \JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select(
             'SUM(' . $db->qn('order_total') . ') AS ' . $db->qn('order_total')
             . ', count(*) AS ' . $db->qn('tot_order')
         )
             ->from($db->qn('#__redshop_orders'))
-            ->where($db->qn('user_info_id') . ' = ' . $db->q((int)$id));
+            ->where($db->qn('user_info_id') . ' = ' . $db->q((int) $id));
 
         return \Redshop\DB\Tool::safeSelect($db, $query, false, 0.0);
     }
@@ -233,7 +235,7 @@ class Helper
      */
     public static function getNewOrders()
     {
-        $db = \JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
 
         $query->select(
@@ -270,9 +272,9 @@ class Helper
      */
     public static function updateOrderPaymentMethod($data)
     {
-        $db = \JFactory::getDbo();
-        $query = $db->getQuery(true);
-        $orderId = (int)$data['cid'][0];
+        $db           = \JFactory::getDbo();
+        $query        = $db->getQuery(true);
+        $orderId      = (int) $data['cid'][0];
         $paymentClass = $data['payment_method_class'];
 
         $paymentMethod = \RedshopHelperOrder::getPaymentMethodInfo($paymentClass, false)[0];
@@ -299,7 +301,7 @@ class Helper
         if ($result) {
             $app = \JFactory::getApplication();
 
-            $db = \JFactory::getDbo();
+            $db    = \JFactory::getDbo();
             $query = $db->getQuery(true);
             $query->select('o.*, ol.*')
                 ->from($db->qn('#__redshop_order_status_log', 'ol'))
@@ -322,30 +324,30 @@ class Helper
                     $emailBody = \RedshopLayoutHelper::render(
                         'email.order.payment_method_changed',
                         array(
-                            'order' => $orderStatus,
-	                        'encrKey' => \RedshopEntityOrder::getInstance($orderId)->getItem()->encr_key
+                            'order'   => $orderStatus,
+                            'encrKey' => \RedshopEntityOrder::getInstance($orderId)->getItem()->encr_key
                         )
                     );
 
-                    $mailFrom     = $app->get('mailfrom');
-                    $fromName     = $app->get('fromname');
-                    $userDetail   = \RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+                    $mailFrom   = $app->get('mailfrom');
+                    $fromName   = $app->get('fromname');
+                    $userDetail = \RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 
                     $isSend = \Redshop\Mail\Helper::sendEmail(
                         $mailFrom,
                         $fromName,
                         $userDetail->user_email,
-                        \JText::_('COM_REDSHOP_PAYMENT_METHOD_CHANGED_EMAIL_SUBJECT'),
+                        Text::_('COM_REDSHOP_PAYMENT_METHOD_CHANGED_EMAIL_SUBJECT'),
                         $emailBody
                     );
 
                     if ($isSend) {
-                        \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_SEND_ORDER_MAIL'));
+                        \JFactory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_SEND_ORDER_MAIL'));
                     }
                 }
 
             } else {
-                \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_ERROR_SENDING_ORDER_MAIL'), 'error');
+                \JFactory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_ERROR_SENDING_ORDER_MAIL'), 'error');
             }
         }
 
@@ -362,8 +364,7 @@ class Helper
             \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD
         );
 
-        foreach ($userFields as $field)
-        {
+        foreach ($userFields as $field) {
             $data[$field->name] = $field->data_txt;
         }
     }

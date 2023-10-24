@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Field groups list controller
  *
@@ -40,7 +42,7 @@ class RedshopControllerField_Groups extends RedshopControllerAdmin
 
         $fieldGroups = $model->getItems();
 
-        $options = array('<option value="">' . JText::_('COM_REDSHOP_FIELD_GROUP_NOGROUP') . '</option>');
+        $options = array('<option value="">' . Text::_('COM_REDSHOP_FIELD_GROUP_NOGROUP') . '</option>');
 
         if (!empty($fieldGroups)) {
             foreach ($fieldGroups as $fieldGroup) {

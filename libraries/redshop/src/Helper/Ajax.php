@@ -11,6 +11,8 @@ namespace Redshop\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Ajax helper class
  *
@@ -32,7 +34,7 @@ class Ajax
     public static function validateAjaxRequest($method = 'post')
     {
         if (!\JSession::checkToken($method) || !static::isAjaxRequest()) {
-            throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+            throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
         }
     }
 
@@ -46,7 +48,7 @@ class Ajax
     public static function isAjaxRequest()
     {
         return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower(
-                $_SERVER['HTTP_X_REQUESTED_WITH']
-            ) === 'xmlhttprequest');
+            $_SERVER['HTTP_X_REQUESTED_WITH']
+        ) === 'xmlhttprequest');
     }
 }

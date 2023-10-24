@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Redshop Order Detail Controller
  *
@@ -41,15 +43,15 @@ class RedshopControllerOrder_detail extends RedshopController
 
         $cid = $this->input->post->get('cid', array(0), 'array');
 
-        $post ['order_id'] = $cid [0];
+        $post['order_id'] = $cid[0];
 
         /** @var RedshopModelOrder_detail $model */
         $model = $this->getModel('order_detail');
 
         if ($model->store($post)) {
-            $msg = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
+            $msg = Text::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_ORDER_DETAIL');
+            $msg = Text::_('COM_REDSHOP_ERROR_SAVING_ORDER_DETAIL');
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=order', $msg);
@@ -60,24 +62,24 @@ class RedshopControllerOrder_detail extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         /** @var RedshopModelOrder_detail $model */
         $model = $this->getModel('order_detail');
 
         if (!$model->delete($cid)) {
-            echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError(
-                ) . "'); window.history.go(-1); </script>\n";
+            echo "<script> alert('" . /** @scrutinizer ignore-deprecated */$model->getError(
+            ) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_ORDER_DETAIL_DELETED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_ORDER_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=order', $msg);
     }
 
     public function cancel()
     {
-        $msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
+        $msg = Text::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=com_redshop&view=order', $msg);
     }
 
@@ -108,28 +110,28 @@ class RedshopControllerOrder_detail extends RedshopController
             $currentStock = RedshopHelperStockroom::getStockroomTotalAmount($productId);
 
             if ($currentStock >= $quantity) {
-                $finalquantity = (int)$quantity;
+                $finalquantity = (int) $quantity;
             } else {
-                $finalquantity = (int)$currentStock;
+                $finalquantity = (int) $currentStock;
             }
         }
 
         if ($finalquantity > 0) {
             if ($model->neworderitem($post, $finalquantity, $order_item_id)) {
                 if ($order_item_id == 0) {
-                    $msg = JText::_('COM_REDSHOP_ORDER_ITEM_ADDED');
+                    $msg = Text::_('COM_REDSHOP_ORDER_ITEM_ADDED');
                 } else {
-                    $msg = JText::_('COM_REDSHOP_QUANTITY_UPDATED');
+                    $msg = Text::_('COM_REDSHOP_QUANTITY_UPDATED');
                 }
             } else {
                 if ($order_item_id == 0) {
-                    $msg = JText::_('COM_REDSHOP_ERROR_ADDING_ORDER_ITEM');
+                    $msg = Text::_('COM_REDSHOP_ERROR_ADDING_ORDER_ITEM');
                 } else {
-                    $msg = JText::_('COM_REDSHOP_ERROR_UPDATING_QUANTITY');
+                    $msg = Text::_('COM_REDSHOP_ERROR_UPDATING_QUANTITY');
                 }
             }
         } else {
-            $msg = JText::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK');
+            $msg = Text::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK');
         }
 
         if ($tmpl) {
@@ -155,7 +157,7 @@ class RedshopControllerOrder_detail extends RedshopController
         // Delete order if there are only 1 order item
         if (count($orderItem) == 1 && $orderItem[0]->order_item_id == $post['order_item_id']) {
             $model->delete($cid);
-            $msg = JText::_('COM_REDSHOP_ORDER_DELETED_SUCCESSFULLY');
+            $msg = Text::_('COM_REDSHOP_ORDER_DELETED_SUCCESSFULLY');
 
             $this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 
@@ -164,9 +166,9 @@ class RedshopControllerOrder_detail extends RedshopController
 
         // Delete order item.
         if ($model->delete_item($post)) {
-            $msg = JText::_('COM_REDSHOP_ORDER_ITEM_DELETED');
+            $msg = Text::_('COM_REDSHOP_ORDER_ITEM_DELETED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_DELETING_ORDER_ITEM');
+            $msg = Text::_('COM_REDSHOP_ERROR_DELETING_ORDER_ITEM');
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
@@ -180,9 +182,9 @@ class RedshopControllerOrder_detail extends RedshopController
         $model = $this->getModel('order_detail');
 
         if ($model->updateItem($post)) {
-            $msg = JText::_('COM_REDSHOP_ORDER_ITEM_PRICE_UPDATED');
+            $msg = Text::_('COM_REDSHOP_ORDER_ITEM_PRICE_UPDATED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_UPDATING_PRICE');
+            $msg = Text::_('COM_REDSHOP_ERROR_UPDATING_PRICE');
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
@@ -199,9 +201,9 @@ class RedshopControllerOrder_detail extends RedshopController
         $model = $this->getModel('order_detail');
 
         if ($model->update_discount($post)) {
-            $msg = JText::_('COM_REDSHOP_DISCOUNT_UPDATED');
+            $msg = Text::_('COM_REDSHOP_DISCOUNT_UPDATED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_UPDATING_DISCOUNT');
+            $msg  = Text::_('COM_REDSHOP_ERROR_UPDATING_DISCOUNT');
             $type = 'error';
         }
 
@@ -210,7 +212,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
     public function special_discount()
     {
-	    $type = '';
+        $type = '';
         $post = $this->input->post->getArray();
         $cid  = $this->input->post->get('cid', array(0), 'array');
 
@@ -218,10 +220,10 @@ class RedshopControllerOrder_detail extends RedshopController
         $model = $this->getModel('order_detail');
 
         if ($model->special_discount($post)) {
-            $msg = JText::_('COM_REDSHOP_SPECIAL_DISCOUNT_APPLIED');
+            $msg = Text::_('COM_REDSHOP_SPECIAL_DISCOUNT_APPLIED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_IN_SPECIAL_DISCOUNT');
-	        $type = 'error';
+            $msg  = Text::_('COM_REDSHOP_ERROR_IN_SPECIAL_DISCOUNT');
+            $type = 'error';
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg, $type);
@@ -236,22 +238,23 @@ class RedshopControllerOrder_detail extends RedshopController
         $model = $this->getModel('order_detail');
 
         if ($model->update_shippingrates($post)) {
-            $msg = JText::_('COM_REDSHOP_SHIPPING_RATE_UPDATED');
+            $msg = Text::_('COM_REDSHOP_SHIPPING_RATE_UPDATED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_UPDATING_SHIPPING_RATE');
+            $msg = Text::_('COM_REDSHOP_ERROR_UPDATING_SHIPPING_RATE');
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
     }
 
-    public function update_paymentmethod() {
+    public function update_paymentmethod()
+    {
         $post = $this->input->post->getArray();
         $cid  = $this->input->post->get('cid', array(0), 'array');
 
         if (\Redshop\Order\Helper::updateOrderPaymentMethod($post)) {
-            $msg = JText::_('COM_REDSHOP_PAYMENT_METHOD_UPDATED');
+            $msg = Text::_('COM_REDSHOP_PAYMENT_METHOD_UPDATED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_UPDATING_PAYMENT_METHOD');
+            $msg = Text::_('COM_REDSHOP_ERROR_UPDATING_PAYMENT_METHOD');
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
@@ -269,15 +272,15 @@ class RedshopControllerOrder_detail extends RedshopController
         $model = $this->getModel('order_detail');
 
         if ($model->updateShippingAdd($post)) {
-            $msg = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_UPDATED');
+            $msg = Text::_('COM_REDSHOP_SHIPPING_INFORMATION_UPDATED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_UPDATING_SHIPPING_INFORMATION');
+            $msg = Text::_('COM_REDSHOP_ERROR_UPDATING_SHIPPING_INFORMATION');
         }
 
         ?>
         <script type="text/javascript">
 
-            window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>";
+            window.parent.document.location = "index.php?option=<?php echo $suboption; ?>&view=<?php echo $view; ?>&cid[]=<?php echo $cid[0]; ?>";
 
             window.close();
         </script>
@@ -295,15 +298,15 @@ class RedshopControllerOrder_detail extends RedshopController
         $model = $this->getModel('order_detail');
 
         if ($model->updateBillingAdd($post)) {
-            $msg = JText::_('COM_REDSHOP_BILLING_INFORMATION_UPDATED');
+            $msg = Text::_('COM_REDSHOP_BILLING_INFORMATION_UPDATED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_UPDATING_BILLING_INFORMATION');
+            $msg = Text::_('COM_REDSHOP_ERROR_UPDATING_BILLING_INFORMATION');
         }
 
         ?>
         <script type="text/javascript">
 
-            window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0];?>";
+            window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0]; ?>";
 
             window.close();
         </script>
@@ -319,7 +322,7 @@ class RedshopControllerOrder_detail extends RedshopController
     public function createpdf()
     {
         if (!RedshopHelperPdf::isAvailablePdfPlugins()) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
+            JFactory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
         } else {
             $this->getView('order_detail', 'pdf');
         }
@@ -335,7 +338,7 @@ class RedshopControllerOrder_detail extends RedshopController
     public function createpdfstocknote()
     {
         if (!RedshopHelperPdf::isAvailablePdfPlugins()) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
+            JFactory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
         } else {
             $this->getView('order_detail', 'stocknotepdf');
         }
@@ -347,11 +350,11 @@ class RedshopControllerOrder_detail extends RedshopController
     {
         $cid  = $this->input->get->get('cid', array(0), 'array');
         $tmpl = $this->input->getCmd('tmpl', '');
-        $msg  = JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL');
+        $msg  = Text::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL');
         $type = 'error';
 
         if (RedshopHelperOrder::sendDownload($cid[0])) {
-            $msg = JText::_('COM_REDSHOP_DOWNLOAD_MAIL_HAS_BEEN_SENT');
+            $msg  = Text::_('COM_REDSHOP_DOWNLOAD_MAIL_HAS_BEEN_SENT');
             $type = 'message';
         }
 
@@ -409,17 +412,17 @@ class RedshopControllerOrder_detail extends RedshopController
                 $d["shippingaddress"]->country_code
             );
             $d["shippingaddress"]->state_2_code   = RedshopHelperWorld::getStateCode2(
-                $d ["shippingaddress"]->state_code
+                $d["shippingaddress"]->state_code
             );
 
             $shippingAddresses->country_2_code = RedshopHelperWorld::getCountryCode2(
-                $d ["shippingaddress"]->country_code
+                $d["shippingaddress"]->country_code
             );
-            $shippingAddresses->state_2_code   = RedshopHelperWorld::getStateCode2($d ["shippingaddress"]->state_code);
+            $shippingAddresses->state_2_code   = RedshopHelperWorld::getStateCode2($d["shippingaddress"]->state_code);
         }
 
         if (isset($userBilling)) {
-            $d ["billingaddress"] = $userBilling;
+            $d["billingaddress"] = $userBilling;
 
             if (isset($userBilling->country_code)) {
                 $d["billingaddress"]->country_2_code = RedshopHelperWorld::getCountryCode2($userBilling->country_code);
@@ -449,8 +452,8 @@ class RedshopControllerOrder_detail extends RedshopController
         $values['order_shipping'] = $order->order_shipping;
         $values['order_number']   = $request['order_id'];
         $values['order_tax']      = $order->order_tax;
-        $values['shippinginfo']   = $d ["shippingaddress"];
-        $values['billinginfo']    = $d ["billingaddress"];
+        $values['shippinginfo']   = $d["shippingaddress"];
+        $values['billinginfo']    = $d["billingaddress"];
         $values['order_total']    = $order->order_total;
         $values['order_subtotal'] = $order->order_subtotal;
         $values["order_id"]       = $request['order_id'];
@@ -479,13 +482,13 @@ class RedshopControllerOrder_detail extends RedshopController
         // Update order payment table with  credit card details
         $model->update_ccdata($request['order_id'], $paymentResponse->transaction_id);
 
-		$app->enqueueMessage($paymentResponse->message);
+        $app->enqueueMessage($paymentResponse->message);
 
-		$app->redirect(
-			Redshop\IO\Route::_(
-				JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['order_id']
-			)
-		);
+        $app->redirect(
+            Redshop\IO\Route::_(
+                JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['order_id']
+            )
+        );
     }
 
     public function send_invoicemail()
@@ -494,9 +497,9 @@ class RedshopControllerOrder_detail extends RedshopController
         $tmpl = $this->input->getCmd('tmpl', '');
 
         if (Redshop\Mail\Invoice::sendMail($cid[0])) {
-            $msg = JText::_('COM_REDSHOP_INVOICE_MAIL_HAS_BEEN_SENT');
+            $msg = Text::_('COM_REDSHOP_INVOICE_MAIL_HAS_BEEN_SENT');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_INVOICE_MAIL_FAIL');
+            $msg = Text::_('COM_REDSHOP_ERROR_INVOICE_MAIL_FAIL');
         }
 
         if ($tmpl) {
@@ -521,9 +524,9 @@ class RedshopControllerOrder_detail extends RedshopController
         $tmpl    = $this->input->getCmd('tmpl', '');
 
         if (Redshop\Mail\Order::sendMail($orderId)) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_SEND_ORDER_MAIL'));
+            JFactory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_SEND_ORDER_MAIL'));
         } else {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_ERROR_SENDING_ORDER_MAIL'), 'error');
+            JFactory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_ERROR_SENDING_ORDER_MAIL'), 'error');
         }
 
         if ($tmpl) {
