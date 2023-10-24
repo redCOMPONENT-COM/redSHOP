@@ -7,9 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\Factory;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Class RedshopModelStockroom_listing
@@ -52,15 +54,15 @@ class RedshopModelStockroom_Listing extends RedshopModelList
     public function getCsvColumns()
     {
         return array(
-            'stockroom_id'   => JText::_('COM_REDSGOP_STOCKROOM_ID'),
-            'stockroom_name' => JText::_('COM_REDSHOP_STOCKROOM_NAME'),
-            'quantity'       => JText::_('COM_REDSHOP_PRODUCT_QTY'),
-            'preorder_stock' => JText::_('COM_REDSHOP_PREORDER_STOCKROOM_QTY'),
-            'section_id'     => JText::_('COM_REDSHOP_SECTION_ID'),
-            'stockroom_type' => JText::_('COM_REDSHOP_SECTION_TYPE'),
-            'product_id'     => JText::_('COM_REDSHOP_PRODUCT_ID'),
-            'product_number' => JText::_('COM_REDSHOP_PRODUCT_SKU'),
-            'product_name'   => JText::_('COM_REDSHOP_PRODUCT_NAME'),
+            'stockroom_id'   => Text::_('COM_REDSGOP_STOCKROOM_ID'),
+            'stockroom_name' => Text::_('COM_REDSHOP_STOCKROOM_NAME'),
+            'quantity'       => Text::_('COM_REDSHOP_PRODUCT_QTY'),
+            'preorder_stock' => Text::_('COM_REDSHOP_PREORDER_STOCKROOM_QTY'),
+            'section_id'     => Text::_('COM_REDSHOP_SECTION_ID'),
+            'stockroom_type' => Text::_('COM_REDSHOP_SECTION_TYPE'),
+            'product_id'     => Text::_('COM_REDSHOP_PRODUCT_ID'),
+            'product_number' => Text::_('COM_REDSHOP_PRODUCT_SKU'),
+            'product_name'   => Text::_('COM_REDSHOP_PRODUCT_NAME'),
         );
     }
 
@@ -86,7 +88,7 @@ class RedshopModelStockroom_Listing extends RedshopModelList
         $categoryId = $this->getState('category_id');
 
         if ($categoryId > 0) {
-            $query->where($db->qn('pcx.category_id') . ' = ' . (int)$categoryId);
+            $query->where($db->qn('pcx.category_id') . ' = ' . (int) $categoryId);
         }
 
         $stockroomType = $this->getState('stockroom_type');
@@ -186,8 +188,8 @@ class RedshopModelStockroom_Listing extends RedshopModelList
                     . " WHERE stockroom_id='" . $sid . "' " . $product . $section;
             } else {
                 if (($preorder_stock < $ordered_preorder) && $preorder_stock != "" && $ordered_preorder != "") {
-                    $msg = JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED');
-					Factory::getApplication()->enqueueMessage($msg, 'warning');
+                    $msg = Text::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED');
+                    Factory::getApplication()->enqueueMessage($msg, 'warning');
 
                     return false;
                 } else {
@@ -199,8 +201,8 @@ class RedshopModelStockroom_Listing extends RedshopModelList
             }
         } else {
             if ($preorder_stock < $ordered_preorder && $preorder_stock != "" && $ordered_preorder != "") {
-                $msg = JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED') . "for Stockroom ";
-				Factory::getApplication()->enqueueMessage($msg, 'warning');
+                $msg = Text::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED') . "for Stockroom ";
+                Factory::getApplication()->enqueueMessage($msg, 'warning');
 
                 return false;
             } else {
@@ -264,14 +266,14 @@ class RedshopModelStockroom_Listing extends RedshopModelList
                 ->where('sx.section = ' . $db->q($stockroom_type));
 
             if ($pids) {
-                $query->where('sx.section_id IN (' . implode(',', (array)$pids) . ')');
+                $query->where('sx.section_id IN (' . implode(',', (array) $pids) . ')');
             }
         } else {
             $query->select('CONCAT_WS(' . $db->q('.') . ', sx.product_id, sx.stockroom_id) AS concat_id')
                 ->from($db->qn('#__redshop_product_stockroom_xref', 'sx'));
 
             if ($pids) {
-                $query->where('sx.product_id IN (' . implode(',', (array)$pids) . ')');
+                $query->where('sx.product_id IN (' . implode(',', (array) $pids) . ')');
             }
         }
 

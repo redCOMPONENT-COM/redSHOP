@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Controller Rating Detail
  *
@@ -30,7 +32,7 @@ class RedshopControllerRating extends RedshopControllerForm
     public function save($key = null, $urlVar = null)
     {
         // Check for request forgeries.
-        JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
         $app     = JFactory::getApplication();
         $lang    = JFactory::getLanguage();
@@ -101,7 +103,7 @@ class RedshopControllerRating extends RedshopControllerForm
 
         // Access check.
         if (!$this->allowSave($data, $key)) {
-            $this->setMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+            $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
             // Redirect to the list screen
             $this->setRedirect(
@@ -186,14 +188,14 @@ class RedshopControllerRating extends RedshopControllerForm
         }
 
         $this->setMessage(
-            JText::_(
+            Text::_(
                 ($lang->hasKey(
                     $this->text_prefix . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
                 )
                     ? $this->text_prefix
                     : 'JLIB_APPLICATION') . ($recordId == 0 && $app->isClient(
-                    'site'
-                ) ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
+                        'site'
+                    ) ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
             )
         );
 

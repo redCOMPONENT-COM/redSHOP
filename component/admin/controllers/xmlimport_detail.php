@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopControllerXmlimport_detail extends RedshopController
 {
@@ -37,7 +38,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
 
         $cid = $this->input->post->get('cid', array(0), 'array');
 
-        $post['xmlimport_id'] = $cid [0];
+        $post['xmlimport_id'] = $cid[0];
 
         /** @var RedshopModelXmlimport_detail $model */
         $model = $this->getModel('xmlimport_detail');
@@ -50,15 +51,15 @@ class RedshopControllerXmlimport_detail extends RedshopController
 
         if ($row) {
             if ($import == 1) {
-                $msg = JText::_('COM_REDSHOP_XMLIMPORT_FILE_SUCCESSFULLY_SYNCHRONIZED');
+                $msg = Text::_('COM_REDSHOP_XMLIMPORT_FILE_SUCCESSFULLY_SYNCHRONIZED');
             } else {
-                $msg = JText::_('COM_REDSHOP_XMLIMPORT_DETAIL_SAVED');
+                $msg = Text::_('COM_REDSHOP_XMLIMPORT_DETAIL_SAVED');
             }
         } else {
             if ($import == 1) {
-                $msg = JText::_('COM_REDSHOP_ERROR_XMLIMPORT_FILE_SYNCHRONIZED');
+                $msg = Text::_('COM_REDSHOP_ERROR_XMLIMPORT_FILE_SYNCHRONIZED');
             } else {
-                $msg = JText::_('COM_REDSHOP_ERROR_SAVING_XMLIMPORT_DETAIL');
+                $msg = Text::_('COM_REDSHOP_ERROR_SAVING_XMLIMPORT_DETAIL');
             }
         }
 
@@ -70,7 +71,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         /** @var RedshopModelXmlimport_detail $model */
@@ -80,13 +81,13 @@ class RedshopControllerXmlimport_detail extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_XMLIMPORT_DETAIL_DELETED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_XMLIMPORT_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=xmlimport', $msg);
     }
 
     public function cancel()
     {
-        $msg = JText::_('COM_REDSHOP_XMLIMPORT_DETAIL_EDITING_CANCELLED');
+        $msg = Text::_('COM_REDSHOP_XMLIMPORT_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=com_redshop&view=xmlimport', $msg);
     }
 
@@ -95,7 +96,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
         }
 
         /** @var RedshopModelXmlimport_detail $model */
@@ -105,7 +106,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_AUTO_SYNCHRONIZE_ENABLE_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_AUTO_SYNCHRONIZE_ENABLE_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=xmlimport', $msg);
     }
 
@@ -114,7 +115,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
         }
 
         /** @var RedshopModelXmlimport_detail $model */
@@ -124,7 +125,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_AUTO_SYNCHRONIZE_DISABLE_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_AUTO_SYNCHRONIZE_DISABLE_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=xmlimport', $msg);
     }
 
@@ -139,7 +140,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         /** @var RedshopModelXmlimport_detail $model */
@@ -149,7 +150,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_XMLIMPORT_PUBLISHED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_XMLIMPORT_PUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=xmlimport', $msg);
     }
 
@@ -164,7 +165,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         /** @var RedshopModelXmlimport_detail $model */
@@ -174,7 +175,7 @@ class RedshopControllerXmlimport_detail extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_XMLIMPORT_UNPUBLISHED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_XMLIMPORT_UNPUBLISHED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=xmlimport', $msg);
     }
 }

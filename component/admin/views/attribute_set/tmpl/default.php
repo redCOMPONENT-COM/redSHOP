@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 ?>
 <script language="javascript" type="text/javascript">
@@ -22,7 +25,7 @@ defined('_JEXEC') or die;
             <thead>
             <tr>
                 <th width="5%">
-                    <?php echo JText::_('COM_REDSHOP_NUM'); ?>
+                    <?php echo Text::_('COM_REDSHOP_NUM'); ?>
                 </th>
                 <th width="5%">
                     <?php echo JHtml::_('redshopgrid.checkall'); ?>
@@ -70,7 +73,7 @@ defined('_JEXEC') or die;
                 <td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
                 <td align="center"><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
                 <td><a href="<?php echo $link; ?>"
-                       title="<?php echo JText::_(
+                       title="<?php echo Text::_(
                            'COM_REDSHOP_EDIT_ATTRIBUTE_SET'
                        ); ?>"><?php echo $row->attribute_set_name; ?></a>
                 </td>

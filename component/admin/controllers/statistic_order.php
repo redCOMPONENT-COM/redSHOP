@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Statistic Order controller
  *
@@ -39,7 +41,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
         header('Content-Disposition: attachment; filename=Order.csv');
 
         for ($i = 0, $in = count($data); $i < $in; $i++) {
-            $productCount[] = $noProducts [$i]->noproduct;
+            $productCount[] = $noProducts[$i]->noproduct;
         }
 
         $noProducts = max($productCount);
@@ -51,9 +53,9 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
         echo "Billing postalcode, Billing city, Billing country,Billing User ,";
 
         for ($i = 1; $i <= $noProducts; $i++) {
-            echo JText::_('COM_REDSHOP_PRODUCT_NAME') . $i . ' ,';
-            echo JText::_('COM_REDSHOP_PRODUCT') . ' ' . JText::_('COM_REDSHOP_PRODUCT_PRICE') . $i . ' ,';
-            echo JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE') . $i . ' ,';
+            echo Text::_('COM_REDSHOP_PRODUCT_NAME') . $i . ' ,';
+            echo Text::_('COM_REDSHOP_PRODUCT') . ' ' . Text::_('COM_REDSHOP_PRODUCT_PRICE') . $i . ' ,';
+            echo Text::_('COM_REDSHOP_PRODUCT_ATTRIBUTE') . $i . ' ,';
         }
 
         echo "Order Total\n";
@@ -62,8 +64,8 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
             $billingInfo = RedshopHelperOrder::getOrderBillingUserInfo($data[$i]->order_id);
             $details     = Redshop\Shipping\Rate::decrypt($data[$i]->ship_method_id);
 
-            echo $data [$i]->order_id . ",";
-            echo utf8_decode(RedshopHelperOrder::getOrderStatusTitle($data [$i]->order_status)) . " ,";
+            echo $data[$i]->order_id . ",";
+            echo utf8_decode(RedshopHelperOrder::getOrderStatusTitle($data[$i]->order_status)) . " ,";
             echo date('d-m-Y H:i', $data[$i]->cdate) . " ,";
 
             if (empty($details)) {
@@ -75,10 +77,10 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
             $shippingInfo = RedshopHelperOrder::getOrderShippingUserInfo($data[$i]->order_id);
 
             echo str_replace(",", " ", $shippingInfo->firstname) . " " . str_replace(
-                    ",",
-                    " ",
-                    $shippingInfo->lastname
-                ) . " ,";
+                ",",
+                " ",
+                $shippingInfo->lastname
+            ) . " ,";
             echo str_replace(",", " ", utf8_decode($shippingInfo->address)) . " ,";
             echo $shippingInfo->zipcode . " ,";
             echo str_replace(",", " ", utf8_decode($shippingInfo->city)) . " ,";
@@ -91,10 +93,10 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
             echo str_replace(",", " ", utf8_decode($billingInfo->city)) . " ,";
             echo $billingInfo->country_code . " ,";
             echo str_replace(",", " ", $billingInfo->firstname) . " " . str_replace(
-                    ",",
-                    " ",
-                    $billingInfo->lastname
-                ) . " ,";
+                ",",
+                " ",
+                $billingInfo->lastname
+            ) . " ,";
 
             $noItems = RedshopHelperOrder::getOrderItemDetail($data[$i]->order_id);
 
@@ -119,7 +121,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
                 echo str_repeat(' ,', $temp * 3);
             }
 
-            echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $data [$i]->order_total . "\n";
+            echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $data[$i]->order_total . "\n";
         }
 
         exit();

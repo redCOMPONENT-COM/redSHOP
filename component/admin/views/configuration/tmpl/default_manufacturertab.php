@@ -7,9 +7,12 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die;
-?>
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
+?>
 <fieldset class="adminform">
     <div class="row">
         <div class="col-sm-6">
@@ -17,7 +20,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_MANUFACTURER_SETTINGS'),
+                    'title'   => Text::_('COM_REDSHOP_MANUFACTURER_SETTINGS'),
                     'content' => $this->loadTemplate('manufacturer_setting')
                 )
             );
@@ -29,7 +32,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_MANUFACTURER_IMAGE_SETTINGS'),
+                    'title'   => Text::_('COM_REDSHOP_MANUFACTURER_IMAGE_SETTINGS'),
                     'content' => $this->loadTemplate('manufacturer_image_setting')
                 )
             );

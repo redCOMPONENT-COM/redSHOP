@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Table Country
  *
@@ -51,7 +53,7 @@ class RedshopTableCountry extends RedshopTable
             return false;
         }
 
-        $db = JFactory::getDbo();
+        $db    = JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select($db->qn(array('id', 'country_3_code')))
             ->from($db->qn('#__redshop_country'))
@@ -64,7 +66,7 @@ class RedshopTableCountry extends RedshopTable
         $xid = $db->setQuery($query)->loadResult();
 
         if ($xid) {
-            $this->setError(JText::_('COM_REDSHOP_COUNTRY_CODE_3_ALREADY_EXISTS'));
+            $this->setError(Text::_('COM_REDSHOP_COUNTRY_CODE_3_ALREADY_EXISTS'));
 
             return false;
         } else {
@@ -80,7 +82,7 @@ class RedshopTableCountry extends RedshopTable
             $xid = $db->setQuery($query)->loadResult();
 
             if ($xid) {
-                $this->setError(JText::_('COM_REDSHOP_COUNTRY_CODE_2_ALREADY_EXISTS'));
+                $this->setError(Text::_('COM_REDSHOP_COUNTRY_CODE_2_ALREADY_EXISTS'));
 
                 return false;
             }

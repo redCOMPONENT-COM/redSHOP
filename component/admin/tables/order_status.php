@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Order Status table
  *
@@ -81,7 +83,7 @@ class RedshopTableOrder_Status extends RedshopTable
         }
 
         if ($db->setQuery($query)->loadResult()) {
-            $this->setError(JText::_('COM_REDSHOP_ORDER_STATUS_ERROR_STATUS_EXIST'));
+            $this->setError(Text::_('COM_REDSHOP_ORDER_STATUS_ERROR_STATUS_EXIST'));
 
             return false;
         }
@@ -114,7 +116,7 @@ class RedshopTableOrder_Status extends RedshopTable
         $check = $db->loadObjectList();
 
         if (count($check) > 0) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_ORDER_STAUS_FAIL_DELETE'), 'error');
+            JFactory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_ORDER_STAUS_FAIL_DELETE'), 'error');
 
             return false;
         }

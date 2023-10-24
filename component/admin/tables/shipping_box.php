@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Shipping box table
  *
@@ -75,21 +77,21 @@ class RedshopTableShipping_Box extends RedshopTable
 
         if ($this->shipping_box_length <= 0.0) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(JText::_('COM_REDSHOP_SHIPPING_BOX_ERROR_LENGTH_INVALID'));
+            $this->setError(Text::_('COM_REDSHOP_SHIPPING_BOX_ERROR_LENGTH_INVALID'));
 
             return false;
         }
 
         if ($this->shipping_box_width <= 0.0) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(JText::_('COM_REDSHOP_SHIPPING_BOX_ERROR_WIDTH_INVALID'));
+            $this->setError(Text::_('COM_REDSHOP_SHIPPING_BOX_ERROR_WIDTH_INVALID'));
 
             return false;
         }
 
         if ($this->shipping_box_height <= 0.0) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(JText::_('COM_REDSHOP_SHIPPING_BOX_ERROR_HEIGHT_INVALID'));
+            $this->setError(Text::_('COM_REDSHOP_SHIPPING_BOX_ERROR_HEIGHT_INVALID'));
 
             return false;
         }

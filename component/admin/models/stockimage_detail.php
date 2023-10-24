@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopModelStockimage_detail extends RedshopModel
 {
@@ -23,7 +24,7 @@ class RedshopModelStockimage_detail extends RedshopModel
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
         $array               = JFactory::getApplication()->input->get('cid', 0, 'array');
-        $this->setId((int)$array[0]);
+        $this->setId((int) $array[0]);
     }
 
     public function setId($id)
@@ -50,7 +51,7 @@ class RedshopModelStockimage_detail extends RedshopModel
             $this->_db->setQuery($query);
             $this->_data = $this->_db->loadObject();
 
-            return (boolean)$this->_data;
+            return (boolean) $this->_data;
         }
 
         return true;
@@ -68,7 +69,7 @@ class RedshopModelStockimage_detail extends RedshopModel
             $detail->stock_amount_image_tooltip = null;
             $this->_data                        = $detail;
 
-            return (boolean)$this->_data;
+            return (boolean) $this->_data;
         }
 
         return true;
@@ -90,9 +91,11 @@ class RedshopModelStockimage_detail extends RedshopModel
             $dest = REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $filename;
             JFile::upload($src, $dest);
 
-            if (isset($data['stock_image']) != "" && JFile::exists(
+            if (
+                isset($data['stock_image']) != "" && JFile::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $data['stock_image']
-                )) {
+                )
+            ) {
                 JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $data['stock_image']);
             }
         }
@@ -123,9 +126,11 @@ class RedshopModelStockimage_detail extends RedshopModel
                 $this->_db->setQuery($query);
                 $stock_amount_image = $this->_db->loadResult();
 
-                if ($stock_amount_image != "" && JFile::exists(
+                if (
+                    $stock_amount_image != "" && JFile::exists(
                         REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $stock_amount_image
-                    )) {
+                    )
+                ) {
                     JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $stock_amount_image);
                 }
             }
@@ -141,10 +146,10 @@ class RedshopModelStockimage_detail extends RedshopModel
     public function getStockAmountOption($select = 0)
     {
         $option   = array();
-        $option[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-        $option[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_HIGHER_THAN'));
-        $option[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_EQUAL'));
-        $option[] = JHTML::_('select.option', 3, JText::_('COM_REDSHOP_LOWER_THAN'));
+        $option[] = JHTML::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
+        $option[] = JHTML::_('select.option', 1, Text::_('COM_REDSHOP_HIGHER_THAN'));
+        $option[] = JHTML::_('select.option', 2, Text::_('COM_REDSHOP_EQUAL'));
+        $option[] = JHTML::_('select.option', 3, Text::_('COM_REDSHOP_LOWER_THAN'));
 
         if ($select != 0) {
             $option = $option[$select]->text;

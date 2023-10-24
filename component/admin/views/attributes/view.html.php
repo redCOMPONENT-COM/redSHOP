@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Attribute list view
  *
@@ -59,7 +61,7 @@ class RedshopViewAttributes extends RedshopViewAdmin
      */
     protected function addToolBar()
     {
-        $title = JText::_('COM_REDSHOP_ATTRIBUTE_MANAGEMENT');
+        $title = Text::_('COM_REDSHOP_ATTRIBUTE_MANAGEMENT');
 
         if ($this->pagination->total) {
             $title .= "<span style='font-size: 0.5em; vertical-align: middle;'>(" . $this->pagination->total . ")</span>";

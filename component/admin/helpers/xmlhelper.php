@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 class xmlHelper
 {
     /**
@@ -18,9 +20,9 @@ class xmlHelper
     public function getSectionTypeList()
     {
         $section   = array();
-        $section[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
-        $section[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT'));
-        $section[] = JHTML::_('select.option', 'order', JText::_('COM_REDSHOP_ORDER'));
+        $section[] = JHTML::_('select.option', '', Text::_('COM_REDSHOP_SELECT'));
+        $section[] = JHTML::_('select.option', 'product', Text::_('COM_REDSHOP_PRODUCT'));
+        $section[] = JHTML::_('select.option', 'order', Text::_('COM_REDSHOP_ORDER'));
 
         return $section;
     }
@@ -33,7 +35,7 @@ class xmlHelper
     public function getSectionTypeName($value = '')
     {
         if ($value === 'product' || $value === 'order') {
-            return JText::_('COM_REDSHOP_' . strtoupper($value));
+            return Text::_('COM_REDSHOP_' . strtoupper($value));
         }
 
         return '-';
@@ -46,10 +48,10 @@ class xmlHelper
     public function getSynchIntervalList()
     {
         $section   = array();
-        $section[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-        $section[] = JHTML::_('select.option', 24, JText::_('COM_REDSHOP_24_HOURS'));
-        $section[] = JHTML::_('select.option', 12, JText::_('COM_REDSHOP_12_HOURS'));
-        $section[] = JHTML::_('select.option', 6, JText::_('COM_REDSHOP_6_HOURS'));
+        $section[] = JHTML::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
+        $section[] = JHTML::_('select.option', 24, Text::_('COM_REDSHOP_24_HOURS'));
+        $section[] = JHTML::_('select.option', 12, Text::_('COM_REDSHOP_12_HOURS'));
+        $section[] = JHTML::_('select.option', 6, Text::_('COM_REDSHOP_6_HOURS'));
 
         return $section;
     }
@@ -63,7 +65,7 @@ class xmlHelper
     public function getSynchIntervalName($value = 0)
     {
         if ($value == 6 || $value == 12 || $value == 24) {
-            return JText::_('COM_REDSHOP_' . $value . '_HOURS');
+            return Text::_('COM_REDSHOP_' . $value . '_HOURS');
         }
 
         return '-';
@@ -73,7 +75,7 @@ class xmlHelper
     {
         $db    = JFactory::getDbo();
         $query = "SELECT * FROM " . "#__redshop_xml_export_ipaddress AS x "
-            . "WHERE x.xmlexport_id=" . (int)$xmlexport_id;
+            . "WHERE x.xmlexport_id=" . (int) $xmlexport_id;
 
         return $db->setQuery($query)->loadObjectlist();
     }
@@ -323,7 +325,7 @@ class xmlHelper
                     }
 
                     if ((isset($xmlarray['cdate']) && $prop == $xmlarray['cdate']) || (isset($xmlarray['mdate']) && $prop == $xmlarray['mdate'])) {
-                        $val = RedshopHelperDatetime::convertDateFormat((int)$val);
+                        $val = RedshopHelperDatetime::convertDateFormat((int) $val);
                     }
 
                     if ($prop != "order_id" && $prop != "product_id") {
@@ -349,7 +351,7 @@ class xmlHelper
                         } elseif ($prop == "delivertime") {
                             $query = "SELECT * FROM " . "#__redshop_stockroom AS s "
                                 . "LEFT JOIN " . "#__redshop_product_stockroom_xref AS sx ON s.stockroom_id=sx.stockroom_id "
-                                . "WHERE product_id=" . (int)$productId . " "
+                                . "WHERE product_id=" . (int) $productId . " "
                                 . "ORDER BY s.stockroom_id ASC ";
 
                             $db   = JFactory::getDbo();
@@ -409,7 +411,7 @@ class xmlHelper
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__redshop_xml_export', 'x'))
-            ->where($db->quoteName('x.xmlexport_id') . ' = ' . (int)$xmlExportId);
+            ->where($db->quoteName('x.xmlexport_id') . ' = ' . (int) $xmlExportId);
 
         return $db->setQuery($query)->loadObjectList();
     }
@@ -429,7 +431,7 @@ class xmlHelper
             case 'product':
                 switch ($childSection) {
                     case "stockdetail":
-                        $table  = "stockroom";
+                        $table = "stockroom";
                         $fields = \Redshop\Repositories\Table::getFields('#__redshop_product_stockroom_xref');
 
                         foreach ($fields as $field) {
@@ -452,7 +454,7 @@ class xmlHelper
                         }
                         break;
                     default:
-                        $table  = "product";
+                        $table = "product";
                         $fields = \Redshop\Repositories\Table::getFields('#__redshop_category');
 
                         foreach ($fields as $field) {
@@ -579,7 +581,7 @@ class xmlHelper
         $field    = array();
         $strfield = "";
 
-        foreach ($xmlarray AS $key => $value) {
+        foreach ($xmlarray as $key => $value) {
             if ($key == "category_name") {
                 $field[] = "c." . $key . " AS " . $value;
             } elseif ($key == "product_price") {
@@ -641,7 +643,7 @@ class xmlHelper
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true);
 
-        foreach ($xmlArray AS $key => $value) {
+        foreach ($xmlArray as $key => $value) {
             $field[] = $key . " AS " . $value;
             $query->select($db->quoteName($key, $value));
         }
@@ -662,13 +664,13 @@ class xmlHelper
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true);
 
-        foreach ($xmlarray AS $key => $value) {
+        foreach ($xmlarray as $key => $value) {
             $query->select($db->quoteName($key, $value));
         }
 
         $query->from($db->quoteName('#__order_users_info'))
             ->where($db->quoteName('address_type') . ' = ' . $db->quoteName($addresstype))
-            ->where($db->quoteName('order_id') . (int)$orderId);
+            ->where($db->quoteName('order_id') . (int) $orderId);
 
         return $db->setQuery($query)->loadObjectList();
     }
@@ -682,12 +684,12 @@ class xmlHelper
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true);
 
-        foreach ($xmlArray AS $key => $value) {
+        foreach ($xmlArray as $key => $value) {
             $query->select($db->quoteName($key, $value));
         }
 
         $query->from($db->quoteName('#__redshop_order_item'))
-            ->where($db->quoteName('order_id') . (int)$orderId)
+            ->where($db->quoteName('order_id') . (int) $orderId)
             ->order($db->quoteName('order_item_id'));
 
         return $db->setQuery($query)->loadObjectList();
@@ -703,7 +705,7 @@ class xmlHelper
 
         $field = array();
 
-        foreach ($xmls AS $key => $value) {
+        foreach ($xmls as $key => $value) {
             $field[] = $key . " AS " . $value;
         }
 
@@ -713,7 +715,7 @@ class xmlHelper
 
         $query = "SELECT " . implode(", ", $field) . " FROM " . "#__redshop_stockroom AS s "
             . "LEFT JOIN " . "#__redshop_product_stockroom_xref AS sx ON s.stockroom_id=sx.stockroom_id "
-            . "WHERE product_id=" . (int)$productId . " "
+            . "WHERE product_id=" . (int) $productId . " "
             . "ORDER BY s.stockroom_id ASC ";
         $db->setQuery($query);
 
@@ -737,7 +739,7 @@ class xmlHelper
         $db    = JFactory::getDbo();
         $field = array();
 
-        foreach ($xmls AS $key => $value) {
+        foreach ($xmls as $key => $value) {
             $field[] = $db->qn($key, $value);
         }
 
@@ -750,8 +752,8 @@ class xmlHelper
             ->select($db->qn('f.name', 'name'))
             ->from($db->qn('#__redshop_fields_data', 'fd'))
             ->innerjoin($db->qn('#__redshop_fields', 'f') . ' ON fd.fieldid = f.id')
-            ->where($db->qn('fd.itemid') . ' = ' . (int)$sectionId)
-            ->where($db->qn('fd.section') . ' = ' . (int)$fieldSection);
+            ->where($db->qn('fd.itemid') . ' = ' . (int) $sectionId)
+            ->where($db->qn('fd.section') . ' = ' . (int) $fieldSection);
 
         return $db->setQuery($query)->loadObjectList();
     }
@@ -762,7 +764,7 @@ class xmlHelper
         $query = "INSERT INTO " . "#__redshop_xml_export_log "
             . "(xmlexport_id, xmlexport_filename, xmlexport_date) "
             . "VALUES "
-            . "(" . (int)$xmlexport_id . ", " . $db->quote($filename) . "," . $db->quote(time()) . ") ";
+            . "(" . (int) $xmlexport_id . ", " . $db->quote($filename) . "," . $db->quote(time()) . ") ";
 
         return $db->setQuery($query)->execute();
     }
@@ -772,7 +774,7 @@ class xmlHelper
         $db    = JFactory::getDbo();
         $query = "UPDATE " . "#__redshop_xml_export "
             . "SET filename=" . $db->quote($filename) . " "
-            . "WHERE xmlexport_id=" . (int)$xmlexport_id;
+            . "WHERE xmlexport_id=" . (int) $xmlexport_id;
 
         return $db->setQuery($query)->execute();
     }
@@ -866,7 +868,7 @@ class xmlHelper
     {
         $db    = JFactory::getDbo();
         $query = "SELECT * FROM " . "#__redshop_xml_import "
-            . "WHERE xmlimport_id=" . (int)$xmlimport_id;
+            . "WHERE xmlimport_id=" . (int) $xmlimport_id;
 
         return $db->setQuery($query)->loadObjectList();
     }
@@ -907,76 +909,88 @@ class xmlHelper
         $resultarray = array();
 
         if (strtolower($mainelement) == strtolower($data->element_name)) {
-            foreach ($content->$mainelement AS $mainelementval) {
+            foreach ($content->$mainelement as $mainelementval) {
                 $row = array();
                 $j   = 0;
 
-                foreach ($mainelementval AS $mainkey => $mainvalue) // Main element Array Start
+                foreach ($mainelementval as $mainkey => $mainvalue) // Main element Array Start
                 {
                     if (!empty($mainvalue->children())) {
                         $subrow     = array();
                         $subelement = "";
 
-                        if (strtolower($mainkey) == strtolower(
+                        if (
+                            strtolower($mainkey) == strtolower(
                                 $data->billing_element_name
-                            )) // Billing element Array Start
+                            )
+                        ) // Billing element Array Start
                         {
                             $subelement = $data->billing_element_name;
                             $l          = 0;
 
-                            foreach ($mainvalue->children() AS $subkey => $subvalue) {
+                            foreach ($mainvalue->children() as $subkey => $subvalue) {
                                 $resultbillingarray[$l] = $subkey;
 
                                 if ($isImport == 0) {
-                                    $subrow[$subkey] = (string)$subvalue;
-                                } elseif ($isImport == 1 && trim(
+                                    $subrow[$subkey] = (string) $subvalue;
+                                } elseif (
+                                    $isImport == 1 && trim(
                                         $xmlBillingArray[$l][1]
-                                    ) != "" && $xmlBillingArray[$l][2] == 1) {
-                                    $subrow[$xmlBillingArray[$l][1]] = (string)$subvalue;
+                                    ) != "" && $xmlBillingArray[$l][2] == 1
+                                ) {
+                                    $subrow[$xmlBillingArray[$l][1]] = (string) $subvalue;
                                 }
 
                                 $l++;
                             }
-                        } elseif (strtolower($mainkey) == strtolower(
+                        } elseif (
+                            strtolower($mainkey) == strtolower(
                                 $data->shipping_element_name
-                            )) // Shipping element Array Start
+                            )
+                        ) // Shipping element Array Start
                         {
                             $subelement = $data->shipping_element_name;
                             $l          = 0;
 
-                            foreach ($mainvalue->children() AS $subkey => $subvalue) {
+                            foreach ($mainvalue->children() as $subkey => $subvalue) {
                                 $resulshippingtarray[$l] = $subkey;
 
                                 if ($isImport == 0) {
-                                    $subrow[$subkey] = (string)$subvalue;
-                                } elseif ($isImport == 1 && trim(
+                                    $subrow[$subkey] = (string) $subvalue;
+                                } elseif (
+                                    $isImport == 1 && trim(
                                         $xmlShippingArray[$l][1]
-                                    ) != "" && $xmlShippingArray[$l][2] == 1) {
-                                    $subrow[$xmlShippingArray[$l][1]] = (string)$subvalue;
+                                    ) != "" && $xmlShippingArray[$l][2] == 1
+                                ) {
+                                    $subrow[$xmlShippingArray[$l][1]] = (string) $subvalue;
                                 }
 
                                 $l++;
                             }
-                        } elseif (strtolower($mainkey) == strtolower($data->stock_element_name)
+                        } elseif (
+                            strtolower($mainkey) == strtolower($data->stock_element_name)
                             || strtolower(substr($mainkey, 0, -1)) == strtolower(
                                 $data->stock_element_name
-                            )) // Stock element Array Start
+                            )
+                        ) // Stock element Array Start
                         {
                             $subelement = $data->stock_element_name;
                             $l          = 0;
 
-                            foreach ($mainvalue->children() AS $subelementval) {
+                            foreach ($mainvalue->children() as $subelementval) {
                                 $k = 0;
 
-                                foreach ($subelementval AS $subkey => $subvalue) {
+                                foreach ($subelementval as $subkey => $subvalue) {
                                     $resultstockarray[$k] = $subkey;
 
                                     if ($isImport == 0) {
-                                        $subrow[$l][$subkey] = (string)$subvalue;
-                                    } elseif ($isImport == 1 && trim(
+                                        $subrow[$l][$subkey] = (string) $subvalue;
+                                    } elseif (
+                                        $isImport == 1 && trim(
                                             $xmlStockArray[$k][1]
-                                        ) != "" && $xmlStockArray[$k][2] == 1) {
-                                        $subrow[$l][$xmlStockArray[$k][1]] = (string)$subvalue;
+                                        ) != "" && $xmlStockArray[$k][2] == 1
+                                    ) {
+                                        $subrow[$l][$xmlStockArray[$k][1]] = (string) $subvalue;
                                     }
 
                                     $k++;
@@ -984,26 +998,30 @@ class xmlHelper
 
                                 $l++;
                             }
-                        } elseif (strtolower($mainkey) == strtolower($data->prdextrafield_element_name)
+                        } elseif (
+                            strtolower($mainkey) == strtolower($data->prdextrafield_element_name)
                             || strtolower(substr($mainkey, 0, -1)) == strtolower(
                                 $data->prdextrafield_element_name
-                            )) // Product Extra field element Array Start
+                            )
+                        ) // Product Extra field element Array Start
                         {
                             $subelement = $data->prdextrafield_element_name;
                             $l          = 0;
 
-                            foreach ($mainvalue->children() AS $subelementval) {
+                            foreach ($mainvalue->children() as $subelementval) {
                                 $k = 0;
 
-                                foreach ($subelementval AS $subkey => $subvalue) {
+                                foreach ($subelementval as $subkey => $subvalue) {
                                     $resultprdextarray[$k] = $subkey;
 
                                     if ($isImport == 0) {
-                                        $subrow[$l][$subkey] = (string)$subvalue;
-                                    } elseif ($isImport == 1 && trim(
+                                        $subrow[$l][$subkey] = (string) $subvalue;
+                                    } elseif (
+                                        $isImport == 1 && trim(
                                             $xmlPrdextArray[$k][1]
-                                        ) != "" && $xmlPrdextArray[$k][2] == 1) {
-                                        $subrow[$l][$xmlPrdextArray[$k][1]] = (string)$subvalue;
+                                        ) != "" && $xmlPrdextArray[$k][2] == 1
+                                    ) {
+                                        $subrow[$l][$xmlPrdextArray[$k][1]] = (string) $subvalue;
                                     }
 
                                     $k++;
@@ -1011,25 +1029,29 @@ class xmlHelper
 
                                 $l++;
                             }
-                        } elseif (strtolower($mainkey) == strtolower($data->orderitem_element_name) || strtolower(
+                        } elseif (
+                            strtolower($mainkey) == strtolower($data->orderitem_element_name) || strtolower(
                                 substr($mainkey, 0, -1)
-                            ) == strtolower($data->orderitem_element_name)) // Order item element Array Start
+                            ) == strtolower($data->orderitem_element_name)
+                        ) // Order item element Array Start
                         {
                             $subelement = $data->orderitem_element_name;
                             $l          = 0;
 
-                            foreach ($mainvalue->children() AS $subelementval) {
+                            foreach ($mainvalue->children() as $subelementval) {
                                 $k = 0;
 
-                                foreach ($subelementval AS $subkey => $subvalue) {
+                                foreach ($subelementval as $subkey => $subvalue) {
                                     $resultorderitemarray[$k] = $subkey;
 
                                     if ($isImport == 0) {
-                                        $subrow[$l][$subkey] = (string)$subvalue;
-                                    } elseif ($isImport == 1 && trim(
+                                        $subrow[$l][$subkey] = (string) $subvalue;
+                                    } elseif (
+                                        $isImport == 1 && trim(
                                             $xmlOrderitemArray[$k][1]
-                                        ) != "" && $xmlOrderitemArray[$k][2] == 1) {
-                                        $subrow[$l][$xmlOrderitemArray[$k][1]] = (string)$subvalue;
+                                        ) != "" && $xmlOrderitemArray[$k][2] == 1
+                                    ) {
+                                        $subrow[$l][$xmlOrderitemArray[$k][1]] = (string) $subvalue;
                                     }
 
                                     $k++;
@@ -1046,9 +1068,9 @@ class xmlHelper
                         $resultsectionarray[$j] = $mainkey;
 
                         if ($isImport == 0) {
-                            $row[$mainkey] = (string)$mainvalue;
+                            $row[$mainkey] = (string) $mainvalue;
                         } elseif ($isImport == 1 && trim($xmlFileArray[$j][1]) != "" && $xmlFileArray[$j][2] == 1) {
-                            $row[$xmlFileArray[$j][1]] = (string)$mainvalue;
+                            $row[$xmlFileArray[$j][1]] = (string) $mainvalue;
                         }
                     }
 
@@ -1096,7 +1118,7 @@ class xmlHelper
         $db    = JFactory::getDbo();
         $query = "UPDATE " . "#__redshop_xml_import "
             . "SET filename=" . $db->quote($filename) . " "
-            . "WHERE xmlimport_id=" . (int)$xmlimport_id;
+            . "WHERE xmlimport_id=" . (int) $xmlimport_id;
 
         return $db->setQuery($query)->execute();
     }
@@ -1117,9 +1139,12 @@ class xmlHelper
 
         $destpath = JPATH_SITE . "/components/com_redshop/assets/xmlfile/import/";
 
-        if (($xmlimportdata->filename == "" || !JFile::exists(
-                    $destpath . $xmlimportdata->filename
-                )) && $xmlimportdata->published == 0) {
+        if (
+            ($xmlimportdata->filename == "" || !JFile::exists(
+                $destpath . $xmlimportdata->filename
+            )
+            ) && $xmlimportdata->published == 0
+        ) {
             return false;
         }
 
@@ -1143,10 +1168,12 @@ class xmlHelper
                         }
                     }
 
-                    if (array_key_exists(
+                    if (
+                        array_key_exists(
                             'product_full_image',
                             $datalist[$i]
-                        ) && $datalist[$i]['product_full_image'] != "") {
+                        ) && $datalist[$i]['product_full_image'] != ""
+                    ) {
                         $src      = $datalist[$i]['product_full_image'];
                         $filename = basename($src);
                         $dest     = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $filename;
@@ -1155,10 +1182,12 @@ class xmlHelper
                         $datalist[$i]['product_full_image'] = $filename;
                     }
 
-                    if (array_key_exists(
+                    if (
+                        array_key_exists(
                             'product_thumb_image',
                             $datalist[$i]
-                        ) && $datalist[$i]['product_thumb_image'] != "") {
+                        ) && $datalist[$i]['product_thumb_image'] != ""
+                    ) {
                         $src      = $datalist[$i]['product_thumb_image'];
                         $filename = basename($src);
                         $dest     = REDSHOP_FRONT_IMAGES_RELPATH . "product/thumb/" . $filename;
@@ -1206,8 +1235,8 @@ class xmlHelper
                                                     . "AND sx.product_id=p.product_id "
                                                     . "AND p.product_number=" . $db->quote($oldproduct_number) . " "
                                                     . "AND s.name=" . $db->quote(
-                                                        $value[$j]['stockroom_name']
-                                                    ) . " ";
+                                                            $value[$j]['stockroom_name']
+                                                        ) . " ";
 
                                                 $db->setQuery($query)->execute();
                                                 $affected_rows = $db->getAffectedRows();
@@ -1215,23 +1244,23 @@ class xmlHelper
                                                 if (!$affected_rows) {
                                                     $query = "SELECT stockroom_id FROM " . "#__redshop_stockroom "
                                                         . "WHERE stockroom_name=" . $db->quote(
-                                                            $value[$j]['stockroom_name']
-                                                        ) . "";
+                                                                $value[$j]['stockroom_name']
+                                                            ) . "";
                                                     $db->setQuery($query);
                                                     $stockroom_id = $db->loadResult();
 
                                                     if (!$stockroom_id) {
                                                         $query = "INSERT IGNORE INTO " . "#__redshop_stockroom "
                                                             . "(name) VALUES (" . $db->quote(
-                                                                $value[$j]['stockroom_name']
-                                                            ) . ")";
+                                                                    $value[$j]['stockroom_name']
+                                                                ) . ")";
                                                         $db->setQuery($query);
                                                         $db->execute();
                                                         $stockroom_id = $db->insertid();
                                                     }
 
                                                     $query = "INSERT IGNORE INTO " . "#__redshop_product_stockroom_xref "
-                                                        . "(stockroom_id,product_id,quantity) VALUES (" . (int)$stockroom_id . "," . (int)$productId . ",0)";
+                                                        . "(stockroom_id,product_id,quantity) VALUES (" . (int) $stockroom_id . "," . (int) $productId . ",0)";
 
                                                     $db->setQuery($query)->execute();
 
@@ -1243,8 +1272,8 @@ class xmlHelper
                                                         . "AND sx.product_id=p.product_id "
                                                         . "AND p.product_number=" . $db->quote($oldproduct_number) . " "
                                                         . "AND s.name=" . $db->quote(
-                                                            $value[$j]['stockroom_name']
-                                                        ) . " ";
+                                                                $value[$j]['stockroom_name']
+                                                            ) . " ";
 
                                                     $db->setQuery($query)->execute();
                                                 }
@@ -1266,7 +1295,7 @@ class xmlHelper
                                                     . "SET $prdextstring "
                                                     . "WHERE p.product_id=fa.itemid "
                                                     . "AND fa.section='1' "
-                                                    . "AND fa.fieldid=" . (int)$value[$j]['fieldid'] . " "
+                                                    . "AND fa.fieldid=" . (int) $value[$j]['fieldid'] . " "
                                                     . "AND p.product_number=" . $db->quote($oldproduct_number);
 
                                                 $db->setQuery($query)->execute();
@@ -1275,8 +1304,8 @@ class xmlHelper
                                                 if (!$affected_rows) {
                                                     $query = "INSERT IGNORE INTO " . "#__redshop_fields_data "
                                                         . "(fieldid,itemid,section) VALUES (" . $db->quote(
-                                                            $value[$j]['fieldid']
-                                                        ) . "," . (int)$productId . ",1)";
+                                                                $value[$j]['fieldid']
+                                                            ) . "," . (int) $productId . ",1)";
 
                                                     $db->setQuery($query)->execute();
 
@@ -1287,8 +1316,8 @@ class xmlHelper
                                                         . "AND fa.section='1' "
                                                         . "AND fa.fieldid=" . $db->quote($value[$j]['fieldid']) . " "
                                                         . "AND p.product_number=" . $db->quote(
-                                                            $oldproduct_number
-                                                        ) . " ";
+                                                                $oldproduct_number
+                                                            ) . " ";
 
                                                     $db->setQuery($query)->execute();
                                                 }
@@ -1329,21 +1358,21 @@ class xmlHelper
 
                                 $query = "INSERT IGNORE INTO " . "#__redshop_category_xref "
                                     . "(category_parent_id,category_child_id) "
-                                    . "VALUES ('0', " . (int)$category_id . ")";
+                                    . "VALUES ('0', " . (int) $category_id . ")";
 
                                 $db->setQuery($query)->execute();
                             }
 
                             if ($category_id != 0) {
                                 $query = 'DELETE FROM ' . '#__redshop_product_category_xref '
-                                    . "WHERE product_id=" . (int)$productId . " "
-                                    . "AND category_id=" . (int)$category_id . " ";
+                                    . "WHERE product_id=" . (int) $productId . " "
+                                    . "AND category_id=" . (int) $category_id . " ";
 
                                 $db->setQuery($query)->execute();
 
                                 $query = "INSERT IGNORE INTO " . "#__redshop_product_category_xref "
                                     . "(category_id,product_id) "
-                                    . "VALUES (" . (int)$category_id . ", " . (int)$productId . ")";
+                                    . "VALUES (" . (int) $category_id . ", " . (int) $productId . ")";
 
                                 $db->setQuery($query)->execute();
                             }
@@ -1375,7 +1404,7 @@ class xmlHelper
                                 $db->setQuery($query)->execute();
                                 $productId = $db->insertid();
 
-                                foreach ($datalist[$i] AS $key => $value) {
+                                foreach ($datalist[$i] as $key => $value) {
                                     if (is_array($value)) {
                                         for ($j = 0, $jn = count($value); $j < $jn; $j++) {
                                             if ($key == $xmlimportdata->stock_element_name) {
@@ -1397,16 +1426,16 @@ class xmlHelper
                                                     if (trim($fieldstring) != "") {
                                                         $query = "SELECT id FROM " . "#__redshop_stockroom "
                                                             . "WHERE name=" . $db->quote(
-                                                                $value[$j]['stockroom_name']
-                                                            ) . "";
+                                                                    $value[$j]['stockroom_name']
+                                                                ) . "";
 
                                                         $stockroom_id = $db->setQuery($query)->loadResult();
 
                                                         if (!$stockroom_id) {
                                                             $query = "INSERT IGNORE INTO " . "#__redshop_stockroom "
                                                                 . "(name) VALUES (" . $db->quote(
-                                                                    $value[$j]['stockroom_name']
-                                                                ) . ")";
+                                                                        $value[$j]['stockroom_name']
+                                                                    ) . ")";
 
                                                             $db->setQuery($query)->execute();
                                                             $stockroom_id = $db->insertid();
@@ -1414,7 +1443,7 @@ class xmlHelper
 
                                                         if ($stockroom_id) {
                                                             $fieldstring .= ",stockroom_id,product_id";
-                                                            $valuestring .= "," . (int)$stockroom_id . ", " . (int)$productId . "";
+                                                            $valuestring .= "," . (int) $stockroom_id . ", " . (int) $productId . "";
 
                                                             $query = "INSERT IGNORE INTO " . "#__redshop_product_stockroom_xref "
                                                                 . "($fieldstring) VALUES ($valuestring)";
@@ -1441,7 +1470,7 @@ class xmlHelper
 
                                                     if (trim($fieldstring) != "") {
                                                         $fieldstring .= ",itemid,section";
-                                                        $valuestring .= "," . (int)$productId . ", '1' ";
+                                                        $valuestring .= "," . (int) $productId . ", '1' ";
                                                         $query       = "INSERT IGNORE INTO " . "#__redshop_fields_data "
                                                             . "($fieldstring) VALUES ($valuestring)";
 
@@ -1474,7 +1503,7 @@ class xmlHelper
 
                                         $query = "INSERT IGNORE INTO " . "#__redshop_category_xref "
                                             . "(category_parent_id,category_child_id) "
-                                            . "VALUES ('0', " . (int)$category_id . ")";
+                                            . "VALUES ('0', " . (int) $category_id . ")";
 
                                         $db->setQuery($query)->execute();
                                     }
@@ -1489,7 +1518,7 @@ class xmlHelper
 
                                         $query = "INSERT IGNORE INTO #__redshop_product_category_xref "
                                             . "(category_id,product_id) "
-                                            . "VALUES (" . (int)$category_id . ", " . (int)$productId . ")";
+                                            . "VALUES (" . (int) $category_id . ", " . (int) $productId . ")";
 
                                         $db->setQuery($query)->execute();
                                     }
@@ -1538,8 +1567,8 @@ class xmlHelper
                                                     . "WHERE oi.order_id=o.order_id "
                                                     . "AND o.order_number=" . $db->quote($oldorder_number) . " "
                                                     . "AND oi.order_item_sku=" . $db->quote(
-                                                        $value[$j]['order_item_sku']
-                                                    ) . " ";
+                                                            $value[$j]['order_item_sku']
+                                                        ) . " ";
 
                                                 $db->setQuery($query)->execute();
                                             }
@@ -1617,7 +1646,7 @@ class xmlHelper
                                 $db->setQuery($query)->execute();
                                 $order_id = $db->insertid();
 
-                                foreach ($datalist[$i] AS $key => $value) {
+                                foreach ($datalist[$i] as $key => $value) {
                                     if (is_array($value)) {
                                         if ($key == $xmlimportdata->orderitem_element_name) {
                                             for ($j = 0, $jn = count($value); $j < $jn; $j++) {
@@ -1727,7 +1756,7 @@ class xmlHelper
         $query = "INSERT INTO " . "#__redshop_xml_import_log "
             . "(xmlimport_id, xmlimport_filename, xmlimport_date) "
             . "VALUES "
-            . "(" . (int)$xmlimport_id . ", " . $db->quote($filename) . "," . (int)time() . ") ";
+            . "(" . (int) $xmlimport_id . ", " . $db->quote($filename) . "," . (int) time() . ") ";
 
         return $db->setQuery($query)->execute();
     }

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Model Install
  *
@@ -58,7 +60,7 @@ class RedshopModelInstall extends RedshopModelList
 
         $tasks = array(
             array(
-                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG'),
+                'text' => Text::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG'),
                 'func' => 'RedshopInstall::handleConfig'
             )
         );
@@ -79,19 +81,19 @@ class RedshopModelInstall extends RedshopModelList
             if (!is_null($version) && version_compare($version, $updateVersion, '<')) {
                 $classes[$updateVersion] = array(
                     'class' => 'RedshopUpdate' . str_replace(
-                            array('.', '-'),
-                            '',
-                            $updateVersion
-                        ),
+                        array('.', '-'),
+                        '',
+                        $updateVersion
+                    ),
                     'path'  => $file
                 );
             } elseif (!is_null($specificVersion) && version_compare($specificVersion, $updateVersion, '=')) {
                 $classes[$updateVersion] = array(
                     'class' => 'RedshopUpdate' . str_replace(
-                            array('.', '-'),
-                            '',
-                            $updateVersion
-                        ),
+                        array('.', '-'),
+                        '',
+                        $updateVersion
+                    ),
                     'path'  => $file
                 );
             }
@@ -158,7 +160,7 @@ class RedshopModelInstall extends RedshopModelList
             }
 
             foreach ($classTasks as $classTask) {
-                $version->tasks[] = JText::_($classTask->name);
+                $version->tasks[] = Text::_($classTask->name);
             }
 
             $versions[$version->version] = $version;

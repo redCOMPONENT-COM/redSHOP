@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 class redSHOPWizard
 {
@@ -33,7 +36,7 @@ class redSHOPWizard
             $html = $template->getHTML('welcome');
 
             $status  = true;
-            $title   = JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
+            $title   = Text::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
             $install = 1;
             $substep = 0;
         }
@@ -70,10 +73,10 @@ class redSHOPWizardHelper
                 $status = $this->finish(0);
                 break;
             default:
-                $status          = new stdClass;
+                $status = new stdClass;
                 $status->message = $this->getErrorMessage(0, '0a');
-                $status->step    = '-99';
-                $status->title   = JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
+                $status->step = '-99';
+                $status->title = Text::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
                 $status->install = 1;
                 break;
         }
@@ -94,7 +97,7 @@ class redSHOPWizardHelper
         $drawdata->message = $template->getHTML('general', $params);
         $drawdata->status  = $status;
         $drawdata->step    = $step;
-        $drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_GENERAL_CONFIGURATION_WIZARD');
+        $drawdata->title   = Text::_('COM_REDSHOP_REDSHOP_GENERAL_CONFIGURATION_WIZARD');
         $drawdata->install = 1;
 
         return $drawdata;
@@ -105,7 +108,7 @@ class redSHOPWizardHelper
         $template = new redSHOPWizardTemplate;
 
         $status          = true;
-        $this->pageTitle = JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
+        $this->pageTitle = Text::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
 
         $params       = new stdClass;
         $params->step = $step;
@@ -114,7 +117,7 @@ class redSHOPWizardHelper
         $drawdata->message = $template->getHTML('terms', $params);
         $drawdata->status  = $status;
         $drawdata->step    = $step;
-        $drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_TERMS_CONFIGURATION_WIZARD');
+        $drawdata->title   = Text::_('COM_REDSHOP_REDSHOP_TERMS_CONFIGURATION_WIZARD');
         $drawdata->install = 1;
 
         return $drawdata;
@@ -125,7 +128,7 @@ class redSHOPWizardHelper
         $template = new redSHOPWizardTemplate;
 
         $status          = true;
-        $this->pageTitle = JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
+        $this->pageTitle = Text::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
 
         $params       = new stdClass;
         $params->step = $step;
@@ -134,7 +137,7 @@ class redSHOPWizardHelper
         $drawdata->message = $template->getHTML('user', $params);
         $drawdata->status  = $status;
         $drawdata->step    = $step;
-        $drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_USER_CONFIGURATION_WIZARD');
+        $drawdata->title   = Text::_('COM_REDSHOP_REDSHOP_USER_CONFIGURATION_WIZARD');
         $drawdata->install = 1;
 
         return $drawdata;
@@ -153,7 +156,7 @@ class redSHOPWizardHelper
         $drawdata->message = $template->getHTML('price', $params);
         $drawdata->status  = $status;
         $drawdata->step    = $step;
-        $drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_PRICE_CONFIGURATION_WIZARD');
+        $drawdata->title   = Text::_('COM_REDSHOP_REDSHOP_PRICE_CONFIGURATION_WIZARD');
         $drawdata->install = 1;
 
         return $drawdata;
@@ -172,7 +175,7 @@ class redSHOPWizardHelper
         $drawdata->message = $template->getHTML('finish', $params);
         $drawdata->status  = $status;
         $drawdata->step    = $step;
-        $drawdata->title   = JText::_('COM_REDSHOP_REDSHOP_FINISH_WIZARD');
+        $drawdata->title   = Text::_('COM_REDSHOP_REDSHOP_FINISH_WIZARD');
         $drawdata->install = 1;
 
         return $drawdata;
@@ -350,7 +353,9 @@ class redSHOPWizardTemplate
         <a role="button" data-toggle="offcanvas" class="sidebar-toggle" href="#">
             <span class="sr-only">Toggle navigation</span>
         </a>
-        <div class="component-title"><?php echo $title; ?></div>
+        <div class="component-title">
+            <?php echo $title; ?>
+        </div>
 
         <nav class="navbar navbar-static-top" role="navigation">
             <div class="navbar-custom-menu">
@@ -358,21 +363,25 @@ class redSHOPWizardTemplate
                     <?php if ($step > 2 || $step == 0) {
                         ?>
                         <li>
-                            <?php $vaule = JText::_('COM_REDSHOP_WIZARD_PREVIOUS_BUTTON'); ?>
-                            <a href="#" onclick="submitwizard('pre','<?php echo $step; ?>');"><i
-                                        class="fa fa-backward"></i><?php echo $vaule; ?></a>
+                            <?php $vaule = Text::_('COM_REDSHOP_WIZARD_PREVIOUS_BUTTON'); ?>
+                            <a href="#" onclick="submitwizard('pre','<?php echo $step; ?>');"><i class="fa fa-backward"></i>
+                                <?php echo $vaule; ?>
+                            </a>
                         </li>
                     <?php } ?>
                     <li>
-                        <?php $vaule = ($step == 0) ? JText::_('COM_REDSHOP_WIZARD_FINISH_BUTTON') : JText::_(
+                        <?php $vaule = ($step == 0) ? Text::_('COM_REDSHOP_WIZARD_FINISH_BUTTON') : Text::_(
                             'COM_REDSHOP_WIZARD_NEXT_BUTTON'
                         ); ?>
-                        <a href="#" onclick="submitwizard('next',1);"><i class="fa fa-forward"></i><?php echo $vaule; ?>
+                        <a href="#" onclick="submitwizard('next',1);"><i class="fa fa-forward"></i>
+                            <?php echo $vaule; ?>
                         </a>
                     </li>
                     <li>
-                        <?php $vaule = JText::_('COM_REDSHOP_SKIP_DO_IT_LATER') ?>
-                        <a href="#" onclick="submitwizard('exit');"><?php echo $vaule; ?></a>
+                        <?php $vaule = Text::_('COM_REDSHOP_SKIP_DO_IT_LATER') ?>
+                        <a href="#" onclick="submitwizard('exit');">
+                            <?php echo $vaule; ?>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -396,7 +405,9 @@ class redSHOPWizardTemplate
                     } ?>">
                         <a href="#">
                             <i>1</i>
-                            <span><?php echo JText::_('COM_REDSHOP_WIZARD_WELCOME_STEP1'); ?></span>
+                            <span>
+                                <?php echo Text::_('COM_REDSHOP_WIZARD_WELCOME_STEP1'); ?>
+                            </span>
                         </a>
                     </li>
 
@@ -405,7 +416,9 @@ class redSHOPWizardTemplate
                     } ?>">
                         <a href="#">
                             <i>2</i>
-                            <span><?php echo JText::_('COM_REDSHOP_WIZARD_GENERAL_STEP2'); ?></span>
+                            <span>
+                                <?php echo Text::_('COM_REDSHOP_WIZARD_GENERAL_STEP2'); ?>
+                            </span>
                         </a>
                     </li>
 
@@ -414,7 +427,9 @@ class redSHOPWizardTemplate
                     } ?>">
                         <a href="#">
                             <i>3</i>
-                            <span><?php echo JText::_('COM_REDSHOP_WIZARD_TERM_STEP3'); ?></span>
+                            <span>
+                                <?php echo Text::_('COM_REDSHOP_WIZARD_TERM_STEP3'); ?>
+                            </span>
                         </a>
                     </li>
 
@@ -423,7 +438,9 @@ class redSHOPWizardTemplate
                     } ?>">
                         <a href="#">
                             <i>4</i>
-                            <span><?php echo JText::_('COM_REDSHOP_WIZARD_USER_STEP3'); ?></span>
+                            <span>
+                                <?php echo Text::_('COM_REDSHOP_WIZARD_USER_STEP3'); ?>
+                            </span>
                         </a>
                     </li>
 
@@ -432,7 +449,9 @@ class redSHOPWizardTemplate
                     } ?>">
                         <a href="#">
                             <i>5</i>
-                            <span><?php echo JText::_('COM_REDSHOP_WIZARD_FINISH'); ?></span>
+                            <span>
+                                <?php echo Text::_('COM_REDSHOP_WIZARD_FINISH'); ?>
+                            </span>
                         </a>
                     </li>
                 </ul>

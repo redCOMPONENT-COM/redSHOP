@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -51,8 +52,8 @@ class RedshopTableAttribute extends JTable
 
         // Sanitize input.
         $pks    = ArrayHelper::toInteger($pks);
-        $userId = (int)$userId;
-        $state  = (int)$state;
+        $userId = (int) $userId;
+        $state  = (int) $state;
 
         // If there are no primary keys set check to see if the instance key is set.
         if (empty($pks)) {
@@ -60,7 +61,7 @@ class RedshopTableAttribute extends JTable
                 $pks = array($this->$k);
             } // Nothing to set publishing state on, return false.
             else {
-                $this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+                $this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
                 return false;
             }
@@ -73,20 +74,21 @@ class RedshopTableAttribute extends JTable
         if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time')) {
             $checkin = '';
         } else {
-            $checkin = ' AND (checked_out = 0 OR checked_out = ' . (int)$userId . ')';
+            $checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
         }
 
         // Update the publishing state for rows with the given primary keys.
         $this->_db->setQuery(
             'UPDATE ' . $this->_db->quoteName($this->_tbl)
-            . ' SET ' . $this->_db->quoteName('attribute_published') . ' = ' . (int)$state
+            . ' SET ' . $this->_db->quoteName('attribute_published') . ' = ' . (int) $state
             . ' WHERE (' . $where . ')'
             . $checkin
         );
 
         try {
             $this->_db->execute();
-        } catch (RuntimeException $e) {
+        }
+        catch (RuntimeException $e) {
             $this->setError($e->getMessage());
 
             return false;

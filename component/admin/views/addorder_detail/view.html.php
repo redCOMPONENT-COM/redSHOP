@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Add Order detail view
@@ -47,17 +48,17 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
         $input = JFactory::getApplication()->input;
 
         $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_ORDER'));
+        $document->setTitle(Text::_('COM_REDSHOP_ORDER'));
 
-		HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
 
-		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
 
-		HTMLHelper::script('com_redshop/redshop.order.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.order.min.js', ['relative' => true]);
 
-		HTMLHelper::script('com_redshop/redshop.admin.common.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.admin.common.min.js', ['relative' => true]);
 
-		HTMLHelper::script('com_redshop/ajaxupload.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/ajaxupload.min.js', ['relative' => true]);
 
         $uri          = JUri::getInstance();
         $lists        = array();
@@ -86,7 +87,7 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
         $shippingop                   = array();
         $shippingop[0]                = new stdClass;
         $shippingop[0]->users_info_id = 0;
-        $shippingop[0]->text          = JText::_('COM_REDSHOP_SELECT');
+        $shippingop[0]->text          = Text::_('COM_REDSHOP_SELECT');
 
         if (count($shippinginfo) > 0) {
             $shipping_users_info_id = $input->getInt('shipping_users_info_id', 0);
@@ -108,7 +109,7 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
         } else {
             $shippinginfo[0]        = $model->setShipping();
             $shipping_users_info_id = $shippinginfo[0]->users_info_id = 0;
-            $billisship             = $shippinginfo[0]->billisship;
+            $billisship = $shippinginfo[0]->billisship;
         }
 
         $shdisable = ($billisship) ? "disabled" : "";
@@ -126,7 +127,7 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
 
         $payment_detail = $this->get('payment');
         JToolBarHelper::title(
-            JText::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . JText::_('COM_REDSHOP_NEW') . ' ]</small></small>',
+            Text::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . Text::_('COM_REDSHOP_NEW') . ' ]</small></small>',
             'pencil-2 redshop_order48'
         );
 
@@ -136,7 +137,7 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
                 'save_without_sendmail',
                 'save.png',
                 'save_f2.png',
-                JText::_('COM_REDSHOP_SAVE_WITHOUT_SEND_ORDERMAIL_LBL'),
+                Text::_('COM_REDSHOP_SAVE_WITHOUT_SEND_ORDERMAIL_LBL'),
                 false
             );
             JToolBarHelper::save();
@@ -146,21 +147,21 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
             'validateUserDetail',
             'apply.png',
             'apply_f2.png',
-            JText::_('COM_REDSHOP_SAVE_USER_INFORMATION'),
+            Text::_('COM_REDSHOP_SAVE_USER_INFORMATION'),
             false
         );
         JToolBarHelper::cancel();
 
-        $countryarray          = RedshopHelperWorld::getCountryList((array)$billing);
+        $countryarray          = RedshopHelperWorld::getCountryList((array) $billing);
         $billing->country_code = $countryarray['country_code'];
         $lists['country_code'] = $countryarray['country_dropdown'];
 
-        $statearray          = RedshopHelperWorld::getStateList((array)$billing, "state_code", "country_code", "BT");
+        $statearray          = RedshopHelperWorld::getStateList((array) $billing, "state_code", "country_code", "BT");
         $lists['state_code'] = $statearray['state_dropdown'];
 
         $shipping['country_code_ST'] = $shippinginfo[$key]->country_code;
         $countryarray                = RedshopHelperWorld::getCountryList(
-            (array)$shipping,
+            (array) $shipping,
             "country_code_ST",
             "ST",
             '',
@@ -171,7 +172,7 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
         $shipping['state_code_ST'] = $shippinginfo[$key]->state_code;
         $lists['country_code_ST']  = $countryarray['country_dropdown'];
 
-        $statearray             = RedshopHelperWorld::getStateList((array)$shipping, "state_code_ST", "ST");
+        $statearray             = RedshopHelperWorld::getStateList((array) $shipping, "state_code_ST", "ST");
         $lists['state_code_ST'] = $statearray['state_dropdown'];
 
         $lists['is_company'] = JHTML::_(
@@ -179,8 +180,8 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
             'is_company',
             'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ',
             $billing->is_company,
-            JText::_('COM_REDSHOP_USER_COMPANY'),
-            JText::_('COM_REDSHOP_USER_CUSTOMER')
+            Text::_('COM_REDSHOP_USER_COMPANY'),
+            Text::_('COM_REDSHOP_USER_CUSTOMER')
         );
 
         $lists['customer_field']          = RedshopHelperExtrafields::listAllField(7, $billing->users_info_id);

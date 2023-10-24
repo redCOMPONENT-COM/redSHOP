@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopControllerUser_detail extends RedshopController
 {
@@ -43,11 +44,11 @@ class RedshopControllerUser_detail extends RedshopController
         $app->setUserState('com_redshop.user_detail.data', $post);
 
         if ($row = $model->store($post)) {
-            $this->setMessage(JText::_('COM_REDSHOP_USER_DETAIL_SAVED'));
+            $this->setMessage(Text::_('COM_REDSHOP_USER_DETAIL_SAVED'));
             $app->setUserState('com_redshop.fields_detail.data', "");
             $app->setUserState('com_redshop.user_detail.data', "");
         } else {
-            $this->setMessage(JText::_('COM_REDSHOP_ERROR_SAVING_USER_DETAIL'), 'error');
+            $this->setMessage(Text::_('COM_REDSHOP_ERROR_SAVING_USER_DETAIL'), 'error');
         }
 
         if ($shipping) {
@@ -83,7 +84,7 @@ class RedshopControllerUser_detail extends RedshopController
         $delete_joomla_users = $this->input->getBool('delete_joomla_users', false);
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         /** @var RedshopModelUser_detail $model */
@@ -93,7 +94,7 @@ class RedshopControllerUser_detail extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_USER_DETAIL_DELETED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_USER_DETAIL_DELETED_SUCCESSFULLY');
 
         if ($shipping) {
             $info_id = $this->input->getInt('info_id');
@@ -111,7 +112,7 @@ class RedshopControllerUser_detail extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         /** @var RedshopModelUser_detail $model */
@@ -121,7 +122,7 @@ class RedshopControllerUser_detail extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_USER_DETAIL_PUBLISHED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_USER_DETAIL_PUBLISHED_SUCCESSFULLY');
 
         $this->setRedirect('index.php?option=com_redshop&view=user', $msg);
     }
@@ -131,7 +132,7 @@ class RedshopControllerUser_detail extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         /** @var RedshopModelUser_detail $model */
@@ -141,7 +142,7 @@ class RedshopControllerUser_detail extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_USER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_USER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 
         $this->setRedirect('index.php?option=com_redshop&view=user', $msg);
     }
@@ -212,16 +213,16 @@ class RedshopControllerUser_detail extends RedshopController
         $model                = $this->getModel('user_detail');
         $usernameAvailability = $model->validate_user($username, $user_id);
 
-        $message = JText::_('COM_REDSHOP_USERNAME_IS_AVAILABLE');
+        $message = Text::_('COM_REDSHOP_USERNAME_IS_AVAILABLE');
         $type    = "success";
 
         if ($usernameAvailability > 0) {
-            $message = JText::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE');
+            $message = Text::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE');
             $type    = "error";
         }
 
         if ($username == "") {
-            $message = JText::_('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME');
+            $message = Text::_('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME');
             $type    = "error";
         }
 

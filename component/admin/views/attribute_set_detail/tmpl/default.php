@@ -8,31 +8,33 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 $url = JURI::getInstance()->root();
+
 ?>
 <script language="javascript" type="text/javascript">
     Joomla.submitbutton = function (pressbutton) {
         var form = document.adminForm;
 
         if (pressbutton == 'cancel') {
-			Joomla.submitform(pressbutton);
+            Joomla.submitform(pressbutton);
             return;
         }
 
         if (form.attribute_set_name.value == "") {
 
             alert("<?php
-                echo JText::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NAME', true);
+                echo Text::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NAME', true);
                 ?>");
         } else {
 
-			Joomla.submitform(pressbutton);
+            Joomla.submitform(pressbutton);
         }
     }
 
@@ -40,7 +42,7 @@ $url = JURI::getInstance()->root();
         var oprand = s.value;
         if (oprand != '+' && oprand != '-' && oprand != '=' && oprand != '*' && oprand != "/") {
             alert("<?php
-                echo JText::_('COM_REDSHOP_WRONG_OPRAND', true);
+                echo Text::_('COM_REDSHOP_WRONG_OPRAND', true);
                 ?>");
 
             s.value = "+";
@@ -103,7 +105,7 @@ echo Redshop\IO\Route::_($this->request_url) ?>" method="post"
     <div class="col50">
         <fieldset class="adminform">
             <legend><?php
-                echo JText::_('COM_REDSHOP_ATTRIBUTE_SET_INFORMATION');
+                echo Text::_('COM_REDSHOP_ATTRIBUTE_SET_INFORMATION');
                 ?></legend>
             <table class="admintable" border="0" width="100%">
                 <tr valign="top">
@@ -111,7 +113,7 @@ echo Redshop\IO\Route::_($this->request_url) ?>" method="post"
                         <table>
                             <tr>
                                 <td width="100" align="right" class="key">
-                                    <label for="name"> <?php echo JText::_('COM_REDSHOP_ATTRIBUTE_SET_NAME'); ?><span
+                                    <label for="name"> <?php echo Text::_('COM_REDSHOP_ATTRIBUTE_SET_NAME'); ?><span
                                                 class="star text-danger"> *</span>: </label>
                                 </td>
                                 <td>
@@ -121,14 +123,14 @@ echo Redshop\IO\Route::_($this->request_url) ?>" method="post"
                                            value="<?php echo $this->detail->attribute_set_name; ?>"/>
                                     <?php
                                     echo HTMLHelper::_('redshop.tooltip',
-                                        JText::_('COM_REDSHOP_TOOLTIP_ATTRIBUTE_SET_NAME'),
-                                        JText::_('COM_REDSHOP_ATTRIBUTE_SET_NAME')
+                                        Text::_('COM_REDSHOP_TOOLTIP_ATTRIBUTE_SET_NAME'),
+                                        Text::_('COM_REDSHOP_ATTRIBUTE_SET_NAME')
                                     );
                                     ?>                </td>
                             </tr>
                             <tr>
                                 <td valign="top" align="right" class="key">
-                                    <?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>:
+                                    <?php echo Text::_('COM_REDSHOP_PUBLISHED'); ?>:
                                 </td>
                                 <td>
                                     <?php echo $this->lists ['published']; ?>
@@ -142,20 +144,20 @@ echo Redshop\IO\Route::_($this->request_url) ?>" method="post"
     </div>
 
     <fieldset class="adminform">
-        <legend><?php echo JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTES'); ?></legend>
+        <legend><?php echo Text::_('COM_REDSHOP_PRODUCT_ATTRIBUTES'); ?></legend>
         <table class="admintable" width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td colspan="2">
-                    <div><?php echo JText::_('COM_REDSHOP_HINT_ATTRIBUTE'); ?></div>
+                    <div><?php echo Text::_('COM_REDSHOP_HINT_ATTRIBUTE'); ?></div>
                 </td>
             </tr>
             <tr>
-                <td colspan="2"><?php echo JText::_('COM_REDSHOP_COPY_ATTRIBUTES_FROM_ATTRIBUTE_SET'); ?></td>
+                <td colspan="2"><?php echo Text::_('COM_REDSHOP_COPY_ATTRIBUTES_FROM_ATTRIBUTE_SET'); ?></td>
             </tr>
             <tr>
                 <td colspan="2">
                     <a class="btn btn-success add_attribute btn-small"
-                       href="#"> <?php echo '+ ' . JText::_('COM_REDSHOP_NEW_ATTRIBUTE'); ?></a>
+                       href="#"> <?php echo '+ ' . Text::_('COM_REDSHOP_NEW_ATTRIBUTE'); ?></a>
                 </td>
             </tr>
         </table>

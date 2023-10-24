@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Model Voucher
  *
@@ -35,7 +37,7 @@ class RedshopModelVoucher extends RedshopModelForm
 
         if ($data['start_date'] > $data['end_date']) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(JText::_('COM_REDSHOP_START_DATE_MUST_BE_SOONER_OR_EQUAL_TO_END_DATE'));
+            $this->setError(Text::_('COM_REDSHOP_START_DATE_MUST_BE_SOONER_OR_EQUAL_TO_END_DATE'));
 
             return false;
         }
@@ -63,7 +65,7 @@ class RedshopModelVoucher extends RedshopModelForm
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $app = JFactory::getApplication();
+        $app  = JFactory::getApplication();
         $data = $app->getUserState('com_redshop.edit.voucher.data', array());
 
         if (empty($data)) {

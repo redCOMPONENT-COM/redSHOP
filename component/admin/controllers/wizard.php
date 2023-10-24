@@ -108,7 +108,7 @@ class RedshopControllerWizard extends RedshopController
          */
         if (isset($post['installcontent'])) {
             if ($this->demoContentInsert()) {
-                $msg .= JText::_('COM_REDSHOP_SAMPLE_DATA_INSTALLED')
+                $msg .= Text::_('COM_REDSHOP_SAMPLE_DATA_INSTALLED')
                     . "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
             }
         }
@@ -121,7 +121,7 @@ class RedshopControllerWizard extends RedshopController
         if ($configHelper->save($config)) {
             // Clear temporary redshop wizard configuration
             $session->clear('redshop.wizard');
-            $msg .= JText::_('COM_REDSHOP_FINISH_WIZARD');
+            $msg .= Text::_('COM_REDSHOP_FINISH_WIZARD');
             $link = 'index.php?option=com_redshop';
         } else {
             $subStep = 4;

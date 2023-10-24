@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopControllerQuotation_detail extends RedshopController
 {
@@ -37,7 +38,7 @@ class RedshopControllerQuotation_detail extends RedshopController
         $status = $post['quotation_status'];
         $cid    = $this->input->post->get('cid', array(0), 'array');
 
-        $post['quotation_id'] = $cid [0];
+        $post['quotation_id'] = $cid[0];
 
         /** @var RedshopModelQuotation_detail $model */
         $model = $this->getModel('quotation_detail');
@@ -48,7 +49,7 @@ class RedshopControllerQuotation_detail extends RedshopController
         }
 
         if ($post['user_id'] == 0 && $post['quotation_email'] == "") {
-            $msg = JText::_('COM_REDSHOP_CREATE_ACCOUNT_FOR_QUOTATION');
+            $msg = Text::_('COM_REDSHOP_CREATE_ACCOUNT_FOR_QUOTATION');
             $this->setRedirect(
                 'index.php?option=com_redshop&view=quotation_detail&task=edit&cid[]=' . $post['quotation_id'],
                 $msg
@@ -90,14 +91,14 @@ class RedshopControllerQuotation_detail extends RedshopController
         }
 
         if ($row) {
-            $msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SAVED');
+            $msg = Text::_('COM_REDSHOP_QUOTATION_DETAIL_SAVED');
 
             $quotation_status = $post['quotation_status'] > 0 ? $post['quotation_status'] : 2;
             RedshopHelperQuotation::updateQuotationStatus($row->quotation_id, $quotation_status);
 
             if ($send == 1) {
                 if ($model->sendQuotationMail($row->quotation_id) && JFactory::getConfig()->get('mailonline') == 1) {
-                    $msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
+                    $msg = Text::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
                 }
             }
 
@@ -110,7 +111,7 @@ class RedshopControllerQuotation_detail extends RedshopController
                 $this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
             }
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
+            $msg = Text::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
             $this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
         }
     }
@@ -125,7 +126,7 @@ class RedshopControllerQuotation_detail extends RedshopController
         $cid = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         /** @var RedshopModelQuotation_detail $model */
@@ -135,7 +136,7 @@ class RedshopControllerQuotation_detail extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_DELETED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_QUOTATION_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
     }
 
@@ -151,13 +152,13 @@ class RedshopControllerQuotation_detail extends RedshopController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_QUOTATION_ITEM_DETAIL_DELETED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_QUOTATION_ITEM_DETAIL_DELETED_SUCCESSFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=quotation_detail&task=edit&cid[]=' . $cid[0], $msg);
     }
 
     public function cancel()
     {
-        $msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
+        $msg = Text::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
         $this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
     }
 
@@ -175,9 +176,9 @@ class RedshopControllerQuotation_detail extends RedshopController
         $post['quotation_item'] = $quotationItem;
 
         if ($model->newQuotationItem($post)) {
-            $msg = JText::_('COM_REDSHOP_QUOTATION_ITEM_ADDED');
+            $msg = Text::_('COM_REDSHOP_QUOTATION_ITEM_ADDED');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_ADDING_QUOTATION_ITEM');
+            $msg = Text::_('COM_REDSHOP_ERROR_ADDING_QUOTATION_ITEM');
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=quotation_detail&cid[]=' . $cid[0], $msg);

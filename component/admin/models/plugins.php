@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -96,14 +97,14 @@ class RedshopModelPlugins extends RedshopModelList
 
         // Filter by access level.
         if ($access = $this->getState('filter.access')) {
-            $query->where('a.access = ' . (int)$access);
+            $query->where('a.access = ' . (int) $access);
         }
 
         // Filter by published state.
         $published = $this->getState('filter.enabled');
 
         if (is_numeric($published)) {
-            $query->where('a.enabled = ' . (int)$published);
+            $query->where('a.enabled = ' . (int) $published);
         } elseif ($published === '') {
             $query->where('(a.enabled IN (0, 1))');
         }
@@ -124,9 +125,9 @@ class RedshopModelPlugins extends RedshopModelList
         // Filter by search in name or id.
         $search = $this->getState('filter.search');
 
-        if ( ! empty($search)) {
+        if (!empty($search)) {
             if (stripos($search, 'id:') === 0) {
-                $query->where('a.extension_id = ' . (int)substr($search, 3));
+                $query->where('a.extension_id = ' . (int) substr($search, 3));
             }
         }
 
@@ -190,16 +191,16 @@ class RedshopModelPlugins extends RedshopModelList
             $ordering = 'name';
         }
 
-        if ($ordering == 'name' || ( ! empty($search) && stripos($search, 'id:') !== 0)) {
+        if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0)) {
             $this->_db->setQuery($query);
             $result = $this->_db->loadObjectList();
             $this->translate($result);
 
-            if ( ! empty($search)) {
+            if (!empty($search)) {
                 $escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 
                 foreach ($result as $i => $item) {
-                    if ( ! preg_match("/$escapedSearchString/i", $item->name)) {
+                    if (!preg_match("/$escapedSearchString/i", $item->name)) {
                         unset($result[$i]);
                     }
                 }
@@ -252,8 +253,8 @@ class RedshopModelPlugins extends RedshopModelList
             $source    = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
             $extension = 'plg_' . $item->folder . '_' . $item->element;
             $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-            || $lang->load($extension . '.sys', $source, null, false, true);
-            $item->name = JText::_($item->name);
+                || $lang->load($extension . '.sys', $source, null, false, true);
+            $item->name = Text::_($item->name);
         }
     }
 
@@ -310,12 +311,12 @@ class RedshopModelPlugins extends RedshopModelList
      */
     public function checkin($pks = array())
     {
-        $pks   = (array)$pks;
+        $pks   = (array) $pks;
         $table = Joomla\CMS\Table\Extension::getInstance('extension');
         $count = 0;
 
         if (empty($pks)) {
-            $pks = array((int)$this->getState($this->getName() . '.id'));
+            $pks = array((int) $this->getState($this->getName() . '.id'));
         }
 
         $checkedOutField = $table->getColumnAlias('checked_out');
@@ -324,7 +325,7 @@ class RedshopModelPlugins extends RedshopModelList
         foreach ($pks as $pk) {
             if ($table->load($pk)) {
                 if ($table->{$checkedOutField} > 0) {
-                    if ( ! $table->checkin($pk)) {
+                    if (!$table->checkin($pk)) {
                         return false;
                     }
 

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopModelOpsearch extends RedshopModel
 {
@@ -48,7 +49,7 @@ class RedshopModelOpsearch extends RedshopModel
             . "WHERE uf.address_type='BT' AND (uf.firstname <> '' OR uf.lastname <> '') "
             . "ORDER BY text ";
         $userlist           = $this->_getList($query);
-        $types[]            = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_USER') . ' -');
+        $types[]            = JHTML::_('select.option', '0', '- ' . Text::_('COM_REDSHOP_SELECT_USER') . ' -');
         $types              = array_merge($types, $userlist);
         $mylist['userlist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 

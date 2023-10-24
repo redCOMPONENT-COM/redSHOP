@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tool update controller
  *
@@ -53,7 +55,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
 
         if (empty($remainingTasks)) {
             $app->sendHeaders();
-            echo json_encode((object)array('msg' => JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS'), 'continue' => 0));
+            echo json_encode((object) array('msg' => Text::_('COM_REDSHOP_INSTALL_STEP_SUCCESS'), 'continue' => 0));
             $app->close();
         }
 
@@ -64,7 +66,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
         if (empty($currentTask) || !isset($currentTask['func'])) {
             $app->setHeader('status', 500);
             $app->sendHeaders();
-            echo JText::_('COM_REDSHOP_INSTALL_ERROR_MISSING_PROCESS');
+            echo Text::_('COM_REDSHOP_INSTALL_ERROR_MISSING_PROCESS');
             $app->close();
         }
 
@@ -113,7 +115,8 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
                 $class = new $className;
                 call_user_func(array($class, $method));
             }
-        } catch (Exception $error) {
+        }
+        catch (Exception $error) {
             $app->setHeader('status', 500);
             $app->sendHeaders();
             echo $error->getMessage();
@@ -128,8 +131,8 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
         }
 
         $app->sendHeaders();
-        $return['msg'] = JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
-        echo json_encode((object)$return);
+        $return['msg'] = Text::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
+        echo json_encode((object) $return);
         $app->close();
     }
 
@@ -148,7 +151,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
         if (empty($version)) {
             $app->sendHeaders();
             echo json_encode(
-                (object)array('msg' => JText::_('COM_REDSHOP_TOOL_AJAX_ERROR_VERSION_NOT_FOUND'), 'continue' => 0)
+                (object) array('msg' => Text::_('COM_REDSHOP_TOOL_AJAX_ERROR_VERSION_NOT_FOUND'), 'continue' => 0)
             );
             $app->close();
         }
@@ -188,7 +191,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
         if (empty($version) || !JFile::exists($file)) {
             $app->sendHeaders();
             echo json_encode(
-                (object)array('msg' => JText::_('COM_REDSHOP_TOOL_AJAX_ERROR_VERSION_NOT_FOUND'), 'continue' => 0)
+                (object) array('msg' => Text::_('COM_REDSHOP_TOOL_AJAX_ERROR_VERSION_NOT_FOUND'), 'continue' => 0)
             );
             $app->close();
         }
@@ -199,7 +202,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
         if (false === $buffer) {
             $app->setHeader('status', 500);
             $app->sendHeaders();
-            echo JText::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER');
+            echo Text::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER');
             $app->close();
         }
 
@@ -210,7 +213,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
             // No queries to process
             $app->sendHeaders();
             echo json_encode(
-                (object)array('msg' => JText::_('COM_REDSHOP_TOOL_UPDATE_DB_MIGRATE_SUCCESS'), 'continue' => 0)
+                (object) array('msg' => Text::_('COM_REDSHOP_TOOL_UPDATE_DB_MIGRATE_SUCCESS'), 'continue' => 0)
             );
             $app->close();
         }
@@ -223,7 +226,8 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
 
             try {
                 $db->execute();
-            } catch (JDatabaseExceptionExecuting $e) {
+            }
+            catch (JDatabaseExceptionExecuting $e) {
                 $app->setHeader('status', 500);
                 $app->sendHeaders();
                 echo JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage());
@@ -233,7 +237,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
 
         $app->sendHeaders();
         echo json_encode(
-            (object)array('msg' => JText::_('COM_REDSHOP_TOOL_UPDATE_DB_MIGRATE_SUCCESS'), 'continue' => 0)
+            (object) array('msg' => Text::_('COM_REDSHOP_TOOL_UPDATE_DB_MIGRATE_SUCCESS'), 'continue' => 0)
         );
         $app->close();
     }

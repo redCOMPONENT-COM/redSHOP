@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Controller Zipcode Detail
  *
@@ -27,7 +29,7 @@ class RedshopControllerZipcode extends RedshopControllerForm
      */
     public function ajaxGetState2Code()
     {
-        JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
         $model = $this->getModel();
         $form  = $model->getForm();
         echo $form->renderField('state_code');

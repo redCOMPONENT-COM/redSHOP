@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 /**
@@ -63,17 +64,17 @@ class RedshopModelConfiguration extends RedshopModel
 
         // Product Detail Lightbox close button Image End
         // Save the HTML tags into the tables
-        $data["welcomepage_introtext"]         = $input->get('welcomepage_introtext', '', 'RAW');
-        $data["category_frontpage_introtext"]  = $input->get('category_frontpage_introtext', '', 'RAW');
-        $data["registration_introtext"]        = $input->get('registration_introtext', '', 'RAW');
-        $data["registration_comp_introtext"]   = $input->get('registration_comp_introtext', '', 'RAW');
-        $data["vat_introtext"]                 = $input->get('vat_introtext', '', 'RAW');
-        $data["welcomepage_introtext"]         = $input->get('welcomepage_introtext', '', 'RAW');
-        $data["product_expire_text"]           = $input->get('product_expire_text', '', 'RAW');
-        $data["cart_reservation_message"]      = $input->get('cart_reservation_message', '', 'RAW');
-        $data["with_vat_text_info"]            = $input->get('with_vat_text_info', '', 'RAW');
-        $data["without_vat_text_info"]         = $input->get('without_vat_text_info', '', 'RAW');
-    //  $data["show_price_user_group_list"]    = implode(",", $data['show_price_user_group_list']);
+        $data["welcomepage_introtext"]        = $input->get('welcomepage_introtext', '', 'RAW');
+        $data["category_frontpage_introtext"] = $input->get('category_frontpage_introtext', '', 'RAW');
+        $data["registration_introtext"]       = $input->get('registration_introtext', '', 'RAW');
+        $data["registration_comp_introtext"]  = $input->get('registration_comp_introtext', '', 'RAW');
+        $data["vat_introtext"]                = $input->get('vat_introtext', '', 'RAW');
+        $data["welcomepage_introtext"]        = $input->get('welcomepage_introtext', '', 'RAW');
+        $data["product_expire_text"]          = $input->get('product_expire_text', '', 'RAW');
+        $data["cart_reservation_message"]     = $input->get('cart_reservation_message', '', 'RAW');
+        $data["with_vat_text_info"]           = $input->get('with_vat_text_info', '', 'RAW');
+        $data["without_vat_text_info"]        = $input->get('without_vat_text_info', '', 'RAW');
+        //  $data["show_price_user_group_list"]    = implode(",", $data['show_price_user_group_list']);
         $data["show_price_user_group_list"]    = is_array($data['show_price_user_group_list']) ?
             implode(",", $data['show_price_user_group_list']) : $data['show_price_user_group_list'];
         $data["show_price_shopper_group_list"] = is_array($data['show_price_shopper_group_list']) ?
@@ -110,7 +111,8 @@ class RedshopModelConfiguration extends RedshopModel
             if ($config->save(new Registry($this->configData))) {
                 $dispatcher->trigger('onAfterAdminSaveConfiguration', array($config));
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             $this->setError($e->getMessage());
 
             return false;
@@ -264,7 +266,7 @@ class RedshopModelConfiguration extends RedshopModel
     {
         $this->configData = $this->redConfiguration->prepareConfigData($data);
 
-        return (boolean)$this->configData;
+        return (boolean) $this->configData;
     }
 
     /**
@@ -327,7 +329,7 @@ class RedshopModelConfiguration extends RedshopModel
 
     public function getnewsletters()
     {
-        $db = $this->_db;
+        $db    = $this->_db;
         $query = $db->getQuery(true)
             ->select('id as value,name as text')
             ->from($db->qn('#__redshop_newsletter'))
@@ -466,7 +468,7 @@ class RedshopModelConfiguration extends RedshopModel
 
         // Insert columns.
         $columns = array('newsletter_id', 'subscription_id', 'subscriber_name', 'user_id', 'read', 'date');
-        $values  = array((int)$newsletterId, '0', $db->quote($name[0]), 0, 0, $db->quote($today));
+        $values  = array((int) $newsletterId, '0', $db->quote($name[0]), 0, 0, $db->quote($today));
 
         $query->insert($db->qn('#__redshop_newsletter_tracker'))
             ->columns($db->qn($columns))
@@ -475,14 +477,14 @@ class RedshopModelConfiguration extends RedshopModel
         $db->setQuery($query)->execute();
 
         $content = '<img  src="' . $url . 'index.php?option=com_redshop&view=newsletter&task=tracker&tmpl=component&tracker_id=' . $db->insertid(
-            ) . '" />';
+        ) . '" />';
         $content .= str_replace("{username}", $name[0], $data1);
         $content = str_replace("{email}", $to, $content);
 
         // Replace tag {unsubscribe_link} for testing mail to empty link, because test mail not have subscribes
         $content = str_replace(
             "{unsubscribe_link}",
-            "<a href=\"#\">" . JText::_('COM_REDSHOP_UNSUBSCRIBE') . "</a>",
+            "<a href=\"#\">" . Text::_('COM_REDSHOP_UNSUBSCRIBE') . "</a>",
             $content
         );
 
@@ -547,7 +549,7 @@ class RedshopModelConfiguration extends RedshopModel
     public function getCurrentVersion()
     {
         $xmlfile = JPATH_ROOT . '/administrator/components/com_redshop/redshop.xml';
-        $version = JText::_('COM_REDSHOP_FILE_NOT_FOUND');
+        $version = Text::_('COM_REDSHOP_FILE_NOT_FOUND');
 
         if (JFile::exists($xmlfile)) {
             $data    = JInstaller::parseXMLInstallFile($xmlfile);
@@ -618,7 +620,7 @@ class RedshopModelConfiguration extends RedshopModel
         foreach ($list as $template) {
             $table = RedshopTable::getAdminInstance('Template', array('ignore_request' => true), 'com_redshop');
 
-            $table->bind((array)$template);
+            $table->bind((array) $template);
             $table->templateDesc = RedshopHelperTemplate::getDefaultTemplateContent($table->section);
             $table->store();
         }

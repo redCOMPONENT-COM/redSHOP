@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Redshop statistics Model
  *
@@ -53,7 +55,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
         $input = JFactory::getApplication()->input;
 
         $orderPaymentStatus = $input->getString('filter_payment_status', '');
-        $orderStatus = $input->getString('filter_order_status', '');
+        $orderStatus        = $input->getString('filter_order_status', '');
 
         $format = $this->getDateFormat();
         $db     = $this->getDbo();
@@ -64,13 +66,11 @@ class RedshopModelStatistic_Order extends RedshopModelList
             ->select('COUNT(*) AS count')
             ->from($db->qn('#__redshop_orders'));
 
-        if ($orderPaymentStatus !== '')
-        {
+        if ($orderPaymentStatus !== '') {
             $query->where($db->qn('order_payment_status') . ' = ' . $db->q($orderPaymentStatus));
         }
 
-        if ($orderStatus !== '')
-        {
+        if ($orderStatus !== '') {
             $query->where($db->qn('order_status') . ' = ' . $db->q($orderStatus));
         }
 
@@ -82,8 +82,8 @@ class RedshopModelStatistic_Order extends RedshopModelList
         if (!empty($filterDateRange)) {
             $filterDateRange = explode('-', $filterDateRange);
 
-            $startDate = (isset($filterDateRange[0])) ? (int)$filterDateRange[0] : '';
-            $endDate   = (isset($filterDateRange[1])) ? (int)$filterDateRange[1] : '';
+            $startDate = (isset($filterDateRange[0])) ? (int) $filterDateRange[0] : '';
+            $endDate   = (isset($filterDateRange[1])) ? (int) $filterDateRange[1] : '';
 
             $query->where($db->qn('cdate') . ' >= ' . $startDate)
                 ->where($db->qn('cdate') . ' <= ' . $endDate);
@@ -115,8 +115,8 @@ class RedshopModelStatistic_Order extends RedshopModelList
         if (!empty($filterDateRange)) {
             $filterDateRange = explode('-', $filterDateRange);
 
-            $startDate = (isset($filterDateRange[0])) ? (int)$filterDateRange[0] : '';
-            $endDate   = (isset($filterDateRange[1])) ? (int)$filterDateRange[1] : '';
+            $startDate = (isset($filterDateRange[0])) ? (int) $filterDateRange[0] : '';
+            $endDate   = (isset($filterDateRange[1])) ? (int) $filterDateRange[1] : '';
         }
 
         if ($filterDateGroup == 3) {
@@ -124,7 +124,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
         } elseif ($filterDateGroup == 2) {
             return '%M %Y';
         } elseif ($filterDateGroup == 1) {
-            return JText::_('COM_REDSHOP_WEEK') . ' %v - %x';
+            return Text::_('COM_REDSHOP_WEEK') . ' %v - %x';
         } else {
             return '%d %M %Y';
         }
@@ -186,8 +186,8 @@ class RedshopModelStatistic_Order extends RedshopModelList
         if (!empty($filterDateRange)) {
             $filterDateRange = explode('-', $filterDateRange);
 
-            $startDate = (isset($filterDateRange[0])) ? (int)$filterDateRange[0] : '';
-            $endDate   = (isset($filterDateRange[1])) ? (int)$filterDateRange[1] : '';
+            $startDate = (isset($filterDateRange[0])) ? (int) $filterDateRange[0] : '';
+            $endDate   = (isset($filterDateRange[1])) ? (int) $filterDateRange[1] : '';
 
             $query->where($db->qn('o.cdate') . ' >= ' . $startDate)
                 ->where($db->qn('o.cdate') . ' <= ' . $endDate);

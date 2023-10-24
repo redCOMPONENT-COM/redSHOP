@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 class RedshopViewAddquotation_detail extends RedshopViewAdmin
 {
@@ -32,13 +32,13 @@ class RedshopViewAddquotation_detail extends RedshopViewAdmin
     {
         $document = JFactory::getDocument();
 
-        $document->setTitle(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'));
+        $document->setTitle(Text::_('COM_REDSHOP_QUOTATION_MANAGEMENT'));
 
-		HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.order.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.admin.common.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/ajaxupload.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.order.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.admin.common.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/ajaxupload.min.js', ['relative' => true]);
 
         $session = JFactory::getSession();
         $uri     = JUri::getInstance();
@@ -59,21 +59,21 @@ class RedshopViewAddquotation_detail extends RedshopViewAdmin
         $session->set('offlineuser_id', $user_id);
 
         JToolBarHelper::title(
-            JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT') . ': <small><small>[ '
-            . JText::_('COM_REDSHOP_NEW') . ' ]</small></small>',
+            Text::_('COM_REDSHOP_QUOTATION_MANAGEMENT') . ': <small><small>[ '
+            . Text::_('COM_REDSHOP_NEW') . ' ]</small></small>',
             'redshop_order48'
         );
 
         JToolBarHelper::apply();
         JToolBarHelper::save();
-        JToolBarHelper::custom('send', 'send.png', 'send.png', JText::_('COM_REDSHOP_SEND'), false);
+        JToolBarHelper::custom('send', 'send.png', 'send.png', Text::_('COM_REDSHOP_SEND'), false);
         JToolBarHelper::cancel();
 
-        $countryarray          = RedshopHelperWorld::getCountryList((array)$billing);
+        $countryarray          = RedshopHelperWorld::getCountryList((array) $billing);
         $billing->country_code = $countryarray['country_code'];
         $lists['country_code'] = $countryarray['country_dropdown'];
 
-        $statearray                    = RedshopHelperWorld::getStateList((array)$billing);
+        $statearray                    = RedshopHelperWorld::getStateList((array) $billing);
         $lists['state_code']           = $statearray['state_dropdown'];
         $lists['quotation_extrafield'] = RedshopHelperExtrafields::listAllField(
             RedshopHelperExtrafields::SECTION_QUOTATION,

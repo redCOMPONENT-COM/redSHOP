@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -16,9 +19,11 @@ $subPropertyPublished = ($subProperty->subattribute_published == 1) ? 'checked="
 $subPropertyImage      = '';
 $subPropertyImageThumb = '';
 
-if ($subProperty->subattribute_color_image && JFile::exists(
+if (
+    $subProperty->subattribute_color_image && JFile::exists(
         REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $subProperty->subattribute_color_image
-    )) {
+    )
+) {
     $subPropertyImage = REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' . $subProperty->subattribute_color_image;
 
     $subPropertyImageThumb = RedshopHelperMedia::getImagePath(
@@ -36,9 +41,11 @@ if ($subProperty->subattribute_color_image && JFile::exists(
 $mainImage      = '';
 $mainImageThumb = '';
 
-if ($subProperty->subattribute_color_main_image && JFile::exists(
+if (
+    $subProperty->subattribute_color_main_image && JFile::exists(
         REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $subProperty->subattribute_color_main_image
-    )) {
+    )
+) {
     $mainImage = REDSHOP_FRONT_IMAGES_ABSPATH . 'subproperty/' . $subProperty->subattribute_color_main_image;
 
     $mainImageThumb = RedshopHelperMedia::getImagePath(
@@ -58,21 +65,21 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
     <div class="row">
         <div class="col-sm-2">
             <label>
-                <?php echo JText::_('COM_REDSHOP_PARAMETER'); ?>
+                <?php echo Text::_('COM_REDSHOP_PARAMETER'); ?>
             </label>
             <input type="text" class="input-small" name="<?php echo $subPropPref; ?>[name]"
-                   value="<?php echo $subProperty->subattribute_color_name; ?>">
+                value="<?php echo $subProperty->subattribute_color_name; ?>">
             <input type="hidden" name="<?php echo $subPropPref; ?>[subproperty_id]"
-                   value="<?php echo $subProperty->subattribute_color_id; ?>"/>
+                value="<?php echo $subProperty->subattribute_color_id; ?>" />
             <input type="hidden" id="subPropertyImageName<?php echo $keyAttr . $keyProperty; ?>"
-                   name="<?php echo $subPropPref; ?>[image]"
-                   value="<?php echo $subProperty->subattribute_color_image; ?>"/>
+                name="<?php echo $subPropPref; ?>[image]"
+                value="<?php echo $subProperty->subattribute_color_image; ?>" />
             <input type="hidden" name="<?php echo $subPropPref; ?>[mainImage]"
-                   id="subpropmainImage<?php echo $keyAttr . $keySubProp; ?>" value=""/>
+                id="subpropmainImage<?php echo $keyAttr . $keySubProp; ?>" value="" />
         </div>
         <div class="col-sm-2">
             <label>
-                <?php echo JText::_('COM_REDSHOP_PRICE'); ?>
+                <?php echo Text::_('COM_REDSHOP_PRICE'); ?>
             </label>
 
             <?php echo JHtml::_(
@@ -86,45 +93,42 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
             ); ?>
 
             <input type="text" class="input-mini" name="<?php echo $subPropPref; ?>[price]"
-                   value="<?php echo $subProperty->subattribute_color_price; ?>"/>
+                value="<?php echo $subProperty->subattribute_color_price; ?>" />
         </div>
         <div class="col-sm-1">
             <label>
-                <?php echo JText::_('COM_REDSHOP_SUBPROPERTY_NUMBER'); ?>
+                <?php echo Text::_('COM_REDSHOP_SUBPROPERTY_NUMBER'); ?>
             </label>
             <input type="text" size="14" class="vpnrequired input-mini"
-                   value="<?php echo $subProperty->subattribute_color_number; ?>"
-                   name="<?php echo $subPropPref; ?>[number]"/>
+                value="<?php echo $subProperty->subattribute_color_number; ?>"
+                name="<?php echo $subPropPref; ?>[number]" />
         </div>
         <div class="col-sm-1">
-            <label><?php echo JText::_('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD'); ?></label>
+            <label>
+                <?php echo Text::_('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD'); ?>
+            </label>
             <input type="text" class="input-mini" name="<?php echo $subPropPref; ?>[extra_field]"
-                   value="<?php echo $subProperty->extra_field; ?>"/>
+                value="<?php echo $subProperty->extra_field; ?>" />
         </div>
         <div class="col-sm-3">
             <label>
-                <?php echo JText::_('COM_REDSHOP_ORDERING'); ?>
+                <?php echo Text::_('COM_REDSHOP_ORDERING'); ?>
             </label>
             <input class="text-center input-xmini" type="text" name="<?php echo $subPropPref; ?>[order]"
-                   value="<?php echo $subProperty->ordering; ?>">
+                value="<?php echo $subProperty->ordering; ?>">
 
-            <button type="button"
-					class="btn joom-box btn-default ModalProductDetailButton"
-					data-url="<?php echo Redshop\IO\Route::_(
-                   'index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId . '&section=subproperty'
-               ); ?>">
-                <img
-                        src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>discountmanagmenet16.png"
-                        alt=""/><?php echo JText::_('COM_REDSHOP_ADD_PRICE_LBL'); ?>
+            <button type="button" class="btn joom-box btn-default ModalProductDetailButton" data-url="<?php echo Redshop\IO\Route::_(
+                'index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId . '&section=subproperty'
+            ); ?>">
+                <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>discountmanagmenet16.png" alt="" />
+                <?php echo Text::_('COM_REDSHOP_ADD_PRICE_LBL'); ?>
             </button>
             <?php if (Redshop::getConfig()->get('USE_STOCKROOM')): ?>
-                <button type="button"
-						class="joom-box btn btn-default ModalProductDetailButton"
-						data-url="<?php echo Redshop\IO\Route::_(
+                <button type="button" class="joom-box btn btn-default ModalProductDetailButton" data-url="<?php echo Redshop\IO\Route::_(
                     'index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId
                 ); ?>&layout=productstockroom&property=subproperty">
-                    <img
-                            src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>stockroom16.png"/><?php echo JText::_(
+                    <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>stockroom16.png" />
+                    <?php echo Text::_(
                         'COM_REDSHOP_ACTION_MANAGE_STOCKROOM'
                     ); ?>
                 </button>
@@ -133,25 +137,24 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
 
         <div class="col-sm-1">
             <label>
-                <?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>
+                <?php echo Text::_('COM_REDSHOP_PUBLISHED'); ?>
 
             </label>
             <input type="checkbox" <?php echo $subPropertyPublished; ?> name="<?php echo $subPropPref; ?>[published]"
-                   value="1"/>
+                value="1" />
         </div>
 
         <div class="col-sm-1">
             <label>
-                <?php echo JText::_('COM_REDSHOP_DEFAULT_SELECTED'); ?>
+                <?php echo Text::_('COM_REDSHOP_DEFAULT_SELECTED'); ?>
             </label>
-            <input type="checkbox" value="1"
-                   name="<?php echo $subPropPref; ?>[chk_propdselected]" <?php echo ($subProperty->setdefault_selected == 1) ? 'checked' : ''; ?> />
+            <input type="checkbox" value="1" name="<?php echo $subPropPref; ?>[chk_propdselected]" <?php echo ($subProperty->setdefault_selected == 1) ? 'checked' : ''; ?> />
         </div>
 
         <div class="col-sm-1">
             <input id="deleteSubProp_<?php echo $subProperty->subattribute_color_id; ?>_<?php
-            echo $property->property_id; ?>" value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
-                   class="btn btn-danger delete_subproperty" type="button"/>
+               echo $property->property_id; ?>" value="<?php echo Text::_('COM_REDSHOP_DELETE'); ?>"
+                class="btn btn-danger delete_subproperty" type="button" />
         </div>
 
     </div>
@@ -161,7 +164,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
         <div class="col-sm-4">
 
             <label>
-                <?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGE'); ?>
+                <?php echo Text::_('COM_REDSHOP_PRODUCT_IMAGE'); ?>
             </label>
 
             <div class="row">
@@ -172,20 +175,19 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
                         ?>
 
                         <a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $mainImage; ?>">
-                            <img src="<?php echo $mainImageThumb; ?>"/>
+                            <img src="<?php echo $mainImageThumb; ?>" />
                         </a>
                         <?php
                     }
 
                     ?>
 
-                    <button type="button"
-							class="joom-box btn btn-default ModalProductDetailButton"
-							data-url="<?php echo Redshop\IO\Route::_(
-                           'index.php?tmpl=component&option=com_redshop&view=media&section_id='
-                           . $subProperty->subattribute_color_id . '&showbuttons=1&media_section=subproperty'
-                       ); ?>">
-                        <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>media16.png" alt=""/><?php echo JText::_(
+                    <button type="button" class="joom-box btn btn-default ModalProductDetailButton" data-url="<?php echo Redshop\IO\Route::_(
+                        'index.php?tmpl=component&option=com_redshop&view=media&section_id='
+                        . $subProperty->subattribute_color_id . '&showbuttons=1&media_section=subproperty'
+                    ); ?>">
+                        <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>media16.png" alt="" />
+                        <?php echo Text::_(
                             'COM_REDSHOP_UPLOAD'
                         ); ?>
                     </button>
@@ -196,7 +198,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
         <div class="col-sm-4">
 
             <label>
-                <?php echo JText::_('COM_REDSHOP_ATTRIBUTE_IMAGE'); ?>
+                <?php echo Text::_('COM_REDSHOP_ATTRIBUTE_IMAGE'); ?>
             </label>
 
             <div class="row">
@@ -207,22 +209,21 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
 
                         <a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $subPropertyImage; ?>">
                             <img id="subpropertyImage<?php echo $keyAttr . $keySubProp; ?>"
-                                 src="<?php echo $subPropertyImageThumb; ?>"/>
+                                src="<?php echo $subPropertyImageThumb; ?>" />
                         </a>
 
-                        <input value="<?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE'); ?>" type="button"
-                               class="btn deleteSubPropertyMainImage"
-                               id="deleteSubPropertyMainImage_<?php echo $subProperty->subattribute_color_id; ?>_<?php
-                               echo $keyAttr . $keySubProp; ?>"/>
+                        <input value="<?php echo Text::_('COM_REDSHOP_REMOVE_IMAGE'); ?>" type="button"
+                            class="btn deleteSubPropertyMainImage" id="deleteSubPropertyMainImage_<?php echo $subProperty->subattribute_color_id; ?>_<?php
+                               echo $keyAttr . $keySubProp; ?>" />
                         <?php
                     } else {
                         ?>
-                        <img id="subpropertyImage<?php echo $keyAttr . $keySubProp; ?>" src="" style="display: none;"/>
+                        <img id="subpropertyImage<?php echo $keyAttr . $keySubProp; ?>" src="" style="display: none;" />
                         <?php
                     }
                     ?>
                     <input type="file" value=""
-                           name="attribute_<?php echo $keyAttr; ?>_property_<?php echo $keyProperty; ?>_subproperty_<?php echo $keySubProp; ?>_image"/>
+                        name="attribute_<?php echo $keyAttr; ?>_property_<?php echo $keyProperty; ?>_subproperty_<?php echo $keySubProp; ?>_image" />
                 </div>
             </div>
         </div>
@@ -241,4 +242,3 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(
     ?>
 
 </div>
-

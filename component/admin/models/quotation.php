@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 class RedshopModelQuotation extends RedshopModelList
 {
     /**
@@ -43,15 +45,15 @@ class RedshopModelQuotation extends RedshopModelList
     public function getCsvColumns()
     {
         return array(
-            'quotation_id'        => JText::_('COM_REDSHOP_QUOTATION_ID'),
-            'full_name'           => JText::_('COM_REDSHOP_FULLNAME'),
-            'user_email'          => JText::_('COM_REDSHOP_USEREMAIL'),
-            'phone'               => JText::_('COM_REDSHOP_PHONE'),
-            'quotation_status'    => JText::_('COM_REDSHOP_QUOTATION_STATUS'),
-            'quotation_note'      => JText::_('COM_REDSHOP_QUOTATION_NOTE'),
-            'product_name'        => JText::_('COM_REDSHOP_PRODUCT_NAME'),
-            'product_final_price' => JText::_('COM_REDSHOP_PRODUCT_PRICE'),
-            'product_attribute'   => JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE')
+            'quotation_id'        => Text::_('COM_REDSHOP_QUOTATION_ID'),
+            'full_name'           => Text::_('COM_REDSHOP_FULLNAME'),
+            'user_email'          => Text::_('COM_REDSHOP_USEREMAIL'),
+            'phone'               => Text::_('COM_REDSHOP_PHONE'),
+            'quotation_status'    => Text::_('COM_REDSHOP_QUOTATION_STATUS'),
+            'quotation_note'      => Text::_('COM_REDSHOP_QUOTATION_NOTE'),
+            'product_name'        => Text::_('COM_REDSHOP_PRODUCT_NAME'),
+            'product_final_price' => Text::_('COM_REDSHOP_PRODUCT_PRICE'),
+            'product_attribute'   => Text::_('COM_REDSHOP_PRODUCT_ATTRIBUTE')
         );
     }
 

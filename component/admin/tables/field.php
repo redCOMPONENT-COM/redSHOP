@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 JLoader::import('redshop.library');
 
 /**
@@ -83,13 +86,13 @@ class RedshopTableField extends RedshopTable
             ->select('COUNT(*) AS cnt')
             ->from($db->qn('#__redshop_fields'))
             ->where($db->qn('name') . ' = ' . $db->quote($this->name))
-            ->where($db->qn('id') . ' != ' . (int)$this->id);
+            ->where($db->qn('id') . ' != ' . (int) $this->id);
 
         $db->setQuery($query);
         $result = $db->loadResult();
 
-        if ((boolean)$result) {
-            $this->setError(JText::_('COM_REDSHOP_FIELDS_ALLREADY_EXIST'));
+        if ((boolean) $result) {
+            $this->setError(Text::_('COM_REDSHOP_FIELDS_ALLREADY_EXIST'));
 
             return false;
         }
@@ -99,7 +102,7 @@ class RedshopTableField extends RedshopTable
                 ->select('COUNT(*) + 1')
                 ->from($db->qn('#__redshop_fields'));
 
-            $this->ordering = (int)$db->setQuery($query)->loadResult();
+            $this->ordering = (int) $db->setQuery($query)->loadResult();
         }
 
         return true;
@@ -124,7 +127,7 @@ class RedshopTableField extends RedshopTable
         }
 
         if ($this->type == 0 || $this->type == RedshopHelperExtrafields::TYPE_TEXT || $this->type == RedshopHelperExtrafields::TYPE_TEXT_AREA) {
-            $id[] = (int)$this->id;
+            $id[] = (int) $this->id;
             $this->deleteFieldValues($id, 'field_id');
         } else {
             $this->saveFieldValues($this->id);
@@ -152,7 +155,7 @@ class RedshopTableField extends RedshopTable
             ->delete($db->qn('#__redshop_fields_value'))
             ->where($db->qn($field) . ' IN (' . $ids . ')');
 
-		$db->setQuery($query)->execute();
+        $db->setQuery($query)->execute();
 
         return true;
     }
@@ -185,10 +188,10 @@ class RedshopTableField extends RedshopTable
 
             if ($this->type == RedshopHelperExtrafields::TYPE_IMAGE_SELECT || $this->type == RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK) {
                 $extraNames = JFactory::getApplication()->input->files->get('extra_name_file', array(), 'array');
-                $total      = count((array)$extraNames);
+                $total      = count((array) $extraNames);
             } else {
                 $extraNames = $post->get('extra_name', '', 'raw');
-                $total      = count((array)$extraNames);
+                $total      = count((array) $extraNames);
             }
         }
 
@@ -230,7 +233,7 @@ class RedshopTableField extends RedshopTable
             if ($extraNames[$j]['error'] == 0 || !isset($extraNames[$j]['error'])) {
                 if (empty($valueIds[$j])) {
                     $obj              = new stdClass;
-                    $obj->field_id    = (int)$id;
+                    $obj->field_id    = (int) $id;
                     $obj->field_name  = $filename;
                     $obj->field_value = $extraValues[$j];
                     $db->insertObject('#__redshop_fields_value', $obj);

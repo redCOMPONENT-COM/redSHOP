@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * View Categories
  *
@@ -56,7 +58,7 @@ class RedshopViewCategories extends RedshopViewList
                 if ($config['edit_link']) {
                     $display = str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1)
                         . '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName(
-                        ) . '.edit&id=' . $row->id . '">' . $value . '</a>';
+                            ) . '.edit&id=' . $row->id . '">' . $value . '</a>';
                 }
 
                 return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, $config['type']);
@@ -64,13 +66,13 @@ class RedshopViewCategories extends RedshopViewList
                 if ($this->canEdit) {
                     return str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1)
                         . '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName(
-                        ) . '.edit&id=' . $row->id . '">'
+                            ) . '.edit&id=' . $row->id . '">'
                         . $row->{$config['dataCol']} . '</a>';
                 } else {
                     return str_repeat(
-                            '<span class="gi">|&nbsp;&mdash;&nbsp;</span>',
-                            $row->level - 1
-                        ) . $row->{$config['dataCol']};
+                        '<span class="gi">|&nbsp;&mdash;&nbsp;</span>',
+                        $row->level - 1
+                    ) . $row->{$config['dataCol']};
                 }
             }
         } elseif ($config['dataCol'] == 'description') {
@@ -98,7 +100,7 @@ class RedshopViewCategories extends RedshopViewList
                 'category.copy',
                 'copy.png',
                 'copy_f2.png',
-                JText::_('COM_REDSHOP_TOOLBAR_COPY'),
+                Text::_('COM_REDSHOP_TOOLBAR_COPY'),
                 true
             );
         }
@@ -129,7 +131,7 @@ class RedshopViewCategories extends RedshopViewList
             // This column is sortable?
             'sortable'  => false,
             // Text for column
-            'text'      => JText::_('COM_REDSHOP_PRODUCTS'),
+            'text'      => Text::_('COM_REDSHOP_PRODUCTS'),
             // Name of property for get data.
             'dataCol'   => 'product',
             // Width of column

@@ -7,19 +7,25 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 ?>
 <div class="callout callout-warning" style="background-color: #fff !important;">
-    <h4 class="text-warning"><?php echo JText::_('COM_REDSHOP_ACCESS_HELP_INFORMATION') ?></h4>
-    <p class="text-muted"><?php echo JText::_('COM_REDSHOP_ACCESS_HELP_INFORMATION_TEXT') ?></p>
+    <h4 class="text-warning">
+        <?php echo Text::_('COM_REDSHOP_ACCESS_HELP_INFORMATION') ?>
+    </h4>
+    <p class="text-muted">
+        <?php echo Text::_('COM_REDSHOP_ACCESS_HELP_INFORMATION_TEXT') ?>
+    </p>
 </div>
 <form action="index.php?option=com_redshop&view=access" method="post" id="adminForm" name="adminForm"
-      class="form-validate form-horizontal"
-      enctype="multipart/form-data">
+    class="form-validate form-horizontal" enctype="multipart/form-data">
     <?php echo $this->form->getInput('rules') ?>
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="selectedTabPosition" value=""/>
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="selectedTabPosition" value="" />
     <?php echo $this->form->getInput('title') ?>
     <?php echo $this->form->getInput('id') ?>
     <?php echo JHtml::_('form.token') ?>

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 jimport('joomla.html.pagination');
 
 class RedshopViewAccountgroup extends RedshopViewAdmin
@@ -20,9 +22,9 @@ class RedshopViewAccountgroup extends RedshopViewAdmin
         $app = JFactory::getApplication();
 
         $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'));
+        $document->setTitle(Text::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'));
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'), 'redshop_accountgroup48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'), 'redshop_accountgroup48');
         JToolbarHelper::addNew();
         JToolbarHelper::EditList();
         JToolbarHelper::deleteList();

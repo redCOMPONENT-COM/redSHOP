@@ -11,6 +11,8 @@ use Joomla\CMS\Factory;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Templates controller
  *
@@ -30,7 +32,7 @@ class RedshopControllerTemplates extends RedshopControllerAdmin
     public function duplicate()
     {
         // Check for request forgeries
-        JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
         $pks = $this->input->post->get('cid', array(), 'array');
         $pks = \Joomla\Utilities\ArrayHelper::toInteger($pks);
@@ -39,8 +41,9 @@ class RedshopControllerTemplates extends RedshopControllerAdmin
             $model = $this->getModel();
             $model->duplicate($pks);
             $this->setMessage(JText::plural('COM_REDSHOP_N_SUPPLIERS_DUPLICATED', count($pks)));
-        } catch (Exception $e) {
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
+        }
+        catch (Exception $e) {
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
         }
 
         $this->setRedirect('index.php?option=com_redshop&view=templates');

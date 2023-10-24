@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 class Tableproduct_discount_calc extends JTable
 {
     public $id = 0;
@@ -77,7 +79,7 @@ class Tableproduct_discount_calc extends JTable
         $xid = $db->setQuery($query)->loadResult();
 
         if ($xid) {
-            $this->_error = JText::_('COM_REDSHOP_SAME_RANGE');
+            $this->_error = Text::_('COM_REDSHOP_SAME_RANGE');
 
             return false;
         }

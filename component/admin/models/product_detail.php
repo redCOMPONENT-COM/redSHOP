@@ -8,6 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
@@ -210,7 +211,7 @@ class RedshopModelProduct_Detail extends RedshopModel
         $detail->minimum_per_product_total = (isset($data['minimum_per_product_total'])) ? $data['minimum_per_product_total'] : 0;
         $detail->attribute_set_id          = (isset($data['attribute_set_id'])) ? $data['attribute_set_id'] : 0;
         $detail->append_to_global_seo      = ((isset($data['append_to_global_seo']))
-            ? $data['append_to_global_seo'] : JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO'));
+            ? $data['append_to_global_seo'] : Text::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO'));
         $detail->allow_decimal_piece       = (isset($data['allow_decimal_piece'])) ? $data['allow_decimal_piece'] : 0;
 
         $detail->use_individual_payment_method = (isset($data['use_individual_payment_method'])) ? $data['use_individual_payment_method'] : 0;
@@ -265,7 +266,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
         if (count($parentIds) > 0) {
             $parentIds = implode(',', $parents);
-            $errorMSG  = sprintf(JText::_('COM_REDSHOP_PRODUCT_PARENT_ERROR_MSG'), $parentIds);
+            $errorMSG  = sprintf(Text::_('COM_REDSHOP_PRODUCT_PARENT_ERROR_MSG'), $parentIds);
             $this->app->enqueueMessage($errorMSG, 'error');
 
             return false;
@@ -1213,7 +1214,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
             for ($i = 0, $countQuantity = count($data['quantity']); $i < $countQuantity; $i++) {
                 if ($data['ordered_preorder'][$i] > $data['preorder_stock'][$i]) {
-                    $this->app->enqueueMessage(JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED'), 'notice');
+                    $this->app->enqueueMessage(Text::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED'), 'notice');
 
                     return false;
                 }
@@ -1485,10 +1486,10 @@ class RedshopModelProduct_Detail extends RedshopModel
 
                     fclose($handle);
                 } else {
-                    $this->app->enqueueMessage(JText::_("COM_REDSHOP_CSV_FILE_NOT_UPLOADED_TRY_AGAIN"), 'notice');
+                    $this->app->enqueueMessage(Text::_("COM_REDSHOP_CSV_FILE_NOT_UPLOADED_TRY_AGAIN"), 'notice');
                 }
             } else {
-                $this->app->enqueueMessage(JText::_("COM_REDSHOP_ONLY_CSV_FILE_ALLOWED"), 'notice');
+                $this->app->enqueueMessage(Text::_("COM_REDSHOP_ONLY_CSV_FILE_ALLOWED"), 'notice');
 
                 return false;
             }
@@ -2579,7 +2580,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                     $this->_db->execute();
                 } else {
                     if (($preorder_stock < $ordered_preorder) && $preorder_stock != "" && $ordered_preorder != "") {
-                        $this->app->enqueueMessage(JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED'), 'notice');
+                        $this->app->enqueueMessage(Text::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED'), 'notice');
 
                         return false;
                     } else {
@@ -2593,7 +2594,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                 }
             } else {
                 if ($preorder_stock < $ordered_preorder && $preorder_stock != "" && $ordered_preorder != "") {
-                    $msg = JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED');
+                    $msg = Text::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED');
                     Factory::getApplication()->enqueueMessage($msg, 'warning');
 
                     return false;
@@ -4231,7 +4232,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                 )
             ) {
                 /** @scrutinizer ignore-deprecated */
-                $this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+                $this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
                 return false;
             }

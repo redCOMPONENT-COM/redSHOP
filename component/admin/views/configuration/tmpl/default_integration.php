@@ -7,10 +7,12 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
-?>
+use Joomla\CMS\Language\Text;
 
+?>
 <fieldset class="adminform">
     <div class="row">
         <div class="col-sm-4">
@@ -18,7 +20,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_CONFIG_GLS'),
+                    'title'   => Text::_('COM_REDSHOP_CONFIG_GLS'),
                     'content' => $this->loadTemplate('gls')
                 )
             );
@@ -27,7 +29,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_CLICKATELL'),
+                    'title'   => Text::_('COM_REDSHOP_CLICKATELL'),
                     'content' => $this->loadTemplate('clicktell')
                 )
             );
@@ -38,7 +40,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_POST_DENMART'),
+                    'title'   => Text::_('COM_REDSHOP_POST_DENMART'),
                     'content' => $this->loadTemplate('postdk')
                 )
             );
@@ -49,7 +51,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_ECONOMIC'),
+                    'title'   => Text::_('COM_REDSHOP_ECONOMIC'),
                     'content' => $this->loadTemplate('economic')
                 )
             );

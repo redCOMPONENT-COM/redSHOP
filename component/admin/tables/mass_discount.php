@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -234,7 +235,7 @@ class RedshopTableMass_Discount extends RedshopTable
         $query = $db->getQuery(true)
             ->select($db->qn('product_id'))
             ->from($db->qn('#__redshop_product'))
-            ->where($db->qn('manufacturer_id') . ' = ' . (int)$id);
+            ->where($db->qn('manufacturer_id') . ' = ' . (int) $id);
 
         return $db->setQuery($query)->loadObjectList();
     }
@@ -256,16 +257,16 @@ class RedshopTableMass_Discount extends RedshopTable
 
         if (empty($this->name)) {
             /** @scrutinizer ignore-deprecated */
-            $this->/** @scrutinizer ignore-call */
-            setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_MISSING_DISCOUNT_NAME'), 'error');
+            $this-> /** @scrutinizer ignore-call */
+                setError(Text::_('COM_REDSHOP_MASS_DISCOUNT_MISSING_DISCOUNT_NAME'), 'error');
 
             return false;
         }
 
         if (empty($this->amount)) {
             /** @scrutinizer ignore-deprecated */
-            $this->/** @scrutinizer ignore-call */ setError(
-                JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_AMOUNT_MUST_BE_LARGER_THAN_ZERO'),
+            $this-> /** @scrutinizer ignore-call */setError(
+                Text::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_AMOUNT_MUST_BE_LARGER_THAN_ZERO'),
                 'error'
             );
 
@@ -274,8 +275,8 @@ class RedshopTableMass_Discount extends RedshopTable
 
         if (empty($this->discount_product) && empty($this->category_id) && empty($this->manufacturer_id)) {
             /** @scrutinizer ignore-deprecated */
-            $this->/** @scrutinizer ignore-call */ setError(
-                JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'),
+            $this-> /** @scrutinizer ignore-call */setError(
+                Text::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'),
                 'error'
             );
 
@@ -284,8 +285,8 @@ class RedshopTableMass_Discount extends RedshopTable
 
         if ($this->start_date > $this->end_date) {
             /** @scrutinizer ignore-deprecated */
-            $this->/** @scrutinizer ignore-call */ setError(
-                JText::_('COM_REDSHOP_MASS_DISCOUNT_ENDDATE_LOWER_STARTDATE'),
+            $this-> /** @scrutinizer ignore-call */setError(
+                Text::_('COM_REDSHOP_MASS_DISCOUNT_ENDDATE_LOWER_STARTDATE'),
                 'error'
             );
 
@@ -351,7 +352,7 @@ class RedshopTableMass_Discount extends RedshopTable
                 ->set($db->qn('product_on_sale') . ' = 0')
                 ->where($db->qn('product_id') . ' IN (' . implode(',', $productIds) . ')');
 
-			$db->setQuery($query)->execute();
+            $db->setQuery($query)->execute();
         }
 
         $newDiffCategories = array_diff($newCategories, $categories);
@@ -370,7 +371,7 @@ class RedshopTableMass_Discount extends RedshopTable
             $products = RedshopHelperProduct::getProductCategory($newDiffCategory);
 
             foreach ($products as $product) {
-                $productData = Redshop::product((int)$product->product_id);
+                $productData = Redshop::product((int) $product->product_id);
 
                 if ($this->type == 1) {
                     $price = $productData->product_price - ($productData->product_price * $this->amount / 100);
@@ -388,7 +389,7 @@ class RedshopTableMass_Discount extends RedshopTable
                     ->set($db->qn('discount_enddate') . ' = ' . $this->end_date)
                     ->where($db->qn('product_id') . ' = ' . $product->product_id);
 
-				$db->setQuery($query)->execute();
+                $db->setQuery($query)->execute();
             }
         }
 
@@ -441,7 +442,7 @@ class RedshopTableMass_Discount extends RedshopTable
             $productIds = $db->setQuery($query)->loadColumn();
 
             foreach ($productIds as $productId) {
-                $productData = Redshop::product((int)$productId);
+                $productData = Redshop::product((int) $productId);
 
                 if ($this->type == 1) {
                     $price = $productData->product_price - ($productData->product_price * $this->amount / 100);
@@ -540,20 +541,21 @@ class RedshopTableMass_Discount extends RedshopTable
                 // Update fields
                 $update = array(
                     $db->qn('product_on_sale') . ' = 1',
-                    $db->qn('discount_price') . ' = ' . (float)$price,
-                    $db->qn('discount_stratdate') . ' = ' . (int)$this->start_date,
-                    $db->qn('discount_enddate') . ' = ' . (int)$this->end_date
+                    $db->qn('discount_price') . ' = ' . (float) $price,
+                    $db->qn('discount_stratdate') . ' = ' . (int) $this->start_date,
+                    $db->qn('discount_enddate') . ' = ' . (int) $this->end_date
                 );
 
                 // By condition
                 $conditions = array(
-                    $db->qn('product_id') . ' = ' . (int)$newDiffProduct
+                    $db->qn('product_id') . ' = ' . (int) $newDiffProduct
                 );
                 $query->update($db->qn('#__redshop_product'))->set($update)->where($conditions);
                 $db->setQuery($query)->execute();
-            } catch (Exception $e) {
+            }
+            catch (Exception $e) {
                 /** @scrutinizer ignore-deprecated */
-                $this->/** @scrutinizer ignore-call */ setError($e->getMessage(), 'error');
+                $this-> /** @scrutinizer ignore-call */setError($e->getMessage(), 'error');
             }
         }
 

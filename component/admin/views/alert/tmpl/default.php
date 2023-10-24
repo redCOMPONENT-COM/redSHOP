@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 ?>
 <script language="javascript" type="text/javascript">
@@ -25,73 +28,72 @@ defined('_JEXEC') or die;
             <div class="filterItem">
                 <div class="btn-wrapper input-append">
                     <input type="text" name="name_filter" id="name_filter"
-                           value="<?php echo $this->state->get('name_filter'); ?>"
-                           onchange="document.adminForm.submit();"
-                           placeholder="<?php echo JText::_('COM_REDSHOP_NAME'); ?>">
-                    <input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+                        value="<?php echo $this->state->get('name_filter'); ?>" onchange="document.adminForm.submit();"
+                        placeholder="<?php echo Text::_('COM_REDSHOP_NAME'); ?>">
+                    <input type="submit" class="btn" value="<?php echo Text::_("COM_REDSHOP_SEARCH") ?>">
                     <input type="button" class="btn reset" onclick="resetfilter();"
-                           value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"/>
+                        value="<?php echo Text::_('COM_REDSHOP_RESET'); ?>" />
                 </div>
             </div>
             <div class="filterItem">
-                <?php echo JText::_('COM_REDSHOP_ALERT_READ_FILTER'); ?>:
+                <?php echo Text::_('COM_REDSHOP_ALERT_READ_FILTER'); ?>:
                 <?php echo $this->lists['read_filter']; ?>
             </div>
         </div>
         <table class="adminlist table table-striped">
             <thead>
-            <tr>
-                <th width="5%">
-                    <?php echo JText::_('COM_REDSHOP_NUM'); ?>
-                </th>
-                <th width="5%">
-                    <?php echo JHtml::_('redshopgrid.checkall'); ?>
-                </th>
-                <th>
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_ALERT_MESSAGE',
-                        'a.message',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th class="title">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_ALERT_DATE',
-                        'a.sent_date',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th>
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_ALERT_READ',
-                        'a.read',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th width="5%" nowrap="nowrap">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_ID',
-                        'a.id',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
+                <tr>
+                    <th width="5%">
+                        <?php echo Text::_('COM_REDSHOP_NUM'); ?>
+                    </th>
+                    <th width="5%">
+                        <?php echo JHtml::_('redshopgrid.checkall'); ?>
+                    </th>
+                    <th>
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_ALERT_MESSAGE',
+                            'a.message',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th class="title">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_ALERT_DATE',
+                            'a.sent_date',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th>
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_ALERT_READ',
+                            'a.read',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th width="5%" nowrap="nowrap">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_ID',
+                            'a.id',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
 
-            </tr>
+                </tr>
             </thead>
             <?php
 
             $k = 0;
 
             for ($i = 0, $n = count($this->alerts); $i < $n; $i++) {
-                $row = $this->alerts[$i];
+                $row     = $this->alerts[$i];
                 $row->id = $row->id;
 
                 $read = JHtml::_('jgrid.published', $row->read, $i, '', 1);
@@ -103,10 +105,18 @@ defined('_JEXEC') or die;
                     <td align="center">
                         <?php echo JHTML::_('grid.id', $i, $row->id); ?>
                     </td>
-                    <td align="center"><?php echo $row->message; ?></td>
-                    <td align="center"><?php echo $row->sent_date; ?></td>
-                    <td align="center"><?php echo $read; ?></td>
-                    <td align="center"><?php echo $row->id; ?></td>
+                    <td align="center">
+                        <?php echo $row->message; ?>
+                    </td>
+                    <td align="center">
+                        <?php echo $row->sent_date; ?>
+                    </td>
+                    <td align="center">
+                        <?php echo $read; ?>
+                    </td>
+                    <td align="center">
+                        <?php echo $row->id; ?>
+                    </td>
                 </tr>
                 <?php
                 $k = 1 - $k;
@@ -114,20 +124,20 @@ defined('_JEXEC') or die;
             ?>
 
             <tfoot>
-            <td colspan="9">
-				<div class="redShopLimitBox">
-					<?php echo $this->pagination->getLimitBox(); ?>
-				</div>
-                <?php echo $this->pagination->getListFooter(); ?>
-            </td>
+                <td colspan="9">
+                    <div class="redShopLimitBox">
+                        <?php echo $this->pagination->getLimitBox(); ?>
+                    </div>
+                    <?php echo $this->pagination->getListFooter(); ?>
+                </td>
             </tfoot>
         </table>
     </div>
 
-    <input type="hidden" name="view" value="alert"/>
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="boxchecked" value="0"/>
-    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+    <input type="hidden" name="view" value="alert" />
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
     <?php echo JHtml::_('form.token'); ?>
 </form>

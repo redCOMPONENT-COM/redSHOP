@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\Factory;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 class RedshopModelUser_detail extends RedshopModel
 {
@@ -45,10 +45,9 @@ class RedshopModelUser_detail extends RedshopModel
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
 
-		if (array_key_exists(0, $array))
-		{
-			$this->setId((int) $array[0]);
-		}
+        if (array_key_exists(0, $array)) {
+            $this->setId((int) $array[0]);
+        }
     }
 
     public function setId($id)
@@ -78,7 +77,7 @@ class RedshopModelUser_detail extends RedshopModel
             $shipping = \JFactory::getApplication()->input->getInt('shipping', 0);
 
             if ($shipping == 1) {
-                $queryId = (int)\JFactory::getApplication()->input->get('cid', [0])[0];
+                $queryId = (int) \JFactory::getApplication()->input->get('cid', [0])[0];
 
                 $user = \Redshop\User\Helper::getUsers(
                     [],
@@ -99,7 +98,7 @@ class RedshopModelUser_detail extends RedshopModel
                 $this->_data->email = $this->_data->user_email;
             }
 
-            return (boolean)$this->_data;
+            return (boolean) $this->_data;
         }
 
         return true;
@@ -110,9 +109,9 @@ class RedshopModelUser_detail extends RedshopModel
         $data = JFactory::getApplication()->getUserState('com_redshop.user_detail.data');
 
         if (!empty($data)) {
-            $this->_data = (object)$data;
+            $this->_data = (object) $data;
 
-            return (boolean)$this->_data;
+            return (boolean) $this->_data;
         } elseif (empty($this->_data)) {
             $detail = new stdClass;
 
@@ -159,7 +158,7 @@ class RedshopModelUser_detail extends RedshopModel
             if ($shipping) {
                 $temp     = \Redshop\User\Helper::getUsers(
                     [],
-                    ['ui.users_info_id' => ['=' => $this->_id ?? (int)$userInfoId]]
+                    ['ui.users_info_id' => ['=' => $this->_id ?? (int) $userInfoId]]
                 );
                 $billData = $temp[0] ?? null;
 
@@ -179,7 +178,7 @@ class RedshopModelUser_detail extends RedshopModel
 
             $this->_data = $detail;
 
-            return (boolean)$this->_data;
+            return (boolean) $this->_data;
         }
 
         return true;
@@ -196,7 +195,7 @@ class RedshopModelUser_detail extends RedshopModel
 
         if ($post['createaccount']) {
             if ($post['user_id'] == 0 && ($post['password'] == '' || $post['password2'] == '')) {
-				Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PLEASE_ENTER_PASSWORD'), 'warning');
+                Factory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_PLEASE_ENTER_PASSWORD'), 'warning');
 
                 return false;
             }
@@ -303,7 +302,7 @@ class RedshopModelUser_detail extends RedshopModel
 
                     if (!$user->delete()) {
                         /** @scrutinizer ignore-deprecated */
-                        $this->setError(/** @scrutinizer ignore-deprecated */ $user->getError());
+                        $this->setError( /** @scrutinizer ignore-deprecated */$user->getError());
 
                         return false;
                     }
@@ -369,7 +368,7 @@ class RedshopModelUser_detail extends RedshopModel
         $query = $db->getQuery(true);
         $query->select('*')
             ->from($db->qn('#__redshop_orders'))
-            ->where($db->qn('user_id') . ' = ' . $db->q((int)$this->_uid))
+            ->where($db->qn('user_id') . ' = ' . $db->q((int) $this->_uid))
             ->order($db->qn('order_id') . ' DESC');
 
         return $query;

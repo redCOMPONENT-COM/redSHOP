@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 ?>
 <div class="row adminform">
@@ -16,14 +19,14 @@ defined('_JEXEC') or die;
         echo RedshopLayoutHelper::render(
             'config.group',
             array(
-                'title'   => JText::_('COM_REDSHOP_MAIN_PRICE'),
+                'title'   => Text::_('COM_REDSHOP_MAIN_PRICE'),
                 'content' => $this->loadTemplate('price')
             )
         );
         echo RedshopLayoutHelper::render(
             'config.group',
             array(
-                'title'   => JText::_('COM_REDSHOP_GIFTCARD_IMAGE_SETTING_TAB'),
+                'title'   => Text::_('COM_REDSHOP_GIFTCARD_IMAGE_SETTING_TAB'),
                 'content' => $this->loadTemplate('images_giftcard')
             )
         );
@@ -34,7 +37,7 @@ defined('_JEXEC') or die;
         echo RedshopLayoutHelper::render(
             'config.group',
             array(
-                'title'   => JText::_('COM_REDSHOP_TAX_TAB'),
+                'title'   => Text::_('COM_REDSHOP_TAX_TAB'),
                 'content' => $this->loadTemplate('vat')
             )
         );
@@ -45,14 +48,14 @@ defined('_JEXEC') or die;
         echo RedshopLayoutHelper::render(
             'config.group',
             array(
-                'title'   => JText::_('COM_REDSHOP_DISCOUNT_SETTING_TAB'),
+                'title'   => Text::_('COM_REDSHOP_DISCOUNT_SETTING_TAB'),
                 'content' => $this->loadTemplate('discount')
             )
         );
         echo RedshopLayoutHelper::render(
             'config.group',
             array(
-                'title'   => JText::_('COM_REDSHOP_DISCOUNT_MAIL'),
+                'title'   => Text::_('COM_REDSHOP_DISCOUNT_MAIL'),
                 'content' => $this->loadTemplate('discount_mail')
             )
         );

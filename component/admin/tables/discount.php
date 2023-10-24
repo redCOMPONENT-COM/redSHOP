@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Table Discount
  *
@@ -136,7 +138,7 @@ class RedshopTableDiscount extends RedshopTable
             ->columns($db->qn(array('discount_id', 'shopper_group_id')));
 
         foreach ($shopperGroupIds as $shopperGroupId) {
-            $query->values((int)$this->discount_id . ',' . (int)$shopperGroupId);
+            $query->values((int) $this->discount_id . ',' . (int) $shopperGroupId);
         }
 
         return $db->setQuery($query)->execute();
@@ -183,25 +185,25 @@ class RedshopTableDiscount extends RedshopTable
         }
 
         // Check amount
-        if ((float)$this->amount <= 0.0) {
+        if ((float) $this->amount <= 0.0) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(JText::_('COM_REDSHOP_DISCOUNT_ERROR_AMOUNT_ZERO'));
+            $this->setError(Text::_('COM_REDSHOP_DISCOUNT_ERROR_AMOUNT_ZERO'));
 
             return false;
         }
 
         // Check discount amount
-        if ((float)$this->discount_amount <= 0.0) {
+        if ((float) $this->discount_amount <= 0.0) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(JText::_('COM_REDSHOP_DISCOUNT_ERROR_DISCOUNT_AMOUNT_ZERO'));
+            $this->setError(Text::_('COM_REDSHOP_DISCOUNT_ERROR_DISCOUNT_AMOUNT_ZERO'));
 
             return false;
         }
 
         // Check amount and discount amount
-        if (((float)$this->amount) < (float)$this->discount_amount) {
+        if (((float) $this->amount) < (float) $this->discount_amount) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(JText::_('COM_REDSHOP_DISCOUNT_ERROR_AMOUNT_HIGHT_DISCOUNT_AMOUNT'));
+            $this->setError(Text::_('COM_REDSHOP_DISCOUNT_ERROR_AMOUNT_HIGHT_DISCOUNT_AMOUNT'));
 
             return false;
         }
@@ -209,7 +211,7 @@ class RedshopTableDiscount extends RedshopTable
         // If discount type is percent. Make sure discount amount not higher than 100.
         if ($this->discount_type == 1 && $this->discount_amount > 100) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(JText::_('COM_REDSHOP_DISCOUNT_ERROR_DISCOUNT_PERCENTAGE'));
+            $this->setError(Text::_('COM_REDSHOP_DISCOUNT_ERROR_DISCOUNT_PERCENTAGE'));
 
             return false;
         }
@@ -217,7 +219,7 @@ class RedshopTableDiscount extends RedshopTable
         // If discount type is percent. Make sure discount amount not higher than 100.
         if (!empty($this->start_date) && !empty($this->end_date) && $this->start_date >= $this->end_date) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(JText::_('COM_REDSHOP_DISCOUNT_ERROR_START_DATE_SAME_HIGH_END_DATE'));
+            $this->setError(Text::_('COM_REDSHOP_DISCOUNT_ERROR_START_DATE_SAME_HIGH_END_DATE'));
 
             return false;
         }
@@ -225,7 +227,7 @@ class RedshopTableDiscount extends RedshopTable
         // Check shopper groups
         if (empty($this->getOption('shopperGroups', array()))) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(JText::_('COM_REDSHOP_DISCOUNT_ERROR_MISSING_SHOPPER_GROUPS'));
+            $this->setError(Text::_('COM_REDSHOP_DISCOUNT_ERROR_MISSING_SHOPPER_GROUPS'));
 
             return false;
         }

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tool Image controller
  *
@@ -28,7 +30,7 @@ class RedshopControllerTool_Image extends RedshopController
      */
     public function getImages()
     {
-        JSession::checkToken() or jexit(JText::_('INVALID_TOKEN'));
+        JSession::checkToken() or jexit(Text::_('INVALID_TOKEN'));
 
         $images = array();
 
@@ -72,7 +74,7 @@ class RedshopControllerTool_Image extends RedshopController
      */
     public function cleanThumbFolders()
     {
-        JSession::checkToken() or jexit(JText::_('INVALID_TOKEN'));
+        JSession::checkToken() or jexit(Text::_('INVALID_TOKEN'));
 
         $results = array();
 
@@ -118,14 +120,14 @@ class RedshopControllerTool_Image extends RedshopController
      */
     public function processImageCheck()
     {
-        JSession::checkToken() or jexit(JText::_('INVALID_TOKEN'));
+        JSession::checkToken() or jexit(Text::_('INVALID_TOKEN'));
 
         $app   = JFactory::getApplication();
         $files = $app->getUserState('com_redshop.tools.images', array());
         $file  = array_shift($files);
 
         if (empty($file)) {
-            $results = array('status' => 1, 'msg' => JText::_('COM_REDSHOP_TOOLS_IMAGES_DONE'));
+            $results = array('status' => 1, 'msg' => Text::_('COM_REDSHOP_TOOLS_IMAGES_DONE'));
             $app->setUserState('com_redshop.tools.images', null);
         } else {
             if (JFile::exists($file) && RedshopHelperMedia::isImage($file)) {

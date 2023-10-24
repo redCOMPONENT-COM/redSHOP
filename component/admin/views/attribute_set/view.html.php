@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewAttribute_set extends RedshopViewAdmin
 {
@@ -19,13 +20,13 @@ class RedshopViewAttribute_set extends RedshopViewAdmin
         $app = JFactory::getApplication();
 
         $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_ATTRIBUTE_SET'));
+        $document->setTitle(Text::_('COM_REDSHOP_ATTRIBUTE_SET'));
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_SET'), 'redshop_attribute_bank48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_ATTRIBUTE_SET'), 'redshop_attribute_bank48');
 
         JToolbarHelper::addNew();
         JToolbarHelper::EditList();
-        JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+        JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', Text::_('COM_REDSHOP_TOOLBAR_COPY'), true);
         JToolBarHelper::deleteList();
         JToolBarHelper::publishList();
         JToolBarHelper::unpublishList();

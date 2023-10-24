@@ -8,9 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
@@ -28,12 +30,14 @@ echo $htmlField;
 <div class="form-group row-fluid">
     <div class="col-md-offset-2 col-md-10">
         <?php
-        echo HTMLHelper::_('redshop.tooltip',
-            JText::_('COM_REDSHOP_TOOLTIP_TEMPLATE'),
-            JText::_('COM_REDSHOP_TEMPLATE')
+        echo HTMLHelper::_(
+            'redshop.tooltip',
+            Text::_('COM_REDSHOP_TOOLTIP_TEMPLATE'),
+            Text::_('COM_REDSHOP_TEMPLATE')
         )
-        ?>
-        <a href="index.php?option=com_redshop&task=template.edit&id=<?php echo $item->template_id ?>"
-           target="_blank"><?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATE') ?></a>
+            ?>
+        <a href="index.php?option=com_redshop&task=template.edit&id=<?php echo $item->template_id ?>" target="_blank">
+            <?php echo Text::_('COM_REDSHOP_EDIT_TEMPLATE') ?>
+        </a>
     </div>
 </div>

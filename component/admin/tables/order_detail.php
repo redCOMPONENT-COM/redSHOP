@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 class Tableorder_detail extends JTable
 {
     public $order_id = null;
@@ -107,7 +109,7 @@ class Tableorder_detail extends JTable
     {
         if (empty($this->order_status) || $this->order_status === 0) {
             JFactory::getApplication()->enqueueMessage(
-                JText::_('COM_REDSHOP_TABLE_ORDER_REDSHOP_INVALID_ORDER_STATUS'),
+                Text::_('COM_REDSHOP_TABLE_ORDER_REDSHOP_INVALID_ORDER_STATUS'),
                 'warning'
             );
 

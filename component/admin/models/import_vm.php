@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Import VirtueMart model
  *
@@ -36,7 +38,7 @@ class RedshopModelImport_Vm extends RedshopModel
             ->select('COUNT(' . $db->qn('virtuemart_product_id') . ')')
             ->from($db->qn('#__virtuemart_products'));
 
-        return (int)$db->setQuery($query)->loadResult();
+        return (int) $db->setQuery($query)->loadResult();
     }
 
     /**
@@ -54,7 +56,7 @@ class RedshopModelImport_Vm extends RedshopModel
             ->select('COUNT(' . $db->qn('virtuemart_category_id') . ')')
             ->from($db->qn('#__virtuemart_categories'));
 
-        return (int)$db->setQuery($query)->loadResult();
+        return (int) $db->setQuery($query)->loadResult();
     }
 
     /**
@@ -72,7 +74,7 @@ class RedshopModelImport_Vm extends RedshopModel
             ->select('COUNT(' . $db->qn('virtuemart_shoppergroup_id') . ')')
             ->from($db->qn('#__virtuemart_shoppergroups'));
 
-        return (int)$db->setQuery($query)->loadResult();
+        return (int) $db->setQuery($query)->loadResult();
     }
 
     /**
@@ -90,7 +92,7 @@ class RedshopModelImport_Vm extends RedshopModel
             ->select('COUNT(' . $db->qn('virtuemart_userinfo_id') . ')')
             ->from($db->qn('#__virtuemart_userinfos'));
 
-        return (int)$db->setQuery($query)->loadResult();
+        return (int) $db->setQuery($query)->loadResult();
     }
 
     /**
@@ -107,7 +109,7 @@ class RedshopModelImport_Vm extends RedshopModel
             ->select('COUNT(' . $db->qn('virtuemart_orderstate_id') . ')')
             ->from($db->qn('#__virtuemart_orderstates'));
 
-        return (int)$db->setQuery($query)->loadResult();
+        return (int) $db->setQuery($query)->loadResult();
     }
 
     /**
@@ -125,7 +127,7 @@ class RedshopModelImport_Vm extends RedshopModel
             ->select('COUNT(' . $db->qn('virtuemart_manufacturer_id') . ')')
             ->from($db->qn('#__virtuemart_manufacturers'));
 
-        return (int)$db->setQuery($query)->loadResult();
+        return (int) $db->setQuery($query)->loadResult();
     }
 
     /**
@@ -143,7 +145,7 @@ class RedshopModelImport_Vm extends RedshopModel
             ->select('COUNT(' . $db->qn('virtuemart_order_id') . ')')
             ->from($db->qn('#__virtuemart_orders'));
 
-        return (int)$db->setQuery($query)->loadResult();
+        return (int) $db->setQuery($query)->loadResult();
     }
 
     /**
@@ -203,7 +205,7 @@ class RedshopModelImport_Vm extends RedshopModel
         $query->clear()
             ->select($db->qn('id'))
             ->from($db->qn('#__redshop_category'))
-            ->where($db->qn('name') . ' = ' . $db->quote((string)$categoryVM->category_name));
+            ->where($db->qn('name') . ' = ' . $db->quote((string) $categoryVM->category_name));
         $rsCategoryId = $db->setQuery($query)->loadResult();
 
         /** @var RedshopTableCategory $table */
@@ -215,7 +217,7 @@ class RedshopModelImport_Vm extends RedshopModel
 
         $table->name                = addslashes($categoryVM->category_name);
         $table->description         = $categoryVM->category_description;
-        $table->category_full_image = ! empty($categoryVM->file_name) ? basename($categoryVM->file_name) : null;
+        $table->category_full_image = !empty($categoryVM->file_name) ? basename($categoryVM->file_name) : null;
         $table->published           = $categoryVM->published;
         $table->category_pdate      = $categoryVM->created_on;
         $table->products_per_page   = $categoryVM->products_per_row;
@@ -226,14 +228,14 @@ class RedshopModelImport_Vm extends RedshopModel
 
         $parentId = $categoryVM->parent_id ? $this->getCategoryIdSynced($categoryVM->parent_id) : $table->getRootId();
 
-        $table->setLocation((int)$parentId, 'last-child');
+        $table->setLocation((int) $parentId, 'last-child');
 
-        if ( ! $table->store()) {
+        if (!$table->store()) {
             return false;
         }
 
         // Copy image
-        if ( ! empty($categoryVM->file_name)) {
+        if (!empty($categoryVM->file_name)) {
             JFile::copy(
                 JPATH_ROOT . '/' . $categoryVM->file_name,
                 REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . basename($categoryVM->file_name)
@@ -254,7 +256,7 @@ class RedshopModelImport_Vm extends RedshopModel
      */
     protected function getCategoryIdSynced($vmCategoryId)
     {
-        if ( ! $vmCategoryId) {
+        if (!$vmCategoryId) {
             return 0;
         }
 
@@ -301,9 +303,9 @@ class RedshopModelImport_Vm extends RedshopModel
         }
 
         if ($shopperGroupVM->shopper_group_name == 'COM_VIRTUEMART_SHOPPERGROUP_DEFAULT') {
-            $shopperGroupName = JText::_('COM_REDSHOP_IMPORT_VM_SHOPPERGROUP_DEFAULT');
+            $shopperGroupName = Text::_('COM_REDSHOP_IMPORT_VM_SHOPPERGROUP_DEFAULT');
         } elseif ($shopperGroupVM->shopper_group_name == 'COM_VIRTUEMART_SHOPPERGROUP_GUEST') {
-            $shopperGroupName = JText::_('COM_REDSHOP_IMPORT_VM_SHOPPERGROUP_GUEST');
+            $shopperGroupName = Text::_('COM_REDSHOP_IMPORT_VM_SHOPPERGROUP_GUEST');
         } else {
             $shopperGroupName = addslashes($shopperGroupVM->shopper_group_name);
         }
@@ -311,9 +313,9 @@ class RedshopModelImport_Vm extends RedshopModel
         $this->setState($this->logName, $shopperGroupName);
 
         if ($shopperGroupVM->shopper_group_desc == 'COM_VIRTUEMART_SHOPPERGROUP_DEFAULT_TIP') {
-            $shopperGroupDescription = JText::_('COM_REDSHOP_IMPORT_VM_SHOPPERGROUP_DEFAULT_TIP');
+            $shopperGroupDescription = Text::_('COM_REDSHOP_IMPORT_VM_SHOPPERGROUP_DEFAULT_TIP');
         } elseif ($shopperGroupVM->shopper_group_desc == 'COM_VIRTUEMART_SHOPPERGROUP_GUEST_TIP') {
-            $shopperGroupDescription = JText::_('COM_REDSHOP_IMPORT_VM_SHOPPERGROUP_GUEST_TIP');
+            $shopperGroupDescription = Text::_('COM_REDSHOP_IMPORT_VM_SHOPPERGROUP_GUEST_TIP');
         } else {
             $shopperGroupDescription = $shopperGroupVM->shopper_group_desc;
         }
@@ -386,7 +388,7 @@ class RedshopModelImport_Vm extends RedshopModel
         $this->setState($this->logName, $userVM->first_name . ' ' . $userVM->last_name);
 
         $userTable = JTable::getInstance('user_detail', 'Table');
-        $isPrivate = (boolean)$userVM->address_type == 'BT';
+        $isPrivate = (boolean) $userVM->address_type == 'BT';
 
         if ($isPrivate) {
             $redshopUser = RedshopHelperOrder::getBillingAddress($userVM->virtuemart_user_id);
@@ -442,10 +444,10 @@ class RedshopModelImport_Vm extends RedshopModel
 
         $useDefault = true;
 
-        if ( ! empty($userVM->virtuemart_shoppergroup_id)) {
+        if (!empty($userVM->virtuemart_shoppergroup_id)) {
             $groupName = RedshopHelperVirtuemart::getVirtuemartShopperGroups($userVM->virtuemart_shoppergroup_id);
 
-            if ( ! empty($groupName)) {
+            if (!empty($groupName)) {
                 $userTable->shopper_group_id = RedshopHelperVirtuemart::getRedshopShopperGroups($groupName);
 
                 $useDefault = false;
@@ -491,18 +493,18 @@ class RedshopModelImport_Vm extends RedshopModel
 
         JFactory::getLanguage()->load('com_virtuemart_orders', JPATH_SITE . '/components/com_virtuemart');
 
-        $this->setState($this->logName, JText::_($orderStatusVM->order_status_name));
+        $this->setState($this->logName, Text::_($orderStatusVM->order_status_name));
 
         /** @var \RedshopTableOrder_Status $table */
         $table = JTable::getInstance('Order_Status', 'RedshopTable');
 
-        if ( ! $table->load(array('order_status_code' => $orderStatusVM->order_status_code))) {
+        if (!$table->load(array('order_status_code' => $orderStatusVM->order_status_code))) {
             $table->order_status_id = 0;
         }
 
-        $table->order_status_name = JText::_($orderStatusVM->order_status_name);
+        $table->order_status_name = Text::_($orderStatusVM->order_status_name);
         $table->order_status_code = $orderStatusVM->order_status_code;
-        $table->published         = (int)$orderStatusVM->published;
+        $table->published         = (int) $orderStatusVM->published;
 
         return $table->store();
     }
@@ -564,7 +566,7 @@ class RedshopModelImport_Vm extends RedshopModel
         $query->clear()
             ->select($db->qn('manufacturer_id'))
             ->from($db->qn('#__redshop_manufacturer'))
-            ->where($db->qn('manufacturer_name') . ' = ' . $db->quote((string)$manufacturerVM->mf_name));
+            ->where($db->qn('manufacturer_name') . ' = ' . $db->quote((string) $manufacturerVM->mf_name));
         $rsManufacturerId = $db->setQuery($query)->loadResult();
 
         /** @var TableManufacturer_Detail $table */
@@ -583,28 +585,30 @@ class RedshopModelImport_Vm extends RedshopModel
         $table->manufacturer_url   = $manufacturerVM->mf_url;
         $table->template_id        = Redshop::getConfig()->get('MANUFACTURER_TEMPLATE');
 
-        if ( ! $table->store()) {
+        if (!$table->store()) {
             return false;
         }
 
         // Copy image
-        if ( ! empty($manufacturerVM->file_name)) {
+        if (!empty($manufacturerVM->file_name)) {
             $mediaFile = REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer/' . basename($manufacturerVM->file_name);
 
-            if ( ! JFile::exists($mediaFile)) {
+            if (!JFile::exists($mediaFile)) {
                 JFile::copy(JPATH_ROOT . '/' . $manufacturerVM->file_name, $mediaFile);
             }
 
             /** @var Tablemedia_detail $mediaTable */
             $mediaTable = JTable::getInstance('Media_Detail', 'Table');
 
-            if ( ! $mediaTable->load(
-                array(
-                    'media_section' => 'manufacturer',
-                    'media_type'    => 'images',
-                    'section_id'    => $table->manufacturer_id
+            if (
+                !$mediaTable->load(
+                    array(
+                        'media_section' => 'manufacturer',
+                        'media_type'    => 'images',
+                        'section_id'    => $table->manufacturer_id
+                    )
                 )
-            )) {
+            ) {
                 $mediaTable->media_name           = basename($manufacturerVM->file_name);
                 $mediaTable->media_alternate_text = $manufacturerVM->file_description;
                 $mediaTable->media_section        = 'manufacturer';
@@ -722,7 +726,7 @@ class RedshopModelImport_Vm extends RedshopModel
 
         $this->setState($this->logName, $productVM->product_name);
 
-        $productInStock = (int)$productVM->product_in_stock;
+        $productInStock = (int) $productVM->product_in_stock;
 
         /** @var TableProduct_Detail $table */
         $table = JTable::getInstance('Product_Detail', 'Table');
@@ -735,26 +739,26 @@ class RedshopModelImport_Vm extends RedshopModel
         switch ($productVM->product_weight_uom) {
             // Kilograms to grams
             case 'KG':
-                $weight = (float)$productVM->product_weight * 1000;
+                $weight = (float) $productVM->product_weight * 1000;
                 break;
 
             // Milligrams to grams
             case 'MG':
-                $weight = 1000 / (float)$productVM->product_weight;
+                $weight = 1000 / (float) $productVM->product_weight;
                 break;
 
             // Pounds to grams
             case 'LB':
-                $weight = (float)$productVM->product_weight * 453.59237;
+                $weight = (float) $productVM->product_weight * 453.59237;
                 break;
 
             // Ounces to grams
             case 'OZ':
-                $weight = (float)$productVM->product_weight * 28.3495231;
+                $weight = (float) $productVM->product_weight * 28.3495231;
                 break;
 
             default:
-                $weight = (float)$productVM->product_weight;
+                $weight = (float) $productVM->product_weight;
         }
 
         $table->weight = $weight;
@@ -763,43 +767,43 @@ class RedshopModelImport_Vm extends RedshopModel
         switch ($productVM->product_lwh_uom) {
             // Meters to centimeters
             case 'M':
-                $length = (float)$productVM->product_length * 100;
-                $height = (float)$productVM->product_height * 100;
-                $width  = (float)$productVM->product_width * 100;
+                $length = (float) $productVM->product_length * 100;
+                $height = (float) $productVM->product_height * 100;
+                $width = (float) $productVM->product_width * 100;
                 break;
 
             // Millimetres to centimeters
             case 'MM':
-                $length = (float)$productVM->product_length * 0.1;
-                $height = (float)$productVM->product_height * 0.1;
-                $width  = (float)$productVM->product_width * 0.1;
+                $length = (float) $productVM->product_length * 0.1;
+                $height = (float) $productVM->product_height * 0.1;
+                $width = (float) $productVM->product_width * 0.1;
                 break;
 
             // Yards to centimeters
             case 'YD':
-                $length = (float)$productVM->product_length * 91.44;
-                $height = (float)$productVM->product_height * 91.44;
-                $width  = (float)$productVM->product_width * 91.44;
+                $length = (float) $productVM->product_length * 91.44;
+                $height = (float) $productVM->product_height * 91.44;
+                $width = (float) $productVM->product_width * 91.44;
                 break;
 
             // Foots to centimeters
             case 'FT':
-                $length = (float)$productVM->product_length * 30.48;
-                $height = (float)$productVM->product_height * 30.48;
-                $width  = (float)$productVM->product_width * 30.48;
+                $length = (float) $productVM->product_length * 30.48;
+                $height = (float) $productVM->product_height * 30.48;
+                $width = (float) $productVM->product_width * 30.48;
                 break;
 
             // Inches to centimeters
             case 'IN':
-                $length = (float)$productVM->product_length * 2.54;
-                $height = (float)$productVM->product_height * 2.54;
-                $width  = (float)$productVM->product_width * 2.54;
+                $length = (float) $productVM->product_length * 2.54;
+                $height = (float) $productVM->product_height * 2.54;
+                $width = (float) $productVM->product_width * 2.54;
                 break;
 
             default:
-                $length = (float)$productVM->product_length;
-                $height = (float)$productVM->product_height;
-                $width  = (float)$productVM->product_width;
+                $length = (float) $productVM->product_length;
+                $height = (float) $productVM->product_height;
+                $width = (float) $productVM->product_width;
                 break;
         }
 
@@ -815,9 +819,9 @@ class RedshopModelImport_Vm extends RedshopModel
                 }
 
                 if ($param[0] == 'min_order_level') {
-                    $table->min_order_product_quantity = (int)$param[1];
+                    $table->min_order_product_quantity = (int) $param[1];
                 } elseif ($param[0] == 'max_order_level') {
-                    $table->max_order_product_quantity = (int)$param[1];
+                    $table->max_order_product_quantity = (int) $param[1];
                 }
             }
         }
@@ -827,19 +831,19 @@ class RedshopModelImport_Vm extends RedshopModel
         $table->product_height   = $height;
         $table->product_width    = $width;
         $table->sef_url          = $productVM->product_url;
-        $table->product_special  = (int)$productVM->product_special;
-        $table->expired          = (int)$productVM->product_discontinued;
-        $table->product_on_sale  = (int)$productVM->product_sales;
-        $table->visited          = (int)$productVM->hits;
+        $table->product_special  = (int) $productVM->product_special;
+        $table->expired          = (int) $productVM->product_discontinued;
+        $table->product_on_sale  = (int) $productVM->product_sales;
+        $table->visited          = (int) $productVM->hits;
         $table->metarobot_info   = $productVM->metarobot;
-        $table->published        = (int)$productVM->published;
+        $table->published        = (int) $productVM->published;
         $table->product_s_desc   = $productVM->product_s_desc;
         $table->product_desc     = $productVM->product_desc;
         $table->product_name     = $productVM->product_name;
         $table->metadesc         = $productVM->metadesc;
         $table->metakey          = $productVM->metakey;
         $table->pagetitle        = $productVM->customtitle;
-        $table->product_price    = (float)$productVM->product_price;
+        $table->product_price    = (float) $productVM->product_price;
         $table->product_template = Redshop::getConfig()->get('PRODUCT_TEMPLATE');
 
         // Product manufacturer
@@ -867,7 +871,7 @@ class RedshopModelImport_Vm extends RedshopModel
                 ->where($db->qn('vm.virtuemart_product_id') . ' = ' . $productVM->product_parent_id);
             $table->product_parent_id = $db->setQuery($query)->loadResult();
 
-            if ( ! $table->product_parent_id) {
+            if (!$table->product_parent_id) {
                 $query->clear()
                     ->select($db->qn('product_id'))
                     ->from($db->qn('#__redshop_product', 'p'))
@@ -880,7 +884,7 @@ class RedshopModelImport_Vm extends RedshopModel
             }
         }
 
-        if ( ! $table->store()) {
+        if (!$table->store()) {
             $this->setError($table->getError());
 
             return false;
@@ -895,10 +899,10 @@ class RedshopModelImport_Vm extends RedshopModel
         $query->clear()
             ->select('*')
             ->from($db->qn('#__virtuemart_product_prices'))
-            ->where($db->qn('virtuemart_product_id') . ' = ' . $db->quote((string)$productVM->virtuemart_product_id));
+            ->where($db->qn('virtuemart_product_id') . ' = ' . $db->quote((string) $productVM->virtuemart_product_id));
         $prices = $db->setQuery($query)->loadObjectList();
 
-        if ( ! empty($prices)) {
+        if (!empty($prices)) {
             $defaultShopperGroup = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE');
 
             foreach ($prices as $price) {
@@ -909,17 +913,17 @@ class RedshopModelImport_Vm extends RedshopModel
                     $shopperGroupId   = RedshopHelperVirtuemart::getRedshopShopperGroups($shopperGroupName);
                 }
 
-                $shopperGroupId = ! $shopperGroupId ? $defaultShopperGroup : $shopperGroupId;
+                $shopperGroupId = !$shopperGroupId ? $defaultShopperGroup : $shopperGroupId;
                 $createdDate    = JFactory::getDate($price->created_on);
                 $priceQuery     = 'INSERT IGNORE ' . $db->qn('#__redshop_product_price')
                     . '(' . $db->qn('product_id') . ',' . $db->qn('product_price') . ',' . $db->qn('cdate')
                     . ',' . $db->qn('price_quantity_start') . ',' . $db->qn('price_quantity_end') . ',' . $db->qn(
-                        'shopper_group_id'
-                    ) . ')'
-                    . ' VALUES(' . $table->product_id . ',' . $db->quote((string)$price->product_price) . ','
-                    . $db->quote((string)$createdDate->format('Y-m-d')) . ','
-                    . $db->quote((string)$price->price_quantity_start) . ','
-                    . $db->quote((string)$price->price_quantity_end) . ',' . $shopperGroupId
+                            'shopper_group_id'
+                        ) . ')'
+                    . ' VALUES(' . $table->product_id . ',' . $db->quote((string) $price->product_price) . ','
+                    . $db->quote((string) $createdDate->format('Y-m-d')) . ','
+                    . $db->quote((string) $price->price_quantity_start) . ','
+                    . $db->quote((string) $price->price_quantity_end) . ',' . $shopperGroupId
                     . ')';
 
                 $db->setQuery($priceQuery)->execute();
@@ -931,8 +935,8 @@ class RedshopModelImport_Vm extends RedshopModel
             $stockQuery = 'INSERT IGNORE INTO ' . $db->qn('#__redshop_product_stockroom_xref')
                 . '(' . $db->qn('product_id') . ',' . $db->qn('stockroom_id') . ',' . $db->qn('quantity') . ')'
                 . 'VALUES (' . $table->product_id . ',' . Redshop::getConfig()->get(
-                    'DEFAULT_STOCKROOM'
-                ) . ',' . $productInStock . ')';
+                        'DEFAULT_STOCKROOM'
+                    ) . ',' . $productInStock . ')';
             $db->setQuery($stockQuery)->execute();
         }
 
@@ -961,7 +965,7 @@ class RedshopModelImport_Vm extends RedshopModel
             ->where($db->qn('ref.virtuemart_product_id') . ' = ' . $productVM->virtuemart_product_id);
         $categoryIds = $db->setQuery($query)->loadColumn();
 
-        if ( ! empty($categoryIds)) {
+        if (!empty($categoryIds)) {
             // Insert new categories
             $query->clear()
                 ->insert($db->qn('#__redshop_product_category_xref'))
@@ -1008,7 +1012,7 @@ class RedshopModelImport_Vm extends RedshopModel
 
         foreach ($medias as $media) {
             // Skip migrate image file if not exist.
-            if (empty($media->file_url) || ! JFile::exists(JPATH_ROOT . '/' . $media->file_url)) {
+            if (empty($media->file_url) || !JFile::exists(JPATH_ROOT . '/' . $media->file_url)) {
                 continue;
             }
 
@@ -1025,7 +1029,7 @@ class RedshopModelImport_Vm extends RedshopModel
             $mediaTable->published            = $media->published;
 
             // Skip migrate image file if fail in insert media.
-            if ( ! $mediaTable->store()) {
+            if (!$mediaTable->store()) {
                 continue;
             }
 
@@ -1080,7 +1084,7 @@ class RedshopModelImport_Vm extends RedshopModel
 
         $this->setState($this->logName, $orderVM->order_number);
 
-        if ( ! empty($orderVM->redshop_order_number_ref)) {
+        if (!empty($orderVM->redshop_order_number_ref)) {
             return true;
         }
 
@@ -1111,7 +1115,7 @@ class RedshopModelImport_Vm extends RedshopModel
         $orderTable->set('ip_address', $orderVM->ip_address);
         $orderTable->set('vm_order_number', $orderVM->order_number);
 
-        if ( ! $orderTable->store()) {
+        if (!$orderTable->store()) {
             return false;
         }
 
@@ -1135,7 +1139,7 @@ class RedshopModelImport_Vm extends RedshopModel
 
         $orderItems = $db->setQuery($query)->loadObjectList();
 
-        if ( ! empty($orderItems)) {
+        if (!empty($orderItems)) {
             /** @var Tableorder_item_detail $orderItemTable */
             $orderItemTable = $this->getTable('order_item_detail');
 
@@ -1215,12 +1219,12 @@ class RedshopModelImport_Vm extends RedshopModel
             $orderUserTable->thirdparty_email      = '';
 
             // State
-            if ( ! empty($vmOrderUser->virtuemart_state_id)) {
+            if (!empty($vmOrderUser->virtuemart_state_id)) {
                 $orderUserTable->state_code = $vmOrderUser->state_3_code;
             }
 
             // Country
-            if ( ! empty($vmOrderUser->virtuemart_country_id)) {
+            if (!empty($vmOrderUser->virtuemart_country_id)) {
                 $orderUserTable->country_code = $vmOrderUser->country_3_code;
             }
 

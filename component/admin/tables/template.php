@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Table Template
  *
@@ -67,7 +69,7 @@ class RedshopTableTemplate extends RedshopTable
             $file = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $this->file_name . '.php');
 
             if (JFile::exists($file)) {
-                $this->templateDesc = (string)file_get_contents($file);
+                $this->templateDesc = (string) file_get_contents($file);
             }
         }
 
@@ -219,7 +221,7 @@ class RedshopTableTemplate extends RedshopTable
 
         if (empty($this->section)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(JText::_('COM_REDSHOP_TEMPLATE_ERROR_SELECT_SECTION'));
+            $this->setError(Text::_('COM_REDSHOP_TEMPLATE_ERROR_SELECT_SECTION'));
 
             return false;
         }

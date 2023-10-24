@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Wrappers controller
  *
@@ -23,7 +25,7 @@ class RedshopControllerWrappers extends RedshopControllerAdmin
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1) {
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+			throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
 		$model = $this->getModel('wrappers');
@@ -32,7 +34,7 @@ class RedshopControllerWrappers extends RedshopControllerAdmin
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$msg = JText::_('COM_REDSHOP_USE_TO_ALL_ENABLE_SUCCESSFULLY');
+		$msg = Text::_('COM_REDSHOP_USE_TO_ALL_ENABLE_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=com_redshop&view=wrappers', $msg);
 	}
 
@@ -41,7 +43,7 @@ class RedshopControllerWrappers extends RedshopControllerAdmin
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1) {
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+			throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
 		$model = $this->getModel('wrappers');
@@ -50,7 +52,7 @@ class RedshopControllerWrappers extends RedshopControllerAdmin
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$msg = JText::_('COM_REDSHOP_USE_TO_ALL_DISABLE_SUCCESSFULLY');
+		$msg = Text::_('COM_REDSHOP_USE_TO_ALL_DISABLE_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=com_redshop&view=wrappers', $msg);
 	}
 }

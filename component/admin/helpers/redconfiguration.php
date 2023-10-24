@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Redshop\Config\App;
+use Joomla\CMS\Language\Text;
 
 /**
  * redSHOP configuration class
@@ -193,7 +194,7 @@ class Redconfiguration
                 return true;
             }
         } else {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_FOUND'), 'error');
+            JFactory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_FOUND'), 'error');
         }
 
         return false;
@@ -208,7 +209,7 @@ class Redconfiguration
     public function isDEFFileWritable()
     {
         if (!is_writable($this->configDefPath)) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_WRITABLE'), 'error');
+            JFactory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_WRITABLE'), 'error');
 
             return false;
         }

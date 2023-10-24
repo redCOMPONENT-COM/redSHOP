@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopModelAddquotation_detail extends RedshopModel
 {
@@ -25,7 +26,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
         $array               = JFactory::getApplication()->input->get('cid', 0, 'array');
-        $this->setId((int)$array[0]);
+        $this->setId((int) $array[0]);
     }
 
     public function setId($id)
@@ -61,14 +62,14 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -79,14 +80,14 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
         if (!$rowsh->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $rowsh->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$rowsh->getError());
 
             return false;
         }
 
         if (!$rowsh->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $rowsh->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$rowsh->getError());
 
             return 0;
         }
@@ -116,7 +117,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
         if (!$userRow->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $userRow->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$userRow->getError());
 
             return false;
         }
@@ -136,11 +137,11 @@ class RedshopModelAddquotation_detail extends RedshopModel
         $data['quotation_total']     = $data['order_total'];
         $data['quotation_subtotal']  = $data['order_subtotal'];
         $data['quotation_tax']       = $data['order_tax'];
-        $data['quotation_ipaddress'] = (!empty($_SERVER['REMOTE_ADDR'])) ? $_SERVER ['REMOTE_ADDR'] : 'unknown';
+        $data['quotation_ipaddress'] = (!empty($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : 'unknown';
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -149,7 +150,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -166,7 +167,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
             $product_price      = $item[$i]->productprice;
 
             // Attribute price added
-            $generateAttributeCart = \Redshop\Cart\Helper::generateAttribute((array)$item[$i], $user_id);
+            $generateAttributeCart = \Redshop\Cart\Helper::generateAttribute((array) $item[$i], $user_id);
             $retAttArr             = \RedshopHelperProduct::makeAttributeCart(
                 $generateAttributeCart,
                 $productId,
@@ -177,7 +178,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
             $product_attribute     = $retAttArr[0];
 
             // Accessory price
-            $generateAccessoryCart = \Redshop\Accessory\Helper::generateAccessoryArray((array)$item[$i], $user_id);
+            $generateAccessoryCart = \Redshop\Accessory\Helper::generateAccessoryArray((array) $item[$i], $user_id);
             $retAccArr             = RedshopHelperProduct::makeAccessoryCart(
                 $generateAccessoryCart,
                 $productId,
@@ -204,7 +205,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
             /** @var Tablequotation_item_detail $rowitem */
             $rowitem = $this->getTable('quotation_item_detail');
 
-            $product = Redshop::product((int)$productId);
+            $product = Redshop::product((int) $productId);
 
             $quotation_item[$i]                      = new stdClass;
             $quotation_item[$i]->quotation_id        = $row->quotation_id;
@@ -223,14 +224,14 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
             if (!$rowitem->bind($quotation_item[$i])) {
                 /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $rowitem->getError());
+                $this->setError( /** @scrutinizer ignore-deprecated */$rowitem->getError());
 
                 return false;
             }
 
             if (!$rowitem->store()) {
                 /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $rowitem->getError());
+                $this->setError( /** @scrutinizer ignore-deprecated */$rowitem->getError());
 
                 return false;
             }
@@ -288,7 +289,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
                         if ($attributeId > 0) {
                             if (!$rowattitem->store()) {
                                 /** @scrutinizer ignore-deprecated */
-                                $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                                $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                                 return false;
                             }
@@ -330,7 +331,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
                             if ($propertyId > 0) {
                                 if (!$rowattitem->store()) {
                                     /** @scrutinizer ignore-deprecated */
-                                    $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                                    $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                                     return false;
                                 }
@@ -370,7 +371,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
                                     if (!$rowattitem->store()) {
                                         /** @scrutinizer ignore-deprecated */
                                         $this->setError(
-                                        /** @scrutinizer ignore-deprecated */ $rowattitem->getError()
+                                            /** @scrutinizer ignore-deprecated */    $rowattitem->getError()
                                         );
 
                                         return false;
@@ -386,7 +387,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
                         $accdata->load($accessoryId);
                     }
 
-                    $accProductinfo                    = Redshop::product((int)$accdata->child_product_id);
+                    $accProductinfo                    = Redshop::product((int) $accdata->child_product_id);
                     $rowaccitem                        = $this->getTable('quotation_accessory_item');
                     $rowaccitem->quotation_item_acc_id = 0;
                     $rowaccitem->quotation_item_id     = $rowitem->quotation_item_id;
@@ -403,7 +404,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
                     if ($accessoryId > 0) {
                         if (!$rowaccitem->store()) {
                             /** @scrutinizer ignore-deprecated */
-                            $this->setError(/** @scrutinizer ignore-deprecated */ $rowaccitem->getError());
+                            $this->setError( /** @scrutinizer ignore-deprecated */$rowaccitem->getError());
 
                             return false;
                         }
@@ -430,7 +431,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
                     if ($attributeId > 0) {
                         if (!$rowattitem->store()) {
                             /** @scrutinizer ignore-deprecated */
-                            $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                            $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                             return false;
                         }
@@ -473,7 +474,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
                         if ($propertyId > 0) {
                             if (!$rowattitem->store()) {
                                 /** @scrutinizer ignore-deprecated */
-                                $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                                $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                                 return false;
                             }
@@ -515,7 +516,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
                             if ($subPropertyId > 0) {
                                 if (!$rowattitem->store()) {
                                     /** @scrutinizer ignore-deprecated */
-                                    $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                                    $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                                     return false;
                                 }
@@ -541,7 +542,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
         $and = '';
 
         if ($user_id != 0) {
-            $and .= ' AND ui.user_id = ' . (int)$user_id . ' ';
+            $and .= ' AND ui.user_id = ' . (int) $user_id . ' ';
         }
 
         if ($billing != "") {
@@ -549,7 +550,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
         }
 
         if ($user_info_id != 0) {
-            $and .= ' AND ui.users_info_id= ' . (int)$user_info_id . ' ';
+            $and .= ' AND ui.users_info_id= ' . (int) $user_info_id . ' ';
         }
 
         $query = 'SELECT *,CONCAT(ui.firstname," ",ui.lastname) AS text FROM ' . $this->_table_prefix . 'users_info AS ui '
@@ -593,40 +594,40 @@ class RedshopModelAddquotation_detail extends RedshopModel
             for ($i = 0, $in = count($subproperty); $i < $in; $i++) {
                 $attributes_subproperty_vat = 0;
 
-                if ($subproperty [$i]->subattribute_color_price > 0) {
+                if ($subproperty[$i]->subattribute_color_price > 0) {
                     $attributes_subproperty_vat                 = RedshopHelperProduct::getProducttax(
                         $productId,
                         $subproperty[$i]->subattribute_color_price
                     );
-                    $subproperty [$i]->subattribute_color_price += $attributes_subproperty_vat;
+                    $subproperty[$i]->subattribute_color_price += $attributes_subproperty_vat;
                     $subpropertyPrice                           = RedshopHelperProductPrice::formattedPrice(
-                        $subproperty [$i]->subattribute_color_price
+                        $subproperty[$i]->subattribute_color_price
                     );
 
                     if ($isTripTags) {
                         $subpropertyPrice = strip_tags($subpropertyPrice);
                     }
 
-                    $subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name)
-                        . " (" . $subproperty [$i]->oprand . $subpropertyPrice . ")";
+                    $subproperty[$i]->text = urldecode($subproperty[$i]->subattribute_color_name)
+                        . " (" . $subproperty[$i]->oprand . $subpropertyPrice . ")";
                 } else {
-                    $subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name);
+                    $subproperty[$i]->text = urldecode($subproperty[$i]->subattribute_color_name);
                 }
 
                 $attributelist .= '<input type="hidden" id="' . $subpropertyid . '_oprand'
-                    . $subproperty [$i]->value . '" value="' . $subproperty [$i]->oprand . '" />';
+                    . $subproperty[$i]->value . '" value="' . $subproperty[$i]->oprand . '" />';
                 $attributelist .= '<input type="hidden" id="' . $subpropertyid . '_protax'
-                    . $subproperty [$i]->value . '" value="' . $attributes_subproperty_vat . '" />';
+                    . $subproperty[$i]->value . '" value="' . $attributes_subproperty_vat . '" />';
                 $attributelist .= '<input type="hidden" id="' . $subpropertyid . '_proprice'
-                    . $subproperty [$i]->value . '" value="' . $subproperty [$i]->subattribute_color_price . '" />';
+                    . $subproperty[$i]->value . '" value="' . $subproperty[$i]->subattribute_color_price . '" />';
             }
 
             $tmp_array           = array();
             $tmp_array[0]        = new stdClass;
             $tmp_array[0]->value = 0;
-            $tmp_array[0]->text  = JText::_('COM_REDSHOP_SELECT') . "&nbsp;" . urldecode(
-                    $subproperty[0]->property_name
-                );
+            $tmp_array[0]->text  = Text::_('COM_REDSHOP_SELECT') . "&nbsp;" . urldecode(
+                $subproperty[0]->property_name
+            );
 
             $new_subproperty = array_merge($tmp_array, $subproperty);
             $chklist         = "";
@@ -661,11 +662,11 @@ class RedshopModelAddquotation_detail extends RedshopModel
                 );
             }
 
-            $lists ['subproperty_id'] = $chklist;
+            $lists['subproperty_id'] = $chklist;
 
             $attributelist .= "<tr><td>" . urldecode(
-                    $subproperty[0]->property_name
-                ) . " : " . $lists ['subproperty_id'];
+                $subproperty[0]->property_name
+            ) . " : " . $lists['subproperty_id'];
         }
 
         return $attributelist;

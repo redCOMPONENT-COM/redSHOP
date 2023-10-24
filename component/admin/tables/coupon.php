@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Table Coupon
  *
@@ -148,7 +150,7 @@ class RedshopTableCoupon extends RedshopTable
             ->where($db->qn('data.code') . ' = ' . $db->quote($code));
 
         if ($db->setQuery($query)->loadResult()) {
-            $this->setError(JText::_('COM_REDSHOP_COUPON_ERROR_CODE_ALREADY_EXIST'));
+            $this->setError(Text::_('COM_REDSHOP_COUPON_ERROR_CODE_ALREADY_EXIST'));
 
             return false;
         }

@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * Model Countries
@@ -97,7 +100,7 @@ class RedshopModelNewsletters extends RedshopModelList
 
         $search = $this->getState('filter.search');
 
-        if ( ! empty($search)) {
+        if (!empty($search)) {
             $query->where($db->qn('n.name') . ' LIKE ' . $db->q('%' . $search . '%'));
         }
 
@@ -145,7 +148,7 @@ class RedshopModelNewsletters extends RedshopModelList
                 $db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('uf.user_id') . ' = ' . $db->qn('ns.user_id')
             )
             ->leftJoin($db->qn('#__users', 'u') . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn('ns.user_id'))
-            ->where($db->qn('ns.newsletter_id') . ' = ' . (int)$newsletterId)
+            ->where($db->qn('ns.newsletter_id') . ' = ' . (int) $newsletterId)
             ->where($db->qn('ns.published') . ' = 1');
 
         $zipStart      = $input->getString('zipstart', '');
@@ -156,7 +159,7 @@ class RedshopModelNewsletters extends RedshopModelList
         $filterCountry = $input->get('country', [], 'array');
 
         // Filter: Country
-        if ( ! empty($filterCountry)) {
+        if (!empty($filterCountry)) {
             $query->where(
                 $db->qn('uf.country_code') . ' IN (' . implode(
                     ',',
@@ -167,7 +170,7 @@ class RedshopModelNewsletters extends RedshopModelList
         }
 
         // Filter: Start date and end date
-        if ( ! empty($startDate) && ! empty($endDate)) {
+        if (!empty($startDate) && !empty($endDate)) {
             $query->where(
                 'CAST(' . $db->qn('u.registerDate') . ' AS datetime) '
                 . 'BETWEEN ' . $db->quote($startDate) . ' AND ' . $db->quote($endDate)
@@ -175,12 +178,12 @@ class RedshopModelNewsletters extends RedshopModelList
         }
 
         // Filter: zip code start
-        if ( ! empty($zipStart)) {
+        if (!empty($zipStart)) {
             $query->where($db->qn('uf.zipcode') . ' LIKE ' . $db->quote($zipStart . '%'));
         }
 
         // Filter: zip code start and end
-        if ( ! empty($zipStart) && ! empty($zipEnd)) {
+        if (!empty($zipStart) && !empty($zipEnd)) {
             $query->where(
                 '(' . $db->qn('uf.zipcode') . ' LIKE ' . $db->quote($zipStart . '%')
                 . ' OR ' . $db->qn('uf.zipcode') . ' LIKE ' . $db->quote($zipEnd . '%') . ')'
@@ -188,7 +191,7 @@ class RedshopModelNewsletters extends RedshopModelList
         }
 
         // Filter: city
-        if ( ! empty($filterCity)) {
+        if (!empty($filterCity)) {
             $cityQuery    = $db->getQuery(true)
                 ->select($db->qn('id'))
                 ->from($db->qn('#__redshop_fields'))
@@ -217,7 +220,7 @@ class RedshopModelNewsletters extends RedshopModelList
 
             $shopperGroupFilter = $input->get('shoppergroups', [], 'array');
 
-            if ( ! empty($shopperGroupFilter)) {
+            if (!empty($shopperGroupFilter)) {
                 $query->where($db->qn('uf.shopper_group_id') . ' IN (' . implode(',', $shopperGroupFilter) . ')');
             }
         }
@@ -336,7 +339,7 @@ class RedshopModelNewsletters extends RedshopModelList
         $return     = 1;
         $categories = JFactory::getApplication()->input->get('product_category');
 
-        if ( ! empty($categories)) {
+        if (!empty($categories)) {
             $db    = $this->_db;
             $query = $db->getQuery(true)
                 ->select('*')
@@ -367,7 +370,7 @@ class RedshopModelNewsletters extends RedshopModelList
         $return  = 1;
         $product = JFactory::getApplication()->input->get('product');
 
-        if ( ! empty($product)) {
+        if (!empty($product)) {
             $db    = $this->_db;
             $query = $db->getQuery(true)
                 ->select('o.*')
@@ -459,7 +462,7 @@ class RedshopModelNewsletters extends RedshopModelList
 
             $thumbImage = "";
 
-            if ( ! empty($product->product_full_image)) {
+            if (!empty($product->product_full_image)) {
                 $thumbUrl   = RedshopHelperMedia::getImagePath(
                     $product->product_full_image,
                     '',
@@ -529,10 +532,10 @@ class RedshopModelNewsletters extends RedshopModelList
             $message .= str_replace("{username}", $subscriber->username, $content);
             $message = str_replace("{email}", $subscribeEmail, $message);
 
-            $unSubscribeLink = "<a href='" . $unSubscribeLink . "'>" . JText::_('COM_REDSHOP_UNSUBSCRIBE') . "</a>";
+            $unSubscribeLink = "<a href='" . $unSubscribeLink . "'>" . Text::_('COM_REDSHOP_UNSUBSCRIBE') . "</a>";
             $message         = str_replace("{unsubscribe_link}", $unSubscribeLink, $message);
 
-            $subscribers[$index] = (int)JFactory::getMailer()->sendMail(
+            $subscribers[$index] = (int) JFactory::getMailer()->sendMail(
                 $mailfrom,
                 $fromname,
                 $subscribeEmail,
@@ -623,7 +626,7 @@ class RedshopModelNewsletters extends RedshopModelList
 
     public function getNewsletterProductsContent()
     {
-        $db = $this->_db;
+        $db    = $this->_db;
         $query = $db->getQuery(true)
             ->select('template_desc')
             ->from($db->qn('#__redshop_template'))

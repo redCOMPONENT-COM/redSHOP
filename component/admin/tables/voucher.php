@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Table Voucher
  *
@@ -99,7 +101,7 @@ class RedshopTableVoucher extends RedshopTable
             ->where($db->qn('data.code') . ' = ' . $db->quote($code));
 
         if ($db->setQuery($query)->loadResult()) {
-            $this->setError(JText::_('COM_REDSHOP_VOUCHER_ERROR_CODE_ALREADY_EXIST'));
+            $this->setError(Text::_('COM_REDSHOP_VOUCHER_ERROR_CODE_ALREADY_EXIST'));
 
             return false;
         }
@@ -179,7 +181,7 @@ class RedshopTableVoucher extends RedshopTable
             ->columns($db->qn(array('voucher_id', 'product_id')));
 
         foreach ($products as $productId) {
-            $query->values((int)$this->id . ',' . (int)$productId);
+            $query->values((int) $this->id . ',' . (int) $productId);
         }
 
         return $db->setQuery($query)->execute();

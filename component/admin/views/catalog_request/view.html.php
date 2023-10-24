@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewCatalog_request extends RedshopViewAdmin
 {
@@ -19,9 +20,9 @@ class RedshopViewCatalog_request extends RedshopViewAdmin
         $app = JFactory::getApplication();
 
         $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_CATALOG_REQUEST'));
+        $document->setTitle(Text::_('COM_REDSHOP_CATALOG_REQUEST'));
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_CATALOG_REQUEST_MANAGEMENT'), 'redshop_catalogmanagement48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_CATALOG_REQUEST_MANAGEMENT'), 'redshop_catalogmanagement48');
         JToolBarHelper::deleteList();
         JToolBarHelper::publishList();
         JToolBarHelper::unpublishList();

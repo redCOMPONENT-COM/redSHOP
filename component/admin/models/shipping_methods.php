@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * Model Shipping methods
@@ -108,8 +111,8 @@ class RedshopModelShipping_Methods extends RedshopModelList
             $source    = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
             $extension = 'plg_' . $item->folder . '_' . $item->element;
             $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-            || $lang->load($extension . '.sys', $source, null, false, true);
-            $item->name = JText::_($item->name);
+                || $lang->load($extension . '.sys', $source, null, false, true);
+            $item->name = Text::_($item->name);
         }
     }
 }

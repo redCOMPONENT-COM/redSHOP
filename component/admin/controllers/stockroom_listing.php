@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class RedshopControllerStockroom_listing
  *
@@ -38,7 +40,7 @@ class RedshopControllerStockroom_listing extends RedshopControllerAdmin
             );
         }
 
-        $msg = JText::_('COM_REDSHOP_INVENTORY_SAVE_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_INVENTORY_SAVE_SUCCESSFULLY');
         $this->setRedirect(
             'index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type=' . $stockroom_type,
             $msg

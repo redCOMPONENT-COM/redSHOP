@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 jimport('joomla.html.pagination');
 
 class RedshopViewAttributeprices extends RedshopViewAdmin
@@ -23,9 +25,9 @@ class RedshopViewAttributeprices extends RedshopViewAdmin
         $section    = $app->input->get('section');
 
         $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_ATTRIBUTE_PRICE'));
+        $document->setTitle(Text::_('COM_REDSHOP_ATTRIBUTE_PRICE'));
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_PRICE'), 'redshop_vatrates48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_ATTRIBUTE_PRICE'), 'redshop_vatrates48');
 
         JToolbarHelper::addNew();
         JToolbarHelper::EditList();

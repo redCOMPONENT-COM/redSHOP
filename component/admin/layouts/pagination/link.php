@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /** @var \RPaginationObject $item */
 $item = $displayData['data'];
@@ -16,33 +19,33 @@ $display = $item->text;
 
 switch ((string)$item->text) {
     // Check for "Start" item
-    case JText::_('JLIB_HTML_START') :
+    case Text::_('JLIB_HTML_START') :
         $icon = 'icon-fast-backward icon-first';
         break;
 
     // Check for "Prev" item
-    case $item->text === JText::_('JPREV') :
-        $item->text = JText::_('JPREVIOUS');
+    case $item->text === Text::_('JPREV') :
+        $item->text = Text::_('JPREVIOUS');
         $icon       = 'icon-step-backward icon-previous';
         break;
 
     // Check for "Prev" item
-    case $item->text == JText::_('LIB_REDCORE_PREVIOUS_10') :
+    case $item->text == Text::_('LIB_REDCORE_PREVIOUS_10') :
         $icon = "icon-backward";
         break;
 
     // Check for "Next" item
-    case JText::_('JNEXT') :
+    case Text::_('JNEXT') :
         $icon = 'icon-step-forward icon-next';
         break;
 
     // Check for "Next" item
-    case JText::_('LIB_REDCORE_NEXT_10') :
+    case Text::_('LIB_REDCORE_NEXT_10') :
         $icon = "icon-forward";
         break;
 
     // Check for "End" item
-    case JText::_('JLIB_HTML_END') :
+    case Text::_('JLIB_HTML_END') :
         $icon = 'icon-fast-forward icon-last';
         break;
 

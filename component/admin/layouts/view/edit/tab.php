@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * Layout variables
@@ -26,8 +29,7 @@ $action     = 'index.php?option=com_redshop&task=' . $data->getInstanceName() . 
 ?>
 
 <form action="<?php echo $action ?>" method="post" id="adminForm" name="adminForm"
-      class="form-validate form-horizontal adminform"
-      enctype="multipart/form-data">
+    class="form-validate form-horizontal adminform" enctype="multipart/form-data">
     <div class="row">
         <div class="col-sm-2">
             <div class="box">
@@ -37,7 +39,7 @@ $action     = 'index.php?option=com_redshop&task=' . $data->getInstanceName() . 
                         <?php foreach ($data->fields as $fieldSet): ?>
                             <li role="presentation" <?php echo $i == 0 ? ' class="active"' : '' ?>>
                                 <a href="#<?php echo $fieldSet->name ?>" role="tab" data-toggle="tab">
-                                    <?php echo JText::_('COM_REDSHOP_' . $fieldSet->name, true) ?>
+                                    <?php echo Text::_('COM_REDSHOP_' . $fieldSet->name, true) ?>
                                 </a>
                             </li>
                             <?php $i = 1; ?>
@@ -51,7 +53,7 @@ $action     = 'index.php?option=com_redshop&task=' . $data->getInstanceName() . 
                 <?php $i = 0; ?>
                 <?php foreach ($data->fields as $fieldSet): ?>
                     <div role="tabpanel" class="tab-pane <?php echo $i == 0 ? 'active' : '' ?>"
-                         id="<?php echo $fieldSet->name ?>">
+                        id="<?php echo $fieldSet->name ?>">
                         <div class="box box-primary">
                             <div class="box-body">
                                 <?php echo $fieldSet->html ?>
@@ -66,6 +68,6 @@ $action     = 'index.php?option=com_redshop&task=' . $data->getInstanceName() . 
     <div class="hidden">
         <?php echo implode('', $data->hiddenFields) ?>
         <?php echo JHtml::_('form.token'); ?>
-        <input type="hidden" name="task" value=""/>
+        <input type="hidden" name="task" value="" />
     </div>
 </form>

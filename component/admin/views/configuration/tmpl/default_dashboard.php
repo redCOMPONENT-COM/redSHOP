@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 ?>
 
@@ -18,7 +21,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_MENUHIDE'),
+                    'title'   => Text::_('COM_REDSHOP_MENUHIDE'),
                     'content' => $this->loadTemplate('menuhide')
                 )
             );
@@ -26,4 +29,3 @@ defined('_JEXEC') or die;
         </div>
     </div>
 </fieldset>
-

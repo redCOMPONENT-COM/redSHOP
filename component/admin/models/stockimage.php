@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopModelStockimage extends RedshopModel
 {
@@ -113,10 +114,10 @@ class RedshopModelStockimage extends RedshopModel
     public function getStockAmountOption($select = 0)
     {
         $option   = array();
-        $option[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-        $option[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_HIGHER_THAN'));
-        $option[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_EQUAL'));
-        $option[] = JHTML::_('select.option', 3, JText::_('COM_REDSHOP_LOWER_THAN'));
+        $option[] = JHTML::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
+        $option[] = JHTML::_('select.option', 1, Text::_('COM_REDSHOP_HIGHER_THAN'));
+        $option[] = JHTML::_('select.option', 2, Text::_('COM_REDSHOP_EQUAL'));
+        $option[] = JHTML::_('select.option', 3, Text::_('COM_REDSHOP_LOWER_THAN'));
 
         if ($select != 0) {
             $option = $option[$select]->text;

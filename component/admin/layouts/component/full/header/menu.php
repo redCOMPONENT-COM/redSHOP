@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 $logoutUrl = Redshop\IO\Route::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1');
@@ -18,7 +20,9 @@ $user      = JFactory::getUser();
     <?php echo RedshopLayoutHelper::render('alert.header_link') ?>
     <li>
         <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_users&task=user.edit&id=' . $user->id) ?>">
-            <span class="hidden-xs"><?php echo $user->name ?></span>
+            <span class="hidden-xs">
+                <?php echo $user->name ?>
+            </span>
         </a>
     </li>
 
@@ -27,17 +31,17 @@ $user      = JFactory::getUser();
     </li>
 
     <li>
-        <a title="<?php echo JText::_('JHELP'); ?>" href="#"
-           onclick="Joomla.popupWindow('http://docs.redcomponent.com/collection/171-redshop', 'Help', 700, 500, 1)">
+        <a title="<?php echo Text::_('JHELP'); ?>" href="#"
+            onclick="Joomla.popupWindow('http://docs.redcomponent.com/collection/171-redshop', 'Help', 700, 500, 1)">
             <i class="fa fa-question-circle"></i>
 
         </a>
     </li>
 
     <li>
-        <a title="<?php echo JText::_('JGLOBAL_VIEW_SITE'); ?>" href="<?php echo JUri::root() ?>" target="_blank"></a>
+        <a title="<?php echo Text::_('JGLOBAL_VIEW_SITE'); ?>" href="<?php echo JUri::root() ?>" target="_blank"></a>
     </li>
     <li>
-        <a title="<?php echo JText::_('JLOGOUT'); ?>" href="<?php echo $logoutUrl ?>"><i class="fa fa-sign-out"></i></a>
+        <a title="<?php echo Text::_('JLOGOUT'); ?>" href="<?php echo $logoutUrl ?>"><i class="fa fa-sign-out"></i></a>
     </li>
 </ul>

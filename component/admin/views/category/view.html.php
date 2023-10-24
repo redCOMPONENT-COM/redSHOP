@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 JLoader::import('joomla.application.component.view');
 
@@ -43,10 +44,10 @@ class RedshopViewCategory extends RedshopViewForm
      */
     public function display($tpl = null)
     {
-		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.fields.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.fields.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
 
         $model = $this->getModel('category');
 
@@ -149,9 +150,9 @@ class RedshopViewCategory extends RedshopViewForm
                 }
             }
 
-            JToolbarHelper::cancel('category.cancel', JText::_('JTOOLBAR_CLOSE'));
+            JToolbarHelper::cancel('category.cancel', Text::_('JTOOLBAR_CLOSE'));
 
-            $itemId = (int)RedshopHelperRouter::getCategoryItemid($this->item->id);
+            $itemId = (int) RedshopHelperRouter::getCategoryItemid($this->item->id);
 
             $link = JURI::root() . 'index.php?option=com_redshop'
                 . '&view=&view=category&layout=detail'

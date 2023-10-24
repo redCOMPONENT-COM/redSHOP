@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Model Stockroom
  *
@@ -31,19 +33,19 @@ class RedshopModelStockroom extends RedshopModelForm
 	{
 		if ($data['min_stock_amount'] <= 0) {
 			/** @scrutinizer ignore-deprecated */
-			$this->setError(JText::_('COM_REDSHOP_PLEASE_ENTER_MIN_STOCK_AMOUNT_NOT_LESS_THAN_ZERO'));
+			$this->setError(Text::_('COM_REDSHOP_PLEASE_ENTER_MIN_STOCK_AMOUNT_NOT_LESS_THAN_ZERO'));
 			return false;
 		}
 
 		if ($data['min_del_time'] < 0 || $data['min_del_time'] < 0) {
 			/** @scrutinizer ignore-deprecated */
-			$this->setError(JText::_('COM_REDSHOP_PLEASE_ENTER_DELIVERY_TIME_NOT_LESS_THAN_ZERO'));
+			$this->setError(Text::_('COM_REDSHOP_PLEASE_ENTER_DELIVERY_TIME_NOT_LESS_THAN_ZERO'));
 			return false;
 		}
 
 		if ($data['min_del_time'] > $data['max_del_time']) {
 			/** @scrutinizer ignore-deprecated */
-			$this->setError(JText::_('COM_REDSHOP_MIN_DELIVERY_TIME_NOT_LESS_MAX_DELIVERY_TIME'));
+			$this->setError(Text::_('COM_REDSHOP_MIN_DELIVERY_TIME_NOT_LESS_MAX_DELIVERY_TIME'));
 
 			return false;
 		}

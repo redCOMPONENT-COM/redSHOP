@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewAccountgroup_detail extends RedshopViewAdmin
 {
@@ -35,16 +36,16 @@ class RedshopViewAccountgroup_detail extends RedshopViewAdmin
         $detail = $this->get('data');
         $isNew  = ($detail->accountgroup_id < 1);
 
-        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+        $text = $isNew ? Text::_('COM_REDSHOP_NEW') : Text::_('COM_REDSHOP_EDIT');
 
         if ($isNew) {
             \JToolBarHelper::cancel();
         } else {
-            \JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+            \JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
         }
 
         \JToolBarHelper::title(
-            JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>',
+            Text::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>',
             'redshop_accountgroup48'
         );
 

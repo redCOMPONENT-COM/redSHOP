@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 class Tableprices_detail extends JTable
 {
     public $price_id = 0;
@@ -75,7 +77,7 @@ class Tableprices_detail extends JTable
                 $this->price_id
             ) && $xid_end != 0))
         ) {
-            $this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));
+            $this->_error = JText::sprintf('WARNNAMETRYAGAIN', Text::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));
 
             return false;
         }

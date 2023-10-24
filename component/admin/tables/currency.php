@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Table Currency
  *
@@ -101,7 +103,7 @@ class RedshopTableCurrency extends RedshopTable
 
         if ($db->setQuery($query)->loadResult()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(JText::_('COM_REDSHOP_CURRENCY_CODE_ALREADY_EXISTS'));
+            $this->setError(Text::_('COM_REDSHOP_CURRENCY_CODE_ALREADY_EXISTS'));
 
             return false;
         }
@@ -120,7 +122,7 @@ class RedshopTableCurrency extends RedshopTable
     {
         if (Redshop::getConfig()->get('CURRENCY_CODE') == $this->code) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(JText::_('COM_REDSHOP_CURRENCY_ERROR_DELETE_CURRENCY_SET_IN_CONFIG'));
+            $this->setError(Text::_('COM_REDSHOP_CURRENCY_ERROR_DELETE_CURRENCY_SET_IN_CONFIG'));
 
             return false;
         }

@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\Factory;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * State table
@@ -73,7 +74,7 @@ class RedshopTableState extends RedshopTable
         $xid = intval($db->loadResult());
 
         if ($xid) {
-			Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_STATE_CODE3_ALREADY_EXISTS'), 'warning');
+            Factory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_STATE_CODE3_ALREADY_EXISTS'), 'warning');
 
             return false;
         } else {
@@ -91,7 +92,7 @@ class RedshopTableState extends RedshopTable
             $xid = intval($db->loadResult());
 
             if ($xid) {
-				Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_STATE_CODE2_ALREADY_EXISTS'), 'warning');
+                Factory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_STATE_CODE2_ALREADY_EXISTS'), 'warning');
 
                 return false;
             }

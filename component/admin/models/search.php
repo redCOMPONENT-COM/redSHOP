@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopModelSearch extends RedshopModel
 {
@@ -78,17 +79,17 @@ class RedshopModelSearch extends RedshopModel
 
         $this->_alert = $alert;
 
-        $this->setId((int)$id);
+        $this->setId((int) $id);
 
-        $this->_stockroom_id = ((int)$stockroom_id);
+        $this->_stockroom_id = ((int) $stockroom_id);
 
-        $this->_product_id = ((int)$productId);
+        $this->_product_id = ((int) $productId);
 
-        $this->_related = ((int)$related);
+        $this->_related = ((int) $related);
 
-        $this->_navigator = ((int)$navigator);
+        $this->_navigator = ((int) $navigator);
 
-        $this->_voucher_id = ((int)$voucher_id);
+        $this->_voucher_id = ((int) $voucher_id);
 
         $this->_media_section = $media_section;
 
@@ -114,7 +115,7 @@ class RedshopModelSearch extends RedshopModel
      */
     public function search()
     {
-        JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
         $db     = JFactory::getDbo();
         $app    = JFactory::getApplication();
         $jInput = $app->input;

@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * View Access
  *
@@ -45,7 +47,7 @@ class RedshopViewAccess extends RedshopViewAdmin
      */
     public function display($tpl = null)
     {
-        JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER'), 'redshop_country_48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_ACCESS_MANAGER'), 'redshop_country_48');
 
         /** @var RedshopModelAccess $model */
         $model = $this->getModel();
@@ -71,7 +73,7 @@ class RedshopViewAccess extends RedshopViewAdmin
         JFactory::getApplication()->input->set('hidemainmenu', true);
 
         // Prepare text for title
-        JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER'));
+        JToolBarHelper::title(Text::_('COM_REDSHOP_ACCESS_MANAGER'));
         JToolBarHelper::apply('access.save');
     }
 }

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Attribute view
  *
@@ -34,8 +36,8 @@ class RedshopViewAttribute extends RedshopViewAdmin
     public function display($tpl = null)
     {
         // Initialise variables.
-        $this->form = $this->get('Form');
-        $this->item = $this->get('Item');
+        $this->form  = $this->get('Form');
+        $this->item  = $this->get('Item');
         $this->state = $this->get('State');
 
         // Check for errors.
@@ -63,9 +65,9 @@ class RedshopViewAttribute extends RedshopViewAdmin
         $isNew = ($this->item->attribute_id < 1);
 
         // Prepare text for title
-        $title = JText::_('COM_REDSHOP_ATTRIBUTE_MANAGEMENT') . ': <small>[ ' . JText::_(
-                'COM_REDSHOP_EDIT'
-            ) . ' ]</small>';
+        $title = Text::_('COM_REDSHOP_ATTRIBUTE_MANAGEMENT') . ': <small>[ ' . Text::_(
+            'COM_REDSHOP_EDIT'
+        ) . ' ]</small>';
 
         JToolBarHelper::title($title, 'redshop_giftcard_48');
         JToolBarHelper::apply('attribute.apply');
@@ -74,7 +76,7 @@ class RedshopViewAttribute extends RedshopViewAdmin
         if ($isNew) {
             JToolBarHelper::cancel('attribute.cancel');
         } else {
-            JToolBarHelper::cancel('attribute.cancel', JText::_('JTOOLBAR_CLOSE'));
+            JToolBarHelper::cancel('attribute.cancel', Text::_('JTOOLBAR_CLOSE'));
         }
     }
 }

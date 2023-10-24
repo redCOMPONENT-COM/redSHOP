@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Table Category
  *
@@ -96,7 +98,7 @@ class RedshopTableCategory extends RedshopTableNested
             ->select('COUNT(*) AS ctotal')
             ->select($db->qn('name'))
             ->from($db->qn('#__redshop_category'))
-            ->where($db->qn('parent_id') . ' = ' . (int)$this->id);
+            ->where($db->qn('parent_id') . ' = ' . (int) $this->id);
 
         $childCount = $db->setQuery($query)->loadResult();
 
@@ -189,7 +191,7 @@ class RedshopTableCategory extends RedshopTableNested
     protected function doCheck()
     {
         if (empty(trim($this->name))) {
-            $this->setError(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME'));
+            $this->setError(Text::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME'));
 
             return false;
         }

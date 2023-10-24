@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Table Manufacturer
  *
@@ -230,7 +232,7 @@ class RedshopTableManufacturer extends RedshopTable
         // Check product per page
         if (!$this->product_per_page) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(JText::_('COM_REDSHOP_MANUFACTURER_ERROR_PRODUCT_PER_PAGE'));
+            $this->setError(Text::_('COM_REDSHOP_MANUFACTURER_ERROR_PRODUCT_PER_PAGE'));
 
             return false;
         }

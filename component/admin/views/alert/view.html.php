@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewAlert extends RedshopViewAdmin
 {
@@ -30,16 +31,16 @@ class RedshopViewAlert extends RedshopViewAdmin
     {
         $document = JFactory::getDocument();
 
-        $document->setTitle(JText::_('COM_REDSHOP_ALERT'));
+        $document->setTitle(Text::_('COM_REDSHOP_ALERT'));
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_ALERT_MANAGEMENT'), 'redshop_mailcenter48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_ALERT_MANAGEMENT'), 'redshop_mailcenter48');
         JToolBarHelper::deleteList();
-        JToolBarHelper::custom('publish', 'publish.png', 'publish.png', JText::_('COM_REDSHOP_ALERT_READ'), true);
+        JToolBarHelper::custom('publish', 'publish.png', 'publish.png', Text::_('COM_REDSHOP_ALERT_READ'), true);
         JToolBarHelper::custom(
             'unpublish',
             'unpublish.png',
             'unpublish.png',
-            JText::_('COM_REDSHOP_ALERT_UNREAD'),
+            Text::_('COM_REDSHOP_ALERT_UNREAD'),
             true
         );
 
@@ -47,9 +48,9 @@ class RedshopViewAlert extends RedshopViewAdmin
         $this->state = $this->get('State');
 
         $optiontype   = array();
-        $optiontype[] = JHTML::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
-        $optiontype[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_ALERT_READ'));
-        $optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_ALERT_UNREAD'));
+        $optiontype[] = JHTML::_('select.option', 'select', Text::_('COM_REDSHOP_SELECT'));
+        $optiontype[] = JHTML::_('select.option', '1', Text::_('COM_REDSHOP_ALERT_READ'));
+        $optiontype[] = JHTML::_('select.option', '0', Text::_('COM_REDSHOP_ALERT_UNREAD'));
 
         $lists['read_filter'] = JHTML::_(
             'select.genericlist',

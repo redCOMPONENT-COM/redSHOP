@@ -7,17 +7,19 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
-$items = RedshopMenuLeft_Menu::render(true);
+use Joomla\CMS\Language\Text;
 
+$items = RedshopMenuLeft_Menu::render(true);
 $menuhide = explode(",", $this->config->get('MENUHIDE'));
 
 if (is_array($items)) {
     $items = array_chunk($items, 3);
 }
-?>
 
+?>
 <?php if (isset($items)): ?>
     <div class="menu-hide">
         <?php foreach ($items as $key => $data): ?>
@@ -31,7 +33,7 @@ if (is_array($items)) {
                                     <label class="lead no-margin <?php echo $isHide ? 'text-danger' : '' ?>">
                                         <input type="checkbox" value="<?php echo $sections->title ?>" name="menuhide[]"
                                             <?php echo $isHide ? 'checked' : '' ?> />
-                                        <?php echo JText::_($sections->title) ?>
+                                        <?php echo Text::_($sections->title) ?>
                                     </label>
                                 </div>
                             </div>
@@ -44,7 +46,7 @@ if (is_array($items)) {
                                             <input type="checkbox" value="<?php echo $section->title ?>"
                                                    name="menuhide[]"
                                                 <?php echo $isHide ? 'checked' : '' ?> />
-                                            <?php echo JText::_($section->title) ?>
+                                            <?php echo Text::_($section->title) ?>
                                             <span class="badge badge-info pull-right"><?php echo count(
                                                     $section->items
                                                 ) ?></span>
@@ -56,7 +58,7 @@ if (is_array($items)) {
                                             <label <?php echo $isHide ? 'class="text-danger"' : '' ?>>
                                                 <input type="checkbox" value="<?php echo $item->title ?>"
                                                        name="menuhide[]" <?php echo $isHide ? 'checked' : '' ?>>
-                                                <?php echo JText::_($item->title) ?>
+                                                <?php echo Text::_($item->title) ?>
                                             </label>
                                         <?php endforeach; ?>
                                     </div>

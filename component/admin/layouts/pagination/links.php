@@ -7,8 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 $list  = $displayData['list'];
@@ -43,20 +45,20 @@ if ($currentPage >= $step) {
 ?>
 
 <div class="pagination pagination-toolbar clearfix" style="text-align: center;">
-    <?php if ($showLimitBox) : ?>
+    <?php if ($showLimitBox): ?>
         <div class="limit pull-right">
-            <?php echo JText::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
+            <?php echo Text::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
         </div>
     <?php endif; ?>
-    <?php if ($showPagesLinks && (!empty($pages))) : ?>
+    <?php if ($showPagesLinks && (!empty($pages))): ?>
         <ul class="pagination-list">
             <?php
             echo RedshopLayoutHelper::render('pagination.link', $pages['start']);
             echo RedshopLayoutHelper::render('pagination.link', $pages['previous']); ?>
-            <?php foreach ($pages['pages'] as $k => $page) : ?>
+            <?php foreach ($pages['pages'] as $k => $page): ?>
                 <?php $output = RedshopLayoutHelper::render('pagination.link', $page); ?>
-                <?php if (in_array($k, range($range * $step - ($step + 1), $range * $step))) : ?>
-                    <?php if (($k % $step === 0 || $k === $range * $step - ($step + 1)) && $k !== $currentPage && $k !== $range * $step - $step) : ?>
+                <?php if (in_array($k, range($range * $step - ($step + 1), $range * $step))): ?>
+                    <?php if (($k % $step === 0 || $k === $range * $step - ($step + 1)) && $k !== $currentPage && $k !== $range * $step - $step): ?>
                         <?php $output = preg_replace('#(<a.*?>).*?(</a>)#', '$1...$2', $output); ?>
                     <?php endif; ?>
                 <?php endif; ?>
@@ -67,8 +69,7 @@ if ($currentPage >= $step) {
             echo RedshopLayoutHelper::render('pagination.link', $pages['end']); ?>
         </ul>
     <?php endif; ?>
-    <?php if ($showLimitStart) : ?>
-        <input type="hidden" name="<?php echo $list['prefix']; ?>limitstart"
-               value="<?php echo $list['limitstart']; ?>"/>
+    <?php if ($showLimitStart): ?>
+        <input type="hidden" name="<?php echo $list['prefix']; ?>limitstart" value="<?php echo $list['limitstart']; ?>" />
     <?php endif; ?>
 </div>

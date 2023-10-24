@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\Factory;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
@@ -39,8 +40,8 @@ class RedshopModelZip_import extends RedshopModel
         $this->install();
         session_unregister("filename");
         session_unregister("zipno");
-        $msg = JText::_('COM_REDSHOP_REDSHOP_REMOTLY_UPDATED');
-		$app->enqueueMessage($msg);
+        $msg = Text::_('COM_REDSHOP_REDSHOP_REMOTLY_UPDATED');
+        $app->enqueueMessage($msg);
         $app->redirect(JURI::base() . 'index.php?option=com_redshop');
     }
 
@@ -48,8 +49,8 @@ class RedshopModelZip_import extends RedshopModel
     {
         $user = JFactory::getUser();
         $url  = Redshop::getConfig()->get(
-                'REMOTE_UPDATE_DOMAIN_URL'
-            ) . "index.php?option=com_remoteupdate&view=getcomponent&redusername=" .
+            'REMOTE_UPDATE_DOMAIN_URL'
+        ) . "index.php?option=com_remoteupdate&view=getcomponent&redusername=" .
             $user->username . "&reddomain=" . JURI::base() . "";
 
         $ch = curl_init();
@@ -94,8 +95,8 @@ class RedshopModelZip_import extends RedshopModel
         // Was the package unpacked?
         if (!$package) {
             $this->setState('message', 'Unable to find install package');
-            $msg = JText::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
-			$app->enqueueMessage($msg);
+            $msg = Text::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
+            $app->enqueueMessage($msg);
             $app->redirect(JURI::base() . "index.php?option=com_redshop");
         }
 
@@ -110,8 +111,8 @@ class RedshopModelZip_import extends RedshopModel
             </script>
             <?php
         } else {
-            $msg = JText::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
-			$app->enqueueMessage($msg);
+            $msg = Text::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
+            $app->enqueueMessage($msg);
             $app->redirect(JURI::base() . "index.php?option=com_redshop");
         }
 
@@ -154,7 +155,7 @@ class RedshopModelZip_import extends RedshopModel
         // Did you give us a URL?
 
         if (!$url) {
-			Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PLEASE_ENTER_A_URL'), 'warning');
+            Factory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_PLEASE_ENTER_A_URL'), 'warning');
             ?>
             <script type='text/javascript' language='javascript'>
                 window.location = "index.php?option=com_redshop&view=zip_import&msg=err";
@@ -167,7 +168,7 @@ class RedshopModelZip_import extends RedshopModel
 
         // Was the package downloaded?
         if (!$p_file) {
-			Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_INVALID_URL'), 'warning');
+            Factory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_INVALID_URL'), 'warning');
 
             ?>
             <script type='text/javascript' language='javascript'>
@@ -193,8 +194,8 @@ class RedshopModelZip_import extends RedshopModel
     public function getzipfilescount()
     {
         $url = Redshop::getConfig()->get(
-                'REMOTE_UPDATE_DOMAIN_URL'
-            ) . "index.php?option=com_reviews&domainname=" . JUri::getInstance()->toString(array('host'));
+            'REMOTE_UPDATE_DOMAIN_URL'
+        ) . "index.php?option=com_reviews&domainname=" . JUri::getInstance()->toString(array('host'));
         $ch  = curl_init();
         curl_setopt(
             $ch,
@@ -226,7 +227,7 @@ class RedshopModelZip_import extends RedshopModel
 
         // Did you give us a valid directory?
         if (!is_dir($p_dir)) {
-			Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PLEASE_ENTER_A_PACKAGE_DIRECTORY'), 'warning');
+            Factory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_PLEASE_ENTER_A_PACKAGE_DIRECTORY'), 'warning');
 
             return false;
         }
@@ -236,7 +237,7 @@ class RedshopModelZip_import extends RedshopModel
 
         // Did you give us a valid package?
         if (!$type) {
-			Factory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'), 'warning');
+            Factory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'), 'warning');
 
             return false;
         }

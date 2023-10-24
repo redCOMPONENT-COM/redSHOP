@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * Ratings controller
@@ -29,17 +32,17 @@ class RedshopControllerRatings extends RedshopControllerAdmin
     {
         $cid = $this->input->post->get('cid', array(0), 'array');
 
-        if ( ! is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+        if (!is_array($cid) || count($cid) < 1) {
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
         }
 
         $model = $this->getModel('rating');
 
-        if ( ! \Redshop\Rating\Helper::setFavoured($cid, 1)) {
+        if (!\Redshop\Rating\Helper::setFavoured($cid, 1)) {
             echo "<script> alert('" . $model->getError() . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_RATING_DETAIL_PUBLISHED_SUCCESFULLY');
+        $msg = Text::_('COM_REDSHOP_RATING_DETAIL_PUBLISHED_SUCCESFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=ratings', $msg);
     }
 
@@ -54,8 +57,8 @@ class RedshopControllerRatings extends RedshopControllerAdmin
     {
         $cid = $this->input->post->get('cid', array(0), 'array');
 
-        if ( ! is_array($cid) || count($cid) < 1) {
-            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+        if (!is_array($cid) || count($cid) < 1) {
+            throw new Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
         }
 
         $model = $this->getModel('rating');
@@ -64,7 +67,7 @@ class RedshopControllerRatings extends RedshopControllerAdmin
             echo "<script> alert('" . $model->getError() . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg = JText::_('COM_REDSHOP_RATING_DETAIL_UNPUBLISHED_SUCCESFULLY');
+        $msg = Text::_('COM_REDSHOP_RATING_DETAIL_UNPUBLISHED_SUCCESFULLY');
         $this->setRedirect('index.php?option=com_redshop&view=ratings', $msg);
     }
 }

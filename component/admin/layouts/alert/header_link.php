@@ -9,21 +9,25 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
 $model       = JModelLegacy::getInstance("Alert", "RedshopModel");
 $alertsCount = $model->countAlert();
 $alerts      = $model->getAlert(5);
 ?>
 <li class="dropdown notifications-menu">
-    <a title="<?php echo JText::_('COM_REDSHOP_ALERT'); ?>" href="#" class="dropdown-toggle" data-toggle="dropdown">
+    <a title="<?php echo Text::_('COM_REDSHOP_ALERT'); ?>" href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-bell-o"></i>
 
-        <?php if ($alertsCount > 0) : ?>
-            <span class="label label-danger"><?php echo $alertsCount; ?></span>
+        <?php if ($alertsCount > 0): ?>
+            <span class="label label-danger">
+                <?php echo $alertsCount; ?>
+            </span>
         <?php endif ?>
     </a>
     <ul class="dropdown-menu">
-        <?php foreach ($alerts as $alert) : ?>
+        <?php foreach ($alerts as $alert): ?>
             <li>
                 <ul class="menu">
                     <li>
@@ -35,7 +39,7 @@ $alerts      = $model->getAlert(5);
 
         <li class="footer">
             <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=alert') ?>">
-                <?php echo JText::_('COM_REDSHOP_ALERT_VIEW_ALL') ?>
+                <?php echo Text::_('COM_REDSHOP_ALERT_VIEW_ALL') ?>
             </a>
         </li>
     </ul>

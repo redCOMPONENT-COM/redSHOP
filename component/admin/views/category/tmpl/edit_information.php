@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 $fullImage   = '';
 $fullMediaId = 0;
@@ -31,7 +34,9 @@ foreach ($media->getAll() as $mediaItem) {
     <div class="col-sm-8">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_INFORMATION'); ?></h3>
+                <h3 class="box-title">
+                    <?php echo Text::_('COM_REDSHOP_CATEGORY_INFORMATION'); ?>
+                </h3>
             </div>
             <div class="box-body">
                 <?php echo $this->form->renderField('name') ?>
@@ -49,7 +54,9 @@ foreach ($media->getAll() as $mediaItem) {
     <div class="col-sm-4">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_IMAGES'); ?></h3>
+                <h3 class="box-title">
+                    <?php echo Text::_('COM_REDSHOP_CATEGORY_IMAGES'); ?>
+                </h3>
             </div>
             <div class="box-body">
                 <div class="">
@@ -71,7 +78,9 @@ foreach ($media->getAll() as $mediaItem) {
 
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_BACK_IMAGE'); ?></h3>
+                <h3 class="box-title">
+                    <?php echo Text::_('COM_REDSHOP_CATEGORY_BACK_IMAGE'); ?>
+                </h3>
             </div>
             <div class="box-body">
                 <div class="">
@@ -105,4 +114,3 @@ foreach ($media->getAll() as $mediaItem) {
     <?php echo $this->form->getInput('lft'); ?>
     <?php echo $this->form->getInput('rgt'); ?>
 </div>
-
