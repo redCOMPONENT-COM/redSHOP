@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * redSHOPGoogle_AnalyticsHelper
  *
@@ -41,37 +44,88 @@ class RedSHOPGoogle_AnalyticsHelper
      *
      * @see     https://developers.google.com/analytics/devguides/collection/analyticsjs/
      */
-    public function placeTrans($analyticsData = array())
-    {
-        $pageCode = "
+    /*
+        public function placeTrans($analyticsData = array())
+        {
+            Factory::getDocument()->addScript("https://www.googletagmanager.com/gtag/js?id=$this->trackerKey", [], ['async' => 'async']);
 
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            $pageCode = $this->pageTrackerView();
 
-		";
+            if (isset($analyticsData['addtrans'])) {
+                // Add Transaction/Order to google Analytic
+                $pageCode .= $this->addTrans($analyticsData['addtrans']);
 
-        $pageCode .= $this->pageTrackerView();
-
-        if (isset($analyticsData['addtrans'])) {
-            // Add Transaction/Order to google Analytic
-            $pageCode .= $this->addTrans($analyticsData['addtrans']);
-
-            // Add order items detail
-            if (isset($analyticsData['addItem'])) {
-                foreach ($analyticsData['addItem'] as $transactionItem) {
-                    // Add Order Items to google Analytic
-                    $pageCode .= $this->addItem($transactionItem);
+                // Add order items detail
+                if (isset($analyticsData['addItem'])) {
+                    foreach ($analyticsData['addItem'] as $transactionItem) {
+                        // Add Order Items to google Analytic
+                        $pageCode .= $this->addItem($transactionItem);
+                    }
                 }
             }
 
-            // Track added order to google analytics
-            $pageCode .= $this->trackTrans();
+            Factory::getDocument()->addScriptDeclaration($pageCode);
+        }
+    */
+    /**
+     * Code settings for Google Analytics
+     *
+     * @param   array  $analyticsData  Analytics data in associative array which needs to be send on GA.
+     *
+     * @return  void
+     *
+     * @see     https://developers.google.com/analytics/devguides/collection/analyticsjs/
+     */
+    public function placeTrans($analyticsData = array())
+    {
+        Factory::getDocument()->addScript("https://www.googletagmanager.com/gtag/js?id=$this->trackerKey", [], ['async' => 'async']);
+
+        // $pageCode = $this->pageTrackerView();
+
+        // $pageTitle = getHTMLTitle;
+
+        // The first line of the tracking script should always initialize the page tracker object.
+        $pageCode = "
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+    
+            gtag('config', '" . $this->trackerKey . "', {
+                'page_title': ''
+            });
+        ";
+
+        if (isset($analyticsData['addtrans'])) {
+            $pageCode = "gtag('event', 'purchase', {
+            'transaction_id': '" . $analyticsData['addtrans']['order_id'] . "',                      // Transaction ID. Required.
+            'value': '" . number_format($analyticsData['addtrans']['order_total'], 2, '.', '') . "', // Grand Total.
+            'tax': '" . $analyticsData['addtrans']['order_tax'] . "',                                // Tax.
+            'shipping': '" . $analyticsData['addtrans']['order_shipping'] . "',                      // Shipping.
+            'currency': '" . $analyticsData['addtrans']['currency'] . "'                             // local currency code.
+            'items': [
+                if (isset(" . $analyticsData['addItem'] . ")) {
+                    foreach (" . $analyticsData['addItem'] . "as" . $transactionItem . ") {
+                        " . $transactionItem['product_name'] . " = str_replace('\n', ' ', " . $transactionItem['product_name'] . ");
+                        " . $transactionItem['product_name'] . " = str_replace('\r', ' ', " . $transactionItem['product_name'] . ");
+    
+                            {
+                                'item_id': '" . $transactionItem['product_number'] . "',                         // SKU/code.
+                                'item_name': '" . $transactionItem['product_name'] . "',                         // Product name. Required.
+                                'affiliation': '" . $transactionItem['shopname'] . "',                           // Affiliation or store name.
+                                'item_category': '" . $transactionItem['product_category'] . "',                 // Category or variation.
+                                'price': '" . number_format($transactionItem['product_price'], 2, '.', '') . "', // Unit price.
+                                'quantity': '" . $transactionItem['product_quantity'] . "',                      // Quantity.
+                                'currency': '" . $transactionItem['currency'] . "'                               // local currency code.
+                            }
+                    }
+                }
+            ]
+        })";
         }
 
-        JFactory::getDocument()->addScriptDeclaration($pageCode);
+        Factory::getDocument()->addScriptDeclaration($pageCode);
     }
+
 
     /**
      * The analytics.js JavaScript snippet is a new way to measure how users interact with your website.
@@ -82,12 +136,18 @@ class RedSHOPGoogle_AnalyticsHelper
      */
     public function pageTrackerView()
     {
+        $pageTitle = Factory::getApplication()->getMenu()->getActive()->title;
+
         // The first line of the tracking script should always initialize the page tracker object.
         $pageCode = "
-			ga('create', '" . $this->trackerKey . "', 'auto');
-			ga('send', 'pageview');
-
-		";
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+    
+            gtag('config', '" . $this->trackerKey . "', {
+                'page_title': '" . $pageTitle . "'
+            });
+        ";
 
         return $pageCode;
     }
@@ -101,25 +161,23 @@ class RedSHOPGoogle_AnalyticsHelper
      *
      * @return  string        Add GA Ecommerce Transaction code
      */
-    public function addTrans($data)
-    {
-        $packageCode = "
-			ga('require', 'ecommerce', 'ecommerce.js');
+    /*
+        public function addTrans($data)
+        {
+            $packageCode = "
+                gtag('event', 'purchase', {
+                    'transaction_id': '" . $data['order_id'] . "',                      // Transaction ID. Required.
+                    'value': '" . number_format($data['order_total'], 2, '.', '') . "', // Grand Total.
+                    'tax': '" . $data['order_tax'] . "',                                // Tax.
+                    'shipping': '" . $data['order_shipping'] . "',                      // Shipping.
+                    'currency': '" . $data['currency'] . "'                             // local currency code.
+                });
 
-			ga('ecommerce:addTransaction', {
-				'id': '" . $data['order_id'] . "',             // Transaction ID. Required.
-				'affiliation': '" . $data['shopname'] . "',    // Affiliation or store name.
-				'revenue': '" . number_format($data['order_total'], 2, '.', '') . "',     // Grand Total.
-				'shipping': '" . $data['order_shipping'] . "', // Shipping.
-				'tax': '" . $data['order_tax'] . "',            // Tax.
-				'currency': '" . $data['currency'] . "'            // local currency code.
-			});
+            ";
 
-		";
-
-        return $packageCode;
-    }
-
+            return $packageCode;
+        }
+    */
     /**
      * Add items to the shopping cart
      *
@@ -127,38 +185,25 @@ class RedSHOPGoogle_AnalyticsHelper
      *
      * @return  string            Transaction Item information.
      */
-    public function addItem($itemData)
-    {
-        $itemData['product_name'] = str_replace("\n", " ", $itemData['product_name']);
-        $itemData['product_name'] = str_replace("\r", " ", $itemData['product_name']);
+    /*
+        public function addItem($itemData)
+        {
+            $itemData['product_name'] = str_replace("\n", " ", $itemData['product_name']);
+            $itemData['product_name'] = str_replace("\r", " ", $itemData['product_name']);
 
-        $packageCode = "
-			ga('ecommerce:addItem', {
-				'id': '" . $itemData['order_id'] . "',                  // Transaction ID. Required.
-				'name': '" . $itemData['product_name'] . "',            // Product name. Required.
-				'sku': '" . $itemData['product_number'] . "',           // SKU/code.
-				'category': '" . $itemData['product_category'] . "',    // Category or variation.
-				'price': '" . number_format($itemData['product_price'], 2, '.', '') . "',          // Unit price.
-				'quantity': '" . $itemData['product_quantity'] . "',     // Quantity.
-				'currency': '" . $itemData['currency'] . "'     // local currency code.
-			});
-		";
+            $packageCode = "
+                ga('ecommerce:addItem', {
+                    'item_id': '" . $itemData['product_number'] . "',                         // SKU/code.
+                    'item_name': '" . $itemData['product_name'] . "',                         // Product name. Required.
+                    'affiliation': '" . $itemData['shopname'] . "',                           // Affiliation or store name.
+                    'item_category': '" . $itemData['product_category'] . "',                 // Category or variation.
+                    'price': '" . number_format($itemData['product_price'], 2, '.', '') . "', // Unit price.
+                    'quantity': '" . $itemData['product_quantity'] . "',                      // Quantity.
+                    'currency': '" . $itemData['currency'] . "'                               // local currency code.
+                });
+            ";
 
-        return $packageCode;
-    }
-
-    /**
-     * Finally, once we have configured all ecommerce data in the shopping cart, we will send it to GA.
-     *
-     * @return  string  Sending Information of ecommerce tracking.
-     */
-    public function trackTrans()
-    {
-        // Submits transaction to the Analytics servers
-        $packageCode = "
-			ga('ecommerce:send');
-		";
-
-        return $packageCode;
-    }
+            return $packageCode;
+        }
+    */
 }
