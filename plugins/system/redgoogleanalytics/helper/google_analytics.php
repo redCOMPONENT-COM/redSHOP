@@ -82,21 +82,21 @@ class RedSHOPGoogle_AnalyticsHelper
 
         // $pageCode = $this->pageTrackerView();
 
-        // $pageTitle = getHTMLTitle;
+        $pageTitle = Factory::getDocument()->getTitle();
 
         // The first line of the tracking script should always initialize the page tracker object.
-        $pageCode = "
+        $pageTrans = "
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
     
             gtag('config', '" . $this->trackerKey . "', {
-                'page_title': ''
+                'page_title': $pageTitle
             });
         ";
 
         if (isset($analyticsData['addtrans'])) {
-            $pageCode = "gtag('event', 'purchase', {
+            $pagePurchase = "gtag('event', 'purchase', {
             'transaction_id': '" . $analyticsData['addtrans']['order_id'] . "',                      // Transaction ID. Required.
             'value': '" . number_format($analyticsData['addtrans']['order_total'], 2, '.', '') . "', // Grand Total.
             'tax': '" . $analyticsData['addtrans']['order_tax'] . "',                                // Tax.
@@ -123,7 +123,7 @@ class RedSHOPGoogle_AnalyticsHelper
         })";
         }
 
-        Factory::getDocument()->addScriptDeclaration($pageCode);
+        Factory::getDocument()->addScriptDeclaration($pageTrans);
     }
 
 

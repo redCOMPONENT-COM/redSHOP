@@ -154,21 +154,6 @@ class RedshopHelperDocument
     }
 
     /**
-     * Add a script to the bottom of the document scripts
-     *
-     * @param   string  $url         URL to the linked style sheet
-     * @param   string  $type        Mime encoding type
-     * @param   string  $media       Media type that this stylesheet applies to
-     * @param   array   $attributes  Array of attributes
-     *
-     * @return  self
-     */
-    public function addBottomStylesheet($url, $type = 'text/css', $media = null, $attributes = array())
-    {
-        return self::addStylesheet('bottom', $url, $type, $media, $attributes);
-    }
-
-    /**
      * Clean header assets
      *
      * @return  void

@@ -92,11 +92,11 @@ class RedshopViewOrder_Detail extends RedshopView
                 if (empty($authorization)) {
                     throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
                 }
-            } elseif ((int)$orderDetail->user_id > 0) {
+            } elseif ((int) $orderDetail->user_id > 0) {
                 $app->redirect(
                     Redshop\IO\Route::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid'), false)
                 );
-            } elseif ((int)$auth['users_info_id'] !== (int)$orderDetail->user_info_id && $orderPayment[0]->payment_method_class !== 'rs_payment_paypal') {
+            } elseif ((int) $auth['users_info_id'] !== (int) $orderDetail->user_info_id && $orderPayment[0]->payment_method_class !== 'rs_payment_paypal') {
                 throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
             }
         }
@@ -125,12 +125,12 @@ class RedshopViewOrder_Detail extends RedshopView
         $orderId = $app->input->getInt('oid', 0);
         $print   = $app->input->getInt('print', 0);
 
-	    $orderEntity        = RedshopEntityOrder::getInstance($orderId);
-	    $order              = $orderEntity->getItem();
-	    $paymentMethodClass = $orderEntity->getPayment()->getItem()->payment_method_class;
+        $orderEntity        = RedshopEntityOrder::getInstance($orderId);
+        $order              = $orderEntity->getItem();
+        $paymentMethodClass = $orderEntity->getPayment()->getItem()->payment_method_class;
 
 
-	    if ($order->order_status != 'C' && $order->order_status != 'S' && $order->order_status != 'PR' && $order->order_status != 'APP' && $print != 1 && $order->order_payment_status != 'Paid' && $paymentMethodClass != 'rs_payment_banktransfer') {
+        if ($order->order_status != 'C' && $order->order_status != 'S' && $order->order_status != 'PR' && $order->order_status != 'APP' && $print != 1 && $order->order_payment_status != 'Paid' && $paymentMethodClass != 'rs_payment_banktransfer') {
             $reorder = "<form method='post'>
 			<input type='hidden' name='order_id' value='" . $orderId . "'>
 			<input type='hidden' name='option' value='com_redshop'>
@@ -151,8 +151,8 @@ class RedshopViewOrder_Detail extends RedshopView
             );
             $reorder = "<form method='post' name='frmreorder' id='frmreorder'>";
             $reorder .= "<input type='submit' name='reorder' id='reorder' value='" . JText::_(
-                    'COM_REDSHOP_REORDER'
-                ) . "' onclick='return submitReorder();' />";
+                'COM_REDSHOP_REORDER'
+            ) . "' onclick='return submitReorder();' />";
             $reorder .= "<input type='hidden' name='order_id' value='" . $orderId . "'>";
             $reorder .= "<input type='hidden' name='option' value='com_redshop'>";
             $reorder .= "<input type='hidden' name='view' value='order_detail'>";

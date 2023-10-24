@@ -50,7 +50,7 @@ class RedshopModelOrder_detail extends RedshopModel
         // Create the base select statement.
         $query->select('user_info_id')
             ->from($db->qn('#__redshop_orders'))
-            ->where($db->qn('order_id') . ' = ' . (int)$oid)
+            ->where($db->qn('order_id') . ' = ' . (int) $oid)
             ->where($db->qn('encr_key') . ' = ' . $db->q($encr));
 
         // Set the query and load the result.
@@ -58,7 +58,8 @@ class RedshopModelOrder_detail extends RedshopModel
 
         try {
             $userInfoIdEncr = $db->loadResult();
-        } catch (RuntimeException $e) {
+        }
+        catch (RuntimeException $e) {
             throw new RuntimeException($e->getMessage(), $e->getCode());
         }
 
@@ -77,9 +78,9 @@ class RedshopModelOrder_detail extends RedshopModel
      *
      * @return  boolean
      */
-    public function UpdateAnalytics_status($oid)
+    public function UpdateAnalytics_status($orderId)
     {
-        $query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = " . (int)$oid;
+        $query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = " . (int) $orderId;
         $this->_db->setQuery($query);
 
         if (!$this->_db->execute()) {
@@ -129,7 +130,7 @@ class RedshopModelOrder_detail extends RedshopModel
             ->leftjoin(
                 $db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id')
             )
-            ->where($db->qn('pcx.product_id') . ' = ' . $db->q((int)$pid))
+            ->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
             ->where($db->qn('c.name') . ' IS NOT NULL')
             ->order($db->qn('c.id') . ' ASC');
 
@@ -149,7 +150,7 @@ class RedshopModelOrder_detail extends RedshopModel
         $session->set('issplit', null);
         $session->set('userfield', null);
 
-        unset($_SESSION ['ccdata']);
+        unset($_SESSION['ccdata']);
     }
 
     public function update_ccdata($order_id, $payment_transaction_id)
@@ -175,7 +176,7 @@ class RedshopModelOrder_detail extends RedshopModel
             . " order_payment_ccv  = " . $db->quote($order_payment_ccv) . ", "
             . " order_payment_expire  = " . $db->quote($order_payment_expire) . ", "
             . " order_payment_trans_id  = " . $db->quote($payment_transaction_id) . " "
-            . " WHERE order_id  = " . (int)$order_id;
+            . " WHERE order_id  = " . (int) $order_id;
 
         return $db->setQuery($payment_update)->execute();
     }
