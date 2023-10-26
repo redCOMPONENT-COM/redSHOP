@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 /**
  * Class LoginModelLogin
@@ -31,15 +32,15 @@ class RedshopModelLogin extends RedshopModel
         $credentials             = array();
         $credentials['username'] = $username;
         $credentials['password'] = $password;
-        $options['remember']    = $app->input->getBool('remember', false);
+        $options['remember']     = $app->input->getBool('remember', false);
 
         // Perform the login action
         $error = $app->login($credentials, $options);
 
         if ($error instanceof JException && !empty($error->getMessage())) {
-            $msg = "<a href='" . Redshop\IO\Route::_('index.php?option=com_users&view=reset') . "'>" . JText::_(
-                    'COM_REDSHOP_FORGOT_PWD_LINK'
-                ) . "</a>";
+            $msg = "<a href='" . Redshop\IO\Route::_('index.php?option=com_users&view=reset') . "'>" . Text::_(
+                'COM_REDSHOP_FORGOT_PWD_LINK'
+            ) . "</a>";
             $app->enqueueMessage($msg);
         }
 
@@ -52,9 +53,9 @@ class RedshopModelLogin extends RedshopModel
 
         if ($sid == 0) {
             $query = "SELECT sg.* FROM #__redshop_shopper_group as sg "
-                . " LEFT JOIN #__redshop_users_info as ui on sg.`id`= ui.shopper_group_id WHERE ui.user_id = " . (int)$user->id;
+                . " LEFT JOIN #__redshop_users_info as ui on sg.`id`= ui.shopper_group_id WHERE ui.user_id = " . (int) $user->id;
         } else {
-            $query = "SELECT sg.* FROM #__redshop_shopper_group as sg WHERE sg.`id`= " . (int)$sid;
+            $query = "SELECT sg.* FROM #__redshop_shopper_group as sg WHERE sg.`id`= " . (int) $sid;
         }
 
         $this->_db->setQuery($query);
@@ -69,7 +70,7 @@ class RedshopModelLogin extends RedshopModel
             . " LEFT JOIN #__redshop_users_info as ui on sg.`id`= ui.shopper_group_id) LEFT JOIN #__users as u on ui.user_id = u.id WHERE u.username = "
             . $db->quote(
                 $username
-            ) . " AND ui.shopper_group_id =" . (int)$shoppergroupid . " AND sg.portal = 1";
+            ) . " AND ui.shopper_group_id =" . (int) $shoppergroupid . " AND sg.portal = 1";
         $db->setQuery($query);
 
         return $db->loadResult();

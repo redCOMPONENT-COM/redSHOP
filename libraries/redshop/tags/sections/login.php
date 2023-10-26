@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -53,7 +55,7 @@ class RedshopTagsSectionsLogin extends RedshopTagsAbstract
             array(
                 'id'   => 'username',
                 'name' => 'username',
-                'text' => JText::_('COM_REDSHOP_USERNAME'),
+                'text' => Text::_('COM_REDSHOP_USERNAME'),
             ),
             '',
             $layoutOption
@@ -81,7 +83,7 @@ class RedshopTagsSectionsLogin extends RedshopTagsAbstract
             array(
                 'id'   => 'password',
                 'name' => 'password',
-                'text' => JText::_('COM_REDSHOP_PASSWORD')
+                'text' => Text::_('COM_REDSHOP_PASSWORD')
             ),
             '',
             $layoutOption
@@ -105,7 +107,7 @@ class RedshopTagsSectionsLogin extends RedshopTagsAbstract
             'tags.common.link',
             array(
                 'link'    => Redshop\IO\Route::_('index.php?option=com_users&view=reset'),
-                'content' => JText::_('COM_REDSHOP_FORGOT_PWD_LINK')
+                'content' => Text::_('COM_REDSHOP_FORGOT_PWD_LINK')
             ),
             '',
             $layoutOption
@@ -117,7 +119,7 @@ class RedshopTagsSectionsLogin extends RedshopTagsAbstract
         $this->template  = RedshopLayoutHelper::render(
             'tags.login.form',
             array(
-                'content' => $this->template,
+                'content'         => $this->template,
                 'thirdPartyLogin' => $thirdPartyLogin
             ),
             '',

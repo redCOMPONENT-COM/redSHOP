@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Redshop\View\AbstractView;
 
 /**
@@ -117,9 +118,11 @@ class RedshopViewForm extends AbstractView
         $app = JFactory::getApplication();
 
         // Check permission on create new
-        if ((empty($this->item->{$this->getPrimaryKey()}) && !$this->canCreate)
-            || (!empty($this->item->{$this->getPrimaryKey()}) && !$this->canEdit)) {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
+        if (
+            (empty($this->item->{$this->getPrimaryKey()}) && !$this->canCreate)
+            || (!empty($this->item->{$this->getPrimaryKey()}) && !$this->canEdit)
+        ) {
+            $app->enqueueMessage(Text::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
 
             $app->redirect('index.php?option=com_redshop');
         }
@@ -135,7 +138,7 @@ class RedshopViewForm extends AbstractView
      */
     protected function loadFields()
     {
-        $this->fields = array();
+        $this->fields       = array();
         $this->hiddenFields = array();
 
         foreach ($this->form->getFieldsets() as $fieldset) {
@@ -218,10 +221,10 @@ class RedshopViewForm extends AbstractView
         $primaryKey = $this->getPrimaryKey();
         $title      = parent::getTitle();
 
-        return !empty($this->item->{$primaryKey}) ? $title . ' <small>[ ' . JText::_(
-                'COM_REDSHOP_EDIT'
-            ) . ' ]</small>' :
-            $title . ' <small>[ ' . JText::_('COM_REDSHOP_NEW') . ' ]</small>';
+        return !empty($this->item->{$primaryKey}) ? $title . ' <small>[ ' . Text::_(
+            'COM_REDSHOP_EDIT'
+        ) . ' ]</small>' :
+            $title . ' <small>[ ' . Text::_('COM_REDSHOP_NEW') . ' ]</small>';
     }
 
     /**
@@ -248,7 +251,7 @@ class RedshopViewForm extends AbstractView
         if ($isNew) {
             JToolbarHelper::cancel($this->getInstanceName() . '.cancel');
         } else {
-            JToolbarHelper::cancel($this->getInstanceName() . '.cancel', JText::_('JTOOLBAR_CLOSE'));
+            JToolbarHelper::cancel($this->getInstanceName() . '.cancel', Text::_('JTOOLBAR_CLOSE'));
         }
     }
 }

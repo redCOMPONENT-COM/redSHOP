@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class Redshop Helper Billing Tag
  *
@@ -33,7 +35,7 @@ class RedshopHelperBillingTag
 
         return str_replace(
             '{billing_address_information_lbl}',
-            JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'),
+            Text::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'),
             $content
         );
     }
@@ -49,10 +51,12 @@ class RedshopHelperBillingTag
      */
     public static function replaceBlock(&$content, $billingAddress)
     {
-        if (strpos($content, '{billing_address_start}') === false || strpos(
+        if (
+            strpos($content, '{billing_address_start}') === false || strpos(
                 $content,
                 '{billing_address_end}'
-            ) === false) {
+            ) === false
+        ) {
             return;
         }
 
@@ -95,88 +99,88 @@ class RedshopHelperBillingTag
         if (null !== $billingAddress) {
             if (!empty($billingAddress->firstname)) {
                 $firstName      = $billingAddress->firstname;
-                $firstNameLabel = JText::_('COM_REDSHOP_FIRSTNAME');
+                $firstNameLabel = Text::_('COM_REDSHOP_FIRSTNAME');
             }
 
             if (!empty($billingAddress->lastname)) {
                 $lastName      = $billingAddress->lastname;
-                $lastNameLabel = JText::_('COM_REDSHOP_LASTNAME');
+                $lastNameLabel = Text::_('COM_REDSHOP_LASTNAME');
             }
 
             if (!empty($billingAddress->lastname) || !empty($billingAddress->firstname)) {
                 $fullName      = $billingAddress->lastname . ' ' . $billingAddress->firstname;
-                $fullNameLabel = JText::_('COM_REDSHOP_FULLNAME');
+                $fullNameLabel = Text::_('COM_REDSHOP_FULLNAME');
             }
 
             if (!empty($billingAddress->address)) {
                 $address      = $billingAddress->address;
-                $addressLabel = JText::_('COM_REDSHOP_ADDRESS');
+                $addressLabel = Text::_('COM_REDSHOP_ADDRESS');
             }
 
             if (!empty($billingAddress->zipcode)) {
                 $zip      = $billingAddress->zipcode;
-                $zipLabel = JText::_('COM_REDSHOP_ZIP');
+                $zipLabel = Text::_('COM_REDSHOP_ZIP');
             }
 
             if (!empty($billingAddress->city)) {
                 $city      = $billingAddress->city;
-                $cityLabel = JText::_('COM_REDSHOP_CITY');
+                $cityLabel = Text::_('COM_REDSHOP_CITY');
             }
 
             $countryName = RedshopHelperOrder::getCountryName($billingAddress->country_code);
 
             if (!empty($countryName)) {
-                $country      = JText::_($countryName);
-                $countryLabel = JText::_('COM_REDSCOM_REDSHOP_COUNTRYHOP_CITY');
+                $country      = Text::_($countryName);
+                $countryLabel = Text::_('COM_REDSCOM_REDSHOP_COUNTRYHOP_CITY');
             }
 
             $stateName = RedshopHelperOrder::getStateName($billingAddress->state_code, $billingAddress->country_code);
 
             if (!empty($stateName)) {
-                $state      = JText::_($stateName);
-                $stateLabel = JText::_('COM_REDSHOP_STATE');
+                $state      = Text::_($stateName);
+                $stateLabel = Text::_('COM_REDSHOP_STATE');
             }
 
             if (!empty($billingAddress->phone)) {
                 $phone      = $billingAddress->phone;
-                $phoneLabel = JText::_('COM_REDSHOP_PHONE');
+                $phoneLabel = Text::_('COM_REDSHOP_PHONE');
             }
 
             if (!empty($billingAddress->user_email)) {
                 $email      = $billingAddress->user_email;
-                $emailLabel = JText::_('COM_REDSHOP_EMAIL');
+                $emailLabel = Text::_('COM_REDSHOP_EMAIL');
             } elseif (!empty(JFactory::getUser()->email)) {
                 $email      = JFactory::getUser()->email;
-                $emailLabel = JText::_('COM_REDSHOP_EMAIL');
+                $emailLabel = Text::_('COM_REDSHOP_EMAIL');
             }
 
-            if ((int)$billingAddress->is_company === 1) {
+            if ((int) $billingAddress->is_company === 1) {
                 if (!empty($billingAddress->company_name)) {
                     $companyName      = $billingAddress->company_name;
-                    $companyNameLabel = JText::_('COM_REDSHOP_COMPANY_NAME');
+                    $companyNameLabel = Text::_('COM_REDSHOP_COMPANY_NAME');
                 }
 
                 if (!empty($billingAddress->vat_number)) {
                     $vatNumber      = $billingAddress->vat_number;
-                    $vatNumberLabel = JText::_('COM_REDSHOP_VAT_NUMBER');
+                    $vatNumberLabel = Text::_('COM_REDSHOP_VAT_NUMBER');
                 }
 
                 if (!empty($billingAddress->ean_number)) {
                     $eanNumber      = $billingAddress->ean_number;
-                    $eanNumberLabel = JText::_('COM_REDSHOP_EAN_NUMBER');
+                    $eanNumberLabel = Text::_('COM_REDSHOP_EAN_NUMBER');
                 }
 
                 if (Redshop::getConfig()->getBool('SHOW_TAX_EXEMPT_INFRONT')) {
-                    $taxExempt = $billingAddress->tax_exempt === 1 ? JText::_('COM_REDSHOP_TAX_YES') : JText::_(
+                    $taxExempt = $billingAddress->tax_exempt === 1 ? Text::_('COM_REDSHOP_TAX_YES') : Text::_(
                         'COM_REDSHOP_TAX_NO'
                     );
 
-                    $taxExemptLabel = JText::_('COM_REDSHOP_TAX_EXEMPT');
+                    $taxExemptLabel = Text::_('COM_REDSHOP_TAX_EXEMPT');
 
                     $taxExemptRequest = $billingAddress->requesting_tax_exempt === 1 ?
-                        JText::_('COM_REDSHOP_TAX_YES') : JText::_('COM_REDSHOP_TAX_NO');
+                        Text::_('COM_REDSHOP_TAX_YES') : Text::_('COM_REDSHOP_TAX_NO');
 
-                    $taxExemptRequestLabel = JText::_('COM_REDSHOP_USER_TAX_EXEMPT_REQUEST_LBL');
+                    $taxExemptRequestLabel = Text::_('COM_REDSHOP_USER_TAX_EXEMPT_REQUEST_LBL');
                 }
             }
 

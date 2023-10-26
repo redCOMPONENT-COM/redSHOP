@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Statistic Order view
  *
@@ -33,7 +35,7 @@ class RedshopViewStatistic_Order extends RedshopViewAdmin
     public function display($tpl = null)
     {
         $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_STATISTIC_ORDER'));
+        $document->setTitle(Text::_('COM_REDSHOP_STATISTIC_ORDER'));
 
         $model = $this->getModel();
 
@@ -76,7 +78,7 @@ class RedshopViewStatistic_Order extends RedshopViewAdmin
     protected function addToolbar()
     {
         JFactory::getApplication()->input->set('hidemainmenu', true);
-        JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC_ORDER'), 'statistic redshop_statistic48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_STATISTIC_ORDER'), 'statistic redshop_statistic48');
         RedshopToolbarHelper::link(
             'index.php?tmpl=component&option=com_redshop&task=statistic_order.exportOrder&date_range=' . $this->state->get(
                 'filter.date_range'

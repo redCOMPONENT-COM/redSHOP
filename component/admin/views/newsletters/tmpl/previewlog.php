@@ -7,13 +7,16 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
-$jinput = JFactory::getApplication()->input;
+use Joomla\CMS\Language\Text;
 
-$model = $this->getModel();
-$cid = $jinput->post->get('cid', array(0), 'array');
+$jinput        = JFactory::getApplication()->input;
+$model         = $this->getModel();
+$cid           = $jinput->post->get('cid', array(0), 'array');
 $newsletter_id = $jinput->get('newsletter_id');
+
 ?>
 <script language="javascript" type="text/javascript">
     var xmlhttp
@@ -31,7 +34,7 @@ $newsletter_id = $jinput->get('newsletter_id');
     }
 
     window.onload = function () {
-        setTimeout('sendrsNewsletter()', <?php echo(Redshop::getConfig()->get('NEWSLETTER_MAIL_PAUSE_TIME') * 1000);?>);
+        setTimeout('sendrsNewsletter()', <?php echo (Redshop::getConfig()->get('NEWSLETTER_MAIL_PAUSE_TIME') * 1000); ?>);
     }
     //function submitform()
     //{
@@ -66,9 +69,9 @@ $newsletter_id = $jinput->get('newsletter_id');
                     if (newlog != "") {
                         var log = document.getElementById('divpreviewlog').innerHTML;
                         document.getElementById('divpreviewlog').innerHTML = log + newlog;
-                        setTimeout('sendrsNewsletter()', <?php echo(Redshop::getConfig()->get(
-                                'NEWSLETTER_MAIL_PAUSE_TIME'
-                            ) * 1000);?>);
+                        setTimeout('sendrsNewsletter()', <?php echo (Redshop::getConfig()->get(
+                            'NEWSLETTER_MAIL_PAUSE_TIME'
+                        ) * 1000); ?>);
                     }
                 }
             }
@@ -81,7 +84,9 @@ $newsletter_id = $jinput->get('newsletter_id');
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
     <div>
         <fieldset>
-            <legend><?php echo JText::_('COM_REDSHOP_NEWSLETTER_SEND_LOG'); ?></legend>
+            <legend>
+                <?php echo Text::_('COM_REDSHOP_NEWSLETTER_SEND_LOG'); ?>
+            </legend>
             <table class="admintable" cellpadding="3" cellspacing="0" border="0">
                 <tr>
                     <td>
@@ -92,7 +97,7 @@ $newsletter_id = $jinput->get('newsletter_id');
         </fieldset>
     </div>
     <div style="display: none;" id="tmpmailresponse"></div>
-    <input type="hidden" name="newsletter_id" id="newsletter_id" value="<?php echo $newsletter_id; ?>"/>
-    <input type="hidden" name="cid[]" value="<?php echo $newsletter_id; ?>"/>
-    <input type="hidden" name="view" value="newsletters"/>
+    <input type="hidden" name="newsletter_id" id="newsletter_id" value="<?php echo $newsletter_id; ?>" />
+    <input type="hidden" name="cid[]" value="<?php echo $newsletter_id; ?>" />
+    <input type="hidden" name="view" value="newsletters" />
 </form>

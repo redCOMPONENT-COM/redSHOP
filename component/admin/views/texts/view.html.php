@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * View Texts
  *
@@ -47,15 +49,15 @@ class RedshopViewTexts extends RedshopViewList
         $value = $row->{$config['dataCol']};
 
         if ($value == 'category') {
-            return '<span class="badge label-success">' . JText::_(
-                    'COM_REDSHOP_TEXT_SECTION_OPTION_CATEGORY'
-                ) . '</span>';
+            return '<span class="badge label-success">' . Text::_(
+                'COM_REDSHOP_TEXT_SECTION_OPTION_CATEGORY'
+            ) . '</span>';
         } elseif ($value == 'newsletter') {
-            return '<span class="badge label-primary">' . JText::_(
-                    'COM_REDSHOP_TEXT_SECTION_OPTION_NEWSLETTER'
-                ) . '</span>';
+            return '<span class="badge label-primary">' . Text::_(
+                'COM_REDSHOP_TEXT_SECTION_OPTION_NEWSLETTER'
+            ) . '</span>';
         }
 
-        return '<span class="badge label-danger">' . JText::_('COM_REDSHOP_TEXT_SECTION_OPTION_PRODUCT') . '</span>';
+        return '<span class="badge label-danger">' . Text::_('COM_REDSHOP_TEXT_SECTION_OPTION_PRODUCT') . '</span>';
     }
 }

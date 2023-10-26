@@ -9,15 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 $url             = JURI::base();
 $app             = JFactory::getApplication();
 $order_functions = order_functions::getInstance();
 $redconfig       = Redconfiguration::getInstance();
-
 $Itemid   = $app->input->getInt('Itemid');
 $order_id = $app->input->getInt('order_id', 0);
-
 $order_detail  = array();
 $OrderProducts = array();
 
@@ -36,18 +35,19 @@ if ($this->params->get('show_page_heading', 1)) {
     </div>
     <?php
 }
+
 ?>
 <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=ordertracker&Itemid=' . $Itemid); ?>"
       method="post" name="adminForm">
     <table cellpadding="3" cellspacing="0" border="0">
         <tr>
             <td colspan="2">
-                <?php echo JText::_('COM_REDSHOP_ORDER_ID'); ?>:
+                <?php echo Text::_('COM_REDSHOP_ORDER_ID'); ?>:
             </td>
             <td>
                 <input type="text" class="inputbox" name="order_id" id="order_id" value="">
             </td>
-            <td><input type="submit" id="go" name="go" value="<?php echo JText::_('COM_REDSHOP_GO'); ?>"></td>
+            <td><input type="submit" id="go" name="go" value="<?php echo Text::_('COM_REDSHOP_GO'); ?>"></td>
         </tr>
     </table>
     <input type="hidden" name="view" value="ordertracker"/>
@@ -59,13 +59,13 @@ if ($this->params->get('show_page_heading', 1)) {
         if (count($order_detail) > 0)
         {
         ?>
-        <th><?php echo JText::_('COM_REDSHOP_ORDER_ID'); ?>    </th>
-        <th><?php echo JText::_('COM_REDSHOP_ORDER_NUMBER'); ?>    </th>
-        <th><?php echo JText::_('COM_REDSHOP_ORDER_ITEM'); ?></th>
-        <th><?php echo JText::_('COM_REDSHOP_ORDER_TOTAL'); ?></th>
-        <th><?php echo JText::_('COM_REDSHOP_ORDER_DATE'); ?></th>
-        <th><?php echo JText::_('COM_REDSHOP_ORDER_STATUS'); ?></th>
-        <th><?php echo JText::_('COM_REDSHOP_ORDER_DETAIL'); ?></th>
+        <th><?php echo Text::_('COM_REDSHOP_ORDER_ID'); ?>    </th>
+        <th><?php echo Text::_('COM_REDSHOP_ORDER_NUMBER'); ?>    </th>
+        <th><?php echo Text::_('COM_REDSHOP_ORDER_ITEM'); ?></th>
+        <th><?php echo Text::_('COM_REDSHOP_ORDER_TOTAL'); ?></th>
+        <th><?php echo Text::_('COM_REDSHOP_ORDER_DATE'); ?></th>
+        <th><?php echo Text::_('COM_REDSHOP_ORDER_STATUS'); ?></th>
+        <th><?php echo Text::_('COM_REDSHOP_ORDER_DETAIL'); ?></th>
     </tr>
     <?php $order_item_name = array();
 
@@ -85,13 +85,13 @@ if ($this->params->get('show_page_heading', 1)) {
 
         <td><?php echo $statusname; ?></td>
         <td><a href="<?php echo $orderdetailurl; ?>">
-                <?php echo JText::_('COM_REDSHOP_ORDER_DETAIL'); ?></a></td>
+                <?php echo Text::_('COM_REDSHOP_ORDER_DETAIL'); ?></a></td>
     </tr>
     <?php
     }
     else {
         ?>
-        <td><?php echo JText::_('COM_REDSHOP_ORDER_NOT_FOUND'); ?></td>
+        <td><?php echo Text::_('COM_REDSHOP_ORDER_NOT_FOUND'); ?></td>
         <?php
     }
     ?>

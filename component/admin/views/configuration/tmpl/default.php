@@ -7,13 +7,15 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 
 $uri = JUri::root();
-
 $app                 = JFactory::getApplication();
 $selectedTabPosition = $app->getUserState('com_redshop.configuration.selectedTabPosition', 'general');
 
@@ -23,24 +25,24 @@ if ($app->input->getInt('dashboard', 0)) {
 
 ?>
 <script language="javascript" type="text/javascript">
-	window.radioGetCheckedValue = function ( radioObj ) {
-		if ( !radioObj ) { return ''; }
+    window.radioGetCheckedValue = function ( radioObj ) {
+        if ( !radioObj ) { return ''; }
 
-		var n = radioObj.length,
-			i;
+        var n = radioObj.length,
+            i;
 
-		if ( n === undefined ) {
-			return radioObj.checked ? radioObj.value : '';
-		}
+        if ( n === undefined ) {
+            return radioObj.checked ? radioObj.value : '';
+        }
 
-		for ( i = 0; i < n; i++ ) {
-			if ( radioObj[ i ].checked ) {
-				return radioObj[ i ].value;
-			}
-		}
+        for ( i = 0; i < n; i++ ) {
+            if ( radioObj[ i ].checked ) {
+                return radioObj[ i ].value;
+            }
+        }
 
-		return '';
-	};
+        return '';
+    };
     Joomla.submitbutton = function (pressbutton) {
         // Find the position of selected tab
         var allTabsNames = document.querySelectorAll('.tabconfig a');
@@ -76,7 +78,7 @@ if ($app->input->getInt('dashboard', 0)) {
             if (sel_discount_flag) {
                 if (form.discount_type.value == "0" || form.discount_type.value == "") {
                     alert("<?php
-                        echo JText::_('COM_REDSHOP_PLEASE_SELECT_DISCOUNT_TYPE');
+                        echo Text::_('COM_REDSHOP_PLEASE_SELECT_DISCOUNT_TYPE');
                         ?>");
                     return false;
                 }
@@ -86,27 +88,27 @@ if ($app->input->getInt('dashboard', 0)) {
                 if (form.economic_integration[i].value == 1 && form.economic_integration[i].checked) {
                     if (form.default_economic_account_group.value == 0) {
                         alert("<?php
-                            echo JText::_('COM_REDSHOP_SELECT_ECONOMIC_ACCOUNTING_GROUP');
+                            echo Text::_('COM_REDSHOP_SELECT_ECONOMIC_ACCOUNTING_GROUP');
                             ?>");
                         form.default_economic_account_group.focus();
                         return false;
                     }
 
                     if (form.economic_invoice_draft.value == 2 && form.booking_order_status.value == '0') {
-                        alert("<?php echo JText::_('COM_REDSHOP_SELECT_BOOK_INVOICE_ORDER_STATUS');?>");
+                        alert("<?php echo Text::_('COM_REDSHOP_SELECT_BOOK_INVOICE_ORDER_STATUS');?>");
                         form.booking_order_status.focus();
                         return false;
                     }
                 }
             }
             if (form.thousand_seperator.value == "'" || form.thousand_seperator.value == '"') {
-                alert("<?php echo JText::_('COM_REDSHOP_INVALID_THOUSAND_SEPERATOR');?>");
+                alert("<?php echo Text::_('COM_REDSHOP_INVALID_THOUSAND_SEPERATOR');?>");
                 form.thousand_seperator.value = '';
                 form.thousand_seperator.focus();
                 return false;
             }
             if (form.price_seperator.value == "'" || form.price_seperator.value == '"') {
-                alert("<?php echo JText::_('COM_REDSHOP_INVALID_PRICE_SEPERATOR');?>");
+                alert("<?php echo Text::_('COM_REDSHOP_INVALID_PRICE_SEPERATOR');?>");
                 form.price_seperator.value = '';
                 form.price_seperator.focus();
                 return false;
@@ -189,12 +191,12 @@ if ($app->input->getInt('dashboard', 0)) {
             var output = request.responseText;
             if (output == 0) {
                 document.getElementById('responce_clear').style.color = "red";
-                document.getElementById('responce_clear').innerHTML = "<?php echo JText::_(
+                document.getElementById('responce_clear').innerHTML = "<?php echo Text::_(
                     'COM_REDSHOP_NO_DATA_DELETE'
                 ); ?>";
             } else {
                 document.getElementById('responce_clear').style.color = "green";
-                document.getElementById('responce_clear').innerHTML = output + " <?php echo JText::_(
+                document.getElementById('responce_clear').innerHTML = output + " <?php echo Text::_(
                     'COM_REDSHOP_RECORDS_DELETED'
                 );?>";
             }
@@ -221,10 +223,9 @@ if ($app->input->getInt('dashboard', 0)) {
 </script>
 <?php
 echo RedshopLayoutHelper::render(
-	'modal.iframe',
-	[
-		'modalButton' => '.ModalConfigDetailButton',
-		'selector'    => 'ModalConfigDetail',
-	]
+    'modal.iframe',
+    [
+        'modalButton' => '.ModalConfigDetailButton',
+        'selector'    => 'ModalConfigDetail',
+    ]
 );
-

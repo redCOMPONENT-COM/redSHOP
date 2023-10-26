@@ -7,18 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
 
-HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
-?>
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
+
+?>
 <div class="row">
     <div class="col-sm-12">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_ECONOMIC_SETTINGS'); ?></h3>
+                <h3 class="box-title">
+                    <?php echo Text::_('COM_REDSHOP_ECONOMIC_SETTINGS'); ?>
+                </h3>
             </div>
             <div class="box-body">
                 <table class="admintable" border="0">
@@ -28,7 +31,7 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                                 <tr>
                                     <td class="key">
                                         <label for="accountgroup_id">
-                                            <?php echo JText::_('COM_REDSHOP_ECONOMIC_ACCOUNTGROUP_LBL'); ?>
+                                            <?php echo Text::_('COM_REDSHOP_ECONOMIC_ACCOUNTGROUP_LBL'); ?>
                                         </label>
                                     </td>
                                     <td>
@@ -36,9 +39,10 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                                     </td>
                                     <td>
                                         <?php
-                                        echo JHtml::_('redshop.tooltip',
-                                            JText::_('COM_REDSHOP_TOOLTIP_ECONOMIC_ACCOUNTGROUP_LBL'),
-                                            JText::_('COM_REDSHOP_ECONOMIC_ACCOUNTGROUP_LBL')
+                                        echo JHtml::_(
+                                            'redshop.tooltip',
+                                            Text::_('COM_REDSHOP_TOOLTIP_ECONOMIC_ACCOUNTGROUP_LBL'),
+                                            Text::_('COM_REDSHOP_ECONOMIC_ACCOUNTGROUP_LBL')
                                         );
                                         ?>
                                     </td>
@@ -47,23 +51,20 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
                                 <tr>
                                     <td class="key">
                                         <label for="quantity_selectbox_value">
-                                            <?php echo JText::_('COM_REDSHOP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL'); ?>
+                                            <?php echo Text::_('COM_REDSHOP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL'); ?>
                                         </label>
                                     </td>
                                     <td>
-                                        <input class="text_area"
-                                               type="text"
-                                               name="quantity_selectbox_value"
-                                               id="quantity_selectbox_value"
-                                               size="10"
-                                               value="<?php echo $this->lists['QUANTITY_SELECTBOX_VALUE']; ?>"
-                                        />
+                                        <input class="text_area" type="text" name="quantity_selectbox_value"
+                                            id="quantity_selectbox_value" size="10"
+                                            value="<?php echo $this->lists['QUANTITY_SELECTBOX_VALUE']; ?>" />
                                     </td>
                                     <td>
                                         <?php
-                                        echo JHtml::_('redshop.tooltip',
-                                            JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL'),
-                                            JText::_('COM_REDSHOP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL')
+                                        echo JHtml::_(
+                                            'redshop.tooltip',
+                                            Text::_('COM_REDSHOP_TOOLTIP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL'),
+                                            Text::_('COM_REDSHOP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL')
                                         );
                                         ?>
                                     </td>
@@ -71,7 +72,7 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
                                 <tr>
                                     <td colspan="2">
-                                        <hr/>
+                                        <hr />
                                     </td>
                                 </tr>
 
@@ -85,4 +86,3 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
         </div>
     </div>
 </div>
-

@@ -579,7 +579,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 $quantityLbl = RedshopLayoutHelper::render(
                     'tags.common.label',
                     array(
-                        'text'  => JText::_('COM_REDSHOP_QUANTITY_LBL'),
+                        'text'  => Text::_('COM_REDSHOP_QUANTITY_LBL'),
                         'id'    => 'quantity' . $productId,
                         'class' => 'ajax_cart_box_title'
                     ),

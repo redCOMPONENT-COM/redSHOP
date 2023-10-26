@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * The states view
  *
@@ -47,10 +49,10 @@ class RedshopViewStates extends RedshopViewList
 
         if ($config['dataCol'] === 'show_state') {
             if ($value === 3) {
-                return JText::_('COM_REDSHOP_THREE_LETTER_ABBRIVATION');
+                return Text::_('COM_REDSHOP_THREE_LETTER_ABBRIVATION');
             }
 
-            return JText::_('COM_REDSHOP_TWO_LETTER_ABBRIVATION');
+            return Text::_('COM_REDSHOP_TWO_LETTER_ABBRIVATION');
         }
 
         return parent::onRenderColumn($config, $index, $row);

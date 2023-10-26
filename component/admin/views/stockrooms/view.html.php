@@ -9,47 +9,48 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewStockrooms extends RedshopViewList
 {
-	/**
-	 * Method for render column
-	 *
-	 * @param array  $config Row config.
-	 * @param int    $index  Row index.
-	 * @param object $row    Row data.
-	 *
-	 * @return  string
-	 * @throws  Exception
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function onRenderColumn($config, $index, $row)
-	{
-		switch ($config['dataCol']) {
-			case 'name':
-				$sotcklink = Redshop\IO\Route::_(
-					'index.php?option=com_redshop&task=stockroom.edit&id=' . $row->id
-				);
+    /**
+     * Method for render column
+     *
+     * @param array  $config Row config.
+     * @param int    $index  Row index.
+     * @param object $row    Row data.
+     *
+     * @return  string
+     * @throws  Exception
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onRenderColumn($config, $index, $row)
+    {
+        switch ($config['dataCol']) {
+            case 'name':
+                $sotcklink = Redshop\IO\Route::_(
+                    'index.php?option=com_redshop&task=stockroom.edit&id=' . $row->id
+                );
 
-				return '<a href="'. $sotcklink .'">'. $row->name .'</a>';
-			case 'show_in_front':
-				return JHTML::_('grid.published', $row->show_in_front, $index, 'tick.png', 'publish_x.png', 'front');
-			default:
-				return parent::/** @scrutinizer ignore-call */ onRenderColumn($config, $index, $row);
-		}
-	}
+                return '<a href="' . $sotcklink . '">' . $row->name . '</a>';
+            case 'show_in_front':
+                return JHTML::_('grid.published', $row->show_in_front, $index, 'tick.png', 'publish_x.png', 'front');
+            default:
+                return parent:: /** @scrutinizer ignore-call */onRenderColumn($config, $index, $row);
+        }
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		JToolbarHelper::custom('listing', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_LISTING'), false);
-		parent::addToolbar();
-	}
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        JToolbarHelper::custom('listing', 'copy.png', 'copy_f2.png', Text::_('COM_REDSHOP_LISTING'), false);
+        parent::addToolbar();
+    }
 }

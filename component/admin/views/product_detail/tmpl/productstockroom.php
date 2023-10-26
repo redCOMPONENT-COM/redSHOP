@@ -7,24 +7,24 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /*
  * ToDo: Check why we have default_productstockroom.php and productstockroom.php?
  */
-$model = $this->getModel('product_detail');
 
-$cid = $this->input->getInt('cid', 0);
-
-$section_id = $this->input->getInt('section_id', 0);
+$model      = $this->getModel('product_detail');
+$cid        = $this->input->getInt('cid', 0);
+$sectionId  = $this->input->getInt('section_id', 0);
 $section    = $this->input->getString('property', '');
-
-
 $stockrooms = $model->StockRoomList();
 
 ?>
 <form action="<?php echo Redshop\IO\Route::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
-      enctype="multipart/form-data">
+    enctype="multipart/form-data">
 
     <table class="admintable" width="100%">
 
@@ -34,67 +34,74 @@ $stockrooms = $model->StockRoomList();
                 <table id="accessory_table" class="adminlist table table-striped" border="0">
 
                     <thead>
-                    <tr>
-                        <th><?php echo JText::_('COM_REDSHOP_STOCKROOM_NAME'); ?></th>
-                        <th><?php echo JText::_('COM_REDSHOP_STOCKROOM_QTY'); ?></th>
-                        <th><?php echo JText::_('COM_REDSHOP_PREORDER_STOCKROOM_QTY'); ?></th>
-                        <th><?php echo JText::_('COM_REDSHOP_ALREDAY_ORDERED_PREORDER_STOCKROOM_QTY'); ?></th>
-                    </tr>
+                        <tr>
+                            <th>
+                                <?php echo Text::_('COM_REDSHOP_STOCKROOM_NAME'); ?>
+                            </th>
+                            <th>
+                                <?php echo Text::_('COM_REDSHOP_STOCKROOM_QTY'); ?>
+                            </th>
+                            <th>
+                                <?php echo Text::_('COM_REDSHOP_PREORDER_STOCKROOM_QTY'); ?>
+                            </th>
+                            <th>
+                                <?php echo Text::_('COM_REDSHOP_ALREDAY_ORDERED_PREORDER_STOCKROOM_QTY'); ?>
+                            </th>
+                        </tr>
                     </thead>
 
                     <tbody>
-                    <?php
+                        <?php
 
-                    if (count($stockrooms) > 0) {
-                        foreach ($stockrooms as $s) {
-                            $ordered_preorder = "";
-                            $preorder_stock = "";
-                            $quantity = $model->StockRoomAttProductQuantity(
-                                $section_id,
-                                $s->id,
-                                $section
-                            );
-                            $preorder_stock_data = $model->StockRoomAttProductPreorderstock(
-                                $section_id,
-                                $s->id,
-                                $section
-                            );
+                        if (count($stockrooms) > 0) {
+                            foreach ($stockrooms as $s) {
+                                $ordered_preorder    = "";
+                                $preorder_stock      = "";
+                                $quantity            = $model->StockRoomAttProductQuantity(
+                                    $sectionId,
+                                    $s->id,
+                                    $section
+                                );
+                                $preorder_stock_data = $model->StockRoomAttProductPreorderstock(
+                                    $sectionId,
+                                    $s->id,
+                                    $section
+                                );
 
-                            if ($preorder_stock_data) {
-                                $ordered_preorder = $preorder_stock_data[0]->ordered_preorder;
-                                $preorder_stock   = $preorder_stock_data[0]->preorder_stock;
+                                if ($preorder_stock_data) {
+                                    $ordered_preorder = $preorder_stock_data[0]->ordered_preorder;
+                                    $preorder_stock   = $preorder_stock_data[0]->preorder_stock;
+                                }
+                                ?>
+
+                                <tr>
+                                    <td>
+                                        <?php echo $s->name; ?>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="quantity[]" size="5" class="text_area input-small" min="0"
+                                            oninput="validity.valid||(value='');" value="<?php echo $quantity; ?>" />
+                                        <input type="hidden" name="stockroom_id[]" value="<?php echo $s->id; ?>" />
+                                    </td>
+                                    <td>
+                                        <input type="number" name="preorder_stock[]" size="5" class="text_area input-small"
+                                            min="0" oninput="validity.valid||(value='');"
+                                            value="<?php echo $preorder_stock; ?>" />
+                                        <input type="button" class="btn btn-small" name="preorder_reset"
+                                            value="<?php echo Text::_('COM_REDSHOP_RESET'); ?>"
+                                            onclick="location.href = 'index.php?option=com_redshop&view=product_detail&task=ResetPreorderStockBank&stockroom_type=<?php echo $section ?>&section_id=<?php echo $sectionId ?>&cid=<?php echo $cid ?>&product_id=<?php echo $this->detail->product_id ?>&stockroom_id=<?php echo $s->id ?>' ; " />
+                                    </td>
+                                    <td>
+                                        <?php echo $ordered_preorder; ?>
+                                        <input type="hidden" name="ordered_preorder[]"
+                                            value="<?php echo $ordered_preorder; ?>" />
+                                    </td>
+                                </tr>
+
+                                <?php
                             }
-                            ?>
-
-                            <tr>
-                                <td>
-                                    <?php echo $s->name; ?>
-                                </td>
-                                <td>
-                                    <input type="number" name="quantity[]" size="5" class="text_area input-small"
-                                           min="0" oninput="validity.valid||(value='');" value="<?php echo $quantity; ?>"/>
-                                    <input type="hidden" name="stockroom_id[]" value="<?php echo $s->id; ?>"/>
-                                </td>
-                                <td>
-                                    <input type="number" name="preorder_stock[]" size="5" class="text_area input-small"
-                                           min="0" oninput="validity.valid||(value='');" value="<?php echo $preorder_stock; ?>"/>
-                                    <input type="button" class="btn btn-small"
-                                           name="preorder_reset"
-                                           value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
-                                           onclick="location.href = 'index.php?option=com_redshop&view=product_detail&task=ResetPreorderStockBank&stockroom_type=<?php echo $section ?>&section_id=<?php echo $section_id ?>&cid=<?php echo $cid ?>&product_id=<?php echo $this->detail->product_id ?>&stockroom_id=<?php echo $s->id ?>' ; "
-                                    />
-                                </td>
-                                <td>
-                                    <?php echo $ordered_preorder; ?>
-                                    <input type="hidden" name="ordered_preorder[]"
-                                           value="<?php echo $ordered_preorder; ?>"/>
-                                </td>
-                            </tr>
-
-                            <?php
                         }
-                    }
-                    ?>
+                        ?>
                     </tbody>
 
                 </table>
@@ -112,7 +119,7 @@ $stockrooms = $model->StockRoomList();
             <td colspan="2">
                 <input type="hidden" name="view" value="product_detail">
                 <input type="hidden" name="task" value="saveAttributeStock">
-                <input type="hidden" name="section_id" value="<?php echo $section_id; ?>">
+                <input type="hidden" name="section_id" value="<?php echo $sectionId; ?>">
                 <input type="hidden" name="section" value="<?php echo $section; ?>">
                 <input type="hidden" name="cid" value="<?php echo $cid; ?>">
             </td>

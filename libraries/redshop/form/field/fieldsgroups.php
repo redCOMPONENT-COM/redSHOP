@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -45,7 +47,7 @@ class RedshopFormFieldFieldsgroups extends JFormFieldList
         $groups = $model->getItems();
 
         $options = array(
-            JHtml::_('select.option', 0, JText::_('COM_REDSHOP_FIELD_GROUP_NOGROUP'))
+            JHtml::_('select.option', 0, Text::_('COM_REDSHOP_FIELD_GROUP_NOGROUP'))
         );
 
         if ($groups) {

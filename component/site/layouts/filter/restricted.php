@@ -7,26 +7,30 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
+
 ?>
 <div class="form-horizontal">
     <div class="row-fluid">
         <?php if ($params->category == 1 && !empty($categories)): ?>
             <div id="categories">
-                <h3><?php echo JText::_('MOD_REDSHOP_FILTER_CATEGORY_LABEL'); ?></h3>
+                <h3><?php echo Text::_('MOD_REDSHOP_FILTER_CATEGORY_LABEL'); ?></h3>
                 <ul class='taglist'>
                     <?php foreach ($categories as $key => $cat) : ?>
                         <li>
                             <label>
-									<span class='taginput' data-aliases='cat-<?php echo $cat->id; ?>'>
-										<input type="checkbox" name="redform[category][]" value="<?php echo $cat->id ?>"
-											<?php if (in_array($cat->id, $formData['redform']['categories'])) : ?>
+                                    <span class='taginput' data-aliases='cat-<?php echo $cat->id; ?>'>
+                                        <input type="checkbox" name="redform[category][]" value="<?php echo $cat->id ?>"
+                                            <?php if (in_array($cat->id, $formData['redform']['categories'])) : ?>
                                                 <?php echo "checked='checked'"; ?>
                                             <?php endif; ?>
                                                onchange="javascript:Joomla.submitform(this)"
                                         />
-										<span class='tagname'><?php echo $cat->name; ?></span>
-									</span>
+                                        <span class='tagname'><?php echo $cat->name; ?></span>
+                                    </span>
                             </label>
                         </li>
                     <?php endforeach; ?>
@@ -36,10 +40,10 @@ extract($displayData);
     </div>
     <?php if ($params->manufacturer == 1 && !empty($manufacturers)): ?>
         <div id='manu'>
-            <label class="title"><?php echo JText::_("MOD_REDSHOP_FILTER_MANUFACTURER_LABEL"); ?></label>
+            <label class="title"><?php echo Text::_("MOD_REDSHOP_FILTER_MANUFACTURER_LABEL"); ?></label>
             <div class="brand-input">
                 <input type="text" name="keyword-manufacturer" id="keyword-manufacturer"
-                       placeholder="<?php echo JText::_('MOD_REDSHOP_FILTER_TYPE_A_KEYWORD') ?>"/>
+                       placeholder="<?php echo Text::_('MOD_REDSHOP_FILTER_TYPE_A_KEYWORD') ?>"/>
                 <i class="icon-search"></i>
             </div>
             <ul class='taglist' id="manufacture-list">
@@ -48,15 +52,15 @@ extract($displayData);
                     <?php foreach ($manufacturers as $m => $manu) : ?>
                         <li style="list-style: none">
                             <label>
-								<span class='taginput' data-aliases='manu-<?php echo $manu->id; ?>'>
-								<input type="checkbox" name="redform[manufacturer][]"
+                                <span class='taginput' data-aliases='manu-<?php echo $manu->id; ?>'>
+                                <input type="checkbox" name="redform[manufacturer][]"
                                        value="<?php echo $manu->id ?>"
-									<?php if (in_array($manu->id, $manufacturersValue)) : ?>
+                                    <?php if (in_array($manu->id, $manufacturersValue)) : ?>
                                         <?php echo "checked='checked'"; ?>
                                     <?php endif; ?>
                                        onchange="javascript:Joomla.submitform(this)"
                                 >
-								</span>
+                                </span>
                                 <span class='tagname'><?php echo $manu->name; ?></span>
                             </label>
                         </li>
@@ -68,25 +72,25 @@ extract($displayData);
     <div class="row-fluid">
         <?php if ($params->custom_field == 1 && !empty($customFields)): ?>
             <div id="customFields">
-                <h3><?php echo JText::_('MOD_REDSHOP_FILTER_CUSTOM_FIELDS_LABEL'); ?></h3>
+                <h3><?php echo Text::_('MOD_REDSHOP_FILTER_CUSTOM_FIELDS_LABEL'); ?></h3>
                 <ul class='taglist'>
                     <?php foreach ($customFields as $key => $fields) : ?>
                         <h4><?php echo $fields['title']; ?></h4>
                         <?php foreach ($fields['value'] as $value => $name) : ?>
                             <li>
                                 <label>
-									<span class='taginput' data-aliases='cat-<?php echo $value; ?>'>
-										<input type="checkbox" name="redform[custom_field][<?php echo $key; ?>][]"
+                                    <span class='taginput' data-aliases='cat-<?php echo $value; ?>'>
+                                        <input type="checkbox" name="redform[custom_field][<?php echo $key; ?>][]"
                                                value="<?php echo urlencode($value); ?>"
-											<?php foreach ($formData['redform']['custom_field'] as $fieldId => $data) : ?>
+                                            <?php foreach ($formData['redform']['custom_field'] as $fieldId => $data) : ?>
                                                 <?php if (in_array($value, $data) && $key == $fieldId) : ?>
                                                     <?php echo "checked='checked'"; ?>
                                                 <?php endif; ?>
                                             <?php endforeach; ?>
                                                onchange="javascript:Joomla.submitform(this)"
                                         />
-										<span class='tagname'><?php echo $name; ?></span>
-									</span>
+                                        <span class='tagname'><?php echo $name; ?></span>
+                                    </span>
                                 </label>
                             </li>
                         <?php endforeach; ?>
@@ -97,7 +101,7 @@ extract($displayData);
     </div>
     <?php if ($params->price == 1) : ?>
         <div class="row-fluid">
-            <div class="price"><?php echo JText::_("MOD_REDSHOP_FILTER_PRICE_LABEL"); ?></div>
+            <div class="price"><?php echo Text::_("MOD_REDSHOP_FILTER_PRICE_LABEL"); ?></div>
             <div id="slider-range"></div>
             <div id="filter-price">
                 <div id="amount-min">
@@ -114,7 +118,7 @@ extract($displayData);
         </div>
     <?php endif; ?>
     <span id="clear-btn" class="clear-btn"
-          onclick="clearAll();"><?php echo JText::_("MOD_REDSHOP_FILTER_CLEAR_LABEL"); ?></span>
+          onclick="clearAll();"><?php echo Text::_("MOD_REDSHOP_FILTER_CLEAR_LABEL"); ?></span>
 </div>
 <input type="hidden" name="redform[cid]"
        value="<?php echo !empty($formData['redform']['cid']) ? $formData['redform']['cid'] : 0; ?>"/>

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use WhichBrowser\Parser;
 
@@ -66,8 +67,8 @@ class RedshopHelperPayment
         $query = $db->getQuery(true)
             ->select('COUNT(*)')
             ->from($db->qn('#__redshop_order_payment'))
-            ->where($db->qn('order_id') . ' = ' . (int)$orderId)
-            ->where($db->qn('order_payment_trans_id') . ' = ' . $db->quote((int)$transactionId));
+            ->where($db->qn('order_id') . ' = ' . (int) $orderId)
+            ->where($db->qn('order_payment_trans_id') . ' = ' . $db->quote((int) $transactionId));
 
         $result = $db->setQuery($query)->loadResult();
 
@@ -92,10 +93,12 @@ class RedshopHelperPayment
      */
     public static function replaceConditionTag($template = '', $amount = 0, $cart = 0, $paymentOprand = '-')
     {
-        if (strpos($template, '{if payment_discount}') === false || strpos(
+        if (
+            strpos($template, '{if payment_discount}') === false || strpos(
                 $template,
                 '{payment_discount end if}'
-            ) === false) {
+            ) === false
+        ) {
             return $template;
         }
 
@@ -118,7 +121,7 @@ class RedshopHelperPayment
             RedshopHelperProductPrice::formattedPrice($amount),
             $template
         );
-        $payText  = ($paymentOprand == '+') ? JText::_('COM_REDSHOP_PAYMENT_CHARGES_LBL') : JText::_(
+        $payText  = ($paymentOprand == '+') ? Text::_('COM_REDSHOP_PAYMENT_CHARGES_LBL') : Text::_(
             'COM_REDSHOP_PAYMENT_DISCOUNT_LBL'
         );
         $template = str_replace("{payment_discount_lbl}", $payText, $template);
@@ -152,7 +155,7 @@ class RedshopHelperPayment
             ->from($db->qn('#__redshop_product_payment_xref'));
 
         if ($productId) {
-            $query->where($db->qn('product_id') . ' = ' . $db->q((int)$productId));
+            $query->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
         }
 
         $selectedPayments = $db->setQuery($query)->loadObjectList();
@@ -163,9 +166,9 @@ class RedshopHelperPayment
 
         $multiple = $multiple ? "multiple=\"multiple\"" : "";
         $id       = str_replace('[]', '', $name);
-        $html     .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
-        $html     .= self::listTree($selectedPayments);
-        $html     .= "</select>\n";
+        $html .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
+        $html .= self::listTree($selectedPayments);
+        $html .= "</select>\n";
 
         return $html;
     }
@@ -214,13 +217,13 @@ class RedshopHelperPayment
 
             if ($disabled != '' && $isMsIE) {
                 // IE7 suffers from a bug, which makes disabled option fields selectable
-                $html .= "<option $selected value=\"$value\">" . JText::_(
-                        'PLG_' . strtoupper($oneMethod->name)
-                    ) . "</option>";
+                $html .= "<option $selected value=\"$value\">" . Text::_(
+                    'PLG_' . strtoupper($oneMethod->name)
+                ) . "</option>";
             } else {
-                $html .= "<option $selected $disabled value=\"$value\">" . JText::_(
-                        'PLG_' . strtoupper($oneMethod->name)
-                    ) . "</option>";
+                $html .= "<option $selected $disabled value=\"$value\">" . Text::_(
+                    'PLG_' . strtoupper($oneMethod->name)
+                ) . "</option>";
             }
         }
 
@@ -307,7 +310,7 @@ class RedshopHelperPayment
         $query = $db->getQuery(true)
             ->select($db->qn('payment_id'))
             ->from($db->qn('#__redshop_product_payment_xref'))
-            ->where($db->qn('product_id') . ' = ' . $db->q((int)$productId));
+            ->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
 
         return $db->setQuery($query)->loadColumn();
     }
@@ -360,7 +363,7 @@ class RedshopHelperPayment
                 ->where($db->qn('b.use_individual_payment_method') . ' = 1');
 
             if ($productId) {
-                $query->where($db->qn('a.product_id') . ' = ' . $db->q((int)$productId));
+                $query->where($db->qn('a.product_id') . ' = ' . $db->q((int) $productId));
             }
 
             $db->setQuery($query);
@@ -437,7 +440,7 @@ class RedshopHelperPayment
                 ->where($db->qn('b.use_individual_payment_method') . ' = 1');
 
             if ($productId) {
-                $query->where($db->qn('a.product_id') . ' = ' . $db->q((int)$productId));
+                $query->where($db->qn('a.product_id') . ' = ' . $db->q((int) $productId));
             }
 
             $db->setQuery($query);
@@ -450,11 +453,11 @@ class RedshopHelperPayment
             }
 
             $product = \Redshop\Product\Product::getProductById($productId);
-            $html    .= '<div class="row"><label class="col-xs-5">' . $product->product_name . '</label><div class="col-xs-7">';
+            $html .= '<div class="row"><label class="col-xs-5">' . $product->product_name . '</label><div class="col-xs-7">';
             $tmp     = '';
 
             foreach ($payments as $p) {
-                $tmp .= JText::_('PLG_' . strtoupper($p)) . ',';
+                $tmp .= Text::_('PLG_' . strtoupper($p)) . ',';
             }
 
             $tmp  = rtrim($tmp, ",");

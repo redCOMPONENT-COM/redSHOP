@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 jimport('joomla.log.log');
 
 /**
@@ -64,8 +66,9 @@ class RedshopProduct
             } else {
                 $this->info = new JObject;
             }
-        } catch (Exception $e) {
-            JLog::add(JText::_('COM_REDSHOP_ERROR_INVALID_PRODUCT_ID'), JLog::WARNING, 'com_redshop');
+        }
+        catch (Exception $e) {
+            JLog::add(Text::_('COM_REDSHOP_ERROR_INVALID_PRODUCT_ID'), JLog::WARNING, 'com_redshop');
         }
     }
 
@@ -134,7 +137,7 @@ class RedshopProduct
      */
     public function id()
     {
-        return (int)$this->info->product_id;
+        return (int) $this->info->product_id;
     }
 
     /**

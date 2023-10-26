@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -47,7 +49,7 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
         $wrapper      = $this->data['wrapper'];
         $wrapperStart = explode("{product_wrapper_start}", $this->template);
 
-        if (isset ($wrapperStart[1])) {
+        if (isset($wrapperStart[1])) {
             $wrapperStart   = explode("{product_wrapper_end}", $wrapperStart[1]);
             $this->template = $wrapperStart[0];
         }
@@ -82,13 +84,13 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
             RedshopLayoutHelper::$layoutOption
         );
 
-        $this->template     .= $hidden;
-        $wObj               = new stdClass;
-        $wObj->id   = 0;
-        $wObj->name = JText::_('COM_REDSHOP_SELECT_WRAPPER');
-        $warray[]           = $wObj;
-        $wrapperimageDiv    = "";
-        $wrapperimageDiv    .= "<table><tr>";
+        $this->template .= $hidden;
+        $wObj            = new stdClass;
+        $wObj->id        = 0;
+        $wObj->name      = Text::_('COM_REDSHOP_SELECT_WRAPPER');
+        $warray[]        = $wObj;
+        $wrapperimageDiv = "";
+        $wrapperimageDiv .= "<table><tr>";
 
         for ($i = 0, $in = count($wrapper); $i < $in; $i++) {
             $wrapperVat = 0;
@@ -103,12 +105,14 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
             $title        = $wrapper[$i]->name;
             $alt          = $wrapper[$i]->name;
 
-            if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get(
-                        'DEFAULT_QUOTATION_MODE'
-                    ) || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE))) {
+            if (
+                Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get(
+                    'DEFAULT_QUOTATION_MODE'
+                ) || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE))
+            ) {
                 $wrapper[$i]->name = $wrapper[$i]->name . " (" . strip_tags(
-                        RedshopHelperProductPrice::formattedPrice($wp)
-                    ) . ")";
+                    RedshopHelperProductPrice::formattedPrice($wp)
+                ) . ")";
             }
 
             $wrapperimageDiv .= "<td id='wrappertd" . $wid . "'>";
@@ -152,12 +156,14 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
                     RedshopLayoutHelper::$layoutOption
                 );
 
-                $wrapperimageDiv       .= $brTag;
+                $wrapperimageDiv .= $brTag;
                 $wrapperPriceFormatted = '';
 
-                if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get(
-                            'DEFAULT_QUOTATION_MODE'
-                        ) || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE))) {
+                if (
+                    Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get(
+                        'DEFAULT_QUOTATION_MODE'
+                    ) || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE))
+                ) {
                     $wrapperPriceFormatted .= RedshopHelperProductPrice::formattedPrice($wp);
                 }
 
@@ -241,10 +247,10 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
                 0
             );
 
-            $this->addReplace('{wrapper_dropdown}', $lists ['wrapper_id']);
+            $this->addReplace('{wrapper_dropdown}', $lists['wrapper_id']);
             $this->addReplace('{wrapper_image}', $wrapperimageDiv);
             $this->addReplace('{wrapper_price}', '');
-            $wrapperCheckbox = JText::_('COM_REDSHOP_Add_WRAPPER');
+            $wrapperCheckbox = Text::_('COM_REDSHOP_Add_WRAPPER');
 
             $checkbox = RedshopLayoutHelper::render(
                 'tags.common.input',

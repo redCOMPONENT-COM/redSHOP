@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Account Controller.
  *
@@ -33,9 +35,9 @@ class RedshopControllerAccount extends RedshopController
         $model = $this->getModel('account');
 
         if ($model->editTag($app->input->post->getArray())) {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_TAG_EDITED_SUCCESSFULLY'));
+            $app->enqueueMessage(Text::_('COM_REDSHOP_TAG_EDITED_SUCCESSFULLY'));
         } else {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_EDITING_TAG'));
+            $app->enqueueMessage(Text::_('COM_REDSHOP_ERROR_EDITING_TAG'));
         }
 
         $this->setRedirect(
@@ -59,17 +61,17 @@ class RedshopControllerAccount extends RedshopController
         $wishListId = $input->get('wishlist_id');
 
         if ($input->get('emailto') == "") {
-            $msg = JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_TO');
+            $msg = Text::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_TO');
         } elseif ($input->get('sender') == "") {
-            $msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SENDER_NAME');
+            $msg = Text::_('COM_REDSHOP_PLEASE_ENTER_SENDER_NAME');
         } elseif ($input->get('email') == "") {
-            $msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SENDER_EMAIL');
+            $msg = Text::_('COM_REDSHOP_PLEASE_ENTER_SENDER_EMAIL');
         } elseif ($input->get('subject') == "") {
-            $msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SUBJECT');
+            $msg = Text::_('COM_REDSHOP_PLEASE_ENTER_SUBJECT');
         } elseif (Redshop\Account\Wishlist::send($input->getArray())) {
-            $msg = JText::_('COM_REDSHOP_SEND_SUCCESSFULLY');
+            $msg = Text::_('COM_REDSHOP_SEND_SUCCESSFULLY');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_SENDING');
+            $msg = Text::_('COM_REDSHOP_ERROR_SENDING');
         }
 
         $url = 'index.php?option=com_redshop&view=account&layout=mywishlist&mail=0&window=1&tmpl=component'
@@ -91,7 +93,7 @@ class RedshopControllerAccount extends RedshopController
         $itemId = JFactory::getApplication()->input->getInt('Itemid');
         $this->setRedirect(
             Redshop\IO\Route::_("index.php?option=com_redshop&view=account&Itemid=" . $itemId, false),
-            JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS')
+            Text::_('COM_REDSHOP_SUBSCRIBE_SUCCESS')
         );
     }
 
@@ -107,7 +109,7 @@ class RedshopControllerAccount extends RedshopController
         $itemId = JFactory::getApplication()->input->getInt('Itemid');
 
         RedshopHelperNewsletter::removeSubscribe($user->email);
-        $msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
+        $msg = Text::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
 
         $this->setRedirect(Redshop\IO\Route::_("index.php?option=com_redshop&view=account&Itemid=" . $itemId, false), $msg);
     }
@@ -138,14 +140,14 @@ class RedshopControllerAccount extends RedshopController
 
             $app->logout(null, $options);
 
-			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCOUNT_DELETED_SUCCESSFULLY'));
+            $app->enqueueMessage(Text::_('COM_REDSHOP_ACCOUNT_DELETED_SUCCESSFULLY'));
             $app->redirect(
                 Redshop\IO\Route::_('index.php?option=com_users&view=login', false)
             );
         } else {
             $this->setRedirect(
                 Redshop\IO\Route::_("index.php?option=com_redshop&view=account&Itemid=" . $itemId, false),
-                JText::_('COM_REDSHOP_ACCOUNT_DELETED_FAIL')
+                Text::_('COM_REDSHOP_ACCOUNT_DELETED_FAIL')
             );
         }
     }

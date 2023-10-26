@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Giftcard detail view
  *
@@ -62,10 +64,10 @@ class RedshopViewGiftcard extends RedshopViewAdmin
 
         $isNew = ($this->item->giftcard_id < 1);
 
-        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+        $text = $isNew ? Text::_('COM_REDSHOP_NEW') : Text::_('COM_REDSHOP_EDIT');
 
         // Prepare text for title
-        $title = JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT') . ': <small>[ ' . $text . ' ]</small>';
+        $title = Text::_('COM_REDSHOP_GIFTCARD_MANAGEMENT') . ': <small>[ ' . $text . ' ]</small>';
 
         JToolBarHelper::title($title, 'redshop_giftcard_48');
         JToolBarHelper::apply('giftcard.apply');
@@ -74,7 +76,7 @@ class RedshopViewGiftcard extends RedshopViewAdmin
         if ($isNew) {
             JToolBarHelper::cancel('giftcard.cancel');
         } else {
-            JToolBarHelper::cancel('giftcard.cancel', JText::_('JTOOLBAR_CLOSE'));
+            JToolBarHelper::cancel('giftcard.cancel', Text::_('JTOOLBAR_CLOSE'));
         }
     }
 }

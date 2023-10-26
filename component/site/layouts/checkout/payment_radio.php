@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Layout variables
  * ==========================
@@ -23,7 +25,6 @@ defined('_JEXEC') or die;
 extract($displayData);
 
 $checkedClass = $checked ? 'paymentgtwchecked' : '';
-
 $params = new JRegistry($oneMethod->params);
 $logo   = $params->get('logo', '');
 
@@ -32,7 +33,6 @@ $lang->load('plg_redshop_payment_rs_payment_banktransfer', JPATH_ADMINISTRATOR, 
 $lang->load('plg_redshop_payment_rs_payment_paypal', JPATH_ADMINISTRATOR, 'en-GB', true);
 
 ?>
-
 <div id="<?php echo $oneMethod->name ?>" class="<?php echo $checkedClass ?>">
     <label class="radio" for="<?php echo $oneMethod->name . $index ?>">
         <input
@@ -46,11 +46,11 @@ $lang->load('plg_redshop_payment_rs_payment_paypal', JPATH_ADMINISTRATOR, 'en-GB
 
         <?php if (!empty($logo) && JFile::exists(JPATH_ROOT . '/' . $logo)): ?>
             <img
-                    alt="<?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?>"
-                    title="<?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?>"
+                    alt="<?php echo Text::_('PLG_' . strtoupper($oneMethod->name)) ?>"
+                    title="<?php echo Text::_('PLG_' . strtoupper($oneMethod->name)) ?>"
                     src="<?php echo JUri::root() . $logo ?>"/>
         <?php endif; ?>
 
-        <span><?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?></span>
+        <span><?php echo Text::_('PLG_' . strtoupper($oneMethod->name)) ?></span>
     </label>
 </div>

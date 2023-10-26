@@ -9,18 +9,19 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $document = JFactory::getDocument();
 
 // For barcode
 $model = $this->getModel('order_detail');
 $order = $this->OrdersDetail;
-$document->setTitle(JText::_('COM_REDSHOP_ORDER_RECEIPT_TITLE'));
-?>
-<?php
+$document->setTitle(Text::_('COM_REDSHOP_ORDER_RECEIPT_TITLE'));
+
 if ($this->params->get('show_page_title', 1)) {
     ?>
     <h1 class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
-        <?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_RECEIPT')); ?>
+        <?php echo $this->escape(Text::_('COM_REDSHOP_ORDER_RECEIPT')); ?>
     </h1>
     <?php
 }

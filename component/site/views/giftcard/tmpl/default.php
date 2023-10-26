@@ -9,20 +9,21 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHTML::_('bootstrap.modal');
 
 $redTemplate = Redtemplate::getInstance();
 $app         = JFactory::getApplication();
-
-$model     = $this->getModel('giftcard');
-$url       = JURI::base();
-$itemid    = $app->input->getInt('Itemid');
-$gid       = $app->input->getInt('gid', 0);
-$session   = JFactory::getSession();
-$cart      = $session->get('cart');
-$pagetitle = $this->pageheadingtag;
-$detail    = $this->detail;
-$router    = $app->getRouter();
+$model       = $this->getModel('giftcard');
+$url         = JURI::base();
+$itemid      = $app->input->getInt('Itemid');
+$gid         = $app->input->getInt('gid', 0);
+$session     = JFactory::getSession();
+$cart        = $session->get('cart');
+$pagetitle   = $this->pageheadingtag;
+$detail      = $this->detail;
+$router      = $app->getRouter();
 
 if (count($this->template) > 0) {
     $template = $this->template[0]->template_desc;
@@ -77,8 +78,8 @@ if ($gid != 0) {
             '0'
         );
         $thum_image  = "<a class=\"modal\" href='" . $linkimage . "' title='" . $detail->giftcard_name . "' rel=\"{handler: 'image', size: {}}\">";
-        $thum_image  .= "<img src='" . $product_img . "' title='" . $detail->giftcard_name . "' alt='" . $detail->giftcard_name . "'>";
-        $thum_image  .= "</a>";
+        $thum_image .= "<img src='" . $product_img . "' title='" . $detail->giftcard_name . "' alt='" . $detail->giftcard_name . "'>";
+        $thum_image .= "</a>";
 
         $template = str_replace("{giftcard_image}", $thum_image, $template);
     }
@@ -88,10 +89,10 @@ if ($gid != 0) {
         RedshopHelperProductPrice::formattedPrice($detail->giftcard_value),
         $template
     );
-    $template = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $template);
+    $template = str_replace("{giftcard_value_lbl}", Text::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $template);
 
     if ($detail->customer_amount != 1) {
-        $template = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $template);
+        $template = str_replace("{giftcard_price_lbl}", Text::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $template);
     } else {
         $template = str_replace("{giftcard_price_lbl}", '', $template);
     }
@@ -120,12 +121,12 @@ if ($gid != 0) {
     if ($detail->customer_amount != 1 || $detail->customer_amount == 1) {
         $template = str_replace(
             "{giftcard_reciver_name_lbl}",
-            JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'),
+            Text::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'),
             $template
         );
         $template = str_replace(
             "{giftcard_reciver_email_lbl}",
-            JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'),
+            Text::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'),
             $template
         );
     } else {
@@ -141,16 +142,16 @@ if ($gid != 0) {
     if ($detail->customer_amount == 1) {
         $template = str_replace(
             "{giftcard_reciver_name_lbl}",
-            JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'),
+            Text::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'),
             $template
         );
         $template = str_replace(
             "{giftcard_reciver_email_lbl}",
-            JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'),
+            Text::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'),
             $template
         );
-        $template = str_replace("{customer_quantity_lbl}", JText::_('COM_REDSHOP_CUSTOMER_QUANTITY_LBL'), $template);
-        $template = str_replace("{customer_amount_lbl}", JText::_('COM_REDSHOP_CUSTOMER_AMOUNT_LBL'), $template);
+        $template = str_replace("{customer_quantity_lbl}", Text::_('COM_REDSHOP_CUSTOMER_QUANTITY_LBL'), $template);
+        $template = str_replace("{customer_amount_lbl}", Text::_('COM_REDSHOP_CUSTOMER_AMOUNT_LBL'), $template);
     } else {
         $template = str_replace("{giftcard_reciver_name_lbl}", '', $template);
         $template = str_replace("{giftcard_reciver_email_lbl}", '', $template);
@@ -184,15 +185,17 @@ if ($gid != 0) {
     $template_userfield = $returnArr[0];
     $userfieldArr       = $returnArr[1];
 
-    if (strstr($template, "{if giftcard_userfield}") && strstr(
+    if (
+        strstr($template, "{if giftcard_userfield}") && strstr(
             $template,
             "{giftcard_userfield end if}"
-        ) && $template_userfield != "") {
+        ) && $template_userfield != ""
+    ) {
         $ufield = "";
         $cart   = $session->get('cart');
 
         if (isset($cart['idx'])) {
-            $idx = (int)($cart['idx']);
+            $idx = (int) ($cart['idx']);
         }
 
         $idx     = 0;
@@ -262,8 +265,8 @@ if ($gid != 0) {
 } else {
     if (strstr($template, "{giftcard_loop_start}") && strstr($template, "{giftcard_loop_end}")) {
         $template_d1  = explode("{giftcard_loop_start}", $template);
-        $template_d2  = explode("{giftcard_loop_end}", $template_d1 [1]);
-        $templateDesc = $template_d2 [0];
+        $template_d2  = explode("{giftcard_loop_end}", $template_d1[1]);
+        $templateDesc = $template_d2[0];
 
         $data_add = "";
 
@@ -301,7 +304,7 @@ if ($gid != 0) {
             }
 
             $giftcard_name     = "<a href='" . $link . "'>" . $detail[$i]->giftcard_name . "</a>";
-            $giftcard_readmore = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
+            $giftcard_readmore = "<a href='" . $link . "'>" . Text::_('COM_REDSHOP_READ_MORE') . "</a>";
             $data_add          = str_replace("{giftcard_name}", $giftcard_name, $data_add);
             $data_add          = str_replace("{giftcard_readmore}", $giftcard_readmore, $data_add);
             $data_add          = str_replace("{giftcard_desc}", $detail[$i]->giftcard_desc, $data_add);
@@ -314,14 +317,14 @@ if ($gid != 0) {
                 $data_add = str_replace("{giftcard_validity}", '', $data_add);
             }
 
-            $data_add = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $data_add);
+            $data_add = str_replace("{giftcard_value_lbl}", Text::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $data_add);
             $data_add = str_replace(
                 "{giftcard_value}",
                 RedshopHelperProductPrice::formattedPrice($detail[$i]->giftcard_value),
                 $data_add
             );
 
-            $data_add = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $data_add);
+            $data_add = str_replace("{giftcard_price_lbl}", Text::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $data_add);
             $data_add = str_replace(
                 "{giftcard_price}",
                 RedshopHelperProductPrice::formattedPrice($detail[$i]->giftcard_price),
@@ -341,18 +344,18 @@ if ($gid != 0) {
         var reciver_email = document.getElementById('reciver_email').value;
 
         if (document.getElementById('reciver_name').value == '') {
-            alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_NAME')?>");
+            alert("<?php echo Text::_('COM_REDSHOP_PLEASE_ENTER_NAME') ?>");
             return false;
         }
 
         if (reciver_email == '') {
-            alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
+            alert("<?php echo Text::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS') ?>");
             return false;
         }
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
         if (reg.test(reciver_email) == false) {
-            alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
+            alert("<?php echo Text::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS') ?>");
             return false;
         }
 
@@ -360,14 +363,13 @@ if ($gid != 0) {
             var customer_amount = document.getElementById('customer_amount').value;
 
             if (customer_amount == '') {
-                alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_AMOUNT')?>");
+                alert("<?php echo Text::_('COM_REDSHOP_PLEASE_ENTER_AMOUNT') ?>");
                 return false;
             } else if (isNaN(customer_amount)) {
-                alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_AMOUNT')?>");
+                alert("<?php echo Text::_('COM_REDSHOP_PLEASE_ENTER_VALID_AMOUNT') ?>");
                 return false;
             }
         }
         return true;
     }
 </script>
-

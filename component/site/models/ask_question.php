@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class ask question model
  *
@@ -64,7 +66,7 @@ class RedshopModelAsk_Question extends RedshopModelForm
         }
 
         if (!Redshop\Mail\AskQuestion::sendAskQuestion($data)) {
-            $this->setError(JText::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY'));
+            $this->setError(Text::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY'));
 
             return false;
         }
@@ -137,7 +139,7 @@ class RedshopModelAsk_Question extends RedshopModelForm
      */
     protected function loadFormData()
     {
-        $data = (array)JFactory::getApplication()->getUserState('com_redshop.ask_question.data', array());
+        $data = (array) JFactory::getApplication()->getUserState('com_redshop.ask_question.data', array());
 
         return $data;
     }

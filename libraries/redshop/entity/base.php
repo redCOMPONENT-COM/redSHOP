@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 use Redshop\BaseObject;
+use Joomla\CMS\Language\Text;
 
 /**
  * Base Entity.
@@ -636,7 +637,7 @@ abstract class RedshopEntityBase extends BaseObject
         }
 
         if ($format && $translateFormat) {
-            $format = JText::_($format);
+            $format = Text::_($format);
         }
 
         return JHtml::_('date', $item->{$itemProperty}, $format);

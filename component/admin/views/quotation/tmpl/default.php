@@ -7,6 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 $quotationHelper = quotationHelper::getInstance();
 
 $config = Redconfiguration::getInstance();
@@ -27,22 +31,22 @@ $model = $this->getModel('quotation');
         <div class="filterTool">
             <div class="filterItem">
                 <div class="btn-wrapper input-append">
-                    <input placeholder="<?php echo JText::_('COM_REDSHOP_FILTER'); ?>" type="text" name="filter"
+                    <input placeholder="<?php echo Text::_('COM_REDSHOP_FILTER'); ?>" type="text" name="filter"
                            id="filter" value="<?php echo $this->state->get('filter'); ?>"/>
-                    <input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+                    <input type="submit" class="btn" value="<?php echo Text::_("COM_REDSHOP_SEARCH") ?>">
                     <input type="reset" class="btn reset" name="reset" id="reset"
-                           value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+                           value="<?php echo Text::_('COM_REDSHOP_RESET'); ?>"
                            onclick="document.getElementById('filter').value='';document.getElementById('filter_status').value='0';this.form.submit();">
                 </div>
             </div>
             <div class="filterItem">
-                <?php echo JText::_('COM_REDSHOP_QUOTATION_STATUS') . ": " . $lists['filter_status']; ?>
+                <?php echo Text::_('COM_REDSHOP_QUOTATION_STATUS') . ": " . $lists['filter_status']; ?>
             </div>
         </div>
         <table class="adminlist table table-striped">
             <thead>
             <tr>
-                <th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
+                <th width="5%"><?php echo Text::_('COM_REDSHOP_NUM'); ?></th>
                 <th width="5%" class="title">
                     <?php echo JHtml::_('redshopgrid.checkall'); ?>
                 </th>
@@ -63,7 +67,7 @@ $model = $this->getModel('quotation');
                         $this->lists['order']
                     ); ?></th>
                 <th width="20%">
-                    <?php echo JText::_('COM_REDSHOP_FULLNAME'); ?></th>
+                    <?php echo Text::_('COM_REDSHOP_FULLNAME'); ?></th>
                 <th width="20%">
                     <?php echo JHTML::_(
                         'grid.sort',
@@ -109,18 +113,18 @@ $model = $this->getModel('quotation');
                 );
                 $status = RedshopHelperQuotation::getQuotationStatusName($row->quotation_status);
                 if ($row->quotation_status == 5) {
-                    $status .= " (" . JText::_('COM_REDSHOP_ORDER_ID') . "-" . $row->order_id . " )";
+                    $status .= " (" . Text::_('COM_REDSHOP_ORDER_ID') . "-" . $row->order_id . " )";
                 } ?>
                 <tr class="<?php echo "row$k"; ?>">
                     <td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
                     <td align="center"><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
                     <td align="center"><a href="<?php echo $link; ?>"
-                                          title="<?php echo JText::_(
+                                          title="<?php echo Text::_(
                                               'COM_REDSHOP_VIEW_QUOTATION'
                                           ); ?>"><?php echo $row->quotation_id; ?></a>
                     </td>
                     <td align="center"><a href="<?php echo $link; ?>"
-                                          title="<?php echo JText::_(
+                                          title="<?php echo Text::_(
                                               'COM_REDSHOP_VIEW_QUOTATION'
                                           ); ?>"><?php echo $row->quotation_number; ?></a>
                     </td>

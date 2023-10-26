@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * View Order Detail
  *
@@ -73,7 +75,7 @@ class RedshopViewOrder_Detail extends RedshopView
         $orderDetail = RedshopHelperOrder::getOrderDetails($orderId);
 
         if ($orderDetail === null) {
-            throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
+            throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
         }
 
         if ($user->id) {
@@ -90,14 +92,14 @@ class RedshopViewOrder_Detail extends RedshopView
                 $authorization = $model->checkauthorization($orderId, $encr, false);
 
                 if (empty($authorization)) {
-                    throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
+                    throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
                 }
             } elseif ((int) $orderDetail->user_id > 0) {
                 $app->redirect(
                     Redshop\IO\Route::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid'), false)
                 );
             } elseif ((int) $auth['users_info_id'] !== (int) $orderDetail->user_info_id && $orderPayment[0]->payment_method_class !== 'rs_payment_paypal') {
-                throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
+                throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
             }
         }
 
@@ -132,25 +134,25 @@ class RedshopViewOrder_Detail extends RedshopView
 
         if ($order->order_status != 'C' && $order->order_status != 'S' && $order->order_status != 'PR' && $order->order_status != 'APP' && $print != 1 && $order->order_payment_status != 'Paid' && $paymentMethodClass != 'rs_payment_banktransfer') {
             $reorder = "<form method='post'>
-			<input type='hidden' name='order_id' value='" . $orderId . "'>
-			<input type='hidden' name='option' value='com_redshop'>
-			<input type='hidden' name='view' value='order_detail'>
-			<input type='hidden' name='task' value='payment'>
-			<input type='submit' name='payment' value='" . JText::_("COM_REDSHOP_PAY") . "'>
-			</form>";
+            <input type='hidden' name='order_id' value='" . $orderId . "'>
+            <input type='hidden' name='option' value='com_redshop'>
+            <input type='hidden' name='view' value='order_detail'>
+            <input type='hidden' name='task' value='payment'>
+            <input type='submit' name='payment' value='" . Text::_("COM_REDSHOP_PAY") . "'>
+            </form>";
         } else {
             JFactory::getDocument()->addScriptDeclaration(
                 '
-				function submitReorder() {
-					if (!confirm("' . JText::_('COM_REDSHOP_CONFIRM_CART_EMPTY') . '")) {
-						return false;
-					}
-					return true;
-				}
-			'
+                function submitReorder() {
+                    if (!confirm("' . Text::_('COM_REDSHOP_CONFIRM_CART_EMPTY') . '")) {
+                        return false;
+                    }
+                    return true;
+                }
+            '
             );
             $reorder = "<form method='post' name='frmreorder' id='frmreorder'>";
-            $reorder .= "<input type='submit' name='reorder' id='reorder' value='" . JText::_(
+            $reorder .= "<input type='submit' name='reorder' id='reorder' value='" . Text::_(
                 'COM_REDSHOP_REORDER'
             ) . "' onclick='return submitReorder();' />";
             $reorder .= "<input type='hidden' name='order_id' value='" . $orderId . "'>";

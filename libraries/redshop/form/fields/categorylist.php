@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -93,11 +94,11 @@ class JFormFieldCategoryList extends JFormFieldList
      */
     public function __set($name, $value)
     {
-        $value = (string)$value;
+        $value = (string) $value;
 
         switch ($name) {
             case 'allowAdd':
-                $value       = (string)$value;
+                $value = (string) $value;
                 $this->$name = ($value === 'true' || $value === $name || $value === '1');
                 break;
             default:
@@ -123,12 +124,12 @@ class JFormFieldCategoryList extends JFormFieldList
         $class[] = !empty($this->class) ? $this->class : '';
 
         if ($this->allowAdd) {
-            $customGroupText = JText::_('JGLOBAL_CUSTOM_CATEGORY');
+            $customGroupText = Text::_('JGLOBAL_CUSTOM_CATEGORY');
 
             $class[] = 'chzn-custom-value';
-            $attr    .= ' data-custom_group_text="' . $customGroupText . '" '
-                . 'data-no_results_text="' . JText::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
-                . 'data-placeholder="' . JText::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
+            $attr .= ' data-custom_group_text="' . $customGroupText . '" '
+                . 'data-no_results_text="' . Text::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
+                . 'data-placeholder="' . Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
         }
 
         if ($class) {
@@ -141,10 +142,11 @@ class JFormFieldCategoryList extends JFormFieldList
         $attr .= $this->autofocus ? ' autofocus' : '';
 
         // To avoid user's confusion, readonly="true" should imply disabled="true".
-        if ((string)$this->readonly == '1'
-            || (string)$this->readonly == 'true'
-            || (string)$this->disabled == '1'
-            || (string)$this->disabled == 'true'
+        if (
+            (string) $this->readonly == '1'
+            || (string) $this->readonly == 'true'
+            || (string) $this->disabled == '1'
+            || (string) $this->disabled == 'true'
         ) {
             $attr .= ' disabled="disabled"';
         }
@@ -153,10 +155,10 @@ class JFormFieldCategoryList extends JFormFieldList
         $attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
 
         // Get the field options.
-        $options = (array)$this->getOptions();
+        $options = (array) $this->getOptions();
 
         // Create a read-only list (no name) with hidden input(s) to store the value(s).
-        if ((string)$this->readonly == '1' || (string)$this->readonly == 'true') {
+        if ((string) $this->readonly == '1' || (string) $this->readonly == 'true') {
             $html[] = HTMLHelper::_(
                 'select.genericlist',
                 $options,
@@ -176,17 +178,17 @@ class JFormFieldCategoryList extends JFormFieldList
 
                 foreach ($this->value as $value) {
                     $html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars(
-                            $value,
-                            ENT_COMPAT,
-                            'UTF-8'
-                        ) . '"/>';
-                }
-            } else {
-                $html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars(
-                        $this->value,
+                        $value,
                         ENT_COMPAT,
                         'UTF-8'
                     ) . '"/>';
+                }
+            } else {
+                $html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars(
+                    $this->value,
+                    ENT_COMPAT,
+                    'UTF-8'
+                ) . '"/>';
             }
         } else // Create a regular list.
         {
@@ -218,7 +220,7 @@ class JFormFieldCategoryList extends JFormFieldList
     {
         $options   = array();
         $published = $this->element['published'] ? $this->element['published'] : array(0, 1);
-        $name      = (string)$this->element['name'];
+        $name      = (string) $this->element['name'];
 
         // Let's get the id for the current item, either category or content item.
         $jinput    = JFactory::getApplication()->input;
@@ -244,12 +246,12 @@ class JFormFieldCategoryList extends JFormFieldList
 
         // Filter on the published state
         if (is_numeric($published)) {
-            $subQuery->where('published = ' . (int)$published);
+            $subQuery->where('published = ' . (int) $published);
         } elseif (is_array($published)) {
             $subQuery->where('published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
         }
 
-        $query->from('(' . (string)$subQuery . ') AS a')
+        $query->from('(' . (string) $subQuery . ') AS a')
             ->join('LEFT', $db->qn('#__redshop_category') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
         $query->order('a.lft ASC');
 
@@ -257,13 +259,13 @@ class JFormFieldCategoryList extends JFormFieldList
         if ($oldCat != 0 && ($this->element['parent'] == true)) {
             // Prevent parenting to children of this item.
             // To rearrange parents and children move the children up, not the parents down.
-            $query->join('LEFT', $db->qn('#__redshop_category') . ' AS p ON p.id = ' . (int)$oldCat)
+            $query->join('LEFT', $db->qn('#__redshop_category') . ' AS p ON p.id = ' . (int) $oldCat)
                 ->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
             $rowQuery = $db->getQuery(true);
             $rowQuery->select('a.id AS value, a.name AS text, a.level, a.parent_id')
                 ->from('#__redshop_category AS a')
-                ->where('a.id = ' . (int)$oldCat);
+                ->where('a.id = ' . (int) $oldCat);
             $db->setQuery($rowQuery);
             $row = $db->loadObject();
         }
@@ -273,8 +275,9 @@ class JFormFieldCategoryList extends JFormFieldList
 
         try {
             $options = $db->loadObjectList();
-        } catch (RuntimeException $e) {
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
+        }
+        catch (RuntimeException $e) {
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
         }
 
         // Pad the option text with spaces using depth level as a multiplier.
@@ -282,7 +285,7 @@ class JFormFieldCategoryList extends JFormFieldList
             // Translate ROOT
             if ($this->element['parent'] == true) {
                 if ($options[$i]->level == 0) {
-                    $options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
+                    $options[$i]->text = Text::_('JGLOBAL_ROOT_PARENT');
                 }
             }
 
@@ -303,10 +306,12 @@ class JFormFieldCategoryList extends JFormFieldList
                  * To take save or create in a category you need to have create rights for that category unless the item is already in that category.
                  * Unset the option if the user isn't authorised for it. In this field assets are always categories.
                  */
-                if ($user->authorise(
+                if (
+                    $user->authorise(
                         'core.create',
                         $extension . '.category.' . $option->value
-                    ) != true && $option->level != 0) {
+                    ) != true && $option->level != 0
+                ) {
                     unset($options[$i]);
                 }
             }
@@ -318,16 +323,19 @@ class JFormFieldCategoryList extends JFormFieldList
              * but you should be able to save in that category.
              */
             foreach ($options as $i => $option) {
-                if ($user->authorise(
+                if (
+                    $user->authorise(
                         'core.edit.state',
                         $extension . '.category.' . $oldCat
-                    ) != true && !isset($oldParent)) {
+                    ) != true && !isset($oldParent)
+                ) {
                     if ($option->value != $oldCat) {
                         unset($options[$i]);
                     }
                 }
 
-                if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true
+                if (
+                    $user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true
                     && (isset($oldParent))
                     && $option->value != $oldParent
                 ) {
@@ -338,47 +346,50 @@ class JFormFieldCategoryList extends JFormFieldList
                  * However, if you can edit.state you can also move this to another category for which you have
                  * create permission and you should also still be able to save in the current category.
                  */
-                if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
+                if (
+                    ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
                     && ($option->value != $oldCat && !isset($oldParent))
-                ) {
-                    {
+                ) { {
                         unset($options[$i]);
                     }
                 }
 
-                if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
+                if (
+                    ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
                     && (isset($oldParent))
                     && $option->value != $oldParent
-                ) {
-                    {
+                ) { {
                         unset($options[$i]);
                     }
                 }
             }
         }
 
-        if (($this->element['parent'] == true)
+        if (
+            ($this->element['parent'] == true)
             && (isset($row) && !isset($options[0]))
             && isset($this->element['show_root'])
         ) {
             if ($row->parent_id == '1') {
                 $parent       = new stdClass;
-                $parent->text = JText::_('JGLOBAL_ROOT_PARENT');
+                $parent->text = Text::_('JGLOBAL_ROOT_PARENT');
 
                 array_unshift($options, $parent);
             }
 
-            array_unshift($options, HTMLHelper::_(
-                                'select.option', 
-                                '0', 
-                                JText::_('JGLOBAL_ROOT_PARENT')
-                            )
-                        );
+            array_unshift(
+                $options,
+                HTMLHelper::_(
+                    'select.option',
+                    '0',
+                    Text::_('JGLOBAL_ROOT_PARENT')
+                )
+            );
         }
 
         if (!isset($this->element['show_root'])) {
             $options[0]->value = '';
-            $options[0]->text  = JText::_('COM_REDSHOP_SELECT_CATEGORY');
+            $options[0]->text  = Text::_('COM_REDSHOP_SELECT_CATEGORY');
         }
 
         if (isset($this->element['remove_select'])) {

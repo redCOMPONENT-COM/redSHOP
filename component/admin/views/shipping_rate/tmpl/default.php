@@ -7,13 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 $bool      = true;
-$shippname = JText::_('COM_REDSHOP_SHIPPING_RATE_NAME');
+$shippname = Text::_('COM_REDSHOP_SHIPPING_RATE_NAME');
+
 if ($this->shipper_location) {
     // FOR SELF PICKUP
     $bool      = false;
-    $shippname = JText::_('COM_REDSHOP_SHIPPING_LOCATION');
+    $shippname = Text::_('COM_REDSHOP_SHIPPING_LOCATION');
 }
+
 ?>
 <script language="javascript" type="text/javascript">
     var viewForm = 'shipping_rate_detail';
@@ -27,7 +33,7 @@ if ($this->shipper_location) {
             <thead>
             <tr>
                 <th width="5%">
-                    <?php echo JText::_('COM_REDSHOP_NUM'); ?>
+                    <?php echo Text::_('COM_REDSHOP_NUM'); ?>
                 </th>
                 <th width="5%">
                     <?php echo JHtml::_('redshopgrid.checkall'); ?>
@@ -84,7 +90,7 @@ if ($this->shipper_location) {
                     <td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
                     <td align="center"><?php echo JHTML::_('grid.id', $i, $row->shipping_rate_id); ?></td>
                     <td><a href="<?php echo $link; ?>"
-                           title="<?php echo JText::_(
+                           title="<?php echo Text::_(
                                'COM_REDSHOP_EDIT_SHIPPING'
                            ); ?>"><?php echo $row->shipping_rate_name; ?></a>
                     </td>

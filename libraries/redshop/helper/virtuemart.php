@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class Redshop Helper for Virtue Mart integrate
  *
@@ -68,9 +70,9 @@ class RedshopHelperVirtuemart
     public static function getRedshopShopperGroups($name = '')
     {
         if ($name == 'COM_VIRTUEMART_SHOPPERGROUP_DEFAULT') {
-            $name = JText::_('COM_REDSHOP_IMPORT_VM_SHOPPERGROUP_DEFAULT');
+            $name = Text::_('COM_REDSHOP_IMPORT_VM_SHOPPERGROUP_DEFAULT');
         } elseif ($name == 'COM_VIRTUEMART_SHOPPERGROUP_GUEST') {
-            $name = JText::_('COM_REDSHOP_IMPORT_VM_SHOPPERGROUP_GUEST');
+            $name = Text::_('COM_REDSHOP_IMPORT_VM_SHOPPERGROUP_GUEST');
         }
 
         if (!array_key_exists($name, self::$shopperGroups)) {

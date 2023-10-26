@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Redshop Attribute Helper
  *
@@ -152,32 +154,32 @@ class RedshopHelperAttribute
 
             $attributeTable = str_replace(
                 "{property_image_lbl}",
-                JText::_('COM_REDSHOP_PROPERTY_IMAGE_LBL'),
+                Text::_('COM_REDSHOP_PROPERTY_IMAGE_LBL'),
                 $attributeTable
             );
             $attributeTable = str_replace(
                 "{virtual_number_lbl}",
-                JText::_('COM_REDSHOP_VIRTUAL_NUMBER_LBL'),
+                Text::_('COM_REDSHOP_VIRTUAL_NUMBER_LBL'),
                 $attributeTable
             );
             $attributeTable = str_replace(
                 "{property_name_lbl}",
-                JText::_('COM_REDSHOP_PROPERTY_NAME_LBL'),
+                Text::_('COM_REDSHOP_PROPERTY_NAME_LBL'),
                 $attributeTable
             );
             $attributeTable = str_replace(
                 "{property_price_lbl}",
-                JText::_('COM_REDSHOP_PROPERTY_PRICE_LBL'),
+                Text::_('COM_REDSHOP_PROPERTY_PRICE_LBL'),
                 $attributeTable
             );
             $attributeTable = str_replace(
                 "{property_stock_lbl}",
-                JText::_('COM_REDSHOP_PROPERTY_STOCK_LBL'),
+                Text::_('COM_REDSHOP_PROPERTY_STOCK_LBL'),
                 $attributeTable
             );
             $attributeTable = str_replace(
                 "{add_to_cart_lbl}",
-                JText::_('COM_REDSHOP_ADD_TO_CART_LBL'),
+                Text::_('COM_REDSHOP_ADD_TO_CART_LBL'),
                 $attributeTable
             );
 
@@ -187,11 +189,13 @@ class RedshopHelperAttribute
                 $properties = $attribute->properties;
             }
 
-            if (empty($attribute->text) || empty($properties)
+            if (
+                empty($attribute->text) || empty($properties)
                 || strpos($attributeTable, "{property_start}") === false || strpos(
                     $attributeTable,
                     "{property_start}"
-                ) === false) {
+                ) === false
+            ) {
                 continue;
             }
 
@@ -228,7 +232,7 @@ class RedshopHelperAttribute
 
                 // Replace {property_stock}
                 if (strpos($propertyData, '{property_stock}') !== false) {
-                    $displayStock = ($propertyStock) ? JText::_('COM_REDSHOP_IN_STOCK') : JText::_(
+                    $displayStock = ($propertyStock) ? Text::_('COM_REDSHOP_IN_STOCK') : Text::_(
                         'COM_REDSHOP_NOT_IN_STOCK'
                     );
                     $propertyData = str_replace("{property_stock}", $displayStock, $propertyData);
@@ -238,10 +242,12 @@ class RedshopHelperAttribute
                 if (strpos($propertyData, '{property_image}') !== false) {
                     $propertyImage = "";
 
-                    if ($property->property_image
+                    if (
+                        $property->property_image
                         && JFile::exists(
                             REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property->property_image
-                        )) {
+                        )
+                    ) {
                         $thumbUrl      = RedshopHelperMedia::getImagePath(
                             $property->property_image,
                             '',
@@ -252,17 +258,19 @@ class RedshopHelperAttribute
                             Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
                         );
                         $propertyImage = "<img title='" . urldecode(
-                                $property->property_name
-                            ) . "' src='" . $thumbUrl . "'>";
+                            $property->property_name
+                        ) . "' src='" . $thumbUrl . "'>";
                     }
 
                     $propertyData = str_replace("{property_image}", $propertyImage, $propertyData);
                 }
 
-                if (strpos($propertyData, '{property_oprand}') !== false || strpos(
+                if (
+                    strpos($propertyData, '{property_oprand}') !== false || strpos(
                         $propertyData,
                         '{property_price}'
-                    ) !== false) {
+                    ) !== false
+                ) {
                     $price  = '';
                     $opRand = '';
 
@@ -285,12 +293,15 @@ class RedshopHelperAttribute
 
                         $priceWithVat += $property->property_price;
 
-                        if (Redshop::getConfig()->get('SHOW_PRICE')
+                        if (
+                            Redshop::getConfig()->get('SHOW_PRICE')
                             && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
                                 || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get(
-                                        'SHOW_QUOTATION_PRICE'
-                                    )))
-                            && !$attribute->hide_attribute_price) {
+                                    'SHOW_QUOTATION_PRICE'
+                                )
+                                ))
+                            && !$attribute->hide_attribute_price
+                        ) {
                             $opRand = $property->oprand;
                             $price  = RedshopHelperProductPrice::formattedPrice($priceWithVat);
                         }

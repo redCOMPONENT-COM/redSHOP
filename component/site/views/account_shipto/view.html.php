@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Registry\Registry;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
 
 /**
  * Account Shipping To view
@@ -96,7 +97,7 @@ class RedshopViewAccount_Shipto extends RedshopView
             $shippingAddresses = $this->get('Data');
 
             if ($shippingAddresses->users_info_id > 0 && $shippingAddresses->user_id != $billingAddress->user_id) {
-                echo JText::_('COM_REDSHOP_ALERTNOTAUTH');
+                echo Text::_('COM_REDSHOP_ALERTNOTAUTH');
 
                 return;
             }

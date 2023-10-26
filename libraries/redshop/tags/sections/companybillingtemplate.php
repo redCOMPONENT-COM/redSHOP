@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -74,7 +76,7 @@ class RedshopTagsSectionsCompanyBillingTemplate extends RedshopTagsAbstract
                 array(
                     'id'    => 'ean_number',
                     'class' => '',
-                    'text'  => JText::_('COM_REDSHOP_EAN_NUMBER')
+                    'text'  => Text::_('COM_REDSHOP_EAN_NUMBER')
                 ),
                 '',
                 $options
@@ -103,8 +105,8 @@ class RedshopTagsSectionsCompanyBillingTemplate extends RedshopTagsAbstract
 
         if ($this->isTagExists(('{company_extrafield}'))) {
             $companyExtraFields = (Redshop::getConfig()->get(
-                    'ALLOW_CUSTOMER_REGISTER_TYPE'
-                ) != 1 && !empty($this->data['lists']['extra_field_company'])) ?
+                'ALLOW_CUSTOMER_REGISTER_TYPE'
+            ) != 1 && !empty($this->data['lists']['extra_field_company'])) ?
                 $this->data['lists']['extra_field_company'] : "";
 
             $this->addReplace('{company_extrafield}', $companyExtraFields);
@@ -140,7 +142,7 @@ class RedshopTagsSectionsCompanyBillingTemplate extends RedshopTagsAbstract
                         array(
                             'id'    => 'vat_number',
                             'class' => '',
-                            'text'  => JText::_('COM_REDSHOP_VAT_NUMBER')
+                            'text'  => Text::_('COM_REDSHOP_VAT_NUMBER')
                         ),
                         '',
                         $options
@@ -187,7 +189,7 @@ class RedshopTagsSectionsCompanyBillingTemplate extends RedshopTagsAbstract
     public function replaceTaxExempt($data, $options)
     {
         if (Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1 && Redshop::getConfig()->get('SHOW_TAX_EXEMPT_INFRONT')) {
-            $allowCompany = isset($data['is_company']) && 1 != (int)$data['is_company'] ? 'style="display:none;"' : '';
+            $allowCompany = isset($data['is_company']) && 1 != (int) $data['is_company'] ? 'style="display:none;"' : '';
             $taxExempt    = isset($data["tax_exempt"]) ? $data["tax_exempt"] : '';
 
             $taxExemptHtml = JHtml::_(
@@ -195,15 +197,15 @@ class RedshopTagsSectionsCompanyBillingTemplate extends RedshopTagsAbstract
                 'tax_exempt',
                 'class="inputbox form-control" ',
                 $taxExempt,
-                JText::_('COM_REDSHOP_COMPANY_IS_VAT_EXEMPTED'),
-                JText::_('COM_REDSHOP_COMPANY_IS_NOT_VAT_EXEMPTED')
+                Text::_('COM_REDSHOP_COMPANY_IS_VAT_EXEMPTED'),
+                Text::_('COM_REDSHOP_COMPANY_IS_NOT_VAT_EXEMPTED')
             );
 
             if ($this->isTagExists('{tax_exempt_lbl}')) {
                 $htmlTaxExemptLbl = RedshopLayoutHelper::render(
                     'tags.common.tag',
                     array(
-                        'text'  => JText::_('COM_REDSHOP_TAX_EXEMPT'),
+                        'text'  => Text::_('COM_REDSHOP_TAX_EXEMPT'),
                         'tag'   => 'div',
                         'id'    => 'lblTaxExempt' . $allowCompany,
                         'class' => '',

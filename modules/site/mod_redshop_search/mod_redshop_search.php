@@ -7,10 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Registry\Registry;
-
-defined('_JEXEC') or die;
 
 /** @var  Registry $params Module params */
 
@@ -55,8 +56,8 @@ if ($modSearchItemid != "") {
 }
 
 if ($enableAjaxsearch) {
-	HTMLHelper::script('com_redshop/redshop.search.min.js', ['relative' => true]);
-	HTMLHelper::stylesheet('com_redshop/redshop.search.min.css', ['relative' => true]);
+    HTMLHelper::script('com_redshop/redshop.search.min.js', ['relative' => true]);
+    HTMLHelper::stylesheet('com_redshop/redshop.search.min.css', ['relative' => true]);
     $javaFun = "makeUrl();";
 }
 
@@ -68,7 +69,7 @@ $fields  = $input->get('custom_field', array(), 'array');
 
 $lists            = array();
 $category         = array();
-$category[]       = JHtml::_('select.option', '0', JText::_('MOD_REDSHOP_SEARCH_SELECT_CATEGORIES'));
+$category[]       = JHtml::_('select.option', '0', Text::_('MOD_REDSHOP_SEARCH_SELECT_CATEGORIES'));
 $categoryData     = array_merge($category, $categoryData);
 $lists['catdata'] = JHtml::_(
     'select.genericlist',
@@ -81,7 +82,7 @@ $lists['catdata'] = JHtml::_(
 );
 
 $manufacturer             = array();
-$manufacturer[]           = JHtml::_('select.option', '0', JText::_('MOD_REDSHOP_SEARCH_SELECT_MANUFACTURE'));
+$manufacturer[]           = JHtml::_('select.option', '0', Text::_('MOD_REDSHOP_SEARCH_SELECT_MANUFACTURE'));
 $manufacturerData         = array_merge($manufacturer, $manufacturerData);
 $lists['manufacturedata'] = JHtml::_(
     'select.genericlist',
@@ -97,37 +98,37 @@ $searchType   = array();
 $searchType[] = JHtml::_(
     'select.option',
     'product_name',
-    JText::_('MOD_REDSHOP_SEARCH_PRODUCT_NAME')
+    Text::_('MOD_REDSHOP_SEARCH_PRODUCT_NAME')
 );
 $searchType[] = JHtml::_(
     'select.option',
     'product_number',
-    JText::_('MOD_REDSHOP_SEARCH_PRODUCT_NUMBER')
+    Text::_('MOD_REDSHOP_SEARCH_PRODUCT_NUMBER')
 );
 $searchType[] = JHtml::_(
     'select.option',
     'name_number',
-    JText::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_NUMBER")
+    Text::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_NUMBER")
 );
 $searchType[] = JHtml::_(
     'select.option',
     'product_desc',
-    JText::_("MOD_REDSHOP_SEARCH_PRODUCT_DESCRIPTION")
+    Text::_("MOD_REDSHOP_SEARCH_PRODUCT_DESCRIPTION")
 );
 $searchType[] = JHtml::_(
     'select.option',
     'virtual_product_num',
-    JText::_("MOD_REDSHOP_SEARCH_VIRTUAL_PRODUCT_NUM")
+    Text::_("MOD_REDSHOP_SEARCH_VIRTUAL_PRODUCT_NUM")
 );
 $searchType[] = JHtml::_(
     'select.option',
     'name_desc',
-    JText::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_DESCRIPTION")
+    Text::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_DESCRIPTION")
 );
 $searchType[] = JHtml::_(
     'select.option',
     'name_number_desc',
-    JText::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_NUMBER_AND_VIRTUAL_PRODUCT_NUM_AND_PRODUCT_DESCRIPTION")
+    Text::_("MOD_REDSHOP_SEARCH_PRODUCT_NAME_AND_PRODUCT_NUMBER_AND_VIRTUAL_PRODUCT_NUM_AND_PRODUCT_DESCRIPTION")
 );
 
 $lists['searchtypedata'] = JHtml::_(
@@ -141,24 +142,24 @@ $lists['searchtypedata'] = JHtml::_(
 );
 
 $twigParams = array(
-	'itemid'                    => $itemId,
-	'formAction'                => Redshop\IO\Route::_('index.php?option=com_redshop&view=search&Itemid='. $itemId),
-	'goodGuy'                   => !defined('JEXEC'),
-	'showProductSearchTitle'    => $showProductSearchTitle,
-	'showSearchTypeField'       => $showSearchTypeField,
-	'type'                      => $type,
-	'showCategory'              => $showCategory,
-	'showManufacturer'          => $showManufacturer,
-	'showCustomfield'           => $showCustomfield,
-	'showKeywordTitle'          => $showKeywordTitle,
-	'showSearchField'           => $showSearchField,
-	'templateId'                => $templateId,
-	'productPerpage'            => $productPerpage,
-	'excludeCategories'         => $excludeCategories,
-	'searchProductByCatName'    => $searchProductByCategoryName,
-	'searchProductByFieldsData' => $searchProductByFieldsData,
-	'keyword'                   => $keyword,
-	'data'                      => $lists
+    'itemid'                    => $itemId,
+    'formAction'                => Redshop\IO\Route::_('index.php?option=com_redshop&view=search&Itemid=' . $itemId),
+    'goodGuy'                   => !defined('JEXEC'),
+    'showProductSearchTitle'    => $showProductSearchTitle,
+    'showSearchTypeField'       => $showSearchTypeField,
+    'type'                      => $type,
+    'showCategory'              => $showCategory,
+    'showManufacturer'          => $showManufacturer,
+    'showCustomfield'           => $showCustomfield,
+    'showKeywordTitle'          => $showKeywordTitle,
+    'showSearchField'           => $showSearchField,
+    'templateId'                => $templateId,
+    'productPerpage'            => $productPerpage,
+    'excludeCategories'         => $excludeCategories,
+    'searchProductByCatName'    => $searchProductByCategoryName,
+    'searchProductByFieldsData' => $searchProductByFieldsData,
+    'keyword'                   => $keyword,
+    'data'                      => $lists
 );
 
 $layout     = $params->get('layout', 'default');

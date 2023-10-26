@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -40,22 +42,22 @@ class RedshopFormFieldFieldSection extends JFormFieldList
         JFactory::getLanguage()->load('com_redshop');
 
         $fieldSections   = array();
-        $fieldSections[] = (object)array('value' => '1', 'text' => JText::_('COM_REDSHOP_PRODUCT'));
-        $fieldSections[] = (object)array('value' => '2', 'text' => JText::_('COM_REDSHOP_CATEGORY'));
-        $fieldSections[] = (object)array('value' => '7', 'text' => JText::_('COM_REDSHOP_CUSTOMER_ADDRESS'));
-        $fieldSections[] = (object)array('value' => '8', 'text' => JText::_('COM_REDSHOP_COMPANY_ADDRESS'));
-        $fieldSections[] = (object)array('value' => '9', 'text' => JText::_('COM_REDSHOP_COLOR_SAMPLE'));
-        $fieldSections[] = (object)array('value' => '10', 'text' => JText::_('COM_REDSHOP_MANUFACTURER'));
-        $fieldSections[] = (object)array('value' => '11', 'text' => JText::_('COM_REDSHOP_SHIPPING'));
-        $fieldSections[] = (object)array('value' => '12', 'text' => JText::_('COM_REDSHOP_PRODUCT_USERFIELD'));
-        $fieldSections[] = (object)array('value' => '13', 'text' => JText::_('COM_REDSHOP_GIFTCARD_USERFIELD'));
-        $fieldSections[] = (object)array('value' => '14', 'text' => JText::_('COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS'));
-        $fieldSections[] = (object)array('value' => '15', 'text' => JText::_('COM_REDSHOP_COMPANY_SHIPPING_ADDRESS'));
-        $fieldSections[] = (object)array('value' => '17', 'text' => JText::_('COM_REDSHOP_PRODUCTFINDER_DATEPICKER'));
-        $fieldSections[] = (object)array('value' => '16', 'text' => JText::_('COM_REDSHOP_QUOTATION'));
-        $fieldSections[] = (object)array('value' => '18', 'text' => JText::_('COM_REDSHOP_PAYMENT_GATEWAY'));
-        $fieldSections[] = (object)array('value' => '19', 'text' => JText::_('COM_REDSHOP_SHIPPING_GATEWAY'));
-        $fieldSections[] = (object)array('value' => '20', 'text' => JText::_('COM_REDSHOP_ORDER'));
+        $fieldSections[] = (object) array('value' => '1', 'text' => Text::_('COM_REDSHOP_PRODUCT'));
+        $fieldSections[] = (object) array('value' => '2', 'text' => Text::_('COM_REDSHOP_CATEGORY'));
+        $fieldSections[] = (object) array('value' => '7', 'text' => Text::_('COM_REDSHOP_CUSTOMER_ADDRESS'));
+        $fieldSections[] = (object) array('value' => '8', 'text' => Text::_('COM_REDSHOP_COMPANY_ADDRESS'));
+        $fieldSections[] = (object) array('value' => '9', 'text' => Text::_('COM_REDSHOP_COLOR_SAMPLE'));
+        $fieldSections[] = (object) array('value' => '10', 'text' => Text::_('COM_REDSHOP_MANUFACTURER'));
+        $fieldSections[] = (object) array('value' => '11', 'text' => Text::_('COM_REDSHOP_SHIPPING'));
+        $fieldSections[] = (object) array('value' => '12', 'text' => Text::_('COM_REDSHOP_PRODUCT_USERFIELD'));
+        $fieldSections[] = (object) array('value' => '13', 'text' => Text::_('COM_REDSHOP_GIFTCARD_USERFIELD'));
+        $fieldSections[] = (object) array('value' => '14', 'text' => Text::_('COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS'));
+        $fieldSections[] = (object) array('value' => '15', 'text' => Text::_('COM_REDSHOP_COMPANY_SHIPPING_ADDRESS'));
+        $fieldSections[] = (object) array('value' => '17', 'text' => Text::_('COM_REDSHOP_PRODUCTFINDER_DATEPICKER'));
+        $fieldSections[] = (object) array('value' => '16', 'text' => Text::_('COM_REDSHOP_QUOTATION'));
+        $fieldSections[] = (object) array('value' => '18', 'text' => Text::_('COM_REDSHOP_PAYMENT_GATEWAY'));
+        $fieldSections[] = (object) array('value' => '19', 'text' => Text::_('COM_REDSHOP_SHIPPING_GATEWAY'));
+        $fieldSections[] = (object) array('value' => '20', 'text' => Text::_('COM_REDSHOP_ORDER'));
 
         $parentOptions = parent::getOptions();
         $options       = array_merge($parentOptions, $fieldSections);

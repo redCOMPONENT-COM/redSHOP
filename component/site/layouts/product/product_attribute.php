@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Layout variables
  * ======================================
@@ -17,34 +19,41 @@ defined('_JEXEC') or die;
  * @var   string  $data             HTML content
  * @var   array   $attributes       Attributes data
  */
+
 extract($displayData);
+
 ?>
-<?php if ($displayAttribute > 0) : ?>
-    <div class='checkout_attribute_static'><?php echo JText::_("COM_REDSHOP_ATTRIBUTE"); ?></div>
-    <?php for ($i = 0, $in = count($attributes); $i < $in; $i++) : ?>
-        <?php $properties = !empty($attributes[$i]['attribute_childs']) ? $attributes[$i]['attribute_childs'] : array(); ?>
+<?php if ($displayAttribute > 0): ?>
+    <div class='checkout_attribute_static'>
+        <?php echo Text::_("COM_REDSHOP_ATTRIBUTE"); ?>
+    </div>
+    <?php for ($i = 0, $in = count($attributes); $i < $in; $i++): ?>
+        <?php $properties         = !empty($attributes[$i]['attribute_childs']) ? $attributes[$i]['attribute_childs'] : array(); ?>
         <?php $hideAttributePrice = 0; ?>
-        <?php $attribute = \Redshop\Product\Attribute::getProductAttribute(0, 0, $attributes[$i]['attribute_id']); ?>
-        <?php if (!empty($attribute)) : ?>
+        <?php $attribute          = \Redshop\Product\Attribute::getProductAttribute(0, 0, $attributes[$i]['attribute_id']); ?>
+        <?php if (!empty($attribute)): ?>
             <?php $hideAttributePrice = $attribute[0]->hide_attribute_price; ?>
         <?php endif; ?>
-        <?php if (count($properties) > 0) : ?>
+        <?php if (count($properties) > 0): ?>
             <div class="checkout_attribute_title">
                 <?php echo urldecode($attributes[$i]['attribute_name']); ?>
             </div>
         <?php endif; ?>
-        <?php for ($k = 0, $kn = count($properties); $k < $kn; $k++) : ?>
+        <?php for ($k = 0, $kn = count($properties); $k < $kn; $k++): ?>
             <?php
             $property         = RedshopHelperProduct_Attribute::getAttributeProperties($properties[$k]['property_id']);
             $propertyOperator = $properties[$k]['property_oprand'];
             $propertyPrice    = (isset($properties[$k]['property_price'])) ? $properties[$k]['property_price'] : 0;
             $displayPrice     = " (" . $propertyOperator . " " . RedshopHelperProductPrice::formattedPrice(
-                    $propertyPrice
-                ) . ")";
+                $propertyPrice
+            ) . ")";
             ?>
-            <?php if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get(
-                        'SHOW_QUOTATION_PRICE'
-                    )) || $hideAttributePrice): ?>
+            <?php if (
+                (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get(
+                    'SHOW_QUOTATION_PRICE'
+                )
+                ) || $hideAttributePrice
+            ): ?>
                 <?php $displayPrice = ""; ?>
             <?php endif; ?>
             <?php if (strpos($data, '{product_attribute_price}') === false): ?>
@@ -71,13 +80,16 @@ extract($displayData);
             <?php endif; ?>
             <?php for ($l = 0, $ln = count($subProperties); $l < $ln; $l++): ?>
                 <?php $subPropertyOperator = $subProperties[$l]['subproperty_oprand']; ?>
-                <?php $subPropertyPrice = $subProperties[$l]['subproperty_price']; ?>
-                <?php $displayPrice = " (" . $subPropertyOperator . " " . RedshopHelperProductPrice::formattedPrice(
-                        $subPropertyPrice
-                    ) . ")"; ?>
-                <?php if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get(
-                            'SHOW_QUOTATION_PRICE'
-                        )) || $hideAttributePrice): ?>
+                <?php $subPropertyPrice    = $subProperties[$l]['subproperty_price']; ?>
+                <?php $displayPrice        = " (" . $subPropertyOperator . " " . RedshopHelperProductPrice::formattedPrice(
+                    $subPropertyPrice
+                ) . ")"; ?>
+                <?php if (
+                    (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get(
+                        'SHOW_QUOTATION_PRICE'
+                    )
+                    ) || $hideAttributePrice
+                ): ?>
                     <?php $displayPrice = ""; ?>
                 <?php endif; ?>
                 <?php if (strpos($data, '{product_attribute_price}') === false): ?>

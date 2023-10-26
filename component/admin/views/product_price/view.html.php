@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewProduct_price extends RedshopViewAdmin
 {
@@ -20,9 +21,9 @@ class RedshopViewProduct_price extends RedshopViewAdmin
         $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $document = JFactory::getDocument();
 
-        $document->setTitle(JText::_('COM_REDSHOP_PRODUCT_PRICE'));
+        $document->setTitle(Text::_('COM_REDSHOP_PRODUCT_PRICE'));
         jimport('joomla.html.pagination');
-        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'redshop_vatrates48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_PRODUCT_PRICE'), 'redshop_vatrates48');
 
         $sql = "SELECT * FROM #__redshop_product WHERE product_id = '$productId'";
         $db->setQuery($sql);

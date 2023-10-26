@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Doctrine\Common\Inflector\Inflector;
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 JLoader::import('joomla.application.component.controlleradmin');
 
@@ -120,13 +121,13 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
      */
     public function delete()
     {
-        JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
         // Get items to remove from the request.
         $cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 
         if (!is_array($cid) || count($cid) < 1) {
-            JLog::add(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
+            JLog::add(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
         } else {
             // Get the model.
             $model = $this->getModel();
@@ -176,14 +177,14 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
      */
     public function publish()
     {
-        JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
         // Get items to publish from the request.
         $cid   = JFactory::getApplication()->input->get('cid', array(), 'array');
         $value = ArrayHelper::getValue($this->states, $this->getTask(), 0, 'int');
 
         if (empty($cid)) {
-            JLog::add(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
+            JLog::add(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
         } else {
             // Get the model.
             $model = $this->getModel();
@@ -223,7 +224,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
                     $this->setMessage($model->getError(), 'error');
                 }
             } catch (Exception $e) {
-                $this->setMessage(JText::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE'), 'error');
+                $this->setMessage(Text::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE'), 'error');
             }
         }
 
@@ -243,7 +244,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
      */
     public function checkin()
     {
-        JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
         $ids    = JFactory::getApplication()->input->post->get('cid', array(), 'array');
         $model  = $this->getModel();
@@ -277,7 +278,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
      */
     public function reorder()
     {
-        JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
         $ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
         $inc = $this->getTask() === 'orderup' ? -1 : 1;
@@ -296,7 +297,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
         }
 
         // Reorder succeeded.
-        $message = JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
+        $message = Text::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
 
         // Set redirect
         $this->setRedirect($this->getRedirectToListRoute(), $message);
@@ -311,7 +312,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
      */
     public function saveorder()
     {
-        JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
         // Get the input
         $pks   = $this->input->post->get('cid', array(), 'array');
@@ -338,7 +339,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
         }
 
         // Reorder succeeded.
-        $this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
+        $this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
 
         // Set redirect
         $this->setRedirect($this->getRedirectToListRoute());
@@ -355,7 +356,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
      */
     public function ajaxInlineEdit()
     {
-        JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
         $app = JFactory::getApplication();
 
         $editData = $this->input->get('jform_inline', array(), 'ARRAY');
@@ -400,7 +401,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
      */
     public function copy()
     {
-        JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
         $pks = $this->input->post->get('cid', array(), 'array');
         $pks = ArrayHelper::toInteger($pks);
@@ -410,7 +411,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
             $model->copy($pks);
             $this->setMessage(JText::plural('COM_REDSHOP_N_ITEMS_COPIED', count($pks)));
         } catch (Exception $e) {
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
         }
 
         $this->setRedirect($this->getRedirectToListRoute());

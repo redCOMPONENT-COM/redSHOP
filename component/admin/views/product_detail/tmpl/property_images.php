@@ -8,9 +8,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
@@ -31,8 +32,8 @@ if ($fsec == 'subproperty') {
 }
 
 $mainImage = $mainImage[0];
-?>
 
+?>
     <script language="javascript" type="text/javascript">
         Joomla.submitbutton = function (pressbutton) {
             submitbutton(pressbutton);
@@ -49,15 +50,15 @@ $mainImage = $mainImage[0];
 
         <div>
             <button type="button" onclick="Joomla.submitbutton('save');">
-                <?php echo JText::_('COM_REDSHOP_SAVE'); ?>
+                <?php echo Text::_('COM_REDSHOP_SAVE'); ?>
             </button>
             <button type="button" onclick="window.parent.SqueezeBox.close();">
-                <?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
+                <?php echo Text::_('COM_REDSHOP_CANCEL'); ?>
             </button>
         </div>
 
         <div class="configuration">
-            <?php echo JText::_('COM_REDSHOP_PROPERTY_MORE_IMAGES_INFORMATION'); ?>
+            <?php echo Text::_('COM_REDSHOP_PROPERTY_MORE_IMAGES_INFORMATION'); ?>
         </div>
 
     </fieldset>
@@ -72,15 +73,15 @@ $mainImage = $mainImage[0];
                 <tr>
                     <td class="key">
                         <label for="property_main_img">
-                            <?php echo JText::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE'); ?>
+                            <?php echo Text::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE'); ?>
                         </label>
                     </td>
                     <td>
                         <input type="file" name="property_main_img" id="property_main_img" value="" size="75"/>
                         <?php
                         echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PROPERTY_MAIN_IMAGE'),
-                            JText::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE')
+                            Text::_('COM_REDSHOP_TOOLTIP_PROPERTY_MAIN_IMAGE'),
+                            Text::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE')
                         );
                         ?>
                     </td>
@@ -89,7 +90,7 @@ $mainImage = $mainImage[0];
                 <tr>
                     <td class="key">
                         <label for="property_sub_img">
-                            <?php echo JText::_('COM_REDSHOP_PROPERTY_SUB_IMAGE'); ?>
+                            <?php echo Text::_('COM_REDSHOP_PROPERTY_SUB_IMAGE'); ?>
                         </label>
                     </td>
                     <td>
@@ -98,13 +99,13 @@ $mainImage = $mainImage[0];
                                name="addvalue"
                                id="addvalue"
                                class="button"
-                               value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
+                               value="<?php echo Text::_('COM_REDSHOP_ADD'); ?>"
                                onclick="addNewRowOfProp('admintable');"
                         />
                         <?php
                         echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_PROPERTY_SUB_IMAGE'),
-                            JText::_('COM_REDSHOP_PROPERTY_SUB_IMAGE')
+                            Text::_('COM_REDSHOP_TOOLTIP_PROPERTY_SUB_IMAGE'),
+                            Text::_('COM_REDSHOP_PROPERTY_SUB_IMAGE')
                         );
                         ?>
                     </td>
@@ -141,12 +142,12 @@ if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $rs_folder . "/" . $thumb) && $th
     $mainimg .= "<img  height='50' width='50' src='" . REDSHOP_FRONT_IMAGES_ABSPATH . $rs_folder . "/" . $thumb . "'> ";
     $mainimg .= "</div>";
 
-    echo '<div style="clear:both"><b>' . JText::_('COM_REDSHOP_MAIN_IMAGE') . '</b></div>';
+    echo '<div style="clear:both"><b>' . Text::_('COM_REDSHOP_MAIN_IMAGE') . '</b></div>';
     echo $mainimg;
 }
 
 if (count($images)) {
-    echo '<div style="clear:both"><br><br><b>' . JText::_('COM_REDSHOP_ADDITIONAL_IMAGES') . '</b></div>';
+    echo '<div style="clear:both"><br><br><b>' . Text::_('COM_REDSHOP_ADDITIONAL_IMAGES') . '</b></div>';
     $more_images = '';
 
     for ($i = 0, $in = count($images); $i < $in; $i++) {
@@ -158,7 +159,7 @@ if (count($images)) {
             $more_images .= "<img  height='50' width='50' src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "property/" . $thumb . "'/><br/>" .
                 "<a href='index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $section_id .
                 "&cid=" . $productId . "&mediaid=" . $image->media_id . "&layout=property_images&showbuttons=1&task=deleteimage'>" .
-                JText::_('COM_REDSHOP_DELETE') .
+                Text::_('COM_REDSHOP_DELETE') .
                 "</a>";
             $more_images .= "</div>";
         }

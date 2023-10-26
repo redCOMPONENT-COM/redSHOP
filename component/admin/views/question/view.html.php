@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * View Country
  *
@@ -30,7 +32,7 @@ class RedshopViewQuestion extends RedshopViewAdmin
 
     public function display($tpl = null)
     {
-        JToolBarHelper::title(JText::_('COM_REDSHOP_QUESTION_MANAGEMENT'), 'redshop_question_48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_QUESTION_MANAGEMENT'), 'redshop_question_48');
 
         $this->form   = $this->get('Form');
         $this->detail = $this->get('Item');
@@ -65,10 +67,10 @@ class RedshopViewQuestion extends RedshopViewAdmin
 
         $isNew = ($this->item->id < 1);
 
-        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+        $text = $isNew ? Text::_('COM_REDSHOP_NEW') : Text::_('COM_REDSHOP_EDIT');
 
         JToolBarHelper::title(
-            JText::_('COM_REDSHOP_QUESTION_MANAGEMENT') . ': <small>[ ' . $text . ' ]</small>',
+            Text::_('COM_REDSHOP_QUESTION_MANAGEMENT') . ': <small>[ ' . $text . ' ]</small>',
             'redshop_question_48'
         );
         JToolBarHelper::apply('question.apply');
@@ -77,7 +79,7 @@ class RedshopViewQuestion extends RedshopViewAdmin
         if ($isNew) {
             JToolBarHelper::cancel('question.cancel');
         } else {
-            JToolBarHelper::cancel('question.cancel', JText::_('JTOOLBAR_CLOSE'));
+            JToolBarHelper::cancel('question.cancel', Text::_('JTOOLBAR_CLOSE'));
         }
     }
 }

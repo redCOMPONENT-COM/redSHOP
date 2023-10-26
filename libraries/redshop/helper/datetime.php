@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class Redshop Helper for Datetime
  *
@@ -70,53 +72,53 @@ class RedshopHelperDatetime
         $convertFormat = date($format, $date);
 
         if (strpos($format, "M") !== false) {
-            $convertFormat = str_replace("Jan", JText::_('COM_REDSHOP_JAN'), $convertFormat);
-            $convertFormat = str_replace("Feb", JText::_('COM_REDSHOP_FEB'), $convertFormat);
-            $convertFormat = str_replace("Mar", JText::_('COM_REDSHOP_MAR'), $convertFormat);
-            $convertFormat = str_replace("Apr", JText::_('COM_REDSHOP_APR'), $convertFormat);
-            $convertFormat = str_replace("May", JText::_('COM_REDSHOP_MAY'), $convertFormat);
-            $convertFormat = str_replace("Jun", JText::_('COM_REDSHOP_JUN'), $convertFormat);
-            $convertFormat = str_replace("Jul", JText::_('COM_REDSHOP_JUL'), $convertFormat);
-            $convertFormat = str_replace("Aug", JText::_('COM_REDSHOP_AUG'), $convertFormat);
-            $convertFormat = str_replace("Sep", JText::_('COM_REDSHOP_SEP'), $convertFormat);
-            $convertFormat = str_replace("Oct", JText::_('COM_REDSHOP_OCT'), $convertFormat);
-            $convertFormat = str_replace("Nov", JText::_('COM_REDSHOP_NOV'), $convertFormat);
-            $convertFormat = str_replace("Dec", JText::_('COM_REDSHOP_DEC'), $convertFormat);
+            $convertFormat = str_replace("Jan", Text::_('COM_REDSHOP_JAN'), $convertFormat);
+            $convertFormat = str_replace("Feb", Text::_('COM_REDSHOP_FEB'), $convertFormat);
+            $convertFormat = str_replace("Mar", Text::_('COM_REDSHOP_MAR'), $convertFormat);
+            $convertFormat = str_replace("Apr", Text::_('COM_REDSHOP_APR'), $convertFormat);
+            $convertFormat = str_replace("May", Text::_('COM_REDSHOP_MAY'), $convertFormat);
+            $convertFormat = str_replace("Jun", Text::_('COM_REDSHOP_JUN'), $convertFormat);
+            $convertFormat = str_replace("Jul", Text::_('COM_REDSHOP_JUL'), $convertFormat);
+            $convertFormat = str_replace("Aug", Text::_('COM_REDSHOP_AUG'), $convertFormat);
+            $convertFormat = str_replace("Sep", Text::_('COM_REDSHOP_SEP'), $convertFormat);
+            $convertFormat = str_replace("Oct", Text::_('COM_REDSHOP_OCT'), $convertFormat);
+            $convertFormat = str_replace("Nov", Text::_('COM_REDSHOP_NOV'), $convertFormat);
+            $convertFormat = str_replace("Dec", Text::_('COM_REDSHOP_DEC'), $convertFormat);
         }
 
         if (strpos($format, "F") !== false) {
-            $convertFormat = str_replace("January", JText::_('COM_REDSHOP_JANUARY'), $convertFormat);
-            $convertFormat = str_replace("February", JText::_('COM_REDSHOP_FEBRUARY'), $convertFormat);
-            $convertFormat = str_replace("March", JText::_('COM_REDSHOP_MARCH'), $convertFormat);
-            $convertFormat = str_replace("April", JText::_('COM_REDSHOP_APRIL'), $convertFormat);
-            $convertFormat = str_replace("May", JText::_('COM_REDSHOP_MAY'), $convertFormat);
-            $convertFormat = str_replace("June", JText::_('COM_REDSHOP_JUNE'), $convertFormat);
-            $convertFormat = str_replace("July", JText::_('COM_REDSHOP_JULY'), $convertFormat);
-            $convertFormat = str_replace("August", JText::_('COM_REDSHOP_AUGUST'), $convertFormat);
-            $convertFormat = str_replace("September", JText::_('COM_REDSHOP_SEPTEMBER'), $convertFormat);
-            $convertFormat = str_replace("October", JText::_('COM_REDSHOP_OCTOBER'), $convertFormat);
-            $convertFormat = str_replace("November", JText::_('COM_REDSHOP_NOVEMBER'), $convertFormat);
-            $convertFormat = str_replace("December", JText::_('COM_REDSHOP_DECEMBER'), $convertFormat);
+            $convertFormat = str_replace("January", Text::_('COM_REDSHOP_JANUARY'), $convertFormat);
+            $convertFormat = str_replace("February", Text::_('COM_REDSHOP_FEBRUARY'), $convertFormat);
+            $convertFormat = str_replace("March", Text::_('COM_REDSHOP_MARCH'), $convertFormat);
+            $convertFormat = str_replace("April", Text::_('COM_REDSHOP_APRIL'), $convertFormat);
+            $convertFormat = str_replace("May", Text::_('COM_REDSHOP_MAY'), $convertFormat);
+            $convertFormat = str_replace("June", Text::_('COM_REDSHOP_JUNE'), $convertFormat);
+            $convertFormat = str_replace("July", Text::_('COM_REDSHOP_JULY'), $convertFormat);
+            $convertFormat = str_replace("August", Text::_('COM_REDSHOP_AUGUST'), $convertFormat);
+            $convertFormat = str_replace("September", Text::_('COM_REDSHOP_SEPTEMBER'), $convertFormat);
+            $convertFormat = str_replace("October", Text::_('COM_REDSHOP_OCTOBER'), $convertFormat);
+            $convertFormat = str_replace("November", Text::_('COM_REDSHOP_NOVEMBER'), $convertFormat);
+            $convertFormat = str_replace("December", Text::_('COM_REDSHOP_DECEMBER'), $convertFormat);
         }
 
         if (strpos($format, "D") !== false) {
-            $convertFormat = str_replace("Mon", JText::_('COM_REDSHOP_MON'), $convertFormat);
-            $convertFormat = str_replace("Tue", JText::_('COM_REDSHOP_TUE'), $convertFormat);
-            $convertFormat = str_replace("Wed", JText::_('COM_REDSHOP_WED'), $convertFormat);
-            $convertFormat = str_replace("Thu", JText::_('COM_REDSHOP_THU'), $convertFormat);
-            $convertFormat = str_replace("Fri", JText::_('COM_REDSHOP_FRI'), $convertFormat);
-            $convertFormat = str_replace("Sat", JText::_('COM_REDSHOP_SAT'), $convertFormat);
-            $convertFormat = str_replace("Sun", JText::_('COM_REDSHOP_SUN'), $convertFormat);
+            $convertFormat = str_replace("Mon", Text::_('COM_REDSHOP_MON'), $convertFormat);
+            $convertFormat = str_replace("Tue", Text::_('COM_REDSHOP_TUE'), $convertFormat);
+            $convertFormat = str_replace("Wed", Text::_('COM_REDSHOP_WED'), $convertFormat);
+            $convertFormat = str_replace("Thu", Text::_('COM_REDSHOP_THU'), $convertFormat);
+            $convertFormat = str_replace("Fri", Text::_('COM_REDSHOP_FRI'), $convertFormat);
+            $convertFormat = str_replace("Sat", Text::_('COM_REDSHOP_SAT'), $convertFormat);
+            $convertFormat = str_replace("Sun", Text::_('COM_REDSHOP_SUN'), $convertFormat);
         }
 
         if (strpos($format, "l") !== false) {
-            $convertFormat = str_replace("Monday", JText::_('COM_REDSHOP_MONDAY'), $convertFormat);
-            $convertFormat = str_replace("Tuesday", JText::_('COM_REDSHOP_TUESDAY'), $convertFormat);
-            $convertFormat = str_replace("Wednesday", JText::_('COM_REDSHOP_WEDNESDAY'), $convertFormat);
-            $convertFormat = str_replace("Thursday", JText::_('COM_REDSHOP_THURSDAY'), $convertFormat);
-            $convertFormat = str_replace("Friday", JText::_('COM_REDSHOP_FRIDAY'), $convertFormat);
-            $convertFormat = str_replace("Saturday", JText::_('COM_REDSHOP_SATURDAY'), $convertFormat);
-            $convertFormat = str_replace("Sunday", JText::_('COM_REDSHOP_SUNDAY'), $convertFormat);
+            $convertFormat = str_replace("Monday", Text::_('COM_REDSHOP_MONDAY'), $convertFormat);
+            $convertFormat = str_replace("Tuesday", Text::_('COM_REDSHOP_TUESDAY'), $convertFormat);
+            $convertFormat = str_replace("Wednesday", Text::_('COM_REDSHOP_WEDNESDAY'), $convertFormat);
+            $convertFormat = str_replace("Thursday", Text::_('COM_REDSHOP_THURSDAY'), $convertFormat);
+            $convertFormat = str_replace("Friday", Text::_('COM_REDSHOP_FRIDAY'), $convertFormat);
+            $convertFormat = str_replace("Saturday", Text::_('COM_REDSHOP_SATURDAY'), $convertFormat);
+            $convertFormat = str_replace("Sunday", Text::_('COM_REDSHOP_SUNDAY'), $convertFormat);
         }
 
         return $convertFormat;
@@ -132,12 +134,12 @@ class RedshopHelperDatetime
     public static function getDateFormat()
     {
         $option = array();
-        $mon    = JText::_(strtoupper(date("M")));
-        $month  = JText::_(strtoupper(date("F")));
-        $wk     = JText::_(strtoupper(date("D")));
-        $week   = JText::_(strtoupper(date("l")));
+        $mon    = Text::_(strtoupper(date("M")));
+        $month  = Text::_(strtoupper(date("F")));
+        $wk     = Text::_(strtoupper(date("D")));
+        $week   = Text::_(strtoupper(date("l")));
 
-        $option[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+        $option[] = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_SELECT'));
         $option[] = JHtml::_('select.option', 'Y-m-d', date("Y-m-d"));
         $option[] = JHtml::_('select.option', 'd-m-Y', date("d-m-Y"));
         $option[] = JHtml::_('select.option', 'd.m.Y', date("d.m.Y"));
@@ -193,14 +195,17 @@ class RedshopHelperDatetime
             'm' => 'MM',
             'M' => 'MMM',
             'n' => 'M',
-            't' => '', // No equivalent
-            'L' => '', // No equivalent
+            't' => '',
+            // No equivalent
+            'L' => '',
+            // No equivalent
             'o' => 'YYYY',
             'Y' => 'YYYY',
             'y' => 'YY',
             'a' => 'a',
             'A' => 'A',
-            'B' => '', // No equivalent
+            'B' => '',
+            // No equivalent
             'g' => 'h',
             'G' => 'H',
             'h' => 'hh',
@@ -208,14 +213,22 @@ class RedshopHelperDatetime
             'i' => 'mm',
             's' => 'ss',
             'u' => 'SSS',
-            'e' => 'zz', // Deprecated since version 1.6.0 of moment.js
-            'I' => '', // No equivalent
-            'O' => '', // No equivalent
-            'P' => '', // No equivalent
-            'T' => '', // No equivalent
-            'Z' => '', // No equivalent
-            'c' => '', // No equivalent
-            'r' => '', // No equivalent
+            'e' => 'zz',
+            // Deprecated since version 1.6.0 of moment.js
+            'I' => '',
+            // No equivalent
+            'O' => '',
+            // No equivalent
+            'P' => '',
+            // No equivalent
+            'T' => '',
+            // No equivalent
+            'Z' => '',
+            // No equivalent
+            'c' => '',
+            // No equivalent
+            'r' => '',
+            // No equivalent
             'U' => 'X',
         ];
 

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 /**
  * Class newsletterModelnewsletter
@@ -62,10 +63,10 @@ class RedshopModelNewsletter extends RedshopModel
         $query = $db->getQuery(true)
             ->update($db->qn('#__redshop_newsletter_subscription'))
             ->set($db->qn('published') . ' = 1')
-            ->where($db->qn('id') . ' = ' . (int)$subscriptionId);
+            ->where($db->qn('id') . ' = ' . (int) $subscriptionId);
         $db->setQuery($query)->execute();
 
-		$app->enqueueMessage(JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE'));
+        $app->enqueueMessage(Text::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE'));
         $app->redirect(
             Redshop\IO\Route::_(JUri::root() . 'index.php?option=com_redshop&view=newsletter')
         );
@@ -88,10 +89,10 @@ class RedshopModelNewsletter extends RedshopModel
         $query = $db->getQuery(true)
             ->select('COUNT(*)')
             ->from($db->qn('#__redshop_newsletter'));
-        $count = (int)$db->setQuery($query)->loadResult();
+        $count = (int) $db->setQuery($query)->loadResult();
 
         if (!$count) {
-			$app->enqueueMessage(JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
+            $app->enqueueMessage(Text::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
             // If there are no newsletter, redirect with message.
             $app->redirect(Redshop\IO\Route::_($link));
         }

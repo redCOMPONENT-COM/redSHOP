@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * The order statuses view
  *
@@ -34,6 +36,6 @@ class RedshopViewOrder_Statuses extends RedshopViewList
      */
     public function getTitle()
     {
-        return JText::_('COM_REDSHOP_ORDERSTATUS_MANAGEMENT');
+        return Text::_('COM_REDSHOP_ORDERSTATUS_MANAGEMENT');
     }
 }

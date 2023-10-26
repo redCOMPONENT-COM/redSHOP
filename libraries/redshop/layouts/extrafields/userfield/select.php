@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * $displayData extract
  *
@@ -19,27 +21,28 @@ defined('_JEXEC') or die;
  * @var   array $fieldCheck  Extra field check
  * @var   string $checkData  Extra field check data
  */
+
 extract($displayData);
+
 ?>
 <div class="userfield_input">
-    <select
-            name="extrafields<?php echo $uniqueId; ?>[]"
-            class="<?php echo $rowData->class; ?>"
-            id="<?php echo $rowData->name; ?>"
-            userfieldlbl="<?php echo $rowData->title; ?>"
-        <?php echo $required; ?>
-    >
-        <option><?php echo JText::_('COM_REDSHOP_SELECT'); ?></option>
-        <?php foreach ($fieldCheck as $key => $field) : ?>
-            <?php if ($field->field_value == "" && $field->field_value == "-" && $field->field_value == "0" && $field->field_value == "select") : ?>
+    <select name="extrafields<?php echo $uniqueId; ?>[]" class="<?php echo $rowData->class; ?>"
+        id="<?php echo $rowData->name; ?>" userfieldlbl="<?php echo $rowData->title; ?>" <?php echo $required; ?>>
+        <option>
+            <?php echo Text::_('COM_REDSHOP_SELECT'); ?>
+        </option>
+        <?php foreach ($fieldCheck as $key => $field): ?>
+            <?php if ($field->field_value == "" && $field->field_value == "-" && $field->field_value == "0" && $field->field_value == "select"): ?>
                 <?php continue; ?>
             <?php endif; ?>
             <?php $selected = (!empty($checkData) && in_array(
-                    urlencode($field->field_value),
-                    $checkData
-                )) ? ' selected="selected" ' : ''; ?>
-            <option <?php echo $selected; ?>
-                    value="<?php echo urlencode($field->field_value); ?>"><?php echo $field->field_name; ?></option>
+                urlencode($field->field_value),
+                $checkData
+            )
+            ) ? ' selected="selected" ' : ''; ?>
+            <option <?php echo $selected; ?> value="<?php echo urlencode($field->field_value); ?>">
+                <?php echo $field->field_name; ?>
+            </option>
         <?php endforeach; ?>
     </select>
 </div>

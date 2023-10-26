@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Redshop\Economic\RedshopEconomic;
 
 /**
@@ -71,7 +72,7 @@ class RedshopHelperUser
         $query = $db->getQuery(true)
             ->select('SUM(order_total)')
             ->from($db->qn('#__redshop_orders'))
-            ->where($db->qn('user_info_id') . ' = ' . (int)$userInfoId);
+            ->where($db->qn('user_info_id') . ' = ' . (int) $userInfoId);
 
         // Set the query and load the result.
         $total = $db->setQuery($query)->loadResult();
@@ -102,7 +103,7 @@ class RedshopHelperUser
             ->select('COUNT(id)')
             ->from($db->qn('#__users'))
             ->where($db->qn('username') . ' = ' . $db->q($username))
-            ->where($db->qn('id') . ' != ' . (int)$id);
+            ->where($db->qn('id') . ' != ' . (int) $id);
 
         return $db->setQuery($query)->loadResult();
     }
@@ -124,7 +125,7 @@ class RedshopHelperUser
             ->select('COUNT(id)')
             ->from($db->qn('#__users'))
             ->where($db->qn('email') . ' = ' . $db->q($email))
-            ->where($db->qn('id') . ' != ' . (int)$id);
+            ->where($db->qn('id') . ' != ' . (int) $id);
 
         return $db->setQuery($query)->loadResult();
     }
@@ -147,7 +148,7 @@ class RedshopHelperUser
             ->leftJoin(
                 $db->qn('#__user_usergroup_map', 'u') . ' ON ' . $db->qn('u.user_id') . ' = ' . $db->qn('uf.user_id')
             )
-            ->where($db->qn('uf.users_info_id') . ' = ' . (int)$userId);
+            ->where($db->qn('uf.users_info_id') . ' = ' . (int) $userId);
 
         return $db->setQuery($query)->loadColumn();
     }
@@ -164,7 +165,7 @@ class RedshopHelperUser
      */
     public static function updateUserTermsCondition($userInfoId = 0, $isSet = 0)
     {
-        $userInfoId = (int)$userInfoId;
+        $userInfoId = (int) $userInfoId;
 
         if (!$userInfoId) {
             return;
@@ -174,8 +175,8 @@ class RedshopHelperUser
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true)
             ->update($db->qn('#__redshop_users_info'))
-            ->set($db->qn('accept_terms_conditions') . ' = ' . (int)$isSet)
-            ->where($db->qn('users_info_id') . ' = ' . (int)$userInfoId);
+            ->set($db->qn('accept_terms_conditions') . ' = ' . (int) $isSet)
+            ->where($db->qn('users_info_id') . ' = ' . (int) $userInfoId);
 
         $db->setQuery($query)->execute();
     }
@@ -210,7 +211,7 @@ class RedshopHelperUser
                 $userInformation = self::getUserInformation($userId, '', $userData['rs_user_info_id'], false);
             }
 
-            if (!empty((array)$userInformation)) {
+            if (!empty((array) $userInformation)) {
                 $userData['rs_user_info_id'] = isset($userInformation->users_info_id) ? $userInformation->users_info_id : 0;
                 $session->set('rs_user', $userData);
 
@@ -246,10 +247,12 @@ class RedshopHelperUser
             $userInformation->state_code   = !empty($userData['vatState']) ? $userData['vatState'] : Redshop::getConfig(
             )->getString('DEFAULT_VAT_STATE');
 
-            if ($userInforId && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || Redshop::getConfig()->get(
-                        'REGISTER_METHOD'
-                    ) == 2)
-                && (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1)) {
+            if (
+                $userInforId && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || Redshop::getConfig()->get(
+                    'REGISTER_METHOD'
+                ) == 2)
+                && (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1)
+            ) {
                 $db = JFactory::getDbo();
 
                 $query = $db->getQuery(true)
@@ -318,9 +321,9 @@ class RedshopHelperUser
             $userArr['rs_is_user_login'] = 0;
         }
 
-	    if (empty($userArr['shopperGroupOneStep'])) {
-		    $userArr['rs_user_shopperGroup'] = self::getShopperGroup($userId);
-	    }
+        if (empty($userArr['shopperGroupOneStep'])) {
+            $userArr['rs_user_shopperGroup'] = self::getShopperGroup($userId);
+        }
 
         $session->set('rs_user', $userArr);
 
@@ -373,7 +376,7 @@ class RedshopHelperUser
 
             // Not necessary that all user is registered with joomla id. We have silent user creation too.
             if ($userId) {
-                $query->where('u.user_id = ' . (int)$userId);
+                $query->where('u.user_id = ' . (int) $userId);
             }
 
             if ($useAddressType) {
@@ -381,7 +384,7 @@ class RedshopHelperUser
             }
 
             if ($userInfoId) {
-                $query->where('u.users_info_id = ' . (int)$userInfoId);
+                $query->where('u.users_info_id = ' . (int) $userInfoId);
             }
 
             self::$redshopUserInfo[$key] = $db->setQuery($query)->loadObject();
@@ -442,7 +445,7 @@ class RedshopHelperUser
                 ->select('sg.*')
                 ->from($db->qn('#__redshop_shopper_group', 'sg'))
                 ->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = sg.id')
-                ->where('ui.user_id = ' . (int)$userId)
+                ->where('ui.user_id = ' . (int) $userId)
                 ->where('ui.address_type = ' . $db->q('BT'));
 
             $db->setQuery($query);
@@ -496,11 +499,11 @@ class RedshopHelperUser
              *      2. User created in backend by super user but forget to set shopper group.
              */
             if (!$isAdmin || ($isAdmin && empty($data['shopper_group_id']))) {
-                $data['shopper_group_id'] = ($data['is_company'] == 1) ? (int)Redshop::getConfig()->get(
+                $data['shopper_group_id'] = ($data['is_company'] == 1) ? (int) Redshop::getConfig()->get(
                     'SHOPPER_GROUP_DEFAULT_COMPANY',
                     2
                 )
-                    : (int)Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE', 1);
+                    : (int) Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE', 1);
             }
         }
 
@@ -511,9 +514,11 @@ class RedshopHelperUser
             $data['email']    = $joomlaUser->email;
         }
 
-        if (Redshop::getConfig()->get(
+        if (
+            Redshop::getConfig()->get(
                 'SHOW_TERMS_AND_CONDITIONS'
-            ) == 1 && isset($data['termscondition']) && $data['termscondition'] == 1) {
+            ) == 1 && isset($data['termscondition']) && $data['termscondition'] == 1
+        ) {
             $data['accept_terms_conditions'] = 1;
         }
 
@@ -570,35 +575,30 @@ class RedshopHelperUser
                     $query->clear()
                         ->update($db->qn('#__redshop_users_info'))
                         ->set($db->qn('users_info_id') . ' = ' . $nextId)
-                        ->where($db->qn('users_info_id') . ' = ' . (int)$row->users_info_id);
+                        ->where($db->qn('users_info_id') . ' = ' . (int) $row->users_info_id);
                     $db->setQuery($query)->execute();
 
                     $alterQuery = 'ALTER TABLE ' . $db->qn(
-                            '#__redshop_users_info'
-                        ) . ' AUTO_INCREMENT = ' . ($nextId + 1);
+                        '#__redshop_users_info'
+                    ) . ' AUTO_INCREMENT = ' . ($nextId + 1);
                     $db->setQuery($alterQuery)->execute();
 
                     $row->users_info_id = $nextId;
                 }
             }
 
-			try
-			{
-				RedshopEconomic::createUserInEconomic($row);
-			}
-			catch (\Throwable $e)
-			{
-				if ($row->is_company && trim($row->ean_number) != '')
-				{
-					$app->enqueueMessage(JText::_('PLEASE_ENTER_EAN_NUMBER'), 'warning');
-				}
-				else
-				{
-					$app->enqueueMessage($e->getMessage(), 'warning');
-				}
+            try {
+                RedshopEconomic::createUserInEconomic($row);
+            }
+            catch (\Throwable $e) {
+                if ($row->is_company && trim($row->ean_number) != '') {
+                    $app->enqueueMessage(Text::_('PLEASE_ENTER_EAN_NUMBER'), 'warning');
+                } else {
+                    $app->enqueueMessage($e->getMessage(), 'warning');
+                }
 
-				return false;
-			}
+                return false;
+            }
         }
 
         $session = JFactory::getSession();
@@ -639,7 +639,7 @@ class RedshopHelperUser
         );
 
         $extraFieldSection = !$row->is_company ?
-            RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS : RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS;
+        RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS : RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS;
 
         // Store user billing data.
         RedshopHelperExtrafields::extraFieldSave($data, $extraFieldSection, $row->users_info_id);
@@ -651,8 +651,10 @@ class RedshopHelperUser
         $registerMethod = Redshop::getConfig()->get('REGISTER_METHOD');
 
         if ($registerMethod != 1 && $isNew && $admin == 0) {
-            if ($registerMethod != 2
-                || ($registerMethod == 2 && isset($data['createaccount']) && $data['createaccount'] == 1)) {
+            if (
+                $registerMethod != 2
+                || ($registerMethod == 2 && isset($data['createaccount']) && $data['createaccount'] == 1)
+            ) {
                 Redshop\Mail\User::sendRegistrationMail($data);
             }
         }
@@ -691,9 +693,9 @@ class RedshopHelperUser
 
         $userTable->user_id               = isset($data['user_id']) ? $data['user_id'] : \JFactory::getApplication(
         )->input->getInt(
-            'user_id',
-            0
-        );
+                'user_id',
+                0
+            );
         $userTable->address_type          = 'ST';
         $userTable->country_code          = $data['country_code_ST'];
         $userTable->state_code            = (isset($data['state_code_ST'])) ? $data['state_code_ST'] : "";

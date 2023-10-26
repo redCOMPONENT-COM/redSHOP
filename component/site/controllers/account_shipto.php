@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Account shipping Address Controller.
  *
@@ -41,12 +43,12 @@ class RedshopControllerAccount_Shipto extends RedshopController
         $model   = $this->getModel('account_shipto');
         $redUser = $model->store($post);
 
-        $msg  = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING_INFORMATION');
+        $msg  = Text::_('COM_REDSHOP_ERROR_SAVING_SHIPPING_INFORMATION');
         $link = Redshop\IO\Route::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
 
         if (false !== $redUser) {
             $post['users_info_id'] = $redUser->users_info_id;
-            $msg                   = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_SAVE');
+            $msg                   = Text::_('COM_REDSHOP_SHIPPING_INFORMATION_SAVE');
         }
 
         if (!empty($return)) {
@@ -57,7 +59,7 @@ class RedshopControllerAccount_Shipto extends RedshopController
             );
 
             if (!isset($setExit) || $setExit != 0) {
-				$app->enqueueMessage($msg);
+                $app->enqueueMessage($msg);
                 $app->redirect(
                     'index.php?option=com_redshop&view=account_shipto&tmpl=component&is_edit=1&return='
                     . $return . '&Itemid=' . $itemId
@@ -84,14 +86,14 @@ class RedshopControllerAccount_Shipto extends RedshopController
         $model = $this->getModel('account_shipto');
 
         if (!$infoId) {
-			throw new \Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+            throw new \Exception(Text::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
         }
 
         if (!$model->delete($infoId)) {
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
 
-        $msg    = JText::_('COM_REDSHOP_ACCOUNT_SHIPPING_DELETED_SUCCESSFULLY');
+        $msg    = Text::_('COM_REDSHOP_ACCOUNT_SHIPPING_DELETED_SUCCESSFULLY');
         $return = $input->get('return');
         $link   = Redshop\IO\Route::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $itemId, false);
 
@@ -113,7 +115,7 @@ class RedshopControllerAccount_Shipto extends RedshopController
         $input   = JFactory::getApplication()->input;
         $itemId  = $input->getInt('Itemid');
         $return  = $input->get('return');
-        $message = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_EDITING_CANCELLED');
+        $message = Text::_('COM_REDSHOP_SHIPPING_INFORMATION_EDITING_CANCELLED');
 
         if (empty($return)) {
             $this->setRedirect(

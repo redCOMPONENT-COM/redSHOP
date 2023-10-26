@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Order List View
  *
@@ -58,19 +60,19 @@ class RedshopViewOrder extends RedshopViewAdmin
      */
     public function display($tpl = null)
     {
-        JFactory::getDocument()->setTitle(JText::_('COM_REDSHOP_ORDER'));
+        JFactory::getDocument()->setTitle(Text::_('COM_REDSHOP_ORDER'));
         $layout = JFactory::getApplication()->input->getCmd('layout');
 
         if ($layout == 'previewlog') {
             $this->setLayout($layout);
         } elseif ($layout == 'labellisting') {
-            RedshopToolbarHelper::title(JText::_('COM_REDSHOP_DOWNLOAD_LABEL'), 'redshop_order48');
+            RedshopToolbarHelper::title(Text::_('COM_REDSHOP_DOWNLOAD_LABEL'), 'redshop_order48');
             $this->setLayout('labellisting');
-            RedshopToolbarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+            RedshopToolbarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
         } elseif ($layout == 'batch') {
-            RedshopToolbarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
+            RedshopToolbarHelper::title(Text::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
         } else {
-            RedshopToolbarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
+            RedshopToolbarHelper::title(Text::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
             RedshopToolbarHelper::addNew();
 
             RedshopToolbarHelper::custom(
@@ -132,7 +134,7 @@ class RedshopViewOrder extends RedshopViewAdmin
             // Check PDF plugin
             if (!RedshopHelperPdf::isAvailablePdfPlugins()) {
                 JFactory::getApplication()->enqueueMessage(
-                    JText::_('COM_REDSHOP_WARNING_MISSING_PDF_PLUGIN'),
+                    Text::_('COM_REDSHOP_WARNING_MISSING_PDF_PLUGIN'),
                     'warning'
                 );
             }

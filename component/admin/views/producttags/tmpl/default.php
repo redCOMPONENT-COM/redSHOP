@@ -7,8 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 ?>
 <script language="javascript" type="text/javascript">
@@ -36,86 +38,86 @@ defined('_JEXEC') or die;
     <div id="editcell">
         <table class="adminlist table table-striped">
             <thead>
-            <tr>
-                <th width="5">
-                    <?php echo JText::_('COM_REDSHOP_NUM'); ?>
-                </th>
-                <th width="20">
-                    <?php echo JHtml::_('redshopgrid.checkall'); ?>
-                </th>
-                <th class="title">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_TAGS_NAME',
-                        't.tags_name',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th class="title">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_TAGS_USAGE',
-                        'usag',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th class="title">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_TAGS_PRODUCTS',
-                        'products',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th class="title">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_TAGS_USERS',
-                        'users',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th>
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_TAGS_POPULARITY',
-                        't.tags_counter',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th width="5%" nowrap="nowrap">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_PUBLISHED',
-                        'published',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th width="5%" nowrap="nowrap">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_ID',
-                        'tags_id',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
+                <tr>
+                    <th width="5">
+                        <?php echo Text::_('COM_REDSHOP_NUM'); ?>
+                    </th>
+                    <th width="20">
+                        <?php echo JHtml::_('redshopgrid.checkall'); ?>
+                    </th>
+                    <th class="title">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_TAGS_NAME',
+                            't.tags_name',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th class="title">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_TAGS_USAGE',
+                            'usag',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th class="title">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_TAGS_PRODUCTS',
+                            'products',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th class="title">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_TAGS_USERS',
+                            'users',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th>
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_TAGS_POPULARITY',
+                            't.tags_counter',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th width="5%" nowrap="nowrap">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_PUBLISHED',
+                            'published',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th width="5%" nowrap="nowrap">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_ID',
+                            'tags_id',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
 
-            </tr>
+                </tr>
             </thead>
             <?php
 
             $k = 0;
             for ($i = 0, $n = count($this->tags); $i < $n; $i++) {
-                $row = $this->tags[$i];
+                $row     = $this->tags[$i];
                 $row->id = $row->tags_id;
-                $link = Redshop\IO\Route::_(
+                $link    = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=producttags_detail&task=edit&cid[]=' . $row->tags_id
                 );
 
@@ -129,8 +131,9 @@ defined('_JEXEC') or die;
                         <?php echo JHTML::_('grid.id', $i, $row->id); ?>
                     </td>
                     <td>
-                        <a href="<?php echo $link; ?>"
-                           title="<?php echo JText::_('COM_REDSHOP_EDIT_TAGS'); ?>"><?php echo $row->tags_name; ?></a>
+                        <a href="<?php echo $link; ?>" title="<?php echo Text::_('COM_REDSHOP_EDIT_TAGS'); ?>">
+                            <?php echo $row->tags_name; ?>
+                        </a>
                     </td>
                     <td align="center">
                         <?php echo $row->usag; ?>
@@ -144,8 +147,12 @@ defined('_JEXEC') or die;
                     <td align="center">
                         <?php echo $row->tags_counter; ?>
                     </td>
-                    <td align="center" width="8%"><?php echo $published; ?></td>
-                    <td align="center" width="5%"><?php echo $row->tags_id; ?></td>
+                    <td align="center" width="8%">
+                        <?php echo $published; ?>
+                    </td>
+                    <td align="center" width="5%">
+                        <?php echo $row->tags_id; ?>
+                    </td>
                 </tr>
                 <?php
                 $k = 1 - $k;
@@ -153,19 +160,19 @@ defined('_JEXEC') or die;
             ?>
 
             <tfoot>
-            <td colspan="9">
-				<div class="redShopLimitBox">
-					<?php echo $this->pagination->getLimitBox(); ?>
-				</div>
-                <?php echo $this->pagination->getListFooter(); ?>
-            </td>
+                <td colspan="9">
+                    <div class="redShopLimitBox">
+                        <?php echo $this->pagination->getLimitBox(); ?>
+                    </div>
+                    <?php echo $this->pagination->getListFooter(); ?>
+                </td>
             </tfoot>
         </table>
     </div>
 
-    <input type="hidden" name="view" value="producttags"/>
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="boxchecked" value="0"/>
-    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+    <input type="hidden" name="view" value="producttags" />
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
 </form>

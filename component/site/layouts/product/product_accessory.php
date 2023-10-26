@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * $displayData extract
  *
@@ -17,11 +19,13 @@ defined('_JEXEC') or die;
  * @param   int  $userId         User id
  * @param   boolean  $checkTag   Check Tag
  */
+
 extract($displayData);
+
 ?>
 <?php if (!empty($accessories)) : ?>
     <div class="checkout_accessory_static">
-        <?php echo JText::_("COM_REDSHOP_ACCESSORY"); ?>
+        <?php echo Text::_("COM_REDSHOP_ACCESSORY"); ?>
     </div>
     <?php foreach ($accessories as $key => $accessory): ?>
         <?php $accessoryVat = 0; ?>

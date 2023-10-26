@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -42,12 +44,12 @@ class RedshopFormFieldPayment_Method extends JFormFieldList
         RedshopHelperPayment::loadLanguages();
 
         $options     = array();
-        $this->value = $this->multiple ? (array)$this->value : (string)$this->value;
+        $this->value = $this->multiple ? (array) $this->value : (string) $this->value;
 
         foreach ($payments as $payment) {
             $option = new stdClass;
 
-            $option->text  = JText::_($payment->name);
+            $option->text  = Text::_($payment->name);
             $option->value = $payment->element;
 
             $options[] = $option;

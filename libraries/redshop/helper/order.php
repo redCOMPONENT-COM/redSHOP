@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Redshop\DB\Tool as RedshopDbTool;
@@ -124,7 +125,7 @@ class RedshopHelperOrder
         return $db->getQuery(true)
             ->select('*, `user_email` as email')
             ->from($db->qn('#__redshop_order_users_info'))
-            ->where($db->qn('order_id') . ' = ' . (int)$orderId);
+            ->where($db->qn('order_id') . ' = ' . (int) $orderId);
     }
 
     /**
@@ -165,7 +166,7 @@ class RedshopHelperOrder
                 . $db->qn('fd.section') . ' = ' . $companySection
                 . ')'
             )
-            ->where($db->qn('fd.itemid') . ' = ' . (int)$orderUserInfoId);
+            ->where($db->qn('fd.itemid') . ' = ' . (int) $orderUserInfoId);
 
         $query->leftJoin(
             $db->qn('#__redshop_fields', 'f')
@@ -293,7 +294,7 @@ class RedshopHelperOrder
             if ($order->isValid()) {
                 $order->set('order_status', $data->order_status_code)
                     ->set('order_payment_status', $data->order_payment_status_code)
-                    ->set('mdate', (int)time())
+                    ->set('mdate', (int) time())
                     ->save();
             }
             // Trigger function on Order Status change
@@ -316,8 +317,10 @@ class RedshopHelperOrder
                 )
             );
             // Generate Invoice Number
-            if ("C" == $data->order_status_code
-                && "Paid" == $data->order_payment_status_code) {
+            if (
+                "C" == $data->order_status_code
+                && "Paid" == $data->order_payment_status_code
+            ) {
                 self::sendDownload($orderId);
                 self::generateInvoiceNumber($orderId);
             }
@@ -330,7 +333,7 @@ class RedshopHelperOrder
                 ->update($db->qn('#__redshop_order_payment'))
                 ->set($db->qn('order_transfee') . ' = ' . $db->quote($data->transfee))
                 ->set($db->qn('order_payment_trans_id') . ' = ' . $db->quote($data->transaction_id))
-                ->where($db->qn('order_id') . ' = ' . (int)$orderId);
+                ->where($db->qn('order_id') . ' = ' . (int) $orderId);
             $db->setQuery($query);
             $db->execute();
 
@@ -338,8 +341,10 @@ class RedshopHelperOrder
             self::writeOrderLog($orderId, 0, $data->order_status_code, $data->order_payment_status_code, $data->log);
 
             // Send status change email only if config is set to Before order mail or Order is not confirmed.
-            if (!Redshop::getConfig()->get('ORDER_MAIL_AFTER')
-                || (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $data->order_status_code != "C")) {
+            if (
+                !Redshop::getConfig()->get('ORDER_MAIL_AFTER')
+                || (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $data->order_status_code != "C")
+            ) {
                 self::changeOrderStatusMail($orderId, $data->order_status_code);
             }
 
@@ -381,7 +386,7 @@ class RedshopHelperOrder
             ->from($db->qn('#__redshop_orders'))
             ->where($db->qn('order_status') . ' = ' . $db->quote($data->order_status_code))
             ->where($db->qn('order_payment_status') . ' = ' . $db->quote($data->order_payment_status_code))
-            ->where($db->qn('order_id') . ' = ' . (int)$data->order_id);
+            ->where($db->qn('order_id') . ' = ' . (int) $data->order_id);
         $db->setQuery($query);
 
         if (count($db->loadObjectList()) == 0) {
@@ -467,7 +472,7 @@ class RedshopHelperOrder
             $downloadFilename = basename($row->file_name);
 
             $mailToken = "<a href='" . JUri::root(
-                ) . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
+            ) . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
                 . $row->download_id . "'>" . $downloadFilename . "</a>";
 
             $dataMessage = str_replace("{product_serial_number}", $row->product_serial_number, $dataMessage);
@@ -483,17 +488,19 @@ class RedshopHelperOrder
         $mailSubject = str_replace("{order_number}", $orderDetail->order_number, $mailSubject);
 
         if ($mailBody && $userEmail != "") {
-            if (!JFactory::getMailer()->sendMail(
-                $mailFrom,
-                $fromName,
-                $userEmail,
-                $mailSubject,
-                $mailBody,
-                1,
-                null,
-                $mailBcc
-            )) {
-                $app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL'), 'error');
+            if (
+                !JFactory::getMailer()->sendMail(
+                    $mailFrom,
+                    $fromName,
+                    $userEmail,
+                    $mailSubject,
+                    $mailBody,
+                    1,
+                    null,
+                    $mailBcc
+                )
+            ) {
+                $app->enqueueMessage(Text::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL'), 'error');
             }
         }
 
@@ -523,7 +530,7 @@ class RedshopHelperOrder
                         'p.product_id'
                     )
                 )
-                ->where($db->qn('order_id') . ' = ' . (int)$orderId);
+                ->where($db->qn('order_id') . ' = ' . (int) $orderId);
 
 
             self::$orderProductsDownload[$orderId] = $db->setQuery($query)->loadObjectList();
@@ -561,8 +568,10 @@ class RedshopHelperOrder
         $formattedNumber = $orderInfo->invoice_number;
 
         // Check if number is not set and order status is confirm or number is set and order status is refund.
-        if (($number <= 0 && 'C' == $orderInfo->order_status && 'Paid' == $orderInfo->order_payment_status)
-            || ($number > 0 && ('R' == $orderInfo->order_status || 'X' == $orderInfo->order_status))) {
+        if (
+            ($number <= 0 && 'C' == $orderInfo->order_status && 'Paid' == $orderInfo->order_payment_status)
+            || ($number > 0 && ('R' == $orderInfo->order_status || 'X' == $orderInfo->order_status))
+        ) {
             $query = $db->getQuery(true)
                 ->select('MAX(invoice_number_chrono) as max_invoice_number')
                 ->from($db->qn('#__redshop_orders'));
@@ -571,7 +580,7 @@ class RedshopHelperOrder
             $db->setQuery($query);
 
             $maxInvoiceNo   = $db->loadResult();
-            $firstInvoiceNo = (int)Redshop::getConfig()->get('FIRST_INVOICE_NUMBER');
+            $firstInvoiceNo = (int) Redshop::getConfig()->get('FIRST_INVOICE_NUMBER');
 
             // It will apply only for the first number ideally!
             if ($maxInvoiceNo <= $firstInvoiceNo) {
@@ -607,7 +616,7 @@ class RedshopHelperOrder
         $order = RedshopEntityOrder::getInstance($orderId);
 
         if ($order->isValid()) {
-            $order->set('invoice_number_chrono', (int)$number)
+            $order->set('invoice_number_chrono', (int) $number)
                 ->set('invoice_number', self::formatInvoiceNumber($number))
                 ->save();
         }
@@ -743,12 +752,12 @@ class RedshopHelperOrder
             $orderDetail = self::getOrderDetails($orderId);
             $mailData    = str_replace(
                 "{order_mail_intro_text_title}",
-                JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'),
+                Text::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'),
                 $mailData
             );
             $mailData    = str_replace(
                 "{order_mail_intro_text}",
-                JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'),
+                Text::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'),
                 $mailData
             );
 
@@ -758,25 +767,25 @@ class RedshopHelperOrder
             $discountType = '';
 
             for ($d = 0, $dn = count($arrDiscount); $d < $dn; $d++) {
-                if ($arrDiscount [$d]) {
-                    $arrDiscountType = explode(':', $arrDiscount [$d]);
+                if ($arrDiscount[$d]) {
+                    $arrDiscountType = explode(':', $arrDiscount[$d]);
 
-                    if ($arrDiscountType [0] == 'c') {
-                        $discountType .= JText::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $arrDiscountType [1] . '<br>';
+                    if ($arrDiscountType[0] == 'c') {
+                        $discountType .= Text::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $arrDiscountType[1] . '<br>';
                     }
 
-                    if ($arrDiscountType [0] == 'v') {
-                        $discountType .= JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $arrDiscountType [1] . '<br>';
+                    if ($arrDiscountType[0] == 'v') {
+                        $discountType .= Text::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $arrDiscountType[1] . '<br>';
                     }
                 }
             }
 
             if (!$discountType) {
-                $discountType = JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
+                $discountType = Text::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
             }
 
-            $search []  = "{discount_type}";
-            $replace [] = $discountType;
+            $search[]  = "{discount_type}";
+            $replace[] = $discountType;
 
             // Getting the order status changed template from mail center end
             $mailData = RedshopHelperBillingTag::replaceBillingAddress($mailData, $userDetail);
@@ -812,20 +821,20 @@ class RedshopHelperOrder
             $replace[] = RedshopHelperDatetime::convertDateFormat($orderDetail->cdate);
 
             $search[]  = "{customer_note_lbl}";
-            $replace[] = JText::_('COM_REDSHOP_COMMENT');
+            $replace[] = Text::_('COM_REDSHOP_COMMENT');
 
             $search[]  = "{customer_note}";
             $replace[] = $orderComment;
 
             $search[]  = "{order_detail_link_lbl}";
-            $replace[] = JText::_('COM_REDSHOP_ORDER_DETAIL_LBL');
+            $replace[] = Text::_('COM_REDSHOP_ORDER_DETAIL_LBL');
 
             $orderDetailurl = JUri::root(
-                ) . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $orderDetail->encr_key;
+            ) . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $orderDetail->encr_key;
             $search[]       = "{order_detail_link}";
-            $replace[]      = "<a href='" . $orderDetailurl . "'>" . JText::_(
-                    "COM_REDSHOP_ORDER_DETAIL_LINK_LBL"
-                ) . "</a>";
+            $replace[]      = "<a href='" . $orderDetailurl . "'>" . Text::_(
+                "COM_REDSHOP_ORDER_DETAIL_LINK_LBL"
+            ) . "</a>";
 
             // Todo: Move to the shipping plugin to return track no and track url
             $details = Redshop\Shipping\Rate::decrypt($orderDetail->ship_method_id);
@@ -842,7 +851,7 @@ class RedshopHelperOrder
             if (strpos($mailData, "{if track_no}") !== false && strpos($mailData, "{track_no end if}") !== false) {
                 if (empty($orderDetail->track_no)) {
                     $template_pd_sdata = explode('{if track_no}', $mailData);
-                    $template_pd_edata = explode('{track_no end if}', $template_pd_sdata [1]);
+                    $template_pd_edata = explode('{track_no end if}', $template_pd_sdata[1]);
                     $mailData          = $template_pd_sdata[0] . $template_pd_edata[1];
                 }
 
@@ -854,20 +863,21 @@ class RedshopHelperOrder
             $replace[] = trim($orderDetail->track_no);
 
             $orderTrackURL = 'https://www.unifaunonline.com/ext.uo.dk.track?key=' . Redshop::getConfig()->get(
-                    'POSTDK_CUSTOMER_NO'
-                ) . '&order=' . $orderId;
+                'POSTDK_CUSTOMER_NO'
+            ) . '&order=' . $orderId;
 
             JPluginHelper::importPlugin('redshop_shipping');
             RedshopHelperUtility::getDispatcher()->trigger(
                 'onReplaceTrackingUrl',
                 array(
                     $orderId,
-                    &$orderTrackURL
+            &
+                    $orderTrackURL
                 )
             );
 
             $search[]  = "{order_track_url}";
-            $replace[] = "<a href='" . $orderTrackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
+            $replace[] = "<a href='" . $orderTrackURL . "'>" . Text::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
 
             $mailBody = str_replace($search, $replace, $mailData);
             Redshop\Mail\Helper::imgInMail($mailBody);
@@ -947,9 +957,10 @@ class RedshopHelperOrder
             );
 
             // Checking 'plgredshop_shippingdefault_shipping' to support backward compatibility
-            $allowPacsoftLabel = ($details[0] === 'plgredshop_shippingdefault_shipping' || (boolean)$shippingParams->get(
-                    'allowPacsoftLabel'
-                ));
+            $allowPacsoftLabel = ($details[0] === 'plgredshop_shippingdefault_shipping' || (boolean) $shippingParams->get(
+                'allowPacsoftLabel'
+            )
+            );
 
             if ($allowPacsoftLabel && !$orderDetails->order_label_create) {
                 $generateLabel = self::generateParcel($orderId);
@@ -983,7 +994,7 @@ class RedshopHelperOrder
         $shippingDeliveryType = 1;
 
         if (isset($shippingRateDecryptDetail[8]) === true) {
-            $shippingDeliveryType = (int)$shippingRateDecryptDetail[8];
+            $shippingDeliveryType = (int) $shippingRateDecryptDetail[8];
         }
 
         $query = $db->getQuery(true)
@@ -1006,14 +1017,14 @@ class RedshopHelperOrder
         $qty             = 0;
 
         for ($c = 0, $cn = count($orderProducts); $c < $cn; $c++) {
-            $qty               += $orderProducts [$c]->product_quantity;
+            $qty += $orderProducts[$c]->product_quantity;
             $contentProducts[] = $orderProducts[$c]->order_item_name;
 
             // Product Weight
             $query = $db->getQuery(true)
                 ->select($db->qn('weight'))
                 ->from($db->qn('#__redshop_product'))
-                ->where($db->qn('product_id') . ' = ' . (int)$orderProducts [$c]->product_id);
+                ->where($db->qn('product_id') . ' = ' . (int) $orderProducts[$c]->product_id);
             $db->setQuery($query);
             $weight = $db->loadResult();
 
@@ -1027,15 +1038,15 @@ class RedshopHelperOrder
                     $query             = $db->getQuery(true)
                         ->select($db->qn('weight'))
                         ->from($db->qn('#__redshop_product'))
-                        ->where($db->qn('product_id') . ' = ' . (int)$orderAccItemData[$a]->product_id);
+                        ->where($db->qn('product_id') . ' = ' . (int) $orderAccItemData[$a]->product_id);
                     $db->setQuery($query);
                     $accessoryWeight = $db->loadResult();
-                    $accWeight       += ($accessoryWeight * $accessoryQuantity);
+                    $accWeight += ($accessoryWeight * $accessoryQuantity);
                 }
             }
 
             // Total weight
-            $totalWeight += (($weight * $orderProducts [$c]->product_quantity) + $accWeight);
+            $totalWeight += (($weight * $orderProducts[$c]->product_quantity) + $accWeight);
         }
 
         $unitRatio = \Redshop\Helper\Utility::getUnitConversation(
@@ -1175,17 +1186,17 @@ class RedshopHelperOrder
             $xmlResponse = JFactory::getXML($response, false);
 
             if (empty($xmlResponse) || !empty($error)) {
-                return JText::_('LIB_REDSHOP_PACSOFT_ERROR_NO_RESPONSE');
+                return Text::_('LIB_REDSHOP_PACSOFT_ERROR_NO_RESPONSE');
             }
 
             $xmlResponse = $xmlResponse->val;
 
-            if ('201' === (string)$xmlResponse[1] && 'Created' === (string)$xmlResponse[2]) {
+            if ('201' === (string) $xmlResponse[1] && 'Created' === (string) $xmlResponse[2]) {
                 // Update current order success entry.
                 $query = $db->getQuery(true)
                     ->update($db->qn('#__redshop_orders'))
                     ->set($db->qn('order_label_create') . ' = 1')
-                    ->where($db->qn('order_id') . ' = ' . (int)$orderId);
+                    ->where($db->qn('order_id') . ' = ' . (int) $orderId);
 
                 // Set the query and execute the update.
                 $db->setQuery($query);
@@ -1193,9 +1204,10 @@ class RedshopHelperOrder
 
                 return "success";
             } else {
-                return (string)$xmlResponse[1] . "-" . (string)$xmlResponse[2] . "-" . (string)$xmlResponse[0];
+                return (string) $xmlResponse[1] . "-" . (string) $xmlResponse[2] . "-" . (string) $xmlResponse[0];
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             return $e->getMessage();
         }
     }
@@ -1276,11 +1288,11 @@ class RedshopHelperOrder
             }
 
             if ($productId != 0) {
-                $query->where($db->qn('product_id') . ' = ' . (int)$productId);
+                $query->where($db->qn('product_id') . ' = ' . (int) $productId);
             }
 
             if ($orderItemId != 0) {
-                $query->where($db->qn('order_item_id') . ' = ' . (int)$orderItemId);
+                $query->where($db->qn('order_item_id') . ' = ' . (int) $orderItemId);
             }
 
             self::$orderItems[$key] = $db->setQuery($query)->loadObjectList();
@@ -1372,12 +1384,16 @@ class RedshopHelperOrder
     public static function createBookInvoice($orderId, $orderStatus)
     {
         // Economic Integration start for invoice generate and book current invoice
-        if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get(
+        if (
+            Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get(
                 'ECONOMIC_INVOICE_DRAFT'
-            ) != 1) {
-            if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2 && $orderStatus == Redshop::getConfig()->get(
+            ) != 1
+        ) {
+            if (
+                Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2 && $orderStatus == Redshop::getConfig()->get(
                     'BOOKING_ORDER_STATUS'
-                )) {
+                )
+            ) {
                 $paymentInfo  = self::getPaymentInfo($orderId);
                 $economicData = array();
 
@@ -1490,7 +1506,7 @@ class RedshopHelperOrder
             self::$orderStatusList = self::getOrderStatusList();
         }
 
-        $types[]   = JHtml::_('select.option', '', '- ' . JText::_('COM_REDSHOP_SELECT_STATUS_LBL') . ' -');
+        $types[]   = JHtml::_('select.option', '', '- ' . Text::_('COM_REDSHOP_SELECT_STATUS_LBL') . ' -');
         $types     = array_merge($types, self::$orderStatusList);
         $totStatus = explode(",", $selected);
 
@@ -1510,7 +1526,7 @@ class RedshopHelperOrder
 
         $ordering = strtoupper($ordering);
 
-        if (!in_array($ordering,['ASC', 'DESC'])) {
+        if (!in_array($ordering, ['ASC', 'DESC'])) {
             $ordering = 'ASC';
         }
 
@@ -1551,10 +1567,10 @@ class RedshopHelperOrder
         $attributes = ' class="inputbox" size="1" '
     ) {
         $filterByList = array(
-            'orderid'     => JText::_('COM_REDSHOP_ORDERID'),
-            'ordernumber' => JText::_('COM_REDSHOP_ORDERNUMBER'),
-            'fullname'    => JText::_('COM_REDSHOP_FULLNAME'),
-            'useremail'   => JText::_('COM_REDSHOP_USEREMAIL')
+            'orderid'     => Text::_('COM_REDSHOP_ORDERID'),
+            'ordernumber' => Text::_('COM_REDSHOP_ORDERNUMBER'),
+            'fullname'    => Text::_('COM_REDSHOP_FULLNAME'),
+            'useremail'   => Text::_('COM_REDSHOP_USEREMAIL')
         );
 
         $types[]   = JHtml::_('select.option', '', 'All');
@@ -1580,10 +1596,10 @@ class RedshopHelperOrder
         $selected = '',
         $attributes = ' class="inputbox" size="1" '
     ) {
-        $types[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT_PAYMENT_STATUS'));
-        $types[] = JHtml::_('select.option', 'Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PAID'));
-        $types[] = JHtml::_('select.option', 'Unpaid', JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID'));
-        $types[] = JHtml::_('select.option', 'Partial Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID'));
+        $types[] = JHtml::_('select.option', '', Text::_('COM_REDSHOP_SELECT_PAYMENT_STATUS'));
+        $types[] = JHtml::_('select.option', 'Paid', Text::_('COM_REDSHOP_PAYMENT_STA_PAID'));
+        $types[] = JHtml::_('select.option', 'Unpaid', Text::_('COM_REDSHOP_PAYMENT_STA_UNPAID'));
+        $types[] = JHtml::_('select.option', 'Partial Paid', Text::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID'));
 
         return JHtml::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
     }
@@ -1610,7 +1626,7 @@ class RedshopHelperOrder
         $customerNote = stripslashes($customerNote[0]);
 
         $oid     = $app->input->get('order_id', array(), 'method', 'array');
-        $orderId = (int)$oid[0];
+        $orderId = (int) $oid[0];
 
         $isProduct   = $app->input->getInt('isproduct', 0);
         $productId   = $app->input->getInt('product_id', 0);
@@ -1758,26 +1774,28 @@ class RedshopHelperOrder
             )
         );
 
-        if ($app->input->getCmd('order_sendordermail') == 'true' && JFactory::getApplication()->isClient(
+        if (
+            $app->input->getCmd('order_sendordermail') == 'true' && JFactory::getApplication()->isClient(
                 'administrator'
-            )) {
+            )
+        ) {
             self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
         }
 
         self::createBookInvoice($orderId, $newStatus);
 
-        $msg = JText::_('COM_REDSHOP_ORDER_STATUS_SUCCESSFULLY_SAVED_FOR_ORDER_ID') . " " . $orderId;
+        $msg = Text::_('COM_REDSHOP_ORDER_STATUS_SUCCESSFULLY_SAVED_FOR_ORDER_ID') . " " . $orderId;
 
         $isArchive = ($app->input->getInt('isarchive')) ? '&isarchive=1' : '';
 
         if ($return == 'order') {
-			$app->enqueueMessage($msg);
+            $app->enqueueMessage($msg);
             $app->redirect('index.php?option=com_redshop&view=' . $return . '' . $isArchive);
         } else {
             $tmpl = $app->input->getCmd('tmpl');
-			$app->enqueueMessage($msg);
+            $app->enqueueMessage($msg);
 
-			if ('' != $tmpl) {
+            if ('' != $tmpl) {
                 $app->redirect(
                     'index.php?option=com_redshop&view=' . $return . '&cid[]=' . $orderId . '&tmpl=' . $tmpl . $isArchive
                 );
@@ -1882,7 +1900,7 @@ class RedshopHelperOrder
 
         if ($order->isValid()) {
             $order->set('order_status', $newStatus)
-                ->set('mdate', (int)time())
+                ->set('mdate', (int) time())
                 ->save();
         }
 
@@ -1907,7 +1925,7 @@ class RedshopHelperOrder
                     'op.payment_method_class'
                 ) . ' = ' . $db->qn('e.element')
             )
-            ->where($db->qn('op.order_id') . ' = ' . (int)$orderId)
+            ->where($db->qn('op.order_id') . ' = ' . (int) $orderId)
             ->where($db->qn('e.folder') . ' = ' . $db->quote('redshop_payment'));
         $result = $db->setQuery($query, 0, 1)->loadObject();
 
@@ -1922,8 +1940,10 @@ class RedshopHelperOrder
         $orderStatusCapture = $paymentParams->get('capture_status', '');
         $orderStatusCode    = $orderStatusCapture;
 
-        if ($orderStatusCapture == $newStatus
-            && ($authorizeStatus == "Authorized" || $authorizeStatus == "")) {
+        if (
+            $orderStatusCapture == $newStatus
+            && ($authorizeStatus == "Authorized" || $authorizeStatus == "")
+        ) {
             $values["order_number"]        = $orderDetail->order_number;
             $values["order_id"]            = $orderId;
             $values["order_transactionid"] = $result->order_payment_trans_id;
@@ -1944,8 +1964,10 @@ class RedshopHelperOrder
             }
         }
 
-        if (($newStatus == "X" || $newStatus == "R")
-            && $paymentParams->get('refund', 0) == 1) {
+        if (
+            ($newStatus == "X" || $newStatus == "R")
+            && $paymentParams->get('refund', 0) == 1
+        ) {
             $values["order_number"]        = $orderDetail->order_number;
             $values["order_id"]            = $orderId;
             $values["order_transactionid"] = $result->order_payment_trans_id;
@@ -1992,15 +2014,15 @@ class RedshopHelperOrder
         $query = $db->getQuery(true)
             ->update($db->qn('#__redshop_order_item'))
             ->set($db->qn('order_status') . ' = ' . $db->q($newStatus))
-            ->where($db->qn('order_id') . ' = ' . (int)$orderId);
+            ->where($db->qn('order_id') . ' = ' . (int) $orderId);
 
         if ($productId != 0) {
             $query->set($db->qn('customer_note') . ' = ' . $db->q($comment))
-                ->where($db->qn('product_id') . ' = ' . (int)$productId);
+                ->where($db->qn('product_id') . ' = ' . (int) $productId);
         }
 
         if ($orderItemId != 0) {
-            $query->where($db->qn('order_item_id') . ' = ' . (int)$orderItemId);
+            $query->where($db->qn('order_item_id') . ' = ' . (int) $orderItemId);
         }
 
         $db->setQuery($query)->execute();
@@ -2042,7 +2064,7 @@ class RedshopHelperOrder
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_orders'))
-            ->where($db->qn('user_id') . ' = ' . (int)$userId)
+            ->where($db->qn('user_id') . ' = ' . (int) $userId)
             ->order($db->qn('order_id'));
         $db->setQuery($query);
 
@@ -2065,7 +2087,7 @@ class RedshopHelperOrder
         $query = $db->getQuery(true)
             ->select($db->qn('order_payment_amount'))
             ->from($db->qn('#__redshop_order_payment'))
-            ->where($db->qn('order_id') . ' = ' . (int)$orderId);
+            ->where($db->qn('order_id') . ' = ' . (int) $orderId);
         $db->setQuery($query);
         $list = $db->loadObjectlist();
 
@@ -2142,10 +2164,10 @@ class RedshopHelperOrder
                 ->from($db->qn('#__redshop_users_info'))
                 ->where($db->qn('address_type') . ' = ' . $db->quote('BT'));
 
-            if ((int)$userId < 0) {
-                $query->where($db->qn('users_info_id') . ' = ' . abs((int)$userId));
+            if ((int) $userId < 0) {
+                $query->where($db->qn('users_info_id') . ' = ' . abs((int) $userId));
             } else {
-                $query->where($db->qn('user_id') . ' = ' . (int)$userId);
+                $query->where($db->qn('user_id') . ' = ' . (int) $userId);
             }
 
 
@@ -2183,7 +2205,7 @@ class RedshopHelperOrder
                 ->select('CONCAT(' . $db->qn('firstname') . '," ",' . $db->qn('lastname') . ') AS text')
                 ->from($db->qn('#__redshop_users_info'))
                 ->where($db->qn('address_type') . ' = ' . $db->quote('ST'))
-                ->where($db->qn('user_id') . ' = ' . (int)$userId);
+                ->where($db->qn('user_id') . ' = ' . (int) $userId);
 
             static::$shippingAddresses[$userId] = $db->setQuery($query)->loadObjectList();
         }
@@ -2214,7 +2236,7 @@ class RedshopHelperOrder
             ->select($db->qn(array('firstname', 'lastname')))
             ->from($db->qn('#__redshop_users_info'))
             ->where($db->qn('address_type') . ' LIKE ' . $db->quote('BT'))
-            ->where($db->qn('user_id') . ' = ' . (int)$userId);
+            ->where($db->qn('user_id') . ' = ' . (int) $userId);
         $db->setQuery($query);
         $list = $db->loadObject();
 
@@ -2224,7 +2246,7 @@ class RedshopHelperOrder
             $query = $db->getQuery(true)
                 ->select($db->qn('name'))
                 ->from($db->qn('#__users'))
-                ->where($db->qn('id') . ' = ' . (int)$userId);
+                ->where($db->qn('id') . ' = ' . (int) $userId);
             $db->setQuery($query);
             $list = $db->loadObject();
 
@@ -2259,15 +2281,15 @@ class RedshopHelperOrder
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_order_attribute_item'))
-            ->where($db->qn('is_accessory_att') . ' = ' . (int)$isAccessory)
+            ->where($db->qn('is_accessory_att') . ' = ' . (int) $isAccessory)
             ->where($db->qn('section') . ' = ' . $db->quote($section));
 
         if ($orderItemId != 0) {
-            $query->where($db->qn('order_item_id') . ' = ' . (int)$orderItemId);
+            $query->where($db->qn('order_item_id') . ' = ' . (int) $orderItemId);
         }
 
         if ($parentSectionId != 0) {
-            $query->where($db->qn('parent_section_id') . ' = ' . (int)$parentSectionId);
+            $query->where($db->qn('parent_section_id') . ' = ' . (int) $parentSectionId);
         }
 
         $db->setQuery($query);
@@ -2294,7 +2316,7 @@ class RedshopHelperOrder
             ->select($db->qn(array('f.title', 'f.type', 'f.name')))
             ->from($db->qn('#__redshop_fields_data', 'fd'))
             ->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fd.fieldid'))
-            ->where($db->qn('fd.itemid') . ' = ' . (int)$orderItemId)
+            ->where($db->qn('fd.itemid') . ' = ' . (int) $orderItemId)
             ->where($db->qn('fd.section') . ' = ' . $db->quote($section));
 
         return $db->setQuery($query)->loadObjectList();
@@ -2327,12 +2349,12 @@ class RedshopHelperOrder
             $query = $db->getQuery(true)
                 ->select($db->qn('order_number'))
                 ->from($db->qn('#__redshop_orders'))
-                ->where($db->qn('order_id') . ' = ' . (int)$maxId);
+                ->where($db->qn('order_id') . ' = ' . (int) $maxId);
             $db->setQuery($query);
 
             $maxOrderNumber = $db->loadResult();
             $maxInvoice     = RedshopEconomic::getMaxOrderNumberInEconomic();
-            $maxId          = max((int)$maxOrderNumber, $maxInvoice);
+            $maxId          = max((int) $maxOrderNumber, $maxInvoice);
         } elseif (Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE')) {
             $maxId = ($maxId + Redshop::getConfig()->get('FIRST_INVOICE_NUMBER') + 1);
 
@@ -2357,7 +2379,7 @@ class RedshopHelperOrder
      */
     public static function randomGenerateEncryptKey($pLength = '30')
     {
-        return \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey((int)$pLength);
+        return \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey((int) $pLength);
     }
 
     /**
@@ -2456,7 +2478,7 @@ class RedshopHelperOrder
                         'pdl.download_id'
                     )
                 )
-                ->where($db->qn('pd.order_id') . ' = ' . (int)$orderId);
+                ->where($db->qn('pd.order_id') . ' = ' . (int) $orderId);
 
             if ($did != '') {
                 $query->where($db->qn('pdl.download_id') . ' = ' . $db->quote($did));
@@ -2652,17 +2674,17 @@ class RedshopHelperOrder
 				 <hr /></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table>';
         }
 
-        $print_tag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRINT') . "'>"
-            . "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT') . "' title='"
-            . JText::_('COM_REDSHOP_PRINT') . "' /></a>";
+        $print_tag = "<a onclick='window.print();' title='" . Text::_('COM_REDSHOP_PRINT') . "'>"
+            . "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . Text::_('COM_REDSHOP_PRINT') . "' title='"
+            . Text::_('COM_REDSHOP_PRINT') . "' /></a>";
 
         $message = str_replace("{print}", $print_tag, $message);
         $message = str_replace(
             "{order_mail_intro_text_title}",
-            JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'),
+            Text::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'),
             $message
         );
-        $message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
+        $message = str_replace("{order_mail_intro_text}", Text::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
 
         $message = Template::replaceTemplate($orderDetail, $message, true);
 
@@ -2805,8 +2827,7 @@ class RedshopHelperOrder
      */
     public static function writeOrderLog($orderId, $byUserId, $orderStatusCode, $orderPaymentStatus, $customerNote)
     {
-        if (empty($byUserId))
-        {
+        if (empty($byUserId)) {
             $byUserId = JFactory::getUser()->id;
         }
 
@@ -2833,7 +2854,7 @@ class RedshopHelperOrder
                 implode(
                     ',',
                     array(
-                        (int)$orderId,
+                        (int) $orderId,
                         $userId,
                         $db->quote($orderStatusCode),
                         $db->quote($orderPaymentStatus),

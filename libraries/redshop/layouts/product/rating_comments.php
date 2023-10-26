@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * $displayData extract
  *
@@ -17,6 +19,7 @@ defined('JPATH_BASE') or die;
  * @var   string  $main_template Template rating
  * @var   integer $mainblock     Main block
  */
+
 extract($displayData);
 
 // Fetching reviews
@@ -26,13 +29,13 @@ $product_template = "";
 
 if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{product_loop_end}")) {
     $product_start    = explode("{product_loop_start}", $main_template);
-    $product_end      = explode("{product_loop_end}", $product_start [1]);
-    $product_template = $product_end [0];
+    $product_end      = explode("{product_loop_end}", $product_start[1]);
+    $product_template = $product_end[0];
 
     if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{product_loop_end}")) {
         $review_start     = explode("{review_loop_start}", $product_template);
-        $review_end       = explode("{review_loop_end}", $review_start [1]);
-        $reviews_template = $review_end [0];
+        $review_end       = explode("{review_loop_end}", $review_start[1]);
+        $reviews_template = $review_end[0];
     }
 }
 
@@ -75,7 +78,7 @@ if ($product_template != "" && $reviews_template != "" && count($reviews) > 0) {
                 );
 
                 $allImage[] = $linkImage;
-                $imgHtml1   .= '<li><a href="' . $linkImage . '" class="group-images-' . $reviews[$j]->id . '"><img src="' . $thumbImg1 . '" /></a></li>';
+                $imgHtml1 .= '<li><a href="' . $linkImage . '" class="group-images-' . $reviews[$j]->id . '"><img src="' . $thumbImg1 . '" /></a></li>';
             }
         }
 
@@ -84,29 +87,29 @@ if ($product_template != "" && $reviews_template != "" && count($reviews) > 0) {
         $reviews_data1 = str_replace("{fullname}", $displayname, $reviews_template);
         $reviews_data1 = str_replace("{email}", $reviews[$j]->email, $reviews_data1);
         $reviews_data1 = str_replace("{company_name}", $reviews[$j]->company_name, $reviews_data1);
-        $reviews_data1 = str_replace("{title}", $reviews [$j]->title, $reviews_data1);
-        $reviews_data1 = str_replace("{comment}", nl2br($reviews [$j]->comment), $reviews_data1);
+        $reviews_data1 = str_replace("{title}", $reviews[$j]->title, $reviews_data1);
+        $reviews_data1 = str_replace("{comment}", nl2br($reviews[$j]->comment), $reviews_data1);
         $reviews_data1 = str_replace("{stars}", $starimage, $reviews_data1);
         $reviews_data1 = str_replace("{images}", $imgHtml1, $reviews_data1);
         $reviews_data1 = str_replace(
             "{reviewdate}",
-            RedshopHelperDatetime::convertDateFormat($reviews [$j]->time),
+            RedshopHelperDatetime::convertDateFormat($reviews[$j]->time),
             $reviews_data1
         );
-        $reviews_data  .= $reviews_data1;
+        $reviews_data .= $reviews_data1;
     }
 
     if ($mainblock < count($reviews)) {
         $reviews_data .= '<div style="clear:both;" class="show_reviews">';
         $reviews_data .= '<a href="javascript:showallreviews();">';
         $reviews_data .= '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'reviewarrow.gif"> ';
-        $reviews_data .= JText::_('COM_REDSHOP_SHOW_ALL_REVIEWS') . '</a></div>';
+        $reviews_data .= Text::_('COM_REDSHOP_SHOW_ALL_REVIEWS') . '</a></div>';
     }
 
     $reviews_data .= '<div style="display:none;" id="showreviews" name="showreviews">';
 
     for ($k = $mainblock; $k < count($reviews); $k++) {
-        $fullname2  = $reviews [$k]->firstname . " " . $reviews [$k]->lastname;
+        $fullname2  = $reviews[$k]->firstname . " " . $reviews[$k]->lastname;
         $starimage2 = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'star_rating/' . $reviews[$k]->user_rating . '.gif">';
         $images2    = json_decode($reviews[$k]->images);
         $imgHtml2   = '';
@@ -115,7 +118,7 @@ if ($product_template != "" && $reviews_template != "" && count($reviews) > 0) {
         foreach ($images2 as $image2) {
             $linkImage  = REDSHOP_FRONT_IMAGES_ABSPATH . 'product_rating/' . $image2;
             $allImage[] = $linkImage;
-            $imgHtml2   .= '<li><img src="' . $linkImage . '" width="50%" height="50%" /></li>';
+            $imgHtml2 .= '<li><img src="' . $linkImage . '" width="50%" height="50%" /></li>';
         }
 
         $imgHtml2 .= '<ul>';
@@ -124,20 +127,20 @@ if ($product_template != "" && $reviews_template != "" && count($reviews) > 0) {
         $reviews_data2 = str_replace("{fullname}", '', $reviews_template);
         $reviews_data2 = str_replace("{email}", $reviews[$k]->email, $reviews_data2);
         $reviews_data2 = str_replace("{company_name}", $reviews[$k]->company_name, $reviews_data2);
-        $reviews_data2 = str_replace("{title}", $reviews [$k]->title, $reviews_data2);
-        $reviews_data2 = str_replace("{comment}", nl2br($reviews [$k]->comment), $reviews_data2);
+        $reviews_data2 = str_replace("{title}", $reviews[$k]->title, $reviews_data2);
+        $reviews_data2 = str_replace("{comment}", nl2br($reviews[$k]->comment), $reviews_data2);
         $reviews_data2 = str_replace("{stars}", $starimage2, $reviews_data2);
         $reviews_data2 = str_replace("{images}", $imgHtml2, $reviews_data2);
         $reviews_data2 = str_replace(
             "{reviewdate}",
-            RedshopHelperDatetime::convertDateFormat($reviews [$k]->time),
+            RedshopHelperDatetime::convertDateFormat($reviews[$k]->time),
             $reviews_data2
         );
-        $reviews_data  .= $reviews_data2;
+        $reviews_data .= $reviews_data2;
     }
 
     $reviews_data .= '</div>';
-    $reviews_all  .= $reviews_data;
+    $reviews_all .= $reviews_data;
 }
 
 if (strstr($main_template, "{show_all_images_rating}")) {

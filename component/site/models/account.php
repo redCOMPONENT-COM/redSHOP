@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class accountModelaccount
  *
@@ -136,7 +138,7 @@ class RedshopModelAccount extends RedshopModel
                     $db->qn('#__redshop_product_tags_xref', 'ptx')
                     . ' ON ' . $db->qn('pt.tags_id') . ' = ' . $db->qn('ptx.tags_id')
                 )
-                ->where($db->qn('ptx.users_id') . ' = ' . (int)$userId)
+                ->where($db->qn('ptx.users_id') . ' = ' . (int) $userId)
                 ->where($db->qn('pt.published') . ' = 1');
 
             if ($tagId != 0) {
@@ -145,7 +147,7 @@ class RedshopModelAccount extends RedshopModel
                         $db->qn('#__redshop_product', 'p')
                         . ' ON ' . $db->qn('ptx.product_id') . ' = ' . $db->qn('p.product_id')
                     )
-                    ->where($db->qn('pt.tags_id') . ' = ' . (int)$tagId);
+                    ->where($db->qn('pt.tags_id') . ' = ' . (int) $tagId);
             }
 
             return $query;
@@ -158,9 +160,9 @@ class RedshopModelAccount extends RedshopModel
                 ->from($db->qn('#__redshop_wishlist', 'w'))
                 ->leftJoin($db->qn('#__redshop_wishlist_product', 'pw') . ' ON w.wishlist_id = pw.wishlist_id')
                 ->leftJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = pw.product_id')
-                ->where('w.user_id = ' . (int)$userId)
-                ->where('w.wishlist_id = ' . (int)$wishListId)
-                ->where('pw.wishlist_id = ' . (int)$wishListId);
+                ->where('w.user_id = ' . (int) $userId)
+                ->where('w.wishlist_id = ' . (int) $wishListId)
+                ->where('pw.wishlist_id = ' . (int) $wishListId);
 
             return $query;
         }
@@ -171,11 +173,11 @@ class RedshopModelAccount extends RedshopModel
         if (isset($_SESSION["no_of_prod"])) {
             for ($index = 1; $index <= $_SESSION["no_of_prod"]; $index++) {
                 if ($_SESSION['wish_' . $index]->product_id != '') {
-                    $productIds[] = (int)$_SESSION['wish_' . $index]->product_id;
+                    $productIds[] = (int) $_SESSION['wish_' . $index]->product_id;
                 }
             }
 
-            $productIds[] = (int)$_SESSION['wish_' . $index]->product_id;
+            $productIds[] = (int) $_SESSION['wish_' . $index]->product_id;
         }
 
         if (!empty($productIds)) {
@@ -251,8 +253,8 @@ class RedshopModelAccount extends RedshopModel
         $query = $db->getQuery(true)
             ->select('wishlist_id')
             ->from($db->quoteName('#__redshop_wishlist'))
-            ->where('user_id = ' . (int)$user->id)
-            ->where('wishlist_id = ' . (int)$wishListId);
+            ->where('user_id = ' . (int) $user->id)
+            ->where('wishlist_id = ' . (int) $wishListId);
 
         echo "<pre>";
 
@@ -261,8 +263,8 @@ class RedshopModelAccount extends RedshopModel
         if (count($list) > 0) {
             $query->clear()
                 ->delete($db->quoteName('#__redshop_wishlist_product'))
-                ->where('product_id = ' . (int)$pid)
-                ->where('wishlist_id = ' . (int)$wishListId);
+                ->where('product_id = ' . (int) $pid)
+                ->where('wishlist_id = ' . (int) $wishListId);
 
             if ($wishlistProductId) {
                 $query->where($db->qn('wishlist_product_id') . ' = ' . $wishlistProductId);
@@ -271,12 +273,12 @@ class RedshopModelAccount extends RedshopModel
             $db->setQuery($query);
 
             if ($db->execute()) {
-                $app->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_PRODUCT_DELETED_SUCCESSFULLY'));
+                $app->enqueueMessage(Text::_('COM_REDSHOP_WISHLIST_PRODUCT_DELETED_SUCCESSFULLY'));
             } else {
-                $app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_WISHLIST_PRODUCT'));
+                $app->enqueueMessage(Text::_('COM_REDSHOP_ERROR_DELETING_WISHLIST_PRODUCT'));
             }
         } else {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_YOU_DONT_HAVE_ACCESS_TO_DELETE_THIS_PRODUCT'));
+            $app->enqueueMessage(Text::_('COM_REDSHOP_YOU_DONT_HAVE_ACCESS_TO_DELETE_THIS_PRODUCT'));
         }
 
         $app->redirect(
@@ -301,9 +303,9 @@ class RedshopModelAccount extends RedshopModel
         $tagId  = $app->input->getInt('tagid', 0);
 
         if ($this->removeTags($tagId)) {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_TAG_DELETED_SUCCESSFULLY'));
+            $app->enqueueMessage(Text::_('COM_REDSHOP_TAG_DELETED_SUCCESSFULLY'));
         } else {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_TAG'));
+            $app->enqueueMessage(Text::_('COM_REDSHOP_ERROR_DELETING_TAG'));
         }
 
         $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $itemId));
@@ -323,8 +325,8 @@ class RedshopModelAccount extends RedshopModel
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__redshop_product_tags_xref'))
-            ->where('tags_id = ' . (int)$tagId)
-            ->where('users_id = ' . (int)$user->id);
+            ->where('tags_id = ' . (int) $tagId)
+            ->where('users_id = ' . (int) $user->id);
 
         if (!$db->setQuery($query)->execute()) {
             return false;
@@ -333,7 +335,8 @@ class RedshopModelAccount extends RedshopModel
         $query->clear()
             ->select('COUNT(tags_id)')
             ->from($db->quoteName('#__redshop_product_tags_xref'))
-            ->where('tags_id =' . (int)$tagId);;
+            ->where('tags_id =' . (int) $tagId);
+        ;
 
         // If this tag still have reference with other products. Return
         if ($db->setQuery($query)->loadResult() > 0) {
@@ -343,7 +346,7 @@ class RedshopModelAccount extends RedshopModel
         // Delete this tags if not have any reference
         $query->clear()
             ->delete($db->quoteName('#__redshop_product_tags'))
-            ->where('tags_id = ' . (int)$tagId);
+            ->where('tags_id = ' . (int) $tagId);
 
         return $db->setQuery($query)->execute();
     }
@@ -361,7 +364,7 @@ class RedshopModelAccount extends RedshopModel
         $query = $db->getQuery(true)
             ->select('tags_name')
             ->from($db->quoteName('#__redshop_product_tags'))
-            ->where('tags_id = ' . (int)$tagId);
+            ->where('tags_id = ' . (int) $tagId);
 
         return $db->setQuery($query)->loadResult();
     }
@@ -411,9 +414,9 @@ class RedshopModelAccount extends RedshopModel
             ->where($db->qn('user_id') . ' = ' . JFactory::getUser()->id);
 
         if ($db->setQuery($query)->execute()) {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY'));
+            $app->enqueueMessage(Text::_('COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY'));
         } else {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_PRODUCT_FROM_COMPARE'));
+            $app->enqueueMessage(Text::_('COM_REDSHOP_ERROR_DELETING_PRODUCT_FROM_COMPARE'));
         }
 
         $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=account&layout=compare&Itemid=' . $itemId, false));
@@ -451,6 +454,6 @@ class RedshopModelAccount extends RedshopModel
             ->delete($db->qn('#__redshop_users_info'))
             ->where($db->qn('user_id') . ' = ' . $userId);
 
-        return (boolean)$db->setQuery($query)->execute();
+        return (boolean) $db->setQuery($query)->execute();
     }
 }

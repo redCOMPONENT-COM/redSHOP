@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Common architecture for payment class.
  *
@@ -92,7 +94,7 @@ class RedshopProductCompare implements Countable
      */
     public function getCategoryIds()
     {
-        return (array)$this->compare['categories'];
+        return (array) $this->compare['categories'];
     }
 
     /**
@@ -128,7 +130,7 @@ class RedshopProductCompare implements Countable
 
         // Throw an exception for invalid entry
         if (!$this->validItem()) {
-            throw new Exception(JText::_('COM_REDSHOP_ERROR_ADDING_PRODUCT_TO_COMPARE'), 1);
+            throw new Exception(Text::_('COM_REDSHOP_ERROR_ADDING_PRODUCT_TO_COMPARE'), 1);
         }
 
         // Set Unique key based on comparision type
@@ -136,17 +138,17 @@ class RedshopProductCompare implements Countable
 
         // Throw an exception if there's no id:
         if (!$this->key) {
-            throw new Exception(JText::_('COM_REDSHOP_ERROR_REQUIRE_UNIQUE_PRODUCT_ID_TO_COMPARE'));
+            throw new Exception(Text::_('COM_REDSHOP_ERROR_REQUIRE_UNIQUE_PRODUCT_ID_TO_COMPARE'));
         }
 
         // Throw an exception if comparison is over limit.
         if ($this->count() >= Redshop::getConfig()->get('PRODUCT_COMPARE_LIMIT')) {
-            throw new Exception(JText::_('COM_REDSHOP_LIMIT_CROSS_TO_COMPARE'));
+            throw new Exception(Text::_('COM_REDSHOP_LIMIT_CROSS_TO_COMPARE'));
         }
 
         // Throw an exception if already found in compare list.
         if (isset($this->compare['items'][$this->key])) {
-            throw new Exception(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_COMPARE'));
+            throw new Exception(Text::_('COM_REDSHOP_ALLREADY_ADDED_TO_COMPARE'));
         } // Add if not found
         else {
             $this->compare['category']          = $this->item->categoryId;
@@ -167,9 +169,10 @@ class RedshopProductCompare implements Countable
         return (
             $this->isEmpty()
             || (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'category' && in_array(
-                    $this->item->categoryId,
-                    $this->getCategoryIds()
-                ))
+                $this->item->categoryId,
+                $this->getCategoryIds()
+            )
+            )
             || Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'global'
         );
     }
@@ -288,7 +291,7 @@ class RedshopProductCompare implements Countable
      */
     public function getItemsTotal()
     {
-        return (int)$this->compare['total'];
+        return (int) $this->compare['total'];
     }
 
     /**
@@ -298,7 +301,7 @@ class RedshopProductCompare implements Countable
      */
     public function getCategoryId()
     {
-        return (int)$this->compare['category'];
+        return (int) $this->compare['category'];
     }
 
     /**

@@ -7,12 +7,13 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
-$jinput = JFactory::getApplication()->input;
+use Joomla\CMS\Language\Text;
 
-$post = $jinput->post->getArray();
-
+$jinput        = JFactory::getApplication()->input;
+$post          = $jinput->post->getArray();
 $filter        = $jinput->get('filter');
 $number_order  = $jinput->get('number_order', '');
 $model         = $this->getModel();
@@ -57,32 +58,36 @@ if (isset($post['checkoutshoppers'])) {
 </script>
 
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
-    <input type="hidden" name="view" value="newsletters"/>
-    <input type="hidden" name="task" value="sendNewsletterPreview"/>
+    <input type="hidden" name="view" value="newsletters" />
+    <input type="hidden" name="task" value="sendNewsletterPreview" />
     <input type="hidden" name="newsletter_id" value="<?php if ($cid[0] != "") {
         echo $cid[0];
     } else {
         echo $newsletter_id;
-    } ?>"/>
-    <input type="hidden" name="boxchecked" value="0"/>
-    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+    } ?>" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
     <div id="editcell">
         <div>
             <fieldset>
-                <legend><?php echo JText::_('COM_REDSHOP_FILTER_RESULT'); ?></legend>
+                <legend>
+                    <?php echo Text::_('COM_REDSHOP_FILTER_RESULT'); ?>
+                </legend>
                 <div>
                     <table cellpadding="0" cellspacing="0" border="0" class="adminList">
                         <tr>
                             <td align="left">
                                 <?php echo JHtml::_('redshopgrid.checkall'); ?><strong
-                                        style="vertical-align: baseline;"><?php echo JText::_(
+                                    style="vertical-align: baseline;">
+                                    <?php echo Text::_(
                                         'COM_REDSHOP_SELECT_ALL'
-                                    ); ?></strong>
+                                    ); ?>
+                                </strong>
                             </td>
                         </tr>
                     </table>
-                    <br/>
+                    <br />
                     <table cellpadding="2" cellspacing="0" border="0" class="adminList">
                         <?php
                         $k = 0;
@@ -127,45 +132,63 @@ if (isset($post['checkoutshoppers'])) {
                 </div>
             </fieldset>
             <fieldset>
-                <legend><?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?></legend>
+                <legend>
+                    <?php echo Text::_('COM_REDSHOP_USER_FILTER'); ?>
+                </legend>
                 <table class="adminList newsletter-filter" cellpadding="3" cellspacing="0" border="0">
                     <tr>
-                        <td><strong><?php echo JText::_('COM_REDSHOP_NUMBER_ODERS'); ?>:</strong></td>
+                        <td><strong>
+                                <?php echo Text::_('COM_REDSHOP_NUMBER_ODERS'); ?>:
+                            </strong></td>
                         <td colspan="2">
                             <div class="newsletter-number-order">
                                 <?php echo $this->lists['oprand']; ?>&nbsp;<input type="text" name="number_order"
-                                                                                  id="number_order" size="5"
-                                                                                  value="<?php echo $number_order; ?>">
+                                    id="number_order" size="5" value="<?php echo $number_order; ?>">
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td><strong><?php echo JText::_('COM_REDSHOP_ODERS_TOTAL'); ?>:</strong></td>
-                        <td><label for="totalstart"><?php echo JText::_('COM_REDSHOP_START'); ?>
-                                :&nbsp;&nbsp;</label><input type="text" name="total_start" id="total_start" size="5"
-                                                            value="<?php echo $total_start; ?>"></td>
-                        <td><label for="totalend"><?php echo JText::_('COM_REDSHOP_END'); ?>:&nbsp;&nbsp;</label><input
-                                    type="text" name="total_end" id="total_end" size="5"
-                                    value="<?php echo $total_end; ?>">
+                        <td><strong>
+                                <?php echo Text::_('COM_REDSHOP_ODERS_TOTAL'); ?>:
+                            </strong></td>
+                        <td><label for="totalstart">
+                                <?php echo Text::_('COM_REDSHOP_START'); ?>
+                                :&nbsp;&nbsp;
+                            </label><input type="text" name="total_start" id="total_start" size="5"
+                                value="<?php echo $total_start; ?>"></td>
+                        <td><label for="totalend">
+                                <?php echo Text::_('COM_REDSHOP_END'); ?>:&nbsp;&nbsp;
+                            </label><input type="text" name="total_end" id="total_end" size="5"
+                                value="<?php echo $total_end; ?>">
                         </td>
                     </tr>
                     <tr>
-                        <td><strong><?php echo JText::_('COM_REDSHOP_ZIPCODE'); ?>:</strong></td>
-                        <td><label for="zipstart"><?php echo JText::_('COM_REDSHOP_START'); ?>
-                                :&nbsp;&nbsp;</label><input type="text" name="zipstart" id="zipstart" size="5"
-                                                            value="<?php echo $zipstart; ?>"></td>
-                        <td><label for="zipend"><?php echo JText::_('COM_REDSHOP_END'); ?>:&nbsp;&nbsp;</label><input
-                                    type="text" name="zipend" id="zipend" size="5" value="<?php echo $zipend; ?>"></td>
+                        <td><strong>
+                                <?php echo Text::_('COM_REDSHOP_ZIPCODE'); ?>:
+                            </strong></td>
+                        <td><label for="zipstart">
+                                <?php echo Text::_('COM_REDSHOP_START'); ?>
+                                :&nbsp;&nbsp;
+                            </label><input type="text" name="zipstart" id="zipstart" size="5"
+                                value="<?php echo $zipstart; ?>"></td>
+                        <td><label for="zipend">
+                                <?php echo Text::_('COM_REDSHOP_END'); ?>:&nbsp;&nbsp;
+                            </label><input type="text" name="zipend" id="zipend" size="5"
+                                value="<?php echo $zipend; ?>"></td>
                     </tr>
                     <tr>
-                        <td><strong><?php echo JText::_('COM_REDSHOP_FILTER_CUSTOMER_BY'); ?>:</strong></td>
+                        <td><strong>
+                                <?php echo Text::_('COM_REDSHOP_FILTER_CUSTOMER_BY'); ?>:
+                            </strong></td>
                         <td><input type="text" name="cityfilter" id="cityfilter" value="<?php echo $cityfilter; ?>"
-                                   size="13"></td>
+                                size="13"></td>
                     </tr>
                     <tr>
-                        <td><strong><?php echo JText::_('COM_REDSHOP_HOW_LONG_USER'); ?>:</strong></td>
+                        <td><strong>
+                                <?php echo Text::_('COM_REDSHOP_HOW_LONG_USER'); ?>:
+                            </strong></td>
                         <td valign="middle">
-                            <?php echo JText::_('COM_REDSHOP_START'); ?>
+                            <?php echo Text::_('COM_REDSHOP_START'); ?>
                             :&nbsp;
                             <?php
                             echo JHtml::_(
@@ -179,7 +202,7 @@ if (isset($post['checkoutshoppers'])) {
                             ?>
                         </td>
                         <td>
-                            <?php echo JText::_('COM_REDSHOP_END'); ?>:&nbsp;
+                            <?php echo Text::_('COM_REDSHOP_END'); ?>:&nbsp;
                             <?php
                             echo JHtml::_(
                                 'redshopcalendar.calendar',
@@ -194,31 +217,49 @@ if (isset($post['checkoutshoppers'])) {
 
                     </tr>
                     <tr>
-                        <td><strong><?php echo JText::_('COM_REDSHOP_CATEGORY'); ?>:</strong></td>
-                        <td colspan="2"><?php echo $this->lists['categories']; ?></td>
+                        <td><strong>
+                                <?php echo Text::_('COM_REDSHOP_CATEGORY'); ?>:
+                            </strong></td>
+                        <td colspan="2">
+                            <?php echo $this->lists['categories']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><strong><?php echo JText::_('COM_REDSHOP_PRODUCT'); ?>:</strong></td>
-                        <td colspan="2" valign="top"><?php echo $this->lists['product']; ?></td>
+                        <td><strong>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT'); ?>:
+                            </strong></td>
+                        <td colspan="2" valign="top">
+                            <?php echo $this->lists['product']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><strong><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</strong></td>
-                        <td colspan="2"><?php echo $this->lists['country']; ?></td>
+                        <td><strong>
+                                <?php echo Text::_('COM_REDSHOP_COUNTRY'); ?>:
+                            </strong></td>
+                        <td colspan="2">
+                            <?php echo $this->lists['country']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><strong><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP'); ?>:</strong></td>
-                        <td colspan="2"><?php echo $this->lists['shoppergroups']; ?></td>
+                        <td><strong>
+                                <?php echo Text::_('COM_REDSHOP_SHOPPER_GROUP'); ?>:
+                            </strong></td>
+                        <td colspan="2">
+                            <?php echo $this->lists['shoppergroups']; ?>
+                        </td>
                     </tr>
                     <tr>
-                        <td><strong><?php echo JText::_('COM_REDSHOP_CHECKOUT_SHOPPER'); ?>:</strong></td>
-                        <td colspan="2"><input type="checkbox" <?php echo $checked; ?> name="checkoutshoppers"/></td>
+                        <td><strong>
+                                <?php echo Text::_('COM_REDSHOP_CHECKOUT_SHOPPER'); ?>:
+                            </strong></td>
+                        <td colspan="2"><input type="checkbox" <?php echo $checked; ?> name="checkoutshoppers" /></td>
                     </tr>
                     <tr>
                         <td colspan="3" align="right">
                             <input type="submit" onclick="document.adminForm.submit();"
-                                   value="<?php echo JText::_('COM_REDSHOP_GO'); ?>">
+                                value="<?php echo Text::_('COM_REDSHOP_GO'); ?>">
                             <input type="reset" name="reset" id="reset"
-                                   value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>" onclick="return clearreset();">
+                                value="<?php echo Text::_('COM_REDSHOP_RESET'); ?>" onclick="return clearreset();">
                         </td>
                     </tr>
                 </table>

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 /**
  * Class RedshopViewProduct_rating
@@ -38,7 +39,7 @@ class RedshopViewProduct_Rating extends RedshopView
 
         // Preform security checks
         if (!$user->id && Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED')) {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW'), 'warning');
+            $app->enqueueMessage(Text::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW'), 'warning');
 
             return;
         }
@@ -51,7 +52,7 @@ class RedshopViewProduct_Rating extends RedshopView
 
         if (!$rate && $user->id && $model->checkRatedProduct($this->productId, $user->id)) {
             $app->input->set('rate', 1);
-            $app->enqueueMessage(JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN'), 'warning');
+            $app->enqueueMessage(Text::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN'), 'warning');
         }
 
         parent::display($tpl);

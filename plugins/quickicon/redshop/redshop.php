@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * RedSHOP quick icon plugin
  *
@@ -39,22 +41,22 @@ class PlgQuickiconRedshop extends JPlugin
             return array();
         }
 
-		$image    = 'quickIconRedshop';
-		$document = JFactory::getDocument();
-		$document->addStyleDeclaration(
-			'
-				.icon-' . $image . ' {
-					background-image: url(' . JUri::base() . 'components/com_redshop/assets/images/redshopcart16.png);
-					background-size: 14px;
-					background-repeat: no-repeat;
-				}'
-		);
+        $image    = 'quickIconRedshop';
+        $document = JFactory::getDocument();
+        $document->addStyleDeclaration(
+            '
+                .icon-' . $image . ' {
+                    background-image: url(' . JUri::base() . 'components/com_redshop/assets/images/redshopcart16.png);
+                    background-size: 14px;
+                    background-repeat: no-repeat;
+                }'
+        );
 
         return array(
             array(
                 'link'  => 'index.php?option=com_redshop',
                 'image' => $image,
-                'text'  => JText::_('PLG_QUICKICON_REDSHOP_TITLE'),
+                'text'  => Text::_('PLG_QUICKICON_REDSHOP_TITLE'),
                 'id'    => 'plg_quickicon_redshop',
                 'group' => 'MOD_QUICKICON_EXTENSIONS'
             )

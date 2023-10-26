@@ -7,11 +7,14 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
-$statistic = $this->model->getStatisticDashboard();
-?>
+use Joomla\CMS\Language\Text;
 
+$statistic = $this->model->getStatisticDashboard();
+
+?>
 <script language="javascript" type="text/javascript">
     Joomla.submitbutton = function (pressbutton) {
         if (pressbutton == 'configuration') {
@@ -47,7 +50,7 @@ $user->gid      = $user->groups[$user->usertype];
 			</span>
 
             <div class="info-box-content">
-                <span class="info-box-text"><?php echo JText::_('COM_REDSHOP_STATISTIC_TOTAL_SALES'); ?></span>
+                <span class="info-box-text"><?php echo Text::_('COM_REDSHOP_STATISTIC_TOTAL_SALES'); ?></span>
                 <span class="info-box-number"><?php echo RedshopHelperProductPrice::formattedPrice(
                         $statistic[0]
                     ); ?></span>
@@ -61,7 +64,7 @@ $user->gid      = $user->groups[$user->usertype];
 			</span>
 
             <div class="info-box-content">
-                <span class="info-box-text"><?php echo JText::_('COM_REDSHOP_STATISTIC_ORDER_COUNT'); ?></span>
+                <span class="info-box-text"><?php echo Text::_('COM_REDSHOP_STATISTIC_ORDER_COUNT'); ?></span>
                 <span class="info-box-number"><?php echo (int)$statistic[1] ?></span>
             </div>
         </div>
@@ -74,7 +77,7 @@ $user->gid      = $user->groups[$user->usertype];
 			</span>
 
             <div class="info-box-content">
-                <span class="info-box-text"><?php echo JText::_('COM_REDSHOP_STATISTIC_TOTAL_MEMBER'); ?></span>
+                <span class="info-box-text"><?php echo Text::_('COM_REDSHOP_STATISTIC_TOTAL_MEMBER'); ?></span>
                 <span class="info-box-number"><?php echo (int) ($statistic[2] ?? 0) ?></span>
             </div>
         </div>
@@ -87,7 +90,7 @@ $user->gid      = $user->groups[$user->usertype];
 			</span>
 
             <div class="info-box-content">
-                <span class="info-box-text"><?php echo JText::_('COM_REDSHOP_STATISTIC_TOTAL_VISITOR'); ?></span>
+                <span class="info-box-text"><?php echo Text::_('COM_REDSHOP_STATISTIC_TOTAL_VISITOR'); ?></span>
                 <span class="info-box-number"><?php echo (int)($statistic[3] ?? null) ?></span>
             </div>
         </div>
@@ -99,7 +102,7 @@ $user->gid      = $user->groups[$user->usertype];
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    <?php echo JText::_('COM_REDSHOP_PIE_CHART_FOR_LASTMONTH_SALES'); ?>
+                    <?php echo Text::_('COM_REDSHOP_PIE_CHART_FOR_LASTMONTH_SALES'); ?>
                 </h3>
             </div>
 
@@ -115,7 +118,7 @@ $user->gid      = $user->groups[$user->usertype];
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    <?php echo JText::_('COM_REDSHOP_NEWEST_ORDERS'); ?>
+                    <?php echo Text::_('COM_REDSHOP_NEWEST_ORDERS'); ?>
                 </h3>
             </div>
 
@@ -129,7 +132,7 @@ $user->gid      = $user->groups[$user->usertype];
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    <?php echo JText::_('COM_REDSHOP_NEWEST_CUSTOMERS'); ?>
+                    <?php echo Text::_('COM_REDSHOP_NEWEST_CUSTOMERS'); ?>
                 </h3>
             </div>
 

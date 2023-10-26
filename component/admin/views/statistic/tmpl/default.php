@@ -7,17 +7,21 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 $user  = JFactory::getUser();
 $start = $this->pagination->limitstart;
 $end   = $this->pagination->limit;
+
 ?>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
     <div id="editcell">
         <table width="100%">
             <tr>
-                <td><?php echo JText::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption']; ?></td>
+                <td><?php echo Text::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption']; ?></td>
             </tr>
         </table>
         <table class="adminlist table table-striped">
@@ -25,13 +29,13 @@ $end   = $this->pagination->limit;
             <tr>
                 <th width="60%" align="center"><?php
                     if ($this->filteroption != 0) {
-                        echo JText::_('COM_REDSHOP_DATE');
+                        echo Text::_('COM_REDSHOP_DATE');
                     } else {
-                        echo JText::_('COM_REDSHOP_HASH');
+                        echo Text::_('COM_REDSHOP_HASH');
                     }
                     ?>
                 </th>
-                <th width="40%" align="center"><?php echo JText::_('COM_REDSHOP_TOTAL_VISITORS'); ?></th>
+                <th width="40%" align="center"><?php echo Text::_('COM_REDSHOP_TOTAL_VISITORS'); ?></th>
             </tr>
             </thead>
             <?php
@@ -52,7 +56,7 @@ $end   = $this->pagination->limit;
                         if ($this->filteroption != 0 && isset($row->viewdate) === true) {
                             echo $row->viewdate;
                         } else {
-                            echo JText::_('COM_REDSHOP_HASH');
+                            echo Text::_('COM_REDSHOP_HASH');
                         }
                         ?>
                     </td>

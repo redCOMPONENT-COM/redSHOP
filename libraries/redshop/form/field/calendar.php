@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 require_once JPATH_LIBRARIES . '/redshop/library.php';
 
 /**
@@ -136,7 +138,7 @@ class RedshopFormFieldCalendar extends JFormField
     protected function getInput()
     {
         // Translate placeholder text
-        $hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
+        $hint = $this->translateHint ? Text::_($this->hint) : $this->hint;
 
         // Initialize some field attributes.
         $format = $this->format;

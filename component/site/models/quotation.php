@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\Factory;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Class quotationModelquotation
@@ -92,7 +93,7 @@ class RedshopModelQuotation extends RedshopModel
         $usersConfig->set('allowUserRegistration', 1);
 
         if ($usersConfig->get('allowUserRegistration') == '0') {
-            throw new \Exception(JText::_('COM_REDSHOP_ACCESS_FORBIDDEN'));
+            throw new \Exception(Text::_('COM_REDSHOP_ACCESS_FORBIDDEN'));
         }
 
         // Initialize new usertype setting
@@ -104,7 +105,7 @@ class RedshopModelQuotation extends RedshopModel
 
         // Bind the post array to the user object
         if (!$user->bind($app->input->post->getArray(), 'usertype')) {
-			throw new \Exception($user->getError());
+            throw new \Exception($user->getError());
         }
 
         // Set some initial user values
@@ -144,7 +145,7 @@ class RedshopModelQuotation extends RedshopModel
 
         // If there was an error with registration, set the message and display form
         if (!$user->save()) {
-			Factory::getApplication()->enqueueMessage($user->getError(), 'warning');
+            Factory::getApplication()->enqueueMessage($user->getError(), 'warning');
 
             return false;
         }
@@ -153,9 +154,9 @@ class RedshopModelQuotation extends RedshopModel
         $user->set('id', 0);
 
         if ($useractivation == 1) {
-            $message = JText::_('COM_REDSHOP_REG_COMPLETE_ACTIVATE');
+            $message = Text::_('COM_REDSHOP_REG_COMPLETE_ACTIVATE');
         } else {
-            $message = JText::_('COM_REDSHOP_REG_COMPLETE');
+            $message = Text::_('COM_REDSHOP_REG_COMPLETE');
         }
 
         // Creating Joomla user end
@@ -214,15 +215,15 @@ class RedshopModelQuotation extends RedshopModel
             ) . 'index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotation_id . '&encr=' . $quotationDetail->quotation_encrkey;
 
         $mailbody    = '<table>';
-        $mailbody    .= '<tr><td>' . JText::_(
+        $mailbody    .= '<tr><td>' . Text::_(
                 'COM_REDSHOP_USERNAME'
             ) . '</td><td> : </td><td>' . $data['username'] . '</td></tr>';
-        $mailbody    .= '<tr><td>' . JText::_(
+        $mailbody    .= '<tr><td>' . Text::_(
                 'COM_REDSHOP_PASSWORD'
             ) . '</td><td> : </td><td>' . $password . '</td></tr>';
-        $mailbody    .= '<tr><td>' . JText::_(
+        $mailbody    .= '<tr><td>' . Text::_(
                 'COM_REDSHOP_QUOTATION_DETAILS'
-            ) . '</td><td> : </td><td><a href="' . $quotationdetailurl . '">' . JText::_(
+            ) . '</td><td> : </td><td><a href="' . $quotationdetailurl . '">' . Text::_(
                 "COM_REDSHOP_QUOTATION_DETAILS"
             ) . '</a></td></tr>';
         $mailbody    .= '</table>';
@@ -241,7 +242,7 @@ class RedshopModelQuotation extends RedshopModel
 
         $this->sendQuotationMail($quotationDetail->quotation_id);
 
-        $link = "<a href='" . $quotationdetailurl . "'>" . JText::_("COM_REDSHOP_QUOTATION_DETAILS") . "</a>";
+        $link = "<a href='" . $quotationdetailurl . "'>" . Text::_("COM_REDSHOP_QUOTATION_DETAILS") . "</a>";
 
         $mailbody = str_replace('{link}', $link, $mailbody);
         $mailbody = str_replace('{username}', $name, $mailbody);

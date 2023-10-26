@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -83,7 +85,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'value' => (isset($data["email1"]) ? $data["email1"] : ''),
                     'type'  => 'text',
                     'class' => 'form-control required',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_(
+                    'attr'  => 'size="32" maxlength="250" title="' . Text::_(
                         'COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS'
                     ) . '"'
                 ),
@@ -100,7 +102,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                 array(
                     'id'    => $prefix . 'email1',
                     'class' => 'email1',
-                    'text'  => JText::_('COM_REDSHOP_EMAIL')
+                    'text'  => Text::_('COM_REDSHOP_EMAIL')
                 ),
                 '',
                 $options
@@ -115,7 +117,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                 array(
                     'id'    => $prefix . 'firstname',
                     'class' => 'firstname',
-                    'text'  => JText::_('COM_REDSHOP_FIRSTNAME')
+                    'text'  => Text::_('COM_REDSHOP_FIRSTNAME')
                 ),
                 '',
                 $options
@@ -133,7 +135,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["firstname"]) ? $data["firstname"] : ''),
                     'class' => 'form-control required',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_(
+                    'attr'  => 'size="32" maxlength="250" title="' . Text::_(
                         'COM_REDSHOP_PLEASE_ENTER_FIRST_NAME'
                     ) . '"'
                 ),
@@ -150,7 +152,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                 array(
                     'id'    => $prefix . 'lastname',
                     'class' => 'lastname',
-                    'text'  => JText::_('COM_REDSHOP_LASTNAME')
+                    'text'  => Text::_('COM_REDSHOP_LASTNAME')
                 ),
                 '',
                 $options
@@ -168,7 +170,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["lastname"]) ? $data["lastname"] : ''),
                     'class' => 'form-control required',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_(
+                    'attr'  => 'size="32" maxlength="250" title="' . Text::_(
                         'COM_REDSHOP_PLEASE_ENTER_LAST_NAME'
                     ) . '"'
                 ),
@@ -186,7 +188,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                 array(
                     'id'    => $prefix . 'address',
                     'class' => 'address',
-                    'text'  => JText::_('COM_REDSHOP_ADDRESS')
+                    'text'  => Text::_('COM_REDSHOP_ADDRESS')
                 ),
                 '',
                 $options
@@ -204,7 +206,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["address"]) ? $data["address"] : ''),
                     'class' => 'form-control required',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS') . '"'
+                    'attr'  => 'size="32" maxlength="250" title="' . Text::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS') . '"'
                 ),
                 '',
                 $options
@@ -219,7 +221,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                 array(
                     'id'    => $prefix . 'zipcode',
                     'class' => 'zipcode',
-                    'text'  => JText::_('COM_REDSHOP_ZIP')
+                    'text'  => Text::_('COM_REDSHOP_ZIP')
                 ),
                 '',
                 $options
@@ -237,7 +239,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["zipcode"]) ? $data["zipcode"] : ''),
                     'class' => 'form-control required',
-                    'attr'  => 'size="32" maxlength="250" onblur="return autoFillCity(this.value,\'BT\');" title="' . JText::_(
+                    'attr'  => 'size="32" maxlength="250" onblur="return autoFillCity(this.value,\'BT\');" title="' . Text::_(
                         'COM_REDSHOP_PLEASE_ENTER_ZIPCODE'
                     ) . '"'
                 ),
@@ -254,7 +256,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                 array(
                     'id'    => $prefix . 'city',
                     'class' => 'city',
-                    'text'  => JText::_('COM_REDSHOP_CITY')
+                    'text'  => Text::_('COM_REDSHOP_CITY')
                 ),
                 '',
                 $options
@@ -272,7 +274,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["city"]) ? $data["city"] : ''),
                     'class' => 'form-control required',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_CITY') . '"'
+                    'attr'  => 'size="32" maxlength="250" title="' . Text::_('COM_REDSHOP_PLEASE_ENTER_CITY') . '"'
                 ),
                 '',
                 $options
@@ -291,7 +293,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                 array(
                     'id'    => $prefix . 'phone',
                     'class' => 'phone',
-                    'text'  => JText::_('COM_REDSHOP_PHONE')
+                    'text'  => Text::_('COM_REDSHOP_PHONE')
                 ),
                 '',
                 $options
@@ -309,7 +311,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["phone"]) ? $data["phone"] : ''),
                     'class' => 'form-control phone required',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_(
+                    'attr'  => 'size="32" maxlength="250" title="' . Text::_(
                         'COM_REDSHOP_PLEASE_ENTER_PHONE'
                     ) . '" onblur="return searchByPhone(this.value,\'BT\');" ' . $phoneIsRequired
                 ),
@@ -326,7 +328,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                 array(
                     'id'    => $prefix . 'company_name',
                     'class' => 'company_name',
-                    'text'  => JText::_('COM_REDSHOP_COMPANY_NAME')
+                    'text'  => Text::_('COM_REDSHOP_COMPANY_NAME')
                 ),
                 '',
                 $options
@@ -344,7 +346,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     'type'  => 'text',
                     'value' => (isset($data["company_name"]) ? $data["company_name"] : ''),
                     'class' => 'form-control required',
-                    'attr'  => 'size="32" maxlength="250" title="' . JText::_(
+                    'attr'  => 'size="32" maxlength="250" title="' . Text::_(
                         'COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME'
                     ) . '"'
                 ),
@@ -359,9 +361,9 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
         $this->addReplace('{country_style}', $countryStyle);
         $this->addReplace('{state_txtid}', 'div_state_txt');
         $this->addReplace('{state_style}', $stateStyle);
-        $this->addReplace('{country_lbl}', JText::_('COM_REDSHOP_COUNTRY'));
+        $this->addReplace('{country_lbl}', Text::_('COM_REDSHOP_COUNTRY'));
         $this->addReplace('{country}', $lists['country_code']);
-        $this->addReplace('{state_lbl}', JText::_('COM_REDSHOP_STATE'));
+        $this->addReplace('{state_lbl}', Text::_('COM_REDSHOP_STATE'));
         $this->addReplace('{state}', $lists['state_code']);
 
         return parent::replace();
@@ -391,7 +393,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                     array(
                         'id'    => $prefix . 'email2',
                         'class' => 'email2',
-                        'text'  => JText::_('COM_REDSHOP_RETYPE_CUSTOMER_EMAIL')
+                        'text'  => Text::_('COM_REDSHOP_RETYPE_CUSTOMER_EMAIL')
                     ),
                     '',
                     $options
@@ -405,7 +407,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
                         'type'  => 'text',
                         'value' => $data['email1'],
                         'class' => 'form-control required',
-                        'attr'  => 'size="32" maxlength="250" title="' . JText::_(
+                        'attr'  => 'size="32" maxlength="250" title="' . Text::_(
                             'COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS'
                         ) . '" required'
                     ),

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Redshop\Plugin\AbstractExportPlugin;
 
 JLoader::import('redshop.library');
@@ -30,11 +31,11 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 
         $configs   = array();
         $configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_ORDER_CONFIG_FROM_DATE') . '</label>
+			<label class="col-md-2 control-label">' . Text::_('PLG_REDSHOP_EXPORT_ORDER_CONFIG_FROM_DATE') . '</label>
 			<div class="col-md-4">
 				<label class="text-inline"><input name="from_date" type="date" checked/></label>
 			</div>
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_ORDER_CONFIG_TO_DATE') . '</label>
+			<label class="col-md-2 control-label">' . Text::_('PLG_REDSHOP_EXPORT_ORDER_CONFIG_TO_DATE') . '</label>
 			<div class="col-md-4">
 				<label class="text-inline"><input name="to_date" type="date" checked/></label>
 			</div>
@@ -60,7 +61,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
             $this->writeData($headers, 'w+');
         }
 
-        return (int)$this->getTotal();
+        return (int) $this->getTotal();
     }
 
     /**
@@ -90,7 +91,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
             $query->where($this->db->qn('o.cdate') . ' < ' . $this->db->q($toDate));
         }
 
-        return (int)$this->db->setQuery($query)->loadResult();
+        return (int) $this->db->setQuery($query)->loadResult();
     }
 
     /**
@@ -221,7 +222,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
         }
 
         foreach ($data as $item) {
-            $item                     = (array)$item;
+            $item                     = (array) $item;
             $item['order_id']         = $item['order_id'];
             $item['order_item_id']    = $item['order_item_id'];
             $item['order_item_name']  = $item['order_item_name'];

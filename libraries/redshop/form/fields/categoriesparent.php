@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Factory;
-
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 JFormHelper::loadFieldClass('list');
 
@@ -39,7 +40,7 @@ class JFormFieldCategoriesParent extends JFormFieldList
     {
         // Initialise variables.
         $options = array();
-        $name    = (string)$this->element['name'];
+        $name    = (string) $this->element['name'];
 
         // Let's get the id for the current item, either category or content item.
         $input     = JFactory::getApplication()->input;
@@ -62,13 +63,13 @@ class JFormFieldCategoriesParent extends JFormFieldList
         if ($this->element['parent']) {
             // Prevent parenting to children of this item.
             if ($id = $this->form->getValue('id')) {
-                $query->join('LEFT', $db->quoteName('#__redshop_category') . ' AS p ON p.id = ' . (int)$id)
+                $query->join('LEFT', $db->quoteName('#__redshop_category') . ' AS p ON p.id = ' . (int) $id)
                     ->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
                 $rowQuery = $db->getQuery(true);
                 $rowQuery->select('a.id AS value, a.name AS text, a.level, a.parent_id')
                     ->from('#__redshop_category AS a')
-                    ->where('a.id = ' . (int)$id);
+                    ->where('a.id = ' . (int) $id);
                 $db->setQuery($rowQuery);
                 $row = $db->loadObject();
             }
@@ -83,8 +84,9 @@ class JFormFieldCategoriesParent extends JFormFieldList
 
         try {
             $options = $db->loadObjectList();
-        } catch (RuntimeException $e) {
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
+        }
+        catch (RuntimeException $e) {
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
         }
 
         // Pad the option text with spaces using depth level as a multiplier.
@@ -92,7 +94,7 @@ class JFormFieldCategoriesParent extends JFormFieldList
             // Translate ROOT
             if ($this->element['parent'] == true) {
                 if ($options[$i]->level == 0) {
-                    $options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
+                    $options[$i]->text = Text::_('JGLOBAL_ROOT_PARENT');
                 }
             }
 
@@ -131,10 +133,10 @@ class JFormFieldCategoriesParent extends JFormFieldList
                         unset($options[$i]);
                     }
                 } /*
-				 * However, if you can edit.state you can also move this to another category for which you have
-				 * create permission and you should also still be able to save in the current category.
-				 */
-                elseif (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
+                  * However, if you can edit.state you can also move this to another category for which you have
+                  * create permission and you should also still be able to save in the current category.
+                  */elseif (
+                    ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
                     && $option->value != $oldCat
                 ) {
                     echo 'x';
@@ -145,7 +147,7 @@ class JFormFieldCategoriesParent extends JFormFieldList
 
         if (isset($row) && !isset($options[0]) && $row->parent_id == '1') {
             $parent       = new stdClass;
-            $parent->text = JText::_('JGLOBAL_ROOT_PARENT');
+            $parent->text = Text::_('JGLOBAL_ROOT_PARENT');
             array_unshift($options, $parent);
         }
 

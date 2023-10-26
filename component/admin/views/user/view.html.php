@@ -7,8 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewUser extends RedshopViewAdmin
 {
@@ -19,7 +21,7 @@ class RedshopViewUser extends RedshopViewAdmin
         $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $document = JFactory::getDocument();
 
-        $document->setTitle(JText::_('COM_REDSHOP_USER'));
+        $document->setTitle(Text::_('COM_REDSHOP_USER'));
 
         $this->state               = $this->get('State');
         $sync                      = JFactory::getApplication()->input->get('sync');
@@ -32,14 +34,14 @@ class RedshopViewUser extends RedshopViewAdmin
             $this->sync_user = $sync_user;
         } else {
             $this->setLayout('default');
-            JToolBarHelper::title(JText::_('COM_REDSHOP_USER_MANAGEMENT'), 'users redshop_user48');
+            JToolBarHelper::title(Text::_('COM_REDSHOP_USER_MANAGEMENT'), 'users redshop_user48');
             JToolbarHelper::addNew();
             JToolbarHelper::EditList();
             JToolBarHelper::deleteList();
         }
 
-        $lists ['order']     = $this->state->get('list.ordering', 'users_info_id');
-        $lists ['order_Dir'] = $this->state->get('list.direction');
+        $lists['order']     = $this->state->get('list.ordering', 'users_info_id');
+        $lists['order_Dir'] = $this->state->get('list.direction');
 
         $user       = $this->get('Data');
         $pagination = $this->get('Pagination');
@@ -49,7 +51,7 @@ class RedshopViewUser extends RedshopViewAdmin
         $temps           = array();
         $temps[0]        = new stdClass;
         $temps[0]->value = 0;
-        $temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+        $temps[0]->text  = Text::_('COM_REDSHOP_SELECT');
         $shopper_groups  = array_merge($temps, $shopper_groups);
 
         $lists['shopper_group'] = JHTML::_(
@@ -63,9 +65,9 @@ class RedshopViewUser extends RedshopViewAdmin
         );
 
         $optiontax_req               = array();
-        $optiontax_req[]             = JHTML::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
-        $optiontax_req[]             = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_yes'));
-        $optiontax_req[]             = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_no'));
+        $optiontax_req[]             = JHTML::_('select.option', 'select', Text::_('COM_REDSHOP_SELECT'));
+        $optiontax_req[]             = JHTML::_('select.option', '1', Text::_('COM_REDSHOP_yes'));
+        $optiontax_req[]             = JHTML::_('select.option', '0', Text::_('COM_REDSHOP_no'));
         $lists['tax_exempt_request'] = JHTML::_(
             'select.genericlist',
             $optiontax_req,

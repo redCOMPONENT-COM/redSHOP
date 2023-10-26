@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -73,9 +75,9 @@ abstract class JFormFieldPredefinedList extends JFormFieldList
 
             foreach ($this->predefinedOptions as $value => $text) {
                 if (empty($filter) || in_array($value, $filter)) {
-                    $text = $this->translate ? JText::_($text) : $text;
+                    $text = $this->translate ? Text::_($text) : $text;
 
-                    $options[] = (object)array(
+                    $options[] = (object) array(
                         'value' => $value,
                         'text'  => $text
                     );

@@ -7,6 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 JLoader::import('redshop.library');
 
 $objOrder         = order_functions::getInstance();
@@ -20,7 +24,7 @@ $Itemid = $input->getInt('Itemid');
 
 $paymentCurrency = $this->params->get("currency", Redshop::getConfig()->get('CURRENCY_CODE'));
 
-if (1 == (int)$this->params->get("sandbox")) {
+if (1 == (int) $this->params->get("sandbox")) {
     $paypalurl = "https://www.sandbox.paypal.com/cgi-bin/webscr";
 } else {
     $paypalurl = "https://www.paypal.com/cgi-bin/webscr";
@@ -29,7 +33,7 @@ $orderTotal = RedshopHelperCurrency::convert($data['order']->order_total, '', $p
 $key        = array(
     $data['order_id'],
     $orderTotal,
-    (int)$this->params->get("sandbox"),
+    (int) $this->params->get("sandbox"),
     $this->params->get("merchant_email")
 );
 $key        = md5(implode('|', $key));
@@ -38,16 +42,16 @@ $returnUrl = JUri::base() . "index.php?tmpl=component&option=com_redshop&view=or
     . "controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid="
     . $data['order_id'] . '&key=' . $key;
 
-if (1 == (int)$this->params->get("auto_return")) {
+if (1 == (int) $this->params->get("auto_return")) {
     $returnUrl = $this->params->get("auto_return_url");
 }
 
-$paypalPostData = Array(
+$paypalPostData = array(
     "cmd"                => "_cart",
     "upload"             => "1",
     "business"           => $this->params->get("merchant_email"),
     "receiver_email"     => $this->params->get("merchant_email"),
-    "item_name"          => JText::_('COM_REDSHOP_ORDER_ID_LBL') . ":" . $data['order_id'],
+    "item_name"          => Text::_('COM_REDSHOP_ORDER_ID_LBL') . ":" . $data['order_id'],
     "first_name"         => $data['billinginfo']->firstname,
     "last_name"          => $data['billinginfo']->lastname,
     "address1"           => $data['billinginfo']->address,
@@ -63,11 +67,11 @@ $paypalPostData = Array(
     "landing_page"       => "billing",
     "return"             => $returnUrl,
     "notify_url"         => JURI::base(
-        ) . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&"
+    ) . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&"
         . "task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'] . '&key=' . $key,
     "night_phone_b"      => substr($data['billinginfo']->phone, 0, 25),
     "cancel_return"      => JURI::base(
-        ) . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&"
+    ) . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&"
         . "task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'] . '&key=' . $key,
     "undefined_quantity" => "0",
     "pal"                => "NRUBJXESJTY24",
@@ -133,7 +137,7 @@ for ($i = 0, $countItems = count($items); $i < $countItems; $i++) {
 $paypalCartItems['shipping_1'] = round(RedshopHelperCurrency::convert($shipping, '', $paymentCurrency), 2);
 
 echo '<form action="' . $paypalurl . '" method="post" name="paypalfrm" id="paypalfrm">';
-echo "<h3>" . JText::_('PLG_RS_PAYMENT_PAYPAL_WAIT_MESSAGE') . "</h3>";
+echo "<h3>" . Text::_('PLG_RS_PAYMENT_PAYPAL_WAIT_MESSAGE') . "</h3>";
 
 foreach ($paypalPostData as $name => $value) {
     echo "<input type='hidden' name='$name' value='$value' />";

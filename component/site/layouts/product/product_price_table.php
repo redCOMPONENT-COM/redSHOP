@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * $displayData extract
  *
@@ -18,11 +20,12 @@ defined('_JEXEC') or die;
  */
 
 extract($displayData);
+
 ?>
 <table>
     <tr>
-        <th><?php echo JText::_('COM_REDSHOP_QUANTITY'); ?></th>
-        <th><?php echo JText::_('COM_REDSHOP_PRICE'); ?></th>
+        <th><?php echo Text::_('COM_REDSHOP_QUANTITY'); ?></th>
+        <th><?php echo Text::_('COM_REDSHOP_PRICE'); ?></th>
     </tr>
     <?php foreach ($result as $key => $value): ?>
         <?php if ($value->discount_price != 0 && $value->discount_start_date != 0 && $value->discount_end_date != 0 && $value->discount_start_date <= time(

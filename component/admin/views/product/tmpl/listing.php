@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 JHtml::_('behavior.formvalidator');
 
@@ -63,19 +66,19 @@ $model = $this->getModel('product');
         <div class="filterItem">
             <div class="btn-wrapper input-append">
                 <input type="text" name="keyword" value="<?php echo $this->keyword; ?>">
-                <input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+                <input type="submit" class="btn" value="<?php echo Text::_("COM_REDSHOP_SEARCH") ?>">
             </div>
         </div>
         <div class="filterItem">
             <select name="search_field" onchange="javascript:document.adminForm.submit();">
                 <option value="p.product_name" <?php echo $this->search_field == 'p.product_name' ? "selected='selected'" : '' ?>>
-                    <?php echo JText::_("COM_REDSHOP_PRODUCT_NAME") ?>
+                    <?php echo Text::_("COM_REDSHOP_PRODUCT_NAME") ?>
                 </option>
                 <option value="c.category_name" <?php echo $this->search_field == 'c.category_name' ? "selected='selected'" : '' ?>>
-                    <?php echo JText::_("COM_REDSHOP_CATEGORY") ?>
+                    <?php echo Text::_("COM_REDSHOP_CATEGORY") ?>
                 </option>
                 <option value="p.product_number" <?php echo $this->search_field == 'p.product_number' ? "selected='selected'" : '' ?>>
-                    <?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER") ?>
+                    <?php echo Text::_("COM_REDSHOP_PRODUCT_NUMBER") ?>
                 </option>
             </select>
         </div>
@@ -109,16 +112,16 @@ $model = $this->getModel('product');
                     ); ?>
                 </th>
                 <th class="title" width="20">
-                    <?php echo JText::_('COM_REDSHOP_PRICE'); ?>
+                    <?php echo Text::_('COM_REDSHOP_PRICE'); ?>
                     <a href="javascript:Joomla.submitbutton('saveprice')" class="btn btn-success"
-                       title="<?php echo JText::_('COM_REDSHOP_PRICE') ?>">
+                       title="<?php echo Text::_('COM_REDSHOP_PRICE') ?>">
                         <i class="fa fa-save"></i>
                     </a>
                 </th>
                 <th class="title" width="20">
-                    <?php echo JText::_('COM_REDSHOP_DISCOUNT_PRICE'); ?>
+                    <?php echo Text::_('COM_REDSHOP_DISCOUNT_PRICE'); ?>
                     <a href="javascript:Joomla.submitbutton('savediscountprice')" class="btn btn-success"
-                       title="<?php echo JText::_('COM_REDSHOP_DISCOUNT_PRICE') ?>">
+                       title="<?php echo Text::_('COM_REDSHOP_DISCOUNT_PRICE') ?>">
                         <i class="fa fa-save"></i>
                     </a>
                 </th>
@@ -136,7 +139,7 @@ $model = $this->getModel('product');
                         <a href="<?php echo Redshop\IO\Route::_(
                             'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id
                         ) ?>"
-                           title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT') ?>">
+                           title="<?php echo Text::_('COM_REDSHOP_EDIT_PRODUCT') ?>">
                             <?php echo $row->product_name ?>
                         </a>
                     </td>
@@ -148,7 +151,7 @@ $model = $this->getModel('product');
                         <label id="product_price_<?php echo $row->product_id ?>-lbl"
                                for="product_price_<?php echo $row->product_id ?>"
                                class="hidden">
-                            <?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_ERROR_PRICE_MUST_NOT_NEGATIVE_NUMBER') ?>
+                            <?php echo Text::_('COM_REDSHOP_PRODUCT_PRICE_ERROR_PRICE_MUST_NOT_NEGATIVE_NUMBER') ?>
                         </label>
                         <input type="number" name="price[]" size="4" id="product_price_<?php echo $row->product_id ?>"
                                class="validate-positiveNumber"
@@ -165,7 +168,7 @@ $model = $this->getModel('product');
                         <label id="discount_price_<?php echo $row->product_id ?>-lbl"
                                for="discount_price_<?php echo $row->product_id ?>"
                                class="hidden">
-                            <?php echo JText::_('COM_REDSHOP_DISCOUNT_PRICE_MUST_BE_LESS_THAN_PRICE') ?>
+                            <?php echo Text::_('COM_REDSHOP_DISCOUNT_PRICE_MUST_BE_LESS_THAN_PRICE') ?>
                         </label>
                         <input type="number" id="discount_price_<?php echo $row->product_id ?>" name="discount_price[]"
                                size="4"

@@ -7,35 +7,41 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 $params = JFactory::getApplication()->input->get('params', '', 'raw');
+
 ?>
 <div>
     <form action="?option=com_redshop" method="POST" name="installform" id="installform">
         <table class="admintable table">
             <tr>
                 <td colspan="2" class="tandc_intro_text">
-                    <?php echo JText::_('COM_REDSHOP_TERM_AND_CONDITION_INTRO_TEXT'); ?>
+                    <?php echo Text::_('COM_REDSHOP_TERM_AND_CONDITION_INTRO_TEXT'); ?>
                 </td>
             </tr>
             <tr>
                 <td align="right" class="key">
-			<span class="editlinktip hasTip"
-                  title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_TERMS_AND_CONDITIONS_LBL'); ?>::<?php echo JText::_(
-                      'COM_REDSHOP_TERMS_AND_CONDITIONS_LBL'
-                  ); ?>">
-			<label for="showprice"><?php echo JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL'); ?></label></span>
+                    <span class="editlinktip hasTip" title="<?php echo Text::_('COM_REDSHOP_TOOLTIP_TERMS_AND_CONDITIONS_LBL'); ?>::<?php echo Text::_(
+                           'COM_REDSHOP_TERMS_AND_CONDITIONS_LBL'
+                       ); ?>">
+                        <label for="showprice">
+                            <?php echo Text::_('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL'); ?>
+                        </label></span>
                 </td>
                 <td>
                     <?php
 
                     $doc = JFactory::getDocument();
 
-                    $article = JTable::getInstance('content');
+                    $article    = JTable::getInstance('content');
                     $article_id = $this->temparray['TERMS_ARTICLE_ID'];
                     if ($article_id) {
                         $article->load($article_id);
                     } else {
-                        $article->title = JText::_('COM_REDSHOP_SELECT_AN_ARTICLE');
+                        $article->title = Text::_('COM_REDSHOP_SELECT_AN_ARTICLE');
                     }
                     $js = "
 		function jSelectArticle_terms_article_id(id, title, catid) {
@@ -49,12 +55,12 @@ $params = JFactory::getApplication()->input->get('params', '', 'raw');
 
                     $link = 'index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=jSelectArticle_terms_article_id';
                     $html = "\n" . '<div class="fltlft"><input type="text" id="terms_article_id_name" value="' . htmlspecialchars(
-                            $article->title,
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) . '" disabled="disabled" /></div>';
+                        $article->title,
+                        ENT_QUOTES,
+                        'UTF-8'
+                    ) . '" disabled="disabled" /></div>';
                     $html .= '<div class="button2-left"><div class="blank"><button type="button" class="joom-box btn btn-default ModalConfigDetailButton"'
-	. ' data-url="' . $link . '">' . JText::_('COM_REDSHOP_Select') . '</button></div></div>' . "\n";
+                        . ' data-url="' . $link . '">' . Text::_('COM_REDSHOP_Select') . '</button></div></div>' . "\n";
                     $html .= "\n" . '<input type="hidden" id="terms_article_id_id" name="terms_article_id" value="' . $article_id . '" />';
 
                     echo $html;
@@ -63,25 +69,28 @@ $params = JFactory::getApplication()->input->get('params', '', 'raw');
             </tr>
             <tr>
                 <td align="right" class="key">
-                    <label
-                            for="showprice"><?php echo JText::_(
+                    <label for="showprice">
+                        <?php echo Text::_(
                             'COM_REDSHOP_ADD_TERMS_AND_CONDITIONS_LBL'
-                        ); ?></label></span>
+                        ); ?>
+                    </label></span>
                 </td>
                 <td>
                     <a href="index.php?option=com_content&task=edit&cid[]=0" target="_blank"
-                       class="btn btn-small btn-info"
-                       name="<?php echo JText::_('COM_REDSHOP_ADD_TERMS_AND_CONDITIONS_LBL'); ?>"><?php echo JText::_(
+                        class="btn btn-small btn-info"
+                        name="<?php echo Text::_('COM_REDSHOP_ADD_TERMS_AND_CONDITIONS_LBL'); ?>">
+                        <?php echo Text::_(
                             'COM_REDSHOP_ADD'
-                        ) ?></a>
+                        ) ?>
+                    </a>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <input type="hidden" name="view" value="wizard"/>
-                    <input type="hidden" name="task" value="save"/>
-                    <input type="hidden" name="substep" value="<?php echo $params->step; ?>"/>
-                    <input type="hidden" name="go" value=""/>
+                    <input type="hidden" name="view" value="wizard" />
+                    <input type="hidden" name="task" value="save" />
+                    <input type="hidden" name="substep" value="<?php echo $params->step; ?>" />
+                    <input type="hidden" name="go" value="" />
                 </td>
             </tr>
         </table>
@@ -89,10 +98,10 @@ $params = JFactory::getApplication()->input->get('params', '', 'raw');
 </div>
 <?php
 echo RedshopLayoutHelper::render(
-	'modal.iframe',
-	[
-		'modalButton' => '.ModalConfigDetailButton',
-		'selector'    => 'ModalConfigDetail',
-	]
+    'modal.iframe',
+    [
+        'modalButton' => '.ModalConfigDetailButton',
+        'selector'    => 'ModalConfigDetail',
+    ]
 );
 

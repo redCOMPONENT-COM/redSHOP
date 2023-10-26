@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -68,21 +70,21 @@ class RedshopTagsSectionsOrderReceipt extends RedshopTagsAbstract
             'tags.common.img_link',
             array(
                 'link'     => 'javascript:void(0)',
-                'linkAttr' => $onclick . ' title="' . JText::_('COM_REDSHOP_PRINT_LBL') . '"',
+                'linkAttr' => $onclick . ' title="' . Text::_('COM_REDSHOP_PRINT_LBL') . '"',
                 'src'      => JSYSTEM_IMAGES_PATH . 'printButton.png',
-                'alt'      => JText::_('COM_REDSHOP_PRINT_LBL'),
-                'imgAttr'  => 'title="' . JText::_('COM_REDSHOP_PRINT_LBL') . '"'
+                'alt'      => Text::_('COM_REDSHOP_PRINT_LBL'),
+                'imgAttr'  => 'title="' . Text::_('COM_REDSHOP_PRINT_LBL') . '"'
             ),
             '',
             RedshopLayoutHelper::$layoutOption
         );
 
         $this->addReplace('{print}', $printTag);
-        $this->addReplace('{product_name_lbl}', JText::_('COM_REDSHOP_PRODUCT_NAME_LBL'));
-        $this->addReplace('{price_lbl}', JText::_('COM_REDSHOP_PRICE_LBL'));
-        $this->addReplace('{quantity_lbl}', JText::_('COM_REDSHOP_QUANTITY_LBL'));
-        $this->addReplace('{total_price_lbl}', JText::_('COM_REDSHOP_TOTAL_PRICE_LBL'));
-        $this->addReplace('{customer_note_lbl}', JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'));
+        $this->addReplace('{product_name_lbl}', Text::_('COM_REDSHOP_PRODUCT_NAME_LBL'));
+        $this->addReplace('{price_lbl}', Text::_('COM_REDSHOP_PRICE_LBL'));
+        $this->addReplace('{quantity_lbl}', Text::_('COM_REDSHOP_QUANTITY_LBL'));
+        $this->addReplace('{total_price_lbl}', Text::_('COM_REDSHOP_TOTAL_PRICE_LBL'));
+        $this->addReplace('{customer_note_lbl}', Text::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'));
 
         $this->template = Redshop\Order\Template::replaceTemplate($order, $this->template);
 

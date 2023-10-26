@@ -7,10 +7,11 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-use Joomla\CMS\Factory;
-use Joomla\Utilities\ArrayHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 JLoader::import('joomla.database.tablenested');
 
@@ -209,13 +210,13 @@ class RedshopTableNested extends JTableNested
         if (isset($src['params']) && is_array($src['params'])) {
             $registry = new JRegistry;
             $registry->loadArray($src['params']);
-            $src['params'] = (string)$registry;
+            $src['params'] = (string) $registry;
         }
 
         if (isset($src['metadata']) && is_array($src['metadata'])) {
             $registry = new JRegistry;
             $registry->loadArray($src['metadata']);
-            $src['metadata'] = (string)$registry;
+            $src['metadata'] = (string) $registry;
         }
 
         if (isset($src['rules']) && is_array($src['rules'])) {
@@ -469,11 +470,12 @@ class RedshopTableNested extends JTableNested
             }
         }
 
-		if (!property_exists($this, 'alias')
-			|| (empty($this->alias) && !empty($this->name)))
-		{
-			$this->alias = JFilterOutput::stringURLSafe($this->name);
-		}
+        if (
+            !property_exists($this, 'alias')
+            || (empty($this->alias) && !empty($this->name))
+        ) {
+            $this->alias = JFilterOutput::stringURLSafe($this->name);
+        }
 
         return true;
     }
@@ -721,8 +723,8 @@ class RedshopTableNested extends JTableNested
 
         // Sanitize input.
         $pks    = ArrayHelper::toInteger($pks);
-        $userId = (int)$userId;
-        $state  = (int)$state;
+        $userId = (int) $userId;
+        $state  = (int) $state;
 
         // If there are no primary keys set check to see if the instance key is set.
         if (empty($pks)) {
@@ -730,7 +732,7 @@ class RedshopTableNested extends JTableNested
                 $pks = array($this->$k);
             } // Nothing to set publishing state on, return false.
             else {
-                $this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+                $this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
                 return false;
             }
@@ -739,14 +741,14 @@ class RedshopTableNested extends JTableNested
         // Build the main update query
         $query = $db->getQuery(true)
             ->update($db->quoteName($this->_tbl))
-            ->set($db->quoteName($this->_tableFieldState) . ' = ' . (int)$state)
+            ->set($db->quoteName($this->_tableFieldState) . ' = ' . (int) $state)
             ->where($db->quoteName($k) . '=' . implode(' OR ' . $db->quoteName($k) . '=', $pks));
 
         // Determine if there is checkin support for the table.
         if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time')) {
             $checkin = false;
         } else {
-            $query->where('(checked_out = 0 OR checked_out IS NULL OR checked_out = ' . (int)$userId . ')');
+            $query->where('(checked_out = 0 OR checked_out IS NULL OR checked_out = ' . (int) $userId . ')');
             $checkin = true;
         }
 
@@ -755,11 +757,12 @@ class RedshopTableNested extends JTableNested
 
         try {
             $db->query();
-        } catch (RuntimeException $e) {
-			Factory::getApplication()->enqueueMessage(
-				$e->getMessage(),
-				'warning'
-			);
+        }
+        catch (RuntimeException $e) {
+            Factory::getApplication()->enqueueMessage(
+                $e->getMessage(),
+                'warning'
+            );
 
             return false;
         }
@@ -876,13 +879,13 @@ class RedshopTableNested extends JTableNested
             // If the table has an ordering field, use that for ordering.
             $query->order('parent_id, lft');
 
-            $this->_cache['rebuild.sql'] = (string)$query;
+            $this->_cache['rebuild.sql'] = (string) $query;
         }
 
         // Make a shortcut to database object.
 
         // Assemble the query to find all children of this node.
-        $this->_db->setQuery(sprintf($this->_cache['rebuild.sql'], (int)$parentId));
+        $this->_db->setQuery(sprintf($this->_cache['rebuild.sql'], (int) $parentId));
 
         $children = $this->_db->loadObjectList();
 
@@ -913,17 +916,17 @@ class RedshopTableNested extends JTableNested
         // the children of this node we also know the right value.
         $query->clear()
             ->update($this->_tbl)
-            ->set('lft = ' . (int)$leftId)
-            ->set('rgt = ' . (int)$rightId)
-            ->set('level = ' . (int)$level)
+            ->set('lft = ' . (int) $leftId)
+            ->set('rgt = ' . (int) $rightId)
+            ->set('level = ' . (int) $level)
             ->set('path = ' . $this->_db->quote($path))
-            ->where($this->_tbl_key . ' = ' . (int)$parentId);
+            ->where($this->_tbl_key . ' = ' . (int) $parentId);
 
         // If the table has an ordering field, use that for ordering.
         $orderingField = $this->getColumnAlias('ordering');
 
         if (!empty($orderingField) && $orderingField !== 'alias' && property_exists($this, $orderingField)) {
-            $query->set($this->_db->qn($orderingField) . ' = ' . (int)$leftId);
+            $query->set($this->_db->qn($orderingField) . ' = ' . (int) $leftId);
         }
 
         $this->_db->setQuery($query)->execute();

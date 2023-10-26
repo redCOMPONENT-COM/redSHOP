@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * View Install
  *
@@ -53,7 +55,7 @@ class RedshopViewInstall extends RedshopViewAdmin
     {
         $this->installType = JFactory::getApplication()->input->getString('install_type', 'install');
 
-        JToolbarHelper::title(JText::_('COM_REDSHOP_INSTALL_TITLE'));
+        JToolbarHelper::title(Text::_('COM_REDSHOP_INSTALL_TITLE'));
 
         /** @var RedshopModelInstall $model */
         $model = $this->getModel();

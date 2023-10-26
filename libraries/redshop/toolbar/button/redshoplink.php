@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Renders a link button
  *
@@ -43,7 +45,7 @@ class JToolbarButtonRedshopLink extends JButton
     {
         // Store all data to the options array for use with JLayout
         $options           = array();
-        $options['text']   = JText::_($text);
+        $options['text']   = Text::_($text);
         $options['class']  = $this->fetchIconClass($name);
         $options['doTask'] = $url;
         $options['target'] = $target;
@@ -67,6 +69,6 @@ class JToolbarButtonRedshopLink extends JButton
     public function fetchId($type = 'RedshopLink', $name = '')
     {
         return (method_exists($this, 'getParent') ? $this->getParent() : $this->_parent)->getName()
-			. '-' . $name;
+            . '-' . $name;
     }
 }

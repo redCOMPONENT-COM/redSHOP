@@ -9,6 +9,7 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Redshop\Traits\Replace;
 
@@ -101,7 +102,7 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
             if (Redshop::getConfig()->get('SHOW_SHIPPING_IN_CART')) {
                 $shippingCalc = $this->shippingRateCalc();
                 $this->addReplace('{shipping_calculator}', $shippingCalc);
-                $this->addReplace('{shipping_calculator_label}', JText::_('COM_REDSHOP_SHIPPING_CALCULATOR'));
+                $this->addReplace('{shipping_calculator_label}', Text::_('COM_REDSHOP_SHIPPING_CALCULATOR'));
             } else {
                 $this->addReplace('{shipping_calculator}', '');
                 $this->addReplace('{shipping_calculator_label}', '');
@@ -170,7 +171,7 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
                 'tags.common.button',
                 array(
                     'class' => 'btn btn-secondary btn-sm shop-more-btn',
-                    'text'  => JText::_('COM_REDSHOP_SHOP_MORE'),
+                    'text'  => Text::_('COM_REDSHOP_SHOP_MORE'),
                     'attr'  => 'onclick="javascript:document.location=\'' . $shopMoreLink . '\'" type="button"'
                 ),
                 '',
@@ -206,7 +207,7 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
 
         $this->addReplace('{empty_cart}', $emptyCart);
 
-        $discount = RedshopHelperDiscount::getDiscount($cart ['product_subtotal']);
+        $discount = RedshopHelperDiscount::getDiscount($cart['product_subtotal']);
 
         if (is_object($discount)) {
             if (isset($discount->discount_type) && $discount->discount_type == 0) {
@@ -228,30 +229,31 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
 
             switch ($discount->condition) {
                 case 1:
-                    $conditionText = JText::_('COM_REDSHOP_LOWER');
+                    $conditionText = Text::_('COM_REDSHOP_LOWER');
                     break;
                 case 2:
-                    $conditionText = JText::_('COM_REDSHOP_EQUAL');
+                    $conditionText = Text::_('COM_REDSHOP_EQUAL');
                     break;
                 case 3:
-                    $conditionText =  JText::_('COM_REDSHOP_HIGHER');
+                    $conditionText = Text::_('COM_REDSHOP_HIGHER');
                     break;
-                };
+            }
+            ;
 
             $text = sprintf(
-                JText::_('COM_REDSHOP_DISCOUNT_TEXT'),
+                Text::_('COM_REDSHOP_DISCOUNT_TEXT'),
                 RedshopHelperProductPrice::formattedPrice($discountAmount, true),
                 $price . $discountSign,
-                $conditionText ,
+                $conditionText,
                 RedshopHelperProductPrice::formattedPrice($discount->amount, true)
             );
 
             /*
-              *  Discount type =  1 // Discount/coupon/voucher
-              *  Discount type =  2 // Discount + coupon/voucher
-              *  Discount type =  3 // Discount + coupon + voucher
-              *  Discount type =  4 // Discount + coupons + voucher
-              */
+             *  Discount type =  1 // Discount/coupon/voucher
+             *  Discount type =  2 // Discount + coupon/voucher
+             *  Discount type =  3 // Discount + coupon + voucher
+             *  Discount type =  4 // Discount + coupons + voucher
+             */
             if (Redshop::getConfig()->get('DISCOUNT_TYPE') && Redshop::getConfig()->get('DISCOUNT_ENABLE') == 1) {
                 $this->addReplace('{discount_rule}', $text);
             } else {
@@ -279,7 +281,7 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
                         'tag'   => 'div',
                         'class' => 'coupon_label',
                         'id'    => 'coupon_label',
-                        'text'  => JText::_('COM_REDSHOP_CART_COUPON_CODE_TBL')
+                        'text'  => Text::_('COM_REDSHOP_CART_COUPON_CODE_TBL')
                     ),
                     '',
                     $optionLayout
@@ -312,7 +314,7 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
     public function shippingRateCalc()
     {
         JHtml::_('redshopjquery.framework');
-		HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
 
         $countries            = RedshopHelperWorld::getCountryList();
         $post['country_code'] = $countries['country_code'];

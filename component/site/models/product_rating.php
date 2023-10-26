@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class product_ratingModelproduct_rating
  *
@@ -110,19 +112,21 @@ class RedshopModelProduct_Rating extends RedshopModelForm
         if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != "") {
             $sendto = explode(",", Redshop::getConfig()->get('ADMINISTRATOR_EMAIL'));
 
-            if (JFactory::getMailer()->sendMail(
-                $data['email'],
-                $data['username'],
-                $sendto,
-                $subject,
-                $data_add,
-                $mode = 1,
-                null,
-                $mailbcc
-            )) {
+            if (
+                JFactory::getMailer()->sendMail(
+                    $data['email'],
+                    $data['username'],
+                    $sendto,
+                    $subject,
+                    $data_add,
+                    $mode = 1,
+                    null,
+                    $mailbcc
+                )
+            ) {
                 return true;
             } else {
-                $this->setError(JText::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY'));
+                $this->setError(Text::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY'));
 
                 return false;
             }
@@ -172,8 +176,8 @@ class RedshopModelProduct_Rating extends RedshopModelForm
         $query = $db->getQuery(true)
             ->select('COUNT(id)')
             ->from($db->qn('#__redshop_product_rating'))
-            ->where('product_id = ' . (int)$pid)
-            ->where('userid = ' . (int)$uid);
+            ->where('product_id = ' . (int) $pid)
+            ->where('userid = ' . (int) $uid);
 
         if ($email) {
             $query->where('email = ' . $db->q($email));
@@ -191,7 +195,7 @@ class RedshopModelProduct_Rating extends RedshopModelForm
      */
     protected function loadFormData()
     {
-        $data = (array)JFactory::getApplication()->getUserState($this->context . '.data', array());
+        $data = (array) JFactory::getApplication()->getUserState($this->context . '.data', array());
 
         return $data;
     }

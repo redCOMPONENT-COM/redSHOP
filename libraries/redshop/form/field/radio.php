@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 require_once JPATH_LIBRARIES . '/redshop/library.php';
 
 JFormHelper::loadFieldClass('radio');
@@ -45,7 +47,7 @@ class RedshopFormFieldRadio extends JFormFieldRadio
      */
     protected function debugEnabled()
     {
-        return !empty($this->element['debug']) ? ((string)$this->element['debug'] === 'true') : false;
+        return !empty($this->element['debug']) ? ((string) $this->element['debug'] === 'true') : false;
     }
 
     /**
@@ -69,7 +71,7 @@ class RedshopFormFieldRadio extends JFormFieldRadio
      */
     protected function getInputLayout()
     {
-        return !empty($this->element['input-layout']) ? (string)$this->element['input-layout'] : $this->inputLayout;
+        return !empty($this->element['input-layout']) ? (string) $this->element['input-layout'] : $this->inputLayout;
     }
 
     /**
@@ -80,12 +82,12 @@ class RedshopFormFieldRadio extends JFormFieldRadio
     protected function getLayoutData()
     {
         // Label preprocess
-        $label = $this->element['label'] ? (string)$this->element['label'] : (string)$this->element['name'];
-        $label = $this->translateLabel ? JText::_($label) : $label;
+        $label = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
+        $label = $this->translateLabel ? Text::_($label) : $label;
 
         // Description preprocess
         $description = !empty($this->description) ? $this->description : null;
-        $description = !empty($description) && $this->translateDescription ? JText::_($description) : $description;
+        $description = !empty($description) && $this->translateDescription ? Text::_($description) : $description;
 
         $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
@@ -111,7 +113,7 @@ class RedshopFormFieldRadio extends JFormFieldRadio
             'pattern'      => $this->pattern,
             'readonly'     => $this->readonly,
             'repeat'       => $this->repeat,
-            'required'     => (bool)$this->required,
+            'required'     => (bool) $this->required,
             'size'         => $this->size,
             'spellcheck'   => $this->spellcheck,
             'validate'     => $this->validate,
@@ -128,6 +130,6 @@ class RedshopFormFieldRadio extends JFormFieldRadio
      */
     protected function getLabelLayout()
     {
-        return !empty($this->element['label-layout']) ? (string)$this->element['label-layout'] : $this->labelLayout;
+        return !empty($this->element['label-layout']) ? (string) $this->element['label-layout'] : $this->labelLayout;
     }
 }

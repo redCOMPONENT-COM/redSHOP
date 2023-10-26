@@ -7,18 +7,20 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
 
 $turnover = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalTurnOverCpanel();
+$sales    = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCpanel();
 
-$sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCpanel();
 ?>
-
 <script language="javascript" type="text/javascript">
     //Load the Visualization API and the piechart package.
-    google.charts.load("current", {packages: ['corechart']});
+    google.charts.load("current", { packages: ['corechart'] });
 
     //Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
@@ -29,24 +31,24 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
     function drawChart() {
         //Create our data table.
         var data = new google.visualization.DataTable();
-        data.addColumn('string', '<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION');?>');
-        data.addColumn('number', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT');?>');
-        data.addColumn({type: 'string', role: 'annotation'});
-        data.addColumn({type: 'string', role: 'tooltip'});
+        data.addColumn('string', '<?php echo Text::_('COM_REDSHOP_STATISTIC_DURATION'); ?>');
+        data.addColumn('number', '<?php echo Text::_('COM_REDSHOP_SALES_AMOUNT'); ?>');
+        data.addColumn({ type: 'string', role: 'annotation' });
+        data.addColumn({ type: 'string', role: 'tooltip' });
 
-        <?php if (count($turnover) > 0) {?>
-        <?php $turnover = array_reverse($turnover); ?>
-        <?php foreach ($turnover as $row) { ?>
-        <?php $price = strip_tags(RedshopHelperProductPrice::formattedPrice($row[1])); ?>
-        data.addRow(['<?php echo $row[0] ?>', <?php echo $row[1] ?>, '<?php echo $price ?>', '<?php echo $price . ' in ' . $row[0]; ?>']);
-        <?php } ?>
+        <?php if (count($turnover) > 0) { ?>
+            <?php $turnover = array_reverse($turnover); ?>
+            <?php foreach ($turnover as $row) { ?>
+                <?php $price = strip_tags(RedshopHelperProductPrice::formattedPrice($row[1])); ?>
+                data.addRow(['<?php echo $row[0] ?>', <?php echo $row[1] ?>, '<?php echo $price ?>', '<?php echo $price . ' in ' . $row[0]; ?>']);
+            <?php } ?>
         <?php } ?>
 
         var options = {
             height: 400,
             colors: ['#1ab395'],
-            legend: {position: "none"},
-            chartArea: {'width': '90%', 'height': '90%'},
+            legend: { position: "none" },
+            chartArea: { 'width': '90%', 'height': '90%' },
             curveType: 'function'
         };
 
@@ -67,8 +69,8 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
             height: 400,
             width: widthLine,
             colors: ['#1ab395'],
-            legend: {position: "none"},
-            chartArea: {'width': '90%', 'height': '90%'},
+            legend: { position: "none" },
+            chartArea: { 'width': '90%', 'height': '90%' },
             curveType: 'function'
         };
         var chartLine = new google.visualization.LineChart(document.getElementById('lastmonthsales_statistics_pie'));
@@ -94,12 +96,12 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
                 <div class="filterTool">
                     <div class="filterItem">
                         <?php
-                        echo JText::_('COM_REDSHOP_FILTER') . ": ";
+                        echo Text::_('COM_REDSHOP_FILTER') . ": ";
                         $options   = array();
-                        $options[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_DAILY'));
-                        $options[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_WEEKLY'));
-                        $options[] = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));
-                        $options[] = JHTML::_('select.option', '4', JText::_('COM_REDSHOP_YEARLY'));
+                        $options[] = JHTML::_('select.option', '1', Text::_('COM_REDSHOP_DAILY'));
+                        $options[] = JHTML::_('select.option', '2', Text::_('COM_REDSHOP_WEEKLY'));
+                        $options[] = JHTML::_('select.option', '3', Text::_('COM_REDSHOP_MONTHLY'));
+                        $options[] = JHTML::_('select.option', '4', Text::_('COM_REDSHOP_YEARLY'));
 
                         echo JHTML::_(
                             'select.genericlist',
@@ -115,10 +117,10 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
                     </div>
                     <div class="filterItem">
                         <?php
-                        echo JText::_('chart') . ": ";
+                        echo Text::_('chart') . ": ";
                         $options   = array();
-                        $options[] = JHTML::_('select.option', '1', JText::_('Bar'));
-                        $options[] = JHTML::_('select.option', '2', JText::_('Line'));
+                        $options[] = JHTML::_('select.option', '1', Text::_('Bar'));
+                        $options[] = JHTML::_('select.option', '2', Text::_('Line'));
 
                         echo JHTML::_(
                             'select.genericlist',
@@ -135,24 +137,34 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
                 <div style="float:left;" id="lastmonthsales_statistics_pie"></div>
                 <div style="float:left;" id="lastmonthsales_statistics_bar"></div>
             </div>
-            <input type="hidden" name="view" value="redshop"/>
+            <input type="hidden" name="view" value="redshop" />
         </form>
     </div>
 
     <div class="col-sm-4">
         <table class="adminlist table table-striped" width="100%">
             <thead>
-            <tr>
-                <th></th>
-                <th><?php echo JText::_('COM_REDSHOP_STATISTIC_TOTAL_SALES') ?></th>
-                <th><?php echo JText::_('COM_REDSHOP_STATISTIC_ORDER_COUNT') ?></th>
-            </tr>
-            </thead>
-            <?php foreach ($sales as $sale) : ?>
                 <tr>
-                    <td><?php echo $sale[2]; ?></td>
-                    <td><?php echo RedshopHelperProductPrice::formattedPrice($sale[0]); ?></td>
-                    <td><?php echo $sale[1]; ?></td>
+                    <th></th>
+                    <th>
+                        <?php echo Text::_('COM_REDSHOP_STATISTIC_TOTAL_SALES') ?>
+                    </th>
+                    <th>
+                        <?php echo Text::_('COM_REDSHOP_STATISTIC_ORDER_COUNT') ?>
+                    </th>
+                </tr>
+            </thead>
+            <?php foreach ($sales as $sale): ?>
+                <tr>
+                    <td>
+                        <?php echo $sale[2]; ?>
+                    </td>
+                    <td>
+                        <?php echo RedshopHelperProductPrice::formattedPrice($sale[0]); ?>
+                    </td>
+                    <td>
+                        <?php echo $sale[1]; ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </table>

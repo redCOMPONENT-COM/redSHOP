@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewSample_request extends RedshopViewAdmin
 {
@@ -20,9 +21,9 @@ class RedshopViewSample_request extends RedshopViewAdmin
         $app      = JFactory::getApplication();
         $document = JFactory::getDocument();
 
-        $document->setTitle(JText::_('COM_REDSHOP_CATALOG_SAMPLE'));
+        $document->setTitle(Text::_('COM_REDSHOP_CATALOG_SAMPLE'));
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE'), 'redshop_colorsample48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_PRODUCT_SAMPLE'), 'redshop_colorsample48');
         JToolBarHelper::deleteList();
         JToolBarHelper::publishList();
         JToolBarHelper::unpublishList();

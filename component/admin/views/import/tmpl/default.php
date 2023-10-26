@@ -8,18 +8,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 JHtml::_('redshopjquery.ui');
 HTMLHelper::script('com_redshop/jquery.iframe-transport.min.js', ['relative' => true]);
 HTMLHelper::script('com_redshop/jquery.fileupload.min.js', ['relative' => true]);
 
 $allowFileTypes      = explode(',', Redshop::getConfig()->get('IMPORT_FILE_MIME', 'text/csv,application/vnd.ms-excel'));
-$allowMaxFileSize    = (int)Redshop::getConfig()->get('IMPORT_MAX_FILE_SIZE', 2000000);
-$allowMinFileSize    = (int)Redshop::getConfig()->get('IMPORT_MIN_FILE_SIZE', 1);
-$lineCount           = (int)Redshop::getConfig()->get('IMPORT_MAX_LINE', 10);
+$allowMaxFileSize    = (int) Redshop::getConfig()->get('IMPORT_MAX_FILE_SIZE', 2000000);
+$allowMinFileSize    = (int) Redshop::getConfig()->get('IMPORT_MIN_FILE_SIZE', 1);
+$lineCount           = (int) Redshop::getConfig()->get('IMPORT_MAX_LINE', 10);
 $lineCount           = $lineCount < 10 ? 10 : $lineCount;
 $allowFileExtensions = explode(',', Redshop::getConfig()->get('IMPORT_FILE_EXTENSION', '.csv'));
 
@@ -43,7 +44,7 @@ $characterSets = array(
 
 // Creating JOption for JSelect box.
 foreach ($characterSets as $char => $name) {
-    $title       = sprintf(JText::_($name), $char);
+    $title       = sprintf(Text::_($name), $char);
     $encodings[] = JHTML::_('select.option', $char, $title);
 }
 ?>
@@ -52,10 +53,13 @@ foreach ($characterSets as $char => $name) {
     <div class="alert alert-warning">
         <span class="close" data-dismiss="alert">×</span>
         <h4 class="alert-heading">
-            <i class="fa fa-exclamation-triangle"></i> <?php echo JText::_('WARNING') ?>
+            <i class="fa fa-exclamation-triangle"></i>
+            <?php echo Text::_('WARNING') ?>
         </h4>
         <div>
-            <p><?php echo JText::_('COM_REDSHOP_IMPORT_WARNING_MISSING_PLUGIN') ?></p>
+            <p>
+                <?php echo Text::_('COM_REDSHOP_IMPORT_WARNING_MISSING_PLUGIN') ?>
+            </p>
         </div>
     </div>
 <?php else: ?>
@@ -122,7 +126,7 @@ foreach ($characterSets as $char => $name) {
                             $("#import_plugins").removeClass("disabled muted");
                             $("#import_config").removeClass("disabled muted");
                             $("<p>").addClass("text-danger")
-                                .html("<?php echo JText::_('COM_REDSHOP_IMPORT_ERROR_FILE_TYPE') ?>")
+                                .html("<?php echo Text::_('COM_REDSHOP_IMPORT_ERROR_FILE_TYPE') ?>")
                                 .appendTo($("#import_process_msg_body"));
 
                             return false;
@@ -251,7 +255,7 @@ foreach ($characterSets as $char => $name) {
                         $("#import_plugins").removeClass("disabled muted");
                         $("#import_config").removeClass("disabled muted");
                         $("<p>").addClass("text-danger")
-                            .html("<?php echo JText::_(
+                            .html("<?php echo Text::_(
                                 'COM_REDSHOP_IMPORT_FAIL'
                             ) ?>").appendTo($("#import_process_msg_body"));
                         $("#import_process_bar").parent().hide();
@@ -266,14 +270,14 @@ foreach ($characterSets as $char => $name) {
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <?php echo JText::_('COM_REDSHOP_IMPORT_STEP_1') ?>
+                            <?php echo Text::_('COM_REDSHOP_IMPORT_STEP_1') ?>
                         </h4>
                     </div>
                     <div class="panel-body" id="import_plugins">
                         <?php foreach ($this->imports as $import): ?>
                             <label>
-                                <input type="radio" value="<?php echo $import->name ?>"
-                                       name="plugin_name"/> <?php echo JText::_(
+                                <input type="radio" value="<?php echo $import->name ?>" name="plugin_name" />
+                                <?php echo Text::_(
                                     'PLG_REDSHOP_IMPORT_' . strtoupper($import->name) . '_TITLE'
                                 ) ?>
                             </label>
@@ -287,47 +291,58 @@ foreach ($characterSets as $char => $name) {
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <?php echo JText::_('COM_REDSHOP_IMPORT_STEP_2') ?>
+                            <?php echo Text::_('COM_REDSHOP_IMPORT_STEP_2') ?>
                         </h4>
                     </div>
                     <div class="panel-body">
                         <div id="import_config">
                             <fieldset class="form-horizontal">
                                 <p>
-                                    <?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MIN_FILE_SIZE') ?>:&nbsp;
-                                    <span class="text-primary"><?php echo number_format(
+                                    <?php echo Text::_('COM_REDSHOP_IMPORT_SETTINGS_MIN_FILE_SIZE') ?>:&nbsp;
+                                    <span class="text-primary">
+                                        <?php echo number_format(
                                             $allowMinFileSize
-                                        ) ?> bytes</span>
+                                        ) ?> bytes
+                                    </span>
                                 </p>
                                 <p>
-                                    <?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_FILE_SIZE') ?>:&nbsp;
-                                    <span class="text-primary"><?php echo number_format(
+                                    <?php echo Text::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_FILE_SIZE') ?>:&nbsp;
+                                    <span class="text-primary">
+                                        <?php echo number_format(
                                             $allowMaxFileSize
-                                        ) ?> bytes</span>
+                                        ) ?> bytes
+                                    </span>
                                 </p>
                                 <p>
-                                    <?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_MIME') ?>:&nbsp;
-                                    <span class="text-primary"><?php echo implode(', ', $allowFileTypes) ?></span>
+                                    <?php echo Text::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_MIME') ?>:&nbsp;
+                                    <span class="text-primary">
+                                        <?php echo implode(', ', $allowFileTypes) ?>
+                                    </span>
                                 </p>
                                 <p>
-                                    <?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_EXTENSION') ?>:&nbsp;
-                                    <span class="text-primary"><?php echo implode(', ', $allowFileExtensions) ?></span>
+                                    <?php echo Text::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_EXTENSION') ?>:&nbsp;
+                                    <span class="text-primary">
+                                        <?php echo implode(', ', $allowFileExtensions) ?>
+                                    </span>
                                 </p>
-                                <p class="help-block"><?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_HELP') ?></p>
-                                <hr/>
+                                <p class="help-block">
+                                    <?php echo Text::_('COM_REDSHOP_IMPORT_SETTINGS_HELP') ?>
+                                </p>
+                                <hr />
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">
-                                        <?php echo JText::_('COM_REDSHOP_IMPORT_CONFIG_SEPARATOR') ?>
+                                        <?php echo Text::_('COM_REDSHOP_IMPORT_CONFIG_SEPARATOR') ?>
                                     </label>
                                     <div class="col-md-10">
-                                        <input type="text" value="," class="form-control" maxlength="1"
-                                               name="separator"/>
+                                        <input type="text" value="," class="form-control" maxlength="1" name="separator" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label"><?php echo JText::_(
+                                    <label class="col-md-2 control-label">
+                                        <?php echo Text::_(
                                             'COM_REDSHOP_IMPORT_ENCODING'
-                                        ) ?></label>
+                                        ) ?>
+                                    </label>
                                     <div class="col-md-10">
                                         <?php
                                         echo JHTML::_(
@@ -355,34 +370,35 @@ foreach ($characterSets as $char => $name) {
                 <!-- Step 3. Process -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4 class="panel-title"
-                            id="import_process_title"><?php echo JText::_('COM_REDSHOP_IMPORT_STEP_3') ?></h4>
+                        <h4 class="panel-title" id="import_process_title">
+                            <?php echo Text::_('COM_REDSHOP_IMPORT_STEP_3') ?>
+                        </h4>
                     </div>
                     <div id="import_process_panel">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <button class="btn btn-primary btn-large" id="import_btn_start" type="button">
-                                        <?php echo JText::_('COM_REDSHOP_IMPORT_SELECT_FILE') ?>&nbsp;&nbsp;<i
-                                                class="fa fa-upload"></i>
+                                        <?php echo Text::_('COM_REDSHOP_IMPORT_SELECT_FILE') ?>&nbsp;&nbsp;<i
+                                            class="fa fa-upload"></i>
                                     </button>
                                     <input id="fileupload" type="file" name="csv_file" class="hidden"
-                                           data-url="index.php?option=com_redshop&task=import.uploadFile"/>
+                                        data-url="index.php?option=com_redshop&task=import.uploadFile" />
                                     <p></p>
                                     <div class="progress" id="import_upload_progress_wrapper" style="display: none;">
                                         <div id="import_upload_progress" class="progress-bar" role="progressbar"
-                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                             style="width: 0%;">0%
+                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0%
                                         </div>
                                     </div>
-                                    <hr/>
-                                    <h3><?php echo JText::_('COM_REDSHOP_IMPORT_DATA_IMPORT') ?>: <span
-                                                id="import_count"></span></h3>
+                                    <hr />
+                                    <h3>
+                                        <?php echo Text::_('COM_REDSHOP_IMPORT_DATA_IMPORT') ?>: <span
+                                            id="import_count"></span>
+                                    </h3>
                                     <div class="progress" style="display: none;">
                                         <div id="import_process_bar" class="progress-bar progress-bar-success"
-                                             role="progressbar"
-                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                             style="width: 0%;">
+                                            role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: 0%;">
                                             0%
                                         </div>
                                     </div>
@@ -390,9 +406,11 @@ foreach ($characterSets as $char => $name) {
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <fieldset id="import_process_msg">
-                                            <legend><?php echo JText::_('COM_REDSHOP_IMPORT_LOG') ?></legend>
+                                            <legend>
+                                                <?php echo Text::_('COM_REDSHOP_IMPORT_LOG') ?>
+                                            </legend>
                                             <div id="import_process_msg_body"
-                                                 style="max-height: 300px; overflow-x: hidden;"></div>
+                                                style="max-height: 300px; overflow-x: hidden;"></div>
                                         </fieldset>
                                     </div>
                                 </div>

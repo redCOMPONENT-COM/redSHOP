@@ -7,12 +7,16 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
 ?>
 <script type="text/javascript">
     //Load the Visualization API and the piechart package.
@@ -26,7 +30,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
     //draws it.
     function drawChart() {
         var data = google.visualization.arrayToDataTable([
-            ['', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT') ?>', {role: 'annotation'}],
+            ['', '<?php echo Text::_('COM_REDSHOP_SALES_AMOUNT') ?>', {role: 'annotation'}],
             <?php if (count($this->orders) > 0) :?>
             <?php foreach ($this->orders as $row) : ?>
             [
@@ -41,7 +45,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
         ]);
 
         var options = {
-            title: "<?php echo JText::_('COM_REDSHOP_STATISTIC_ORDER') ?>",
+            title: "<?php echo Text::_('COM_REDSHOP_STATISTIC_ORDER') ?>",
             bars: 'vertical',
             height: 500,
             vAxis: {
@@ -89,7 +93,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
     <?php if (empty($this->orders)): ?>
         <hr/>
         <div class="alert alert-info">
-            <p><?php echo JText::_('COM_REDSHOP_NO_DATA') ?></p>
+            <p><?php echo Text::_('COM_REDSHOP_NO_DATA') ?></p>
         </div>
     <?php else: ?>
         <hr/>
@@ -101,7 +105,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 <th align="center">
                     <?php echo JHTML::_(
                         'grid.sort',
-                        JText::_('COM_REDSHOP_DATE'),
+                        Text::_('COM_REDSHOP_DATE'),
                         'orderdate',
                         $listDirn,
                         $listOrder
@@ -110,7 +114,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 <th align="center" width="10%">
                     <?php echo JHTML::_(
                         'grid.sort',
-                        JText::_('COM_REDSHOP_ORDER_COUNT'),
+                        Text::_('COM_REDSHOP_ORDER_COUNT'),
                         'count',
                         $listDirn,
                         $listOrder
@@ -119,7 +123,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 <th style="text-align: right;" width="20%">
                     <?php echo JHTML::_(
                         'grid.sort',
-                        JText::_('COM_REDSHOP_TOTAL_LBL'),
+                        Text::_('COM_REDSHOP_TOTAL_LBL'),
                         'order_total',
                         $listDirn,
                         $listOrder

@@ -8,9 +8,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
@@ -36,66 +37,66 @@ if ($jinput->getCmd('task') == "add") {
 JFactory::getDocument()->addScriptDeclaration(
     '
 (function ($) {
-	$(document).ready(function () {
-		$("#media_section").on("change", function(){
-			$("#section_id").select2("val","");
+    $(document).ready(function () {
+        $("#media_section").on("change", function(){
+            $("#section_id").select2("val","");
 
-			if ($(this).val() == "catalog")
-			{
-				$("[name=media_type]").val("document").trigger("change.select2");
-				$("[name=media_type]").attr("disabled", true);
-			} else {
-				$("[name=media_type]").attr("disabled", false);
-			}
-		});
+            if ($(this).val() == "catalog")
+            {
+                $("[name=media_type]").val("document").trigger("change.select2");
+                $("[name=media_type]").attr("disabled", true);
+            } else {
+                $("[name=media_type]").attr("disabled", false);
+            }
+        });
 
-		var media_type = $("select[name=media_type]").val();
-		var media_section   = "' . $this->detail->media_section . '";
+        var media_type = $("select[name=media_type]").val();
+        var media_section   = "' . $this->detail->media_section . '";
 
-		if (media_section == "catalog")
-		{
-			$("[name=media_type]").val("document").trigger("change.select2");
-			$("[name=media_type]").attr("disabled", true);
-		}
+        if (media_section == "catalog")
+        {
+            $("[name=media_type]").val("document").trigger("change.select2");
+            $("[name=media_type]").attr("disabled", true);
+        }
 
-		if (media_type == "youtube"){
-			$("#youtube-wrapper").show();
-			$("#media_data").hide();
-		}
-		else{
-			$("#youtube-wrapper").hide();
-			$("#media_data").show();
-		}
+        if (media_type == "youtube"){
+            $("#youtube-wrapper").show();
+            $("#media_data").hide();
+        }
+        else{
+            $("#youtube-wrapper").hide();
+            $("#media_data").show();
+        }
 
-		$("select[name=media_type]").on("change", function(){
-			var value = $(this).val();
-			if (value == "youtube"){
-				$("#youtube-wrapper").show();
-				$("#media_data").hide();
-			}
-			else{
-				$("#youtube-wrapper").hide();
-				$("#media_data").show();
-			}
-		});
-	});
+        $("select[name=media_type]").on("change", function(){
+            var value = $(this).val();
+            if (value == "youtube"){
+                $("#youtube-wrapper").show();
+                $("#media_data").hide();
+            }
+            else{
+                $("#youtube-wrapper").hide();
+                $("#media_data").show();
+            }
+        });
+    });
 })(jQuery);
 function jimage_insert(main_path) {
-	var path_url = "' . $url . '";
-	if (main_path) {
-		document.getElementById("image_display").style.display = "block";
-		document.getElementById("media_bank_image").value = main_path;
-		document.getElementById("image_display").src = path_url + main_path;
-	}
-	else {
-		document.getElementById("media_bank_image").value = "";
-		document.getElementById("image_display").src = "";
-	}
+    var path_url = "' . $url . '";
+    if (main_path) {
+        document.getElementById("image_display").style.display = "block";
+        document.getElementById("media_bank_image").value = main_path;
+        document.getElementById("image_display").src = path_url + main_path;
+    }
+    else {
+        document.getElementById("media_bank_image").value = "";
+        document.getElementById("image_display").src = "";
+    }
 }
 function jdownload_file(path, filename) {
-	document.getElementById("selected_file").innerHTML = filename;
-	document.getElementById("hdn_download_file_path").value = path;
-	document.getElementById("hdn_download_file").value = filename;
+    document.getElementById("selected_file").innerHTML = filename;
+    document.getElementById("hdn_download_file_path").value = path;
+    document.getElementById("hdn_download_file").value = filename;
 }
 '
 );
@@ -105,13 +106,13 @@ if ($showbuttons) {
     <fieldset>
         <div style="float: right">
             <button type="button" class="btn btn-small" onclick="Joomla.submitbutton('save');">
-                <?php echo JText::_('COM_REDSHOP_SAVE'); ?>
+                <?php echo Text::_('COM_REDSHOP_SAVE'); ?>
             </button>
             <button type="button" class="btn btn-small" onclick="goback();">
-                <?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
+                <?php echo Text::_('COM_REDSHOP_CANCEL'); ?>
             </button>
         </div>
-        <div class="configuration"><?php echo JText::_('COM_REDSHOP_ADD_MEDIA'); ?></div>
+        <div class="configuration"><?php echo Text::_('COM_REDSHOP_ADD_MEDIA'); ?></div>
     </fieldset>
     <?php
 }
@@ -144,7 +145,7 @@ if ($showbuttons) {
 
         // Upload zip images
         if (form.bulk.value == 0) {
-            return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_BULK_OPTION', true); ?>');
+            return cancelSubmit('<?php echo Text::_('COM_REDSHOP_PLEASE_SELECT_BULK_OPTION', true); ?>');
         } else {
             // None zip images
             switch (form.media_type.value) {
@@ -152,7 +153,7 @@ if ($showbuttons) {
                     var youtube_id = $("[name=youtube_id]").val();
 
                     if (youtube_id == '' || youtube_id == undefined) {
-                        return cancelSubmit('<?php echo JText::_('COM_REDSHOP_TYPE_YOUTUBE_VIDEO_ID', true); ?>');
+                        return cancelSubmit('<?php echo Text::_('COM_REDSHOP_TYPE_YOUTUBE_VIDEO_ID', true); ?>');
                     }
                 default:
                 <?php $input = JFactory::getApplication()->input; ?>
@@ -161,31 +162,31 @@ if ($showbuttons) {
 
                     if (form.file.value && form.media_bank_image.value && form.media_bank_image.value) {
                         if (checkCid == 'false' && form.file.value == '' && form.media_bank_image.value == '' && form.hdn_download_file.value == '') {
-                            return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');
+                            return cancelSubmit('<?php echo Text::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');
                         }
 
                         if (mediaSection == 'product') {
                             if (form.hdn_download_file.value == '' && form.file == '') {
-                                return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');
+                                return cancelSubmit('<?php echo Text::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');
                             }
                         }
                         // Make sure media type is selected
                         if (form.media_type.value == 0) {
-                            return cancelSubmit('<?php echo JText::_(
+                            return cancelSubmit('<?php echo Text::_(
                                 'COM_REDSHOP_PLEASE_SELECT_MEDIA_TYPE',
                                 true
                             ); ?>');
                         }
                         // Make sure section is selected
                         if (form.media_section.value == 0) {
-                            return cancelSubmit('<?php echo JText::_(
+                            return cancelSubmit('<?php echo Text::_(
                                 'COM_REDSHOP_SELECT_MEDIA_SECTION_FIRST',
                                 true
                             ); ?>');
                         }
 
                         if (form.section_id.value == '' && form.media_section.value != 'media') {
-                            return cancelSubmit('<?php echo JText::_('COM_REDSHOP_TYPE_SECTION_NAME', true); ?>');
+                            return cancelSubmit('<?php echo Text::_('COM_REDSHOP_TYPE_SECTION_NAME', true); ?>');
                         }
                     }
             }
@@ -200,21 +201,21 @@ if ($showbuttons) {
     <div class="row">
         <div class="col-md-12" id="media_data">
             <fieldset class="adminform">
-                <legend><?php echo JText::_('COM_REDSHOP_VALUE') ?></legend>
+                <legend><?php echo Text::_('COM_REDSHOP_VALUE') ?></legend>
                 <?php if ($media_section != 'manufacturer' || $media_section != 'catalog'):
                     if ($this->detail->media_id == 0) {
                         ?>
                         <table>
                             <tr>
                                 <td><span
-                                            id="uploadbulk"><?php echo JText::_(
+                                            id="uploadbulk"><?php echo Text::_(
                                             'COM_REDSHOP_YOU_WANT_TO_UPLOAD_ZIP_FILE'
                                         ); ?>
-										?</span></td>
+                                        ?</span></td>
                                 <td><span
                                             id="bulk"><?php echo $this->lists['bulk']; ?></span>&nbsp;&nbsp;&nbsp;<?php echo HTMLHelper::_('redshop.tooltip',
-                                        JText::_('COM_REDSHOP_TOOLTIP_YOU_WANT_TO_UPLOAD_ZIP_FILE'),
-                                        JText::_('COM_REDSHOP_YOU_WANT_TO_UPLOAD_ZIP_FILE')
+                                        Text::_('COM_REDSHOP_TOOLTIP_YOU_WANT_TO_UPLOAD_ZIP_FILE'),
+                                        Text::_('COM_REDSHOP_YOU_WANT_TO_UPLOAD_ZIP_FILE')
                                     ); ?>
                                 </td>
 
@@ -237,7 +238,7 @@ if ($showbuttons) {
                     <table cellpadding="0" cellspacing="5" border="0" id="bulk_table">
 
                         <tr>
-                            <th><?php echo JText::_('COM_REDSHOP_MEDIA_NAME'); ?></th>
+                            <th><?php echo Text::_('COM_REDSHOP_MEDIA_NAME'); ?></th>
                             <td>
                                 <?php
 
@@ -258,7 +259,7 @@ if ($showbuttons) {
                                         <?php if ($thumbUrl): ?>
                                             <a class="joom-box btn btn-primary"
                                                href="<?php echo $url . 'components/com_redshop/assets/' . $this->detail->media_type . '/' . $this->detail->media_section . '/' . $this->detail->media_name; ?>"
-                                               title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
+                                               title="<?php echo Text::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
                                                rel="{handler: 'image', size: {}}">
                                                 <img
                                                         src="<?php echo $thumbUrl; ?>"
@@ -277,7 +278,7 @@ if ($showbuttons) {
 
                         </tr>
                         <tr>
-                            <td><?php echo JText::_('COM_REDSHOP_MEDIA_NAME'); ?></td>
+                            <td><?php echo Text::_('COM_REDSHOP_MEDIA_NAME'); ?></td>
                             <td>
                                 <?php if ($this->detail->media_id == 0) { ?>
                                     <input type="file" name="bulkfile" id="bulkfile" size="75">
@@ -305,7 +306,7 @@ if ($showbuttons) {
                                         <a class="joom-box btn btn-primary"
                                            title="Image" href="<?php echo $ilink; ?>"
                                            rel="{handler: 'iframe', size: {x: 1050, y: 450}}">
-                                            <?php echo JText::_('COM_REDSHOP_IMAGE'); ?>
+                                            <?php echo Text::_('COM_REDSHOP_IMAGE'); ?>
                                         </a>
                                     </div>
                                 </div>
@@ -314,7 +315,7 @@ if ($showbuttons) {
                                     <input type="hidden" name="media_bank_image" id="media_bank_image"/>
                                 </div>
                             </td>
-                            <td><?php echo JText::_('COM_REDSHOP_MEDIA_BANK'); ?></td>
+                            <td><?php echo Text::_('COM_REDSHOP_MEDIA_BANK'); ?></td>
                         </tr>
                         <?php if ($media_section == 'product') : ?>
                             <tr>
@@ -328,7 +329,7 @@ if ($showbuttons) {
                                                title="Image"
                                                href="<?php echo $down_ilink; ?>"
                                                rel="{handler: 'iframe', size: {x: 950, y: 450}}">
-                                                <?php echo JText::_('COM_REDSHOP_FILE'); ?>
+                                                <?php echo Text::_('COM_REDSHOP_FILE'); ?>
                                             </a>
                                         </div>
                                     </div>
@@ -336,7 +337,7 @@ if ($showbuttons) {
                                     <input type="hidden" name="hdn_download_file" id="hdn_download_file"/>
                                     <input type="hidden" name="hdn_download_file_path" id="hdn_download_file_path"/>
                                 </td>
-                                <td><?php echo JText::_('COM_REDSHOP_DOWNLOAD_FOLDER'); ?></td>
+                                <td><?php echo Text::_('COM_REDSHOP_DOWNLOAD_FOLDER'); ?></td>
                             </tr>
                         <?php endif; ?>
                     </table>
@@ -350,12 +351,12 @@ if ($showbuttons) {
                             $k = 1;
                             ?>
                             <tr>
-                                <td><?php echo JText::_('COM_REDSHOP_UPLOAD_FILE_FROM_COMPUTER'); ?></td>
+                                <td><?php echo Text::_('COM_REDSHOP_UPLOAD_FILE_FROM_COMPUTER'); ?></td>
                                 <td><input type="file" name="file[]" id="file" size="75">
                                     <?php if ($media_section != 'manufacturer'): ?>
                                         <input type="button" name="addvalue" id="addvalue"
                                                class="button btn btn-primary"
-                                               Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
+                                               Value="<?php echo Text::_('COM_REDSHOP_ADD'); ?>"
                                                onclick="addNewRow('extra_table');"/>
                                     <?php endif; ?>
                                 </td>
@@ -381,7 +382,7 @@ if ($showbuttons) {
     </div>
     <div class="col50">
         <fieldset class="adminform">
-            <legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
+            <legend><?php echo Text::_('COM_REDSHOP_DETAILS'); ?></legend>
 
             <table class="admintable table">
                 <tr>
@@ -390,15 +391,15 @@ if ($showbuttons) {
                         ?>
                         <td valign="top" align="right" class="key">
                             <label for="volume">
-                                <?php echo JText::_('COM_REDSHOP_MEDIA_TYPE'); ?>:
+                                <?php echo Text::_('COM_REDSHOP_MEDIA_TYPE'); ?>:
                             </label>
                         </td>
                         <td>
                             <?php echo $this->lists['type']; ?><input type="hidden" name="oldtype"
                                                                       value="<?php echo $this->detail->media_type; ?>"/>
                             <?php echo JHtml::_('redshop.tooltip',
-                                JText::_('COM_REDSHOP_TOOLTIP_MEDIA_TYPE'),
-                                JText::_('COM_REDSHOP_MEDIA_TYPE')
+                                Text::_('COM_REDSHOP_TOOLTIP_MEDIA_TYPE'),
+                                Text::_('COM_REDSHOP_MEDIA_TYPE')
                             ); ?>
                         </td>
                         <?php
@@ -415,35 +416,35 @@ if ($showbuttons) {
                 <tr id="youtube-wrapper">
                     <td valign="top" align="right" class="key">
                         <label for="volume">
-                            <?php echo JText::_('COM_REDSHOP_MEDIA_YOUTUBE_ID'); ?>:
+                            <?php echo Text::_('COM_REDSHOP_MEDIA_YOUTUBE_ID'); ?>:
                         </label>
                     </td>
                     <td><input type="text" value="<?php echo $this->detail->media_name; ?>"
                                name="youtube_id">
                         <?php echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_MEDIA_YOUTUBE_ID'),
-                            JText::_('COM_REDSHOP_MEDIA_YOUTUBE_ID')
+                            Text::_('COM_REDSHOP_TOOLTIP_MEDIA_YOUTUBE_ID'),
+                            Text::_('COM_REDSHOP_MEDIA_YOUTUBE_ID')
                         ); ?>
                     </td>
                 </tr>
                 <tr>
                     <td valign="top" align="right" class="key">
                         <label for="volume">
-                            <?php echo JText::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT'); ?>:
+                            <?php echo Text::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT'); ?>:
                         </label>
                     </td>
                     <td><input type="text" value="<?php echo $this->detail->media_alternate_text; ?>"
                                name="media_alternate_text">
                         <?php echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_MEDIA_ALTERNATE_TEXT'),
-                            JText::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT')
+                            Text::_('COM_REDSHOP_TOOLTIP_MEDIA_ALTERNATE_TEXT'),
+                            Text::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT')
                         ); ?>
                     </td>
                 </tr>
                 <tr>
                     <td valign="top" align="right" class="key">
                         <label for="volume">
-                            <?php echo JText::_('COM_REDSHOP_MEDIA_SECTION'); ?>:
+                            <?php echo Text::_('COM_REDSHOP_MEDIA_SECTION'); ?>:
                         </label>
                     </td>
                     <td>
@@ -460,14 +461,14 @@ if ($showbuttons) {
                         echo $this->lists['section'];
                         ?>
                         <?php echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_MEDIA_SECTION'),
-                            JText::_('COM_REDSHOP_MEDIA_SECTION')
+                            Text::_('COM_REDSHOP_TOOLTIP_MEDIA_SECTION'),
+                            Text::_('COM_REDSHOP_MEDIA_SECTION')
                         ); ?>
                     </td>
                 </tr>
                 <tr id="product_tr">
                     <td valign="top" align="right" class="key">
-                        <?php echo JText::_('COM_REDSHOP_SECTION_NAME'); ?>
+                        <?php echo Text::_('COM_REDSHOP_SECTION_NAME'); ?>
                     </td>
                     <td>
                         <?php
@@ -503,7 +504,7 @@ if ($showbuttons) {
                             array(
                                 'select2.ajaxOptions' => array('typeField' => ', media_section:$(\'#media_section\').val()'),
                                 'select2.options'     => array(
-                                    'placeholder'        => JText::_(
+                                    'placeholder'        => Text::_(
                                         'COM_REDSHOP_SECTION_NAME'
                                     ),
                                     'minimumInputLength' => 0
@@ -512,14 +513,14 @@ if ($showbuttons) {
                             )
                         );
                         echo JHtml::_('redshop.tooltip',
-                            JText::_('COM_REDSHOP_TOOLTIP_SECTION_NAME'),
-                            JText::_('COM_REDSHOP_SECTION_NAME')
+                            Text::_('COM_REDSHOP_TOOLTIP_SECTION_NAME'),
+                            Text::_('COM_REDSHOP_SECTION_NAME')
                         ); ?>
                     </td>
                 </tr>
                 <tr>
                     <td valign="top" align="right" class="key">
-                        <?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>:
+                        <?php echo Text::_('COM_REDSHOP_PUBLISHED'); ?>:
                     </td>
                     <td>
                         <?php echo $this->lists['published']; ?>

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 jimport('joomla.plugin.plugin');
 
 /**
@@ -19,7 +21,7 @@ jimport('joomla.plugin.plugin');
  */
 JLoader::import('redshop.library');
 
-class  plgredshop_shippingdefault_shipping extends JPlugin
+class plgredshop_shippingdefault_shipping extends JPlugin
 {
     public $payment_code = "default_shipping";
 
@@ -35,16 +37,17 @@ class  plgredshop_shippingdefault_shipping extends JPlugin
         return true;
     }
 
-    function onListRates(&$d) {
-        $shippingrate   = array();
-        $rate           = 0;
-        $shipping       = RedshopHelperShipping::getShippingMethodByClass($this->classname);
-        $shippingArr    = RedshopHelperShipping::getShopperGroupDefaultShipping();
+    function onListRates(&$d)
+    {
+        $shippingrate = array();
+        $rate         = 0;
+        $shipping     = RedshopHelperShipping::getShippingMethodByClass($this->classname);
+        $shippingArr  = RedshopHelperShipping::getShopperGroupDefaultShipping();
 
         if (!empty($shippingArr)) {
             $shopper_shipping    = $shippingArr['shipping_rate'];
             $shippingVatRate     = $shippingArr['shipping_vat'];
-            $default_shipping    = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_SHIPPING');
+            $default_shipping    = Text::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_SHIPPING');
             $shopper_shipping_id = Redshop\Shipping\Rate::encrypt(
                 array(
                     __CLASS__,

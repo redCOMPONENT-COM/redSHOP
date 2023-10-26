@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Layout variables
  * =======================
@@ -20,6 +22,7 @@ defined('_JEXEC') or die;
  * @var  array  $file         Files data as array
  * @var  array  $gallery      List of data
  */
+
 extract($displayData);
 
 ?>
@@ -30,9 +33,9 @@ extract($displayData);
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title"><i class="fa fa-picture-o"></i> <?php echo JText::_(
-                        'COM_REDSHOP_MEDIA_ADDITIONAL_MEDIA_FILES'
-                    ) ?></h4>
+                <h4 class="modal-title"><i class="fa fa-picture-o"></i> <?php echo Text::_(
+                    'COM_REDSHOP_MEDIA_ADDITIONAL_MEDIA_FILES'
+                ) ?></h4>
             </div>
             <div class="modal-body">
                 <ul class="nav nav-tabs" id="g-tab" role="tablist">
@@ -75,46 +78,46 @@ extract($displayData);
                             </div>
                             <div class="row list-pane">
                                 <?php if (!empty($gallery)) { ?>
-                                    <?php foreach ($gallery as $thumb) { ?>
-                                        <div class="col-md-3">
-                                            <div class="thumbnail img-obj">
-                                                <?php if ($thumb['mime'] == 'image') { ?>
-                                                    <img src="<?php echo $thumb['url'] ?>"
-                                                         alt="<?php echo $thumb['name'] ?>" class="img-type"
-                                                         data-id="<?php echo $thumb['id'] ?>"
-                                                         data-size="<?php echo $thumb['size'] ?>"
-                                                         data-dimension="<?php echo $thumb['dimension'] ?>"
-                                                         data-media="<?php echo $thumb['media'] ?>"
-                                                         data-attached="<?php echo $thumb['attached'] ?>">
-                                                <?php } else { ?>
-                                                    <span class="img-type img-icon img-file"
-                                                          src="<?php echo $thumb['url'] ?>"
-                                                          alt="<?php echo $thumb['name'] ?>"
-                                                          data-id="<?php echo $thumb['id'] ?>"
-                                                          data-size="<?php echo $thumb['size'] ?>"
-                                                          data-dimension="<?php echo $thumb['dimension'] ?>"
-                                                          data-media="<?php echo $thumb['media'] ?>"
-                                                          data-attached="<?php echo $thumb['attached'] ?>">
-											<?php if (!empty($thumb['mime'])) { ?>
-                                                <i class="fa fa-file-<?php echo $thumb['mime'] ?>-o"></i>
-                                            <?php } else { ?>
-                                                <i class="fa fa-file-o"></i>
-                                            <?php } ?>
-										</span>
-                                                <?php } ?>
-                                                <span class="img-status"><i
-                                                            class="fa fa-eye<?php echo $thumb['status'] ?>"></i></span>
-                                                <span class="img-mime" data-mime="<?php echo $thumb['mime'] ?>">
-											<?php if (!empty($thumb['mime'])) { ?>
-                                                <i class="fa fa-file-<?php echo $thumb['mime'] ?>-o"></i>
-                                            <?php } else { ?>
-                                                <i class="fa fa-file-o"></i>
-                                            <?php } ?>
-										</span>
-                                                <span class="img-name"><?php echo $thumb['name'] ?></span>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
+                                        <?php foreach ($gallery as $thumb) { ?>
+                                                <div class="col-md-3">
+                                                    <div class="thumbnail img-obj">
+                                                        <?php if ($thumb['mime'] == 'image') { ?>
+                                                                <img src="<?php echo $thumb['url'] ?>"
+                                                                     alt="<?php echo $thumb['name'] ?>" class="img-type"
+                                                                     data-id="<?php echo $thumb['id'] ?>"
+                                                                     data-size="<?php echo $thumb['size'] ?>"
+                                                                     data-dimension="<?php echo $thumb['dimension'] ?>"
+                                                                     data-media="<?php echo $thumb['media'] ?>"
+                                                                     data-attached="<?php echo $thumb['attached'] ?>">
+                                                        <?php } else { ?>
+                                                                <span class="img-type img-icon img-file"
+                                                                      src="<?php echo $thumb['url'] ?>"
+                                                                      alt="<?php echo $thumb['name'] ?>"
+                                                                      data-id="<?php echo $thumb['id'] ?>"
+                                                                      data-size="<?php echo $thumb['size'] ?>"
+                                                                      data-dimension="<?php echo $thumb['dimension'] ?>"
+                                                                      data-media="<?php echo $thumb['media'] ?>"
+                                                                      data-attached="<?php echo $thumb['attached'] ?>">
+                                                        <?php if (!empty($thumb['mime'])) { ?>
+                                                                <i class="fa fa-file-<?php echo $thumb['mime'] ?>-o"></i>
+                                                        <?php } else { ?>
+                                                                <i class="fa fa-file-o"></i>
+                                                        <?php } ?>
+                                                    </span>
+                                                        <?php } ?>
+                                                        <span class="img-status"><i
+                                                                    class="fa fa-eye<?php echo $thumb['status'] ?>"></i></span>
+                                                        <span class="img-mime" data-mime="<?php echo $thumb['mime'] ?>">
+                                                    <?php if (!empty($thumb['mime'])) { ?>
+                                                            <i class="fa fa-file-<?php echo $thumb['mime'] ?>-o"></i>
+                                                    <?php } else { ?>
+                                                            <i class="fa fa-file-o"></i>
+                                                    <?php } ?>
+                                                </span>
+                                                        <span class="img-name"><?php echo $thumb['name'] ?></span>
+                                                    </div>
+                                                </div>
+                                        <?php } ?>
                                 <?php } ?>
                             </div>
                         </div>
@@ -181,8 +184,8 @@ extract($displayData);
                  data-attached="false">
             <span class="img-type img-icon img-file" src="" alt="" data-id="" data-size="" data-dimension=""
                   data-media="" data-attached="">
-				<i class="fa fa-file-o"></i>
-			</span>
+                <i class="fa fa-file-o"></i>
+            </span>
             <span class="img-status"><i class="fa fa-eye"></i></span>
             <span class="img-mime" data-mime=""><i class="fa fa-file-o"></i></span>
             <span class="img-name"></span>

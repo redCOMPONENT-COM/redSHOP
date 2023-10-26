@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Redshop\Helper\ExtraFields;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Redshop\Helper\ExtraFields;
 
 /**
  * Class Redshop Helper Product Tag
@@ -58,7 +59,7 @@ class RedshopHelperProductTag
             $productId,
             $fieldName,
             $templateContent,
-            (boolean)$categoryPage
+            (boolean) $categoryPage
         );
     }
 
@@ -339,9 +340,11 @@ class RedshopHelperProductTag
         }
 
         // Stockroom status code
-        if (strpos($templateHtml, "{stock_status") !== false
+        if (
+            strpos($templateHtml, "{stock_status") !== false
             || strpos($templateHtml, "{stock_notify_flag}") !== false
-            || strpos($templateHtml, "{product_availability_date}") !== false) {
+            || strpos($templateHtml, "{product_availability_date}") !== false
+        ) {
             // For current attributes
             $attributeSets = array();
 
@@ -384,21 +387,23 @@ class RedshopHelperProductTag
                 }
 
                 if (!isset($productStockStatus['regular_stock']) || !$productStockStatus['regular_stock']) {
-                    if (($productStockStatus['preorder'] && !$productStockStatus['preorder_stock'])
-                        || !$productStockStatus['preorder']) {
+                    if (
+                        ($productStockStatus['preorder'] && !$productStockStatus['preorder_stock'])
+                        || !$productStockStatus['preorder']
+                    ) {
                         $stockStatus = '<span id="stock_status_div' . $productId . '"><div id="' . $outStockClass
-                            . '" class="' . $outStockClass . '">' . JText::_(
-                                'COM_REDSHOP_OUT_OF_STOCK'
-                            ) . '</div></span>';
+                            . '" class="' . $outStockClass . '">' . Text::_(
+                                    'COM_REDSHOP_OUT_OF_STOCK'
+                                ) . '</div></span>';
                     } else {
                         $stockStatus = "<span id='stock_status_div" . $productId . "'><div id='" . $preOrderClass
-                            . "' class='" . $preOrderClass . "'>" . JText::_('COM_REDSHOP_PRE_ORDER') . "</div></span>";
+                            . "' class='" . $preOrderClass . "'>" . Text::_('COM_REDSHOP_PRE_ORDER') . "</div></span>";
                     }
                 } else {
                     $stockStatus = "<span id='stock_status_div" . $productId . "'><div id='" . $availableClass
-                        . "' class='" . $availableClass . "'>" . JText::_(
-                            'COM_REDSHOP_AVAILABLE_STOCK'
-                        ) . "</div></span>";
+                        . "' class='" . $availableClass . "'>" . Text::_(
+                                'COM_REDSHOP_AVAILABLE_STOCK'
+                            ) . "</div></span>";
                 }
             }
 
@@ -419,9 +424,11 @@ class RedshopHelperProductTag
                 $productAvailabilityDateLabel = "";
                 $productAvailabilityDate      = "";
 
-                if ((!isset($productStockStatus['regular_stock']) || !$productStockStatus['regular_stock']) && $productStockStatus['preorder']
-                    && $product->product_availability_date != "") {
-                    $productAvailabilityDateLabel = JText::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL') . ": ";
+                if (
+                    (!isset($productStockStatus['regular_stock']) || !$productStockStatus['regular_stock']) && $productStockStatus['preorder']
+                    && $product->product_availability_date != ""
+                ) {
+                    $productAvailabilityDateLabel = Text::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL') . ": ";
                     $productAvailabilityDate      = RedshopHelperDatetime::convertDateFormat(
                         $product->product_availability_date
                     );
@@ -567,8 +574,8 @@ class RedshopHelperProductTag
                 $productAdditionalImageDivStart = '<div class="additional_image"><a href="' . $linkImage . '" title="' . $altText . '" '
                     . 'rel="myallimg">';
                 $productAdditionalImageDivEnd   = "</a></div>";
-                $return                         .= $productAdditionalImageDivStart;
-                $return                         .= '<img src="' . $productImg . '" alt="' . $altText . '" title="' . $altText . '">';
+                $return .= $productAdditionalImageDivStart;
+                $return .= '<img src="' . $productImg . '" alt="' . $altText . '" title="' . $altText . '">';
                 $productHrefEnd                 = "";
             } else {
                 if ($isWaterMarkProductAdditionalImage) {
@@ -620,8 +627,8 @@ class RedshopHelperProductTag
                     . $imagePath . '\',' . $product->product_id . ');" onmouseout="display_image_add_out(\'' . $imagePathOriginal
                     . '\',' . $product->product_id . ');">';
                 $productAdditionalImageDivEnd   = "</div>";
-                $return                         .= $productAdditionalImageDivStart;
-                $return                         .= '<a href="javascript:void(0)"><img src="' . $productImg . '" alt="' . $altText . '" title="' . $altText . '" style="cursor: auto;">';
+                $return .= $productAdditionalImageDivStart;
+                $return .= '<a href="javascript:void(0)"><img src="' . $productImg . '" alt="' . $altText . '" title="' . $altText . '" style="cursor: auto;">';
                 $productHrefEnd                 = "</a>";
             }
 
@@ -702,9 +709,11 @@ class RedshopHelperProductTag
         foreach ($images as $image) {
             $thumb = $image->media_name;
 
-            if (empty($thumb) || $thumb == $image->property_main_image || !JFile::exists(
+            if (
+                empty($thumb) || $thumb == $image->property_main_image || !JFile::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $thumb
-                )) {
+                )
+            ) {
                 continue;
             }
 
@@ -725,8 +734,8 @@ class RedshopHelperProductTag
                 $propAdditionImgDivStart = '<div class="additional_image"><a href="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $thumb . '" '
                     . 'title="' . $altText . '" rel="myallimg">';
                 $propAdditionImgDivEnd   = "</a></div>";
-                $return                  .= $propAdditionImgDivStart;
-                $return                  .= "<img src='" . $thumbUrl . "' alt='" . $altText . "' title='" . $altText . "'>";
+                $return .= $propAdditionImgDivStart;
+                $return .= "<img src='" . $thumbUrl . "' alt='" . $altText . "' title='" . $altText . "'>";
                 $propHrefEnd             = "";
             } else {
                 $imagePath = RedshopHelperMedia::getImagePath(
@@ -875,8 +884,10 @@ class RedshopHelperProductTag
                 REDSHOP_FRONT_IMAGES_RELPATH . "subproperty/" . $thumb
             ) ? 'subproperty' : 'property';
 
-            if (empty($thumb) || $thumb == $image->subattribute_color_main_image
-                || !JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $folder . "/" . $thumb)) {
+            if (
+                empty($thumb) || $thumb == $image->subattribute_color_main_image
+                || !JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $folder . "/" . $thumb)
+            ) {
                 continue;
             }
 
@@ -943,8 +954,8 @@ class RedshopHelperProductTag
                     $useImgSizeSwapping
                 );
 
-                $result  .= $divStart;
-                $result  .= '<a href="javascript:void(0)">'
+                $result .= $divStart;
+                $result .= '<a href="javascript:void(0)">'
                     . '<img src="' . $thumbUrl . '" alt="' . $altText . '" title="' . $altText . '" style="cursor: auto;">';
                 $hrefEnd = "</a>";
             }
@@ -959,7 +970,7 @@ class RedshopHelperProductTag
                     $additionalHoverImgHeight,
                     $useImgSizeSwapping
                 );
-                $result   .= '<img src="' . $thumbUrl . '" alt="' . $altText . '" title="' . $altText . '" class="redImagepreview" />';
+                $result .= '<img src="' . $thumbUrl . '" alt="' . $altText . '" title="' . $altText . '" class="redImagepreview" />';
             }
 
             $result .= $hrefEnd;
@@ -1032,18 +1043,17 @@ class RedshopHelperProductTag
                     continue;
                 }
 
-                $commonId    = $prefix . $productId . '_' . $accessoryId . '_' . $attribute->attribute_id;
-                $hiddenAttId = 'attribute_id_' . $prefix . $productId . '_' . $accessoryId;
-                $propertyId  = 'property_id_' . $commonId;
-	            $selectedProperty = 0;
+                $commonId         = $prefix . $productId . '_' . $accessoryId . '_' . $attribute->attribute_id;
+                $hiddenAttId      = 'attribute_id_' . $prefix . $productId . '_' . $accessoryId;
+                $propertyId       = 'property_id_' . $commonId;
+                $selectedProperty = 0;
 
                 foreach ($properties as $property) {
                     $attributesPropertyVat = 0;
 
-	                if ($property->setdefault_selected == 1)
-	                {
-		                $selectedProperty = $property->value;
-	                }
+                    if ($property->setdefault_selected == 1) {
+                        $selectedProperty = $property->value;
+                    }
 
                     if ($property->property_price > 0) {
                         $propertyOprand = $property->oprand;
@@ -1065,8 +1075,8 @@ class RedshopHelperProductTag
                         }
 
                         $property->text = urldecode(
-                                $property->property_name
-                            ) . ' (' . $propertyOprand . ' ' . $propertyPrice
+                            $property->property_name
+                        ) . ' (' . $propertyOprand . ' ' . $propertyPrice
                             . "excl. vat / "
                             . $propertyPriceWithVat . ")";
                     } else {
@@ -1084,7 +1094,7 @@ class RedshopHelperProductTag
                 $tmpArray           = array();
                 $tmpArray[0]        = new stdClass;
                 $tmpArray[0]->value = 0;
-                $tmpArray[0]->text  = JText::_('COM_REDSHOP_SELECT') . " " . urldecode($attribute->text);
+                $tmpArray[0]->text  = Text::_('COM_REDSHOP_SELECT') . " " . urldecode($attribute->text);
 
                 $newProperty = array_merge($tmpArray, $properties);
                 $checkList   = "";
@@ -1097,14 +1107,14 @@ class RedshopHelperProductTag
                             $required = "";
                         }
 
-	                    $inputType = ($attribute->allow_multiple_selection) ? 'checkbox' : 'radio';
-	                    $checked = ($property->setdefault_selected) ? 'checked' : '';
+                        $inputType = ($attribute->allow_multiple_selection) ? 'checkbox' : 'radio';
+                        $checked   = ($property->setdefault_selected) ? 'checked' : '';
 
-	                    $checkList .= "<br /><input type='".$inputType."' value='" . $property->value . "' name='"
-		                    . $propertyId . "[]' id='" . $propertyId . "' class='inputbox' attribute_name='"
-		                    . $attribute->attribute_name . "' ".$checked." required='" . $required
-		                    . "' onchange='javascript:changeOfflinePropertyDropdown(\"" . $productId . "\",\"" . $accessoryId
-		                    . "\",\"" . $attribute->attribute_id . "\",\"" . $uniqueId . "\");'  />&nbsp;" . $property->text;
+                        $checkList .= "<br /><input type='" . $inputType . "' value='" . $property->value . "' name='"
+                            . $propertyId . "[]' id='" . $propertyId . "' class='inputbox' attribute_name='"
+                            . $attribute->attribute_name . "' " . $checked . " required='" . $required
+                            . "' onchange='javascript:changeOfflinePropertyDropdown(\"" . $productId . "\",\"" . $accessoryId
+                            . "\",\"" . $attribute->attribute_id . "\",\"" . $uniqueId . "\");'  />&nbsp;" . $property->text;
                     }
                 } else {
                     $checkList = JHtml::_(

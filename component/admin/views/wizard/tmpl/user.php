@@ -7,7 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 $params = JFactory::getApplication()->input->get('params', '', 'raw');
+
 ?>
 <div>
     <form action="?option=com_redshop" method="POST" name="installform" id="installform">
@@ -15,17 +20,19 @@ $params = JFactory::getApplication()->input->get('params', '', 'raw');
             <tr valign="top">
                 <td width="50%">
                     <fieldset class="adminform">
-                        <legend><?php echo JText::_('COM_REDSHOP_REGISTRATION'); ?></legend>
+                        <legend>
+                            <?php echo Text::_('COM_REDSHOP_REGISTRATION'); ?>
+                        </legend>
                         <?php echo $this->loadTemplate('registration'); ?>
                     </fieldset>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="hidden" name="view" value="wizard"/>
-                    <input type="hidden" name="task" value="save"/>
-                    <input type="hidden" name="substep" value="<?php echo $params->step; ?>"/>
-                    <input type="hidden" name="go" value=""/>
+                    <input type="hidden" name="view" value="wizard" />
+                    <input type="hidden" name="task" value="save" />
+                    <input type="hidden" name="substep" value="<?php echo $params->step; ?>" />
+                    <input type="hidden" name="go" value="" />
                 </td>
             </tr>
         </table>

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * View Coupons
  *
@@ -39,18 +41,18 @@ class RedshopViewCoupons extends RedshopViewList
 
         switch ($config['dataCol']) {
             case 'type':
-                return !$value ? '<span class="label label-primary">' . JText::_(
-                        'COM_REDSHOP_COUPON_TYPE_OPTION_TOTAL'
-                    ) . '</span>'
-                    : '<span class="label label-success">' . JText::_(
+                return !$value ? '<span class="label label-primary">' . Text::_(
+                    'COM_REDSHOP_COUPON_TYPE_OPTION_TOTAL'
+                ) . '</span>'
+                    : '<span class="label label-success">' . Text::_(
                         'COM_REDSHOP_COUPON_TYPE_OPTION_PERCENTAGE'
                     ) . '</span>';
 
             case 'effect':
-                return !$value ? '<span class="label label-primary">' . JText::_(
-                        'COM_REDSHOP_COUPON_EFFECT_OPTION_GLOBAL'
-                    ) . '</span>'
-                    : '<span class="label label-success">' . JText::_(
+                return !$value ? '<span class="label label-primary">' . Text::_(
+                    'COM_REDSHOP_COUPON_EFFECT_OPTION_GLOBAL'
+                ) . '</span>'
+                    : '<span class="label label-success">' . Text::_(
                         'COM_REDSHOP_COUPON_EFFECT_OPTION_USER'
                     ) . '</span>';
 
@@ -69,7 +71,7 @@ class RedshopViewCoupons extends RedshopViewList
                     return '';
                 }
 
-                $tz   = new \DateTimeZone(\JFactory::getConfig()->get('offset'));
+                $tz = new \DateTimeZone(\JFactory::getConfig()->get('offset'));
                 $date = date_create_from_format('Y-m-d H:i:s', $value, new \DateTimeZone('UTC'));
 
                 return $date->setTimezone($tz)->format(Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'd-m-Y'));

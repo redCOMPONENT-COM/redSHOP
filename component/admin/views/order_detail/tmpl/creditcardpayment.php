@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 $url  = JURI::base();
 $user = JFactory::getUser();
@@ -93,10 +96,12 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1') {
     ?>
 
     <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout') ?>" method="post"
-          name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">
+        name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">
 
         <fieldset class="adminform">
-            <legend><?php echo JText::_('COM_REDSHOP_CARD_INFORMATION'); ?></legend>
+            <legend>
+                <?php echo Text::_('COM_REDSHOP_CARD_INFORMATION'); ?>
+            </legend>
             <table class="admintable table">
                 <tr>
                     <td colspan="2" align="right" nowrap="nowrap">
@@ -108,8 +113,8 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1') {
                                     $cc_img = $cc_list[$accepted_cc_list[$i]]->img;
                                     ?>
                                     <td align="center"><img
-                                                src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>checkout/<?php echo $cc_img; ?>"
-                                                alt="" border="0"/></td>
+                                            src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>checkout/<?php echo $cc_img; ?>"
+                                            alt="" border="0" /></td>
                                 <?php } ?>
                             </tr>
                             <tr>
@@ -122,8 +127,8 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1') {
                                         $checked = ($_SESSION['ccdata']['creditcard_code'] == $value) ? "checked" : "";
                                     }
                                     ?>
-                                    <td align="center"><input type="radio" name="creditcard_code"
-                                                              value="<?php echo $value; ?>" <?php echo $checked ?> />
+                                    <td align="center"><input type="radio" name="creditcard_code" value="<?php echo $value; ?>"
+                                            <?php echo $checked ?> />
                                     </td>
                                 <?php } ?>
                             </tr>
@@ -134,30 +139,37 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1') {
                 </tr>
                 <tr valign="top">
                     <td align="right" nowrap="nowrap" width="10%">
-                        <label for="order_payment_name"><?php echo JText::_('COM_REDSHOP_NAME_ON_CARD'); ?></label>
+                        <label for="order_payment_name">
+                            <?php echo Text::_('COM_REDSHOP_NAME_ON_CARD'); ?>
+                        </label>
                     </td>
                     <td>
                         <input class="inputbox" id="order_payment_name" name="order_payment_name"
-                               value="<?php if (!empty($_SESSION['ccdata']['order_payment_name'])) echo $_SESSION['ccdata']['order_payment_name'] ?>"
-                               autocomplete="off" type="text">
-                    </td>
+                            value="<?php if (!empty($_SESSION['ccdata']['order_payment_name']))
+                                echo $_SESSION['ccdata']['order_payment_name'] ?>"
+                                autocomplete="off" type="text">
+                        </td>
 
-                </tr>
-                <tr valign="top">
-                    <td align="right" nowrap="nowrap" width="10%">
-                        <label for="order_payment_number"><?php echo JText::_('COM_REDSHOP_CARD_NUM'); ?></label>
+                    </tr>
+                    <tr valign="top">
+                        <td align="right" nowrap="nowrap" width="10%">
+                            <label for="order_payment_number">
+                            <?php echo Text::_('COM_REDSHOP_CARD_NUM'); ?>
+                        </label>
                     </td>
                     <td>
                         <input class="inputbox" id="order_payment_number" name="order_payment_number"
-                               value="<?php if (!empty($_SESSION['ccdata']['order_payment_number'])) echo $_SESSION['ccdata']['order_payment_number'] ?>"
-                               autocomplete="off" type="text">
+                            value="<?php if (!empty($_SESSION['ccdata']['order_payment_number']))
+                                echo $_SESSION['ccdata']['order_payment_number'] ?>"
+                                autocomplete="off" type="text">
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td align="right" nowrap="nowrap" width="10%">
+                        <?php echo Text::_('COM_REDSHOP_EXPIRY_DATE'); ?>
                     </td>
-
-                </tr>
-
-                <tr>
-                    <td align="right" nowrap="nowrap"
-                        width="10%"><?php echo JText::_('COM_REDSHOP_EXPIRY_DATE'); ?></td>
                     <td>
                         <?php
                         $value = @$_SESSION['ccdata']['order_payment_expire_month'];
@@ -166,18 +178,18 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1') {
                         }
                         $arr = array(
                             "Month",
-                            "01" => JText::_('COM_REDSHOP_JAN'),
-                            "02" => JText::_('COM_REDSHOP_FEB'),
-                            "03" => JText::_('COM_REDSHOP_MAR'),
-                            "04" => JText::_('COM_REDSHOP_APR'),
-                            "05" => JText::_('COM_REDSHOP_MAY'),
-                            "06" => JText::_('COM_REDSHOP_JUN'),
-                            "07" => JText::_('COM_REDSHOP_JUL'),
-                            "08" => JText::_('COM_REDSHOP_AUG'),
-                            "09" => JText::_('COM_REDSHOP_SEP'),
-                            "10" => JText::_('COM_REDSHOP_OCT'),
-                            "11" => JText::_('COM_REDSHOP_NOV'),
-                            "12" => JText::_('COM_REDSHOP_DEC')
+                            "01" => Text::_('COM_REDSHOP_JAN'),
+                            "02" => Text::_('COM_REDSHOP_FEB'),
+                            "03" => Text::_('COM_REDSHOP_MAR'),
+                            "04" => Text::_('COM_REDSHOP_APR'),
+                            "05" => Text::_('COM_REDSHOP_MAY'),
+                            "06" => Text::_('COM_REDSHOP_JUN'),
+                            "07" => Text::_('COM_REDSHOP_JUL'),
+                            "08" => Text::_('COM_REDSHOP_AUG'),
+                            "09" => Text::_('COM_REDSHOP_SEP'),
+                            "10" => Text::_('COM_REDSHOP_OCT'),
+                            "11" => Text::_('COM_REDSHOP_NOV'),
+                            "12" => Text::_('COM_REDSHOP_DEC')
                         );
 
                         $html = "<select class=\"inputbox\" name=\"order_payment_expire_month\" size=\"1\" >\n";
@@ -206,33 +218,36 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1') {
 
                             for ($y = $thisyear; $y < ($thisyear + 10); $y++) {
                                 ?>
-                                <option
-                                        value="<?php echo $y; //echo substr($y,2);
-                                        ?>" <?php if (!empty($_SESSION['ccdata']['order_payment_expire_year']) && $_SESSION['ccdata']['order_payment_expire_year'] == $y) { ?> selected="selected" <?php } ?> ><?php echo $y; ?></option>
+                                <option value="<?php echo $y; //echo substr($y,2);
+                                        ?>" <?php if (!empty($_SESSION['ccdata']['order_payment_expire_year']) && $_SESSION['ccdata']['order_payment_expire_year'] == $y) { ?> selected="selected" <?php } ?>>
+                                    <?php echo $y; ?>
+                                </option>
                                 <?php
                             }
-                            ?> </select>
+                            ?>
+                        </select>
                     </td>
                 </tr>
 
                 <tr valign="top">
                     <td align="right" nowrap="nowrap" width="10%">
                         <label for="credit_card_code">
-                            <?php echo JText::_('COM_REDSHOP_CARD_SECURITY_CODE'); ?>
+                            <?php echo Text::_('COM_REDSHOP_CARD_SECURITY_CODE'); ?>
                         </label>
                     </td>
                     <td>
                         <input class="inputbox" id="credit_card_code" name="credit_card_code"
-                               value="<?php if (!empty($_SESSION['ccdata']['credit_card_code'])) echo $_SESSION['ccdata']['credit_card_code'] ?>"
-                               autocomplete="off" type="text">
-                    </td>
-                </tr>
+                            value="<?php if (!empty($_SESSION['ccdata']['credit_card_code']))
+                                echo $_SESSION['ccdata']['credit_card_code'] ?>"
+                                autocomplete="off" type="text">
+                        </td>
+                    </tr>
 
 
-                <tr valign="top">
-                    <td align="right" nowrap="nowrap" width="10%">
-                        <label for="credit_card_code">
-                            <?php echo JText::_('COM_REDSHOP_ORDERTOTAL'); ?>
+                    <tr valign="top">
+                        <td align="right" nowrap="nowrap" width="10%">
+                            <label for="credit_card_code">
+                            <?php echo Text::_('COM_REDSHOP_ORDERTOTAL'); ?>
                         </label>
                     </td>
                     <td>
@@ -289,15 +304,15 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1') {
             </table>
         </fieldset>
         <div style="text-align: right;">
-            <input type="hidden" name="option" value="com_redshop"/>
-            <input type="hidden" name="task" value="checkoutNext"/>
-            <input type="hidden" name="payment_plugin" value="<?php echo $plugin ?>"/>
-            <input type="hidden" name="order_id" value="<?php echo $order_id ?>"/>
-            <input type="hidden" name="view" value="order_detail"/>
+            <input type="hidden" name="option" value="com_redshop" />
+            <input type="hidden" name="task" value="checkoutNext" />
+            <input type="hidden" name="payment_plugin" value="<?php echo $plugin ?>" />
+            <input type="hidden" name="order_id" value="<?php echo $order_id ?>" />
+            <input type="hidden" name="view" value="order_detail" />
             <input type="submit" name="submit" class="greenbutton btn btn-success"
-                   value="<?php echo JText::_('COM_REDSHOP_BTN_CHECKOUTNEXT'); ?>"/>
-            <input type="hidden" name="ccinfo" value="1"/>
-            <input type="hidden" name="users_info_id" value="<?php echo $order->user_info_id; ?>"/>
+                value="<?php echo Text::_('COM_REDSHOP_BTN_CHECKOUTNEXT'); ?>" />
+            <input type="hidden" name="ccinfo" value="1" />
+            <input type="hidden" name="users_info_id" value="<?php echo $order->user_info_id; ?>" />
         </div>
     </form>
     <?php
@@ -317,15 +332,15 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1') {
         $paymentResponse = $results[0];
         ?>
         <form>
-            <input type="hidden" name="option" value="com_redshop"/>
-            <input type="hidden" name="task" value="checkoutNext"/>
-            <input type="hidden" name="payment_plugin" value="<?php echo $plugin ?>"/>
-            <input type="hidden" name="order_id" value="<?php echo $order_id ?>"/>
-            <input type="hidden" name="view" value="order_detail"/>
+            <input type="hidden" name="option" value="com_redshop" />
+            <input type="hidden" name="task" value="checkoutNext" />
+            <input type="hidden" name="payment_plugin" value="<?php echo $plugin ?>" />
+            <input type="hidden" name="order_id" value="<?php echo $order_id ?>" />
+            <input type="hidden" name="view" value="order_detail" />
             <input type="submit" name="submit" class="greenbutton btn btn-success"
-                   value="<?php echo JText::_('COM_REDSHOP_BTN_CHECKOUTNEXT'); ?>"/>
-            <input type="hidden" name="ccinfo" value="0"/>
-            <input type="hidden" name="users_info_id" value="<?php echo $order->user_info_id; ?>"/>
+                value="<?php echo Text::_('COM_REDSHOP_BTN_CHECKOUTNEXT'); ?>" />
+            <input type="hidden" name="ccinfo" value="0" />
+            <input type="hidden" name="users_info_id" value="<?php echo $order->user_info_id; ?>" />
         </form>
         <?php
     }

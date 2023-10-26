@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 ?>
 <script>
@@ -22,31 +25,36 @@
 <form name="adminForm" id="adminForm" action="index.php">
     <table cellspacing="0" cellpadding="0" border="0" width="100%">
         <tr>
-            <td id="continue" align="center"><strong><?php echo JText::_('COM_REDSHOP_ARE_YOU_SURE') ?></strong></td>
+            <td id="continue" align="center"><strong>
+                    <?php echo Text::_('COM_REDSHOP_ARE_YOU_SURE') ?>
+                </strong></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
         </tr>
         <tr>
             <td style="display:none;" id="disturb" align="center">
-                <strong><?php echo JText::_('COM_REDSHOP_PLEASE_DO_NOT_DISTURB') ?></strong></td>
+                <strong>
+                    <?php echo Text::_('COM_REDSHOP_PLEASE_DO_NOT_DISTURB') ?>
+                </strong>
+            </td>
         </tr>
         <tr>
             <td>&nbsp;</td>
         </tr>
         <tr>
             <td style="display:none;" id="loaderimg" align="center"><img
-                        src='<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>ajax-loader.gif'/></td>
+                    src='<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>ajax-loader.gif' /></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
         </tr>
         <tr>
             <td align="center"><input type="button" name="btn_submit" id="btn_submit" value="Confirm"
-                                      onclick="frm_submit();"/></td>
+                    onclick="frm_submit();" /></td>
         </tr>
 
     </table>
-    <input type="hidden" name="view" value="zip_import"/>
-    <input type="hidden" name="option" value="com_redshop"/>
+    <input type="hidden" name="view" value="zip_import" />
+    <input type="hidden" name="option" value="com_redshop" />
 </form>

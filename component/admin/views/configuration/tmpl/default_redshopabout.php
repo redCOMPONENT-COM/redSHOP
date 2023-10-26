@@ -7,10 +7,12 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
-?>
+use Joomla\CMS\Language\Text;
 
+?>
 <fieldset class="adminform">
     <div class="row">
         <div class="col-sm-6">
@@ -18,7 +20,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_SYSTEM_INFORMATION'),
+                    'title'   => Text::_('COM_REDSHOP_SYSTEM_INFORMATION'),
                     'content' => $this->loadTemplate('system_information')
                 )
             );
@@ -29,7 +31,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_REDSHOP_MODULES'),
+                    'title'   => Text::_('COM_REDSHOP_REDSHOP_MODULES'),
                     'content' => $this->loadTemplate('redshop_modules')
                 )
             );
@@ -42,7 +44,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_REDSHOP_SHIPPING_PLUGINS'),
+                    'title'   => Text::_('COM_REDSHOP_REDSHOP_SHIPPING_PLUGINS'),
                     'content' => $this->loadTemplate('redshop_shipping')
                 )
             );
@@ -53,7 +55,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_REDSHOP_PAYMENT_PLUGINS'),
+                    'title'   => Text::_('COM_REDSHOP_REDSHOP_PAYMENT_PLUGINS'),
                     'content' => $this->loadTemplate('redshop_plugins')
                 )
             );

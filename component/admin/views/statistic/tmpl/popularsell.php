@@ -7,32 +7,35 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
-$user = JFactory::getUser();
+use Joomla\CMS\Language\Text;
 
+$user = JFactory::getUser();
 $start = $this->pagination->limitstart;
 $end   = $this->pagination->limit;
+
 ?>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
     <div id="editcell">
         <table width="100%">
             <tr>
-                <td><?php echo JText::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption']; ?></td>
+                <td><?php echo Text::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption']; ?></td>
             </tr>
-            <?php /*<tr><td><?php echo JText::_('COM_REDSHOP_STARTDATE');?></td>
+            <?php /*<tr><td><?php echo Text::_('COM_REDSHOP_STARTDATE');?></td>
 		<td><?php echo JHTML::_('calendar', $this->startdate , 'startdate', 'startdate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
-	<tr><td><?php echo JText::_('COM_REDSHOP_ENDDATE');?></td>
+	<tr><td><?php echo Text::_('COM_REDSHOP_ENDDATE');?></td>
 		<td><?php echo JHTML::_('calendar', $this->enddate , 'enddate', 'enddate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
-	<tr><td colspan="2"><input type="submit" name="filter" value=<?php echo JText::_('COM_REDSHOP_SUBMIT');?> /></td></tr><?php */ ?>
+	<tr><td colspan="2"><input type="submit" name="filter" value=<?php echo Text::_('COM_REDSHOP_SUBMIT');?> /></td></tr><?php */ ?>
         </table>
         <table class="adminlist table table-striped" width="100%">
             <thead>
             <tr>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_HASH'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_NUMBER_OF_VIEWS'); ?></th>
+                <th align="center"><?php echo Text::_('COM_REDSHOP_HASH'); ?></th>
+                <th align="center"><?php echo Text::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
+                <th align="center"><?php echo Text::_('COM_REDSHOP_PRODUCT_PRICE'); ?></th>
+                <th align="center"><?php echo Text::_('COM_REDSHOP_NUMBER_OF_VIEWS'); ?></th>
             </tr>
             </thead>
             <?php $disdate = "";
@@ -46,7 +49,7 @@ $end   = $this->pagination->limit;
                 if ($this->filteroption && $row->viewdate != $disdate) {
                     $disdate = $row->viewdate; ?>
                     <tr>
-                        <td colspan="4"><?php echo JText::_("COM_REDSHOP_DATE") . ": " . $disdate; ?></td>
+                        <td colspan="4"><?php echo Text::_("COM_REDSHOP_DATE") . ": " . $disdate; ?></td>
                     </tr>
                     <?php
                 }
@@ -55,7 +58,7 @@ $end   = $this->pagination->limit;
                 ); ?>
                 <tr>
                     <td align="center"><?php echo $i + 1; ?></td>
-                    <td><a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>">
+                    <td><a href="<?php echo $link; ?>" title="<?php echo Text::_('COM_REDSHOP_EDIT_PRODUCT'); ?>">
                             <?php echo $row->product_name; ?></a></td>
                     <td align="center"><?php echo RedshopHelperProductPrice::formattedPrice(
                             $row->product_price

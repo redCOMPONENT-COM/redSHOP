@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -93,7 +95,7 @@ class RedshopTagsSectionsQuotationRequest extends RedshopTagsAbstract
             $billing = '';
 
             $emailField           = new stdClass;
-            $emailField->title    = JText::_('COM_REDSHOP_EMAIL');
+            $emailField->title    = Text::_('COM_REDSHOP_EMAIL');
             $emailField->desc     = '';
             $emailField->required = '';
 
@@ -145,7 +147,7 @@ class RedshopTagsSectionsQuotationRequest extends RedshopTagsAbstract
 
             $this->addReplace(
                 '{billing_address_information_lbl}',
-                JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL')
+                Text::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL')
             );
 
             $this->addReplace('{billing_address}', $billing);
@@ -170,8 +172,8 @@ class RedshopTagsSectionsQuotationRequest extends RedshopTagsAbstract
 
         $this->addReplace('{cancel_btn}', $cancelBtn);
         $this->addReplace('{request_quotation_btn}', $quotationBtn);
-        $this->addReplace('{order_detail_lbl}', JText::_('COM_REDSHOP_ORDER_DETAIL_LBL'));
-        $this->addReplace('{customer_note_lbl}', JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'));
+        $this->addReplace('{order_detail_lbl}', Text::_('COM_REDSHOP_ORDER_DETAIL_LBL'));
+        $this->addReplace('{customer_note_lbl}', Text::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'));
 
         $customerNote = \RedshopLayoutHelper::render(
             'tags.common.textarea',

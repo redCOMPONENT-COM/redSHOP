@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -69,7 +71,7 @@ class RedshopTagsSectionsAskQuestion extends RedshopTagsAbstract
                 'name'  => '',
                 'type'  => 'submit',
                 'class' => 'btn',
-                'value' => JText::_('COM_REDSHOP_SEND'),
+                'value' => Text::_('COM_REDSHOP_SEND'),
                 'attr'  => 'onclick="questionSubmitButton(\'ask_question.submit\')"'
             ),
             '',

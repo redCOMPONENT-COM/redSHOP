@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Input\Input;
+use Joomla\CMS\Language\Text;
 
 jimport('joomla.application.component.controllerform');
 
@@ -36,34 +37,34 @@ class RedshopControllerForm extends JControllerForm
      */
     protected $name;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   array                 $config       An optional associative array of configuration settings.
-	 *                                              Recognized key values include 'name', 'default_task', 'model_path', and
-	 *                                              'view_path' (this list is not meant to be comprehensive).
-	 * @param   MVCFactoryInterface   $factory      The factory.
-	 * @param   CMSApplication        $app          The Application for the dispatcher
-	 * @param   Input                 $input        Input
-	 * @param   FormFactoryInterface  $formFactory  The form factory.
-	 *
-	 * @since   3.0
-	 */
-	public function __construct(
-		$config = [],
-		MVCFactoryInterface $factory = null,
-		?CMSApplication $app = null,
-		?Input $input = null,
-		FormFactoryInterface $formFactory = null
-	)
-	{
-		parent::__construct($config, $factory, $app, $input, $formFactory);
+    /**
+     * Constructor.
+     *
+     * @param   array                 $config       An optional associative array of configuration settings.
+     *                                              Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                              'view_path' (this list is not meant to be comprehensive).
+     * @param   MVCFactoryInterface   $factory      The factory.
+     * @param   CMSApplication        $app          The Application for the dispatcher
+     * @param   Input                 $input        Input
+     * @param   FormFactoryInterface  $formFactory  The form factory.
+     *
+     * @since   3.0
+     */
+    public function __construct(
+        $config = [],
+        MVCFactoryInterface $factory = null,
+        ?CMSApplication $app = null,
+        ?Input $input = null,
+        FormFactoryInterface $formFactory = null
+    )
+    {
+        parent::__construct($config, $factory, $app, $input, $formFactory);
 
-		if (empty($this->view_list)
-			|| $this->view_list == $this->view_item)
-		{
-			$this->view_list = Inflector::pluralize($this->view_item);
-		}
+        if (empty($this->view_list)
+            || $this->view_list == $this->view_item)
+        {
+            $this->view_list = Inflector::pluralize($this->view_item);
+        }
     }
 
     /**
@@ -75,7 +76,7 @@ class RedshopControllerForm extends JControllerForm
      */
     public function cancel($key = null)
     {
-        JSession::checkToken() or jexit(JText::_('INVALID_TOKEN'));
+        JSession::checkToken() or jexit(Text::_('INVALID_TOKEN'));
 
         $app     = JFactory::getApplication();
         $model   = $this->getModel();
@@ -264,7 +265,7 @@ class RedshopControllerForm extends JControllerForm
 
         // Access check.
         if (!$this->allowEdit(array($key => $recordId), $key)) {
-            $this->setMessage(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
+            $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
 
             // Redirect to the list screen
             $this->setRedirect(
@@ -312,7 +313,7 @@ class RedshopControllerForm extends JControllerForm
         // Access check.
         if (!$this->allowAdd()) {
             // Set the internal error and also the redirect error.
-            $this->setMessage(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 'error');
+            $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 'error');
 
             // Redirect to the list screen
             $this->setRedirect(
@@ -345,7 +346,7 @@ class RedshopControllerForm extends JControllerForm
     public function save($key = null, $urlVar = null)
     {
         // Check for request forgeries.
-        JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
         $app     = JFactory::getApplication();
         $lang    = JFactory::getLanguage();
@@ -410,7 +411,7 @@ class RedshopControllerForm extends JControllerForm
 
         // Access check.
         if (!$this->allowSave($data, $key)) {
-            $this->setMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+            $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
             // Redirect to the list screen
             $this->setRedirect(
@@ -495,7 +496,7 @@ class RedshopControllerForm extends JControllerForm
         }
 
         $this->setMessage(
-            JText::_(
+            Text::_(
                 ($lang->hasKey(
                     $this->text_prefix . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
                 )

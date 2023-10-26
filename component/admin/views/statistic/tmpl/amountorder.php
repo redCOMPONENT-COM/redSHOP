@@ -7,26 +7,38 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die;
-$user = JFactory::getUser();
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
+$user  = JFactory::getUser();
 $start = $this->pagination->limitstart;
 $end   = $this->pagination->limit;
+
 ?>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
     <div id="editcell">
         <table width="100%">
             <tr>
-                <td><?php echo JText::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption']; ?></td>
+                <td>
+                    <?php echo Text::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption']; ?>
+                </td>
             </tr>
         </table>
         <table class="adminlist table table-striped" width="100%">
             <thead>
-            <tr>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_HASH'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_FULLNAME'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_TOTAL_ORDERS'); ?></th>
-            </tr>
+                <tr>
+                    <th align="center">
+                        <?php echo Text::_('COM_REDSHOP_HASH'); ?>
+                    </th>
+                    <th align="center">
+                        <?php echo Text::_('COM_REDSHOP_FULLNAME'); ?>
+                    </th>
+                    <th align="center">
+                        <?php echo Text::_('COM_REDSHOP_TOTAL_ORDERS'); ?>
+                    </th>
+                </tr>
             </thead>
             <?php $disdate = "";
             for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++) {
@@ -39,25 +51,34 @@ $end   = $this->pagination->limit;
                 if ($this->filteroption && $row->viewdate != $disdate) {
                     $disdate = $row->viewdate; ?>
                     <tr>
-                        <td colspan="3"><?php echo JText::_("COM_REDSHOP_DATE") . ": " . $disdate; ?></td>
+                        <td colspan="3">
+                            <?php echo Text::_("COM_REDSHOP_DATE") . ": " . $disdate; ?>
+                        </td>
                     </tr>
                 <?php } ?>
                 <tr>
-                    <td align="center"><?php echo $i + 1; ?></td>
-                    <td align="center"><?php echo $row->firstname . ' ' . $row->lastname; ?></td>
-                    <td align="center"><?php echo $row->totalorder; ?></td>
+                    <td align="center">
+                        <?php echo $i + 1; ?>
+                    </td>
+                    <td align="center">
+                        <?php echo $row->firstname . ' ' . $row->lastname; ?>
+                    </td>
+                    <td align="center">
+                        <?php echo $row->totalorder; ?>
+                    </td>
                 </tr>
             <?php } ?>
             <tfoot>
-            <td colspan="3">
-				<div class="redShopLimitBox">
-					<?php echo $this->pagination->getLimitBox(); ?>
-				</div>
-                <?php echo $this->pagination->getListFooter(); ?></td>
+                <td colspan="3">
+                    <div class="redShopLimitBox">
+                        <?php echo $this->pagination->getLimitBox(); ?>
+                    </div>
+                    <?php echo $this->pagination->getListFooter(); ?>
+                </td>
             </tfoot>
         </table>
     </div>
-    <input type="hidden" name="view" value="statistic"/>
-    <input type="hidden" name="layout" value="<?php echo $this->layout; ?>"/>
-    <input type="hidden" name="boxchecked" value="0"/>
+    <input type="hidden" name="view" value="statistic" />
+    <input type="hidden" name="layout" value="<?php echo $this->layout; ?>" />
+    <input type="hidden" name="boxchecked" value="0" />
 </form>

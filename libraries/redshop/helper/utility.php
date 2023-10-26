@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Behat\Transliterator\Transliterator;
 use Joomla\CMS\Factory;
 
@@ -118,7 +119,7 @@ class RedshopHelperUtility
 
         foreach ($array as $attribute => $value) {
             if (null !== $value) {
-                $attributes .= ' ' . $attribute . '="' . (string)$value . '"';
+                $attributes .= ' ' . $attribute . '="' . (string) $value . '"';
             }
         }
 
@@ -141,12 +142,12 @@ class RedshopHelperUtility
         $config->set('SHOW_PRICE', self::showPrice());
         $config->set('USE_AS_CATALOG', self::getCatalog());
 
-        $quotationModePre = (int)$config->get('DEFAULT_QUOTATION_MODE_PRE');
+        $quotationModePre = (int) $config->get('DEFAULT_QUOTATION_MODE_PRE');
 
         $config->set('DEFAULT_QUOTATION_MODE', $quotationModePre);
 
         if ($quotationModePre == 1) {
-            $config->set('DEFAULT_QUOTATION_MODE', (int)self::setQuotationMode());
+            $config->set('DEFAULT_QUOTATION_MODE', (int) self::setQuotationMode());
         }
     }
 
@@ -167,9 +168,11 @@ class RedshopHelperUtility
 
         $shopperGroups = $shopperGroups[0];
 
-        if ($shopperGroups->show_price == "yes"
+        if (
+            $shopperGroups->show_price == "yes"
             || ($shopperGroups->show_price == "global" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1)
-            || ($shopperGroups->show_price == "" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1)) {
+            || ($shopperGroups->show_price == "" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1)
+        ) {
             return 1;
         }
 
@@ -193,9 +196,11 @@ class RedshopHelperUtility
 
         $shopperGroup = $shopperGroup[0];
 
-        if ($shopperGroup->use_as_catalog == "yes"
+        if (
+            $shopperGroup->use_as_catalog == "yes"
             || ($shopperGroup->use_as_catalog == "global" && Redshop::getConfig()->get('PRE_USE_AS_CATALOG') == 1)
-            || ($shopperGroup->use_as_catalog == "" && Redshop::getConfig()->get('PRE_USE_AS_CATALOG') == 1)) {
+            || ($shopperGroup->use_as_catalog == "" && Redshop::getConfig()->get('PRE_USE_AS_CATALOG') == 1)
+        ) {
             return 1;
         }
 
@@ -254,7 +259,7 @@ class RedshopHelperUtility
      */
     public static function maxChars($desc = '', $maxChars = 0, $suffix = '')
     {
-        $maxChars = (int)$maxChars;
+        $maxChars = (int) $maxChars;
 
         if (!$maxChars) {
             return $desc;
@@ -313,12 +318,14 @@ class RedshopHelperUtility
                     $left           = $length - $totalLength;
                     $entitiesLength = 0;
 
-                    if (preg_match_all(
-                        '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i',
-                        $tag[3],
-                        $entities,
-                        PREG_OFFSET_CAPTURE
-                    )) {
+                    if (
+                        preg_match_all(
+                            '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i',
+                            $tag[3],
+                            $entities,
+                            PREG_OFFSET_CAPTURE
+                        )
+                    ) {
                         foreach ($entities[0] as $entity) {
                             if ($entity[1] + 1 - $entitiesLength > $left) {
                                 break;
@@ -332,7 +339,7 @@ class RedshopHelperUtility
                     $truncate .= substr($tag[3], 0, $left + $entitiesLength);
                     break;
                 } else {
-                    $truncate    .= $tag[3];
+                    $truncate .= $tag[3];
                     $totalLength = $contentLength;
                 }
 
@@ -589,7 +596,7 @@ class RedshopHelperUtility
         // Get Itemid from Product detail
         if ($productId) {
             $result = self::getRedShopMenuItem(
-                array('option' => 'com_redshop', 'view' => 'product', 'pid' => (int)$productId)
+                array('option' => 'com_redshop', 'view' => 'product', 'pid' => (int) $productId)
             );
 
             if ($result) {
@@ -670,7 +677,8 @@ class RedshopHelperUtility
         }
 
         foreach ($queryItems as $key => $value) {
-            if (!isset($oneMenuItem->query[$key])
+            if (
+                !isset($oneMenuItem->query[$key])
                 || (is_array($value) && !in_array($oneMenuItem->query[$key], $value))
                 || (!is_array($value) && $oneMenuItem->query[$key] != $value)
             ) {
@@ -711,7 +719,7 @@ class RedshopHelperUtility
                         'option' => 'com_redshop',
                         'view'   => 'category',
                         'layout' => 'detail',
-                        'cid'    => (int)$category
+                        'cid'    => (int) $category
                     )
                 );
 
@@ -750,7 +758,7 @@ class RedshopHelperUtility
     {
         for ($i = 0, $in = count($data); $i < $in; $i++) {
             $txt   = $data[$i]->text;
-            $ltext = JText::_($txt);
+            $ltext = Text::_($txt);
 
             if ($ltext != $txt) {
                 $data[$i]->text = $ltext;
@@ -770,7 +778,7 @@ class RedshopHelperUtility
         asort($tmpArray);
         $x = 0;
 
-        foreach ($tmpArray AS $val => $txt) {
+        foreach ($tmpArray as $val => $txt) {
             $data[$x]->text  = $txt;
             $data[$x]->value = $val;
             $x++;
@@ -789,16 +797,16 @@ class RedshopHelperUtility
     public static function getOrderByList()
     {
         $orderBy = array(
-            JHtml::_('select.option', 'name', JText::_('COM_REDSHOP_PRODUCT_NAME_ASC')),
-            JHtml::_('select.option', 'name_desc', JText::_('COM_REDSHOP_PRODUCT_NAME_DESC')),
-            JHtml::_('select.option', 'price', JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC')),
-            JHtml::_('select.option', 'price_desc', JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC')),
-            JHtml::_('select.option', 'number', JText::_('COM_REDSHOP_PRODUCT_NUMBER_ASC')),
-            JHtml::_('select.option', 'number_desc', JText::_('COM_REDSHOP_PRODUCT_NUMBER_DESC')),
-            JHtml::_('select.option', 'id', JText::_('COM_REDSHOP_NEWEST')),
-            JHtml::_('select.option', 'ordering', JText::_('COM_REDSHOP_ORDERING_ASC')),
-            JHtml::_('select.option', 'ordering_desc', JText::_('COM_REDSHOP_ORDERING_DESC')),
-            JHtml::_('select.option', 'random', JText::_('COM_REDSHOP_ORDERING_RANDOM'))
+            JHtml::_('select.option', 'name', Text::_('COM_REDSHOP_PRODUCT_NAME_ASC')),
+            JHtml::_('select.option', 'name_desc', Text::_('COM_REDSHOP_PRODUCT_NAME_DESC')),
+            JHtml::_('select.option', 'price', Text::_('COM_REDSHOP_PRODUCT_PRICE_ASC')),
+            JHtml::_('select.option', 'price_desc', Text::_('COM_REDSHOP_PRODUCT_PRICE_DESC')),
+            JHtml::_('select.option', 'number', Text::_('COM_REDSHOP_PRODUCT_NUMBER_ASC')),
+            JHtml::_('select.option', 'number_desc', Text::_('COM_REDSHOP_PRODUCT_NUMBER_DESC')),
+            JHtml::_('select.option', 'id', Text::_('COM_REDSHOP_NEWEST')),
+            JHtml::_('select.option', 'ordering', Text::_('COM_REDSHOP_ORDERING_ASC')),
+            JHtml::_('select.option', 'ordering_desc', Text::_('COM_REDSHOP_ORDERING_DESC')),
+            JHtml::_('select.option', 'random', Text::_('COM_REDSHOP_ORDERING_RANDOM'))
         );
 
         JPluginHelper::importPlugin('system');
@@ -807,40 +815,36 @@ class RedshopHelperUtility
         return $orderBy;
     }
 
-	/**
-	 * Get the event dispatcher
-	 *
-	 * @return  JEventDispatcher
-	 */
-	public static function getDispatcher()
-	{
-		if (!self::$dispatcher)
-		{
-			if (version_compare(JVERSION, '4.0', 'lt'))
-			{
-				self::$dispatcher = JEventDispatcher::getInstance();
-			}
-			else
-			{
-				self::$dispatcher = new class {
-					/**
-					 * @param   string  $name  Name
-					 * @param   array   $attr  Attr
-					 *
-					 * @return array
-					 * @since  __DEPLOY_VERSION__
-					 */
-					public function trigger(string $name, array $attr = [])
-					{
-						return Factory::getApplication()
-							->triggerEvent($name, $attr);
-					}
-				};
-			}
-		}
+    /**
+     * Get the event dispatcher
+     *
+     * @return  JEventDispatcher
+     */
+    public static function getDispatcher()
+    {
+        if (!self::$dispatcher) {
+            if (version_compare(JVERSION, '4.0', 'lt')) {
+                self::$dispatcher = JEventDispatcher::getInstance();
+            } else {
+                self::$dispatcher = new class {
+                    /**
+                     * @param   string  $name  Name
+                     * @param   array   $attr  Attr
+                     *
+                     * @return array
+                     * @since  __DEPLOY_VERSION__
+                     */
+                    public function trigger(string $name, array $attr = [])
+                    {
+                        return Factory::getApplication()
+                            ->triggerEvent($name, $attr);
+                    }
+                };
+            }
+        }
 
-		return self::$dispatcher;
-	}
+        return self::$dispatcher;
+    }
 
     /**
      * Prepare order by object for ordering from string.
@@ -857,60 +861,60 @@ class RedshopHelperUtility
 
         switch ($case) {
             case 'name_desc':
-                $orderBy->ordering  = 'p.product_name';
+                $orderBy->ordering = 'p.product_name';
                 $orderBy->direction = 'DESC';
 
                 break;
 
             case 'price':
-                $orderBy->ordering  = 'p.product_price';
+                $orderBy->ordering = 'p.product_price';
                 $orderBy->direction = 'ASC';
 
                 break;
 
             case 'price_desc':
-                $orderBy->ordering  = 'p.product_price';
+                $orderBy->ordering = 'p.product_price';
                 $orderBy->direction = 'DESC';
 
                 break;
 
             case 'number':
-                $orderBy->ordering  = 'p.product_number';
+                $orderBy->ordering = 'p.product_number';
                 $orderBy->direction = 'ASC';
 
                 break;
 
             case 'number_desc':
-                $orderBy->ordering  = 'p.product_number';
+                $orderBy->ordering = 'p.product_number';
                 $orderBy->direction = 'DESC';
 
                 break;
 
             case 'id':
-                $orderBy->ordering  = 'p.product_id';
+                $orderBy->ordering = 'p.product_id';
                 $orderBy->direction = 'DESC';
 
                 break;
 
             case 'ordering':
-                $orderBy->ordering  = 'pc.ordering';
+                $orderBy->ordering = 'pc.ordering';
                 $orderBy->direction = 'ASC';
 
                 break;
 
             case 'ordering_desc':
-                $orderBy->ordering  = 'pc.ordering';
+                $orderBy->ordering = 'pc.ordering';
                 $orderBy->direction = 'DESC';
 
                 break;
             case 'random':
-                $orderBy->ordering  = 'RAND()';
+                $orderBy->ordering = 'RAND()';
                 $orderBy->direction = '';
                 break;
 
             case 'name':
             default:
-                $orderBy->ordering  = 'p.product_name';
+                $orderBy->ordering = 'p.product_name';
                 $orderBy->direction = 'ASC';
 
                 break;
@@ -935,15 +939,15 @@ class RedshopHelperUtility
 
         $order[0]        = new stdClass;
         $order[0]->value = "mn.name ASC";
-        $order[0]->text  = JText::_('COM_REDSHOP_ALPHABETICALLY');
+        $order[0]->text  = Text::_('COM_REDSHOP_ALPHABETICALLY');
 
         $order[1]        = new stdClass;
         $order[1]->value = "mn.id DESC";
-        $order[1]->text  = JText::_('COM_REDSHOP_NEWEST');
+        $order[1]->text  = Text::_('COM_REDSHOP_NEWEST');
 
         $order[2]        = new stdClass;
         $order[2]->value = "mn.ordering ASC";
-        $order[2]->text  = JText::_('COM_REDSHOP_ORDERING');
+        $order[2]->text  = Text::_('COM_REDSHOP_ORDERING');
 
         return $order;
     }
@@ -961,44 +965,44 @@ class RedshopHelperUtility
 
         $order[0]        = new stdClass;
         $order[0]->value = "p.product_name ASC";
-        $order[0]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME_ASC');
+        $order[0]->text  = Text::_('COM_REDSHOP_PRODUCT_NAME_ASC');
 
         $order[1]        = new stdClass;
         $order[1]->value = "p.product_name DESC";
-        $order[1]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME_DESC');
+        $order[1]->text  = Text::_('COM_REDSHOP_PRODUCT_NAME_DESC');
 
         $order[2]        = new stdClass;
         $order[2]->value = "p.product_price ASC";
-        $order[2]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC');
+        $order[2]->text  = Text::_('COM_REDSHOP_PRODUCT_PRICE_ASC');
 
         $order[3]        = new stdClass;
         $order[3]->value = "p.product_price DESC";
-        $order[3]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC');
+        $order[3]->text  = Text::_('COM_REDSHOP_PRODUCT_PRICE_DESC');
 
         $order[4]        = new stdClass;
         $order[4]->value = "p.product_number ASC";
-        $order[4]->text  = JText::_('COM_REDSHOP_PRODUCT_NUMBER_ASC');
+        $order[4]->text  = Text::_('COM_REDSHOP_PRODUCT_NUMBER_ASC');
 
         $order[5]        = new stdClass;
         $order[5]->value = "p.product_number DESC";
-        $order[5]->text  = JText::_('COM_REDSHOP_PRODUCT_NUMBER_DESC');
+        $order[5]->text  = Text::_('COM_REDSHOP_PRODUCT_NUMBER_DESC');
 
         $order[6]        = new stdClass;
         $order[6]->value = "r.ordering ASC";
-        $order[6]->text  = JText::_('COM_REDSHOP_ORDERING_ASC');
+        $order[6]->text  = Text::_('COM_REDSHOP_ORDERING_ASC');
 
         $order[7]        = new stdClass;
         $order[7]->value = "r.ordering DESC";
-        $order[7]->text  = JText::_('COM_REDSHOP_ORDERING_DESC');
+        $order[7]->text  = Text::_('COM_REDSHOP_ORDERING_DESC');
 
         if (self::isRedProductFinder()) {
             $order[8]        = new stdClass;
             $order[8]->value = "e.data_txt ASC";
-            $order[8]->text  = JText::_('COM_REDSHOP_DATEPICKER_ASC');
+            $order[8]->text  = Text::_('COM_REDSHOP_DATEPICKER_ASC');
 
             $order[9]        = new stdClass;
             $order[9]->value = "e.data_txt DESC";
-            $order[9]->text  = JText::_('COM_REDSHOP_DATEPICKER_DESC');
+            $order[9]->text  = Text::_('COM_REDSHOP_DATEPICKER_DESC');
         }
 
         return $order;
@@ -1047,35 +1051,35 @@ class RedshopHelperUtility
 
         $order[0]        = new stdClass;
         $order[0]->value = "child_product_id ASC";
-        $order[0]->text  = JText::_('COM_REDSHOP_PRODUCT_ID_ASC');
+        $order[0]->text  = Text::_('COM_REDSHOP_PRODUCT_ID_ASC');
 
         $order[1]        = new stdClass;
         $order[1]->value = "child_product_id DESC";
-        $order[1]->text  = JText::_('COM_REDSHOP_PRODUCT_ID_DESC');
+        $order[1]->text  = Text::_('COM_REDSHOP_PRODUCT_ID_DESC');
 
         $order[2]        = new stdClass;
         $order[2]->value = "accessory_id ASC";
-        $order[2]->text  = JText::_('COM_REDSHOP_ACCESSORY_ID_ASC');
+        $order[2]->text  = Text::_('COM_REDSHOP_ACCESSORY_ID_ASC');
 
         $order[3]        = new stdClass;
         $order[3]->value = "accessory_id DESC";
-        $order[3]->text  = JText::_('COM_REDSHOP_ACCESSORY_ID_DESC');
+        $order[3]->text  = Text::_('COM_REDSHOP_ACCESSORY_ID_DESC');
 
         $order[4]        = new stdClass;
         $order[4]->value = "newaccessory_price ASC";
-        $order[4]->text  = JText::_('COM_REDSHOP_ACCESSORY_PRICE_ASC');
+        $order[4]->text  = Text::_('COM_REDSHOP_ACCESSORY_PRICE_ASC');
 
         $order[5]        = new stdClass;
         $order[5]->value = "newaccessory_price DESC";
-        $order[5]->text  = JText::_('COM_REDSHOP_ACCESSORY_PRICE_DESC');
+        $order[5]->text  = Text::_('COM_REDSHOP_ACCESSORY_PRICE_DESC');
 
         $order[6]        = new stdClass;
         $order[6]->value = "ordering ASC";
-        $order[6]->text  = JText::_('COM_REDSHOP_ORDERING_ASC');
+        $order[6]->text  = Text::_('COM_REDSHOP_ORDERING_ASC');
 
         $order[7]        = new stdClass;
         $order[7]->value = "ordering DESC";
-        $order[7]->text  = JText::_('COM_REDSHOP_ORDERING_DESC');
+        $order[7]->text  = Text::_('COM_REDSHOP_ORDERING_DESC');
 
         return $order;
     }
@@ -1093,15 +1097,15 @@ class RedshopHelperUtility
 
         $preOrder[0]        = new stdClass;
         $preOrder[0]->value = "global";
-        $preOrder[0]->text  = JText::_('COM_REDSHOP_GLOBAL');
+        $preOrder[0]->text  = Text::_('COM_REDSHOP_GLOBAL');
 
         $preOrder[1]        = new stdClass;
         $preOrder[1]->value = "yes";
-        $preOrder[1]->text  = JText::_('COM_REDSHOP_YES');
+        $preOrder[1]->text  = Text::_('COM_REDSHOP_YES');
 
         $preOrder[2]        = new stdClass;
         $preOrder[2]->value = "no";
-        $preOrder[2]->text  = JText::_('COM_REDSHOP_NO');
+        $preOrder[2]->text  = Text::_('COM_REDSHOP_NO');
 
         return $preOrder;
     }
@@ -1119,11 +1123,11 @@ class RedshopHelperUtility
 
         $childProduct[0]        = new stdClass;
         $childProduct[0]->value = "product_name";
-        $childProduct[0]->text  = JText::_('COM_REDSHOP_CHILD_PRODUCT_NAME');
+        $childProduct[0]->text  = Text::_('COM_REDSHOP_CHILD_PRODUCT_NAME');
 
         $childProduct[1]        = new stdClass;
         $childProduct[1]->value = "product_number";
-        $childProduct[1]->text  = JText::_('COM_REDSHOP_CHILD_PRODUCT_NUMBER');
+        $childProduct[1]->text  = Text::_('COM_REDSHOP_CHILD_PRODUCT_NUMBER');
 
         return $childProduct;
     }
@@ -1141,11 +1145,11 @@ class RedshopHelperUtility
 
         $stateData[0]        = new stdClass;
         $stateData[0]->value = "2";
-        $stateData[0]->text  = JText::_('COM_REDSHOP_TWO_LETTER_ABBRIVATION');
+        $stateData[0]->text  = Text::_('COM_REDSHOP_TWO_LETTER_ABBRIVATION');
 
         $stateData[1]        = new stdClass;
         $stateData[1]->value = "3";
-        $stateData[1]->text  = JText::_('COM_REDSHOP_THREE_LETTER_ABBRIVATION');
+        $stateData[1]->text  = Text::_('COM_REDSHOP_THREE_LETTER_ABBRIVATION');
 
         return $stateData;
     }
@@ -1170,7 +1174,7 @@ class RedshopHelperUtility
             ->from($db->qn('#__redshop_economic_accountgroup', 'ea'));
 
         if ($accountGroupId) {
-            $query->where($db->qn('ea.accountgroup_id') . ' = ' . (int)$accountGroupId);
+            $query->where($db->qn('ea.accountgroup_id') . ' = ' . (int) $accountGroupId);
         }
 
         if ($front) {

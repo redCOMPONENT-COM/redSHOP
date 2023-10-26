@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 /**
  * Category Controller.
@@ -66,7 +67,7 @@ class RedshopControllerCategory extends RedshopController
     {
         $filename            = $this->input->getString('file', '');
         $db                  = JFactory::getDbo();
-        $this->_table_prefix = "#__redshop_";
+        $tablePrefix = "#__redshop_";
 
         session_cache_limiter('public');
 
@@ -79,7 +80,7 @@ class RedshopControllerCategory extends RedshopController
             return false;
         }
 
-        $query = "SELECT x.* FROM " . $this->_table_prefix . "xml_export AS x "
+        $query = "SELECT x.* FROM " . $tablePrefix . "xml_export AS x "
             . "WHERE x.published=1 "
             . "AND x.filename='" . $filename . "' ";
         $db->setQuery($query);
@@ -87,9 +88,9 @@ class RedshopControllerCategory extends RedshopController
 
         if (count($data) > 0) {
             if (!$data->use_to_all_users && $_SERVER['SERVER_ADDR'] != $_SERVER['REMOTE_ADDR']) {
-                $query = "SELECT x.*,xl.*,xi.* FROM " . $this->_table_prefix . "xml_export AS x "
-                    . "LEFT JOIN " . $this->_table_prefix . "xml_export_log AS xl ON x.xmlexport_id=xl.xmlexport_id "
-                    . "LEFT JOIN " . $this->_table_prefix . "xml_export_ipaddress AS xi ON x.xmlexport_id=xi.xmlexport_id "
+                $query = "SELECT x.*,xl.*,xi.* FROM " . $tablePrefix . "xml_export AS x "
+                    . "LEFT JOIN " . $tablePrefix . "xml_export_log AS xl ON x.xmlexport_id=xl.xmlexport_id "
+                    . "LEFT JOIN " . $this->_tablePrefix . "xml_export_ipaddress AS xi ON x.xmlexport_id=xi.xmlexport_id "
                     . "WHERE x.published=1 "
                     . "AND (x.filename=" . $db->quote((string)$filename) . " "
                     . "OR xl.xmlexport_filename=" . $db->quote((string)$filename) . ") "
@@ -99,13 +100,13 @@ class RedshopControllerCategory extends RedshopController
                 $data = $db->loadObject();
 
                 if (count($data) <= 0) {
-                    echo $msg = JText::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZED_TO_ACCESS');
+                    echo $msg = Text::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZED_TO_ACCESS');
 
                     return false;
                 }
             }
         } else {
-            echo $msg = JText::_('COM_REDSHOP_XMLFILE_IS_UNPUBLISHED');
+            echo $msg = Text::_('COM_REDSHOP_XMLFILE_IS_UNPUBLISHED');
 
             return false;
         }
@@ -136,10 +137,10 @@ class RedshopControllerCategory extends RedshopController
             $filepath = JPATH_COMPONENT_SITE . "/assets/xmlfile/export/" . $filename;
 
             if (!JFile::exists($filepath)) {
-				throw new \Exception("Oops. File not found");
+                throw new \Exception("Oops. File not found");
             }
         } else {
-			throw new \Exception("File name not specified");
+            throw new \Exception("File name not specified");
         }
 
         session_write_close();
@@ -154,7 +155,7 @@ class RedshopControllerCategory extends RedshopController
         }
 
         if (!$this->downloadFile($filepath)) {
-			throw new \Exception('The file transfer failed');
+            throw new \Exception('The file transfer failed');
         }
 
         die();
@@ -237,12 +238,7 @@ class RedshopControllerCategory extends RedshopController
 
         // Check to ensure it is not an empty file so the feof does not get stuck in an infinte loop.
         if ($size == 0) {
-			throw new \Exception('ERROR.ZERO_BYE_FILE');
-        }
-
-        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-            // Disable magic quotes for older version of php
-            set_magic_quotes_runtime(0);
+            throw new \Exception('ERROR.ZERO_BYE_FILE');
         }
 
         // We should check to ensure the file really exits to ensure feof does not get stuck in an infite loop, but we do so earlier on, so no need here.

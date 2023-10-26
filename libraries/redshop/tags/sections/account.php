@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -68,16 +70,16 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 
         if ($this->data['params']->get('show_page_heading', 1)) {
             $this->template = RedshopLayoutHelper::render(
-                    'tags.common.pageheading',
-                    [
-                        'params'         => $this->data['params'],
-                        'pageheading'    => trim($db->escape($this->data['params']->get('page_title'))),
-                        'pageHeadingTag' => JText::_('COM_REDSHOP_ACCOUNT_MAINTAINANCE'),
-                        'class'          => 'account'
-                    ],
-                    '',
-                    $this->optionLayout
-                ) . $this->template;
+                'tags.common.pageheading',
+                [
+                    'params'         => $this->data['params'],
+                    'pageheading'    => trim($db->escape($this->data['params']->get('page_title'))),
+                    'pageHeadingTag' => Text::_('COM_REDSHOP_ACCOUNT_MAINTAINANCE'),
+                    'class'          => 'account'
+                ],
+                '',
+                $this->optionLayout
+            ) . $this->template;
         }
 
         JPluginHelper::importPlugin('redshop_account');
@@ -108,7 +110,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
             $this->optionLayout
         );
 
-        $this->replacements['{account_title}'] = JText::_('COM_REDSHOP_ACCOUNT_INFORMATION');
+        $this->replacements['{account_title}'] = Text::_('COM_REDSHOP_ACCOUNT_INFORMATION');
 
         $this->template = RedshopHelperBillingTag::replaceBillingAddress($this->template, $this->data['userData']);
 
@@ -117,7 +119,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
             [
                 'class'   => 'btn btn-primary',
                 'link'    => Redshop\IO\Route::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $this->itemId),
-                'content' => JText::_('COM_REDSHOP_EDIT_ACCOUNT_INFORMATION')
+                'content' => Text::_('COM_REDSHOP_EDIT_ACCOUNT_INFORMATION')
             ],
             '',
             $this->optionLayout
@@ -130,10 +132,10 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 'link'    => Redshop\IO\Route::_(
                     "index.php?option=com_redshop&view=account&task=deleteAccount&Itemid=" . $this->itemId
                 ),
-                'attr'    => 'onclick="return confirm(\'' . JText::_(
-                        'COM_REDSHOP_DO_YOU_WANT_TO_DELETE'
-                    ) . '\');"',
-                'content' => JText::_('COM_REDSHOP_DELETE_ACCOUNT')
+                'attr'    => 'onclick="return confirm(\'' . Text::_(
+                    'COM_REDSHOP_DO_YOU_WANT_TO_DELETE'
+                ) . '\');"',
+                'content' => Text::_('COM_REDSHOP_DELETE_ACCOUNT')
             ],
             '',
             $this->optionLayout
@@ -157,7 +159,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
             $reserveDiscount = RedshopHelperProductPrice::formattedPrice($reserveDiscount);
 
             $this->replacements['{reserve_discount}']     = $reserveDiscount;
-            $this->replacements['{reserve_discount_lbl}'] = JText::_('COM_REDSHOP_RESERVED_DISCOUNT_LBL');
+            $this->replacements['{reserve_discount_lbl}'] = Text::_('COM_REDSHOP_RESERVED_DISCOUNT_LBL');
         }
 
         $this->replaceOrder();
@@ -199,13 +201,13 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 [
                     'tags.common.link',
                     'link'    => Redshop\IO\Route::_("index.php?option=com_redshop&view=account_shipto&Itemid=" . $this->itemId),
-                    'content' => JText::_('COM_REDSHOP_UPDATE_SHIPPING_INFO')
+                    'content' => Text::_('COM_REDSHOP_UPDATE_SHIPPING_INFO')
                 ],
                 '',
                 $this->optionLayout
             );
 
-            $this->replacements['{shipping_title}'] = JText::_('COM_REDSHOP_SHIPPING_INFO');
+            $this->replacements['{shipping_title}'] = Text::_('COM_REDSHOP_SHIPPING_INFO');
         } else {
             $this->replacements['{shipping_image}']     = '';
             $this->replacements['{shipping_title}']     = '';
@@ -235,7 +237,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 $this->optionLayout
             );
 
-            $this->replacements['{order_title}'] = JText::_('COM_REDSHOP_ORDER_INFORMATION');
+            $this->replacements['{order_title}'] = Text::_('COM_REDSHOP_ORDER_INFORMATION');
 
             // More Order information
             $ordersList = RedshopHelperOrder::getUserOrderDetails($this->user->id);
@@ -245,7 +247,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                     'tags.common.link',
                     [
                         'link'    => Redshop\IO\Route::_('index.php?option=com_redshop&view=orders&Itemid=' . $this->itemId),
-                        'content' => JText::_('COM_REDSHOP_MORE'),
+                        'content' => Text::_('COM_REDSHOP_MORE'),
                     ],
                     '',
                     $this->optionLayout
@@ -270,14 +272,14 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                             'link'    => Redshop\IO\Route::_(
                                 'index.php?option=com_redshop&view=order_detail&oid=' . $ordersList[$j]->order_id . '&Itemid=' . $this->itemId
                             ),
-                            'content' => JText::_('COM_REDSHOP_DETAILS')
+                            'content' => Text::_('COM_REDSHOP_DETAILS')
 
                         ],
                         '',
                         $this->optionLayout
                     );
 
-                    $replaceOrder['{order_index}']  = JText::_('COM_REDSHOP_ORDER_NUM');
+                    $replaceOrder['{order_index}']  = Text::_('COM_REDSHOP_ORDER_NUM');
                     $replaceOrder['{order_id}']     = $ordersList[$j]->order_id;
                     $replaceOrder['{order_number}'] = $ordersList[$j]->order_number;
                     $replaceOrder['{order_total}']  = RedshopHelperProductPrice::formattedPrice(
@@ -291,7 +293,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 $replaceOrder['{order_id}']          = '';
                 $replaceOrder['{order_number}']      = '';
                 $replaceOrder['{order_total}']       = '';
-                $replaceOrder['{order_detail_link}'] = JText::_('COM_REDSHOP_NO_ORDERS_PLACED_YET');
+                $replaceOrder['{order_detail_link}'] = Text::_('COM_REDSHOP_NO_ORDERS_PLACED_YET');
 
                 $orderData .= $this->strReplace($replaceOrder, $subTemplate['template']);
             }
@@ -316,7 +318,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
             $userCoupons = \Redshop\Promotion\Coupon::getUserCoupons($this->user->id);
 
             if (Redshop::getConfig()->get('COUPONINFO') && count($userCoupons) > 0) {
-                $this->replacements['{coupon_title}'] = JText::_('COM_REDSHOP_COUPON_INFO');
+                $this->replacements['{coupon_title}'] = Text::_('COM_REDSHOP_COUPON_INFO');
                 $this->replacements['{coupon_image}'] = RedshopLayoutHelper::render(
                     'tags.common.img',
                     [
@@ -330,10 +332,10 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 for ($i = 0, $in = count($userCoupons); $i < $in; $i++) {
                     $replaceCoupon = [];
 
-                    $replaceCoupon['{coupon_code_lbl}']     = JText::_('COM_REDSHOP_COUPON_CODE');
+                    $replaceCoupon['{coupon_code_lbl}']     = Text::_('COM_REDSHOP_COUPON_CODE');
                     $replaceCoupon['{coupon_code}']         = $userCoupons[$i]->code;
-                    $replaceCoupon['{coupon_value_lbl}']    = JText::_('COM_REDSHOP_COUPON_VALUE');
-                    $replaceCoupon['{coupon_value_lbl}']    = JText::_('COM_REDSHOP_COUPON_VALUE');
+                    $replaceCoupon['{coupon_value_lbl}']    = Text::_('COM_REDSHOP_COUPON_VALUE');
+                    $replaceCoupon['{coupon_value_lbl}']    = Text::_('COM_REDSHOP_COUPON_VALUE');
                     $replaceCoupon['{unused_coupon_value}'] = Redshop\Account\Helper::getUnusedCouponAmount(
                         $this->user->id,
                         $userCoupons[$i]->code
@@ -366,7 +368,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
         $myTags = \Redshop\Account\Helper::countMyTags();
 
         if (Redshop::getConfig()->get('MY_TAGS')) {
-            $this->replacements['{tag_title}'] = JText::_('COM_REDSHOP_MY_TAGS');
+            $this->replacements['{tag_title}'] = Text::_('COM_REDSHOP_MY_TAGS');
             $this->replacements['{tag_image}'] = RedshopLayoutHelper::render(
                 'tags.common.img',
                 [
@@ -377,7 +379,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 $this->optionLayout
             );
 
-            $tagLink = JText::_('COM_REDSHOP_NO_TAGS_AVAILABLE');
+            $tagLink = Text::_('COM_REDSHOP_NO_TAGS_AVAILABLE');
 
             if ($myTags > 0) {
                 $tagLink = RedshopLayoutHelper::render(
@@ -386,7 +388,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                         'link'    => Redshop\IO\Route::_(
                             "index.php?option=com_redshop&view=account&layout=mytags&Itemid=" . $this->itemId
                         ),
-                        'content' => JText::_("COM_REDSHOP_SHOW_TAG"),
+                        'content' => Text::_("COM_REDSHOP_SHOW_TAG"),
                         'attr'    => 'style="text-decoration: none;"',
                     ],
                     '',
@@ -424,7 +426,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 $this->optionLayout
             );
 
-            $this->replacements['{quotation_title}'] = JText::_('COM_REDSHOP_QUOTATION_INFORMATION');
+            $this->replacements['{quotation_title}'] = Text::_('COM_REDSHOP_QUOTATION_INFORMATION');
 
             $quotations = RedshopHelperQuotation::getQuotationUserList();
 
@@ -436,7 +438,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                     'tags.common.link',
                     [
                         'link'    => Redshop\IO\Route::_('index.php?option=com_redshop&view=quotation&Itemid=' . $this->itemId),
-                        'content' => JText::_('COM_REDSHOP_MORE')
+                        'content' => Text::_('COM_REDSHOP_MORE')
                     ],
                     '',
                     $this->optionLayout
@@ -455,22 +457,22 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                             'link'    => Redshop\IO\Route::_(
                                 'index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotations[$j]->quotation_id . '&Itemid=' . $this->itemId
                             ),
-                            'content' => JText::_('COM_REDSHOP_DETAILS'),
-                            'attr'    => 'title="' . JText::_('COM_REDSHOP_VIEW_QUOTATION') . '"'
+                            'content' => Text::_('COM_REDSHOP_DETAILS'),
+                            'attr'    => 'title="' . Text::_('COM_REDSHOP_VIEW_QUOTATION') . '"'
                         ],
                         '',
                         $this->optionLayout
                     );
 
-                    $replaceQuotation['{quotation_index}'] = JText::_('COM_REDSHOP_QUOTATION') . " #";
+                    $replaceQuotation['{quotation_index}'] = Text::_('COM_REDSHOP_QUOTATION') . " #";
                     $replaceQuotation['{quotation_id}']    = $quotations[$j]->quotation_id;
-                    $quotationData                         .= $this->strReplace(
+                    $quotationData .= $this->strReplace(
                         $replaceQuotation,
                         $subTemplateQuotation['template']
                     );
                 }
             } else {
-                $quotationData                           = JText::_('COM_REDSHOP_NO_QUOTATION_PLACED_YET');
+                $quotationData                           = Text::_('COM_REDSHOP_NO_QUOTATION_PLACED_YET');
                 $this->replacements['{more_quotations}'] = '';
             }
 
@@ -488,7 +490,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
     private function replaceWishlist()
     {
         if (Redshop::getConfig()->get('MY_WISHLIST')) {
-            $this->replacements['{wishlist_title}'] = JText::_('COM_REDSHOP_MY_WISHLIST');
+            $this->replacements['{wishlist_title}'] = Text::_('COM_REDSHOP_MY_WISHLIST');
             $this->replacements['{wishlist_image}'] = RedshopLayoutHelper::render(
                 'tags.common.img',
                 [
@@ -499,7 +501,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 $this->optionLayout
             );
 
-            $editWishlistLink = JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST');
+            $editWishlistLink = Text::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST');
             $myWishist        = \Redshop\Wishlist\Helper::countMyWishlist();
 
             if ($myWishist) {
@@ -509,7 +511,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                         'link'    => Redshop\IO\Route::_(
                             "index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $this->itemId
                         ),
-                        'content' => JText::_("COM_REDSHOP_SHOW_WISHLIST_PRODUCTS"),
+                        'content' => Text::_("COM_REDSHOP_SHOW_WISHLIST_PRODUCTS"),
                         'style'   => 'style="text-decoration: none;"'
                     ],
                     '',
@@ -540,7 +542,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
         );
 
         if (!empty($subTemplateProductSerial)) {
-            $this->replacements['{product_serial_title}'] = JText::_('COM_REDSHOP_MY_SERIALS');
+            $this->replacements['{product_serial_title}'] = Text::_('COM_REDSHOP_MY_SERIALS');
             $this->replacements['{product_serial_image}'] = RedshopLayoutHelper::render(
                 'tags.common.img',
                 [
@@ -582,7 +584,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
     private function replaceCompareProduct()
     {
         if (Redshop::getConfig()->get('COMPARE_PRODUCTS')) {
-            $this->replacements['{compare_title}'] = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
+            $this->replacements['{compare_title}'] = Text::_('COM_REDSHOP_COMPARE_PRODUCTS');
             $this->replacements['{compare_image}'] = RedshopLayoutHelper::render(
                 'tags.common.img',
                 [
@@ -593,7 +595,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                 $this->optionLayout
             );
 
-            $cmpLink = JText::_('COM_REDSHOP_NO_PRODUCTS_TO_COMPARE');
+            $cmpLink = Text::_('COM_REDSHOP_NO_PRODUCTS_TO_COMPARE');
             $compare = new RedshopProductCompare;
 
             if (!$compare->isEmpty()) {
@@ -603,7 +605,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
                         'link'    => Redshop\IO\Route::_(
                             "index.php?option=com_redshop&view=product&layout=compare&Itemid=" . $this->itemId
                         ),
-                        'content' => JText::_("COM_REDSHOP_SHOW_PRODUCTS_TO_COMPARE"),
+                        'content' => Text::_("COM_REDSHOP_SHOW_PRODUCTS_TO_COMPARE"),
                         'attr'    => 'style="text-decoration: none;"'
                     ],
                     '',

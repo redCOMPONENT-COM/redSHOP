@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Utilities\ArrayHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * redSHOP libraries helper template
@@ -370,62 +371,62 @@ class RedshopHelperTemplate
     public static function getTemplateSections($sectionValue = "")
     {
         $options = array(
-            'product'                    => JText::_('COM_REDSHOP_PRODUCT'),
-            'related_product'            => JText::_('COM_REDSHOP_RELATED_PRODUCT'),
-            'category'                   => JText::_('COM_REDSHOP_CATEGORY'),
-            'manufacturer'               => JText::_('COM_REDSHOP_MANUFACTURER'),
-            'manufacturer_detail'        => JText::_('COM_REDSHOP_MANUFACTURER_DETAIL'),
-            'manufacturer_products'      => JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS'),
-            'newsletter'                 => JText::_('COM_REDSHOP_NEWSLETTER'),
-            'newsletter_product'         => JText::_('COM_REDSHOP_NEWSLETTER_PRODUCTS'),
-            'empty_cart'                 => JText::_('COM_REDSHOP_EMPTY_CART'),
-            'cart'                       => JText::_('COM_REDSHOP_CART'),
-            'add_to_cart'                => JText::_('COM_REDSHOP_ADD_TO_CART'),
-            'catalog'                    => JText::_('COM_REDSHOP_CATALOG'),
-            'product_sample'             => JText::_('COM_REDSHOP_PRODUCT_SAMPLE'),
-            'order_list'                 => JText::_('COM_REDSHOP_ORDER_LIST'),
-            'order_detail'               => JText::_('COM_REDSHOP_ORDER_DETAIL'),
-            'order_receipt'              => JText::_('COM_REDSHOP_ORDER_RECEIPT'),
-            'review'                     => JText::_('COM_REDSHOP_REVIEW'),
-            'frontpage_category'         => JText::_('COM_REDSHOP_FRONTPAGE_CATEGORY'),
-            'attribute_template'         => JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE'),
-            'attributewithcart_template' => JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE'),
-            'accessory_template'         => JText::_('COM_REDSHOP_ACCESSORY_TEMPLATE'),
-            'account_template'           => JText::_('COM_REDSHOP_ACCOUNT_TEMPLATE'),
-            'wishlist_template'          => JText::_('COM_REDSHOP_WISHLIST_TEMPLATE'),
-            'wishlist_mail_template'     => JText::_('COM_REDSHOP_WISHLIST_MAIL_TEMPLATE'),
-            'wrapper_template'           => JText::_('COM_REDSHOP_WRAPPER_TEMPLATE'),
-            'ajax_cart_detail_box'       => JText::_('COM_REDSHOP_AJAX_CART_DETAIL_BOX'),
-            'ajax_cart_box'              => JText::_('COM_REDSHOP_AJAX_CART_BOX_TMP'),
-            'ask_question_template'      => JText::_('COM_REDSHOP_ASK_QUESTION_TEMPLATE'),
-            'giftcard_list'              => JText::_('COM_REDSHOP_GIFTCARD_LIST_TEMPLATE'),
-            'giftcard'                   => JText::_('COM_REDSHOP_GIFTCARD_TEMPLATE'),
-            'shipping_pdf'               => JText::_('COM_REDSHOP_SHIPPING_PDF_TEMPLATE'),
-            'clicktell_sms_message'      => JText::_('COM_REDSHOP_CLICKTELL_SMS_MESSAGE'),
-            'order_print'                => JText::_('COM_REDSHOP_ORDER_PRINT_TEMPLATE'),
-            'redproductfinder'           => JText::_('COM_REDSHOP_redPRODUCTFINDER'),
-            'quotation_detail'           => JText::_('COM_REDSHOP_QUOTATION_DETAIL_TEMPLATE'),
-            'quotation_cart'             => JText::_('COM_REDSHOP_QUOTATION_CART'),
-            'quotation_request'          => JText::_('COM_REDSHOP_QUOTATION_REQUEST_TEMPLATE'),
-            'catalogue_cart'             => JText::_('COM_REDSHOP_CATALOGUE_CART_TEMPLATE'),
-            'catalogue_order_detail'     => JText::_('COM_REDSHOP_CATALOGUE_ORDER_DETAIL_TEMPLATE'),
-            'catalogue_order_receipt'    => JText::_('COM_REDSHOP_CATALOGUE_ORDER_RECEIPT_TEMPLATE'),
-            'compare_product'            => JText::_('COM_REDSHOP_COMPARE_PRODUCT_TEMPLATE'),
-            'clickatell'                 => JText::_('COM_REDSHOP_CLICKATELL'),
-            'redshop_payment'            => JText::_('COM_REDSHOP_PAYMENT_METHOD_TEMPLATE'),
-            'redshop_shipping'           => JText::_('COM_REDSHOP_SHIPPING_METHOD_TEMPLATE'),
-            'shippingbox'                => JText::_('COM_REDSHOP_SHIPPING_BOX_TEMPLATE'),
-            'onestep_checkout'           => JText::_('COM_REDSHOP_ONESTEP_CHECKOUT_TEMPLATE'),
-            'categoryproduct'            => JText::_('COM_REDSHOP_PRODUCT_CATEGORY_TEMPLATE'),
-            'change_cart_attribute'      => JText::_('COM_REDSHOP_CHANGE_CART_ATTRIBUTE_TEMPLATE'),
-            'checkout'                   => JText::_('COM_REDSHOP_CHECKOUT_TEMPLATE'),
-            'product_content_template'   => JText::_('COM_REDSHOP_PRODUCT_CONTENT'),
-            'billing_template'           => JText::_('COM_REDSHOP_BILLING_TEMPLATE'),
-            'private_billing_template'   => JText::_('COM_REDSHOP_PRIVATE_BILLING_TEMPLATE'),
-            'company_billing_template'   => JText::_('COM_REDSHOP_COMPANY_BILLING_TEMPLATE'),
-            'shipping_template'          => JText::_('COM_REDSHOP_SHIPPING_TEMPLATE'),
-            'stock_note'                 => JText::_('COM_REDSHOP_STOCK_NOTE_TEMPLATE'),
-            'login'                      => JText::_('COM_REDSHOP_LOGIN_TEMPLATE')
+            'product'                    => Text::_('COM_REDSHOP_PRODUCT'),
+            'related_product'            => Text::_('COM_REDSHOP_RELATED_PRODUCT'),
+            'category'                   => Text::_('COM_REDSHOP_CATEGORY'),
+            'manufacturer'               => Text::_('COM_REDSHOP_MANUFACTURER'),
+            'manufacturer_detail'        => Text::_('COM_REDSHOP_MANUFACTURER_DETAIL'),
+            'manufacturer_products'      => Text::_('COM_REDSHOP_MANUFACTURER_PRODUCTS'),
+            'newsletter'                 => Text::_('COM_REDSHOP_NEWSLETTER'),
+            'newsletter_product'         => Text::_('COM_REDSHOP_NEWSLETTER_PRODUCTS'),
+            'empty_cart'                 => Text::_('COM_REDSHOP_EMPTY_CART'),
+            'cart'                       => Text::_('COM_REDSHOP_CART'),
+            'add_to_cart'                => Text::_('COM_REDSHOP_ADD_TO_CART'),
+            'catalog'                    => Text::_('COM_REDSHOP_CATALOG'),
+            'product_sample'             => Text::_('COM_REDSHOP_PRODUCT_SAMPLE'),
+            'order_list'                 => Text::_('COM_REDSHOP_ORDER_LIST'),
+            'order_detail'               => Text::_('COM_REDSHOP_ORDER_DETAIL'),
+            'order_receipt'              => Text::_('COM_REDSHOP_ORDER_RECEIPT'),
+            'review'                     => Text::_('COM_REDSHOP_REVIEW'),
+            'frontpage_category'         => Text::_('COM_REDSHOP_FRONTPAGE_CATEGORY'),
+            'attribute_template'         => Text::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE'),
+            'attributewithcart_template' => Text::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE'),
+            'accessory_template'         => Text::_('COM_REDSHOP_ACCESSORY_TEMPLATE'),
+            'account_template'           => Text::_('COM_REDSHOP_ACCOUNT_TEMPLATE'),
+            'wishlist_template'          => Text::_('COM_REDSHOP_WISHLIST_TEMPLATE'),
+            'wishlist_mail_template'     => Text::_('COM_REDSHOP_WISHLIST_MAIL_TEMPLATE'),
+            'wrapper_template'           => Text::_('COM_REDSHOP_WRAPPER_TEMPLATE'),
+            'ajax_cart_detail_box'       => Text::_('COM_REDSHOP_AJAX_CART_DETAIL_BOX'),
+            'ajax_cart_box'              => Text::_('COM_REDSHOP_AJAX_CART_BOX_TMP'),
+            'ask_question_template'      => Text::_('COM_REDSHOP_ASK_QUESTION_TEMPLATE'),
+            'giftcard_list'              => Text::_('COM_REDSHOP_GIFTCARD_LIST_TEMPLATE'),
+            'giftcard'                   => Text::_('COM_REDSHOP_GIFTCARD_TEMPLATE'),
+            'shipping_pdf'               => Text::_('COM_REDSHOP_SHIPPING_PDF_TEMPLATE'),
+            'clicktell_sms_message'      => Text::_('COM_REDSHOP_CLICKTELL_SMS_MESSAGE'),
+            'order_print'                => Text::_('COM_REDSHOP_ORDER_PRINT_TEMPLATE'),
+            'redproductfinder'           => Text::_('COM_REDSHOP_redPRODUCTFINDER'),
+            'quotation_detail'           => Text::_('COM_REDSHOP_QUOTATION_DETAIL_TEMPLATE'),
+            'quotation_cart'             => Text::_('COM_REDSHOP_QUOTATION_CART'),
+            'quotation_request'          => Text::_('COM_REDSHOP_QUOTATION_REQUEST_TEMPLATE'),
+            'catalogue_cart'             => Text::_('COM_REDSHOP_CATALOGUE_CART_TEMPLATE'),
+            'catalogue_order_detail'     => Text::_('COM_REDSHOP_CATALOGUE_ORDER_DETAIL_TEMPLATE'),
+            'catalogue_order_receipt'    => Text::_('COM_REDSHOP_CATALOGUE_ORDER_RECEIPT_TEMPLATE'),
+            'compare_product'            => Text::_('COM_REDSHOP_COMPARE_PRODUCT_TEMPLATE'),
+            'clickatell'                 => Text::_('COM_REDSHOP_CLICKATELL'),
+            'redshop_payment'            => Text::_('COM_REDSHOP_PAYMENT_METHOD_TEMPLATE'),
+            'redshop_shipping'           => Text::_('COM_REDSHOP_SHIPPING_METHOD_TEMPLATE'),
+            'shippingbox'                => Text::_('COM_REDSHOP_SHIPPING_BOX_TEMPLATE'),
+            'onestep_checkout'           => Text::_('COM_REDSHOP_ONESTEP_CHECKOUT_TEMPLATE'),
+            'categoryproduct'            => Text::_('COM_REDSHOP_PRODUCT_CATEGORY_TEMPLATE'),
+            'change_cart_attribute'      => Text::_('COM_REDSHOP_CHANGE_CART_ATTRIBUTE_TEMPLATE'),
+            'checkout'                   => Text::_('COM_REDSHOP_CHECKOUT_TEMPLATE'),
+            'product_content_template'   => Text::_('COM_REDSHOP_PRODUCT_CONTENT'),
+            'billing_template'           => Text::_('COM_REDSHOP_BILLING_TEMPLATE'),
+            'private_billing_template'   => Text::_('COM_REDSHOP_PRIVATE_BILLING_TEMPLATE'),
+            'company_billing_template'   => Text::_('COM_REDSHOP_COMPANY_BILLING_TEMPLATE'),
+            'shipping_template'          => Text::_('COM_REDSHOP_SHIPPING_TEMPLATE'),
+            'stock_note'                 => Text::_('COM_REDSHOP_STOCK_NOTE_TEMPLATE'),
+            'login'                      => Text::_('COM_REDSHOP_LOGIN_TEMPLATE')
         );
 
         JPluginHelper::importPlugin('system');
@@ -450,7 +451,7 @@ class RedshopHelperTemplate
         asort($options);
 
         $optionSection   = array();
-        $optionSection[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
+        $optionSection[] = JHtml::_('select.option', '', Text::_('COM_REDSHOP_SELECT'));
 
         if (empty($options)) {
             return $optionSection;
@@ -479,41 +480,41 @@ class RedshopHelperTemplate
     public static function getMailSections($sectionValue = "")
     {
         $options = array(
-            'order'                             => JText::_('COM_REDSHOP_ORDER_MAIL'),
-            'catalogue_order'                   => JText::_('COM_REDSHOP_CATALOGUE_ORDER_MAIL'),
-            'order_special_discount'            => JText::_('COM_REDSHOP_ORDER_SPECIAL_DISCOUNT_MAIL'),
-            'order_status'                      => JText::_('COM_REDSHOP_ORDER_STATUS_CHANGE'),
-            'register'                          => JText::_('COM_REDSHOP_REGISTRATION_MAIL'),
-            'product'                           => JText::_('COM_REDSHOP_PRODUCT_INFORMATION'),
-            'tax_exempt_approval_mail'          => JText::_('COM_REDSHOP_TAX_EXEMPT_APPROVAL_MAIL'),
-            'tax_exempt_disapproval_mail'       => JText::_('COM_REDSHOP_TAX_EXEMPT_DISAPPROVAL_MAIL'),
-            'tax_exempt_waiting_approval_mail'  => JText::_('COM_REDSHOP_TAX_EXEMPT_WAITING_APPROVAL_MAIL'),
-            'catalog'                           => JText::_('COM_REDSHOP_CATALOG_SEND_MAIL'),
-            'catalog_first_reminder'            => JText::_('COM_REDSHOP_CATALOG_FIRST_REMINDER'),
-            'catalog_second_reminder'           => JText::_('COM_REDSHOP_CATALOG_SECOND_REMINDER'),
-            'catalog_coupon_reminder'           => JText::_('COM_REDSHOP_CATALOG_COUPON_REMINDER'),
-            'colour_sample_first_reminder'      => JText::_('COM_REDSHOP_CATALOG_SAMPLE_FIRST_REMINDER'),
-            'colour_sample_second_reminder'     => JText::_('COM_REDSHOP_CATALOG_SAMPLE_SECOND_REMINDER'),
-            'colour_sample_third_reminder'      => JText::_('COM_REDSHOP_CATALOG_SAMPLE_THIRD_REMINDER'),
-            'colour_sample_coupon_reminder'     => JText::_('COM_REDSHOP_CATALOG_SAMPLE_COUPON_REMINDER'),
-            'first_mail_after_order_purchased'  => JText::_('COM_REDSHOP_FIRST_MAIL_AFTER_ORDER_PURCHASED'),
-            'second_mail_after_order_purchased' => JText::_('COM_REDSHOP_SECOND_MAIL_AFTER_ORDER_PURCHASED'),
-            'third_mail_after_order_purchased'  => JText::_('COM_REDSHOP_THIRD_MAIL_AFTER_ORDER_PURCHASED'),
-            'economic_inoice'                   => JText::_('COM_REDSHOP_ECONOMIC_INVOICE'),
-            'newsletter_confirmation'           => JText::_('COM_REDSHOP_NEWSLETTER_CONFIRMTION'),
-            'newsletter_cancellation'           => JText::_('COM_REDSHOP_NEWSLETTER_CANCELLATION'),
-            'mywishlist_mail'                   => JText::_('COM_REDSHOP_WISHLIST_MAIL'),
-            'ask_question_mail'                 => JText::_('COM_REDSHOP_ASK_QUESTION_MAIL'),
-            'downloadable_product_mail'         => JText::_('COM_REDSHOP_DOWNLOADABLE_PRODUCT_MAIL'),
-            'giftcard_mail'                     => JText::_('COM_REDSHOP_GIFTCARD_MAIL'),
-            'invoice_mail'                      => JText::_('COM_REDSHOP_INVOICE_MAIL'),
-            'quotation_mail'                    => JText::_('COM_REDSHOP_QUOTATION_MAIL'),
-            'quotation_user_register'           => JText::_('COM_REDSHOP_QUOTATION_USER_REGISTER_MAIL'),
-            'request_tax_exempt_mail'           => JText::_('COM_REDSHOP_REQUEST_TAX_EXEMPT_MAIL'),
-            'subscription_renewal_mail'         => JText::_('COM_REDSHOP_SUBSCRIPTION_RENEWAL_MAIL'),
-            'review_mail'                       => JText::_('COM_REDSHOP_REVIEW_MAIL'),
-            'notify_stock_mail'                 => JText::_('COM_REDSHOP_NOTIFY_STOCK'),
-            'invoicefile_mail'                  => JText::_('COM_REDSHOP_INVOICE_FILE_MAIL')
+            'order'                             => Text::_('COM_REDSHOP_ORDER_MAIL'),
+            'catalogue_order'                   => Text::_('COM_REDSHOP_CATALOGUE_ORDER_MAIL'),
+            'order_special_discount'            => Text::_('COM_REDSHOP_ORDER_SPECIAL_DISCOUNT_MAIL'),
+            'order_status'                      => Text::_('COM_REDSHOP_ORDER_STATUS_CHANGE'),
+            'register'                          => Text::_('COM_REDSHOP_REGISTRATION_MAIL'),
+            'product'                           => Text::_('COM_REDSHOP_PRODUCT_INFORMATION'),
+            'tax_exempt_approval_mail'          => Text::_('COM_REDSHOP_TAX_EXEMPT_APPROVAL_MAIL'),
+            'tax_exempt_disapproval_mail'       => Text::_('COM_REDSHOP_TAX_EXEMPT_DISAPPROVAL_MAIL'),
+            'tax_exempt_waiting_approval_mail'  => Text::_('COM_REDSHOP_TAX_EXEMPT_WAITING_APPROVAL_MAIL'),
+            'catalog'                           => Text::_('COM_REDSHOP_CATALOG_SEND_MAIL'),
+            'catalog_first_reminder'            => Text::_('COM_REDSHOP_CATALOG_FIRST_REMINDER'),
+            'catalog_second_reminder'           => Text::_('COM_REDSHOP_CATALOG_SECOND_REMINDER'),
+            'catalog_coupon_reminder'           => Text::_('COM_REDSHOP_CATALOG_COUPON_REMINDER'),
+            'colour_sample_first_reminder'      => Text::_('COM_REDSHOP_CATALOG_SAMPLE_FIRST_REMINDER'),
+            'colour_sample_second_reminder'     => Text::_('COM_REDSHOP_CATALOG_SAMPLE_SECOND_REMINDER'),
+            'colour_sample_third_reminder'      => Text::_('COM_REDSHOP_CATALOG_SAMPLE_THIRD_REMINDER'),
+            'colour_sample_coupon_reminder'     => Text::_('COM_REDSHOP_CATALOG_SAMPLE_COUPON_REMINDER'),
+            'first_mail_after_order_purchased'  => Text::_('COM_REDSHOP_FIRST_MAIL_AFTER_ORDER_PURCHASED'),
+            'second_mail_after_order_purchased' => Text::_('COM_REDSHOP_SECOND_MAIL_AFTER_ORDER_PURCHASED'),
+            'third_mail_after_order_purchased'  => Text::_('COM_REDSHOP_THIRD_MAIL_AFTER_ORDER_PURCHASED'),
+            'economic_inoice'                   => Text::_('COM_REDSHOP_ECONOMIC_INVOICE'),
+            'newsletter_confirmation'           => Text::_('COM_REDSHOP_NEWSLETTER_CONFIRMTION'),
+            'newsletter_cancellation'           => Text::_('COM_REDSHOP_NEWSLETTER_CANCELLATION'),
+            'mywishlist_mail'                   => Text::_('COM_REDSHOP_WISHLIST_MAIL'),
+            'ask_question_mail'                 => Text::_('COM_REDSHOP_ASK_QUESTION_MAIL'),
+            'downloadable_product_mail'         => Text::_('COM_REDSHOP_DOWNLOADABLE_PRODUCT_MAIL'),
+            'giftcard_mail'                     => Text::_('COM_REDSHOP_GIFTCARD_MAIL'),
+            'invoice_mail'                      => Text::_('COM_REDSHOP_INVOICE_MAIL'),
+            'quotation_mail'                    => Text::_('COM_REDSHOP_QUOTATION_MAIL'),
+            'quotation_user_register'           => Text::_('COM_REDSHOP_QUOTATION_USER_REGISTER_MAIL'),
+            'request_tax_exempt_mail'           => Text::_('COM_REDSHOP_REQUEST_TAX_EXEMPT_MAIL'),
+            'subscription_renewal_mail'         => Text::_('COM_REDSHOP_SUBSCRIPTION_RENEWAL_MAIL'),
+            'review_mail'                       => Text::_('COM_REDSHOP_REVIEW_MAIL'),
+            'notify_stock_mail'                 => Text::_('COM_REDSHOP_NOTIFY_STOCK'),
+            'invoicefile_mail'                  => Text::_('COM_REDSHOP_INVOICE_FILE_MAIL')
         );
 
         JPluginHelper::importPlugin('system');
@@ -534,22 +535,22 @@ class RedshopHelperTemplate
     public static function getFieldSections($sectionValue = "")
     {
         $options = array(
-            '1'  => JText::_('COM_REDSHOP_PRODUCT'),
-            '2'  => JText::_('COM_REDSHOP_CATEGORY'),
-            '7'  => JText::_('COM_REDSHOP_CUSTOMER_ADDRESS'),
-            '8'  => JText::_('COM_REDSHOP_COMPANY_ADDRESS'),
-            '9'  => JText::_('COM_REDSHOP_COLOR_SAMPLE'),
-            '10' => JText::_('COM_REDSHOP_MANUFACTURER'),
-            '11' => JText::_('COM_REDSHOP_SHIPPING'),
-            '12' => JText::_('COM_REDSHOP_PRODUCT_USERFIELD'),
-            '13' => JText::_('COM_REDSHOP_GIFTCARD_USERFIELD'),
-            '14' => JText::_('COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS'),
-            '15' => JText::_('COM_REDSHOP_COMPANY_SHIPPING_ADDRESS'),
-            '17' => JText::_('COM_REDSHOP_PRODUCTFINDER_DATEPICKER'),
-            '16' => JText::_('COM_REDSHOP_QUOTATION'),
-            '18' => JText::_('COM_REDSHOP_PAYMENT_GATEWAY'),
-            '19' => JText::_('COM_REDSHOP_SHIPPING_GATEWAY'),
-            '20' => JText::_('COM_REDSHOP_ORDER')
+            '1'  => Text::_('COM_REDSHOP_PRODUCT'),
+            '2'  => Text::_('COM_REDSHOP_CATEGORY'),
+            '7'  => Text::_('COM_REDSHOP_CUSTOMER_ADDRESS'),
+            '8'  => Text::_('COM_REDSHOP_COMPANY_ADDRESS'),
+            '9'  => Text::_('COM_REDSHOP_COLOR_SAMPLE'),
+            '10' => Text::_('COM_REDSHOP_MANUFACTURER'),
+            '11' => Text::_('COM_REDSHOP_SHIPPING'),
+            '12' => Text::_('COM_REDSHOP_PRODUCT_USERFIELD'),
+            '13' => Text::_('COM_REDSHOP_GIFTCARD_USERFIELD'),
+            '14' => Text::_('COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS'),
+            '15' => Text::_('COM_REDSHOP_COMPANY_SHIPPING_ADDRESS'),
+            '17' => Text::_('COM_REDSHOP_PRODUCTFINDER_DATEPICKER'),
+            '16' => Text::_('COM_REDSHOP_QUOTATION'),
+            '18' => Text::_('COM_REDSHOP_PAYMENT_GATEWAY'),
+            '19' => Text::_('COM_REDSHOP_SHIPPING_GATEWAY'),
+            '20' => Text::_('COM_REDSHOP_ORDER')
         );
 
         JPluginHelper::importPlugin('system');
@@ -570,21 +571,21 @@ class RedshopHelperTemplate
     public static function getFieldTypeSections($sectionValue = "")
     {
         $options = array(
-            '1'  => JText::_('COM_REDSHOP_TEXT_FIELD'),
-            '2'  => JText::_('COM_REDSHOP_TEXT_AREA'),
-            '3'  => JText::_('COM_REDSHOP_CHECKBOX'),
-            '4'  => JText::_('COM_REDSHOP_RADIOBOX'),
-            '5'  => JText::_('COM_REDSHOP_SINGLE_SELECT_BOX'),
-            '6'  => JText::_('COM_REDSHOP_MULTI_SELECT_BOX'),
-            '7'  => JText::_('COM_REDSHOP_SELECT_COUNTRY_BOX'),
-            '8'  => JText::_('COM_REDSHOP_WYSIWYG'),
-            '9'  => JText::_('COM_REDSHOP_MEDIA'),
-            '10' => JText::_('COM_REDSHOP_DOCUMENTS'),
-            '11' => JText::_('COM_REDSHOP_IMAGE'),
-            '12' => JText::_('COM_REDSHOP_DATE_PICKER'),
-            '13' => JText::_('COM_REDSHOP_IMAGE_WITH_LINK'),
-            '15' => JText::_('COM_REDSHOP_SELECTION_BASED_ON_SELECTED_CONDITIONS'),
-            '16' => JText::_('COM_REDSHOP_JOOMLA_RELATED_ARTICLES')
+            '1'  => Text::_('COM_REDSHOP_TEXT_FIELD'),
+            '2'  => Text::_('COM_REDSHOP_TEXT_AREA'),
+            '3'  => Text::_('COM_REDSHOP_CHECKBOX'),
+            '4'  => Text::_('COM_REDSHOP_RADIOBOX'),
+            '5'  => Text::_('COM_REDSHOP_SINGLE_SELECT_BOX'),
+            '6'  => Text::_('COM_REDSHOP_MULTI_SELECT_BOX'),
+            '7'  => Text::_('COM_REDSHOP_SELECT_COUNTRY_BOX'),
+            '8'  => Text::_('COM_REDSHOP_WYSIWYG'),
+            '9'  => Text::_('COM_REDSHOP_MEDIA'),
+            '10' => Text::_('COM_REDSHOP_DOCUMENTS'),
+            '11' => Text::_('COM_REDSHOP_IMAGE'),
+            '12' => Text::_('COM_REDSHOP_DATE_PICKER'),
+            '13' => Text::_('COM_REDSHOP_IMAGE_WITH_LINK'),
+            '15' => Text::_('COM_REDSHOP_SELECTION_BASED_ON_SELECTED_CONDITIONS'),
+            '16' => Text::_('COM_REDSHOP_JOOMLA_RELATED_ARTICLES')
         );
 
         JPluginHelper::importPlugin('system');
@@ -648,7 +649,7 @@ class RedshopHelperTemplate
     {
         $tagsSite  = RedshopHelperExtrafields::getSectionFieldList($fieldSection, 1);
         $tagsAdmin = RedshopHelperExtrafields::getSectionFieldList($fieldSection, 0);
-        $tags      = array_merge((array)$tagsAdmin, (array)$tagsSite);
+        $tags      = array_merge((array) $tagsAdmin, (array) $tagsSite);
 
         $fieldTags = array();
 

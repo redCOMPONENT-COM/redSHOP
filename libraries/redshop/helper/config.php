@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Registry\Registry;
 
@@ -73,7 +74,7 @@ class RedshopHelperConfig
         include_once $file;
 
         // Sanitize the namespace.
-        $namespace = ucfirst((string)preg_replace('/[^A-Z_]/i', '', $namespace));
+        $namespace = ucfirst((string) preg_replace('/[^A-Z_]/i', '', $namespace));
 
         // Build the config name.
         $name = 'RedshopConfig' . $namespace;
@@ -112,40 +113,40 @@ class RedshopHelperConfig
         }
 
         // Load redshop script
-		HTMLHelper::script('com_redshop/redshop.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.min.js', ['relative' => true]);
 
         JFactory::getDocument()->addScriptDeclaration(
             '
-			(function($) {
-				var RedshopStrings = ' . json_encode(self::script()) . ';
-				if (typeof redSHOP == "undefined") {
-					redSHOP = {};
-					redSHOP.RSConfig = {};
-					redSHOP.RSConfig.strings = RedshopStrings;
-				}
-				else {
-					redSHOP.RSConfig.load(RedshopStrings);
-				}
+            (function($) {
+                var RedshopStrings = ' . json_encode(self::script()) . ';
+                if (typeof redSHOP == "undefined") {
+                    redSHOP = {};
+                    redSHOP.RSConfig = {};
+                    redSHOP.RSConfig.strings = RedshopStrings;
+                }
+                else {
+                    redSHOP.RSConfig.load(RedshopStrings);
+                }
 
-				$(document).ready(function(){
-					var bootstrapLoaded = (typeof $().carousel == "function");
-					var mootoolsLoaded = (typeof MooTools != "undefined");
-					if (bootstrapLoaded && mootoolsLoaded) {
-						Element.implement({
-							hide: function () {
-								return this;
-							},
-							show: function (v) {
-								return this;
-							},
-							slide: function (v) {
-								return this;
-							}
-						});
-					}
-				});
-			})(jQuery);
-		'
+                $(document).ready(function(){
+                    var bootstrapLoaded = (typeof $().carousel == "function");
+                    var mootoolsLoaded = (typeof MooTools != "undefined");
+                    if (bootstrapLoaded && mootoolsLoaded) {
+                        Element.implement({
+                            hide: function () {
+                                return this;
+                            },
+                            show: function (v) {
+                                return this;
+                            },
+                            slide: function (v) {
+                                return this;
+                            }
+                        });
+                    }
+                });
+            })(jQuery);
+        '
         );
 
         self::$isLoadScriptDeclaration = true;
@@ -226,7 +227,7 @@ class RedshopHelperConfig
             elseif (file_exists($legacyConfig->configDistPath)) {
                 $configFile = $legacyConfig->configDistPath;
             } else {
-                throw new Exception(JText::_('LIB_REDSHOP_LEGACY_CONFIG_FILE_IS_NOT_EXIST'));
+                throw new Exception(Text::_('LIB_REDSHOP_LEGACY_CONFIG_FILE_IS_NOT_EXIST'));
             }
         }
 
@@ -243,7 +244,8 @@ class RedshopHelperConfig
             $this->save(new Registry($configDataArray));
 
             return true;
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
             return false;
@@ -272,7 +274,7 @@ class RedshopHelperConfig
         // Since 1.6 we started moving to new config than try to migrate it
         if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '1.6', '<')) {
             JFactory::getApplication()->enqueueMessage(
-                JText::_('COM_REDSHOP_TRY_TO_MIGRATE_PREVIOUS_CONFIGURATION'),
+                Text::_('COM_REDSHOP_TRY_TO_MIGRATE_PREVIOUS_CONFIGURATION'),
                 'notice'
             );
 
@@ -305,7 +307,7 @@ class RedshopHelperConfig
                 // Save to config file
                 $this->save(new Registry($properties));
                 JFactory::getApplication()->enqueueMessage(
-                    JText::_('COM_REDSHOP_MIGRATED_PREVIOUS_CONFIGURATION'),
+                    Text::_('COM_REDSHOP_MIGRATED_PREVIOUS_CONFIGURATION'),
                     'notice'
                 );
 
@@ -313,7 +315,7 @@ class RedshopHelperConfig
             }
 
             JFactory::getApplication()->enqueueMessage(
-                JText::_('COM_REDSHOP_PREVIOUS_CONFIGURATION_NOT_FOUND'),
+                Text::_('COM_REDSHOP_PREVIOUS_CONFIGURATION_NOT_FOUND'),
                 'warning'
             );
 
@@ -352,19 +354,19 @@ class RedshopHelperConfig
 
         // Attempt to make the file writable if using FTP.
         if (file_exists($file) && JPath::isOwner($file) && !JPath::setPermissions($file, '0644')) {
-            $app->enqueueMessage(JText::_('LIB_REDSHOP_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
+            $app->enqueueMessage(Text::_('LIB_REDSHOP_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
         }
 
         // Attempt to write the configuration file as a PHP class named RedshopConfig.
         $configuration = $config->toString('PHP', array('class' => 'RedshopConfig', 'closingtag' => false));
 
         if (!JFile::write($file, $configuration)) {
-            throw new RuntimeException(JText::_('LIB_REDSHOP_ERROR_WRITE_FAILED'));
+            throw new RuntimeException(Text::_('LIB_REDSHOP_ERROR_WRITE_FAILED'));
         }
 
         // Attempt to make the file unwriteable if using FTP.
         if (JPath::isOwner($file) && !JPath::setPermissions($file, '0444')) {
-            $app->enqueueMessage(JText::_('LIB_REDSHOP_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
+            $app->enqueueMessage(Text::_('LIB_REDSHOP_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
         }
 
         return true;
@@ -480,7 +482,7 @@ class RedshopHelperConfig
      */
     public function getInt($name = '', $default = 0)
     {
-        return empty($this->config) ? (int)$default : (int)$this->config->get($name, $default);
+        return empty($this->config) ? (int) $default : (int) $this->config->get($name, $default);
     }
 
     /**
@@ -495,7 +497,7 @@ class RedshopHelperConfig
      */
     public function getString($name = '', $default = '')
     {
-        return empty($this->config) ? (string)$default : (string)$this->config->get($name, $default);
+        return empty($this->config) ? (string) $default : (string) $this->config->get($name, $default);
     }
 
     /**
@@ -510,6 +512,6 @@ class RedshopHelperConfig
      */
     public function getFloat($name = '', $default = 0.0)
     {
-        return empty($this->config) ? (float)$default : (float)$this->config->get($name, $default);
+        return empty($this->config) ? (float) $default : (float) $this->config->get($name, $default);
     }
 }

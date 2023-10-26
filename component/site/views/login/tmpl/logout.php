@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $app    = JFactory::getApplication();
 $Itemid = $app->input->getInt('Itemid');
 $user   = JFactory::getUser();
@@ -23,9 +25,9 @@ $returnitemid = $params->get('logout', $Itemid);
             <td colspan="2" height="40">
                 <p><?php
                     if ($user->id > 0) {
-                        echo JText::_('COM_REDSHOP_LOGOUT_DESCRIPTION');
+                        echo Text::_('COM_REDSHOP_LOGOUT_DESCRIPTION');
                     } else {
-                        echo JText::_('COM_REDSHOP_LOGOUT_SUCCESS');
+                        echo Text::_('COM_REDSHOP_LOGOUT_SUCCESS');
                     }
                     ?></p>
             </td>
@@ -33,7 +35,7 @@ $returnitemid = $params->get('logout', $Itemid);
         <?php if ($user->id > 0) : ?>
             <tr>
                 <td><input type="submit" name="submit" class="button btn btn-primary"
-                           value="<?php echo JText::_('COM_REDSHOP_LOGOUT'); ?>"></td>
+                           value="<?php echo Text::_('COM_REDSHOP_LOGOUT'); ?>"></td>
             </tr>
         <?php endif; ?>
     </table>

@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Layout variables
  * -----------------
@@ -33,7 +35,6 @@ if (!empty($value)) {
 }
 
 ?>
-
 <script type="text/javascript">
     (function ($) {
         $(document).ready(function () {
@@ -48,60 +49,60 @@ if (!empty($value)) {
                 toLabel: 'To',
                 customRangeLabel: 'Custom',
                 daysOfWeek: [
-                    '<?php echo JText::_('COM_REDSHOP_SUN') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_MON') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_TUE') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_WED') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_THU') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_FRI') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_SAT') ?>'
+                    '<?php echo Text::_('COM_REDSHOP_SUN') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_MON') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_TUE') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_WED') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_THU') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_FRI') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_SAT') ?>'
                 ],
                 monthNames: [
-                    '<?php echo JText::_('COM_REDSHOP_MONTH_JANUARY') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_MONTH_FEBRUARY') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_MONTH_MARCH') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_MONTH_APRIL') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_MONTH_MAY') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_MONTH_JUNE') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_MONTH_JULY') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_MONTH_AUGUST') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_MONTH_SEPTEMBER') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_MONTH_OCTOBER') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_MONTH_NOVEMBER') ?>',
-                    '<?php echo JText::_('COM_REDSHOP_MONTH_DECEMBER') ?>'
+                    '<?php echo Text::_('COM_REDSHOP_MONTH_JANUARY') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_MONTH_FEBRUARY') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_MONTH_MARCH') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_MONTH_APRIL') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_MONTH_MAY') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_MONTH_JUNE') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_MONTH_JULY') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_MONTH_AUGUST') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_MONTH_SEPTEMBER') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_MONTH_OCTOBER') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_MONTH_NOVEMBER') ?>',
+                    '<?php echo Text::_('COM_REDSHOP_MONTH_DECEMBER') ?>'
                 ],
                 firstDay: <?php echo $firstDay ?>
             };
 
             <?php if (!empty($this->filterStartDate)): ?>
-            options_<?php echo $field->id ?>.startDate = $('input[name="filter[start_date]').val();
+                options_<?php echo $field->id ?>.startDate = $('input[name="filter[start_date]').val();
             <?php endif; ?>
             <?php if (!empty($this->filterEndDate)): ?>
-            options_<?php echo $field->id ?>.endDate = $('input[name="filter[end_date]"]').val();
+                options_<?php echo $field->id ?>.endDate = $('input[name="filter[end_date]"]').val();
             <?php endif; ?>
 
             options_<?php echo $field->id ?>.autoApply = <?php echo ($autoApply) ? 'true' : 'false'; ?>;
             options_<?php echo $field->id ?>.ranges = {
-                '<?php echo JText::_('COM_REDSHOP_STATISTIC_TODAY') ?>': [moment(), moment()],
-                '<?php echo JText::_(
+                '<?php echo Text::_('COM_REDSHOP_STATISTIC_TODAY') ?>': [moment(), moment()],
+                '<?php echo Text::_(
                     'COM_REDSHOP_STATISTIC_YESTERDAY'
                 ) ?>': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                '<?php echo JText::_(
+                '<?php echo Text::_(
                     'COM_REDSHOP_STATISTIC_THIS_WEEK'
                 ) ?>': [moment().startOf('isoWeek'), moment().endOf('isoWeek')],
-                '<?php echo JText::_('COM_REDSHOP_STATISTIC_LAST_WEEK') ?>': [
+                '<?php echo Text::_('COM_REDSHOP_STATISTIC_LAST_WEEK') ?>': [
                     moment().subtract(1, 'weeks').startOf('isoWeek'), moment().subtract(1, 'weeks').endOf('isoWeek')
                 ],
-                '<?php echo JText::_(
+                '<?php echo Text::_(
                     'COM_REDSHOP_STATISTIC_THIS_MONTH'
                 ) ?>': [moment().startOf('month'), moment().endOf('month')],
-                '<?php echo JText::_('COM_REDSHOP_STATISTIC_LAST_MONTH') ?>': [
+                '<?php echo Text::_('COM_REDSHOP_STATISTIC_LAST_MONTH') ?>': [
                     moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')
                 ],
-                '<?php echo JText::_(
+                '<?php echo Text::_(
                     'COM_REDSHOP_STATISTIC_THIS_YEAR'
                 ) ?>': [moment().startOf('year'), moment().endOf('year')],
-                '<?php echo JText::_('COM_REDSHOP_STATISTIC_LAST_YEAR') ?>': [
+                '<?php echo Text::_('COM_REDSHOP_STATISTIC_LAST_YEAR') ?>': [
                     moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')
                 ],
                 '<?php echo JText::sprintf(
@@ -127,10 +128,10 @@ if (!empty($value)) {
             };
 
             <?php if (!empty($startDate)): ?>
-            options_<?php echo $field->id ?>.startDate = "<?php echo $startDate ?>";
+                options_<?php echo $field->id ?>.startDate = "<?php echo $startDate ?>";
             <?php endif; ?>
             <?php if (!empty($endDate)): ?>
-            options_<?php echo $field->id ?>.endDate = "<?php echo $endDate ?>";
+                options_<?php echo $field->id ?>.endDate = "<?php echo $endDate ?>";
             <?php endif; ?>
 
             options_<?php echo $field->id ?>.linkedCalendars = true;
@@ -141,15 +142,15 @@ if (!empty($value)) {
             $('#<?php echo $field->id ?>').daterangepicker(options_<?php echo $field->id ?>, function (start, end, label) {
                 $('#<?php echo $field->id ?>_input').val(moment(start).unix() + '-' + moment(end).unix());
                 <?php if (!empty($onChange)): ?>
-                <?php echo $onChange ?>
+                    <?php echo $onChange ?>
                 <?php endif; ?>
             });
 
             <?php if ($showButton): ?>
-            $('#date_range_<?php echo $field->id ?>_btn').click(function (e) {
-                e.preventDefault();
-                $('#<?php echo $field->id ?>').click();
-            });
+                $('#date_range_<?php echo $field->id ?>_btn').click(function (e) {
+                    e.preventDefault();
+                    $('#<?php echo $field->id ?>').click();
+                });
             <?php endif; ?>
         });
     })(jQuery);
@@ -161,8 +162,8 @@ if (!empty($value)) {
         <input type="hidden" value="<?php echo $value ?>" name="<?php echo $field->name ?>"
                id="<?php echo $field->id ?>_input"/>
         <?php if ($showButton): ?>
-            <button class="btn btn-success" id="date_range_<?php echo $field->id ?>_btn"><i class="fa fa-calendar"></i>
-            </button>
+                <button class="btn btn-success" id="date_range_<?php echo $field->id ?>_btn"><i class="fa fa-calendar"></i>
+                </button>
         <?php endif; ?>
     </div>
 </div>

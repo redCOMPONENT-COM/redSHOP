@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Send friend model
  *
@@ -121,11 +123,11 @@ class RedshopModelSend_Friend extends RedshopModel
 
         if (!empty($email)) {
             if (JFactory::getMailer()->sendMail($from, $fromName, $email, $subject, $mailBody, 1, null, $mailBcc)) {
-                echo "<div class='' align='center'>" . JText::_(
+                echo "<div class='' align='center'>" . Text::_(
                         'COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY'
                     ) . "</div>";
             } else {
-                echo "<div class='' align='center'>" . JText::_(
+                echo "<div class='' align='center'>" . Text::_(
                         'COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY'
                     ) . "</div>";
             }

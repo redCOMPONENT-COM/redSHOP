@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * View Tool
  *
@@ -40,8 +42,8 @@ class RedshopViewTool_Update extends RedshopViewAdmin
 
         $this->availableVersions = $model->getAvailableUpdate();
 
-        JFactory::getDocument()->setTitle(JText::_('COM_REDSHOP_TOOL'));
-        JToolbarHelper::title(JText::_('COM_REDSHOP_TOOL'));
+        JFactory::getDocument()->setTitle(Text::_('COM_REDSHOP_TOOL'));
+        JToolbarHelper::title(Text::_('COM_REDSHOP_TOOL'));
 
         // Display the template
         parent::display($tpl);

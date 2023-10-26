@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewProducttags_detail extends RedshopViewAdmin
 {
@@ -21,7 +22,7 @@ class RedshopViewProducttags_detail extends RedshopViewAdmin
 
     public function display($tpl = null)
     {
-        JToolBarHelper::title(JText::_('COM_REDSHOP_TAGS_MANAGEMENT_DETAIL'), 'redshop_textlibrary48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_TAGS_MANAGEMENT_DETAIL'), 'redshop_textlibrary48');
 
         $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
@@ -33,10 +34,10 @@ class RedshopViewProducttags_detail extends RedshopViewAdmin
 
         $isNew = ($detail->tags_id < 1);
 
-        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+        $text = $isNew ? Text::_('COM_REDSHOP_NEW') : Text::_('COM_REDSHOP_EDIT');
 
         JToolBarHelper::title(
-            JText::_('COM_REDSHOP_TAGS') . ': <small><small>[ ' . $text . ' ]</small></small>',
+            Text::_('COM_REDSHOP_TAGS') . ': <small><small>[ ' . $text . ' ]</small></small>',
             'redshop_textlibrary48'
         );
 
@@ -45,7 +46,7 @@ class RedshopViewProducttags_detail extends RedshopViewAdmin
         if ($isNew) {
             JToolBarHelper::cancel();
         } else {
-            JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+            JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
         }
 
         $lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);

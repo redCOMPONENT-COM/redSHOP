@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JLoader::import('redshop.library');
 JFormHelper::loadFieldClass('list');
 
@@ -51,7 +53,7 @@ class JFormFieldRedshopCategory extends JFormFieldList
         $options = array();
 
         if (!$this->multiple) {
-            $options[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT_CATEGORY'), 'value', 'text');
+            $options[] = JHtml::_('select.option', '', Text::_('COM_REDSHOP_SELECT_CATEGORY'), 'value', 'text');
         }
 
         if (!self::$cache) {
@@ -62,9 +64,9 @@ class JFormFieldRedshopCategory extends JFormFieldList
         // Build the field options.
         if (!empty(self::$cache)) {
             if ($this->multiple) {
-				$obj = new stdClass;
-				$obj->value = '<OPTGROUP>';
-				$obj->text = JText::_('COM_REDSHOP_SELECT_CATEGORY');
+                $obj        = new stdClass;
+                $obj->value = '<OPTGROUP>';
+                $obj->text  = Text::_('COM_REDSHOP_SELECT_CATEGORY');
 
                 $options[] = $obj;
             }
@@ -74,9 +76,9 @@ class JFormFieldRedshopCategory extends JFormFieldList
             }
 
             if ($this->multiple) {
-				$obj = new stdClass;
-				$obj->value = '</OPTGROUP>';
-				$obj->text = JText::_('COM_REDSHOP_SELECT_CATEGORY');
+                $obj        = new stdClass;
+                $obj->value = '</OPTGROUP>';
+                $obj->text  = Text::_('COM_REDSHOP_SELECT_CATEGORY');
 
                 $options[] = $obj;
             }

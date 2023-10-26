@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 // Import library dependencies
 jimport('joomla.plugin.plugin');
 
@@ -68,7 +70,7 @@ class PlgRedshop_AlertAlert extends JPlugin
             $config->get('mailfrom'),
             $config->get('fromname'),
             $adminEmail,
-            JText::_('COM_REDSHOP_ALERT_STOCKROOM_BELOW_AMOUNT_NUMBER_MAIN_SUBJECT'),
+            Text::_('COM_REDSHOP_ALERT_STOCKROOM_BELOW_AMOUNT_NUMBER_MAIN_SUBJECT'),
             $message,
             1
         );

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewStockimage extends RedshopViewAdmin
 {
@@ -20,9 +21,9 @@ class RedshopViewStockimage extends RedshopViewAdmin
         $app      = JFactory::getApplication();
         $document = JFactory::getDocument();
 
-        $document->setTitle(JText::_('COM_REDSHOP_STOCKIMAGE'));
+        $document->setTitle(Text::_('COM_REDSHOP_STOCKIMAGE'));
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKIMAGE_MANAGEMENT'), 'redshop_stockroom48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_STOCKIMAGE_MANAGEMENT'), 'redshop_stockroom48');
         JToolbarHelper::addNew();
         JToolbarHelper::EditList();
         JToolBarHelper::deleteList();
@@ -31,8 +32,8 @@ class RedshopViewStockimage extends RedshopViewAdmin
         $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'stock_amount_id');
         $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-        $lists ['order']     = $filter_order;
-        $lists ['order_Dir'] = $filter_order_Dir;
+        $lists['order']     = $filter_order;
+        $lists['order_Dir'] = $filter_order_Dir;
         $this->filter        = $state->get('filter');
 
         $data       = $this->get('Data');

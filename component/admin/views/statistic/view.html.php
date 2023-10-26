@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 jimport('joomla.html.pagination');
 
 /**
@@ -53,14 +55,14 @@ class RedshopViewStatistic extends RedshopViewAdmin
         $lists  = array();
         $option = array();
 
-        $option[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
-        $option[] = JHtml::_('select.option', '1', JText::_('COM_REDSHOP_DAILY'));
-        $option[] = JHtml::_('select.option', '2', JText::_('COM_REDSHOP_WEEKLY'));
-        $option[] = JHtml::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));
-        $option[] = JHtml::_('select.option', '4', JText::_('COM_REDSHOP_YEARLY'));
+        $option[] = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_Select'));
+        $option[] = JHtml::_('select.option', '1', Text::_('COM_REDSHOP_DAILY'));
+        $option[] = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_WEEKLY'));
+        $option[] = JHtml::_('select.option', '3', Text::_('COM_REDSHOP_MONTHLY'));
+        $option[] = JHtml::_('select.option', '4', Text::_('COM_REDSHOP_YEARLY'));
 
-        $type[] = JHtml::_('select.option', '1', JText::_('COM_REDSHOP_NUMBER_OF_TIMES_SOLD'));
-        $type[] = JHtml::_('select.option', '2', JText::_('COM_REDSHOP_NUMBER_OF_ITEMS_SOLD'));
+        $type[] = JHtml::_('select.option', '1', Text::_('COM_REDSHOP_NUMBER_OF_TIMES_SOLD'));
+        $type[] = JHtml::_('select.option', '2', Text::_('COM_REDSHOP_NUMBER_OF_ITEMS_SOLD'));
 
         $lists['filteroption'] = JHtml::_(
             'select.genericlist',
@@ -99,62 +101,62 @@ class RedshopViewStatistic extends RedshopViewAdmin
 
         if ($layout == 'turnover') {
             $this->setLayout('turnover');
-            $title         = JText::_('COM_REDSHOP_TOTAL_TURNOVER');
+            $title         = Text::_('COM_REDSHOP_TOTAL_TURNOVER');
             $totalturnover = $this->get('TotalTurnover');
             $total         = count($totalturnover);
         } elseif ($layout == 'pageview') {
             $this->setLayout('pageview');
-            $title      = JText::_('COM_REDSHOP_TOTAL_PAGEVIEWERS');
+            $title      = Text::_('COM_REDSHOP_TOTAL_PAGEVIEWERS');
             $pageviewer = $this->get('PageViewer');
             $total      = count($pageviewer);
         } elseif ($layout == 'amountorder') {
             $this->setLayout('amountorder');
-            $title       = JText::_('COM_REDSHOP_TOP_CUSTOMER_AMOUNT_OF_ORDER');
+            $title       = Text::_('COM_REDSHOP_TOP_CUSTOMER_AMOUNT_OF_ORDER');
             $amountorder = $this->get('AmountOrder');
             $total       = count($amountorder);
         } elseif ($layout == 'avrgorder') {
             $this->setLayout('avrgorder');
-            $title          = JText::_('COM_REDSHOP_AVG_ORDER_AMOUNT_CUSTOMER');
+            $title          = Text::_('COM_REDSHOP_AVG_ORDER_AMOUNT_CUSTOMER');
             $avgorderamount = $this->get('AvgOrderAmount');
             $total          = count($avgorderamount);
         } elseif ($layout == 'amountprice') {
             $this->setLayout('amountprice');
-            $title       = JText::_('COM_REDSHOP_TOP_CUSTOMER_AMOUNT_OF_PRICE_PER_ORDER');
+            $title       = Text::_('COM_REDSHOP_TOP_CUSTOMER_AMOUNT_OF_PRICE_PER_ORDER');
             $amountprice = $this->get('AmountPrice');
             $total       = count($amountprice);
         } elseif ($layout == 'amountspent') {
             $this->setLayout('amountspent');
-            $title              = JText::_('COM_REDSHOP_TOP_CUSTOMER_AMOUNT_SPENT_IN_TOTAL');
+            $title              = Text::_('COM_REDSHOP_TOP_CUSTOMER_AMOUNT_SPENT_IN_TOTAL');
             $amountspentintotal = $this->get('AmountSpentInTotal');
             $total              = count($amountspentintotal);
         } elseif ($layout == 'bestsell') {
             $this->setLayout('bestsell');
-            $title    = JText::_('COM_REDSHOP_BEST_SELLERS');
+            $title    = Text::_('COM_REDSHOP_BEST_SELLERS');
             $bestsell = $this->get('BestSellers');
             $total    = count($bestsell);
         } elseif ($layout == 'popularsell') {
             $this->setLayout('popularsell');
-            $title       = JText::_('COM_REDSHOP_MOST_VISITED_PRODUCTS');
+            $title       = Text::_('COM_REDSHOP_MOST_VISITED_PRODUCTS');
             $popularsell = $this->get('MostPopular');
             $total       = count($popularsell);
         } elseif ($layout == 'newprod') {
             $this->setLayout('newprod');
-            $title   = JText::_('COM_REDSHOP_NEWEST_PRODUCTS');
+            $title   = Text::_('COM_REDSHOP_NEWEST_PRODUCTS');
             $newprod = $this->get('NewProducts');
             $total   = count($newprod);
         } elseif ($layout == 'neworder') {
             $this->setLayout('neworder');
-            $title    = JText::_('COM_REDSHOP_NEWEST_ORDERS');
+            $title    = Text::_('COM_REDSHOP_NEWEST_ORDERS');
             $neworder = $this->get('NewOrders');
             $total    = count($neworder);
         } else {
             $this->setLayout('default');
-            $title         = JText::_('COM_REDSHOP_TOTAL_VISITORS');
+            $title         = Text::_('COM_REDSHOP_TOTAL_VISITORS');
             $redshopviewer = $this->get('RedshopViewer');
             $total         = count($redshopviewer);
         }
 
-        $document->setTitle(JText::_('COM_REDSHOP_STATISTIC'));
+        $document->setTitle(Text::_('COM_REDSHOP_STATISTIC'));
 
         $pagination       = new JPagination($total, $limitstart, $limit);
         $this->pagination = $pagination;

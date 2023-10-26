@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Redshop\View\AbstractView;
 
 jimport('joomla.application.component.viewlegacy');
@@ -188,7 +189,7 @@ class RedshopViewList extends AbstractView
         // Check permission on create new
         if (!$this->canView) {
             $app = JFactory::getApplication();
-            $app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
+            $app->enqueueMessage(Text::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
             $app->redirect('index.php?option=com_redshop');
         }
     }
@@ -232,23 +233,25 @@ class RedshopViewList extends AbstractView
 
             $column = array(
                 // This column is sortable?
-                'sortable'  => isset($field['table-sortable']) ? (bool)$field['table-sortable'] : false,
+                'sortable'  => isset($field['table-sortable']) ? (bool) $field['table-sortable'] : false,
                 // Text for column
-                'text'      => JText::_((string)$field['label']),
+                'text'      => Text::_((string) $field['label']),
                 // Name of property for get data.
-                'dataCol'   => (string)$field['name'],
+                'dataCol'   => (string) $field['name'],
                 // Width of column
-                'width'     => isset($field['table-width']) ? (string)$field['table-width'] : 'auto',
+                'width'     => isset($field['table-width']) ? (string) $field['table-width'] : 'auto',
                 // Enable edit inline?
-                'inline'    => isset($field['table-inline']) ? (bool)$field['table-inline'] : false,
+                'inline'    => isset($field['table-inline']) ? (bool) $field['table-inline'] : false,
                 // Display with edit link or not?
-                'edit_link' => isset($field['table-edit-link']) ? (bool)$field['table-edit-link'] : false,
+                'edit_link' => isset($field['table-edit-link']) ? (bool) $field['table-edit-link'] : false,
                 // Type of column
-                'type'      => (string)$field['type'],
+                'type'      => (string) $field['type'],
             );
 
-            if ($field['type'] == 'number' || ($field['type'] == 'redshop.text'
-                    && isset($field['filter']) && ($field['filter'] == 'integer' || $field['filter'] == 'float'))) {
+            if (
+                $field['type'] == 'number' || ($field['type'] == 'redshop.text'
+                    && isset($field['filter']) && ($field['filter'] == 'integer' || $field['filter'] == 'float'))
+            ) {
                 $column['type'] = 'number';
             }
 
@@ -283,7 +286,7 @@ class RedshopViewList extends AbstractView
      */
     public function getTitle()
     {
-        return JText::_('COM_REDSHOP_' . strtoupper($this->getInstanceName()) . '_MANAGEMENT');
+        return Text::_('COM_REDSHOP_' . strtoupper($this->getInstanceName()) . '_MANAGEMENT');
     }
 
     /**
@@ -327,21 +330,21 @@ class RedshopViewList extends AbstractView
                 return JHtml::_('redshopgrid.published', $row->{$this->stateColumn}, $index);
             } else {
                 return '<span class="label ' . ($row->published ? 'label-success' : 'label-danger') . '">' .
-                    ($row->published ? JText::_('JYES') : JText::_('JNO')) . '</span>';
+                    ($row->published ? Text::_('JYES') : Text::_('JNO')) . '</span>';
             }
         } elseif ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable && $this->canEdit) {
             $display = $value;
 
             if ($config['edit_link']) {
                 $display = '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName(
-                    ) . '.edit&' . $primaryKey . '=' . $itemId . '">'
+                ) . '.edit&' . $primaryKey . '=' . $itemId . '">'
                     . $value . '</a>';
             }
 
             return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $itemId, $config['type']);
         } elseif ($config['edit_link'] === true) {
             return '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName(
-                ) . '.edit&' . $primaryKey . '=' . $itemId . '">'
+            ) . '.edit&' . $primaryKey . '=' . $itemId . '">'
                 . $value . '</a>';
         }
 

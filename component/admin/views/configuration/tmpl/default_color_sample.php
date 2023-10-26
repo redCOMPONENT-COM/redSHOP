@@ -72,4 +72,3 @@ echo RedshopLayoutHelper::render(
     );
     ?>
 </div>
-<?php

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
@@ -41,11 +42,11 @@ class RedshopControllerWishlist extends RedshopController
         $post['product_id']    = $input->post->getInt('product_id', 0);
 
         if ($model->store($post)) {
-            echo "<div class='wishlistmsg'>" . JText::_(
-                    'COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY'
-                ) . "</div>";
+            echo "<div class='wishlistmsg'>" . Text::_(
+                'COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY'
+            ) . "</div>";
         } else {
-            echo "<div class='wishlistmsg-error'>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
+            echo "<div class='wishlistmsg-error'>" . Text::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
         }
 
         if ($input->getInt('loginwishlist', 0) == 1) {
@@ -59,9 +60,9 @@ class RedshopControllerWishlist extends RedshopController
         } else {
             ?>
             <script language="javascript">
-            //  var t = setTimeout("window.parent.common.closeModal();window.parent.location.reload();", 2000);
-            //  $('#modalAddToWishlist').modal('hide');
-            myModal.hide();
+                //  var t = setTimeout("window.parent.common.closeModal();window.parent.location.reload();", 2000);
+                //  $('#modalAddToWishlist').modal('hide');
+                myModal.hide();
             </script>
             <?php
         }
@@ -77,7 +78,7 @@ class RedshopControllerWishlist extends RedshopController
     public function savewishlist()
     {
         // Check for request forgeries.
-        JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
         /** @var RedshopModelWishlist $model */
         $model = $this->getModel("wishlist");
@@ -85,11 +86,11 @@ class RedshopControllerWishlist extends RedshopController
         $data = JFactory::getApplication()->input->post->getArray();
 
         if ($model->savewishlist($data)) {
-            echo "<div class='wishlistmsg'>" . JText::_(
-                    'COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY'
-                ) . "</div>";
+            echo "<div class='wishlistmsg'>" . Text::_(
+                'COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY'
+            ) . "</div>";
         } else {
-            echo "<div class='wishlistmsg-error'>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
+            echo "<div class='wishlistmsg-error'>" . Text::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
         }
 
         ?>
@@ -116,15 +117,15 @@ class RedshopControllerWishlist extends RedshopController
 
         if ($model->check_user_wishlist_authority($user->id, $post["wishlist_id"])) {
             if ($model->delwishlist($user->id, $post["wishlist_id"])) {
-                $msg = JText::_('COM_REDSHOP_WISHLIST_DELETED_SUCCESSFULLY');
+                $msg = Text::_('COM_REDSHOP_WISHLIST_DELETED_SUCCESSFULLY');
             } else {
-                $msg = JText::_('COM_REDSHOP_ERROR_IN_DELETING_WISHLIST');
+                $msg = Text::_('COM_REDSHOP_ERROR_IN_DELETING_WISHLIST');
             }
         } else {
-            $msg = JText::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZE_TO_DELETE');
+            $msg = Text::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZE_TO_DELETE');
         }
 
-		$app->enqueueMessage($msg);
+        $app->enqueueMessage($msg);
         $app->redirect($link);
     }
 
@@ -156,7 +157,7 @@ class RedshopControllerWishlist extends RedshopController
 
         if (!empty($mydel)) {
             if ($model->mysessdelwishlist($post)) {
-                $msg = JText::_('COM_REDSHOP_WISHLIST_DELETED_SUCCESSFULLY');
+                $msg = Text::_('COM_REDSHOP_WISHLIST_DELETED_SUCCESSFULLY');
             }
 
             $this->setRedirect($link, $msg);

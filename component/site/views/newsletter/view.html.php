@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Newsletter view
  *
@@ -47,7 +49,7 @@ class RedshopViewNewsletter extends RedshopView
         $app = JFactory::getApplication();
 
         $pathway = $app->getPathway();
-        $pathway->addItem(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCRIPTION'), '');
+        $pathway->addItem(Text::_('COM_REDSHOP_NEWSLETTER_SUBSCRIPTION'), '');
 
         $layout = $app->input->getCmd('layout');
 

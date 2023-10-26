@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $app = JFactory::getApplication();
 
 // Load redSHOP Library
@@ -46,7 +48,7 @@ if (Redshop::getConfig()->get('PORTAL_SHOP') == 1) {
             $vName = 'login';
             $app->input->set('view', 'login');
             $app->input->set('layout', 'portal');
-            $app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+            $app->enqueuemessage(Text::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
         }
     } elseif ($vName == 'category' && $categoryId > 0) {
         $checkCategoryPermission = RedshopHelperAccess::checkPortalCategoryPermission($categoryId);
@@ -55,7 +57,7 @@ if (Redshop::getConfig()->get('PORTAL_SHOP') == 1) {
             $vName = 'login';
             $app->input->set('view', 'login');
             $app->input->set('layout', 'portal');
-            $app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+            $app->enqueuemessage(Text::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
         }
     }
 } else {
@@ -66,7 +68,7 @@ if (Redshop::getConfig()->get('PORTAL_SHOP') == 1) {
             $vName = 'login';
             $app->input->set('view', 'login');
             $app->input->set('layout', 'portal');
-            $app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+            $app->enqueuemessage(Text::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
         }
     }
 
@@ -77,7 +79,7 @@ if (Redshop::getConfig()->get('PORTAL_SHOP') == 1) {
             $vName = 'login';
             $app->input->set('view', 'login');
             $app->input->set('layout', 'portal');
-            $app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+            $app->enqueuemessage(Text::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
         }
     }
 
@@ -95,12 +97,12 @@ if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format) {
     if (version_compare(JVERSION, '4.0', '<')) {
         $redSHOPCSSContainerClass = ' isJ30';
     } else {
-		$redSHOPCSSContainerClass = ' isJ40';
+        $redSHOPCSSContainerClass = ' isJ40';
     }
 
     echo '<div id="redshopcomponent" class="redshop redSHOPSiteView' . ucfirst(
-            $vName
-        ) . $redSHOPCSSContainerClass . '">';
+        $vName
+    ) . $redSHOPCSSContainerClass . '">';
 }
 
 // Check for array format.
@@ -128,7 +130,7 @@ $controller->execute($task);
 
 // End component DIV here
 if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format) {
-	echo "</div>";
+    echo "</div>";
 }
 
 echo JLayoutHelper::render('assets');

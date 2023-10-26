@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
@@ -57,31 +59,31 @@ if ($showbuttons == 1) {
     <fieldset>
         <div style="float: right">
             <button type="button" class="btn btn-small" onclick="Joomla.submitbutton('add');">
-                <?php echo JText::_('COM_REDSHOP_ADD'); ?>
+                <?php echo Text::_('COM_REDSHOP_ADD'); ?>
             </button>
             <button type="button" class="btn btn-small" onclick="Joomla.submitbutton('edit');">
-                <?php echo JText::_('COM_REDSHOP_EDIT'); ?>
+                <?php echo Text::_('COM_REDSHOP_EDIT'); ?>
             </button><?php
             if ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty') {
                 ?>
                 <button type="button" class="btn btn-small" onclick="Joomla.submitbutton('setDefault');">
-                <?php echo JText::_('COM_REDSHOP_DEFAULT_MEDIA'); ?>
+                <?php echo Text::_('COM_REDSHOP_DEFAULT_MEDIA'); ?>
                 </button><?php
             } ?>
             <button type="button" class="btn btn-small" onclick="Joomla.submitbutton('remove');">
-                <?php echo JText::_('COM_REDSHOP_DELETE'); ?>
+                <?php echo Text::_('COM_REDSHOP_DELETE'); ?>
             </button>
             <button type="button" class="btn btn-small" onclick="Joomla.submitbutton('publish');">
-                <?php echo JText::_('COM_REDSHOP_PUBLISH'); ?>
+                <?php echo Text::_('COM_REDSHOP_PUBLISH'); ?>
             </button>
             <button type="button" class="btn btn-small" onclick="Joomla.submitbutton('unpublish');">
-                <?php echo JText::_('COM_REDSHOP_UNPUBLISH'); ?>
+                <?php echo Text::_('COM_REDSHOP_UNPUBLISH'); ?>
             </button>
             <button type="button" class="btn btn-small" onclick="window.parent.location.reload();">
-                <?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
+                <?php echo Text::_('COM_REDSHOP_CANCEL'); ?>
             </button>
         </div>
-        <div class="configuration"><?php echo JText::_('COM_REDSHOP_ADD_MEDIA'); ?></div>
+        <div class="configuration"><?php echo Text::_('COM_REDSHOP_ADD_MEDIA'); ?></div>
     </fieldset>
     <?php
 
@@ -96,14 +98,14 @@ if ($showbuttons == 1) {
         <div class="filterTool">
             <?php if ($showbuttons != 1): ?>
                 <div class="filterItem">
-                    <?php echo JText::_('COM_REDSHOP_MEDIA_TYPE') . ': ' . $this->lists['type']; ?>
+                    <?php echo Text::_('COM_REDSHOP_MEDIA_TYPE') . ': ' . $this->lists['type']; ?>
                 </div>
                 <div class="filterItem">
-                    <?php echo JText::_('COM_REDSHOP_MEDIA_SECTION') . ': ' . $this->lists['filter_media_section']; ?>
+                    <?php echo Text::_('COM_REDSHOP_MEDIA_SECTION') . ': ' . $this->lists['filter_media_section']; ?>
                 </div>
                 <div class="filterItem">
                     <button class="btn reset"
-                            onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('filter_media_section').value='0';this.form.submit();"><?php echo JText::_(
+                            onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('filter_media_section').value='0';this.form.submit();"><?php echo Text::_(
                             'COM_REDSHOP_RESET'
                         ); ?></button>
                 </div>
@@ -112,7 +114,7 @@ if ($showbuttons == 1) {
         <table class="adminlist table table-striped">
             <thead>
             <tr>
-                <th width="1"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
+                <th width="1"><?php echo Text::_('COM_REDSHOP_NUM'); ?></th>
                 <th width="1"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
                 <th width="auto" class="title">
                     <?php echo JHtml::_(
@@ -134,7 +136,7 @@ if ($showbuttons == 1) {
                 </th>
                 <?php if ($showbuttons == 1): ?>
                     <?php $countTd++; ?>
-                    <th width="10%"><?php echo JText::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES') ?></th>
+                    <th width="10%"><?php echo Text::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES') ?></th>
                 <?php endif; ?>
                 <th width="15%">
                     <?php echo JHtml::_(
@@ -156,7 +158,7 @@ if ($showbuttons == 1) {
                 </th>
                 <?php if ($showbuttons == 1 && ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty')): ?>
                     <?php $countTd++; ?>
-                    <th width="5%" class="title"><?php echo JText::_('COM_REDSHOP_PRIMARY_MEDIA') ?></th>
+                    <th width="5%" class="title"><?php echo Text::_('COM_REDSHOP_PRIMARY_MEDIA') ?></th>
                 <?php endif; ?>
 
                 <?php if ($showbuttons == 1): ?>
@@ -220,7 +222,7 @@ if ($showbuttons == 1) {
                             $mediaFile = $media->generateThumb(100, 100);
                             ?>
                             <a class="joom-box img-thumbnail" href="<?php echo $media->getAbsImagePath() ?>"
-                               title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
+                               title="<?php echo Text::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
                                rel="{handler: 'image', size: {}}">
                                 <img src="<?php echo $mediaFile['abs'] ?>"/></a>
                         <?php else: ?>
@@ -232,7 +234,7 @@ if ($showbuttons == 1) {
                                     );
                                 ?>
                                 <a class="joom-box img-thumbnail" href="<?php echo $media_img; ?>"
-                                   title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
+                                   title="<?php echo Text::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
                                    rel="{handler: 'image', size: {}}">
                                     <img src="<?php echo $media_img ?>" height="50" width="50"/></a>
                             <?php else: ?>
@@ -249,10 +251,10 @@ if ($showbuttons == 1) {
                                 <?php $additionalfiles = $model->getAdditionalFiles($row->id); ?>
                                 <a href="index.php?tmpl=component&option=com_redshop&view=media&layout=additionalfile&media_id=<?php echo $row->id; ?>&showbuttons=1"
                                    class="joom-box" rel="{handler: 'iframe', size: {x: 1000, y: 400}}"
-                                   title="<?php echo JText::_(
+                                   title="<?php echo Text::_(
                                            'COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES'
                                        ) . '&nbsp;(' . count($additionalfiles) . ')'; ?>">
-                                    <?php echo JText::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES') . '&nbsp;(' . count(
+                                    <?php echo Text::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES') . '&nbsp;(' . count(
                                             $additionalfiles
                                         ) . ')'; ?>
                                 </a>

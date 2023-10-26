@@ -9,17 +9,24 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHTML::_('bootstrap.tooltip');
 JPluginHelper::importPlugin('redshop_promotion');
+
 $dispatcher = \RedshopHelperUtility::getDispatcher();
-$fields = $this->form->getFieldset('details');
+$fields     = $this->form->getFieldset('details');
+
 ?>
-<form action="index.php?option=com_redshop&task=promotion.edit&id=<?php echo $this->id ?>" method="post" id="adminForm" name="adminForm" class="form-validate form-horizontal adminform" enctype="multipart/form-data">
+<form action="index.php?option=com_redshop&task=promotion.edit&id=<?php echo $this->id ?>" method="post" id="adminForm"
+    name="adminForm" class="form-validate form-horizontal adminform" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-4">
             <div class="box-primary box">
                 <div class="box-header with-border">
-                    <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_PROMOTION_GENERAL') ?></h3>
+                    <h3 class="text-primary center">
+                        <?php echo Text::_('COM_REDSHOP_PROMOTION_GENERAL') ?>
+                    </h3>
                 </div>
                 <div class="box-body">
                     <?php if (count($fields) > 0): ?>
@@ -41,7 +48,9 @@ $fields = $this->form->getFieldset('details');
         <div class="col-md-4">
             <div class="box-primary box">
                 <div class="box-header with-border">
-                    <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_PROMOTION_CONDITIONS') ?></h3>
+                    <h3 class="text-primary center">
+                        <?php echo Text::_('COM_REDSHOP_PROMOTION_CONDITIONS') ?>
+                    </h3>
                 </div>
                 <div class="box-body">
                     <?php echo $dispatcher->trigger('onRenderBackEndLayoutConditions', [])[0]; ?>
@@ -51,7 +60,9 @@ $fields = $this->form->getFieldset('details');
         <div class="col-md-4">
             <div class="box-primary box">
                 <div class="box-header with-border">
-                    <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_PROMOTION_AWARDS') ?></h3>
+                    <h3 class="text-primary center">
+                        <?php echo Text::_('COM_REDSHOP_PROMOTION_AWARDS') ?>
+                    </h3>
                 </div>
                 <div class="box-body">
                     <?php echo $dispatcher->trigger('onRenderBackEndLayoutAwards', [])[0]; ?>

@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 $jinput       = JFactory::getApplication()->input;
 $import_start = $jinput->getInt('import_start', 0);
@@ -90,7 +93,7 @@ if (isset($post['import_end'])) {
 <form action="<?php echo $this->request_url; ?>" method="post" name="adminForm" id="adminForm">
     <div id="editcell">
         <fieldset>
-            <legend><?php echo JText::_('COM_REDSHOP_IMPORT_PRODUCT_TO_ECONOMIC_LOG'); ?></legend>
+            <legend><?php echo Text::_('COM_REDSHOP_IMPORT_PRODUCT_TO_ECONOMIC_LOG'); ?></legend>
             <table class="admintable" cellpadding="3" cellspacing="0" border="0">
                 <tr>
                     <td>

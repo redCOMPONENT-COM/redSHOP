@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewProduct_category extends RedshopViewAdmin
 {
@@ -17,16 +18,16 @@ class RedshopViewProduct_category extends RedshopViewAdmin
     public function display($tpl = null)
     {
         $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));
+        $document->setTitle(Text::_('COM_REDSHOP_PRODUCT'));
         $task = JFactory::getApplication()->input->getCmd('task', '');
-        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'redshop_products48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'redshop_products48');
 
         if ($task == 'assignCategory') {
             JToolBarHelper::custom(
                 'saveProduct_Category',
                 'save.png',
                 'save_f2.png',
-                JText::_('COM_REDSHOP_ASSIGN_CATEGORY'),
+                Text::_('COM_REDSHOP_ASSIGN_CATEGORY'),
                 false
             );
         } else {
@@ -34,7 +35,7 @@ class RedshopViewProduct_category extends RedshopViewAdmin
                 'removeProduct_Category',
                 'delete.png',
                 'delete.png',
-                JText::_('COM_REDSHOP_REMOVE_CATEGORY'),
+                Text::_('COM_REDSHOP_REMOVE_CATEGORY'),
                 false
             );
         }

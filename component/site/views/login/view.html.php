@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewLogin extends RedshopView
 {
@@ -37,7 +38,7 @@ class RedshopViewLogin extends RedshopView
                     $this->setLayout('portal');
                 }
             } else {
-                $app->enqueuemessage(JText::_('COM_REDSHOP_SHOPPER_GROUP_PORTAL_IS_DISABLE'));
+                $app->enqueuemessage(Text::_('COM_REDSHOP_SHOPPER_GROUP_PORTAL_IS_DISABLE'));
                 $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop'));
             }
         } else {

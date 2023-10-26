@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Layout variables
  * =======================
@@ -18,18 +20,22 @@ defined('_JEXEC') or die;
  * @var  string $sectionId    Section ID (Ex: Product ID if $type is product)
  * @var  string $mediaSection Section media (Ex: product)
  */
-extract($displayData);
-?>
 
+extract($displayData);
+
+?>
 <div class="rs-media-gallery-modal modal fade in" tabindex="-1" role="dialog" data-backdrop="static">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span>
                 </button>
-                <h3 class="modal-title"><i class="fa fa-picture-o"></i> <?php echo JText::_(
+                <h3 class="modal-title"><i class="fa fa-picture-o"></i>
+                    <?php echo Text::_(
                         'COM_REDSHOP_MEDIA_SELECT_FROM_MEDIA'
-                    ) ?></h3>
+                    ) ?>
+                </h3>
             </div>
             <div class="modal-body">
                 <div class="col-md-8 thumbnail-pane">
@@ -42,13 +48,14 @@ extract($displayData);
                                 <div class="col-md-3">
                                     <div class="thumbnail img-obj">
                                         <img src="<?php echo $thumb['url'] ?>" alt="<?php echo $thumb['name'] ?>"
-                                             class="img-type"
-                                             data-id="<?php echo $thumb['id'] ?>"
-                                             data-size="<?php echo $thumb['size'] ?>"
-                                             data-dimension="<?php echo $thumb['dimension'] ?>"
-                                             data-media="<?php echo $thumb['media'] ?>"
-                                             data-attached="<?php echo $thumb['attached'] ?>">
-                                        <span class="img-name"><?php echo $thumb['name'] ?></span>
+                                            class="img-type" data-id="<?php echo $thumb['id'] ?>"
+                                            data-size="<?php echo $thumb['size'] ?>"
+                                            data-dimension="<?php echo $thumb['dimension'] ?>"
+                                            data-media="<?php echo $thumb['media'] ?>"
+                                            data-attached="<?php echo $thumb['attached'] ?>">
+                                        <span class="img-name">
+                                            <?php echo $thumb['name'] ?>
+                                        </span>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -57,12 +64,15 @@ extract($displayData);
                 </div>
                 <div class="col-md-4 preview-pane">
                     <div class="pv-wrapper hidden">
-                        <div class="pv-title"><h4><?php echo JText::_('COM_REDSHOP_MEDIA_ATTACHMENT_DETAIL') ?></h4>
+                        <div class="pv-title">
+                            <h4>
+                                <?php echo Text::_('COM_REDSHOP_MEDIA_ATTACHMENT_DETAIL') ?>
+                            </h4>
                         </div>
                         <div class="pv-img thumbnail">
                             <div class="pv-overlay">
                                 <a href="#" class="pv-zoom" data-lightbox="roadtrip"><i
-                                            class="fa fa-search-plus"></i></a>
+                                        class="fa fa-search-plus"></i></a>
                                 <a href="#" class="pv-link" target="_blank"><i class="fa fa-external-link"></i></a>
                             </div>
                         </div>
@@ -74,7 +84,9 @@ extract($displayData);
                                 <li class="pv-url"></li>
                                 <li class="pv-remove">
                                     <a href="#" class="btn btn-danger btn-del-g" data-id="">
-                                        <i class="fa fa-times"></i> <?php echo JText::_('JTOOLBAR_DELETE') ?></a>
+                                        <i class="fa fa-times"></i>
+                                        <?php echo Text::_('JTOOLBAR_DELETE') ?>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -83,8 +95,9 @@ extract($displayData);
             </div>
             <div class="modal-footer btn-toolbar text-center">
                 <button type="button" class="btn btn-small btn-success pull-right rs-media-gallery-insert-btn"
-                        disabled="true">
-                    <i class="fa fa-anchor"></i> Insert to <?php echo $type ?>
+                    disabled="true">
+                    <i class="fa fa-anchor"></i> Insert to
+                    <?php echo $type ?>
                 </button>
             </div>
         </div><!-- /.modal-content -->
@@ -97,11 +110,11 @@ extract($displayData);
     <div class="col-md-3">
         <div class="thumbnail img-obj">
             <img src="" alt="" class="img-type" data-id="" data-size="" data-dimension="" data-media=""
-                 data-attached="false">
+                data-attached="false">
             <span class="img-type img-icon img-file" src="" alt="" data-id="" data-size="" data-dimension=""
-                  data-media="" data-attached="">
-				<i class="fa fa-file-o"></i>
-			</span>
+                data-media="" data-attached="">
+                <i class="fa fa-file-o"></i>
+            </span>
             <span class="img-status"><i class="fa fa-eye"></i></span>
             <span class="img-mime" data-mime=""><i class="fa fa-file-o"></i></span>
             <span class="img-name"></span>
@@ -115,22 +128,26 @@ extract($displayData);
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title"><i class="fa fa-warning text-yellow"></i> Warning</h4>
             </div>
             <div class="modal-body">
                 <div class="alert-text text-center">
-                    <p><?php echo JText::_('COM_REDSHOP_MEDIA_ASK_DELETE_PERMANENTLY_FILE') ?></p>
+                    <p>
+                        <?php echo Text::_('COM_REDSHOP_MEDIA_ASK_DELETE_PERMANENTLY_FILE') ?>
+                    </p>
                 </div>
             </div>
             <div class="modal-footer btn-toolbar text-center">
                 <button type="button" class="btn btn-small btn-success float-none btn-confirm-del-g" data-url=""
-                        data-id="">
-                    <?php echo JText::_('JYES') ?>
+                    data-id="">
+                    <?php echo Text::_('JYES') ?>
                 </button>
-                <button type="button" class="btn btn-small btn-danger float-none"
-                        data-dismiss="modal"><?php echo JText::_('JNO') ?></button>
+                <button type="button" class="btn btn-small btn-danger float-none" data-dismiss="modal">
+                    <?php echo Text::_('JNO') ?>
+                </button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

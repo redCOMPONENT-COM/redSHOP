@@ -7,16 +7,19 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
-$jinput = JFactory::getApplication()->input;
+use Joomla\CMS\Language\Text;
+
+$jinput                = JFactory::getApplication()->input;
 $this->order_functions = order_functions::getInstance();
-$this->config = Redconfiguration::getInstance();
-$this->model = $this->getModel('user_detail');
-$this->flag = $jinput->getString('flag', '');
-$this->shipping = $jinput->getString('shipping', '');
-$cancel = $jinput->getString('cancel', '');
-$this->silerntuser = ($this->detail->users_info_id) ? true : false;
+$this->config          = Redconfiguration::getInstance();
+$this->model           = $this->getModel('user_detail');
+$this->flag            = $jinput->getString('flag', '');
+$this->shipping        = $jinput->getString('shipping', '');
+$cancel                = $jinput->getString('cancel', '');
+$this->silerntuser     = ($this->detail->users_info_id) ? true : false;
 
 if ($this->detail->users_info_id && $this->detail->user_id && $this->detail->username) {
     $this->silerntuser = false;
@@ -43,50 +46,50 @@ if ($this->pagination->limitstart > 0) {
         var form = document.adminForm;
 
         if (pressbutton == 'cancel') {
-			Joomla.submitform(pressbutton);
+            Joomla.submitform(pressbutton);
             return;
         }
 
         if (pressbutton == 'order') {
-			Joomla.submitform(pressbutton);
+            Joomla.submitform(pressbutton);
             return;
         }
 
         var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&]", "i");
 
-        <?php if ($this->shipping) : ?>
-        if ((form.firstname.value) == "") {
-            alert("<?php echo JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_FIRSTNAME', true);?>");
-        } else if (form.lastname.value == "") {
-            alert("<?php echo JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME', true);?>");
-        } else {
-			Joomla.submitform(pressbutton);
-        }
+        <?php if ($this->shipping): ?>
+            if ((form.firstname.value) == "") {
+                alert("<?php echo Text::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_FIRSTNAME', true); ?>");
+            } else if (form.lastname.value == "") {
+                alert("<?php echo Text::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME', true); ?>");
+            } else {
+                Joomla.submitform(pressbutton);
+            }
         <?php else: ?>
-        if ((form.email.value) == "") {
-            alert("<?php echo JText::_('COM_REDSHOP_PROVIDE_EMAIL_ADDRESS', true);?>");
-            return false;
-        } else if (email_valid == 0) {
-            alert("<?php echo JText::_('COM_REDSHOP_EMAIL_NOT_AVAILABLE', true);?>");
-            return false;
-        }
+            if ((form.email.value) == "") {
+                alert("<?php echo Text::_('COM_REDSHOP_PROVIDE_EMAIL_ADDRESS', true); ?>");
+                return false;
+            } else if (email_valid == 0) {
+                alert("<?php echo Text::_('COM_REDSHOP_EMAIL_NOT_AVAILABLE', true); ?>");
+                return false;
+            }
         <?php endif; ?>
 
-        <?php if(!$this->silerntuser) : ?>
-        if (form.username.value == "") {
-            alert("<?php echo JText::_('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME', true);?>");
-            return false;
-        } else if (r.exec(form.username.value) || form.username.value.length < 2) {
-            alert("<?php echo JText::_('COM_REDSHOP_WARNLOGININVALID', true);?>");
-            return false;
-        } else if (document.getElementById('user_valid').style.color == "red") {
-            alert("<?php echo JText::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE', true);?>");
-            return false;
+        <?php if (!$this->silerntuser): ?>
+            if (form.username.value == "") {
+                alert("<?php echo Text::_('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME', true); ?>");
+                return false;
+            } else if (r.exec(form.username.value) || form.username.value.length < 2) {
+                alert("<?php echo Text::_('COM_REDSHOP_WARNLOGININVALID', true); ?>");
+                return false;
+            } else if (document.getElementById('user_valid').style.color == "red") {
+                alert("<?php echo Text::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE', true); ?>");
+                return false;
 
-        } else if ((((form.password.value) != "") || (form.password2.value != "")) && (form.password.value != form.password2.value)) {
-            alert("<?php echo JText::_('COM_REDSHOP_PASSWORD_NOT_MATCH', true);?>");
-            return false;
-        }
+            } else if ((((form.password.value) != "") || (form.password2.value != "")) && (form.password.value != form.password2.value)) {
+                alert("<?php echo Text::_('COM_REDSHOP_PASSWORD_NOT_MATCH', true); ?>");
+                return false;
+            }
         <?php endif; ?>
 
         var chks = document.getElementsByName('groups[]');
@@ -101,106 +104,100 @@ if ($this->pagination->limitstart > 0) {
             }
 
             if (checkCount == 0) {
-                alert("<?php echo JText::_('COM_REDSHOP_SELECT_USER_GROUP', true);?>");
+                alert("<?php echo Text::_('COM_REDSHOP_SELECT_USER_GROUP', true); ?>");
                 return false;
             }
         }
 
         // Added Rule for shopper group
         if (form.shopper_group_id.value == 0) {
-            alert("<?php echo JText::_('COM_REDSHOP_SELECT_SHOPPER_GROUP', true);?>");
+            alert("<?php echo Text::_('COM_REDSHOP_SELECT_SHOPPER_GROUP', true); ?>");
             return false;
         }
 
         if (form.firstname.value == "") {
-            alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME', true);?>");
+            alert("<?php echo Text::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME', true); ?>");
             return false;
         }
         if (form.lastname.value == "") {
-            alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME', true);?>");
+            alert("<?php echo Text::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME', true); ?>");
             return false;
         }
 
         if (document.getElementById('is_company1').checked) {
             if (form.company_name.value == "") {
-                alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME', true);?>");
+                alert("<?php echo Text::_('COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME', true); ?>");
                 return false;
             }
         }
 
-		Joomla.submitform(pressbutton);
+        Joomla.submitform(pressbutton);
     }
 </script>
 
 <form action="<?php echo Redshop\IO\Route::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
     <?php
-	$tabMenu = new RedshopMenu;
+    $tabMenu = new RedshopMenu;
 
-	$tabMenu->section('tab');
+    $tabMenu->section('tab');
 
-	if (!$this->shipping)
-	{
-		$tabMenu->addItem(
-			'#user',
-			'COM_REDSHOP_GENERAL_USER_INFO',
-			$tab == 0,
-			'user'
-		);
-	}
+    if (!$this->shipping) {
+        $tabMenu->addItem(
+            '#user',
+            'COM_REDSHOP_GENERAL_USER_INFO',
+            $tab == 0,
+            'user'
+        );
+    }
 
-	$tabMenu->addItem(
-		'#billing',
-		($this->shipping == 1) ? 'COM_REDSHOP_SHIPPING_INFORMATION' : 'COM_REDSHOP_BILLING_INFORMATION',
-		$tab == 1,
-		'billing'
-	);
+    $tabMenu->addItem(
+        '#billing',
+        ($this->shipping == 1) ? 'COM_REDSHOP_SHIPPING_INFORMATION' : 'COM_REDSHOP_BILLING_INFORMATION',
+        $tab == 1,
+        'billing'
+    );
 
-	if (!$this->shipping && $this->detail->user_id != 0 || $cancel == 1)
-	{
-		$tabMenu->addItem(
-			'#shipping',
-			'COM_REDSHOP_SHIPPING_INFORMATION',
-			$tab == 2,
-			'shipping'
-		);
-	}
+    if (!$this->shipping && $this->detail->user_id != 0 || $cancel == 1) {
+        $tabMenu->addItem(
+            '#shipping',
+            'COM_REDSHOP_SHIPPING_INFORMATION',
+            $tab == 2,
+            'shipping'
+        );
+    }
 
-	$this->userorders = $this->model->userOrders();
+    $this->userorders = $this->model->userOrders();
 
-	if ($this->detail->user_id && count($this->userorders) > 0)
-	{
-		$tabMenu->addItem(
-			'#order',
-			'COM_REDSHOP_ORDER_INFORMATION',
-			$tab == 3,
-			'order'
-		);
-	}
+    if ($this->detail->user_id && count($this->userorders) > 0) {
+        $tabMenu->addItem(
+            '#order',
+            'COM_REDSHOP_ORDER_INFORMATION',
+            $tab == 3,
+            'order'
+        );
+    }
 
-	if ($this->lists['extra_field'] != "")
-	{
-		$tabMenu->addItem(
-			'#extrafield',
-			'COM_REDSHOP_EXTRA_FIELD',
-			$tab == 4,
-			'extrafield'
-		);
-	}
-	else
-	{
-		echo '<input type="hidden" name="noextra_field" value="1">';
-		echo '<input type="hidden" name="tab5" value="tab5">';
-	}
+    if ($this->lists['extra_field'] != "") {
+        $tabMenu->addItem(
+            '#extrafield',
+            'COM_REDSHOP_EXTRA_FIELD',
+            $tab == 4,
+            'extrafield'
+        );
+    } else {
+        echo '<input type="hidden" name="noextra_field" value="1">';
+        echo '<input type="hidden" name="tab5" value="tab5">';
+    }
 
-	$this->dispatcher->trigger('onDisplayUserTabMenu', [$tabMenu, $tab]);
+    $this->dispatcher->trigger('onDisplayUserTabMenu', [$tabMenu, $tab]);
 
-	echo RedshopLayoutHelper::render(
-		'component.full.tab.main',
-		array(
-			'view' => $this,
-			'tabMenu' => $tabMenu->getData('tab')->items,
-		)
-	);
+    echo RedshopLayoutHelper::render(
+        'component.full.tab.main',
+        array(
+            'view'    => $this,
+            'tabMenu' => $tabMenu->getData('tab')->items,
+        )
+    );
 
     // Echo plugin tabs.
     $this->dispatcher->trigger('onDisplayUserTabs', array($this->detail));
@@ -208,15 +205,15 @@ if ($this->pagination->limitstart > 0) {
     if ($this->shipping) {
         $info_id = $jinput->getString('info_id', '');
         echo '<input type="hidden" name="address_type" id="address_type" value="ST"  />
-		<input type="hidden" name="shipping" value="' . $this->shipping . '" />
-		<input type="hidden" name="info_id" value="' . $info_id . '" />';
+        <input type="hidden" name="shipping" value="' . $this->shipping . '" />
+        <input type="hidden" name="info_id" value="' . $info_id . '" />';
     } else {
         echo '<input type="hidden" name="address_type" id="address_type" value="BT"  />';
     }
     ?>
     <div class="clr"></div>
-    <input type="hidden" name="user_id" value="<?php echo $this->detail->user_id; ?>"/>
-    <input type="hidden" name="users_info_id" value="<?php echo $this->detail->users_info_id; ?>"/>
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="view" value="user_detail"/>
+    <input type="hidden" name="user_id" value="<?php echo $this->detail->user_id; ?>" />
+    <input type="hidden" name="users_info_id" value="<?php echo $this->detail->users_info_id; ?>" />
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="view" value="user_detail" />
 </form>

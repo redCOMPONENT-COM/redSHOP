@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * View newsletters
@@ -33,7 +36,7 @@ class RedshopViewNewsletters extends RedshopViewList
     public function onRenderColumn($config, $index, $row)
     {
         switch ($config['dataCol']) {
-            case 'no_of_subscribers' :
+            case 'no_of_subscribers':
 
                 /** @var \RedshopModelNewsletters $model */
                 $model = $this->getModel();
@@ -52,17 +55,16 @@ class RedshopViewNewsletters extends RedshopViewList
      */
     public function addToolbar()
     {
-        if ($this->getLayout() != 'previewlog')
-        {
+        if ($this->getLayout() != 'previewlog') {
             JToolBarHelper::custom(
                 'sendNewsletterPreview',
                 'send.png',
                 'send.png',
-                JText::_('COM_REDSHOP_SEND_NEWSLETTER'),
+                Text::_('COM_REDSHOP_SEND_NEWSLETTER'),
                 true
             );
 
-            JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+            JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', Text::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 
             parent::addToolbar();
         }

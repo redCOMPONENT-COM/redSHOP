@@ -7,55 +7,57 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
-?>
+use Joomla\CMS\Language\Text;
 
+?>
 <div class="row adminform">
     <div class="col-sm-6">
         <div class="box box-primary form-vertical">
             <div class="box-header with-border">
-                <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT_SETTINGS'); ?></h3>
+                <h3 class="text-primary center"><?php echo Text::_('COM_REDSHOP_RELATED_PRODUCT_SETTINGS'); ?></h3>
             </div>
             <div class="box-body">
                 <?php
                 echo RedshopLayoutHelper::render(
                     'config.config',
                     array(
-                        'title' => JText::_('COM_REDSHOP_TWOWAY_RELATED_PRODUCT_LBL'),
-                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_TWOWAY_RELATED_PRODUCT_LBL'),
+                        'title' => Text::_('COM_REDSHOP_TWOWAY_RELATED_PRODUCT_LBL'),
+                        'desc'  => Text::_('COM_REDSHOP_TOOLTIP_TWOWAY_RELATED_PRODUCT_LBL'),
                         'field' => $this->lists['twoway_related_product']
                     )
                 );
                 echo RedshopLayoutHelper::render(
                     'config.config',
                     array(
-                        'title' => JText::_('COM_REDSHOP_CHILDPRODUCT_DROPDOWN_LBL'),
-                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_CHILDPRODUCT_DROPDOWN_LBL'),
+                        'title' => Text::_('COM_REDSHOP_CHILDPRODUCT_DROPDOWN_LBL'),
+                        'desc'  => Text::_('COM_REDSHOP_TOOLTIP_CHILDPRODUCT_DROPDOWN_LBL'),
                         'field' => $this->lists['childproduct_dropdown']
                     )
                 );
                 echo RedshopLayoutHelper::render(
                     'config.config',
                     array(
-                        'title' => JText::_('COM_REDSHOP_PURCHASE_PARENT_WITH_CHILD_LBL'),
-                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_PURCHASE_PARENT_WITH_CHILD_LBL'),
+                        'title' => Text::_('COM_REDSHOP_PURCHASE_PARENT_WITH_CHILD_LBL'),
+                        'desc'  => Text::_('COM_REDSHOP_TOOLTIP_PURCHASE_PARENT_WITH_CHILD_LBL'),
                         'field' => $this->lists['purchase_parent_with_child']
                     )
                 );
                 echo RedshopLayoutHelper::render(
                     'config.config',
                     array(
-                        'title' => JText::_('COM_REDSHOP_RELATED_PRODUCT_ORDERING_METHOD_LBL'),
-                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_ORDERING_METHOD_LBL'),
+                        'title' => Text::_('COM_REDSHOP_RELATED_PRODUCT_ORDERING_METHOD_LBL'),
+                        'desc'  => Text::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_ORDERING_METHOD_LBL'),
                         'field' => $this->lists['default_related_ordering_method']
                     )
                 );
                 echo RedshopLayoutHelper::render(
                     'config.config',
                     array(
-                        'title' => JText::_('COM_REDSHOP_RELATED_PRODUCT_DESC_MAX_CHARS_LBL'),
-                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_DESC_MAX_CHARS_LBL'),
+                        'title' => Text::_('COM_REDSHOP_RELATED_PRODUCT_DESC_MAX_CHARS_LBL'),
+                        'desc'  => Text::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_DESC_MAX_CHARS_LBL'),
                         'field' => '<input type="number" name="related_product_desc_max_chars" id="related_product_desc_max_chars" class="form-control"'
                             . ' value="' . $this->config->get('RELATED_PRODUCT_DESC_MAX_CHARS') . '" />'
                     )
@@ -63,8 +65,8 @@ defined('_JEXEC') or die;
                 echo RedshopLayoutHelper::render(
                     'config.config',
                     array(
-                        'title' => JText::_('COM_REDSHOP_RELATED_PRODUCT_DESC_END_SUFFIX_LBL'),
-                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_DESC_END_SUFFIX_LBL'),
+                        'title' => Text::_('COM_REDSHOP_RELATED_PRODUCT_DESC_END_SUFFIX_LBL'),
+                        'desc'  => Text::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_DESC_END_SUFFIX_LBL'),
                         'field' => '<input type="text" name="related_product_desc_end_suffix" id="related_product_desc_end_suffix" class="form-control"'
                             . ' value="' . $this->config->get('RELATED_PRODUCT_DESC_END_SUFFIX') . '" />'
                     )
@@ -72,8 +74,8 @@ defined('_JEXEC') or die;
                 echo RedshopLayoutHelper::render(
                     'config.config',
                     array(
-                        'title' => JText::_('COM_REDSHOP_RELATED_PRODUCT_SHORT_DESC_MAX_CHARS_LBL'),
-                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_SHORT_DESC_MAX_CHARS_LBL'),
+                        'title' => Text::_('COM_REDSHOP_RELATED_PRODUCT_SHORT_DESC_MAX_CHARS_LBL'),
+                        'desc'  => Text::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_SHORT_DESC_MAX_CHARS_LBL'),
                         'field' => '<input type="number" name="related_product_short_desc_max_chars" id="related_product_short_desc_max_chars"'
                             . ' class="form-control" value="' . $this->config->get(
                                 'RELATED_PRODUCT_SHORT_DESC_MAX_CHARS'
@@ -83,8 +85,8 @@ defined('_JEXEC') or die;
                 echo RedshopLayoutHelper::render(
                     'config.config',
                     array(
-                        'title' => JText::_('COM_REDSHOP_RELATED_PRODUCT_SHORT_DESC_END_SUFFIX_LBL'),
-                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_SHORT_DESC_END_SUFFIX_LBL'),
+                        'title' => Text::_('COM_REDSHOP_RELATED_PRODUCT_SHORT_DESC_END_SUFFIX_LBL'),
+                        'desc'  => Text::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_SHORT_DESC_END_SUFFIX_LBL'),
                         'field' => '<input type="text" name="related_product_short_desc_end_suffix" id="related_product_short_desc_end_suffix"'
                             . ' class="form-control" value="' . $this->config->get(
                                 'RELATED_PRODUCT_SHORT_DESC_END_SUFFIX'
@@ -94,8 +96,8 @@ defined('_JEXEC') or die;
                 echo RedshopLayoutHelper::render(
                     'config.config',
                     array(
-                        'title' => JText::_('COM_REDSHOP_RELATED_PRODUCT_TITLE_MAX_CHARS_LBL'),
-                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_TITLE_MAX_CHARS_LBL'),
+                        'title' => Text::_('COM_REDSHOP_RELATED_PRODUCT_TITLE_MAX_CHARS_LBL'),
+                        'desc'  => Text::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_TITLE_MAX_CHARS_LBL'),
                         'field' => '<input type="number" name="related_product_title_max_chars" id="related_product_title_max_chars"'
                             . ' class="form-control" value="' . $this->config->get(
                                 'RELATED_PRODUCT_TITLE_MAX_CHARS'
@@ -105,8 +107,8 @@ defined('_JEXEC') or die;
                 echo RedshopLayoutHelper::render(
                     'config.config',
                     array(
-                        'title' => JText::_('COM_REDSHOP_RELATED_PRODUCT_TITLE_END_SUFFIX_LBL'),
-                        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_TITLE_END_SUFFIX_LBL'),
+                        'title' => Text::_('COM_REDSHOP_RELATED_PRODUCT_TITLE_END_SUFFIX_LBL'),
+                        'desc'  => Text::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_TITLE_END_SUFFIX_LBL'),
                         'field' => '<input type="text" name="related_product_title_end_suffix" id="related_product_title_end_suffix"'
                             . ' class="form-control" value="' . $this->config->get(
                                 'RELATED_PRODUCT_TITLE_END_SUFFIX'
@@ -120,15 +122,15 @@ defined('_JEXEC') or die;
     <div class="col-sm-6">
         <div class="box box-primary form-vertical">
             <div class="box-header with-border">
-                <h3 class="text-primary center"><?php echo JText::_(
+                <h3 class="text-primary center"><?php echo Text::_(
                         'COM_REDSHOP_RELATED_PRODUCT_IMAGE_SETTINGS'
                     ); ?></h3>
             </div>
             <div class="box-body">
                 <div class="form-group row-fluid">
                     <label class="col-md-4 hasPopover"
-                           data-bs-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_THUMB_WIDTH'); ?>">
-                        <?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT_THUMB_WIDTH_HEIGHT'); ?>
+                           data-bs-content="<?php echo Text::_('COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_THUMB_WIDTH'); ?>">
+                        <?php echo Text::_('COM_REDSHOP_RELATED_PRODUCT_THUMB_WIDTH_HEIGHT'); ?>
                     </label>
                     <div class="col-md-8">
                         <div class="row">
@@ -147,10 +149,10 @@ defined('_JEXEC') or die;
                 </div>
                 <div class="form-group row-fluid">
                     <label class="col-md-4 hasPopover"
-                           data-bs-content="<?php echo JText::_(
+                           data-bs-content="<?php echo Text::_(
                                'COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_THUMB_WIDTH_TWO'
                            ); ?>">
-                        <?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT_THUMB_WIDTH_HEIGHT_TWO'); ?>
+                        <?php echo Text::_('COM_REDSHOP_RELATED_PRODUCT_THUMB_WIDTH_HEIGHT_TWO'); ?>
                     </label>
                     <div class="col-md-8">
                         <div class="row">
@@ -170,10 +172,10 @@ defined('_JEXEC') or die;
                 </div>
                 <div class="form-group row-fluid">
                     <label class="col-md-4 hasPopover"
-                           data-bs-content="<?php echo JText::_(
+                           data-bs-content="<?php echo Text::_(
                                'COM_REDSHOP_TOOLTIP_RELATED_PRODUCT_THUMB_WIDTH_THREE'
                            ); ?>">
-                        <?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT_THUMB_WIDTH_HEIGHT_THREE'); ?>
+                        <?php echo Text::_('COM_REDSHOP_RELATED_PRODUCT_THUMB_WIDTH_HEIGHT_THREE'); ?>
                     </label>
                     <div class="col-md-8">
                         <div class="row">

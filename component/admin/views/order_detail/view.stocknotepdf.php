@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Redshop\Order\Template;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Redshop\Order\Template;
 
 /**
  * Redshop Order Detail View Stock Note Pdf
@@ -30,12 +31,12 @@ class RedshopViewOrder_Detail extends RedshopView
     function display($tpl = null)
     {
         if (!RedshopHelperPdf::isAvailablePdfPlugins()) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
+            JFactory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
             JFactory::getApplication()->redirect(Redshop\IO\Route::_('index.php?option=com_redshop', false));
         }
 
-        $config = Redconfiguration::getInstance();
-        $detail = $this->get('data');
+        $config   = Redconfiguration::getInstance();
+        $detail   = $this->get('data');
         $products = RedshopHelperOrder::getOrderItemDetail($detail->order_id);
         $template = RedshopHelperTemplate::getTemplate('stock_note');
 
@@ -64,13 +65,13 @@ class RedshopViewOrder_Detail extends RedshopView
 
         $pdfTemplate = Template::replaceTemplate($detail, $pdfTemplate);
 
-        $pdfTemplate = str_replace("{order_id_lbl}", JText::_('COM_REDSHOP_ORDER_ID'), $pdfTemplate);
+        $pdfTemplate = str_replace("{order_id_lbl}", Text::_('COM_REDSHOP_ORDER_ID'), $pdfTemplate);
         $pdfTemplate = str_replace("{order_id}", $detail->order_id, $pdfTemplate);
-        $pdfTemplate = str_replace("{order_date_lbl}", JText::_('COM_REDSHOP_ORDER_DATE'), $pdfTemplate);
+        $pdfTemplate = str_replace("{order_date_lbl}", Text::_('COM_REDSHOP_ORDER_DATE'), $pdfTemplate);
         $pdfTemplate = str_replace("{order_date}", $config->convertDateFormat($detail->cdate), $pdfTemplate);
-        $pdfTemplate = str_replace("{product_name_lbl}", JText::_('COM_REDSHOP_PRODUCT_NAME'), $pdfTemplate);
-        $pdfTemplate = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $pdfTemplate);
-        $pdfTemplate = str_replace("{product_quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY'), $pdfTemplate);
+        $pdfTemplate = str_replace("{product_name_lbl}", Text::_('COM_REDSHOP_PRODUCT_NAME'), $pdfTemplate);
+        $pdfTemplate = str_replace("{product_number_lbl}", Text::_('COM_REDSHOP_PRODUCT_NUMBER'), $pdfTemplate);
+        $pdfTemplate = str_replace("{product_quantity_lbl}", Text::_('COM_REDSHOP_QUANTITY'), $pdfTemplate);
         $billing     = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
         $pdfTemplate = RedshopHelperBillingTag::replaceBillingAddress($pdfTemplate, $billing);
         $shipping    = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
@@ -78,7 +79,7 @@ class RedshopViewOrder_Detail extends RedshopView
         $pdfTemplate = str_replace("{requisition_number}", $detail->requisition_number, $pdfTemplate);
         $pdfTemplate = str_replace(
             "{requisition_number_lbl}",
-            JText::_('COM_REDSHOP_REQUISITION_NUMBER'),
+            Text::_('COM_REDSHOP_REQUISITION_NUMBER'),
             $pdfTemplate
         );
 

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Catalog Controller.
  *
@@ -42,9 +44,9 @@ class RedshopControllerCatalog extends RedshopController
 
         if ($row) {
             Redshop\Mail\Catalog::sendRequest($post);
-            $msg = JText::_('COM_REDSHOP_CATALOG_SEND_SUCCSEEFULLY');
+            $msg = Text::_('COM_REDSHOP_CATALOG_SEND_SUCCSEEFULLY');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_CATALOG_SEND_SUCCSEEFULLY');
+            $msg = Text::_('COM_REDSHOP_ERROR_CATALOG_SEND_SUCCSEEFULLY');
         }
 
         $this->setRedirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=catalog&Itemid=' . $itemId, false), $msg);
@@ -68,7 +70,7 @@ class RedshopControllerCatalog extends RedshopController
 
         if (isset($post["sample_code"])) {
             $colourId           = implode(",", $post["sample_code"]);
-            $post ['colour_id'] = $colourId;
+            $post['colour_id'] = $colourId;
         }
 
         $post["registerdate"] = time();
@@ -82,9 +84,9 @@ class RedshopControllerCatalog extends RedshopController
                 RedshopHelperExtrafields::SECTION_COLOR_SAMPLE,
                 $post['request_id']
             );
-            $msg = JText::_('COM_REDSHOP_SAMPLE_SEND_SUCCSEEFULLY');
+            $msg = Text::_('COM_REDSHOP_SAMPLE_SEND_SUCCSEEFULLY');
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_SAMPLE_SEND_SUCCSEEFULLY');
+            $msg = Text::_('COM_REDSHOP_ERROR_SAMPLE_SEND_SUCCSEEFULLY');
         }
 
         $this->setRedirect(

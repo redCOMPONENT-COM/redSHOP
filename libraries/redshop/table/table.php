@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Redshop\Table\AbstractTable;
 
 /**
@@ -73,7 +74,7 @@ class RedshopTable extends AbstractTable
         $prefix        = $componentName . 'Table';
 
         if (is_null($client)) {
-            $client = (int)JFactory::getApplication()->isClient('administrator');
+            $client = (int) JFactory::getApplication()->isClient('administrator');
         }
 
         // Admin
@@ -152,7 +153,7 @@ class RedshopTable extends AbstractTable
 
         // Check permission of delete
         if (!JFactory::getUser()->authorise($this->getInstanceName() . '.delete', 'com_redshop.backend')) {
-            $this->setError(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'));
+            $this->setError(Text::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'));
 
             return false;
         }

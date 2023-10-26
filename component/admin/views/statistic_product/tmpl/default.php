@@ -9,10 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
 ?>
 <script type="text/javascript">
     //Load the Visualization API and the piechart package.
@@ -26,7 +29,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
     //draws it.
     function drawChart() {
         var data = google.visualization.arrayToDataTable([
-            ['', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT') ?>', {role: 'annotation'}],
+            ['', '<?php echo Text::_('COM_REDSHOP_SALES_AMOUNT') ?>', {role: 'annotation'}],
             <?php if (count($this->products) > 0) :?>
             <?php foreach ($this->products as $row) : ?>
             <?php if (!empty($row->total_sale)) : ?>
@@ -43,7 +46,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
         ]);
 
         var options = {
-            title: '<?php echo JText::_("COM_REDSHOP_STATISTIC_PRODUCT") ?>',
+            title: '<?php echo Text::_("COM_REDSHOP_STATISTIC_PRODUCT") ?>',
             bars: 'vertical',
             height: 500,
             vAxis: {
@@ -76,7 +79,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
     <?php if (empty($this->products)): ?>
         <hr/>
         <div class="alert alert-info">
-            <p><?php echo JText::_('COM_REDSHOP_NO_DATA') ?></p>
+            <p><?php echo Text::_('COM_REDSHOP_NO_DATA') ?></p>
         </div>
     <?php else: ?>
         <div id="product_statistic_chart"></div>
@@ -86,42 +89,42 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
             <tr>
                 <th align="center"><?php echo JHTML::_(
                         'grid.sort',
-                        JText::_('COM_REDSHOP_PRODUCT_NAME'),
+                        Text::_('COM_REDSHOP_PRODUCT_NAME'),
                         'p.product_name',
                         $listDirn,
                         $listOrder
                     ) ?></th>
                 <th align="center"><?php echo JHTML::_(
                         'grid.sort',
-                        JText::_('COM_REDSHOP_PRODUCT_SKU'),
+                        Text::_('COM_REDSHOP_PRODUCT_SKU'),
                         'p.product_number',
                         $listDirn,
                         $listOrder
                     ) ?></th>
                 <th align="center"><?php echo JHTML::_(
                         'grid.sort',
-                        JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'),
+                        Text::_('COM_REDSHOP_PRODUCT_MANUFACTURER'),
                         'manufacturer_name',
                         $listDirn,
                         $listOrder
                     ) ?></th>
                 <th align="center"><?php echo JHTML::_(
                         'grid.sort',
-                        JText::_('COM_REDSHOP_ORDER_COUNT'),
+                        Text::_('COM_REDSHOP_ORDER_COUNT'),
                         'order_count',
                         $listDirn,
                         $listOrder
                     ) ?></th>
                 <th align="center"><?php echo JHTML::_(
                         'grid.sort',
-                        JText::_('COM_REDSHOP_PRODUCT_UNIT'),
+                        Text::_('COM_REDSHOP_PRODUCT_UNIT'),
                         'unit_sold',
                         $listDirn,
                         $listOrder
                     ) ?></th>
                 <th align="center"><?php echo JHTML::_(
                         'grid.sort',
-                        JText::_('COM_REDSHOP_PRODUCT_TOTAL_SALE'),
+                        Text::_('COM_REDSHOP_PRODUCT_TOTAL_SALE'),
                         'total_sale',
                         $listDirn,
                         $listOrder

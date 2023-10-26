@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Import view.
  *
@@ -44,8 +46,8 @@ class RedshopViewImport extends RedshopViewAdmin
 
         $this->imports = $model->getImports();
 
-        $document->setTitle(JText::_('COM_REDSHOP_DATA_IMPORT'));
-        JToolBarHelper::title(JText::_('COM_REDSHOP_DATA_IMPORT'));
+        $document->setTitle(Text::_('COM_REDSHOP_DATA_IMPORT'));
+        JToolBarHelper::title(Text::_('COM_REDSHOP_DATA_IMPORT'));
 
         parent::display($tpl);
     }

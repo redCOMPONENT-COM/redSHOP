@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -69,7 +71,7 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
             $onclick = "onclick='window.print();'";
         } else {
             $print_url = JURI::base(
-                ) . "index.php?option=com_redshop&view=category&print=1&tmpl=component&Itemid=" . $this->itemId;
+            ) . "index.php?option=com_redshop&view=category&print=1&tmpl=component&Itemid=" . $this->itemId;
             $onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
         }
 
@@ -107,8 +109,8 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
                 'tags.common.img',
                 array(
                     'src'  => JSYSTEM_IMAGES_PATH . "printButton.png",
-                    'atl'  => JText::_('COM_REDSHOP_PRINT_LBL'),
-                    'attr' => 'title="' . JText::_('COM_REDSHOP_PRINT_LBL') . '"'
+                    'atl'  => Text::_('COM_REDSHOP_PRINT_LBL'),
+                    'attr' => 'title="' . Text::_('COM_REDSHOP_PRINT_LBL') . '"'
                 ),
                 '',
                 RedshopLayoutHelper::$layoutOption
@@ -118,7 +120,7 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
                 'tags.common.link',
                 array(
                     'link'    => $onclick,
-                    'attr'    => 'title="' . JText::_("COM_REDSHOP_PRINT_LBL") . '"',
+                    'attr'    => 'title="' . Text::_("COM_REDSHOP_PRINT_LBL") . '"',
                     'content' => $image
                 ),
                 '',

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $dispatcher = RedshopHelperUtility::getDispatcher();
 JPluginHelper::importPlugin('redshop_checkout');
 
@@ -37,8 +39,8 @@ $lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(
 );
 
 $input = JFactory::getApplication()->input;
-?>
 
+?>
 <?php if ($registerMethod == 2): ?>
     <div class="form-group">
         <div class="checkbox">
@@ -46,7 +48,7 @@ $input = JFactory::getApplication()->input;
                 <input type="checkbox" name="createaccount" id="createaccount" class="onestep-createaccount-toggle"
                     <?php echo Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1 ? 'checked="checked"' : "''" ?>
                        value="1"/>
-                <?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>
+                <?php echo Text::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>
             </label>
         </div>
     </div>
@@ -57,18 +59,18 @@ $input = JFactory::getApplication()->input;
                  'CREATE_ACCOUNT_CHECKBOX'
              ) == 1 || $registerMethod == 0) ? 'block' : 'none' ?>;">
         <div class="form-group">
-            <label><?php echo JText::_('COM_REDSHOP_USERNAME_REGISTER') ?></label>
+            <label><?php echo Text::_('COM_REDSHOP_USERNAME_REGISTER') ?></label>
             <input class="inputbox form-control required" type="text" name="username"
                    id="onestep-createaccount-username"
                    size="32" maxlength="250" value="<?php echo $input->getString('username', '') ?>"/>
         </div>
         <div class="form-group">
-            <label><?php echo JText::_('COM_REDSHOP_PASSWORD_REGISTER') ?></label>
+            <label><?php echo Text::_('COM_REDSHOP_PASSWORD_REGISTER') ?></label>
             <input class="inputbox form-control required" type="password" name="password1"
                    id="password1" autocomplete="new-password" size="32" maxlength="250" value=""/>
         </div>
         <div class="form-group">
-            <label><?php echo JText::_('COM_REDSHOP_CONFIRM_PASSWORD') ?></label>
+            <label><?php echo Text::_('COM_REDSHOP_CONFIRM_PASSWORD') ?></label>
             <input class="inputbox form-control required" type="password" name="password2"
                    id="password2" autocomplete="new-password" size="32" maxlength="250" value=""/>
         </div>
@@ -79,12 +81,12 @@ $input = JFactory::getApplication()->input;
     <label class="radio-inline <?php echo $customer; ?>">
         <input type="radio" name="togglerchecker" id="toggler1" class="toggler" onclick="getBillingTemplate(this);"
                value="0" <?php echo ($isCompany == 0) ? 'checked="checked"' : '' ?> billing_type="private"/>
-        <?php echo JText::_('COM_REDSHOP_USER_REGISTRATION'); ?>
+        <?php echo Text::_('COM_REDSHOP_USER_REGISTRATION'); ?>
     </label>
     <label class="radio-inline <?php echo $company; ?>">
         <input type="radio" name="togglerchecker" id="toggler2" class="toggler" onclick="getBillingTemplate(this);"
                value="1" <?php echo ($isCompany == 1) ? 'checked="checked"' : '' ?> billing_type="company"/>
-        <?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?>
+        <?php echo Text::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?>
     </label>
     <?php $dispatcher->trigger('onRenderOnstepCheckout'); ?>
 </div>

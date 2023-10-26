@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $model = $this->getModel('checkout');
 
 $uri = JURI::getInstance();
@@ -33,26 +35,42 @@ $billingAddresses = $model->billingaddresses();
     if ($billingAddresses->is_company == 1) {
         ?>
         <tr>
-            <td width="100" align="left"><label><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>:</label></td>
-            <td><?php echo $billingAddresses->company_name; ?></td>
+            <td width="100" align="left"><label>
+                    <?php echo Text::_('COM_REDSHOP_COMPANY_NAME'); ?>:
+                </label></td>
+            <td>
+                <?php echo $billingAddresses->company_name; ?>
+            </td>
         </tr>
         <?php
     } ?>
     <tr>
-        <td width="100" align="left"><label><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:</label></td>
-        <td><?php echo $billingAddresses->firstname; ?></td>
+        <td width="100" align="left"><label>
+                <?php echo Text::_('COM_REDSHOP_FIRSTNAME'); ?>:
+            </label></td>
+        <td>
+            <?php echo $billingAddresses->firstname; ?>
+        </td>
     </tr>
     <tr>
-        <td width="100" align="left"><label><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</label></td>
-        <td><?php echo $billingAddresses->lastname; ?></td>
+        <td width="100" align="left"><label>
+                <?php echo Text::_('COM_REDSHOP_LASTNAME'); ?>:
+            </label></td>
+        <td>
+            <?php echo $billingAddresses->lastname; ?>
+        </td>
     </tr>
     <?php
     if ($billingAddresses->address != "") {
         ?>
         <tr>
-            <td width="100" align="left"><label for="address"><?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:</label>
+            <td width="100" align="left"><label for="address">
+                    <?php echo Text::_('COM_REDSHOP_ADDRESS'); ?>:
+                </label>
             </td>
-            <td><?php echo $billingAddresses->address; ?></td>
+            <td>
+                <?php echo $billingAddresses->address; ?>
+            </td>
         </tr>
         <?php
     }
@@ -60,8 +78,12 @@ $billingAddresses = $model->billingaddresses();
     if ($billingAddresses->zipcode != "") {
         ?>
         <tr>
-            <td width="100" align="left"><label for="city"><?php echo JText::_('COM_REDSHOP_ZIP'); ?>:</label></td>
-            <td><?php echo $billingAddresses->zipcode; ?></td>
+            <td width="100" align="left"><label for="city">
+                    <?php echo Text::_('COM_REDSHOP_ZIP'); ?>:
+                </label></td>
+            <td>
+                <?php echo $billingAddresses->zipcode; ?>
+            </td>
         </tr>
         <?php
     }
@@ -69,8 +91,12 @@ $billingAddresses = $model->billingaddresses();
     if ($billingAddresses->city != "") {
         ?>
         <tr>
-            <td width="100" align="left"><label for="city"><?php echo JText::_('COM_REDSHOP_CITY'); ?>:</label></td>
-            <td><?php echo $billingAddresses->city; ?></td>
+            <td width="100" align="left"><label for="city">
+                    <?php echo Text::_('COM_REDSHOP_CITY'); ?>:
+                </label></td>
+            <td>
+                <?php echo $billingAddresses->city; ?>
+            </td>
         </tr>
         <?php
     }
@@ -78,9 +104,13 @@ $billingAddresses = $model->billingaddresses();
     if (trim($billingAddresses->country_code) != "" && trim($billingAddresses->country_code)) {
         ?>
         <tr>
-            <td width="100" align="left"><label for="contact_info"><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>
-                    :</label></td>
-            <td><?php echo JText::_(RedshopHelperOrder::getCountryName($billingAddresses->country_code)); ?></td>
+            <td width="100" align="left"><label for="contact_info">
+                    <?php echo Text::_('COM_REDSHOP_COUNTRY'); ?>
+                    :
+                </label></td>
+            <td>
+                <?php echo Text::_(RedshopHelperOrder::getCountryName($billingAddresses->country_code)); ?>
+            </td>
         </tr>
         <?php
     }
@@ -90,8 +120,12 @@ $billingAddresses = $model->billingaddresses();
     if ($state != "") {
         ?>
         <tr>
-            <td width="100" align="left"><label for="address"><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</label></td>
-            <td><?php echo $state; ?></td>
+            <td width="100" align="left"><label for="address">
+                    <?php echo Text::_('COM_REDSHOP_STATE'); ?>:
+                </label></td>
+            <td>
+                <?php echo $state; ?>
+            </td>
         </tr>
         <?php
     }
@@ -99,8 +133,12 @@ $billingAddresses = $model->billingaddresses();
     if ($billingAddresses->phone != "") {
         ?>
         <tr>
-            <td width="100" align="left"><label for="city"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</label></td>
-            <td><?php echo $billingAddresses->phone; ?></td>
+            <td width="100" align="left"><label for="city">
+                    <?php echo Text::_('COM_REDSHOP_PHONE'); ?>:
+                </label></td>
+            <td>
+                <?php echo $billingAddresses->phone; ?>
+            </td>
         </tr>
         <?php
     }
@@ -108,9 +146,13 @@ $billingAddresses = $model->billingaddresses();
     if ($billingAddresses->debitor_mobile_phone != 0) {
         ?>
         <tr>
-            <td width="100" align="left"><label for="city"><?php echo JText::_('COM_REDSHOP_MOBILE_PHONE'); ?>:</label>
+            <td width="100" align="left"><label for="city">
+                    <?php echo Text::_('COM_REDSHOP_MOBILE_PHONE'); ?>:
+                </label>
             </td>
-            <td><?php echo $billingAddresses->debitor_mobile_phone; ?></td>
+            <td>
+                <?php echo $billingAddresses->debitor_mobile_phone; ?>
+            </td>
         </tr>
         <?php
     }
@@ -118,8 +160,12 @@ $billingAddresses = $model->billingaddresses();
     if ($billingAddresses->user_email != "") {
         ?>
         <tr>
-            <td width="100" align="left"><label><?php echo JText::_('COM_REDSHOP_EMAIL'); ?>:</label></td>
-            <td><?php echo $billingAddresses->user_email ? $billingAddresses->user_email : $user->email; ?></td>
+            <td width="100" align="left"><label>
+                    <?php echo Text::_('COM_REDSHOP_EMAIL'); ?>:
+                </label></td>
+            <td>
+                <?php echo $billingAddresses->user_email ? $billingAddresses->user_email : $user->email; ?>
+            </td>
         </tr>
         <?php
     }
@@ -127,8 +173,12 @@ $billingAddresses = $model->billingaddresses();
     if ($billingAddresses->is_company == 1) {
         ?>
         <tr>
-            <td width="100" align="left"><label><?php echo JText::_('COM_REDSHOP_EAN_NUMBER'); ?>:</label></td>
-            <td><?php echo $billingAddresses->ean_number; ?></td>
+            <td width="100" align="left"><label>
+                    <?php echo Text::_('COM_REDSHOP_EAN_NUMBER'); ?>:
+                </label></td>
+            <td>
+                <?php echo $billingAddresses->ean_number; ?>
+            </td>
         </tr>
         <?php
     }
@@ -136,21 +186,28 @@ $billingAddresses = $model->billingaddresses();
     if ($billingAddresses->is_company == 1 && Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1) {
         ?>
         <tr>
-            <td width="100" align="left"><label for="vat_number"><?php echo JText::_('COM_REDSHOP_VAT_NUMBER'); ?>
-                    :</label></td>
-            <td><?php echo $billingAddresses->vat_number; ?></td>
+            <td width="100" align="left"><label for="vat_number">
+                    <?php echo Text::_('COM_REDSHOP_VAT_NUMBER'); ?>
+                    :
+                </label></td>
+            <td>
+                <?php echo $billingAddresses->vat_number; ?>
+            </td>
         </tr>
         <?php
         if (Redshop::getConfig()->get('SHOW_TAX_EXEMPT_INFRONT')) {
             ?>
             <tr>
-                <td width="100" align="left"><label for="tax_exempt"><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT'); ?>
-                        :</label></td>
-                <td><?php
+                <td width="100" align="left"><label for="tax_exempt">
+                        <?php echo Text::_('COM_REDSHOP_TAX_EXEMPT'); ?>
+                        :
+                    </label></td>
+                <td>
+                    <?php
                     if ($billingAddresses->tax_exempt == 1) {
-                        echo JText::_('COM_REDSHOP_YES');
+                        echo Text::_('COM_REDSHOP_YES');
                     } else {
-                        echo JText::_('COM_REDSHOP_NO');
+                        echo Text::_('COM_REDSHOP_NO');
                     }
                     ?>
                 </td>
@@ -165,12 +222,15 @@ $billingAddresses = $model->billingaddresses();
         ?>
 
         <tr>
-            <td width="100" align="left"><label
-                        for="debitor_money_transfer_number"><?php echo JText::_(
+            <td width="100" align="left"><label for="debitor_money_transfer_number">
+                    <?php echo Text::_(
                         'COM_REDSHOP_DEBITOR_MONEY_TRANSFER_NUMBER'
                     ); ?>
-                    :</label></td>
-            <td><?php echo $billingAddresses->debitor_money_transfer_number; ?></td>
+                    :
+                </label></td>
+            <td>
+                <?php echo $billingAddresses->debitor_money_transfer_number; ?>
+            </td>
         </tr>
 
         <?php

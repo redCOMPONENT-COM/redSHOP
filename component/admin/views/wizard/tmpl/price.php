@@ -9,30 +9,38 @@
 
 defined('_JEXEC') or die;
 
-$params = JFactory::getApplication()->input->get('params', '', 'raw');
-?>
+use Joomla\CMS\Language\Text;
 
+$params = JFactory::getApplication()->input->get('params', '', 'raw');
+
+?>
 <form action="?option=com_redshop" method="POST" name="installform" id="installform">
     <div class="row">
         <div class="col-md-6">
             <fieldset class="adminform">
-                <legend><?php echo JText::_('COM_REDSHOP_PRICE'); ?></legend>
+                <legend>
+                    <?php echo Text::_('COM_REDSHOP_PRICE'); ?>
+                </legend>
                 <?php echo $this->loadTemplate('price'); ?>
             </fieldset>
             <fieldset class="adminform">
-                <legend><?php echo JText::_('COM_REDSHOP_TAX_TAB'); ?></legend>
+                <legend>
+                    <?php echo Text::_('COM_REDSHOP_TAX_TAB'); ?>
+                </legend>
                 <?php echo $this->loadTemplate('vat'); ?>
             </fieldset>
         </div>
         <div class="col-md-6">
             <fieldset class="adminform">
-                <legend><?php echo JText::_('COM_REDSHOP_DISCOUPON_TAB'); ?></legend>
+                <legend>
+                    <?php echo Text::_('COM_REDSHOP_DISCOUPON_TAB'); ?>
+                </legend>
                 <?php echo $this->loadTemplate('discount'); ?>
             </fieldset>
         </div>
     </div>
-    <input type="hidden" name="view" value="wizard"/>
-    <input type="hidden" name="task" value="save"/>
-    <input type="hidden" name="substep" value="<?php echo $params->step; ?>"/>
-    <input type="hidden" name="go" value=""/>
+    <input type="hidden" name="view" value="wizard" />
+    <input type="hidden" name="task" value="save" />
+    <input type="hidden" name="substep" value="<?php echo $params->step; ?>" />
+    <input type="hidden" name="go" value="" />
 </form>

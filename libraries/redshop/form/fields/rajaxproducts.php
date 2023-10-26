@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Ajax Users Form Field
  *
@@ -41,7 +43,7 @@ class JFormFieldRAjaxProducts extends JFormField
             'productid',
             array(
                 'select2.ajaxOptions' => array('typeField' => ', product:1'),
-                'select2.options'     => array('placeholder' => JText::_('COM_REDSHOP_PRODUCT'))
+                'select2.options'     => array('placeholder' => Text::_('COM_REDSHOP_PRODUCT'))
             )
         );
     }

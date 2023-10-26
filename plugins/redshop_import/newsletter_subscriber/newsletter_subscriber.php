@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Redshop\Plugin\AbstractImportPlugin;
 
 JLoader::import('redshop.library');
@@ -46,7 +47,7 @@ class PlgRedshop_ImportNewsletter_Subscriber extends AbstractImportPlugin
         $configs    = array();
 
         $configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_IMPORT_NEWSLETTER_SUBSCRIBER_LABLE') . '</label>
+			<label class="col-md-2 control-label">' . Text::_('PLG_REDSHOP_IMPORT_NEWSLETTER_SUBSCRIBER_LABLE') . '</label>
 			<div class="col-md-10">'
             . JHTML::_(
                 'select.genericlist',

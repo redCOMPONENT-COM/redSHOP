@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Export view class
  *
@@ -35,9 +37,9 @@ class RedshopViewExport extends RedshopViewAdmin
         $this->exports = $model->getExports();
 
         $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_EXPORT'));
+        $document->setTitle(Text::_('COM_REDSHOP_EXPORT'));
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_EXPORT_MANAGEMENT'));
+        JToolBarHelper::title(Text::_('COM_REDSHOP_EXPORT_MANAGEMENT'));
 
         parent::display($tpl);
     }

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Redshop Order Detail View Stock Note Pdf
  *
@@ -28,7 +30,7 @@ class RedshopViewOrder_Detail extends RedshopView
     function display($tpl = null)
     {
         if (!RedshopHelperPdf::isAvailablePdfPlugins()) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
+            JFactory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
             JFactory::getApplication()->redirect(Redshop\IO\Route::_('index.php?option=com_redshop', false));
         }
 
@@ -47,24 +49,24 @@ class RedshopViewOrder_Detail extends RedshopView
         ob_start();
 
         $order_status = RedshopHelperOrder::getOrderStatusTitle($detail->order_status);
-        $pdfTemplate  = str_replace("{order_information_lbl}", JText::_('COM_REDSHOP_ORDER_INFORMATION'), $pdfTemplate);
-        $pdfTemplate  = str_replace("{order_id_lbl}", JText::_('COM_REDSHOP_ORDER_ID'), $pdfTemplate);
-        $pdfTemplate  = str_replace("{order_number_lbl}", JText::_('COM_REDSHOP_ORDER_NUMBER'), $pdfTemplate);
-        $pdfTemplate  = str_replace("{order_date_lbl}", JText::_('COM_REDSHOP_ORDER_DATE'), $pdfTemplate);
-        $pdfTemplate  = str_replace("{order_status_lbl}", JText::_('COM_REDSHOP_ORDER_STATUS'), $pdfTemplate);
+        $pdfTemplate  = str_replace("{order_information_lbl}", Text::_('COM_REDSHOP_ORDER_INFORMATION'), $pdfTemplate);
+        $pdfTemplate  = str_replace("{order_id_lbl}", Text::_('COM_REDSHOP_ORDER_ID'), $pdfTemplate);
+        $pdfTemplate  = str_replace("{order_number_lbl}", Text::_('COM_REDSHOP_ORDER_NUMBER'), $pdfTemplate);
+        $pdfTemplate  = str_replace("{order_date_lbl}", Text::_('COM_REDSHOP_ORDER_DATE'), $pdfTemplate);
+        $pdfTemplate  = str_replace("{order_status_lbl}", Text::_('COM_REDSHOP_ORDER_STATUS'), $pdfTemplate);
         $pdfTemplate  = str_replace(
             "{shipping_address_info_lbl}",
-            JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'),
+            Text::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'),
             $pdfTemplate
         );
-        $pdfTemplate  = str_replace("{shipping_firstname_lbl}", JText::_('COM_REDSHOP_FIRSTNAME'), $pdfTemplate);
-        $pdfTemplate  = str_replace("{shipping_lastname_lbl}", JText::_('COM_REDSHOP_LASTNAME'), $pdfTemplate);
-        $pdfTemplate  = str_replace("{shipping_address_lbl}", JText::_('COM_REDSHOP_ADDRESS'), $pdfTemplate);
-        $pdfTemplate  = str_replace("{shipping_zip_lbl}", JText::_('COM_REDSHOP_ZIP'), $pdfTemplate);
-        $pdfTemplate  = str_replace("{shipping_city_lbl}", JText::_('COM_REDSHOP_CITY'), $pdfTemplate);
-        $pdfTemplate  = str_replace("{shipping_country_lbl}", JText::_('COM_REDSHOP_COUNTRY'), $pdfTemplate);
-        $pdfTemplate  = str_replace("{shipping_state_lbl}", JText::_('COM_REDSHOP_STATE'), $pdfTemplate);
-        $pdfTemplate  = str_replace("{shipping_phone_lbl}", JText::_('COM_REDSHOP_PHONE'), $pdfTemplate);
+        $pdfTemplate  = str_replace("{shipping_firstname_lbl}", Text::_('COM_REDSHOP_FIRSTNAME'), $pdfTemplate);
+        $pdfTemplate  = str_replace("{shipping_lastname_lbl}", Text::_('COM_REDSHOP_LASTNAME'), $pdfTemplate);
+        $pdfTemplate  = str_replace("{shipping_address_lbl}", Text::_('COM_REDSHOP_ADDRESS'), $pdfTemplate);
+        $pdfTemplate  = str_replace("{shipping_zip_lbl}", Text::_('COM_REDSHOP_ZIP'), $pdfTemplate);
+        $pdfTemplate  = str_replace("{shipping_city_lbl}", Text::_('COM_REDSHOP_CITY'), $pdfTemplate);
+        $pdfTemplate  = str_replace("{shipping_country_lbl}", Text::_('COM_REDSHOP_COUNTRY'), $pdfTemplate);
+        $pdfTemplate  = str_replace("{shipping_state_lbl}", Text::_('COM_REDSHOP_STATE'), $pdfTemplate);
+        $pdfTemplate  = str_replace("{shipping_phone_lbl}", Text::_('COM_REDSHOP_PHONE'), $pdfTemplate);
 
         $pdfTemplate = str_replace("{order_id}", $detail->order_id, $pdfTemplate);
         $pdfTemplate = str_replace("{order_number}", $detail->order_number, $pdfTemplate);
@@ -78,7 +80,7 @@ class RedshopViewOrder_Detail extends RedshopView
         $pdfTemplate = str_replace("{shipping_city}", $shipping->city, $pdfTemplate);
         $pdfTemplate = str_replace(
             "{shipping_country}",
-            JTEXT::_(RedshopHelperOrder::getCountryName($shipping->country_code)),
+            Text::_(RedshopHelperOrder::getCountryName($shipping->country_code)),
             $pdfTemplate
         );
         $pdfTemplate = str_replace(
@@ -91,7 +93,7 @@ class RedshopViewOrder_Detail extends RedshopView
         // If user is company than
         if ($billing->is_company && $billing->company_name != "") {
             $pdfTemplate = str_replace("{company_name}", $billing->company_name, $pdfTemplate);
-            $pdfTemplate = str_replace("{company_name_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $pdfTemplate);
+            $pdfTemplate = str_replace("{company_name_lbl}", Text::_('COM_REDSHOP_COMPANY_NAME'), $pdfTemplate);
         } else {
             $pdfTemplate = str_replace("{company_name}", "", $pdfTemplate);
             $pdfTemplate = str_replace("{company_name_lbl}", "", $pdfTemplate);

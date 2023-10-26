@@ -7,12 +7,17 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
+
 ?>
 <script type="text/javascript">
     //Load the Visualization API and the piechart package.
-    google.charts.load("current", {packages: ['corechart']});
+    google.charts.load("current", { packages: ['corechart'] });
 
     //Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
@@ -22,24 +27,24 @@ JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
     //draws it.
     function drawChart() {
         var data = google.visualization.arrayToDataTable([
-            ['<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION');?>', '<?php echo JText::_(
-                'COM_REDSHOP_SALES_AMOUNT'
-            );?>', {role: 'style'}, {role: 'annotation'}],
-            <?php if (count($this->quotations) > 0) :?>
-            <?php foreach ($this->quotations as $row) : ?>
-            ['<?php echo $row->viewdate ?>', <?php echo $row->quotation_total; ?>, 'blue', '<?php echo RedshopHelperProductPrice::formattedPrice(
-                $row->quotation_total
-            ); ?>'],
-            <?php endforeach; ?>
+            ['<?php echo Text::_('COM_REDSHOP_STATISTIC_DURATION'); ?>', '<?php echo Text::_(
+                  'COM_REDSHOP_SALES_AMOUNT'
+              ); ?>', { role: 'style' }, { role: 'annotation' }],
+            <?php if (count($this->quotations) > 0): ?>
+                <?php foreach ($this->quotations as $row): ?>
+                    ['<?php echo $row->viewdate ?>', <?php echo $row->quotation_total; ?>, 'blue', '<?php echo RedshopHelperProductPrice::formattedPrice(
+                              $row->quotation_total
+                          ); ?>'],
+                <?php endforeach; ?>
             <?php else: ?>
-            [0, 0, 'blue', 0],
+                [0, 0, 'blue', 0],
             <?php endif; ?>
         ]);
 
         var options = {
             chart: {
-                title: '<?php echo JText::_("COM_REDSHOP_STATISTIC_ORDER"); ?>',
-                subtitle: '<?php echo JText::_("COM_REDSHOP_STATISTIC_ORDER"); ?>',
+                title: '<?php echo Text::_("COM_REDSHOP_STATISTIC_ORDER"); ?>',
+                subtitle: '<?php echo Text::_("COM_REDSHOP_STATISTIC_ORDER"); ?>',
             },
             annotations: {
                 boxStyle: {
@@ -136,9 +141,9 @@ JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
                     <div class="col-md-4 col-md-offset-2 demo">
                         <input type="text" id="config-demo" class="form-control">
                         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                        <input type="hidden" name="filter_start_date" value="<?php echo $this->filterStartDate ?>"/>
-                        <input type="hidden" name="filter_end_date" value="<?php echo $this->filterEndDate ?>"/>
-                        <input type="hidden" name="filter_date_label" value="<?php echo $this->filterDateLabel ?>"/>
+                        <input type="hidden" name="filter_start_date" value="<?php echo $this->filterStartDate ?>" />
+                        <input type="hidden" name="filter_end_date" value="<?php echo $this->filterEndDate ?>" />
+                        <input type="hidden" name="filter_date_label" value="<?php echo $this->filterDateLabel ?>" />
                     </div>
                 </td>
             </tr>
@@ -146,23 +151,35 @@ JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
         <div id="quotation_statistic_chart"></div>
         <table class="adminlist table table-striped" width="100%">
             <thead>
-            <tr>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_DATE'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_ORDER_COUNT'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_TOTAL_LBL'); ?></th>
-            </tr>
-            </thead>
-            <?php foreach ($this->quotations as $i => $row) : ?>
                 <tr>
-                    <td align="center"><?php echo $row->viewdate; ?></td>
-                    <td align="center"><?php echo $row->count; ?></td>
-                    <td align="center"><?php echo RedshopHelperProductPrice::formattedPrice(
+                    <th align="center">
+                        <?php echo Text::_('COM_REDSHOP_DATE'); ?>
+                    </th>
+                    <th align="center">
+                        <?php echo Text::_('COM_REDSHOP_ORDER_COUNT'); ?>
+                    </th>
+                    <th align="center">
+                        <?php echo Text::_('COM_REDSHOP_TOTAL_LBL'); ?>
+                    </th>
+                </tr>
+            </thead>
+            <?php foreach ($this->quotations as $i => $row): ?>
+                <tr>
+                    <td align="center">
+                        <?php echo $row->viewdate; ?>
+                    </td>
+                    <td align="center">
+                        <?php echo $row->count; ?>
+                    </td>
+                    <td align="center">
+                        <?php echo RedshopHelperProductPrice::formattedPrice(
                             $row->quotation_total
-                        ); ?></td>
+                        ); ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </table>
     </div>
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="boxchecked" value="0"/>
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="boxchecked" value="0" />
 </form>

@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 ?>
 <script type="text/javascript">
@@ -87,7 +90,7 @@ defined('_JEXEC') or die;
             <div id="system-message-container" class="hidden">
                 <div id="system-message">
                     <div class="alert alert-success">
-                        <?php echo JText::_('COM_REDSHOP_INSTALL_SUCCESS') ?>
+                        <?php echo Text::_('COM_REDSHOP_INSTALL_SUCCESS') ?>
                     </div>
                 </div>
             </div>
@@ -99,10 +102,10 @@ defined('_JEXEC') or die;
                      alt="redSHOP Logo" align="left" class="img"/>
             </div>
             <div class="col-md-8">
-                <h3><?php echo JText::_('COM_REDSHOP_COMPONENT_NAME'); ?></h3>
-                <p><?php echo JText::_('COM_REDSHOP_BY_LINK') ?></p>
-                <p><?php echo JText::_('COM_REDSHOP_TERMS_AND_CONDITION') ?></p>
-                <p><?php echo JText::_('COM_REDSHOP_CHECK_UPDATES'); ?>:
+                <h3><?php echo Text::_('COM_REDSHOP_COMPONENT_NAME'); ?></h3>
+                <p><?php echo Text::_('COM_REDSHOP_BY_LINK') ?></p>
+                <p><?php echo Text::_('COM_REDSHOP_TERMS_AND_CONDITION') ?></p>
+                <p><?php echo Text::_('COM_REDSHOP_CHECK_UPDATES'); ?>:
                     <a href="http://redcomponent.com/" target="_new"><img
                                 src="http://images.redcomponent.com/redcomponent.jpg" alt=""/></a>
                 </p>
@@ -114,18 +117,18 @@ defined('_JEXEC') or die;
                 <?php if ($this->installType != 'update'): ?>
                     <button type="button" class="btn btn-large btn-primary" name="save"
                             onclick="location.href='index.php?option=com_redshop&wizard=1'">
-                        <icon class="fa fa-cog"></icon>&nbsp;&nbsp;<?php echo JText::_('COM_REDSHOP_WIZARD') ?>
+                        <icon class="fa fa-cog"></icon>&nbsp;&nbsp;<?php echo Text::_('COM_REDSHOP_WIZARD') ?>
                     </button>
                     <button type="button" class="btn btn-large btn-warning" name="content" id="btn-demo-content"
                             onclick="location.href='index.php?option=com_redshop&wizard=0&task=demoContentInsert'">
-                        <icon class="fa fa-laptop"></icon>&nbsp;&nbsp;<?php echo JText::_(
+                        <icon class="fa fa-laptop"></icon>&nbsp;&nbsp;<?php echo Text::_(
                             'COM_REDSHOP_INSTALL_DEMO_CONTENT'
                         ) ?>
                     </button>
                 <?php endif; ?>
                 <button type="button" class="btn btn-large btn-info" name="cancel"
                         onclick="location.href='index.php?option=com_redshop&wizard=0'">
-                    <icon class="fa fa-bar-chart"></icon>&nbsp;&nbsp;<?php echo JText::_('COM_REDSHOP_DASHBOARD') ?>
+                    <icon class="fa fa-bar-chart"></icon>&nbsp;&nbsp;<?php echo Text::_('COM_REDSHOP_DASHBOARD') ?>
                 </button>
             </div>
         </div>

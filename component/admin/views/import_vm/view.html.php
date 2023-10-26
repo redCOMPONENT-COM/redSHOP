@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Import from VirtueMart view.
  *
@@ -43,11 +45,11 @@ class RedshopViewImport_Vm extends RedshopViewAdmin
     {
         $document = JFactory::getDocument();
 
-        $this->checkVirtuemart = (boolean)JComponentHelper::isEnabled('com_virtuemart');
+        $this->checkVirtuemart = (boolean) JComponentHelper::isEnabled('com_virtuemart');
         $this->model           = $this->getModel('Import_VM');
 
-        $document->setTitle(JText::_('COM_REDSHOP_IMPORT_FROM_VM'));
-        JToolBarHelper::title(JText::_('COM_REDSHOP_IMPORT_FROM_VM'), 'redshop_import48');
+        $document->setTitle(Text::_('COM_REDSHOP_IMPORT_FROM_VM'));
+        JToolBarHelper::title(Text::_('COM_REDSHOP_IMPORT_FROM_VM'), 'redshop_import48');
 
         parent::display($tpl);
     }

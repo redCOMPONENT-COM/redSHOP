@@ -7,10 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') || die;
+
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Redshop\Traits\Replace;
-
-defined('_JEXEC') || die;
 
 /**
  * Tags replacer abstract class
@@ -174,7 +175,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
                 'tags.common.label',
                 array(
                     'id'   => 'thirdparty_email',
-                    'text' => JText::_('COM_REDSHOP_THIRDPARTY_EMAIL_LBL')
+                    'text' => Text::_('COM_REDSHOP_THIRDPARTY_EMAIL_LBL')
                 ),
                 '',
                 $layoutOptions
@@ -213,7 +214,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
                 'tags.common.label',
                 array(
                     'id'   => 'customer_note',
-                    'text' => JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL')
+                    'text' => Text::_('COM_REDSHOP_CUSTOMER_NOTE_LBL')
                 ),
                 '',
                 $layoutOptions
@@ -239,7 +240,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
             'tags.common.label',
             array(
                 'id'   => 'rs_customer_message_chk',
-                'text' => JText::_('COM_REDSHOP_CUSTOMER_MESSAGE_LBL')
+                'text' => Text::_('COM_REDSHOP_CUSTOMER_MESSAGE_LBL')
             ),
             '',
             $layoutOptions
@@ -274,7 +275,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
             'tags.common.label',
             array(
                 'id'   => 'txt_referral_code',
-                'text' => JText::_('COM_REDSHOP_REFERRAL_CODE_LBL')
+                'text' => Text::_('COM_REDSHOP_REFERRAL_CODE_LBL')
             ),
             '',
             $layoutOptions
@@ -301,7 +302,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
                 'tags.common.label',
                 array(
                     'id'   => 'requisition_number',
-                    'text' => JText::_('COM_REDSHOP_REQUISITION_NUMBER')
+                    'text' => Text::_('COM_REDSHOP_REQUISITION_NUMBER')
                 ),
                 '',
                 $layoutOptions
@@ -324,7 +325,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
                 'tags.common.button',
                 array(
                     'class' => 'btn btn-secondary btn-sm shop-more-btn',
-                    'text'  => JText::_('COM_REDSHOP_SHOP_MORE'),
+                    'text'  => Text::_('COM_REDSHOP_SHOP_MORE'),
                     'attr'  => 'onclick="javascript:document.location=\'' . $shopMoreLink . '\'" type="button"'
                 ),
                 '',
@@ -339,7 +340,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
                 'tags.common.button',
                 array(
                     'class' => 'btn btn-secondary btn-sm checkout-back-btn',
-                    'text'  => JText::_('COM_REDSHOP_BACK_BUTTON'),
+                    'text'  => Text::_('COM_REDSHOP_BACK_BUTTON'),
                     'attr'  => 'onclick="javascript: history.go(-1);"'
                 ),
                 '',

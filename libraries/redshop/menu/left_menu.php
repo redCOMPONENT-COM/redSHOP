@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class Redshop Helper Left_Menu
  *
@@ -624,7 +626,7 @@ class RedshopMenuLeft_Menu
         JFactory::getDocument()->addScriptDeclaration(
             '
 			function userSync() {
-				if (confirm("' . JText::_('COM_REDSHOP_DO_YOU_WANT_TO_SYNC') . '") == true)
+				if (confirm("' . Text::_('COM_REDSHOP_DO_YOU_WANT_TO_SYNC') . '") == true)
 					window.location = "index.php?option=com_redshop&view=user&sync=1";
 			}'
         );
@@ -671,7 +673,7 @@ class RedshopMenuLeft_Menu
 
             JFactory::getDocument()->addScriptDeclaration(
                 'function vmImport() {
-					if (confirm("' . JText::_('COM_REDSHOP_DO_YOU_WANT_TO_IMPORT_VM') . '") == true)
+					if (confirm("' . Text::_('COM_REDSHOP_DO_YOU_WANT_TO_IMPORT_VM') . '") == true)
 						window.location = "index.php?option=com_redshop&view=import_vm";
 				}'
             );

@@ -7,9 +7,12 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die;
-?>
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
+?>
 <script language="javascript" type="text/javascript">
     Joomla.submitbutton = function (pressbutton) {
 
@@ -31,7 +34,7 @@ defined('_JEXEC') or die;
                 }
             }
             if (y == 0) {
-                alert('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_CATEGORY');?>');
+                alert('<?php echo Text::_('COM_REDSHOP_PLEASE_SELECT_CATEGORY'); ?>');
             } else {
                 form.task.value = pressbutton;
                 form.submit();
@@ -43,14 +46,19 @@ defined('_JEXEC') or die;
 </script>
 <form name="adminForm" id="adminForm" method="post">
     <div class="filterItem">
-        <?php echo JText::_("COM_REDSHOP_SELECT_CATEGORY_LBL") ?><br/><?php echo $this->lists["category"]; ?>
+        <?php echo Text::_("COM_REDSHOP_SELECT_CATEGORY_LBL") ?><br />
+        <?php echo $this->lists["category"]; ?>
     </div>
     <table class="adminlist table table-striped">
         <thead>
-        <tr>
-            <th><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
-            <th><?php echo JText::_('COM_REDSHOP_PRODUCT_CATEGORY'); ?></th>
-        </tr>
+            <tr>
+                <th>
+                    <?php echo Text::_('COM_REDSHOP_PRODUCT_NAME'); ?>
+                </th>
+                <th>
+                    <?php echo Text::_('COM_REDSHOP_PRODUCT_CATEGORY'); ?>
+                </th>
+            </tr>
         </thead>
         <?php foreach ($this->products as $row): ?>
             <tr>
@@ -70,7 +78,7 @@ defined('_JEXEC') or die;
             </tr>
         <?php endforeach; ?>
     </table>
-    <input type="hidden" name="boxchecked" value=""/>
-    <input type="hidden" name="view" value="product_category"/>
-    <input type="hidden" name="task" value=""/>
+    <input type="hidden" name="boxchecked" value="" />
+    <input type="hidden" name="view" value="product_category" />
+    <input type="hidden" name="task" value="" />
 </form>

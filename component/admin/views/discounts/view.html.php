@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * View Discounts
  *
@@ -71,24 +73,24 @@ class RedshopViewDiscounts extends RedshopViewList
 
             case 'condition':
                 if ($value == 1) {
-                    return '<strong class="text-primary">' . JText::_(
-                            'COM_REDSHOP_DISCOUNT_CONDITION_OPTION_LOWER'
-                        ) . '</strong>';
+                    return '<strong class="text-primary">' . Text::_(
+                        'COM_REDSHOP_DISCOUNT_CONDITION_OPTION_LOWER'
+                    ) . '</strong>';
                 } elseif ($value == 2) {
-                    return '<strong class="text-primary">' . JText::_(
-                            'COM_REDSHOP_DISCOUNT_CONDITION_OPTION_EQUAL'
-                        ) . '</strong>';
+                    return '<strong class="text-primary">' . Text::_(
+                        'COM_REDSHOP_DISCOUNT_CONDITION_OPTION_EQUAL'
+                    ) . '</strong>';
                 }
 
-                return '<strong class="text-primary">' . JText::_(
-                        'COM_REDSHOP_DISCOUNT_CONDITION_OPTION_HIGHER'
-                    ) . '</strong>';
+                return '<strong class="text-primary">' . Text::_(
+                    'COM_REDSHOP_DISCOUNT_CONDITION_OPTION_HIGHER'
+                ) . '</strong>';
 
             case 'discount_type':
-                return !$value ? '<span class="label label-primary">' . JText::_(
-                        'COM_REDSHOP_DISCOUNT_DISCOUNT_TYPE_OPTION_TOTAL'
-                    ) . '</span>'
-                    : '<span class="label label-success">' . JText::_(
+                return !$value ? '<span class="label label-primary">' . Text::_(
+                    'COM_REDSHOP_DISCOUNT_DISCOUNT_TYPE_OPTION_TOTAL'
+                ) . '</span>'
+                    : '<span class="label label-success">' . Text::_(
                         'COM_REDSHOP_DISCOUNT_DISCOUNT_TYPE_OPTION_PERCENTAGE'
                     ) . '</span>';
 

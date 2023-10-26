@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Install class
  *
@@ -41,19 +43,19 @@ class RedshopInstall
     {
         $tasks = array(
             array(
-                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_SYNCHRONIZE_USERS'),
+                'text' => Text::_('COM_REDSHOP_INSTALL_STEP_SYNCHRONIZE_USERS'),
                 'func' => 'RedshopInstall::synchronizeUser'
             ),
             array(
-                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_TEMPLATE_DATA'),
+                'text' => Text::_('COM_REDSHOP_INSTALL_STEP_TEMPLATE_DATA'),
                 'func' => 'RedshopInstall::templateData'
             ),
             array(
-                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_INTEGRATE_SH404SEF'),
+                'text' => Text::_('COM_REDSHOP_INSTALL_STEP_INTEGRATE_SH404SEF'),
                 'func' => 'RedshopInstall::integrateSh404sef'
             ),
             array(
-                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG'),
+                'text' => Text::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG'),
                 'func' => 'RedshopInstall::handleConfig'
             )
         );
@@ -141,64 +143,64 @@ class RedshopInstall
 
         // Start template demo content
         $query = "INSERT IGNORE INTO `#__redshop_template` (`id`, `name`, `section`, `published`) VALUES
-			(8, 'grid', 'category', 1),
-			(5, 'list', 'category', 1),
-			(26, 'product2', 'product',1),
-			(9, 'product', 'product', 1),
-			(29, 'newsletter1', 'newsletter', 1),
-			(10, 'cart', 'cart', 1),
-			(11, 'review', 'review', 1),
-			(13, 'manufacturer_listings', 'manufacturer',1),
-			(14, 'manufacturer_products', 'manufacturer_products',1),
-			(15, 'order_list', 'order_list', 1),
-			(16, 'order_detail', 'order_detail',1),
-			(23, 'related_products', 'related_product',1),
-			(17, 'order_receipt', 'order_receipt',1),
-			(18, 'manufacturer_detail', 'manufacturer_detail',1),
-			(22, 'frontpage_category', 'frontpage_category',1),
-			(24, 'add_to_cart1', 'add_to_cart',1),
-			(25, 'add_to_cart2', 'add_to_cart',1),
-			(27, 'accessory', 'accessory_template',1),
-			(28, 'attributes', 'attribute_template', 1),
-			(100,'my_account_template','account_template',1),
-			(101, 'catalog', 'catalog',1),
-			(102, 'catalog_sample', 'product_sample',1),
-			(103, 'wishlist_list','wishlist_template',1),
-			(105, 'wishlist_mail','wishlist_mail_template',1),
-			(115, 'wrapper','wrapper_template',1),
-			(125, 'giftcard_listing','giftcard_list',1),
-			(135, 'giftcard','giftcard',1),
-			(110, 'ask_question', 'ask_question_template', 1),
-			(111, 'ajax_cart_box', 'ajax_cart_box', 1),
-			(112, 'ajax_cart_detail_box', 'ajax_cart_detail_box', 1),
-			(200, 'shipping_pdf', 'shipping_pdf', 1),
-			(251, 'order_print', 'order_print', 1),
-			(252, 'clicktell_sms_message', 'clicktell_sms_message', 1),
-			(260, 'redproductfinder', 'redproductfinder',1),
-			(265, 'quotation_detail', 'quotation_detail', 1),
-			(334, 'newsletter_products', 'newsletter_product', 1),
-			(280, 'catalogue_cart', 'catalogue_cart', 1),
-			(281, 'catalogue_order_detail', 'catalogue_order_detail', 1),
-			(282, 'catalogue_order_receipt', 'catalogue_order_receipt', 1),
-			(289, 'empty_cart', 'empty_cart', 1),
-			(320, 'compare_product', 'compare_product', 1),
-			(353, 'payment_method', 'redshop_payment', 1),
-			(354, 'shipping_method', 'redshop_shipping', 1),
-			(355, 'shipping_box', 'shippingbox', 1),
-			(356, 'category_product_template', 'categoryproduct', 1),
-			(357, 'change_cart_attribute_template', 'change_cart_attribute', 1),
-			(358, 'onestep_checkout', 'onestep_checkout', 1),
-			(359, 'attributes_listing1', 'attributewithcart_template', 1),
-			(360, 'checkout', 'checkout', 1),
-			(371, 'product_content', 'product_content_template', 1),
-			(372, 'quotation_cart_template', 'quotation_cart', 1),
-			(370, 'quotation_request_template', 'quotation_request', 1),
-			(450, 'billing_template', 'billing_template', 1),
-			(451, 'shipping_template', 'shipping_template', 1),
-			(460, 'private_billing_template', 'private_billing_template', 1),
-			(461, 'company_billing_template', 'company_billing_template', 1),
-			(550, 'stock_note', 'stock_note', 1),
-			(551, 'login', 'login', 1)";
+            (8, 'grid', 'category', 1),
+            (5, 'list', 'category', 1),
+            (26, 'product2', 'product',1),
+            (9, 'product', 'product', 1),
+            (29, 'newsletter1', 'newsletter', 1),
+            (10, 'cart', 'cart', 1),
+            (11, 'review', 'review', 1),
+            (13, 'manufacturer_listings', 'manufacturer',1),
+            (14, 'manufacturer_products', 'manufacturer_products',1),
+            (15, 'order_list', 'order_list', 1),
+            (16, 'order_detail', 'order_detail',1),
+            (23, 'related_products', 'related_product',1),
+            (17, 'order_receipt', 'order_receipt',1),
+            (18, 'manufacturer_detail', 'manufacturer_detail',1),
+            (22, 'frontpage_category', 'frontpage_category',1),
+            (24, 'add_to_cart1', 'add_to_cart',1),
+            (25, 'add_to_cart2', 'add_to_cart',1),
+            (27, 'accessory', 'accessory_template',1),
+            (28, 'attributes', 'attribute_template', 1),
+            (100,'my_account_template','account_template',1),
+            (101, 'catalog', 'catalog',1),
+            (102, 'catalog_sample', 'product_sample',1),
+            (103, 'wishlist_list','wishlist_template',1),
+            (105, 'wishlist_mail','wishlist_mail_template',1),
+            (115, 'wrapper','wrapper_template',1),
+            (125, 'giftcard_listing','giftcard_list',1),
+            (135, 'giftcard','giftcard',1),
+            (110, 'ask_question', 'ask_question_template', 1),
+            (111, 'ajax_cart_box', 'ajax_cart_box', 1),
+            (112, 'ajax_cart_detail_box', 'ajax_cart_detail_box', 1),
+            (200, 'shipping_pdf', 'shipping_pdf', 1),
+            (251, 'order_print', 'order_print', 1),
+            (252, 'clicktell_sms_message', 'clicktell_sms_message', 1),
+            (260, 'redproductfinder', 'redproductfinder',1),
+            (265, 'quotation_detail', 'quotation_detail', 1),
+            (334, 'newsletter_products', 'newsletter_product', 1),
+            (280, 'catalogue_cart', 'catalogue_cart', 1),
+            (281, 'catalogue_order_detail', 'catalogue_order_detail', 1),
+            (282, 'catalogue_order_receipt', 'catalogue_order_receipt', 1),
+            (289, 'empty_cart', 'empty_cart', 1),
+            (320, 'compare_product', 'compare_product', 1),
+            (353, 'payment_method', 'redshop_payment', 1),
+            (354, 'shipping_method', 'redshop_shipping', 1),
+            (355, 'shipping_box', 'shippingbox', 1),
+            (356, 'category_product_template', 'categoryproduct', 1),
+            (357, 'change_cart_attribute_template', 'change_cart_attribute', 1),
+            (358, 'onestep_checkout', 'onestep_checkout', 1),
+            (359, 'attributes_listing1', 'attributewithcart_template', 1),
+            (360, 'checkout', 'checkout', 1),
+            (371, 'product_content', 'product_content_template', 1),
+            (372, 'quotation_cart_template', 'quotation_cart', 1),
+            (370, 'quotation_request_template', 'quotation_request', 1),
+            (450, 'billing_template', 'billing_template', 1),
+            (451, 'shipping_template', 'shipping_template', 1),
+            (460, 'private_billing_template', 'private_billing_template', 1),
+            (461, 'company_billing_template', 'company_billing_template', 1),
+            (550, 'stock_note', 'stock_note', 1),
+            (551, 'login', 'login', 1)";
 
         $db->setQuery($query)->execute();
 
@@ -242,11 +244,13 @@ class RedshopInstall
         $sh404SEFAdmin    = JPATH_SITE . '/administrator/components/com_sh404sef';
         $redShopSefFolder = JPATH_SITE . '/administrator/components/com_redshop/extras';
 
-        if (!JFile::copy(
-            $redShopSefFolder . '/sh404sef/language/com_redshop.php',
-            $sh404SEFAdmin . '/language/plugins/com_redshop.php'
-        )) {
-            throw new Exception(JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE'));
+        if (
+            !JFile::copy(
+                $redShopSefFolder . '/sh404sef/language/com_redshop.php',
+                $sh404SEFAdmin . '/language/plugins/com_redshop.php'
+            )
+        ) {
+            throw new Exception(Text::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE'));
         }
 
         return true;
@@ -336,7 +340,7 @@ class RedshopInstall
 
             foreach ($classTasks as $classTask) {
                 $version->tasks[] = array(
-                    'text' => JText::_($classTask->name),
+                    'text' => Text::_($classTask->name),
                     'func' => $version->class . '.' . $classTask->func
                 );
             }

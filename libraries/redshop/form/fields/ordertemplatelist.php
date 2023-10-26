@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Renders a template Form
  *
@@ -41,7 +43,7 @@ class JFormFieldordertemplatelist extends JFormField
             JHTML::_(
                 'select.option',
                 '0',
-                '- ' . JText::_('COM_REDSHOP_SELECT_TEMPLATE') . ' -',
+                '- ' . Text::_('COM_REDSHOP_SELECT_TEMPLATE') . ' -',
                 'id',
                 'name'
             )

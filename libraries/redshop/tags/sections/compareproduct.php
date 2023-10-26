@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -74,14 +76,14 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
         $print             = $this->data['print'];
         $template          = $this->template;
         $redTemplate       = $this->data['redTemplate'];
-        $pagetitle         = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
+        $pagetitle         = Text::_('COM_REDSHOP_COMPARE_PRODUCTS');
         $this->addReplace('{compare_product_heading}', $pagetitle);
         $list  = $compare->getItems();
         $total = $compare->getItemsTotal();
 
         if ($total > 0) {
             if ($total == 1) {
-                JLog::add(JText::_('COM_REDSHOP_ADD_ONE_MORE_PRODUCT_TO_COMPARE'), JLog::NOTICE);
+                JLog::add(Text::_('COM_REDSHOP_ADD_ONE_MORE_PRODUCT_TO_COMPARE'), JLog::NOTICE);
             }
 
             $returnLink = Redshop\IO\Route::_(
@@ -97,7 +99,7 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                 );
             } else {
                 $printUrl = JURI::base(
-                    ) . "index.php?option=com_redshop&view=product&layout=compare&print=1&tmpl=component";
+                ) . "index.php?option=com_redshop&view=product&layout=compare&print=1&tmpl=component";
 
                 $printTag = RedshopLayoutHelper::render(
                     'tags.common.print',
@@ -108,7 +110,7 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
             }
 
             $this->addReplace('{print}', $printTag);
-            $this->addReplace('{returntocategory_name}', JText::_("COM_REDSHOP_GO_BACK"));
+            $this->addReplace('{returntocategory_name}', Text::_("COM_REDSHOP_GO_BACK"));
             $this->addReplace('{returntocategory_link}', $returnLink);
 
             $removeAll = RedshopLayoutHelper::render(
@@ -116,8 +118,8 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                 array(
                     'class'   => 'remove',
                     'link'    => JUri::root(
-                        ) . 'index.php?option=com_redshop&view=product&task=removecompare&tmpl=component&Itemid=' . $itemId,
-                    'content' => JText::_('COM_REDSHOP_REMOVE_ALL_PRODUCT_FROM_COMPARE_LIST')
+                    ) . 'index.php?option=com_redshop&view=product&task=removecompare&tmpl=component&Itemid=' . $itemId,
+                    'content' => Text::_('COM_REDSHOP_REMOVE_ALL_PRODUCT_FROM_COMPARE_LIST')
                 ),
                 '',
                 RedshopLayoutHelper::$layoutOption
@@ -209,10 +211,10 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                     array(
                         'tag'  => 'div',
                         'attr' => 'style="width:' . Redshop::getConfig()->get(
-                                'COMPARE_PRODUCT_THUMB_WIDTH'
-                            ) . 'px; height:' . Redshop::getConfig()->get(
-                                'COMPARE_PRODUCT_THUMB_HEIGHT'
-                            ) . 'px; float: left;"',
+                            'COMPARE_PRODUCT_THUMB_WIDTH'
+                        ) . 'px; height:' . Redshop::getConfig()->get(
+                                    'COMPARE_PRODUCT_THUMB_HEIGHT'
+                                ) . 'px; float: left;"',
                         'text' => $linkImg
                     ),
                     '',
@@ -236,7 +238,7 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                     $this->replacements['{expand_collapse}'] .= $expand . $tdEnd . $tdStart;
                 }
 
-                $this->replacements['{product_name}']  .= $expDiv . $product->product_name . $divEnd . $tdEnd . $tdStart;
+                $this->replacements['{product_name}'] .= $expDiv . $product->product_name . $divEnd . $tdEnd . $tdStart;
                 $this->replacements['{product_image}'] .= $expDiv . $img . $divEnd . $tdEnd . $tdStart;
 
                 if (strstr($template, "{manufacturer_name}")) {
@@ -268,7 +270,7 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                 }
 
                 $this->replacements['{product_s_desc}'] .= $expDiv . $product->product_s_desc . $divEnd . $tdEnd . $tdStart;
-                $this->replacements['{product_desc}']   .= $expDiv . $product->product_desc . $divEnd . $tdEnd . $tdStart;
+                $this->replacements['{product_desc}'] .= $expDiv . $product->product_desc . $divEnd . $tdEnd . $tdStart;
                 $this->replacements['{product_number}'] .= $expDiv . $product->product_number . $divEnd . $tdEnd . $tdStart;
 
                 $productWeightUnit = RedshopLayoutHelper::render(
@@ -283,8 +285,8 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                 );
 
                 $this->replacements['{product_weight}'] .= $expDiv . RedshopHelperProduct::redunitDecimal(
-                        $product->weight
-                    ) . "&nbsp;" . $productWeightUnit . $divEnd . $tdEnd . $tdStart;
+                    $product->weight
+                ) . "&nbsp;" . $productWeightUnit . $divEnd . $tdEnd . $tdStart;
                 $productUnit                            = RedshopLayoutHelper::render(
                     'tags.common.tag',
                     array(
@@ -297,14 +299,14 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                 );
 
                 $this->replacements['{product_length}'] .= $expDiv . RedshopHelperProduct::redunitDecimal(
-                        $product->product_length
-                    ) . "&nbsp;" . $productUnit . $divEnd . $tdEnd . $tdStart;
+                    $product->product_length
+                ) . "&nbsp;" . $productUnit . $divEnd . $tdEnd . $tdStart;
                 $this->replacements['{product_height}'] .= $expDiv . RedshopHelperProduct::redunitDecimal(
-                        $product->product_height
-                    ) . "&nbsp;" . $productUnit . $divEnd . $tdEnd . $tdStart;
-                $this->replacements['{product_width}']  .= $expDiv . RedshopHelperProduct::redunitDecimal(
-                        $product->product_width
-                    ) . "&nbsp;" . $productUnit . $divEnd . $tdEnd . $tdStart;
+                    $product->product_height
+                ) . "&nbsp;" . $productUnit . $divEnd . $tdEnd . $tdStart;
+                $this->replacements['{product_width}'] .= $expDiv . RedshopHelperProduct::redunitDecimal(
+                    $product->product_width
+                ) . "&nbsp;" . $productUnit . $divEnd . $tdEnd . $tdStart;
 
                 $productVolumeUnit = RedshopLayoutHelper::render(
                     'tags.common.tag',
@@ -318,13 +320,14 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                 );
 
                 $this->replacements['{product_volume}'] .= $expDiv . RedshopHelperProduct::redunitDecimal(
-                        $product->product_volume
-                    ) . "&nbsp;" . $productVolumeUnit . $divEnd . $tdEnd . $tdStart;
+                    $product->product_volume
+                ) . "&nbsp;" . $productVolumeUnit . $divEnd . $tdEnd . $tdStart;
 
                 if ($this->isTagExists('{product_price}')) {
                     $price = 0;
 
-                    if (Redshop::getConfig()->get('SHOW_PRICE')
+                    if (
+                        Redshop::getConfig()->get('SHOW_PRICE')
                         && !Redshop::getConfig()->get('USE_AS_CATALOG')
                         && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
                             || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
@@ -362,7 +365,7 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                             array(
                                 'tag'   => 'div',
                                 'class' => 'spnheader',
-                                'text'  => JText::_('COM_REDSHOP_STOCK_AMOUNT')
+                                'text'  => Text::_('COM_REDSHOP_STOCK_AMOUNT')
                             ),
                             '',
                             RedshopLayoutHelper::$layoutOption
@@ -443,7 +446,7 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                         $categoriesName = array();
 
                         foreach ($categoriesId as $categoryId) {
-                            $category = RedshopEntityCategory::getInstance((int)$categoryId);
+                            $category = RedshopEntityCategory::getInstance((int) $categoryId);
 
                             if (!in_array($category->get('name'), $categoriesName)) {
                                 $categoriesName[] = $category->get('name');
@@ -457,14 +460,14 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
                 }
 
                 $linkRemove = JUri::root(
-                    ) . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&cid=' . $categoriesId[0] . '&Itemid=' . $itemId . '&tmpl=component';
+                ) . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&cid=' . $categoriesId[0] . '&Itemid=' . $itemId . '&tmpl=component';
 
                 $remove = RedshopLayoutHelper::render(
                     'tags.common.link',
                     array(
                         'class'   => '',
                         'link'    => $linkRemove,
-                        'content' => JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST')
+                        'content' => Text::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST')
                     ),
                     '',
                     RedshopLayoutHelper::$layoutOption
@@ -540,7 +543,7 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
 
             $template = $redTemplate->parseredSHOPplugin($template);
         } else {
-            $template = JText::_('COM_REDSHOP_NO_PRODUCTS_TO_COMPARE');
+            $template = Text::_('COM_REDSHOP_NO_PRODUCTS_TO_COMPARE');
         }
 
         $this->template = $template;

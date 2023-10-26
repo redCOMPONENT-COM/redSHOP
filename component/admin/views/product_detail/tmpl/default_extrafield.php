@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 $templateId = $this->detail->product_template;
 $template   = RedshopHelperTemplate::getTemplate("product", $templateId);
@@ -35,14 +38,14 @@ $this->dispatcher->trigger('onRenderExtraFields', array($this->detail->product_i
         <div class="col-sm-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_FIELDS'); ?></h3>
+                    <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_FIELDS'); ?></h3>
                 </div>
                 <div class="box-body">
                     <?php echo RedshopLayoutHelper::render(
                         'system.message',
                         array(
                             'msgList'     => array(
-                                'info' => array(JText::_('COM_REDSHOP_PRODUCT_NO_EXTRA_FIELD_HINT'))
+                                'info' => array(Text::_('COM_REDSHOP_PRODUCT_NO_EXTRA_FIELD_HINT'))
                             ),
                             'showHeading' => false,
                             'allowClose'  => false

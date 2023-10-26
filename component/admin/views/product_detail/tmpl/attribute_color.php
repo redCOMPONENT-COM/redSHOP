@@ -7,15 +7,18 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
-$uri = JURI::getInstance();
-$url = $uri->root();
+use Joomla\CMS\Language\Text;
 
-$section_id = $this->input->getInt('section_id', null);
-$productId  = $this->input->getInt('cid', null);
-$images     = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $section_id)
-?>
+$uri       = JURI::getInstance();
+$url       = $uri->root();
+$sectionId = $this->input->getInt('section_id', null);
+$productId = $this->input->getInt('cid', null);
+$images    = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $sectionId)
+
+    ?>
 
 <script language="javascript" type="text/javascript">
     Joomla.submitbutton = function (pressbutton) {
@@ -25,7 +28,7 @@ $images     = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $sect
     submitbutton = function (pressbutton) {
 
         if (pressbutton == 'save') {
-			Joomla.submitform('subattribute_color');
+            Joomla.submitform('subattribute_color');
         }
 
     }
@@ -35,23 +38,24 @@ $images     = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $sect
     <div style="float: right">
         <button type="button" onclick="Joomla.submitbutton('save');">
             <?php
-            echo JText::_('COM_REDSHOP_SAVE');
+            echo Text::_('COM_REDSHOP_SAVE');
             ?>
         </button>
-        <button type="button"
-                onclick="window.parent.SqueezeBox.close();">
+        <button type="button" onclick="window.parent.SqueezeBox.close();">
             <?php
-            echo JText::_('COM_REDSHOP_CANCEL');
+            echo Text::_('COM_REDSHOP_CANCEL');
             ?>
         </button>
     </div>
-    <div class="configuration"><?php
-        echo JText::_('COM_REDSHOP_PROPERTY_MORE_IMAGES_INFORMATION');
-        ?></div>
+    <div class="configuration">
+        <?php
+        echo Text::_('COM_REDSHOP_PROPERTY_MORE_IMAGES_INFORMATION');
+        ?>
+    </div>
 </fieldset>
 
 <form action="<?php echo Redshop\IO\Route::_('index.php') ?>" method="post" name="adminForm" id="adminForm"
-      enctype="multipart/form-data">
+    enctype="multipart/form-data">
 
     <div class="col50">
         <fieldset class="adminform" style="width: 100px;">
@@ -59,23 +63,18 @@ $images     = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $sect
 
                 <tr>
                     <td colspan="2" class="key">
-                        <?php echo JText::_('COM_REDSHOP_SUBATTRIBUTE_NAME'); ?>
+                        <?php echo Text::_('COM_REDSHOP_SUBATTRIBUTE_NAME'); ?>
                     </td>
                     <td colspan="1" class="key">
-                        <?php echo JText::_('COM_REDSHOP_PROPERTY_SUB_IMAGE'); ?>
+                        <?php echo Text::_('COM_REDSHOP_PROPERTY_SUB_IMAGE'); ?>
                     </td>
                     <td colspan="1" class="key">
-                        <input type="button"
-                               name="addvalue"
-                               id="addvalue"
-                               class="button"
-                               value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
-                               onclick="addNewRowOfsub('admintable');"
-                        />
+                        <input type="button" name="addvalue" id="addvalue" class="button"
+                            value="<?php echo Text::_('COM_REDSHOP_ADD'); ?>" onclick="addNewRowOfsub('admintable');" />
                     </td>
                 </tr>
 
-                <?php if (count($images) > 0) : ?>
+                <?php if (count($images) > 0): ?>
                     <?php
                     for ($i = 0, $in = count($images); $i < $in; $i++) {
                         $image = $images[$i];
@@ -94,40 +93,39 @@ $images     = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $sect
                         <tr>
                             <td>
                                 <input type="text" name="subattribute_name[]" id="subattribute_name[]"
-                                       value="<?php echo $image->subattribute_color_name; ?>" size="30"/>
+                                    value="<?php echo $image->subattribute_color_name; ?>" size="30" />
                             </td>
                             <td>
-                                <?php if (file_exists($thumbUrl)) : ?>
-                                    <img src="<?php echo $thumbUrl; ?>"/>
+                                <?php if (file_exists($thumbUrl)): ?>
+                                    <img src="<?php echo $thumbUrl; ?>" />
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <input type="file" name="property_sub_img[]" id="property_sub_img[]" value=""
-                                       size="51"/>
+                                <input type="file" name="property_sub_img[]" id="property_sub_img[]" value="" size="51" />
                                 <input type="hidden" name="property_sub_img_tmp[]"
-                                       value="<?php echo $image->subattribute_color_image; ?>"/>
+                                    value="<?php echo $image->subattribute_color_image; ?>" />
                                 <input type="hidden" name="subattribute_color_id[]"
-                                       value="<?php echo $image->subattribute_color_id; ?>"/>
+                                    value="<?php echo $image->subattribute_color_id; ?>" />
                             </td>
                             <td>
-                                <input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
-                                       onclick="deleteRowOfsub(this)" class="button" type="button"/>
+                                <input value="<?php echo Text::_('COM_REDSHOP_DELETE'); ?>" onclick="deleteRowOfsub(this)"
+                                    class="button" type="button" />
                             </td>
                         </tr>
                         <?php
                     }
                     ?>
-                <?php else : ?>
+                <?php else: ?>
                     <tr>
                         <td>
-                            <input type="text" name="subattribute_name[]" id="subattribute_name[]" value="" size="30"/>
+                            <input type="text" name="subattribute_name[]" id="subattribute_name[]" value="" size="30" />
                         </td>
                         <td>
                         </td>
                         <td>
-                            <input type="file" name="property_sub_img[]" id="property_sub_img[]" value="" size="51"/>
-                            <input type="hidden" name="property_sub_img_tmp[]" value=""/>
-                            <input type="hidden" name="subattribute_color_id[]" value=""/>
+                            <input type="file" name="property_sub_img[]" id="property_sub_img[]" value="" size="51" />
+                            <input type="hidden" name="property_sub_img_tmp[]" value="" />
+                            <input type="hidden" name="subattribute_color_id[]" value="" />
                         </td>
                         <td>
                         </td>
@@ -138,9 +136,9 @@ $images     = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $sect
     </div>
 
     <div class="clr"></div>
-    <input type="hidden" name="cid" value="<?php echo $productId; ?>"/>
-    <input type="hidden" name="option" value="com_redshop"/>
-    <input type="hidden" name="section_id" value="<?php echo $section_id; ?>"/>
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="view" value="product_detail"/>
+    <input type="hidden" name="cid" value="<?php echo $productId; ?>" />
+    <input type="hidden" name="option" value="com_redshop" />
+    <input type="hidden" name="section_id" value="<?php echo $sectionId; ?>" />
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="view" value="product_detail" />
 </form>

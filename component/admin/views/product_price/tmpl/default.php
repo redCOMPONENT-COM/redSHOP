@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 ?>
 <script type="text/javascript">
@@ -26,10 +29,10 @@ defined('_JEXEC') or die;
         <table class="adminlist table table-striped" width="100%">
             <thead>
             <tr>
-                <th width="30%"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_NAME'); ?></th>
-                <th width="30%"><?php echo JText::_('COM_REDSHOP_QUANTITY_START_LBL'); ?></th>
-                <th width="30%"><?php echo JText::_('COM_REDSHOP_QUANTITY_END_LBL'); ?></th>
-                <th width="15%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?>
+                <th width="30%"><?php echo Text::_('COM_REDSHOP_SHOPPER_GROUP_NAME'); ?></th>
+                <th width="30%"><?php echo Text::_('COM_REDSHOP_QUANTITY_START_LBL'); ?></th>
+                <th width="30%"><?php echo Text::_('COM_REDSHOP_QUANTITY_END_LBL'); ?></th>
+                <th width="15%"><?php echo Text::_('COM_REDSHOP_PRODUCT_PRICE'); ?>
                     <a class="btn btn-primary btn-small" onclick="Joomla.submitbutton('saveprice')" href="#">
                         <i class="fa fa-save"></i>
                     </a>

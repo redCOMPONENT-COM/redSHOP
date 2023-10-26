@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * View zipcode
@@ -38,7 +41,7 @@ class RedshopViewZipcode extends RedshopViewForm
         }
 
         if ($field->getAttribute('name') == 'zipcode') {
-            $this->form->setFieldAttribute('zipcode', 'label', JText::_('COM_REDSHOP_FROM'));
+            $this->form->setFieldAttribute('zipcode', 'label', Text::_('COM_REDSHOP_FROM'));
         }
 
         return parent::prepareField($field);

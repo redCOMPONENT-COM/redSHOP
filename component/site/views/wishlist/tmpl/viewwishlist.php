@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHTML::_('bootstrap.modal');
 
 $app    = JFactory::getApplication();
@@ -20,7 +22,7 @@ $wishlists = $this->wishlists;
 $productId = $app->input->getInt('product_id');
 $user      = JFactory::getUser();
 
-$pagetitle = JText::_('COM_REDSHOP_MY_WISHLIST');
+$pagetitle = Text::_('COM_REDSHOP_MY_WISHLIST');
 
 $redTemplate       = Redtemplate::getInstance();
 $template          = RedshopHelperTemplate::getTemplate("wishlist_template");
@@ -33,7 +35,9 @@ if ($this->params->get('show_page_heading', 1)) {
     ?>
     <h1 class="componentheading<?php echo $this->escape(
         $this->params->get('pageclass_sfx')
-    ); ?>"><?php echo $pagetitle; ?></h1>
+    ); ?>">
+        <?php echo $pagetitle; ?>
+    </h1>
     <div>&nbsp;</div>
     <?php
 }

@@ -8,24 +8,27 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 JHTML::_('bootstrap.modal');
 
 // Page Title Start
-$pageTitle = JText::_('COM_REDSHOP_MANUFACTURER');
+$pageTitle = Text::_('COM_REDSHOP_MANUFACTURER');
 
 if ($this->pageheadingtag != '') {
     $pageTitle = $this->pageheadingtag;
 } ?>
-    <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-        <?php
-        if ($this->params->get('show_page_heading', 1)) {
-            if ($this->params->get('page_title') != $pageTitle) {
-                echo $this->escape($this->params->get('page_title'));
-            } else {
-                echo $pageTitle;
-            }
-        } ?>
-    </h1>
+<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+    <?php
+    if ($this->params->get('show_page_heading', 1)) {
+        if ($this->params->get('page_title') != $pageTitle) {
+            echo $this->escape($this->params->get('page_title'));
+        } else {
+            echo $pageTitle;
+        }
+    } ?>
+</h1>
 <?php
 // Page title end
 $manufacturersTemplate = RedshopHelperTemplate::getTemplate("manufacturer");

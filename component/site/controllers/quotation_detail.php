@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 /**
  * Quotation Detail Controller.
@@ -41,7 +42,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
         Redshop\Mail\Quotation::sendMail($post['quotation_id'], $post['quotation_status']);
 
-        $msg = JText::_('COM_REDSHOP_QUOTATION_STATUS_UPDATED_SUCCESSFULLY');
+        $msg = Text::_('COM_REDSHOP_QUOTATION_STATUS_UPDATED_SUCCESSFULLY');
 
         $this->setRedirect(
             'index.php?option=com_redshop&view=quotation_detail&quoid=' . $post['quotation_id'] . '&encr=' . $encr . '&Itemid=' . $Itemid,

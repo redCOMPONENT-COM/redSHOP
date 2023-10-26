@@ -7,7 +7,11 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 ?>
 <fieldset class="adminform">
     <div class="row">
@@ -16,7 +20,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_SEO_GENERAL_TAB'),
+                    'title'   => Text::_('COM_REDSHOP_SEO_GENERAL_TAB'),
                     'content' => $this->loadTemplate('seo_general')
                 )
             );
@@ -25,7 +29,9 @@ defined('_JEXEC') or die;
         <div class="col-md-6">
             <div class="box box-primary form-vertical">
                 <div class="box-header with-border">
-                    <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_AVAILABLE_SEO_TAGS') ?></h3>
+                    <h3 class="text-primary center">
+                        <?php echo Text::_('COM_REDSHOP_AVAILABLE_SEO_TAGS') ?>
+                    </h3>
                 </div>
                 <div class="box-body">
                     <?php
@@ -34,7 +40,7 @@ defined('_JEXEC') or die;
                         'bootstrap.addTab',
                         'seo-pane',
                         'tags',
-                        JText::_('COM_REDSHOP_TITLE_AVAILABLE_SEO_TAGS', true)
+                        Text::_('COM_REDSHOP_TITLE_AVAILABLE_SEO_TAGS', true)
                     );
                     ?>
                     <table class="table table-striped">
@@ -43,7 +49,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{productname}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -51,7 +57,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{manufacturer}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -59,7 +65,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{parentcategoryloop}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_PARENT_CATEGORY_LOOP_SEO_DEC') ?>
+                                <?php echo Text::_('COM_REDSHOP_PARENT_CATEGORY_LOOP_SEO_DEC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -67,7 +73,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{categoryname}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_CATEGORY_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_CATEGORY_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -75,7 +81,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{saleprice}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_SALEPRICE_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_SALEPRICE_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -83,7 +89,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{saving}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_SAVING_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_SAVING_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -91,7 +97,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{shopname}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_SHOPNAME_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_SHOPNAME_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -99,7 +105,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{productsku}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -107,7 +113,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{categoryshortdesc}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') ?>
+                                <?php echo Text::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') ?>
                             </td>
                         </tr>
                         <tr>
@@ -115,7 +121,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{productshortdesc}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') ?>
                             </td>
                         </tr>
                     </table>
@@ -124,7 +130,7 @@ defined('_JEXEC') or die;
                         'bootstrap.addTab',
                         'seo-pane',
                         'headingtags',
-                        JText::_('COM_REDSHOP_HEADING_AVAILABLE_SEO_TAGS', true)
+                        Text::_('COM_REDSHOP_HEADING_AVAILABLE_SEO_TAGS', true)
                     ); ?>
                     <table class="table table-striped">
                         <tr>
@@ -132,7 +138,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{productname}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -140,7 +146,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{manufacturer}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -148,7 +154,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{categoryname}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_CATEGORY_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_CATEGORY_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -156,7 +162,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{productsku}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -164,7 +170,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{categoryshortdesc}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') ?>
+                                <?php echo Text::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') ?>
                             </td>
                         </tr>
                         <tr>
@@ -172,7 +178,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{productshortdesc}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') ?>
                             </td>
                         </tr>
                     </table>
@@ -181,7 +187,7 @@ defined('_JEXEC') or die;
                         'bootstrap.addTab',
                         'seo-pane',
                         'desctags',
-                        JText::_('COM_REDSHOP_DESC_AVAILABLE_SEO_TAGS', true)
+                        Text::_('COM_REDSHOP_DESC_AVAILABLE_SEO_TAGS', true)
                     ); ?>
                     <table class="table table-striped">
                         <tr>
@@ -189,7 +195,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{productname}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -197,7 +203,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{manufacturer}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -205,7 +211,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{categoryname}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_CATEGORY_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_CATEGORY_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -213,7 +219,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{saleprice}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_SALEPRICE_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_SALEPRICE_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -221,7 +227,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{saving}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_SAVING_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_SAVING_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -229,7 +235,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{shopname}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_SHOPNAME_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_SHOPNAME_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -237,7 +243,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{productsku}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -245,7 +251,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{categoryshortdesc}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') ?>
+                                <?php echo Text::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') ?>
                             </td>
                         </tr>
                         <tr>
@@ -253,7 +259,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{productshortdesc}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') ?>
                             </td>
                         </tr>
                         <tr>
@@ -261,7 +267,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{categorydesc}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_CATEGORY_DESCRIPTION') ?>
+                                <?php echo Text::_('COM_REDSHOP_CATEGORY_DESCRIPTION') ?>
                             </td>
                         </tr>
                         <tr>
@@ -269,7 +275,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{productdesc}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_DESCRIPTION') ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_DESCRIPTION') ?>
                             </td>
                         </tr>
                     </table>
@@ -278,7 +284,7 @@ defined('_JEXEC') or die;
                         'bootstrap.addTab',
                         'seo-pane',
                         'keywordtags',
-                        JText::_('COM_REDSHOP_KEYWORD_AVAILABLE_SEO_TAGS', true)
+                        Text::_('COM_REDSHOP_KEYWORD_AVAILABLE_SEO_TAGS', true)
                     ); ?>
                     <table class="table table-striped">
                         <tr>
@@ -286,7 +292,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{productname}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -294,7 +300,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{manufacturer}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -302,7 +308,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{categoryname}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_CATEGORY_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_CATEGORY_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -310,7 +316,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{saleprice}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_SALEPRICE_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_SALEPRICE_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -318,7 +324,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{saving}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_SAVING_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_SAVING_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -326,7 +332,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{shopname}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_SHOPNAME_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_SHOPNAME_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -334,7 +340,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{productsku}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') ?>
                             </td>
                         </tr>
                         <tr>
@@ -342,7 +348,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{categoryshortdesc}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') ?>
+                                <?php echo Text::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') ?>
                             </td>
                         </tr>
                         <tr>
@@ -350,7 +356,7 @@ defined('_JEXEC') or die;
                                 <span class="redshop_tags">{productshortdesc}</span>
                             </td>
                             <td>
-                                <?php echo JText::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') ?>
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') ?>
                             </td>
                         </tr>
                     </table>
@@ -366,7 +372,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_SEO_CATEGORY_TAB'),
+                    'title'   => Text::_('COM_REDSHOP_SEO_CATEGORY_TAB'),
                     'content' => $this->loadTemplate('seo_category')
                 )
             );
@@ -377,7 +383,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_SEO_PRODUCT_TAB'),
+                    'title'   => Text::_('COM_REDSHOP_SEO_PRODUCT_TAB'),
                     'content' => $this->loadTemplate('seo_product')
                 )
             );
@@ -388,7 +394,7 @@ defined('_JEXEC') or die;
             echo RedshopLayoutHelper::render(
                 'config.group',
                 array(
-                    'title'   => JText::_('COM_REDSHOP_SEO_MANUFACTURER_TAB'),
+                    'title'   => Text::_('COM_REDSHOP_SEO_MANUFACTURER_TAB'),
                     'content' => $this->loadTemplate('seo_manufacturer')
                 )
             );

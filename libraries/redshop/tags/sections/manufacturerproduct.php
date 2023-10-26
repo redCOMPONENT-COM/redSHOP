@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') || die;
+
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-
-defined('_JEXEC') || die;
 
 /**
  * Tags replacer abstract class
@@ -58,16 +58,16 @@ class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
         // Page Title
         if ($this->data['params']->get('show_page_heading', 1)) {
             $this->template = RedshopLayoutHelper::render(
-                    'tags.common.pageheading',
-                    [
-                        'params'         => $this->data['params'],
-                        'pageheading'    => trim($db->escape($this->data['params']->get('page_title'))),
-                        'pageHeadingTag' => JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS'),
-                        'class'          => 'manufacturer-product'
-                    ],
-                    '',
-                    $this->optionLayout
-                ) . $this->template;
+                'tags.common.pageheading',
+                [
+                    'params'         => $this->data['params'],
+                    'pageheading'    => trim($db->escape($this->data['params']->get('page_title'))),
+                    'pageHeadingTag' => Text::_('COM_REDSHOP_MANUFACTURER_PRODUCTS'),
+                    'class'          => 'manufacturer-product'
+                ],
+                '',
+                $this->optionLayout
+            ) . $this->template;
         }
         // Page title end
 
@@ -107,16 +107,20 @@ class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
             $thumbImage = '';
             $media      = RedshopEntityManufacturer::getInstance($manufacturer->id)->getMedia();
 
-            if ($media->isValid() && !empty($media->get('media_name'))
+            if (
+                $media->isValid() && !empty($media->get('media_name'))
                 && JFile::exists(
                     REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $manufacturer->id . '/' . $media->get('media_name')
-                )) {
+                )
+            ) {
                 $thumbHeight = Redshop::getConfig()->get($this->height);
                 $thumbWidth  = Redshop::getConfig()->get($this->width);
 
-                if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get(
+                if (
+                    Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get(
                         'WATERMARK_MANUFACTURER_THUMB_IMAGE'
-                    )) {
+                    )
+                ) {
                     $imagePath = RedshopHelperMedia::watermark(
                         'manufacturer',
                         $media->get('media_name'),
@@ -145,8 +149,8 @@ class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
                     'tags.common.img_link',
                     [
                         'link'     => REDSHOP_MEDIA_IMAGE_ABSPATH . 'manufacturer/' . $manufacturer->id . '/' . $media->get(
-                                'media_name'
-                            ),
+                            'media_name'
+                        ),
                         'linkAttr' => 'rel="{handler: \'image\', size: {}}" title="' . $altText . '"',
                         'src'      => $imagePath,
                         'alt'      => $altText,

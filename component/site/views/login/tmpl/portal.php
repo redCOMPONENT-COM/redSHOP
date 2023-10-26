@@ -9,12 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $app            = JFactory::getApplication();
 $Itemid         = $app->input->getInt('Itemid');
 $loginlink      = 'index.php?option=com_redshop&view=login&Itemid=' . $Itemid;
 $newuser_link   = 'index.php?option=com_redshop&view=registration&Itemid=' . $Itemid;
 $shoppergroupid = $app->input->getInt('protalid', 0);
-
 $returnitemid = $Itemid;
 
 if (Redshop::getConfig()->get('PORTAL_LOGIN_ITEMID')) {
@@ -76,7 +77,7 @@ if ($shoppergroupid != 0) {
         <tr>
             <td align="center" colspan="2">
                 <label for="username">
-                    <?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:
+                    <?php echo Text::_('COM_REDSHOP_USERNAME'); ?>:
                 </label>
                 <input class="inputbox" type="text" id="username" name="username" autocomplete="username"/>
             </td>
@@ -84,14 +85,14 @@ if ($shoppergroupid != 0) {
         <tr>
             <td align="center" colspan="2">
                 <label for="password">
-                    <?php echo JText::_('COM_REDSHOP_PASSWORD'); ?>:
+                    <?php echo Text::_('COM_REDSHOP_PASSWORD'); ?>:
                 </label>
                 <input class="inputbox" id="password" name="password" type="password" autocomplete="current-password"/>
             </td>
         </tr>
         <tr>
             <td align="center" colspan="2"><input type="submit" name="submit" class="button btn btn-primary"
-                                                  value="<?php echo JText::_('COM_REDSHOP_LOGIN'); ?>"></td>
+                                                  value="<?php echo Text::_('COM_REDSHOP_LOGIN'); ?>"></td>
         </tr>
     </table>
     <input type="hidden" name="task" id="task" value="setlogin">

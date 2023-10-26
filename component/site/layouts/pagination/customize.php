@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 $list  = $displayData['list'];
@@ -40,23 +41,24 @@ if ($currentPage >= $step) {
         $range = ceil($currentPage / $step);
     }
 }
+
 ?>
-<?php if ($showLimitBox) : ?>
+<?php if ($showLimitBox): ?>
     <div class="limit pull-right">
-        <?php echo JText::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
+        <?php echo Text::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
     </div>
 <?php endif; ?>
 
-<?php if ($showPagesLinks && (!empty($pages))) : ?>
+<?php if ($showPagesLinks && (!empty($pages))): ?>
     <ul>
         <?php
         echo JLayoutHelper::render('pagination.customize_link', $pages['start']);
         echo JLayoutHelper::render('pagination.customize_link', $pages['previous']); ?>
-        <?php foreach ($pages['pages'] as $k => $page) : ?>
+        <?php foreach ($pages['pages'] as $k => $page): ?>
 
             <?php $output = JLayoutHelper::render('pagination.customize_link', $page); ?>
-            <?php if (in_array($k, range($range * $step - ($step + 1), $range * $step))) : ?>
-                <?php if (($k % $step == 0 || $k == $range * $step - ($step + 1)) && $k != $currentPage && $k != $range * $step - $step) : ?>
+            <?php if (in_array($k, range($range * $step - ($step + 1), $range * $step))): ?>
+                <?php if (($k % $step == 0 || $k == $range * $step - ($step + 1)) && $k != $currentPage && $k != $range * $step - $step): ?>
                     <?php $output = preg_replace('#(<a.*?>).*?(</a>)#', '$1...$2', $output); ?>
                 <?php endif; ?>
             <?php endif; ?>

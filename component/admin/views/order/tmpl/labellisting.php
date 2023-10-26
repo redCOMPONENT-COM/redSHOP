@@ -7,6 +7,11 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 $shippinghelper = shipping::getInstance();
 $app            = JFactory::getApplication();
 $jinput         = $app->input;
@@ -41,44 +46,44 @@ if ($download) {
     $app->close();
 }
 ?>
-<form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm"
-      id="adminForm">
+<form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=order'); ?>" method="post"
+    name="adminForm" id="adminForm">
     <div id="editcell">
         <table class="adminlist table table-striped">
             <thead>
-            <tr>
-                <th width="5%">
-                    <?php echo JText::_('COM_REDSHOP_NUM'); ?>
-                </th>
-                <th class="title" width="10%">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_ORDER_ID',
-                        'order_id',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th class="title" width="10%">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_ORDER_NUMBER',
-                        'order_number',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th width="10%" nowrap="nowrap">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_ORDER_DATE',
-                        'cdate',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th width="10%"></th>
-            </tr>
+                <tr>
+                    <th width="5%">
+                        <?php echo Text::_('COM_REDSHOP_NUM'); ?>
+                    </th>
+                    <th class="title" width="10%">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_ORDER_ID',
+                            'order_id',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th class="title" width="10%">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_ORDER_NUMBER',
+                            'order_number',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th width="10%" nowrap="nowrap">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_ORDER_DATE',
+                            'cdate',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th width="10%"></th>
+                </tr>
             </thead>
             <?php
             $k = 0;
@@ -98,44 +103,56 @@ if ($download) {
                         <?php echo $this->pagination->getRowOffset($i); ?>
                     </td>
                     <td align="center">
-                        <a href="<?php echo $link; ?>"
-                           title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>"><?php echo $row->order_id; ?></a>
+                        <a href="<?php echo $link; ?>" title="<?php echo Text::_('COM_REDSHOP_EDIT_ORDER'); ?>">
+                            <?php echo $row->order_id; ?>
+                        </a>
                     </td>
-                    <td align="center"><?php echo $row->order_number; ?></td>
-                    <td align="center"><?php echo $row->cdate; ?></td>
-                    <td align="center"><?php
+                    <td align="center">
+                        <?php echo $row->order_number; ?>
+                    </td>
+                    <td align="center">
+                        <?php echo $row->cdate; ?>
+                    </td>
+                    <td align="center">
+                        <?php
                         $details = Redshop\Shipping\Rate::decrypt($row->ship_method_id);
                         if (strstr($details[0], 'default_shipping')) {
-                            if (file_exists(
-                                JPATH_SITE . '/administrator/components/com_redshop/assets/lables/label_' . $row->order_id . '.pdf'
-                            )) {
+                            if (
+                                file_exists(
+                                    JPATH_SITE . '/administrator/components/com_redshop/assets/lables/label_' . $row->order_id . '.pdf'
+                                )
+                            ) {
                                 ?>
-                                <a href="<?php echo $dlink; ?>"><?php echo JText::_('COM_REDSHOP_DOWNLOAD'); ?></a>
-                                <a href="<?php echo $plink; ?>"
-                                   target="_blank"><?php echo JText::_("COM_REDSHOP_OPEN_AND_PRINT"); ?></a>
+                                <a href="<?php echo $dlink; ?>">
+                                    <?php echo Text::_('COM_REDSHOP_DOWNLOAD'); ?>
+                                </a>
+                                <a href="<?php echo $plink; ?>" target="_blank">
+                                    <?php echo Text::_("COM_REDSHOP_OPEN_AND_PRINT"); ?>
+                                </a>
                                 <?php
                             }
-                        } ?></td>
+                        } ?>
+                    </td>
                 </tr>
                 <?php $k = 1 - $k;
             } ?>
             <tfoot>
-            <td colspan="9">
-				<div class="redShopLimitBox">
-					<?php echo $this->pagination->getLimitBox(); ?>
-				</div>
-                <?php echo $this->pagination->getListFooter(); ?>
-            </td>
+                <td colspan="9">
+                    <div class="redShopLimitBox">
+                        <?php echo $this->pagination->getLimitBox(); ?>
+                    </div>
+                    <?php echo $this->pagination->getListFooter(); ?>
+                </td>
             </tfoot>
         </table>
     </div>
 
 
-    <input type="hidden" name="return" value="order"/>
-    <input type="hidden" name="layout" value="labellisting"/>
-    <input type="hidden" name="view" value="order"/>
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="boxchecked" value="0"/>
-    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+    <input type="hidden" name="return" value="order" />
+    <input type="hidden" name="layout" value="labellisting" />
+    <input type="hidden" name="view" value="order" />
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
 </form>

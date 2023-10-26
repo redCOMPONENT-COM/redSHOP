@@ -70,7 +70,7 @@ class RedshopViewRedshop extends RedshopViewAdmin
                 \JToolBarHelper::custom(
                     'configuration',
                     'redshop_icon-32-settings',
-                    JText::_('COM_REDSHOP_CONFIG'),
+                    Text::_('COM_REDSHOP_CONFIG'),
                     Text::_('COM_REDSHOP_CONFIG'),
                     false
                 );

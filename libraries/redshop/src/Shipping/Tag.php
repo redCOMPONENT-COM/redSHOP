@@ -457,7 +457,7 @@ class Tag
             $shippingBoxPostId = $shippingBoxes[0]->shipping_box_id;
         }
 
-        $shippingBoxList = JText::_('COM_REDSHOP_NO_SHIPPING_BOX');
+        $shippingBoxList = Text::_('COM_REDSHOP_NO_SHIPPING_BOX');
 
         if (count($shippingBoxes) > 0) {
             $shippingBoxList = "";

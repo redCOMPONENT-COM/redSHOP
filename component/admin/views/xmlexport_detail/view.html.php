@@ -8,10 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
+
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 class RedshopViewXmlexport_detail extends RedshopViewAdmin
 {
@@ -32,8 +34,8 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
         $session      = JFactory::getSession();
         $childelement = $session->get('childelement');
         $document     = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_xmlexport'));
-		HTMLHelper::script('com_redshop/redshop.xmlfunc.min.js', ['relative' => true]);
+        $document->setTitle(Text::_('COM_REDSHOP_xmlexport'));
+        HTMLHelper::script('com_redshop/redshop.xmlfunc.min.js', ['relative' => true]);
 
         $uri                  = JUri::getInstance();
         $lists                = array();
@@ -43,17 +45,17 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
         $parentsection        = $jinput->get('parentsection', '');
         $detail->section_type = $jinput->get('section_type', $detail->section_type);
         $isNew                = ($detail->xmlexport_id < 1);
-        $text                 = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+        $text                 = $isNew ? Text::_('COM_REDSHOP_NEW') : Text::_('COM_REDSHOP_EDIT');
 
         JToolBarHelper::title(
-            JText::_('COM_REDSHOP_XML_EXPORT_MANAGEMENT') . ': <small><small>[ ' . $text . ' ]</small></small>',
+            Text::_('COM_REDSHOP_XML_EXPORT_MANAGEMENT') . ': <small><small>[ ' . $text . ' ]</small></small>',
             'redshop_export48'
         );
         JToolBarHelper::custom(
             'xmlexport',
             'redshop_export32.png',
-            JText::_('COM_REDSHOP_XML_EXPORT'),
-            JText::_('COM_REDSHOP_XML_EXPORT'),
+            Text::_('COM_REDSHOP_XML_EXPORT'),
+            Text::_('COM_REDSHOP_XML_EXPORT'),
             false,
             false
         );
@@ -62,7 +64,7 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
         if ($isNew) {
             JToolBarHelper::cancel();
         } else {
-            JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+            JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
         }
 
         $section_typelist   = $xmlhelper->getSectionTypeList();
@@ -80,7 +82,7 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
                     $detail->xmlexport_filetag = $childelement[$parentsection][1];
                 }
 
-                $dbfield     = $detail->xmlexport_filetag;
+                $dbfield = $detail->xmlexport_filetag;
                 $dbchildname = $detail->element_name;
                 break;
             case "stockdetail":
@@ -89,7 +91,7 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
                     $detail->xmlexport_stocktag = $childelement[$parentsection][1];
                 }
 
-                $dbfield     = $detail->xmlexport_stocktag;
+                $dbfield = $detail->xmlexport_stocktag;
                 $dbchildname = $detail->stock_element_name;
                 break;
             case "billingdetail":
@@ -98,7 +100,7 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
                     $detail->xmlexport_billingtag = $childelement[$parentsection][1];
                 }
 
-                $dbfield     = $detail->xmlexport_billingtag;
+                $dbfield = $detail->xmlexport_billingtag;
                 $dbchildname = $detail->billing_element_name;
                 break;
             case "shippingdetail":
@@ -107,7 +109,7 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
                     $detail->xmlexport_shippingtag = $childelement[$parentsection][1];
                 }
 
-                $dbfield     = $detail->xmlexport_shippingtag;
+                $dbfield = $detail->xmlexport_shippingtag;
                 $dbchildname = $detail->shipping_element_name;
                 break;
             case "orderitem":
@@ -116,7 +118,7 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
                     $detail->xmlexport_orderitemtag = $childelement[$parentsection][1];
                 }
 
-                $dbfield     = $detail->xmlexport_orderitemtag;
+                $dbfield = $detail->xmlexport_orderitemtag;
                 $dbchildname = $detail->orderitem_element_name;
                 break;
             case "prdextrafield":
@@ -125,7 +127,7 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
                     $detail->xmlexport_prdextrafieldtag = $childelement[$parentsection][1];
                 }
 
-                $dbfield     = $detail->xmlexport_prdextrafieldtag;
+                $dbfield = $detail->xmlexport_prdextrafieldtag;
                 $dbchildname = $detail->prdextrafield_element_name;
                 break;
         }

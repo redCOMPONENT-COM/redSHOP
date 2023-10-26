@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JLoader::import('redshop.library');
 
 /**
@@ -55,7 +57,7 @@ class PlgSearchRedshop_Categories extends JPlugin
             return array();
         }
 
-        $section         = $this->params->get('showSection') ? JText::_('PLG_SEARCH_REDSHOP_CATEGORIES') : '';
+        $section         = $this->params->get('showSection') ? Text::_('PLG_SEARCH_REDSHOP_CATEGORIES') : '';
         $searchShortDesc = $this->params->get('searchShortDesc', 1);
         $searchFullDesc  = $this->params->get('searchFullDesc', 1);
 
@@ -78,7 +80,7 @@ class PlgSearchRedshop_Categories extends JPlugin
 
         switch ($phrase) {
             case 'exact':
-                $text  = $db->q('%' . $db->escape($text, true) . '%', false);
+                $text = $db->q('%' . $db->escape($text, true) . '%', false);
                 $where = array(
                     $db->qn('name') . ' LIKE ' . $text
                 );
@@ -98,7 +100,7 @@ class PlgSearchRedshop_Categories extends JPlugin
             case 'all':
             case 'any':
             default:
-                $words  = explode(' ', $text);
+                $words = explode(' ', $text);
                 $wheres = array();
 
                 foreach ($words as $word) {
@@ -142,7 +144,8 @@ class PlgSearchRedshop_Categories extends JPlugin
 
         try {
             $rows = $db->loadObjectList();
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             throw new Exception($e->getMessage(), $e->getCode());
         }
 
@@ -165,7 +168,7 @@ class PlgSearchRedshop_Categories extends JPlugin
     public function onContentSearchAreas()
     {
         $areas = array(
-            'redshop_categories' => JText::_('PLG_SEARCH_REDSHOP_CATEGORIES_SECTION_NAME')
+            'redshop_categories' => Text::_('PLG_SEARCH_REDSHOP_CATEGORIES_SECTION_NAME')
         );
 
         return $areas;

@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 class RedshopViewMedia_detail extends RedshopViewAdmin
 {
@@ -32,7 +32,7 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
     {
         $uri = JUri::getInstance();
 
-		HTMLHelper::script('com_redshop/redshop.admin.media.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.admin.media.min.js', ['relative' => true]);
 
         $this->setLayout('default');
 
@@ -41,10 +41,10 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
         $detail = $this->get('data');
         $isNew  = ($detail->media_id < 1);
 
-        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+        $text = $isNew ? Text::_('COM_REDSHOP_NEW') : Text::_('COM_REDSHOP_EDIT');
 
         JToolBarHelper::title(
-            JText::_('COM_REDSHOP_MEDIAS') . ': <small><small>[ ' . $text . ' ]</small></small>',
+            Text::_('COM_REDSHOP_MEDIAS') . ': <small><small>[ ' . $text . ' ]</small></small>',
             'camera redshop_media48'
         );
 
@@ -54,7 +54,7 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
         if ($isNew) {
             JToolBarHelper::cancel();
         } else {
-            JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+            JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
         }
 
         $jinput = JFactory::getApplication()->input;
@@ -63,26 +63,26 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
         $showbuttons   = $jinput->get('showbuttons');
 
         $optiontype   = array();
-        $optiontype[] = JHTML::_('select.option', 'images', JText::_('COM_REDSHOP_IMAGE'));
-        $optiontype[] = JHTML::_('select.option', 'video', JText::_('COM_REDSHOP_VIDEO'));
-        $optiontype[] = JHTML::_('select.option', 'document', JText::_('COM_REDSHOP_DOCUMENT'));
-        $optiontype[] = JHTML::_('select.option', 'youtube', JText::_('COM_REDSHOP_YOUTUBE'));
+        $optiontype[] = JHTML::_('select.option', 'images', Text::_('COM_REDSHOP_IMAGE'));
+        $optiontype[] = JHTML::_('select.option', 'video', Text::_('COM_REDSHOP_VIDEO'));
+        $optiontype[] = JHTML::_('select.option', 'document', Text::_('COM_REDSHOP_DOCUMENT'));
+        $optiontype[] = JHTML::_('select.option', 'youtube', Text::_('COM_REDSHOP_YOUTUBE'));
 
         if ($media_section == 'product' && $showbuttons == 1) {
-            $optiontype[] = JHTML::_('select.option', 'download', JText::_('COM_REDSHOP_Download'));
+            $optiontype[] = JHTML::_('select.option', 'download', Text::_('COM_REDSHOP_Download'));
         }
 
         $optionsection   = array();
-        $optionsection[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT'));
-        $optionsection[] = JHTML::_('select.option', 'property', JText::_('COM_REDSHOP_PROPERTY'));
-        $optionsection[] = JHTML::_('select.option', 'subproperty', JText::_('COM_REDSHOP_SUBPROPERTY'));
-        $optionsection[] = JHTML::_('select.option', 'category', JText::_('COM_REDSHOP_CATEGORY'));
-        $optionsection[] = JHTML::_('select.option', 'catalog', JText::_('COM_REDSHOP_CATALOG'));
+        $optionsection[] = JHTML::_('select.option', 'product', Text::_('COM_REDSHOP_PRODUCT'));
+        $optionsection[] = JHTML::_('select.option', 'property', Text::_('COM_REDSHOP_PROPERTY'));
+        $optionsection[] = JHTML::_('select.option', 'subproperty', Text::_('COM_REDSHOP_SUBPROPERTY'));
+        $optionsection[] = JHTML::_('select.option', 'category', Text::_('COM_REDSHOP_CATEGORY'));
+        $optionsection[] = JHTML::_('select.option', 'catalog', Text::_('COM_REDSHOP_CATALOG'));
 
         $optionbulk   = array();
-        $optionbulk[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-        $optionbulk[] = JHTML::_('select.option', 'yes', JText::_('COM_REDSHOP_YES_ZIP_UPLOAD'));
-        $optionbulk[] = JHTML::_('select.option', 'no', JText::_('COM_REDSHOP_NO_ZIP_UPLOAD'));
+        $optionbulk[] = JHTML::_('select.option', '0', Text::_('COM_REDSHOP_SELECT'));
+        $optionbulk[] = JHTML::_('select.option', 'yes', Text::_('COM_REDSHOP_YES_ZIP_UPLOAD'));
+        $optionbulk[] = JHTML::_('select.option', 'no', Text::_('COM_REDSHOP_NO_ZIP_UPLOAD'));
 
         $lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 

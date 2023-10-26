@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 // Text library
 $textLibraries = array(
@@ -74,26 +77,26 @@ $newShippingTags = array(
 ?>
 <div class="row">
     <div class="panel panel-default">
-        <div class="panel-heading"><h3><?php echo JText::_('COM_REDSHOP_MAIL_CENTER_HELPFUL_HINT') ?></h3></div>
+        <div class="panel-heading"><h3><?php echo Text::_('COM_REDSHOP_MAIL_CENTER_HELPFUL_HINT') ?></h3></div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-12">
                     <ul class="nav nav-tabs">
                         <li role="presentation" class="active">
                             <a href="#tags" role="tab" data-toggle="tab">
-                                <?php echo JText::_('COM_REDSHOP_AVAILABLE_TEMPLATE_TAGS') ?>
+                                <?php echo Text::_('COM_REDSHOP_AVAILABLE_TEMPLATE_TAGS') ?>
                             </a>
                         </li>
                         <li role="presentation">
                             <a href="#default_template" role="tab" data-toggle="tab">
-                                <?php echo JText::_('COM_REDSHOP_DEFAULT_TEMPLATE_DETAIL') ?>
+                                <?php echo Text::_('COM_REDSHOP_DEFAULT_TEMPLATE_DETAIL') ?>
                             </a>
                         </li>
                         <?php foreach ($textLibraries as $section => $texts): ?>
                             <?php if (!empty($texts)): ?>
                                 <li role="presentation">
                                     <a href="#text_library_<?php echo $section ?>" role="tab" data-toggle="tab">
-                                        <?php echo JText::_(
+                                        <?php echo Text::_(
                                             'COM_REDSHOP_' . strtoupper($section) . '_TEXTLIBRARY_ITEMS'
                                         ) ?>
                                     </a>
@@ -110,26 +113,26 @@ $newShippingTags = array(
                                 case 'category':
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_CATEGORY,
-                                        JText::_("COM_REDSHOP_FIELDS")
+                                        Text::_("COM_REDSHOP_FIELDS")
                                     );
 
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_PRODUCT,
-                                        JText::_("COM_REDSHOP_TEMPLATE_PRODUCT_FIELDS_TITLE")
+                                        Text::_("COM_REDSHOP_TEMPLATE_PRODUCT_FIELDS_TITLE")
                                     );
 
                                     echo RedshopLayoutHelper::render(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->section),
-                                            'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_CATEGORY_HINT')
+                                            'header' => Text::_('COM_REDSHOP_TEMPLATE_TAG_CATEGORY_HINT')
                                         )
                                     );
 
                                     $addToCartAvailable = RedshopHelperTemplate::getTemplate('add_to_cart');
                                     $tags               = array();
                                     foreach ($addToCartAvailable as $tag):
-                                        $tags['form_addtocart:' . $tag->name] = JText::_(
+                                        $tags['form_addtocart:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT'
                                         );
                                     endforeach;
@@ -137,7 +140,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $tags,
-                                            'header' => JText::_('COM_REDSHOP_ADD_TO_CART')
+                                            'header' => Text::_('COM_REDSHOP_ADD_TO_CART')
                                         )
                                     );
 
@@ -145,7 +148,7 @@ $newShippingTags = array(
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
                                         $key        = 'related_product_lightbox:' . $tag->name . '[:lightboxwidth][:lightboxheight]';
-                                        $tags[$key] = JText::_(
+                                        $tags[$key] = Text::_(
                                                 "COM_REDSHOP_EXAMPLE_TEMPLATE"
                                             ) . ': {related_product_lightbox:' . $tag->name . ':600:300}';
                                     endforeach;
@@ -153,7 +156,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $tags,
-                                            'header' => JText::_(
+                                            'header' => Text::_(
                                                 'COM_REDSHOP_RELATED_PRODUCT_LIGHTBOX_TEMPLATE_AVAILABLE_HINT'
                                             )
                                         )
@@ -169,14 +172,14 @@ $newShippingTags = array(
                                 case 'giftcard':
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_GIFT_CARD_USER_FIELD,
-                                        JText::_("COM_REDSHOP_GIFTCARD_USERFIELD")
+                                        Text::_("COM_REDSHOP_GIFTCARD_USERFIELD")
                                     );
 
                                     echo RedshopLayoutHelper::render(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->section),
-                                            'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_GIFTCARD_HINT')
+                                            'header' => Text::_('COM_REDSHOP_TEMPLATE_TAG_GIFTCARD_HINT')
                                         )
                                     );
 
@@ -184,26 +187,26 @@ $newShippingTags = array(
                                 case 'product':
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_PRODUCT,
-                                        JText::_("COM_REDSHOP_PRODUCT_FIELDS")
+                                        Text::_("COM_REDSHOP_PRODUCT_FIELDS")
                                     );
 
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD,
-                                        JText::_("COM_REDSHOP_PRODUCT_USERFIELD")
+                                        Text::_("COM_REDSHOP_PRODUCT_USERFIELD")
                                     );
 
                                     echo RedshopLayoutHelper::render(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => RedshopHelperTemplate::getTemplateTags($this->item->section),
-                                            'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_PRODUCT_HINT')
+                                            'header' => Text::_('COM_REDSHOP_TEMPLATE_TAG_PRODUCT_HINT')
                                         )
                                     );
 
                                     $addToCartAvailable = RedshopHelperTemplate::getTemplate('add_to_cart');
                                     $tags               = array();
                                     foreach ($addToCartAvailable as $tag):
-                                        $tags['form_addtocart:' . $tag->name] = JText::_(
+                                        $tags['form_addtocart:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT'
                                         );
                                     endforeach;
@@ -211,14 +214,14 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $tags,
-                                            'header' => JText::_('COM_REDSHOP_ADD_TO_CART')
+                                            'header' => Text::_('COM_REDSHOP_ADD_TO_CART')
                                         )
                                     );
 
                                     $availableTags = RedshopHelperTemplate::getTemplate('attribute_template');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['attribute_template:' . $tag->name] = JText::_(
+                                        $tags['attribute_template:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_ATTRIBUTE_TEMPLATE'
                                         );
                                     endforeach;
@@ -226,7 +229,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $tags,
-                                            'header' => JText::_(
+                                            'header' => Text::_(
                                                 'COM_REDSHOP_TEMPLATE_TAG_ATTRIBUTE_HINT'
                                             )
                                         )
@@ -235,7 +238,7 @@ $newShippingTags = array(
                                     $availableTags = RedshopHelperTemplate::getTemplate('attributewithcart_template');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['attributewithcart_template:' . $tag->name] = JText::_(
+                                        $tags['attributewithcart_template:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE'
                                         );
                                     endforeach;
@@ -243,7 +246,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $tags,
-                                            'header' => JText::_(
+                                            'header' => Text::_(
                                                 'COM_REDSHOP_TEMPLATE_TAG_ATTRIBUTE_WITH_CART_HINT'
                                             )
                                         )
@@ -252,7 +255,7 @@ $newShippingTags = array(
                                     $availableTags = RedshopHelperTemplate::getTemplate('related_product');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['related_product:' . $tag->name] = JText::_(
+                                        $tags['related_product:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_RELATED_PRODUCT_TEMPLATE'
                                         );
                                     endforeach;
@@ -260,7 +263,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $tags,
-                                            'header' => JText::_(
+                                            'header' => Text::_(
                                                 'COM_REDSHOP_TEMPLATE_TAG_RELATED_PRODUCT_HINT'
                                             )
                                         )
@@ -269,7 +272,7 @@ $newShippingTags = array(
                                     $availableTags = RedshopHelperTemplate::getTemplate('wrapper_template');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['wrapper_template:' . $tag->name] = JText::_(
+                                        $tags['wrapper_template:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_WRAPPER_TEMPLATE'
                                         );
                                     endforeach;
@@ -277,7 +280,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $tags,
-                                            'header' => JText::_(
+                                            'header' => Text::_(
                                                 'COM_REDSHOP_TEMPLATE_TAG_WRAPPER_HINT'
                                             )
                                         )
@@ -315,7 +318,7 @@ $newShippingTags = array(
                                     $addToCartAvailable = RedshopHelperTemplate::getTemplate('add_to_cart');
                                     $tags               = array();
                                     foreach ($addToCartAvailable as $tag):
-                                        $tags['form_addtocart:' . $tag->name] = JText::_(
+                                        $tags['form_addtocart:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT'
                                         );
                                     endforeach;
@@ -323,7 +326,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $tags,
-                                            'header' => JText::_('COM_REDSHOP_ADD_TO_CART')
+                                            'header' => Text::_('COM_REDSHOP_ADD_TO_CART')
                                         )
                                     );
 
@@ -350,19 +353,19 @@ $newShippingTags = array(
 
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS,
-                                        JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS")
+                                        Text::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS")
                                     );
 
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS,
-                                        JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS")
+                                        Text::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS")
                                     );
 
                                     echo RedshopLayoutHelper::render(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $newBillingTags,
-                                            'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_BILLING_HINT')
+                                            'header' => Text::_('COM_REDSHOP_TEMPLATE_TAG_BILLING_HINT')
                                         )
                                     );
 
@@ -370,7 +373,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $newShippingTags,
-                                            'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_SHIPPING_HINT')
+                                            'header' => Text::_('COM_REDSHOP_TEMPLATE_TAG_SHIPPING_HINT')
                                         )
                                     );
 
@@ -383,19 +386,19 @@ $newShippingTags = array(
 
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS,
-                                        JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS")
+                                        Text::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS")
                                     );
 
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS,
-                                        JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS")
+                                        Text::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS")
                                     );
 
                                     echo RedshopLayoutHelper::render(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $newBillingTags,
-                                            'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_BILLING_HINT')
+                                            'header' => Text::_('COM_REDSHOP_TEMPLATE_TAG_BILLING_HINT')
                                         )
                                     );
 
@@ -403,7 +406,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $newShippingTags,
-                                            'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_SHIPPING_HINT')
+                                            'header' => Text::_('COM_REDSHOP_TEMPLATE_TAG_SHIPPING_HINT')
                                         )
                                     );
 
@@ -416,19 +419,19 @@ $newShippingTags = array(
 
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS,
-                                        JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS")
+                                        Text::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS")
                                     );
 
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS,
-                                        JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS")
+                                        Text::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS")
                                     );
 
                                     echo RedshopLayoutHelper::render(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $newBillingTags,
-                                            'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_BILLING_HINT')
+                                            'header' => Text::_('COM_REDSHOP_TEMPLATE_TAG_BILLING_HINT')
                                         )
                                     );
 
@@ -436,7 +439,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $newShippingTags,
-                                            'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_SHIPPING_HINT')
+                                            'header' => Text::_('COM_REDSHOP_TEMPLATE_TAG_SHIPPING_HINT')
                                         )
                                     );
 
@@ -456,12 +459,12 @@ $newShippingTags = array(
 
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_PRODUCT,
-                                        JText::_("COM_REDSHOP_PRODUCT_FIELDS")
+                                        Text::_("COM_REDSHOP_PRODUCT_FIELDS")
                                     );
 
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD,
-                                        JText::_("COM_REDSHOP_PRODUCT_USERFIELD")
+                                        Text::_("COM_REDSHOP_PRODUCT_USERFIELD")
                                     );
 
                                     break;
@@ -481,7 +484,7 @@ $newShippingTags = array(
                                     $availableTags = RedshopHelperTemplate::getTemplate('add_to_cart');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['form_addtocart:' . $tag->name] = JText::_(
+                                        $tags['form_addtocart:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT'
                                         );
                                     endforeach;
@@ -489,7 +492,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $tags,
-                                            'header' => JText::_('COM_REDSHOP_ADD_TO_CART')
+                                            'header' => Text::_('COM_REDSHOP_ADD_TO_CART')
                                         )
                                     );
                                     break;
@@ -532,7 +535,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => RedshopHelperTemplate::getTemplateTags('ajax_product'),
-                                            'header' => JText::_('COM_REDSHOP_AJAX_CART_BOX_DETAIL_TEMPLATE_HINT')
+                                            'header' => Text::_('COM_REDSHOP_AJAX_CART_BOX_DETAIL_TEMPLATE_HINT')
                                         )
                                     );
 
@@ -543,7 +546,7 @@ $newShippingTags = array(
                                     $availableTags = RedshopHelperTemplate::getTemplate('add_to_cart');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['form_addtocart:' . $tag->name] = JText::_(
+                                        $tags['form_addtocart:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT'
                                         );
                                     endforeach;
@@ -551,7 +554,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $tags,
-                                            'header' => JText::_('COM_REDSHOP_ADD_TO_CART')
+                                            'header' => Text::_('COM_REDSHOP_ADD_TO_CART')
                                         )
                                     );
 
@@ -565,7 +568,7 @@ $newShippingTags = array(
                                     $availableTags = RedshopHelperTemplate::getTemplate('add_to_cart');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['form_addtocart:' . $tag->name] = JText::_(
+                                        $tags['form_addtocart:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT'
                                         );
                                     endforeach;
@@ -573,7 +576,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $tags,
-                                            'header' => JText::_('COM_REDSHOP_ADD_TO_CART')
+                                            'header' => Text::_('COM_REDSHOP_ADD_TO_CART')
                                         )
                                     );
 
@@ -600,14 +603,14 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $newBillingTags,
-                                            'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_BILLING_HINT')
+                                            'header' => Text::_('COM_REDSHOP_TEMPLATE_TAG_BILLING_HINT')
                                         )
                                     );
 
                                     $availableTags = RedshopHelperTemplate::getTemplate('checkout');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['checkout_template:' . $tag->name] = JText::_(
+                                        $tags['checkout_template:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_CHECKOUT_TEMPLATE'
                                         );
                                     endforeach;
@@ -616,7 +619,7 @@ $newShippingTags = array(
                                     $availableTags = RedshopHelperTemplate::getTemplate('shippingbox');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['shippingbox_template:' . $tag->name] = JText::_(
+                                        $tags['shippingbox_template:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_SHIPPING_BOX_TEMPLATE'
                                         );
                                     endforeach;
@@ -625,7 +628,7 @@ $newShippingTags = array(
                                     $availableTags = RedshopHelperTemplate::getTemplate('redshop_shipping');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['shipping_template:' . $tag->name] = JText::_(
+                                        $tags['shipping_template:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_SHIPPING_METHOD_TEMPLATE'
                                         );
                                     endforeach;
@@ -634,7 +637,7 @@ $newShippingTags = array(
                                     $availableTags = RedshopHelperTemplate::getTemplate('redshop_payment');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['payment_template:' . $tag->name] = JText::_(
+                                        $tags['payment_template:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_PAYMENT_METHOD_TEMPLATE'
                                         );
                                     endforeach;
@@ -650,7 +653,7 @@ $newShippingTags = array(
                                     $availableTags = RedshopHelperTemplate::getTemplate('attribute_template');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['attribute_template:' . $tag->name] = JText::_(
+                                        $tags['attribute_template:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_ATTRIBUTE_TEMPLATE'
                                         );
                                     endforeach;
@@ -659,7 +662,7 @@ $newShippingTags = array(
                                     $availableTags = RedshopHelperTemplate::getTemplate('attributewithcart_template');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['attributewithcart_template:' . $tag->name] = JText::_(
+                                        $tags['attributewithcart_template:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE'
                                         );
                                     endforeach;
@@ -682,7 +685,7 @@ $newShippingTags = array(
                                     $availableTags = RedshopHelperTemplate::getTemplate('private_billing_template');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['private_billing_template:' . $tag->name] = JText::_(
+                                        $tags['private_billing_template:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_PRIVATE_BILLING_TEMPLATE'
                                         );
                                     endforeach;
@@ -690,7 +693,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $tags,
-                                            'header' => JText::_(
+                                            'header' => Text::_(
                                                 'COM_REDSHOP_PRIVATE_BILLING_TEMPLATE'
                                             )
                                         )
@@ -699,7 +702,7 @@ $newShippingTags = array(
                                     $availableTags = RedshopHelperTemplate::getTemplate('company_billing_template');
                                     $tags          = array();
                                     foreach ($availableTags as $tag):
-                                        $tags['company_billing_template:' . $tag->name] = JText::_(
+                                        $tags['company_billing_template:' . $tag->name] = Text::_(
                                             'COM_REDSHOP_COMPANY_BILLING_TEMPLATE'
                                         );
                                     endforeach;
@@ -707,7 +710,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $tags,
-                                            'header' => JText::_(
+                                            'header' => Text::_(
                                                 'COM_REDSHOP_COMPANY_BILLING_TEMPLATE'
                                             )
                                         )
@@ -728,7 +731,7 @@ $newShippingTags = array(
                                     );
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS,
-                                        JText::_("COM_REDSHOP_FIELDS")
+                                        Text::_("COM_REDSHOP_FIELDS")
                                     );
 
                                     break;
@@ -749,7 +752,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $newBillingTags,
-                                            'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_BILLING_HINT')
+                                            'header' => Text::_('COM_REDSHOP_TEMPLATE_TAG_BILLING_HINT')
                                         )
                                     );
 
@@ -757,7 +760,7 @@ $newShippingTags = array(
                                         'templates.tags_hint',
                                         array(
                                             'tags'   => $newShippingTags,
-                                            'header' => JText::_('COM_REDSHOP_TEMPLATE_TAG_SHIPPING_HINT')
+                                            'header' => Text::_('COM_REDSHOP_TEMPLATE_TAG_SHIPPING_HINT')
                                         )
                                     );
 
@@ -765,7 +768,7 @@ $newShippingTags = array(
                                 case 'quotation_cart':
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_QUOTATION,
-                                        JText::_("COM_REDSHOP_FIELDS")
+                                        Text::_("COM_REDSHOP_FIELDS")
                                     );
 
                                     echo RedshopLayoutHelper::render(
@@ -778,7 +781,7 @@ $newShippingTags = array(
                                 case 'redshop_payment':
                                     echo RedshopHelperTemplate::renderFieldTagHints(
                                         RedshopHelperExtrafields::SECTION_PAYMENT_GATEWAY,
-                                        JText::_("COM_REDSHOP_FIELDS")
+                                        Text::_("COM_REDSHOP_FIELDS")
                                     );
 
                                     echo RedshopLayoutHelper::render(

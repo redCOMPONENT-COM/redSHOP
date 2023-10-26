@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class RedshopViewQuotation
  *
@@ -38,14 +40,14 @@ class RedshopViewQuotation extends RedshopViewAdmin
         $uri      = JUri::getInstance();
         $document = JFactory::getDocument();
 
-        $document->setTitle(JText::_('COM_REDSHOP_quotation'));
+        $document->setTitle(Text::_('COM_REDSHOP_quotation'));
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'), 'redshop_quotation48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_QUOTATION_MANAGEMENT'), 'redshop_quotation48');
         JToolBarHelper::addNew();
         RedshopToolbarHelper::link(
             'index.php?option=com_redshop&view=quotation&format=csv',
             'save',
-            JText::_('COM_REDSHOP_EXPORT_DATA_LBL')
+            Text::_('COM_REDSHOP_EXPORT_DATA_LBL')
         );
         JToolBarHelper::editList();
         JToolBarHelper::deleteList();

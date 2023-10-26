@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -50,15 +52,15 @@ class RedshopTagsSectionsOrderList extends RedshopTagsAbstract
 
         if ($this->data['params']->get('show_page_heading', 1)) {
             $this->template = RedshopLayoutHelper::render(
-                    'tags.common.pageheading',
-                    [
-                        'pageheading' => $db->escape(JText::_('COM_REDSHOP_ORDER_LIST')),
-                        'params'      => $this->data['params'],
-                        'class'       => 'order-list'
-                    ],
-                    '',
-                    $this->optionLayout
-                ) . $this->template;
+                'tags.common.pageheading',
+                [
+                    'pageheading' => $db->escape(Text::_('COM_REDSHOP_ORDER_LIST')),
+                    'params'      => $this->data['params'],
+                    'class'       => 'order-list'
+                ],
+                '',
+                $this->optionLayout
+            ) . $this->template;
         }
 
         if ($print) {
@@ -179,32 +181,32 @@ class RedshopTagsSectionsOrderList extends RedshopTagsAbstract
                         'link'     => Redshop\IO\Route::_(
                             'index.php?option=com_redshop&view=order_detail&oid=' . $this->detail[$i]->order_id
                         ),
-                        'content'  => JText::_('COM_REDSHOP_ORDER_DETAIL')
+                        'content'  => Text::_('COM_REDSHOP_ORDER_DETAIL')
                     ],
                     '',
                     $this->optionLayout
                 );
 
                 $reOrderUrl = JURI::root(
-                    ) . 'index.php?option=com_redshop&view=order_detail&order_id=' . $this->detail[$i]->order_id . '&task=reorder&tmpl=component';
+                ) . 'index.php?option=com_redshop&view=order_detail&order_id=' . $this->detail[$i]->order_id . '&task=reorder&tmpl=component';
 
-                $orderLink = 'javascript:if(confirm(\'' . JText::_(
-                        'COM_REDSHOP_CONFIRM_CART_EMPTY'
-                    ) . '\')){window.location=\'' . $reOrderUrl . '\';}';
+                $orderLink = 'javascript:if(confirm(\'' . Text::_(
+                    'COM_REDSHOP_CONFIRM_CART_EMPTY'
+                ) . '\')){window.location=\'' . $reOrderUrl . '\';}';
 
                 $replace['{reorder_link}'] = RedshopLayoutHelper::render(
                     'tags.common.div_link',
                     [
                         'divClass' => 'reorder_link',
                         'link'     => $orderLink,
-                        'content'  => JText::_('COM_REDSHOP_REORDER')
+                        'content'  => Text::_('COM_REDSHOP_REORDER')
                     ],
                     '',
                     $this->optionLayout
                 );
 
                 $replace['{requisition_number}'] = $this->detail[$i]->requisition_number;
-                $templateMid                     .= $this->strReplace($replace, $subTemplate['template']);
+                $templateMid .= $this->strReplace($replace, $subTemplate['template']);
             }
 
             $this->template = $subTemplate['begin'] . $templateMid . $subTemplate['end'];

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewStockimage_detail extends RedshopViewAdmin
 {
@@ -21,7 +22,7 @@ class RedshopViewStockimage_detail extends RedshopViewAdmin
 
     public function display($tpl = null)
     {
-        JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKIMAGE_MANAGEMENT_DETAIL'), 'redshop_stockroom48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_STOCKIMAGE_MANAGEMENT_DETAIL'), 'redshop_stockroom48');
         $uri = \Joomla\CMS\Uri\Uri::getInstance();
         $this->setLayout('default');
 
@@ -29,9 +30,9 @@ class RedshopViewStockimage_detail extends RedshopViewAdmin
 
         $detail = $this->get('data');
         $isNew  = ($detail->stock_amount_id < 1);
-        $text   = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+        $text   = $isNew ? Text::_('COM_REDSHOP_NEW') : Text::_('COM_REDSHOP_EDIT');
         JToolBarHelper::title(
-            JText::_('COM_REDSHOP_STOCKIMAGE') . ': <small><small>[ ' . $text . ' ]</small></small>',
+            Text::_('COM_REDSHOP_STOCKIMAGE') . ': <small><small>[ ' . $text . ' ]</small></small>',
             'redshop_stockroom48'
         );
 
@@ -41,7 +42,7 @@ class RedshopViewStockimage_detail extends RedshopViewAdmin
         if ($isNew) {
             JToolBarHelper::cancel();
         } else {
-            JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+            JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
         }
 
         $model = $this->getModel('stockimage_detail');
@@ -51,7 +52,7 @@ class RedshopViewStockimage_detail extends RedshopViewAdmin
         $op             = array();
         $op[0]          = new stdClass;
         $op[0]->value   = 0;
-        $op[0]->text    = JText::_('COM_REDSHOP_SELECT');
+        $op[0]->text    = Text::_('COM_REDSHOP_SELECT');
         $stockroom_name = array_merge($op, $stockroom_name);
 
         $lists['stock_option'] = JHTML::_(

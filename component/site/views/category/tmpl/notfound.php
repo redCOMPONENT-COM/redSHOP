@@ -8,7 +8,10 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 ?>
 <div class="category-detail-wrapper">
-    <?php echo sprintf(JText::_('COM_REDSHOP_CATEGORY_IS_NOT_PUBLISHED'), $this->maincat->name, $this->maincat->id) ?>
+    <?php echo sprintf(Text::_('COM_REDSHOP_CATEGORY_IS_NOT_PUBLISHED'), $this->maincat->name, $this->maincat->id) ?>
 </div>

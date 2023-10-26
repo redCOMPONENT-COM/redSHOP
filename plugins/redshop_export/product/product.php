@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 use Redshop\Plugin\AbstractExportPlugin;
 
@@ -54,29 +55,29 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
         // Radio for load extra fields
         $configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_EXTRA_FIELDS') . '</label>
-			<div class="col-md-10">
-				<label class="radio-inline"><input name="product_extrafields" value="1" type="radio" />' . JText::_(
-                'JYES'
-            ) . '</label>
-				<label class="radio-inline"><input name="product_extrafields" value="0" type="radio" checked />' . JText::_(
-                'JNO'
-            ) . '</label>
-			</div>
-		</div>';
+            <label class="col-md-2 control-label">' . Text::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_EXTRA_FIELDS') . '</label>
+            <div class="col-md-10">
+                <label class="radio-inline"><input name="product_extrafields" value="1" type="radio" />' . Text::_(
+                    'JYES'
+                ) . '</label>
+                <label class="radio-inline"><input name="product_extrafields" value="0" type="radio" checked />' . Text::_(
+                    'JNO'
+                ) . '</label>
+            </div>
+        </div>';
 
         // Radio for load extra fields
         $configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_ATTRIBUTES_DATA') . '</label>
-			<div class="col-md-10">
-				<label class="radio-inline"><input name="include_attributes" value="1" type="radio" />' . JText::_(
-                'JYES'
-            ) . '</label>
-				<label class="radio-inline"><input name="include_attributes" value="0" type="radio" checked />' . JText::_(
-                'JNO'
-            ) . '</label>
-			</div>
-		</div>';
+            <label class="col-md-2 control-label">' . Text::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_ATTRIBUTES_DATA') . '</label>
+            <div class="col-md-10">
+                <label class="radio-inline"><input name="include_attributes" value="1" type="radio" />' . Text::_(
+                    'JYES'
+                ) . '</label>
+                <label class="radio-inline"><input name="include_attributes" value="0" type="radio" checked />' . Text::_(
+                    'JNO'
+                ) . '</label>
+            </div>
+        </div>';
 
         // Prepare categories list.
         $categories = RedshopEntityCategory::getInstance(RedshopHelperCategory::getRootId())->getChildCategories();
@@ -89,19 +90,19 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
         }
 
         $configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_CATEGORIES') . '</label>
-			<div class="col-md-10">'
+            <label class="col-md-2 control-label">' . Text::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_CATEGORIES') . '</label>
+            <div class="col-md-10">'
             . JHtml::_(
                 'select.genericlist',
                 $options,
                 'product_categories[]',
-                'class="form-control" multiple placeholder="' . JText::_(
+                'class="form-control" multiple placeholder="' . Text::_(
                     'PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_CATEGORIES_PLACEHOLDER'
                 ) . '"',
                 'value',
                 'text'
             ) . '</div>
-		</div>';
+        </div>';
 
         // Prepare manufacturers list.
         $db            = JFactory::getDbo();
@@ -117,20 +118,20 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
         }
 
         $configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_MANUFACTURERS') . '</label>
-			<div class="col-md-10">'
+            <label class="col-md-2 control-label">' . Text::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_MANUFACTURERS') . '</label>
+            <div class="col-md-10">'
             . JHtml::_(
                 'select.genericlist',
                 $options,
                 'product_manufacturers[]',
-                'class="form-control" multiple placeholder="' . JText::_(
+                'class="form-control" multiple placeholder="' . Text::_(
                     'PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_MANUFACTURERS_PLACEHOLDER'
                 ) . '"',
                 'value',
                 'text'
             ) . '
-			</div>
-		</div>';
+            </div>
+        </div>';
 
         return implode('', $configs);
     }
@@ -148,8 +149,8 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
         $input = JFactory::getApplication()->input;
 
-        $this->isAttributes  = (boolean)$input->getInt('include_attributes', 0);
-        $this->isExtraFields = (boolean)$input->getInt('product_extrafields', 0);
+        $this->isAttributes  = (boolean) $input->getInt('include_attributes', 0);
+        $this->isExtraFields = (boolean) $input->getInt('product_extrafields', 0);
 
         $headers = $this->getHeader();
 
@@ -157,7 +158,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
             $this->writeData($headers, 'w+');
         }
 
-        return (int)$this->getTotalProduct_Export();
+        return (int) $this->getTotalProduct_Export();
     }
 
     /**
@@ -265,7 +266,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
             ->clear('group')
             ->select('COUNT(DISTINCT p.product_id)');
 
-        return (int)$this->db->setQuery($query)->loadResult();
+        return (int) $this->db->setQuery($query)->loadResult();
     }
 
     /**
@@ -298,8 +299,8 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
                 '(SELECT GROUP_CONCAT(' . $db->qn('c.name') . ' SEPARATOR ' . $db->quote('###')
                 . ') FROM ' . $db->qn('#__redshop_product_category_xref', 'pcx')
                 . ' INNER JOIN ' . $db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn(
-                    'pcx.category_id'
-                )
+                        'pcx.category_id'
+                    )
                 . ' WHERE ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id')
                 . ' ORDER BY ' . $db->qn('pcx.category_id') . ') AS ' . $db->qn('name')
             )
@@ -308,21 +309,21 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
                 . $db->qn('p2.product_number') . ',' . $db->quote('~') . ',' . $db->qn('pa.accessory_price') . ')'
                 . ' SEPARATOR ' . $db->quote('###') . ') FROM ' . $db->qn('#__redshop_product_accessory', 'pa')
                 . ' LEFT JOIN ' . $db->qn('#__redshop_product', 'p2') . ' ON ' . $db->qn(
-                    'p2.product_id'
-                ) . ' = ' . $db->qn('pa.child_product_id')
+                        'p2.product_id'
+                    ) . ' = ' . $db->qn('pa.child_product_id')
                 . ' WHERE ' . $db->qn('pa.product_id') . ' = ' . $db->qn('p.product_id') . ') AS ' . $db->qn(
-                    'accessory_products'
-                )
+                        'accessory_products'
+                    )
             )
             ->select(
                 '(SELECT GROUP_CONCAT(CONCAT(' . $db->qn('p3.product_number') . ')'
                 . ' SEPARATOR ' . $db->quote('###') . ') FROM ' . $db->qn('#__redshop_product_related', 'pr')
                 . ' LEFT JOIN ' . $db->qn('#__redshop_product', 'p3') . ' ON ' . $db->qn(
-                    'p3.product_id'
-                ) . ' = ' . $db->qn('pr.related_id')
+                        'p3.product_id'
+                    ) . ' = ' . $db->qn('pr.related_id')
                 . ' WHERE ' . $db->qn('pr.product_id') . ' = ' . $db->qn('p.product_id') . ') AS ' . $db->qn(
-                    'related_products'
-                )
+                        'related_products'
+                    )
             )
             ->from($db->qn('#__redshop_product', 'p'))
             ->leftJoin(
@@ -437,7 +438,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
         $stockrooms = RedshopHelperStockroom::getStockroom();
 
         // Process fields if needed.
-        $isExtraFields = (boolean)JFactory::getApplication()->input->getInt('product_extrafields', 0);
+        $isExtraFields = (boolean) JFactory::getApplication()->input->getInt('product_extrafields', 0);
         $fieldsData    = array();
 
         if ($isExtraFields) {
@@ -484,7 +485,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
         $newData      = array();
 
         foreach ($data as $index => $item) {
-            $item                   = (array)$item;
+            $item                   = (array) $item;
             $attributeRows          = array();
             $item['product_s_desc'] = htmlentities($item['product_s_desc']);
             $item['product_desc']   = htmlentities($item['product_desc']);
@@ -546,7 +547,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
             }
 
             // Media process
-            $this->/** @scrutinizer ignore-call */ processMedia($item);
+            $this-> /** @scrutinizer ignore-call */processMedia($item);
 
             if ($isAttributes) {
                 $attributeRows = $this->getAttributesData($item);
@@ -652,13 +653,13 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
                 '(SELECT GROUP_CONCAT(CONCAT('
                 . $db->qn('att_stock.stockroom_id') . ',' . $db->quote(':') . ',' . $db->qn('att_stock.quantity') . ')'
                 . ' SEPARATOR ' . $db->quote('#') . ') FROM ' . $db->qn(
-                    '#__redshop_product_attribute_stockroom_xref',
-                    'att_stock'
-                )
+                        '#__redshop_product_attribute_stockroom_xref',
+                        'att_stock'
+                    )
                 . ' WHERE ' . $db->qn('att_stock.section_id') . ' = ' . $db->qn('ap.property_id')
                 . ' AND ' . $db->qn('att_stock.section') . ' = ' . $db->quote('property') . ') AS ' . $db->qn(
-                    'property_stock'
-                )
+                        'property_stock'
+                    )
             )
             ->select($db->qn('ap.ordering', 'property_ordering'))
             ->select($db->qn('ap.property_number', 'property_virtual_number'))
@@ -727,13 +728,13 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
                 '(SELECT GROUP_CONCAT(CONCAT('
                 . $db->qn('stocksp.stockroom_id') . ',' . $db->quote(':') . ',' . $db->qn('stocksp.quantity') . ')'
                 . ' SEPARATOR ' . $db->quote('#') . ') FROM ' . $db->qn(
-                    '#__redshop_product_attribute_stockroom_xref',
-                    'stocksp'
-                )
+                        '#__redshop_product_attribute_stockroom_xref',
+                        'stocksp'
+                    )
                 . ' WHERE ' . $db->qn('stocksp.section_id') . ' = ' . $db->qn('sp.subattribute_color_id')
                 . ' AND ' . $db->qn('stocksp.section') . ' = ' . $db->quote('subproperty') . ') AS ' . $db->qn(
-                    'subattribute_stock'
-                )
+                        'subattribute_stock'
+                    )
             )
             ->select($db->qn('sp.ordering', 'subattribute_color_ordering'))
             ->select($db->qn('sp.setdefault_selected', 'subattribute_setdefault_selected'))
@@ -796,7 +797,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
         foreach ($results as $result) {
             $newItem = $cleanItem;
-            $result  = (array)$result;
+            $result  = (array) $result;
 
             $newItem = array_merge($newItem, $result);
 

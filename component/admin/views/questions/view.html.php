@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * The Questions view
  *
@@ -111,7 +113,7 @@ class RedshopViewQuestions extends RedshopViewAdmin
      */
     protected function addToolBar()
     {
-        $title = JText::_('COM_REDSHOP_QUESTION_MANAGEMENT');
+        $title = Text::_('COM_REDSHOP_QUESTION_MANAGEMENT');
 
         if ($this->pagination->total) {
             $title .= "<span style='font-size: 0.5em; vertical-align: middle;'>(" . $this->pagination->total . ")</span>";

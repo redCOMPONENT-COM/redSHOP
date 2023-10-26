@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Renders a searchtype Form
  *
@@ -28,30 +30,30 @@ class JFormFieldsearchtype extends JFormField
 
     protected function getInput()
     {
-        $searchType = array();
-        $searchType[] = JHTML::_('select.option', 'product_name', JText::_('COM_REDSHOP_PRODUCT_NAME'));
-        $searchType[] = JHTML::_('select.option', 'product_desc', JText::_('COM_REDSHOP_PRODUCT_DESCRIPTION'));
-        $searchType[] = JHTML::_('select.option', 'product_number', JText::_('COM_REDSHOP_PRODUCT_NUMBER'));
+        $searchType   = array();
+        $searchType[] = JHTML::_('select.option', 'product_name', Text::_('COM_REDSHOP_PRODUCT_NAME'));
+        $searchType[] = JHTML::_('select.option', 'product_desc', Text::_('COM_REDSHOP_PRODUCT_DESCRIPTION'));
+        $searchType[] = JHTML::_('select.option', 'product_number', Text::_('COM_REDSHOP_PRODUCT_NUMBER'));
         $searchType[] = JHTML::_(
             'select.option',
             'name_number',
-            JText::_("COM_REDSHOP_PRODUCT_NAME") . ' & ' . JText::_("COM_REDSHOP_PRODUCT_NUMBER")
+            Text::_("COM_REDSHOP_PRODUCT_NAME") . ' & ' . Text::_("COM_REDSHOP_PRODUCT_NUMBER")
         );
-        $searchType[] = JHTML::_('select.option', 'virtual_product_num', JTEXT::_("COM_REDSHOP_VIRTUAL_PRODUCT_NUM"));
+        $searchType[] = JHTML::_('select.option', 'virtual_product_num', Text::_("COM_REDSHOP_VIRTUAL_PRODUCT_NUM"));
         $searchType[] = JHTML::_(
             'select.option',
             'name_desc',
-            JText::_("COM_REDSHOP_PRODUCT_NAME_AND_PRODUCT_DESCRIPTION")
+            Text::_("COM_REDSHOP_PRODUCT_NAME_AND_PRODUCT_DESCRIPTION")
         );
         $searchType[] = JHTML::_(
             'select.option',
             'name_number_desc',
-            JText::_(
+            Text::_(
                 "COM_REDSHOP_PRODUCT_NAME_AND_PRODUCT_NUMBER_AND_VIRTUAL_PRODUCT_NUM_AND_PRODUCT_DESCRIPTION"
             )
         );
 
-//		array_unshift($searchType, JHTML::_('select.option', '0', '- '.JText::_('COM_REDSHOP_SELECT_SEARCH_TYPE').' -', 'value', 'text'));
+        //		array_unshift($searchType, JHTML::_('select.option', '0', '- '.Text::_('COM_REDSHOP_SELECT_SEARCH_TYPE').' -', 'value', 'text'));
 
         return JHTML::_(
             'select.genericlist',

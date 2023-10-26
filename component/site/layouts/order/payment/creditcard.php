@@ -8,6 +8,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 JHtml::_('formbehavior.chosen', 'select');
@@ -32,7 +34,7 @@ $creditCardList['discover']      = new stdClass;
 $creditCardList['discover']->img = 'discover.jpg';
 
 $months   = array();
-$months[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_MONTH'));
+$months[] = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_MONTH'));
 $months[] = JHtml::_('select.option', '01', 1);
 $months[] = JHtml::_('select.option', '02', 2);
 $months[] = JHtml::_('select.option', '03', 3);
@@ -54,7 +56,7 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
 <fieldset class="adminform">
     <legend>
         <input type="radio" name="selectedCard" value="" checked="checked">
-        <?php echo JText::_('COM_REDSHOP_CARD_INFORMATION') ?>
+        <?php echo Text::_('COM_REDSHOP_CARD_INFORMATION') ?>
     </legend>
     <div class="credit-card-form">
         <div class="control-group">
@@ -83,44 +85,34 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
         </div>
         <div class="control-group">
             <label class="control-label" for="order_payment_name">
-                <?php echo JText::_('COM_REDSHOP_NAME_ON_CARD'); ?>
+                <?php echo Text::_('COM_REDSHOP_NAME_ON_CARD'); ?>
             </label>
             <div class="controls">
                 <?php $orderPaymentName = (!empty($creditCardData['order_payment_name'])) ? $creditCardData['order_payment_name'] : ""; ?>
-                <input
-                        class="input-medium"
-                        type="text"
-                        placeholder="<?php echo JText::_('COM_REDSHOP_NAME_ON_CARD'); ?>"
-                        id="order_payment_name"
-                        name="order_payment_name"
-                        value="<?php echo $orderPaymentName; ?>"
-                        autocomplete="off"
-                />
+                <input class="input-medium" type="text" placeholder="<?php echo Text::_('COM_REDSHOP_NAME_ON_CARD'); ?>"
+                    id="order_payment_name" name="order_payment_name" value="<?php echo $orderPaymentName; ?>"
+                    autocomplete="off" />
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="order_payment_number">
-                <?php echo JText::_('COM_REDSHOP_CARD_NUM'); ?>
+                <?php echo Text::_('COM_REDSHOP_CARD_NUM'); ?>
             </label>
             <div class="controls">
                 <?php
                 $orderPaymentNumber = (!empty($creditCardData['order_payment_number'])) ? $creditCardData['order_payment_number'] : "";
                 ?>
-                <input
-                        class="input-medium"
-                        type="text"
-                        placeholder="<?php echo JText::_('COM_REDSHOP_CARD_NUM'); ?>"
-                        id="order_payment_number"
-                        name="order_payment_number"
-                        value="<?php echo $orderPaymentNumber; ?>"
-                        autocomplete="off"
-                />
+                <input class="input-medium" type="text" placeholder="<?php echo Text::_('COM_REDSHOP_CARD_NUM'); ?>"
+                    id="order_payment_number" name="order_payment_number" value="<?php echo $orderPaymentNumber; ?>"
+                    autocomplete="off" />
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="order_payment_expire_month"><?php echo JText::_(
+            <label class="control-label" for="order_payment_expire_month">
+                <?php echo Text::_(
                     'COM_REDSHOP_EXPIRY_DATE'
-                ); ?></label>
+                ); ?>
+            </label>
             <div class="controls">
                 <?php
                 echo JHtml::_(
@@ -154,22 +146,16 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
         </div>
         <div class="control-group">
             <label class="control-label" for="credit_card_code">
-                <?php echo JText::_('COM_REDSHOP_CARD_SECURITY_CODE'); ?>
+                <?php echo Text::_('COM_REDSHOP_CARD_SECURITY_CODE'); ?>
             </label>
             <div class="controls">
                 <?php
                 $creditCardCode = (!empty($creditCardData['credit_card_code'])) ? $creditCardData['credit_card_code'] : "";
                 ?>
-                <input
-                        class="input-mini"
-                        type="password"
-                        placeholder="<?php echo JText::_('COM_REDSHOP_CARD_SECURITY_CODE'); ?>"
-                        maxlength="4"
-                        id="credit_card_code"
-                        name="credit_card_code"
-                        value="<?php echo $creditCardCode ?>"
-                        autocomplete="off"
-                />
+                <input class="input-mini" type="password"
+                    placeholder="<?php echo Text::_('COM_REDSHOP_CARD_SECURITY_CODE'); ?>" maxlength="4"
+                    id="credit_card_code" name="credit_card_code" value="<?php echo $creditCardCode ?>"
+                    autocomplete="off" />
             </div>
         </div>
     </div>

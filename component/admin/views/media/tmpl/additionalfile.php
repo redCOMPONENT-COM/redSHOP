@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 jimport('joomla.filesystem.file');
 
 $mediaId = JFactory::getApplication()->input->getInt('media_id');
@@ -42,16 +44,16 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 </script>
 
 <div class="container">
-    <?php echo JText::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES'); ?>
+    <?php echo Text::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES'); ?>
     <div style="float: right">
         <button type="button" onclick="Joomla.submitbutton('save');">
-            <?php echo JText::_('COM_REDSHOP_SAVE'); ?>
+            <?php echo Text::_('COM_REDSHOP_SAVE'); ?>
         </button>
         <button
                 type="button"
                 onclick="window.parent.location.reload();window.parent.SqueezeBox.close();"
         >
-            <?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
+            <?php echo Text::_('COM_REDSHOP_CANCEL'); ?>
         </button>
     </div>
 </div>
@@ -67,7 +69,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
             <table class="admintable" border="0" width="100%" id="admintable">
                 <tr>
                     <td class="key">
-                        <?php echo JText::_('COM_REDSHOP_DOWNLOAD_FOLDER'); ?>
+                        <?php echo Text::_('COM_REDSHOP_DOWNLOAD_FOLDER'); ?>
                     </td>
                     <td>
                         <div class="button2-left">
@@ -77,7 +79,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
                                 <a class="joom-box" title="Image"
                                    href="index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&fdownload=1"
                                    rel="{handler: 'iframe', size: {x: 950, y: 450}}">
-                                    <?php echo JText::_('COM_REDSHOP_FILE'); ?>
+                                    <?php echo Text::_('COM_REDSHOP_FILE'); ?>
                                 </a>
                             </div>
                         </div>
@@ -88,7 +90,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
                 </tr>
                 <tr>
                     <td valign="top" align="right" class="key">
-                        <label for="name"><?php echo JText::_('COM_REDSHOP_ADDITIONAL_FILES'); ?>:</label>
+                        <label for="name"><?php echo Text::_('COM_REDSHOP_ADDITIONAL_FILES'); ?>:</label>
                     </td>
                     <td>
                         <input type="file" name="downloadfile[]" id="downloadfile[]" value="" size="75"/>
@@ -97,7 +99,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
                                 name="addvalue"
                                 id="addvalue"
                                 class="button"
-                                Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
+                                Value="<?php echo Text::_('COM_REDSHOP_ADD'); ?>"
                                 onclick="addNewRow('admintable');"
                         />
                     </td>
@@ -105,7 +107,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
             </table>
 
             <div>
-                <h4><?php echo JText::_('COM_REDSHOP_FILES'); ?></h4>
+                <h4><?php echo Text::_('COM_REDSHOP_FILES'); ?></h4>
                 <table class="table table-striped table-hover" width="100%" id="admintable">
                     <?php
 
@@ -142,7 +144,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
                             </td>
                             <td>
                                 <a href="<?php echo $link_delete; ?>">
-                                    <?php echo JText::_('COM_REDSHOP_DELETE'); ?>
+                                    <?php echo Text::_('COM_REDSHOP_DELETE'); ?>
                                 </a>
                             </td>
                         </tr>

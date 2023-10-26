@@ -7,10 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Registry\Registry;
+
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
 
 /**
  * search Controller.
@@ -61,10 +63,10 @@ class RedshopControllerSearch extends RedshopController
 
         if (count($brands) > 0) {
             $manufacturerOptions   = array();
-            $manufacturerOptions[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
+            $manufacturerOptions[] = JHtml::_('select.option', '0', Text::_('COM_REDSHOP_SELECT_MANUFACTURE'));
             $manufacturerOptions   = @array_merge($manufacturerOptions, $brands);
 
-            echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE') . '<br/>'
+            echo Text::_('COM_REDSHOP_SELECT_MANUFACTURE') . '<br/>'
                 . JHtml::_(
                     'select.genericlist',
                     $manufacturerOptions,
@@ -163,7 +165,7 @@ class RedshopControllerSearch extends RedshopController
 
         // Get layout HTML
         if (empty($list)) {
-            echo JText::_('COM_REDSHOP_MSG_SORRY_NO_RESULT_FOUND');
+            echo Text::_('COM_REDSHOP_MSG_SORRY_NO_RESULT_FOUND');
             $app->close();
         }
 

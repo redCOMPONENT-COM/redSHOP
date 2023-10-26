@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewStockroom_listing extends RedshopViewAdmin
 {
@@ -26,13 +27,13 @@ class RedshopViewStockroom_listing extends RedshopViewAdmin
         $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $document = JFactory::getDocument();
 
-        $document->setTitle(JText::_('COM_REDSHOP_STOCKROOM_LISTING'));
+        $document->setTitle(Text::_('COM_REDSHOP_STOCKROOM_LISTING'));
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKROOM_LISTING_MANAGEMENT'), 'redshop_stockroom48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_STOCKROOM_LISTING_MANAGEMENT'), 'redshop_stockroom48');
         RedshopToolbarHelper::link(
             'index.php?option=com_redshop&view=stockroom_listing&format=csv',
             'save',
-            JText::_('COM_REDSHOP_EXPORT_DATA_LBL')
+            Text::_('COM_REDSHOP_EXPORT_DATA_LBL')
         );
         JToolBarHelper::custom('print_data', 'save.png', 'save_f2.png', 'Print Data', false);
 
@@ -43,9 +44,9 @@ class RedshopViewStockroom_listing extends RedshopViewAdmin
         // Stockroom type and attribute type
         $optiontype = array();
 
-        $optiontype[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT'));
-        $optiontype[] = JHTML::_('select.option', 'property', JText::_('COM_REDSHOP_PROPERTY'));
-        $optiontype[] = JHTML::_('select.option', 'subproperty', JText::_('COM_REDSHOP_SUBPROPERTY'));
+        $optiontype[] = JHTML::_('select.option', 'product', Text::_('COM_REDSHOP_PRODUCT'));
+        $optiontype[] = JHTML::_('select.option', 'property', Text::_('COM_REDSHOP_PROPERTY'));
+        $optiontype[] = JHTML::_('select.option', 'subproperty', Text::_('COM_REDSHOP_SUBPROPERTY'));
 
         $lists['stockroom_type'] = JHTML::_(
             'select.genericlist',
@@ -66,7 +67,7 @@ class RedshopViewStockroom_listing extends RedshopViewAdmin
         $temps             = array();
         $temps[0]          = new stdClass;
         $temps[0]->id      = "0";
-        $temps[0]->name    = JText::_('COM_REDSHOP_SELECT_CATEGORY');
+        $temps[0]->name    = Text::_('COM_REDSHOP_SELECT_CATEGORY');
         $categories        = @array_merge($temps, $categories);
         $lists['category'] = JHTML::_(
             'select.genericlist',
@@ -78,8 +79,8 @@ class RedshopViewStockroom_listing extends RedshopViewAdmin
             $category_id
         );
 
-        $lists ['order']     = $this->state->get('list.ordering', 'p.product_id');
-        $lists ['order_Dir'] = $this->state->get('list.direction');
+        $lists['order']     = $this->state->get('list.ordering', 'p.product_id');
+        $lists['order_Dir'] = $this->state->get('list.direction');
 
         $resultlisting = $this->get('Items');
         $stockroom     = $this->get('Stockroom');

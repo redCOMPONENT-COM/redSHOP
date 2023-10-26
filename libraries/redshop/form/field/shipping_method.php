@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -42,12 +44,12 @@ class RedshopFormFieldShipping_Method extends JFormFieldList
         RedshopHelperShipping::loadLanguages();
 
         $options     = array();
-        $this->value = $this->multiple ? (array)$this->value : (string)$this->value;
+        $this->value = $this->multiple ? (array) $this->value : (string) $this->value;
 
         foreach ($shippingMethods as $shipping) {
             $option = new stdClass;
 
-            $option->text     = JText::_($shipping->name);
+            $option->text     = Text::_($shipping->name);
             $option->value    = $shipping->element;
             $option->disable  = false;
             $option->class    = '';

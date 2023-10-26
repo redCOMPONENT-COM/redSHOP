@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 $uri      = JURI::getInstance();
 $getShm   = $uri->getScheme();
 $config   = JFactory::getConfig();
@@ -17,9 +20,9 @@ if ($getShm == 'https' && $forceSsl > 2) {
     $uri->setScheme('http');
 }
 
-if ($this->params->get('show_page_heading', 1)) : ?>
+if ($this->params->get('show_page_heading', 1)): ?>
     <h1 class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
-        <?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_DETAILS')); ?>
+        <?php echo $this->escape(Text::_('COM_REDSHOP_ORDER_DETAILS')); ?>
     </h1>
 <?php endif; ?>
 <?php

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewOpsearch extends RedshopViewAdmin
 {
@@ -28,8 +29,8 @@ class RedshopViewOpsearch extends RedshopViewAdmin
         $uri      = JUri::getInstance();
         $document = JFactory::getDocument();
 
-        $document->setTitle(JText::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH_BY_CUSTOMER'));
-        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH_BY_CUSTOMER'), 'redshop_order48');
+        $document->setTitle(Text::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH_BY_CUSTOMER'));
+        JToolBarHelper::title(Text::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH_BY_CUSTOMER'), 'redshop_order48');
 
         $this->state        = $this->get('State');
         $lists['order']     = $this->state->get('list.ordering', 'order_item_name');

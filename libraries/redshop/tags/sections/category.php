@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -153,9 +155,11 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
         $title = ' title="' . $category->name . '" ';
 
         // Specific cases
-        if ($this->isTagExists('{category_thumb_image}') && $this->isTagRegistered(
+        if (
+            $this->isTagExists('{category_thumb_image}') && $this->isTagRegistered(
                 '{category_thumb_image}'
-            ) && isset($category->category_full_image)) {
+            ) && isset($category->category_full_image)
+        ) {
             $categoryImage                          = $this->getThumbnail(
                 $category,
                 Redshop::getConfig()->get('THUMB_WIDTH'),
@@ -192,8 +196,10 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
             $replacements['{category_back_thumb_image}'] = $categoryImage ?? '';
         }
 
-        if ($this->isTagExists('{category_thumb_image_1}') && $this->isTagRegistered('{category_thumb_image_1}')
-            && isset($category->category_full_image)) {
+        if (
+            $this->isTagExists('{category_thumb_image_1}') && $this->isTagRegistered('{category_thumb_image_1}')
+            && isset($category->category_full_image)
+        ) {
             $categoryImage                            = $this->getThumbnail(
                 $category,
                 Redshop::getConfig()->get('THUMB_WIDTH'),
@@ -202,8 +208,10 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
             $replacements['{category_thumb_image_1}'] = $categoryImage;
         }
 
-        if ($this->isTagExists('{category_thumb_image_2}') && $this->isTagRegistered('{category_thumb_image_2}')
-            && isset($category->category_full_image)) {
+        if (
+            $this->isTagExists('{category_thumb_image_2}') && $this->isTagRegistered('{category_thumb_image_2}')
+            && isset($category->category_full_image)
+        ) {
             $categoryImage                            = $this->getThumbnail(
                 $category,
                 Redshop::getConfig()->get('THUMB_WIDTH_2'),
@@ -212,8 +220,10 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
             $replacements['{category_thumb_image_2}'] = $categoryImage;
         }
 
-        if ($this->isTagExists('{category_thumb_image_3}') && $this->isTagRegistered('{category_thumb_image_3}')
-            && isset($category->category_full_image)) {
+        if (
+            $this->isTagExists('{category_thumb_image_3}') && $this->isTagRegistered('{category_thumb_image_3}')
+            && isset($category->category_full_image)
+        ) {
             $categoryImage                            = $this->getThumbnail(
                 $category,
                 Redshop::getConfig()->get('THUMB_WIDTH_3'),
@@ -222,9 +232,11 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
             $replacements['{category_thumb_image_3}'] = $categoryImage;
         }
 
-        if ($this->isTagExists('{category_name}') && $this->isTagRegistered(
+        if (
+            $this->isTagExists('{category_name}') && $this->isTagRegistered(
                 '{category_name}'
-            ) && isset($category->name)) {
+            ) && isset($category->name)
+        ) {
             $categoryName = RedshopLayoutHelper::render(
                 'tags.common.link',
                 array(
@@ -245,7 +257,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
                 array(
                     'link'    => $link,
                     'attr'    => $title,
-                    'content' => JText::_('COM_REDSHOP_READ_MORE')
+                    'content' => Text::_('COM_REDSHOP_READ_MORE')
                 ),
                 '',
                 RedshopLayoutHelper::$layoutOption
@@ -257,7 +269,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
         if ($this->isTagExists('{category_total_product}') && $this->excludeTags('{category_total_product}')) {
             $totalPrd                                     = \RedshopHelperProduct::getProductCategory($category->id);
             $replacements['{category_total_product}']     = count($totalPrd);
-            $replacements['{category_total_product_lbl}'] = JText::_('COM_REDSHOP_TOTAL_PRODUCT');
+            $replacements['{category_total_product_lbl}'] = Text::_('COM_REDSHOP_TOTAL_PRODUCT');
         }
 
         $template = $this->strReplace($replacements, $template);
@@ -296,7 +308,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
         $categoryFullImage = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
 
         // Try to get category Itemid
-        $categoryItemId = (int)RedshopHelperRouter::getCategoryItemid($category->id);
+        $categoryItemId = (int) RedshopHelperRouter::getCategoryItemid($category->id);
         $mainItemId     = !$categoryItemId ? $input->getInt('Itemid', null) : $categoryItemId;
 
         // Generate category link
@@ -337,8 +349,10 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
                 $productImg = $fullImage->generateThumb($width, $height);
                 $productImg = $productImg['abs'];
             }
-        } elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')
-            && JFile::exists($middlePath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'))) {
+        } elseif (
+            Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')
+            && JFile::exists($middlePath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'))
+        ) {
             // Use default image
             $categoryFullImage = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
             $productImg        = RedshopHelperMedia::watermark(
@@ -439,10 +453,12 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
      */
     private function replaceSubCategoriesLevel2($category, $categoryTemplate)
     {
-        if (strstr($categoryTemplate, "{subcategory_loop_start}") && strstr(
+        if (
+            strstr($categoryTemplate, "{subcategory_loop_start}") && strstr(
                 $categoryTemplate,
                 "{subcategory_loop_end}"
-            )) {
+            )
+        ) {
             $template            = [];
             $templateSubCategory = $this->getTemplateBetweenLoop(
                 '{subcategory_loop_start}',
@@ -473,7 +489,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
                         $link                               = 'index.php?option=com_redshop' .
                             '&view=category&cid=' . $row->id .
                             '&layout=detail&Itemid=' . $this->data['itemId'];
-                        $link                               .= isset($this->data['manufacturerId']) ? '&manufacturer_id=' . $this->data['manufacturerId'] : '';
+                        $link .= isset($this->data['manufacturerId']) ? '&manufacturer_id=' . $this->data['manufacturerId'] : '';
                         $replacements['{subcategory_link}'] = $link;
                     }
 
@@ -483,9 +499,9 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
             }
 
             $categoryTemplate = $templateSubCategory['begin'] . implode(
-                    PHP_EOL,
-                    $template
-                ) . $templateSubCategory['end'];
+                PHP_EOL,
+                $template
+            ) . $templateSubCategory['end'];
         }
 
         return $categoryTemplate;

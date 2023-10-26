@@ -56,22 +56,22 @@ class RedshopViewShipping_rate extends RedshopViewAdmin
         $is_shipper = $pluginParams->get('is_shipper');
         $shipper_location = $pluginParams->get('shipper_location');
 
-        $jtitle = ($shipper_location) ? JText::_('COM_REDSHOP_SHIPPING_LOCATION') : JText::_(
+        $jtitle = ($shipper_location) ? Text::_('COM_REDSHOP_SHIPPING_LOCATION') : Text::_(
             'COM_REDSHOP_SHIPPING_RATE'
         );
         JToolBarHelper::title(
-            $jtitle . ' <small><small>[ ' . JText::_($shipping->name) . ' ]</small></small>',
+            $jtitle . ' <small><small>[ ' . Text::_($shipping->name) . ' ]</small></small>',
             'redshop_shipping_rates48'
         );
         JToolbarHelper::addNew();
         JToolbarHelper::EditList();
 
         if ($is_shipper) {
-            JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+            JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', Text::_('COM_REDSHOP_TOOLBAR_COPY'), true);
         }
 
         JToolBarHelper::deleteList();
-        JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+        JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
 
         $this->lists = $lists;
         $this->shipping_rates = $shipping_rates;

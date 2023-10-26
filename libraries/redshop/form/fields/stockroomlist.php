@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JLoader::import('redshop.library');
 JFormHelper::loadFieldClass('list');
 
@@ -47,7 +49,7 @@ class JFormFieldStockroomlist extends JFormFieldList
         $options = array();
 
         if (!$this->multiple) {
-            $options[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT_STOCKROOM'), 'value', 'text');
+            $options[] = JHTML::_('select.option', '', Text::_('COM_REDSHOP_SELECT_STOCKROOM'), 'value', 'text');
         }
 
         if (!self::$cache) {
@@ -58,9 +60,9 @@ class JFormFieldStockroomlist extends JFormFieldList
         // Build the field options.
         if (!empty(self::$cache)) {
             if ($this->multiple) {
-				$obj = new stdClass;
-				$obj->value = '<OPTGROUP>';
-				$obj->text = JText::_('COM_REDSHOP_SELECT_STOCKROOM');
+                $obj        = new stdClass;
+                $obj->value = '<OPTGROUP>';
+                $obj->text  = Text::_('COM_REDSHOP_SELECT_STOCKROOM');
 
                 $options[] = $obj;
             }
@@ -70,9 +72,9 @@ class JFormFieldStockroomlist extends JFormFieldList
             }
 
             if ($this->multiple) {
-				$obj = new stdClass;
-				$obj->value = '</OPTGROUP>';
-				$obj->text = JText::_('COM_REDSHOP_SELECT_STOCKROOM');
+                $obj        = new stdClass;
+                $obj->value = '</OPTGROUP>';
+                $obj->text  = Text::_('COM_REDSHOP_SELECT_STOCKROOM');
 
                 $options[] = $obj;
             }

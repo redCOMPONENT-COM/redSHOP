@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
@@ -25,13 +26,19 @@ if (!empty($this->getassociation)) {
 <div class="col50">
     <table class="adminform">
         <tr>
-            <td><?php echo JHtml::_('redshop.tooltip',
-                    JText::_('COM_REDSHOP_TAG_NAME_TIP'),
-                    JText::_('COM_REDSHOP_TAG_NAME')
-                ); ?><?php echo JText::_('COM_REDSHOP_TAG_NAME'); ?> </td>
-            <td><?php echo $this->lists['tags']; ?> </td>
+            <td>
+                <?php echo JHtml::_(
+                    'redshop.tooltip',
+                    Text::_('COM_REDSHOP_TAG_NAME_TIP'),
+                    Text::_('COM_REDSHOP_TAG_NAME')
+                ); ?>
+                <?php echo Text::_('COM_REDSHOP_TAG_NAME'); ?>
+            </td>
+            <td>
+                <?php echo $this->lists['tags']; ?>
+            </td>
         </tr>
     </table>
-    <input type="hidden" name="association_id" value="<?php echo $accosiation_id; ?>"/>
-    <input type="hidden" name="ordering" value="<?php echo $ordering; ?>"/>
+    <input type="hidden" name="association_id" value="<?php echo $accosiation_id; ?>" />
+    <input type="hidden" name="ordering" value="<?php echo $ordering; ?>" />
 </div>

@@ -7,61 +7,67 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
-?>
+use Joomla\CMS\Language\Text;
 
+?>
 <table class="admintable table">
     <tr>
         <td colspan="2" class="vat_intro_text">
             <?php
-            echo JText::_('COM_REDSHOP_VAT_INTRO_TEXT');
+            echo Text::_('COM_REDSHOP_VAT_INTRO_TEXT');
             ?>
         </td>
     </tr>
     <tr>
-        <td width="100" align="right" class="key"><span
-                    class="editlinktip hasTip"
-                    title="<?php
-                    echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_VAT_COUNTRY');
-                    ?>::<?php
-                    echo JText::_('COM_REDSHOP_DEFAULT_VAT_COUNTRY_LBL');
-                    ?>">
-		<label for="name"><?php
-            echo JText::_('COM_REDSHOP_DEFAULT_VAT_COUNTRY_LBL');
-            ?></label></span></td>
-        <td><?php
-            echo $this->lists ['default_vat_country'];
-            ?></td>
+        <td width="100" align="right" class="key"><span class="editlinktip hasTip" title="<?php
+        echo Text::_('COM_REDSHOP_TOOLTIP_DEFAULT_VAT_COUNTRY');
+        ?>::<?php
+        echo Text::_('COM_REDSHOP_DEFAULT_VAT_COUNTRY_LBL');
+        ?>">
+                <label for="name">
+                    <?php
+                    echo Text::_('COM_REDSHOP_DEFAULT_VAT_COUNTRY_LBL');
+                    ?>
+                </label></span></td>
+        <td>
+            <?php
+            echo $this->lists['default_vat_country'];
+            ?>
+        </td>
     </tr>
     <tr>
-        <td width="100" align="right" class="key"><span
-                    class="editlinktip hasTip"
-                    title="<?php
-                    echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_VAT_STATE');
-                    ?>::<?php
-                    echo JText::_('COM_REDSHOP_DEFAULT_VAT_STATE_LBL');
-                    ?>">
-		<label for="name"><?php
-            echo JText::_('COM_REDSHOP_DEFAULT_VAT_STATE_LBL');
-            ?></label></span></td>
-        <td><?php
-            echo $this->lists ['default_vat_state'];
-            ?></td>
+        <td width="100" align="right" class="key"><span class="editlinktip hasTip" title="<?php
+        echo Text::_('COM_REDSHOP_TOOLTIP_DEFAULT_VAT_STATE');
+        ?>::<?php
+        echo Text::_('COM_REDSHOP_DEFAULT_VAT_STATE_LBL');
+        ?>">
+                <label for="name">
+                    <?php
+                    echo Text::_('COM_REDSHOP_DEFAULT_VAT_STATE_LBL');
+                    ?>
+                </label></span></td>
+        <td>
+            <?php
+            echo $this->lists['default_vat_state'];
+            ?>
+        </td>
     </tr>
     <tr>
-        <td width="100" align="right" class="key"><span
-                    class="editlinktip hasTip"
-                    title="<?php
-                    echo JText::_('COM_REDSHOP_TOOLTIP_CALCULATE_VAT_BASED_ON_LBL');
-                    ?>::<?php
-                    echo JText::_('COM_REDSHOP_CALCULATE_VAT_BASED_ON_LBL');
-                    ?>"> <label for="name">
-					<?php
-                    echo JText::_('COM_REDSHOP_CALCULATE_VAT_BASED_ON_LBL');
-                    ?></label></span></td>
-        <td><?php
-            echo $this->lists ['calculate_vat_on'];
+        <td width="100" align="right" class="key"><span class="editlinktip hasTip" title="<?php
+        echo Text::_('COM_REDSHOP_TOOLTIP_CALCULATE_VAT_BASED_ON_LBL');
+        ?>::<?php
+        echo Text::_('COM_REDSHOP_CALCULATE_VAT_BASED_ON_LBL');
+        ?>"> <label for="name">
+                    <?php
+                    echo Text::_('COM_REDSHOP_CALCULATE_VAT_BASED_ON_LBL');
+                    ?>
+                </label></span></td>
+        <td>
+            <?php
+            echo $this->lists['calculate_vat_on'];
             ?>
         </td>
     </tr>
@@ -71,26 +77,27 @@ defined('_JEXEC') or die;
     <tr>
         <td colspan="2" class="price_intro_text">
             <?php
-            echo JText::_('COM_REDSHOP_VAT_RATES_INTRO_TEXT');
+            echo Text::_('COM_REDSHOP_VAT_RATES_INTRO_TEXT');
             ?>
         </td>
     </tr>
     <tr>
-        <td width="100" align="right" class="key"><span
-                    class="editlinktip hasTip"
-                    title="<?php
-                    echo JText::_('COM_REDSHOP_ADD_VAT_RATES_LBL');
-                    ?>::<?php
-                    echo JText::_('COM_REDSHOP_TOOLTIP_ADD_VAT_RATES_LBL');
-                    ?>">
-		<label for="name"><?php
-            echo JText::_('COM_REDSHOP_ADD_VAT_RATES_LBL');
-            ?></label></span></td>
-        <td><a class="btn btn-small btn-info"
-               href="index.php?option=com_redshop&task=tax_rate.add&tmpl=component"
-               target="blank"><?php
-                echo JText::_('COM_REDSHOP_ADD_RATES');
-                ?></a>
+        <td width="100" align="right" class="key"><span class="editlinktip hasTip" title="<?php
+        echo Text::_('COM_REDSHOP_ADD_VAT_RATES_LBL');
+        ?>::<?php
+        echo Text::_('COM_REDSHOP_TOOLTIP_ADD_VAT_RATES_LBL');
+        ?>">
+                <label for="name">
+                    <?php
+                    echo Text::_('COM_REDSHOP_ADD_VAT_RATES_LBL');
+                    ?>
+                </label></span></td>
+        <td><a class="btn btn-small btn-info" href="index.php?option=com_redshop&task=tax_rate.add&tmpl=component"
+                target="blank">
+                <?php
+                echo Text::_('COM_REDSHOP_ADD_RATES');
+                ?>
+            </a>
         </td>
     </tr>
     <tr>
@@ -99,7 +106,7 @@ defined('_JEXEC') or die;
             <ol>
                 <?php
                 for ($i = 0; $i < count($this->taxrates); $i++) {
-                    $tax = $this->taxrates [$i];
+                    $tax = $this->taxrates[$i];
 
                     $tax_rate_id  = $tax->id;
                     $tax_country  = $tax->tax_country;
@@ -110,7 +117,7 @@ defined('_JEXEC') or die;
                     ?>
                     <li>
                         <a href="index.php?option=com_redshop&task=tag_rate.edit&id=<?php echo $tax_rate_id; ?>"
-                           target="_blank">
+                            target="_blank">
                             <?php echo $rate_html ?>
                         </a>
                         <a onclick="getvatremove(<?php echo $tax_rate_id ?>);" href="javascript:">Remove</a>
@@ -128,22 +135,22 @@ defined('_JEXEC') or die;
     </tr>
     <tr>
         <td colspan="2" class="apply_vat_discount_intro_text">
-            <?php echo JText::_('COM_REDSHOP_VAT_DISCOUNT_INTRO_TEXT'); ?>
+            <?php echo Text::_('COM_REDSHOP_VAT_DISCOUNT_INTRO_TEXT'); ?>
         </td>
     </tr>
     <tr>
-        <td width="100" align="right" class="key"><span
-                    class="editlinktip hasTip"
-                    title="<?php
-                    echo JText::_('COM_REDSHOP_TOOLTIP_APPLY_VAT_ON_DISCOUNT');
-                    ?>::<?php
-                    echo JText::_('COM_REDSHOP_APPLY_VAT_ON_DISCOUNT_LBL');
-                    ?>"> <label for="name">
-					<?php
-                    echo JText::_('COM_REDSHOP_APPLY_VAT_ON_DISCOUNT_LBL');
-                    ?></label></span></td>
-        <td><?php
-            echo $this->lists ['apply_vat_on_discount'];
+        <td width="100" align="right" class="key"><span class="editlinktip hasTip" title="<?php
+        echo Text::_('COM_REDSHOP_TOOLTIP_APPLY_VAT_ON_DISCOUNT');
+        ?>::<?php
+        echo Text::_('COM_REDSHOP_APPLY_VAT_ON_DISCOUNT_LBL');
+        ?>"> <label for="name">
+                    <?php
+                    echo Text::_('COM_REDSHOP_APPLY_VAT_ON_DISCOUNT_LBL');
+                    ?>
+                </label></span></td>
+        <td>
+            <?php
+            echo $this->lists['apply_vat_on_discount'];
             ?>
         </td>
     </tr>

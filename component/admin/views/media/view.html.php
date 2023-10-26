@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 class RedshopViewMedia extends RedshopViewAdmin
 {
@@ -41,9 +41,9 @@ class RedshopViewMedia extends RedshopViewAdmin
         $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $document = JFactory::getDocument();
 
-		HTMLHelper::stylesheet('com_redshop/redshop.medialist-thumbs.min.css', ['relative' => true]);
+        HTMLHelper::stylesheet('com_redshop/redshop.medialist-thumbs.min.css', ['relative' => true]);
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'camera redshop_media48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'camera redshop_media48');
         JToolbarHelper::addNew();
         JToolbarHelper::EditList();
         JToolBarHelper::deleteList();
@@ -56,25 +56,25 @@ class RedshopViewMedia extends RedshopViewAdmin
         $filter_media_section = $this->state->get('filter_media_section', 0);
 
         $optiontype   = array();
-        $optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-        $optiontype[] = JHTML::_('select.option', 'images', JText::_('COM_REDSHOP_IMAGE'));
-        $optiontype[] = JHTML::_('select.option', 'video', JText::_('COM_REDSHOP_VIDEO'));
-        $optiontype[] = JHTML::_('select.option', 'document', JText::_('COM_REDSHOP_DOCUMENT'));
-        $optiontype[] = JHTML::_('select.option', 'download', JText::_('COM_REDSHOP_DOWNLOAD'));
-        $optiontype[] = JHTML::_('select.option', 'youtube', JText::_('COM_REDSHOP_YOUTUBE'));
+        $optiontype[] = JHTML::_('select.option', '0', Text::_('COM_REDSHOP_SELECT'));
+        $optiontype[] = JHTML::_('select.option', 'images', Text::_('COM_REDSHOP_IMAGE'));
+        $optiontype[] = JHTML::_('select.option', 'video', Text::_('COM_REDSHOP_VIDEO'));
+        $optiontype[] = JHTML::_('select.option', 'document', Text::_('COM_REDSHOP_DOCUMENT'));
+        $optiontype[] = JHTML::_('select.option', 'download', Text::_('COM_REDSHOP_DOWNLOAD'));
+        $optiontype[] = JHTML::_('select.option', 'youtube', Text::_('COM_REDSHOP_YOUTUBE'));
 
         $optionsection   = array();
-        $optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-        $optionsection[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT'));
-        $optionsection[] = JHTML::_('select.option', 'category', JText::_('COM_REDSHOP_CATEGORY'));
-        $optionsection[] = JHTML::_('select.option', 'catalog', JText::_('COM_REDSHOP_CATALOG'));
-        $optionsection[] = JHTML::_('select.option', 'media', JText::_('COM_REDSHOP_MEDIA'));
-        $optionsection[] = JHTML::_('select.option', 'property', JText::_('COM_REDSHOP_PROPERTY'));
-        $optionsection[] = JHTML::_('select.option', 'subproperty', JText::_('COM_REDSHOP_SUBPROPERTY'));
-        $optionsection[] = JHTML::_('select.option', 'manufacturer', JText::_('COM_REDSHOP_MANUFACTURER'));
+        $optionsection[] = JHTML::_('select.option', '0', Text::_('COM_REDSHOP_SELECT'));
+        $optionsection[] = JHTML::_('select.option', 'product', Text::_('COM_REDSHOP_PRODUCT'));
+        $optionsection[] = JHTML::_('select.option', 'category', Text::_('COM_REDSHOP_CATEGORY'));
+        $optionsection[] = JHTML::_('select.option', 'catalog', Text::_('COM_REDSHOP_CATALOG'));
+        $optionsection[] = JHTML::_('select.option', 'media', Text::_('COM_REDSHOP_MEDIA'));
+        $optionsection[] = JHTML::_('select.option', 'property', Text::_('COM_REDSHOP_PROPERTY'));
+        $optionsection[] = JHTML::_('select.option', 'subproperty', Text::_('COM_REDSHOP_SUBPROPERTY'));
+        $optionsection[] = JHTML::_('select.option', 'manufacturer', Text::_('COM_REDSHOP_MANUFACTURER'));
 
-        $lists ['order']     = $this->state->get('list.ordering', 'media_id');
-        $lists ['order_Dir'] = $this->state->get('list.direction', '');
+        $lists['order']     = $this->state->get('list.ordering', 'media_id');
+        $lists['order_Dir'] = $this->state->get('list.direction', '');
 
         $lists['type'] = JHTML::_(
             'select.genericlist',

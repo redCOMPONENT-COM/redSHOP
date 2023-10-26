@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -62,9 +64,9 @@ class RedshopTagsSectionsShippingAddress extends RedshopTagsAbstract
                         'shippingtable',
                         '',
                         array(
-                            'data' => array(),
+                            'data'      => array(),
                             'isCompany' => $this->data['isCompany'],
-                            'lists' => $lists
+                            'lists'     => $lists
                         )
                     );
 
@@ -81,7 +83,7 @@ class RedshopTagsSectionsShippingAddress extends RedshopTagsAbstract
                 $this->addReplace('{shipping_address}', $shippingHtml);
                 $this->addReplace(
                     '{shipping_address_information_lbl}',
-                    JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL')
+                    Text::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL')
                 );
             } else {
                 $this->addReplace('{shipping_address}', '');

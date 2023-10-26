@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 class RedshopViewQuotation_detail extends RedshopViewAdmin
 {
@@ -26,12 +26,12 @@ class RedshopViewQuotation_detail extends RedshopViewAdmin
         $layout = JFactory::getApplication()->input->getCmd('layout', 'default');
 
         $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_QUOTATION'));
+        $document->setTitle(Text::_('COM_REDSHOP_QUOTATION'));
 
-		HTMLHelper::script('com_redshop/redshop.order.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.admin.common.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/ajaxupload.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.order.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.admin.common.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/ajaxupload.min.js', ['relative' => true]);
 
         $uri   = JUri::getInstance();
         $lists = array();
@@ -44,20 +44,20 @@ class RedshopViewQuotation_detail extends RedshopViewAdmin
         $isNew   = ($detail->quotation_id < 1);
         $userarr = $this->get('userdata');
 
-        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+        $text = $isNew ? Text::_('COM_REDSHOP_NEW') : Text::_('COM_REDSHOP_EDIT');
 
         JToolBarHelper::title(
-            JText::_('COM_REDSHOP_QUOTATION_DETAIL') . ': <small><small>[ ' . $text . ' ]</small></small>',
+            Text::_('COM_REDSHOP_QUOTATION_DETAIL') . ': <small><small>[ ' . $text . ' ]</small></small>',
             'redshop_quotation48'
         );
         JToolBarHelper::apply();
         JToolBarHelper::save();
-        JToolBarHelper::custom('send', 'send.png', 'send.png', JText::_('COM_REDSHOP_SEND'), false);
+        JToolBarHelper::custom('send', 'send.png', 'send.png', Text::_('COM_REDSHOP_SEND'), false);
 
         if ($isNew) {
             JToolBarHelper::cancel();
         } else {
-            JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+            JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
         }
 
         $status                    = RedshopHelperQuotation::getQuotationStatusList();

@@ -8,15 +8,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 
 ?>
-
 <script type="text/javascript">
 
     function add_dependency(type_id, tag_id, product_id) {
@@ -98,24 +98,24 @@ JHtml::_('behavior.formvalidator');
             form.selectedTabPosition.value = selectedTabPosition;
 
         if (form.product_name.value == "") {
-            alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NAME', true); ?>");
+            alert("<?php echo Text::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NAME', true); ?>");
             return;
         } else if (form.product_number.value == "") {
-            alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NUMBER', true); ?>");
+            alert("<?php echo Text::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NUMBER', true); ?>");
             return;
         } else if (form.product_category.value == "") {
-            alert("<?php echo JText::_('COM_REDSHOP_CATEGORY_MUST_SELECTED', true); ?>");
+            alert("<?php echo Text::_('COM_REDSHOP_CATEGORY_MUST_SELECTED', true); ?>");
             return;
         } else if (form.product_template.value == "0") {
-            alert("<?php echo JText::_('COM_REDSHOP_TEMPLATE_MUST_SELECTED', true); ?>");
+            alert("<?php echo Text::_('COM_REDSHOP_TEMPLATE_MUST_SELECTED', true); ?>");
             return;
         } else if (parseFloat(form.discount_price.value) >= parseFloat(form.product_price.value)) {
-            alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_PRICE_MUST_BE_LESS_THAN_PRICE', true); ?>");
+            alert("<?php echo Text::_('COM_REDSHOP_DISCOUNT_PRICE_MUST_BE_LESS_THAN_PRICE', true); ?>");
             return;
         } else if (parseInt(form.max_order_product_quantity.value) !== 0 &&
             parseInt(form.min_order_product_quantity.value) > parseInt(form.max_order_product_quantity.value)
         ) {
-            alert("<?php echo JText::_(
+            alert("<?php echo Text::_(
                 'COM_REDSHOP_MINIMUM_QUANTITY_PER_ORDER_MUST_BE_LESS_THAN_MAXIMUM_QUANTITY_PER_ORDER',
                 true
             ); ?>");
@@ -123,7 +123,7 @@ JHtml::_('behavior.formvalidator');
         } else if (form.discount_stratdate.value != '') {
             if (form.discount_enddate.value != '') {
                 if (parseDate(form.discount_enddate.value) < parseDate(form.discount_stratdate.value)) {
-                    alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE_END_DATE_CONDITION', true); ?>");
+                    alert("<?php echo Text::_('COM_REDSHOP_DISCOUNT_START_DATE_END_DATE_CONDITION', true); ?>");
                     return;
                 }
             }
@@ -131,7 +131,7 @@ JHtml::_('behavior.formvalidator');
             for (var i = 0; i < form.copy_attribute.length; i++) {
                 if (form.copy_attribute[i].checked) {
                     if (form.copy_attribute[i].value == "1" && form.attribute_set_id.value == '') {
-                        alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_SET_MUST_BE_SELECTED', true); ?>");
+                        alert("<?php echo Text::_('COM_REDSHOP_ATTRIBUTE_SET_MUST_BE_SELECTED', true); ?>");
                         return;
                     }
                 }
@@ -152,7 +152,7 @@ JHtml::_('behavior.formvalidator');
     function oprand_check(s) {
         var oprand = s.value;
         if (oprand != '+' && oprand != '-' && oprand != '=' && oprand != '*' && oprand != "/") {
-            alert("<?php echo JText::_('COM_REDSHOP_WRONG_OPRAND', true); ?>");
+            alert("<?php echo Text::_('COM_REDSHOP_WRONG_OPRAND', true); ?>");
 
             s.value = "+";
         }
@@ -190,14 +190,14 @@ JHtml::_('behavior.formvalidator');
     <fieldset>
         <div style="float: right">
             <button type="button" onclick="Joomla.submitbutton('save');">
-                <?php echo JText::_('COM_REDSHOP_SAVE'); ?>
+                <?php echo Text::_('COM_REDSHOP_SAVE'); ?>
             </button>
             <button type="button" onclick="window.parent.SqueezeBox.close();">
-                <?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
+                <?php echo Text::_('COM_REDSHOP_CANCEL'); ?>
             </button>
         </div>
         <div class="configuration">
-            <?php echo JText::_('COM_REDSHOP_ADD_PRODUCT'); ?>
+            <?php echo Text::_('COM_REDSHOP_ADD_PRODUCT'); ?>
         </div>
     </fieldset>
 <?php endif; ?>
@@ -209,7 +209,7 @@ JHtml::_('behavior.formvalidator');
     echo RedshopLayoutHelper::render(
         'component.full.tab.main',
         array(
-            'view' => $this,
+            'view'    => $this,
             'tabMenu' => $this->tabmenu->getData('tab')->items,
         )
     );
@@ -337,13 +337,13 @@ echo RedshopLayoutHelper::render(
     'modal.iframe',
     [
         'modalButton' => '.ModalProductDetailButton',
-        'selector' => 'ModalProductDetail',
-        'params' => [
-            'title' => '',
-            'footer' => '',
+        'selector'    => 'ModalProductDetail',
+        'params'      => [
+            'title'      => '',
+            'footer'     => '',
             'modalWidth' => '40',
             'bodyHeight' => '80',
-            'modalCss' => '',
+            'modalCss'   => '',
         ]
     ]
 );

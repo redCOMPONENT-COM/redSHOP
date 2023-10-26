@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Statistic Quotation view
@@ -34,10 +35,10 @@ class RedshopViewStatistic_Quotation extends RedshopViewAdmin
         $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $app      = JFactory::getApplication();
         $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_STATISTIC_QUOTATION'));
-		HTMLHelper::stylesheet('com_redshop/daterangepicker.min.css', ['relative' => true]);
-		HTMLHelper::script('com_redshop/moment.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/daterangepicker.min.js', ['relative' => true]);
+        $document->setTitle(Text::_('COM_REDSHOP_STATISTIC_QUOTATION'));
+        HTMLHelper::stylesheet('com_redshop/daterangepicker.min.css', ['relative' => true]);
+        HTMLHelper::script('com_redshop/moment.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/daterangepicker.min.js', ['relative' => true]);
 
         $this->quotations      = $this->get('Quotations');
         $this->filterStartDate = $app->input->getString('filter_start_date', '');
@@ -57,10 +58,10 @@ class RedshopViewStatistic_Quotation extends RedshopViewAdmin
      */
     protected function addToolbar()
     {
-        $title = JText::_('COM_REDSHOP_STATISTIC_QUOTATION');
+        $title = Text::_('COM_REDSHOP_STATISTIC_QUOTATION');
         JFactory::getApplication()->input->set('hidemainmenu', true);
         JToolBarHelper::title(
-            JText::_('COM_REDSHOP_STATISTIC_QUOTATION') . " :: " . $title,
+            Text::_('COM_REDSHOP_STATISTIC_QUOTATION') . " :: " . $title,
             'statistic redshop_statistic48'
         );
 

@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Cart view
@@ -47,14 +48,14 @@ class RedshopViewCart extends RedshopView
         $itemId = $app->input->getInt('Itemid');
 
         if ($app->input->getString('quotemsg') != "") {
-			$app->enqueueMessage($app->input->getString('quotemsg'));
+            $app->enqueueMessage($app->input->getString('quotemsg'));
             $app->redirect(
                 Redshop\IO\Route::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false)
             );
         }
 
         JHtml::_('redshopjquery.framework');
-		HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
 
         if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1)) {
             $cartData = RedshopHelperTemplate::getTemplate("empty_cart");
@@ -62,7 +63,7 @@ class RedshopViewCart extends RedshopView
             if (count($cartData) > 0 && $cartData[0]->template_desc != "") {
                 $cartTemplate = $cartData[0]->template_desc;
             } else {
-                $cartTemplate = JText::_("COM_REDSHOP_EMPTY_CART");
+                $cartTemplate = Text::_("COM_REDSHOP_EMPTY_CART");
             }
 
             echo eval ("?>" . $cartTemplate . "<?php ");

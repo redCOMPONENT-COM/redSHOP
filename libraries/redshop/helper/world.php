@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class Redshop Helper to get world countries and states
  *
@@ -88,7 +90,7 @@ class RedshopHelperWorld
         // Only offer please select hint if more than one countries.
         if ($totalCountries > 1) {
             $countries = array_merge(
-                array(JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT'))),
+                array(JHtml::_('select.option', '', Text::_('COM_REDSHOP_SELECT'))),
                 $countries
             );
         }
@@ -229,7 +231,7 @@ class RedshopHelperWorld
 
         if ($totalStates > 1) {
             $states = array_merge(
-                array(JHtml::_('select.option', '', JText::_("COM_REDSHOP_SELECT"))),
+                array(JHtml::_('select.option', '', Text::_("COM_REDSHOP_SELECT"))),
                 $states
             );
         }
@@ -303,7 +305,7 @@ class RedshopHelperWorld
 
         if (!empty($states)) {
             $states = array_merge(
-                array(JHtml::_('select.option', '', JText::_("COM_REDSHOP_SELECT"))),
+                array(JHtml::_('select.option', '', Text::_("COM_REDSHOP_SELECT"))),
                 $states
             );
         }
@@ -395,7 +397,7 @@ class RedshopHelperWorld
             ->select($db->qn(array('state_3_code', 'show_state')))
             ->from($db->qn('#__redshop_state'))
             ->where($db->qn('state_2_code') . ' LIKE ' . $db->quote($stateCode))
-            ->where($db->qn('id') . ' = ' . (int)$id);
+            ->where($db->qn('id') . ' = ' . (int) $id);
 
         $result = $db->setQuery($query)->loadObject();
 

@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-use Redshop\Order\Template;
-
-
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Language\Text;
+use Redshop\Order\Template;
 
 // Load redSHOP library
 jimport('redshop.library');
@@ -60,8 +60,8 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 
         $this->tcpdf = new PlgRedshop_PdfTcPDFHelper('P', 'mm', $this->params->get('pageformat'));
         $this->tcpdf->setFontSubsetting(true);
-        $this->tcpdf->SetAuthor(JText::_('LIB_REDSHOP_PDF_CREATOR'));
-        $this->tcpdf->SetCreator(JText::_('LIB_REDSHOP_PDF_CREATOR'));
+        $this->tcpdf->SetAuthor(Text::_('LIB_REDSHOP_PDF_CREATOR'));
+        $this->tcpdf->SetCreator(Text::_('LIB_REDSHOP_PDF_CREATOR'));
         $this->tcpdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
         $this->tcpdf->SetMargins(8, 8, 8);
     }
@@ -201,26 +201,26 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         RedshopHelperPayment::loadLanguages();
 
         // Changed font to support Unicode Characters - Specially Polish Characters
-        $this->tcpdf->SetTitle(JText::_('PLG_REDSHOP_PDF_TCPDF_MULTI_INVOICE_TITLE'));
+        $this->tcpdf->SetTitle(Text::_('PLG_REDSHOP_PDF_TCPDF_MULTI_INVOICE_TITLE'));
         $this->settingTCPDF();
 
         foreach ($orderIds as $orderId) {
             $ordersDetail = RedshopEntityOrder::getInstance($orderId)->getItem();
             $message      = $pdfHtml;
 
-            $printTag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRINT') . "'>"
-                . "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_(
-                    'COM_REDSHOP_PRINT'
-                ) . "' title='"
-                . JText::_('COM_REDSHOP_PRINT') . "' /></a>";
+            $printTag = "<a onclick='window.print();' title='" . Text::_('COM_REDSHOP_PRINT') . "'>"
+                . "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . Text::_(
+                        'COM_REDSHOP_PRINT'
+                    ) . "' title='"
+                . Text::_('COM_REDSHOP_PRINT') . "' /></a>";
 
             $message = str_replace("{print}", $printTag, $message);
             $message = str_replace(
                 "{order_mail_intro_text_title}",
-                JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'),
+                Text::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'),
                 $message
             );
-            $message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
+            $message = str_replace("{order_mail_intro_text}", Text::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
             $message = Template::replaceTemplate($ordersDetail, $message, true);
             Redshop\Mail\Helper::imgInMail($message);
             $this->convertImagesPath($message);
@@ -265,9 +265,11 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 
         $pdf = new PlgRedshop_PdfTcPDFHelper('P', 'mm', 'A4');
 
-        if (file_exists(
+        if (
+            file_exists(
                 REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftCard->giftcard_bgimage
-            ) && $giftCard->giftcard_bgimage) {
+            ) && $giftCard->giftcard_bgimage
+        ) {
             $pdf->backgroundImage = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftCard->giftcard_bgimage;
         }
 
@@ -307,7 +309,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 
         // Changed font to support Unicode Characters - Specially Polish Characters
 
-        $this->tcpdf->SetTitle(JText::_('PLG_REDSHOP_PDF_TCPDF_SHIPPED_INVOICE_TITLE'));
+        $this->tcpdf->SetTitle(Text::_('PLG_REDSHOP_PDF_TCPDF_SHIPPED_INVOICE_TITLE'));
         $this->tcpdf->SetMargins(20, 85, 20);
         $this->settingTCPDF();
 
@@ -342,7 +344,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         // Changed font to support Unicode Characters - Specially Polish Characters
         $this->tcpdf->SetTitle(JText::sprintf('PLG_REDSHOP_PDF_TCPDF_ORDER_STOCK_NOTE_TITLE', $orderData->order_id));
         $this->tcpdf->SetMargins(15, 15, 15);
-        $this->tcpdf->SetHeaderData('', '', '', JText::_('COM_REDSHOP_ORDER') . ' ' . $orderData->order_id);
+        $this->tcpdf->SetHeaderData('', '', '', Text::_('COM_REDSHOP_ORDER') . ' ' . $orderData->order_id);
         $this->settingTCPDF(10, 10);
         $this->tcpdf->WriteHTML($pdfHtml);
         $this->tcpdf->Output('order_stock_note_' . $orderData->order_id . '.pdf', 'D');
@@ -368,9 +370,9 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         RedshopHelperPayment::loadLanguages();
 
         // Changed font to support Unicode Characters - Specially Polish Characters
-        $this->tcpdf->SetTitle(JText::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
+        $this->tcpdf->SetTitle(Text::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
         $this->tcpdf->SetMargins(15, 15, 15);
-        $this->tcpdf->SetHeaderData('', '', '', JText::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
+        $this->tcpdf->SetHeaderData('', '', '', Text::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
         $this->settingTCPDF(10, 12);
         $this->tcpdf->WriteHTML($pdfHtml);
         $this->tcpdf->Output('Order_' . $orderData->order_id . ".pdf", "D");

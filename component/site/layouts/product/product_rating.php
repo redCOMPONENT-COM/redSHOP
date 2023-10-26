@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * $displayData extract
  *
@@ -16,6 +18,7 @@ defined('_JEXEC') or die;
  * @param   int     $productId  Id current product
  * @param   int     $modal      Flag use form in modal
  */
+
 extract($displayData);
 
 $app         = JFactory::getApplication();
@@ -40,6 +43,7 @@ if ($user->id) {
     $form->setFieldAttribute('username', 'required', 'false', null);
     $form->setFieldAttribute('email', 'required', 'false', null);
 }
+
 ?>
 <script type="text/javascript" language="javascript">
     ratingSubmitButton = function (task) {
@@ -50,41 +54,65 @@ if ($user->id) {
         }
     };
 </script>
-<form name="productRatingForm" action="" method="post"
-      id="productRatingForm" class="form-validate form-vertical" enctype="multipart/form-data">
+<form name="productRatingForm" action="" method="post" id="productRatingForm" class="form-validate form-vertical"
+    enctype="multipart/form-data">
     <div class="redshop-productrating">
         <div class="row">
-            <label class="col-xs-3"><?php echo $form->getLabel('user_rating'); ?></label>
+            <label class="col-xs-3">
+                <?php echo $form->getLabel('user_rating'); ?>
+            </label>
             <div class="col-xs-9">
-                <div class="row"><?php echo $form->getInput('user_rating'); ?></div>
+                <div class="row">
+                    <?php echo $form->getInput('user_rating'); ?>
+                </div>
             </div>
         </div>
 
         <div class="row">
-            <label class="col-xs-3"><?php echo $form->getLabel('images'); ?></label>
-            <div class="col-xs-9"><?php echo $form->getInput('images'); ?></div>
+            <label class="col-xs-3">
+                <?php echo $form->getLabel('images'); ?>
+            </label>
+            <div class="col-xs-9">
+                <?php echo $form->getInput('images'); ?>
+            </div>
         </div>
 
         <div class="row product-rating-row">
-            <label class="col-xs-3"><?php echo $form->getLabel('username'); ?></label>
-            <div class="col-xs-9"><?php echo $form->getInput('username'); ?></div>
+            <label class="col-xs-3">
+                <?php echo $form->getLabel('username'); ?>
+            </label>
+            <div class="col-xs-9">
+                <?php echo $form->getInput('username'); ?>
+            </div>
         </div>
 
         <?php if ($user->guest): ?>
             <div class="row product-rating-row">
-                <label class="col-xs-3"><?php echo $form->getLabel('email'); ?></label>
-                <div class="col-xs-9"><?php echo $form->getInput('email'); ?></div>
+                <label class="col-xs-3">
+                    <?php echo $form->getLabel('email'); ?>
+                </label>
+                <div class="col-xs-9">
+                    <?php echo $form->getInput('email'); ?>
+                </div>
             </div>
         <?php endif; ?>
 
         <div class="row product-rating-row">
-            <label class="col-xs-3"><?php echo $form->getLabel('title'); ?></label>
-            <div class="col-xs-9"><?php echo $form->getInput('title'); ?></div>
+            <label class="col-xs-3">
+                <?php echo $form->getLabel('title'); ?>
+            </label>
+            <div class="col-xs-9">
+                <?php echo $form->getInput('title'); ?>
+            </div>
         </div>
 
         <div class="row product-rating-row">
-            <label class="col-xs-3"><?php echo $form->getLabel('comment'); ?></label>
-            <div class="col-xs-9"><?php echo $form->getInput('comment'); ?></div>
+            <label class="col-xs-3">
+                <?php echo $form->getLabel('comment'); ?>
+            </label>
+            <div class="col-xs-9">
+                <?php echo $form->getInput('comment'); ?>
+            </div>
         </div>
 
         <?php if ($user->guest): ?>
@@ -93,16 +121,16 @@ if ($user->id) {
     </div>
 
     <div class="product_rating">
-        <input type="submit" class="btn btn-primary" value="<?php echo JText::_('COM_REDSHOP_SEND_REVIEW'); ?>"
-               onclick="ratingSubmitButton('product_rating.submit')">
+        <input type="submit" class="btn btn-primary" value="<?php echo Text::_('COM_REDSHOP_SEND_REVIEW'); ?>"
+            onclick="ratingSubmitButton('product_rating.submit')">
     </div>
 
-    <input type="hidden" name="option" value="com_redshop"/>
-    <input type="hidden" name="view" value="product_rating"/>
-    <input type="hidden" name="task" id="task" value=""/>
-    <input type="hidden" name="modal" value="<?php echo $displayData['modal']; ?>"/>
-    <input type="hidden" name="product_id" value="<?php echo $productId ?>"/>
-    <input type="hidden" name="category_id" value="<?php echo $category_id ?>"/>
-    <input type="hidden" name="Itemid" value="<?php echo $Itemid ?>"/>
+    <input type="hidden" name="option" value="com_redshop" />
+    <input type="hidden" name="view" value="product_rating" />
+    <input type="hidden" name="task" id="task" value="" />
+    <input type="hidden" name="modal" value="<?php echo $displayData['modal']; ?>" />
+    <input type="hidden" name="product_id" value="<?php echo $productId ?>" />
+    <input type="hidden" name="category_id" value="<?php echo $category_id ?>" />
+    <input type="hidden" name="Itemid" value="<?php echo $Itemid ?>" />
     <?php echo JHtml::_('form.token'); ?>
 </form>

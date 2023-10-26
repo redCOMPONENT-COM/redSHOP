@@ -7,18 +7,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 $params = JFactory::getApplication()->input->get('params', '', 'raw');
+
 ?>
 <div>
     <form action="?option=com_redshop" method="POST" name="installform" id="installform">
         <table class="admintable table">
             <tr>
                 <td>
-                    <div class="wizard_intro_text"><?php echo JText::_('COM_REDSHOP_FINISH_WIZARD_INTRO_TEXT'); ?></div>
+                    <div class="wizard_intro_text"><?php echo Text::_('COM_REDSHOP_FINISH_WIZARD_INTRO_TEXT'); ?></div>
                 </td>
             </tr>
             <tr>
-                <td><label class="inline checkbox"><strong><?php echo JText::_(
+                <td><label class="inline checkbox"><strong><?php echo Text::_(
                                 'COM_REDSHOP_INSTALL_DEMO_CONTENT'
                             ); ?></strong><input type="checkbox"
                                                  name="installcontent"

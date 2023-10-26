@@ -7,33 +7,36 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
-$user = JFactory::getUser();
+use Joomla\CMS\Language\Text;
 
+$user = JFactory::getUser();
 $start = $this->pagination->limitstart;
 $end   = $this->pagination->limit;
+
 ?>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
     <div id="editcell">
         <table width="100%">
             <tr>
-                <td><?php echo JText::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption']; ?></td>
+                <td><?php echo Text::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption']; ?></td>
             </tr>
-            <?php /*<tr><td><?php echo JText::_('COM_REDSHOP_STARTDATE');?></td>
-		<td><?php echo JHTML::_('calendar', $this->startdate , 'startdate', 'startdate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
-	<tr><td><?php echo JText::_('COM_REDSHOP_ENDDATE');?></td>
-		<td><?php echo JHTML::_('calendar', $this->enddate , 'enddate', 'enddate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
-	<tr><td colspan="2"><input type="submit" name="filter" value=<?php echo JText::_('COM_REDSHOP_SUBMIT');?> /></td></tr><?php */ ?>
+            <?php /*<tr><td><?php echo Text::_('COM_REDSHOP_STARTDATE');?></td>
+        <td><?php echo JHTML::_('calendar', $this->startdate , 'startdate', 'startdate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
+    <tr><td><?php echo Text::_('COM_REDSHOP_ENDDATE');?></td>
+        <td><?php echo JHTML::_('calendar', $this->enddate , 'enddate', 'enddate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
+    <tr><td colspan="2"><input type="submit" name="filter" value=<?php echo Text::_('COM_REDSHOP_SUBMIT');?> /></td></tr><?php */ ?>
         </table>
         <table class="adminlist table table-striped" width="100%">
             <thead>
             <tr>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_HASH'); ?></th>
+                <th align="center"><?php echo Text::_('COM_REDSHOP_HASH'); ?></th>
                 <?php if ($this->filteroption) { ?>
-                    <th align="center"><?php echo JText::_('COM_REDSHOP_DATE'); ?></th>
+                    <th align="center"><?php echo Text::_('COM_REDSHOP_DATE'); ?></th>
                 <?php } ?>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_TOTAL_TURNOVER'); ?></th>
+                <th align="center"><?php echo Text::_('COM_REDSHOP_TOTAL_TURNOVER'); ?></th>
             </tr>
             </thead>
             <?php
@@ -54,9 +57,9 @@ $end   = $this->pagination->limit;
             <?php } ?>
             <tfoot>
             <td colspan="3">
-				<div class="redShopLimitBox">
-					<?php echo $this->pagination->getLimitBox(); ?>
-				</div>
+                <div class="redShopLimitBox">
+                    <?php echo $this->pagination->getLimitBox(); ?>
+                </div>
                 <?php echo $this->pagination->getListFooter(); ?></td>
             </tfoot>
         </table>

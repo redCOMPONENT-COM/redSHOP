@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 require_once JPATH_LIBRARIES . '/redshop/library.php';
 
 /**
@@ -63,7 +65,7 @@ class RedshopFormFieldText extends JFormField
         $this->attribs['type']        = 'text';
         $this->attribs['readonly']    = ($this->element['readonly'] == 'true') ? 'readonly' : null;
         $this->attribs['disabled']    = ($this->element['disabled'] == 'true') ? 'disabled' : null;
-        $this->attribs['placeholder'] = $this->element['placeholder'] ? JText::_($this->element['placeholder']) : null;
+        $this->attribs['placeholder'] = $this->element['placeholder'] ? Text::_($this->element['placeholder']) : null;
 
         if (isset($this->element['filter']) && ($this->element['filter'] == 'float' || $this->element['filter'] == 'integer')) {
             $this->attribs['type'] = 'number';
@@ -83,7 +85,7 @@ class RedshopFormFieldText extends JFormField
         $html = '';
 
         if ($this->multiple == 1 && is_array($this->value)) {
-            foreach ($this->value AS $value) {
+            foreach ($this->value as $value) {
                 $this->attribs['value'] = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
 
                 $html .= '<div class="multiple_input_wrapper"><input '
@@ -111,7 +113,7 @@ class RedshopFormFieldText extends JFormField
         if (!is_null($value)) {
             $name = strtolower($name);
 
-            $this->attribs[$name] = (string)$value;
+            $this->attribs[$name] = (string) $value;
         }
     }
 }

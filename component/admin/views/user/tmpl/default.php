@@ -7,10 +7,14 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 $filter = JFactory::getApplication()->input->get('filter');
 $model  = $this->getModel('user');
+
 ?>
 <script language="javascript" type="text/javascript">
     Joomla.submitbutton = function (pressbutton) {
@@ -28,7 +32,7 @@ $model  = $this->getModel('user');
         } else if (
             pressbutton == 'edit' || pressbutton == 'publish' || pressbutton == 'unpublish' || pressbutton == 'remove' || pressbutton == 'copy'
         ) {
-            if (pressbutton == 'remove' && confirm("<?php echo JText::_(
+            if (pressbutton == 'remove' && confirm("<?php echo Text::_(
                 'COM_REDSHOP_CONFIRM_DELETE_RESPECTIVE_JOOMLA_USERS'
             ); ?>")) {
                 form.delete_joomla_users.value = true;
@@ -61,21 +65,21 @@ $model  = $this->getModel('user');
                         name="filter"
                         id="filter"
                         value="<?php echo $this->state->get('filter'); ?>"
-                        placeholder="<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>"
+                        placeholder="<?php echo Text::_('COM_REDSHOP_USER_FILTER'); ?>"
                 >
-                <input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+                <input type="submit" class="btn" value="<?php echo Text::_("COM_REDSHOP_SEARCH") ?>">
                 <input type="button" class="btn reset" onclick="resetfilter();"
-                       value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"/>
+                       value="<?php echo Text::_('COM_REDSHOP_RESET'); ?>"/>
 
             </div>
         </div>
 
         <div class="filterItem">
-            <?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER'); ?>
+            <?php echo Text::_('COM_REDSHOP_SHOPPERGRP_FILTER'); ?>
             <?php echo $this->lists ['shopper_group']; ?>
         </div>
         <div class="filterItem">
-            <?php echo JText::_('COM_REDSHOP_TAX_EXEMPT_REQUESTED'); ?>
+            <?php echo Text::_('COM_REDSHOP_TAX_EXEMPT_REQUESTED'); ?>
             <?php echo $this->lists ['tax_exempt_request']; ?>
         </div>
     </div>
@@ -83,7 +87,7 @@ $model  = $this->getModel('user');
         <table class="adminlist table table-striped">
             <thead>
             <tr>
-                <th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
+                <th width="5%"><?php echo Text::_('COM_REDSHOP_NUM'); ?></th>
                 <th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
                 <th class="title"><?php echo JHTML::_(
                         'grid.sort',
@@ -120,7 +124,7 @@ $model  = $this->getModel('user');
                         $this->lists ['order_Dir'],
                         $this->lists ['order']
                     ); ?></th>
-                <th width="5%"><?php echo JText::_('COM_REDSHOP_CUSTOMER_SALES'); ?></th>
+                <th width="5%"><?php echo Text::_('COM_REDSHOP_CUSTOMER_SALES'); ?></th>
                 <th width="5%"
                     nowrap="nowrap"><?php echo JHTML::_(
                         'grid.sort',
@@ -142,13 +146,13 @@ $model  = $this->getModel('user');
                     'index.php?option=com_redshop&view=user_detail&task=edit&user_id=' . $row->id . '&cid[]=' . $row->users_info_id
                 );
 
-                $iscompany = JText::_('COM_REDSHOP_USER_CUSTOMER');
+                $iscompany = Text::_('COM_REDSHOP_USER_CUSTOMER');
 
                 if ($row->is_company) {
-                    $iscompany = JText::_('COM_REDSHOP_USER_COMPANY');
+                    $iscompany = Text::_('COM_REDSHOP_USER_COMPANY');
                 }
 
-                $fisrt_name = '<a href="' . $link . '" title="' . JText::_(
+                $fisrt_name = '<a href="' . $link . '" title="' . Text::_(
                         'COM_REDSHOP_EDIT_USER'
                     ) . '">' . $row->firstname . '</a>';
                 $last_name  = $row->lastname;

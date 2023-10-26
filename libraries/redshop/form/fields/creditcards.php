@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JFormHelper::loadFieldClass('checkboxes');
 
 /**
@@ -39,13 +41,13 @@ class JFormFieldCreditCards extends JFormFieldCheckboxes
         JFactory::getLanguage()->load('com_redshop');
 
         $cardTypes             = array();
-        $cardTypes['VISA']     = JText::_('COM_REDSHOP_CARD_TYPE_VISA');
-        $cardTypes['MC']       = JText::_('COM_REDSHOP_CARD_TYPE_MASTERCARD');
-        $cardTypes['amex']     = JText::_('COM_REDSHOP_CARD_TYPE_AMERICAN_EXPRESS');
-        $cardTypes['maestro']  = JText::_('COM_REDSHOP_CARD_TYPE_MAESTRO');
-        $cardTypes['jcb']      = JText::_('COM_REDSHOP_CARD_TYPE_JCB');
-        $cardTypes['diners']   = JText::_('COM_REDSHOP_CARD_TYPE_DINERS_CLUB');
-        $cardTypes['discover'] = JText::_('COM_REDSHOP_CARD_TYPE_DISCOVER');
+        $cardTypes['VISA']     = Text::_('COM_REDSHOP_CARD_TYPE_VISA');
+        $cardTypes['MC']       = Text::_('COM_REDSHOP_CARD_TYPE_MASTERCARD');
+        $cardTypes['amex']     = Text::_('COM_REDSHOP_CARD_TYPE_AMERICAN_EXPRESS');
+        $cardTypes['maestro']  = Text::_('COM_REDSHOP_CARD_TYPE_MAESTRO');
+        $cardTypes['jcb']      = Text::_('COM_REDSHOP_CARD_TYPE_JCB');
+        $cardTypes['diners']   = Text::_('COM_REDSHOP_CARD_TYPE_DINERS_CLUB');
+        $cardTypes['discover'] = Text::_('COM_REDSHOP_CARD_TYPE_DISCOVER');
 
         // Allow parent options - This will extends the options added directly from XML
         $options = parent::getOptions();

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-/** @var \RPaginationObject $item */
+/** @var \JPaginationObject $item */
 $item = $displayData['data'];
 
 $display = $item->text;

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * The mass discounts view
  *
@@ -45,14 +47,14 @@ class RedshopViewMass_Discounts extends RedshopViewList
         switch ($config['dataCol']) {
             case 'type':
                 if ($value == 1) {
-                    return '<span class="label label-success">' . JText::_(
-                            'COM_REDSHOP_MASS_DISCOUNT_TYPE_OPTION_PERCENTAGE'
-                        ) . '</span>';
+                    return '<span class="label label-success">' . Text::_(
+                        'COM_REDSHOP_MASS_DISCOUNT_TYPE_OPTION_PERCENTAGE'
+                    ) . '</span>';
                 }
 
-                return '<span class="label label-primary">' . JText::_(
-                        'COM_REDSHOP_MASS_DISCOUNT_TYPE_OPTION_TOTAL'
-                    ) . '</span>';
+                return '<span class="label label-primary">' . Text::_(
+                    'COM_REDSHOP_MASS_DISCOUNT_TYPE_OPTION_TOTAL'
+                ) . '</span>';
 
             case 'start_date':
             case 'end_date':

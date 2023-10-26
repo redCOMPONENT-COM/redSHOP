@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Product rating Controller.
  *
@@ -26,7 +28,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
     public function submit()
     {
         // Check for request forgeries.
-        JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
         $app   = JFactory::getApplication();
         $data  = $app->input->post->get('jform', array(), 'array');
@@ -50,7 +52,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 
         // Preform security checks
         if (!$user->id && Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED')) {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW'), 'warning');
+            $app->enqueueMessage(Text::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW'), 'warning');
             $this->setRedirect(Redshop\IO\Route::_($link, false));
 
             return false;
@@ -60,7 +62,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
         $form = $model->getForm();
 
         if (!$form) {
-			throw new \Exception($model->getError());
+            throw new \Exception($model->getError());
         }
 
         // Save the data in the session.
@@ -68,8 +70,8 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 
         // Check captcha only for guests
         if (JFactory::getUser()->guest) {
-            if (!Redshop\Helper\Utility::checkCaptcha(/** @scrutinizer ignore-type */ $data, false)) {
-                $app->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
+            if (!Redshop\Helper\Utility::checkCaptcha( /** @scrutinizer ignore-type */$data, false)) {
+                $app->enqueueMessage(Text::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
                 $this->setRedirect($link);
 
                 return false;
@@ -121,20 +123,24 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
             return false;
         }
 
-        if ((Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED') && $model->checkRatedProduct(
-                    $productId,
-                    $user->id
-                ))
+        if (
+            (Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED') && $model->checkRatedProduct(
+                $productId,
+                $user->id
+            )
+            )
             || (!Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED') && $model->checkRatedProduct(
-                    $productId,
-                    0,
-                    $data['email']
-                ))) {
+                $productId,
+                0,
+                $data['email']
+            )
+            )
+        ) {
             if ($modal) {
                 $link .= '&rate=1';
             }
 
-            $app->enqueueMessage(JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN'), 'warning');
+            $app->enqueueMessage(Text::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN'), 'warning');
             $this->setRedirect($link);
 
             return false;
@@ -153,7 +159,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
             if (Redshop::getConfig()->get('RATING_MSG')) {
                 $msg = Redshop::getConfig()->get('RATING_MSG');
             } else {
-                $msg = JText::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY');
+                $msg = Text::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY');
             }
 
             $app->enqueueMessage($msg);

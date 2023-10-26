@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tool image view
  *
@@ -34,7 +36,7 @@ class RedshopViewTool_Image extends RedshopViewAdmin
      */
     public function display($tpl = null)
     {
-        JToolBarHelper::title(JText::_('COM_REDSHOP_TOOLS'));
+        JToolBarHelper::title(Text::_('COM_REDSHOP_TOOLS'));
 
         parent::display($tpl);
     }

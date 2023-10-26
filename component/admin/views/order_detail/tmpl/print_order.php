@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Redshop\Order\Template;
-
 defined('_JEXEC') or die;
+
+use Redshop\Order\Template;
+use Joomla\CMS\Language\Text;
 
 $uri                  = JURI::getInstance();
 $url                  = $uri->root();
@@ -25,10 +26,10 @@ if (count($order_print_template) > 0 && $order_print_template[0]->template_desc 
 
 Redshop\Mail\Helper::imgInMail($ordersprint_template);
 
-$print_tag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRINT') . "'>"
-    . "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_(
-        'COM_REDSHOP_PRINT'
-    ) . "' title='" . JText::_('COM_REDSHOP_PRINT') . "' /></a>";
+$print_tag = "<a onclick='window.print();' title='" . Text::_('COM_REDSHOP_PRINT') . "'>"
+    . "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . Text::_(
+            'COM_REDSHOP_PRINT'
+        ) . "' title='" . Text::_('COM_REDSHOP_PRINT') . "' /></a>";
 
 $message = str_replace("{print}", $print_tag, $ordersprint_template);
 $message = Template::replaceTemplate($OrdersDetail, $message, true);

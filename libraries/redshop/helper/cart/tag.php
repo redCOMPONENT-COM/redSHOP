@@ -9,7 +9,10 @@
  *
  * @since       2.0.3
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * Class Redshop Helper for Cart - Tag replacer
@@ -55,9 +58,11 @@ class RedshopHelperCartTag
         }
 
         if (strpos($template, '{tax_after_discount}') !== false) {
-            if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && (float)Redshop::getConfig()->get(
+            if (
+                Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && (float) Redshop::getConfig()->get(
                     'VAT_RATE_AFTER_DISCOUNT'
-                )) {
+                )
+            ) {
                 if ($check) {
                     $taxAfterDiscount = $discount;
                 } else {
@@ -90,7 +95,7 @@ class RedshopHelperCartTag
             }
         }
 
-        $template = str_replace("{vat_lbl}", JText::_('COM_REDSHOP_CHECKOUT_VAT_LBL'), $template);
+        $template = str_replace("{vat_lbl}", Text::_('COM_REDSHOP_CHECKOUT_VAT_LBL'), $template);
         $template = str_replace("{if vat}", '', $template);
         $template = str_replace("{vat end if}", '', $template);
 
@@ -158,7 +163,7 @@ class RedshopHelperCartTag
                 $template = str_replace("{discount_in_percentage}", $percentage, $template);
             }
 
-            $template = str_replace("{discount_lbl}", JText::_('COM_REDSHOP_CHECKOUT_DISCOUNT_LBL'), $template);
+            $template = str_replace("{discount_lbl}", Text::_('COM_REDSHOP_CHECKOUT_DISCOUNT_LBL'), $template);
             $template = str_replace("{discount end if}", '', $template);
         }
 
@@ -201,7 +206,7 @@ class RedshopHelperCartTag
                     $template = str_replace("{special_discount}", $order->special_discount . '%', $template);
                 }
 
-                $template = str_replace("{special_discount_lbl}", JText::_('COM_REDSHOP_SPECIAL_DISCOUNT'), $template);
+                $template = str_replace("{special_discount_lbl}", Text::_('COM_REDSHOP_SPECIAL_DISCOUNT'), $template);
                 $template = str_replace("{special_discount end if}", '', $template);
             }
         }

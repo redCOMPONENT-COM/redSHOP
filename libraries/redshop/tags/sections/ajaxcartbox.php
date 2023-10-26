@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -35,7 +37,7 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
             $cartBoxTitle = RedshopLayoutHelper::render(
                 'tags.common.tag',
                 array(
-                    'text'  => JText::_('COM_REDSHOP_CART_SAVE'),
+                    'text'  => Text::_('COM_REDSHOP_CART_SAVE'),
                     'tag'   => 'div',
                     'id'    => '',
                     'class' => 'ajax_cart_box_title',
@@ -52,7 +54,7 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
             $showCartText = RedshopLayoutHelper::render(
                 'tags.common.tag',
                 array(
-                    'text'  => JText::_('COM_REDSHOP_SHOW_CART_TEXT'),
+                    'text'  => Text::_('COM_REDSHOP_SHOW_CART_TEXT'),
                     'tag'   => 'div',
                     'id'    => '',
                     'class' => 'show_cart_text',
@@ -69,11 +71,11 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
             $viewButton = RedshopLayoutHelper::render(
                 'tags.common.button',
                 array(
-                    'text'  => JText::_('COM_REDSHOP_VIEW_CART'),
+                    'text'  => Text::_('COM_REDSHOP_VIEW_CART'),
                     'class' => 'view_cart_button btn btn-primary',
                     'attr'  => 'name="viewcart" onclick="javascript:window.location.href=\'' . Redshop\IO\Route::_(
-                            'index.php?option=com_redshop&view=cart&Itemid=' . $itemId
-                        ) . '\'"'
+                        'index.php?option=com_redshop&view=cart&Itemid=' . $itemId
+                    ) . '\'"'
                 ),
                 '',
                 RedshopLayoutHelper::$layoutOption
@@ -93,7 +95,7 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
             $continueButton = RedshopLayoutHelper::render(
                 'tags.common.button',
                 array(
-                    'text'  => JText::_('COM_REDSHOP_CONTINUE_SHOPPING'),
+                    'text'  => Text::_('COM_REDSHOP_CONTINUE_SHOPPING'),
                     'class' => 'continue_cart_button btn',
                     'attr'  => 'name="continuecart" onclick="document.location=\'' . $shopMoreLink . '\'"'
                 ),

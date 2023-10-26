@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * $displayData extract
  *
@@ -19,7 +21,9 @@ defined('_JEXEC') or die;
  * @var   array $fieldCheck  Extra field check
  * @var   string $checkData  Extra field check data
  */
+
 extract($displayData);
+
 ?>
 <div class="userfield_input">
     <select
@@ -31,14 +35,15 @@ extract($displayData);
             size="10"
         <?php echo $required; ?>
     >
-        <option><?php echo JText::_('COM_REDSHOP_SELECT'); ?></option>
-        <?php foreach ($fieldCheck as $key => $field) : ?>
-            <?php $selected = (!empty($checkData) && in_array(
+        <option><?php echo Text::_('COM_REDSHOP_SELECT'); ?></option>
+        <?php foreach ($fieldCheck as $key => $field): ?>
+                <?php $selected = (!empty($checkData) && in_array(
                     urlencode($field->field_value),
                     $checkData
-                )) ? ' selected="selected" ' : ''; ?>
-            <option <?php echo $selected; ?>
-                    value="<?php echo urlencode($field->field_value); ?>"><?php echo $field->field_name; ?></option>
+                )
+                ) ? ' selected="selected" ' : ''; ?>
+                <option <?php echo $selected; ?>
+                        value="<?php echo urlencode($field->field_value); ?>"><?php echo $field->field_name; ?></option>
         <?php endforeach; ?>
     </select>
 </div>

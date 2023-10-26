@@ -7,11 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Utilities\ArrayHelper;
-
 defined('_JEXEC') || die;
 
 use \Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Tags replacer abstract class
  *
@@ -42,7 +43,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
         $commonPaymentMethods = RedshopHelperPayment::getPaymentMethodInCheckOut($paymentMethods);
 
         if (!empty($commonPaymentMethods)) {
-            $this->addReplace('{payment_heading}', JText::_('COM_REDSHOP_PAYMENT_METHOD'));
+            $this->addReplace('{payment_heading}', Text::_('COM_REDSHOP_PAYMENT_METHOD'));
             $this->addReplace('{split_payment}', '');
 
             $subTemplate = $this->getTemplateBetweenLoop('{payment_loop_start}', '{payment_loop_end}');
@@ -73,10 +74,12 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
 
                         $shopperGroups = ArrayHelper::toInteger($shopperGroups);
 
-                        if (in_array(
-                                (int)$shopperGroupId,
+                        if (
+                            in_array(
+                                (int) $shopperGroupId,
                                 $shopperGroups
-                            ) || (!isset($shopperGroups[0]) || 0 == $shopperGroups[0])) {
+                            ) || (!isset($shopperGroups[0]) || 0 == $shopperGroups[0])
+                        ) {
                             return true;
                         }
 
@@ -121,7 +124,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
             $this->replacements['{creditcard_information}'] = '';
             $this->replacements['{payment_loop_start}']     = '';
             $this->replacements['{payment_loop_end}']       = '';
-            $this->replacements['{payment_heading}']        = JText::_('COM_REDSHOP_PAYMENT_METHOD_CONFLICT');
+            $this->replacements['{payment_heading}']        = Text::_('COM_REDSHOP_PAYMENT_METHOD_CONFLICT');
             $this->replacements['{payment_method_name}']    = RedshopHelperPayment::displayPaymentMethodInCheckOut(
                 $paymentMethods
             );
@@ -167,18 +170,17 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
 
             $privatePerson  = $oneMethod->params->get('private_person', '');
             $business       = $oneMethod->params->get('business', '');
-            $isCreditCard   = (boolean)$oneMethod->params->get('is_creditcard', 0);
+            $isCreditCard   = (boolean) $oneMethod->params->get('is_creditcard', 0);
             $checked        = $this->data['paymentMethodId'] === $oneMethod->name || $totalPaymentMethod <= 1;
             $logo           = $oneMethod->params->get('logo', '');
-            $showImage      = ( ! empty($logo) && JFile::exists(JPATH_ROOT.'/'.$logo)) ? 1 : 0;
+            $showImage      = (!empty($logo) && JFile::exists(JPATH_ROOT . '/' . $logo)) ? 1 : 0;
             $isShowOnGuest  = $oneMethod->params->get('is_show_guest', 1);
             $isShowOnMember = $oneMethod->params->get('is_show_member', 1);
 
             if (
                 (!$isShowOnGuest && Factory::getUser()->guest == 1) ||
                 (!$isShowOnMember && Factory::getUser()->guest == 0)
-            )
-            {
+            ) {
                 return '';
             }
 
@@ -212,9 +214,11 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
                 if ($this->data['isCompany'] == 0 && $privatePerson == 1) {
                     $displayPayment = $paymentRadioOutput;
                 } else {
-                    if ($this->data['isCompany'] == 1 && $business == 1 &&
+                    if (
+                        $this->data['isCompany'] == 1 && $business == 1 &&
                         ($oneMethod->name != 'rs_payment_eantransfer'
-                            || ($oneMethod->name == 'rs_payment_eantransfer' && $this->data['eanNumber'] != 0))) {
+                            || ($oneMethod->name == 'rs_payment_eantransfer' && $this->data['eanNumber'] != 0))
+                    ) {
                         $displayPayment = $paymentRadioOutput;
                     }
                 }

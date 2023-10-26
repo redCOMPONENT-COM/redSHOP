@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -63,8 +65,8 @@ class RedshopTagsSectionsProductSample extends RedshopTagsAbstract
             $this->optionLayout
         );
 
-        $this->replacements['{name_lbl}']  = JText::_('COM_REDSHOP_NAME_LBL');
-        $this->replacements['{email_lbl}'] = JText::_('COM_REDSHOP_EMAIL_LBL');
+        $this->replacements['{name_lbl}']  = Text::_('COM_REDSHOP_NAME_LBL');
+        $this->replacements['{email_lbl}'] = Text::_('COM_REDSHOP_EMAIL_LBL');
 
         $this->replacements['{email_address}'] = RedshopLayoutHelper::render(
             'tags.common.input',
@@ -84,7 +86,7 @@ class RedshopTagsSectionsProductSample extends RedshopTagsAbstract
                 'name'  => 'samplesend',
                 'id'    => 'samplesend',
                 'attr'  => 'onClick="return getCatalogSampleValidation();"',
-                'value' => JText::_('COM_REDSHOP_SAMPLE_SEND')
+                'value' => Text::_('COM_REDSHOP_SAMPLE_SEND')
             ],
             '',
             $this->optionLayout
@@ -106,15 +108,15 @@ class RedshopTagsSectionsProductSample extends RedshopTagsAbstract
         );
 
         $this->template = $pageHeading . RedshopLayoutHelper::render(
-                'tags.product_sample.form',
-                [
-                    'content' => $this->template,
-                    'itemId'  => $itemId,
-                    'layout'  => $layout
-                ],
-                '',
-                $this->optionLayout
-            );
+            'tags.product_sample.form',
+            [
+                'content' => $this->template,
+                'itemId'  => $itemId,
+                'layout'  => $layout
+            ],
+            '',
+            $this->optionLayout
+        );
 
         return parent::replace();
     }

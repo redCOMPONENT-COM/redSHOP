@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Statistic Product view
  *
@@ -28,7 +30,7 @@ class RedshopViewStatistic_Product extends RedshopViewAdmin
     public function display($tpl = null)
     {
         $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_STATISTIC_PRODUCT'));
+        $document->setTitle(Text::_('COM_REDSHOP_STATISTIC_PRODUCT'));
 
         $model = $this->getModel();
 
@@ -52,7 +54,7 @@ class RedshopViewStatistic_Product extends RedshopViewAdmin
     protected function addToolbar()
     {
         JFactory::getApplication()->input->set('hidemainmenu', true);
-        JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC_PRODUCT'), 'statistic redshop_statistic48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_STATISTIC_PRODUCT'), 'statistic redshop_statistic48');
 
         RedshopToolbarHelper::custom(
             'exportProduct',

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * $displayData extract
  *
@@ -18,6 +20,7 @@ defined('_JEXEC') or die;
  * @param   bool   $isAjax              Layout use for ajax request
  * @param   array  $productStockStatus  Product status array
  */
+
 extract($displayData);
 
 $session       = JFactory::getSession();
@@ -32,31 +35,31 @@ if (!isset($isAjax)) {
 
 if (!$isAjax):
     ?>
-    <div id="notify_stock<?php echo $productId; ?>" class="notifyStock">
-<?php
+        <div id="notify_stock<?php echo $productId; ?>" class="notifyStock">
+    <?php
 endif;
 
 if ((!isset($productStockStatus['regular_stock']) || !$productStockStatus['regular_stock'])) {
     if (($productStockStatus['preorder'] && !$productStockStatus['preorder_stock']) || !$productStockStatus['preorder']) {
         if (RedshopHelperStockroom::isAlreadyNotifiedUser($user_id, $productId, $propertyId, $subPropertyId)): ?>
-            <span><?php echo JText::_('COM_REDSHOP_ALREADY_REQUESTED_FOR_NOTIFICATION'); ?></span>
-        <?php else: ?>
-            <?php if (!$user_id) : ?>
-                <span><?php echo JText::_('COM_REDSHOP_EMAIL'); ?></span>
-                <input type="email" name="email_notify" id="email_notify" class="email_notify"/>
-            <?php endif ?>
-            <span><?php echo JText::_('COM_REDSHOP_NOTIFY_STOCK_LBL'); ?></span>
-            <input type="button" name="" value="<?php echo JText::_('COM_REDSHOP_NOTIFY_STOCK_BUTTON'); ?>"
-                   class="notifystockbtn btn" onclick=" getStocknotify('<?php
-            echo $productId; ?>','<?php
-            echo $propertyId; ?>','<?php
-            echo $subPropertyId; ?>','<?php
-            echo $user_id; ?>');"/>
-        <?php endif;
+                        <span><?php echo Text::_('COM_REDSHOP_ALREADY_REQUESTED_FOR_NOTIFICATION'); ?></span>
+                <?php else: ?>
+                        <?php if (!$user_id): ?>
+                                <span><?php echo Text::_('COM_REDSHOP_EMAIL'); ?></span>
+                                <input type="email" name="email_notify" id="email_notify" class="email_notify"/>
+                        <?php endif ?>
+                        <span><?php echo Text::_('COM_REDSHOP_NOTIFY_STOCK_LBL'); ?></span>
+                        <input type="button" name="" value="<?php echo Text::_('COM_REDSHOP_NOTIFY_STOCK_BUTTON'); ?>"
+                               class="notifystockbtn btn" onclick=" getStocknotify('<?php
+                               echo $productId; ?>','<?php
+                                 echo $propertyId; ?>','<?php
+                                   echo $subPropertyId; ?>','<?php
+                                     echo $user_id; ?>');"/>
+                <?php endif;
     }
 }
 
 if (!$isAjax):
     ?>
-    </div>
+        </div>
 <?php endif;

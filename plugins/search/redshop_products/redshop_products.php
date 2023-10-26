@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JLoader::import('redshop.library');
 
 /**
@@ -59,7 +61,7 @@ class PlgSearchRedshop_Products extends JPlugin
 
         $db = JFactory::getDbo();
 
-        $section         = ($this->params->get('showSection')) ? JText::_('PLG_SEARCH_REDSHOP_PRODUCTS') : '';
+        $section         = ($this->params->get('showSection')) ? Text::_('PLG_SEARCH_REDSHOP_PRODUCTS') : '';
         $searchShortDesc = $this->params->get('searchShortDesc', 0);
         $searchFullDesc  = $this->params->get('searchFullDesc', 0);
 
@@ -119,8 +121,8 @@ class PlgSearchRedshop_Products extends JPlugin
             case 'all':
             case 'any':
             default:
-                $words    = explode(' ', $text);
-                $wheres   = array();
+                $words = explode(' ', $text);
+                $wheres = array();
                 $orsField = array();
 
                 foreach ($words as $word) {
@@ -195,7 +197,8 @@ class PlgSearchRedshop_Products extends JPlugin
 
         try {
             $rows = $db->loadObjectList();
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             throw new Exception($e->getMessage(), $e->getCode());
         }
 
@@ -218,7 +221,7 @@ class PlgSearchRedshop_Products extends JPlugin
     public function onContentSearchAreas()
     {
         $areas = array(
-            'redshop_products' => JText::_('PLG_SEARCH_REDSHOP_PRODUCTS_SECTION_NAME')
+            'redshop_products' => Text::_('PLG_SEARCH_REDSHOP_PRODUCTS_SECTION_NAME')
         );
 
         return $areas;

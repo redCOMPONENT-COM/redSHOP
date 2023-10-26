@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -78,7 +80,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
     {
         $accessories       = $this->data['accessory'];
         $accessoryTemplate = '';
-        $attributeTemplate = (object)\Redshop\Template\Helper::getAttribute($this->template);
+        $attributeTemplate = (object) \Redshop\Template\Helper::getAttribute($this->template);
         $productId         = $this->data['relProductId'] != 0 ? $this->data['relProductId'] : $this->data['productId'];
         $userId            = 0;
         $product           = \Redshop\Product\Product::getProductById($productId);
@@ -165,18 +167,22 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
         $productPrices                                         = array();
 
         // @Todo Check selected accessory price
-        if ($this->isTagExists('{accessory_mainproduct_price}') || strpos(
+        if (
+            $this->isTagExists('{accessory_mainproduct_price}') || strpos(
                 $templateContent,
                 "{selected_accessory_price}"
-            ) !== false) {
+            ) !== false
+        ) {
             $productPrices = RedshopHelperProductPrice::getNetPrice($product->product_id, $userId, 1, $templateContent);
         }
 
         if ($this->isTagExists('{accessory_mainproduct_price}')) {
-            if (Redshop::getConfig()->get('SHOW_PRICE')
+            if (
+                Redshop::getConfig()->get('SHOW_PRICE')
                 && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
                     || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
-                        && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))) {
+                        && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
+            ) {
                 $accessoryMainProductPrice = RedshopHelperProductPrice::priceReplacement(
                     $productPrices['product_price']
                 );
@@ -415,7 +421,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
             )
         );
 
-        // @Todo: Reacfor section template stock
+        // @Todo: Refactor section template stock
         $template = Redshop\Product\Stock::replaceInStock($accessory->child_product_id, $template);
 
         // Accessory attribute  End
@@ -449,8 +455,10 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 
         $accessoryChecked = "";
 
-        if (($this->data['isAjax'] == 1 && in_array($accessory->accessory_id, $this->selectedAccessory))
-            || ($this->data['isAjax'] == 0 && $accessory->setdefault_selected)) {
+        if (
+            ($this->data['isAjax'] == 1 && in_array($accessory->accessory_id, $this->selectedAccessory))
+            || ($this->data['isAjax'] == 0 && $accessory->setdefault_selected)
+        ) {
             $accessoryChecked = "checked";
         }
 
@@ -469,7 +477,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
         $checkboxLbl = RedshopLayoutHelper::render(
             'tags.common.label',
             array(
-                'text'  => JText::_('COM_REDSHOP_ACCESSORY_ADD_CHKBOX_LBL') . '&nbsp;' . $accessory->product_name,
+                'text'  => Text::_('COM_REDSHOP_ACCESSORY_ADD_CHKBOX_LBL') . '&nbsp;' . $accessory->product_name,
                 'id'    => 'accessory_checkbox_lbl' . $accessory->accessory_id,
                 'class' => 'accessory_checkbox_lbl'
             ),
@@ -500,10 +508,13 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
             $this->replacements["{accessory_title}"] = $htmlTitle;
         }
 
-        if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
+        if (
+            Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
                 || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get(
-                        'SHOW_QUOTATION_PRICE'
-                    )))) {
+                    'SHOW_QUOTATION_PRICE'
+                )
+                ))
+        ) {
             if ($this->isTagExists('{accessory_price}')) {
                 $class    = 'accessory-price accessory_' . $accessory->accessory_id;
                 $template = $this->replaceTagPrice('{accessory_price}', $accessoryPrice, $template, $class);
@@ -562,7 +573,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                 );
 
                 $this->replacements["{accessory_quantity}"]     = $accessoryQuantity;
-                $this->replacements["{accessory_quantity_lbl}"] = JText::_('COM_REDSHOP_QUANTITY');
+                $this->replacements["{accessory_quantity_lbl}"] = Text::_('COM_REDSHOP_QUANTITY');
             } else {
                 $this->replacements["{accessory_quantity}"]     = '';
                 $this->replacements["{accessory_quantity_lbl}"] = '';
@@ -607,7 +618,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                     array(
                         'class'   => 'btn btn-primary accessory-manufacture-link',
                         'link'    => $manufacturerUrl,
-                        'content' => JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS")
+                        'content' => Text::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS")
                     ),
                     '',
                     RedshopLayoutHelper::$layoutOption
@@ -868,8 +879,10 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                     $accessory->child_product_id
                 );
 
-                if ($fieldValues && $fieldValues->data_txt != ""
-                    && $field->show_in_front == 1 && $field->published == 1) {
+                if (
+                    $fieldValues && $fieldValues->data_txt != ""
+                    && $field->show_in_front == 1 && $field->published == 1
+                ) {
                     $this->replacements['{' . $field->name . '}']     = $fieldValues->data_txt;
                     $this->replacements['{' . $field->name . '_lbl}'] = $field->title;
                 } else {

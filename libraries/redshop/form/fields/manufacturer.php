@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
 JFormHelper::loadFieldClass('list');
@@ -33,8 +34,8 @@ class JFormFieldmanufacturer extends JFormFieldList
 
     protected function getInput()
     {
-        $db   = JFactory::getDbo();
-        $name = $this->name;
+        $db    = JFactory::getDbo();
+        $name  = $this->name;
         $class = array();
         $attr  = '';
 
@@ -48,7 +49,7 @@ class JFormFieldmanufacturer extends JFormFieldList
             HTMLHelper::_(
                 'select.option',
                 '',
-                '- ' . JText::_('COM_REDSHOP_SELECT_MANUFACTURER') . ' -',
+                '- ' . Text::_('COM_REDSHOP_SELECT_MANUFACTURER') . ' -',
                 'id',
                 'name'
             )
@@ -64,13 +65,14 @@ class JFormFieldmanufacturer extends JFormFieldList
         }
 
         return HTMLHelper::_('
-            select.genericlist', 
-            $options, 
-            $name, 
-            trim($attr), 
-            'id', 
-            'name', 
-            $this->value, 
-            $this->id);
+            select.genericlist',
+            $options,
+            $name,
+            trim($attr),
+            'id',
+            'name',
+            $this->value,
+            $this->id
+        );
     }
 }

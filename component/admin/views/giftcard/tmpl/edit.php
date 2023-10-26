@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 JHtml::_('behavior.formvalidator');
 
@@ -18,29 +21,28 @@ if ($this->item->giftcard_id) {
 
 JFactory::getDocument()->addScriptDeclaration(
     '
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "giftcard.cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
-		{
-			Joomla.submitform(task);
-		}
-	};
+    Joomla.submitbutton = function(task)
+    {
+        if (task == "giftcard.cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
+        {
+            Joomla.submitform(task);
+        }
+    };
 '
 );
 ?>
 <form
-        action="index.php?option=com_redshop&view=giftcard&task=giftcard.edit&giftcard_id=<?php echo $this->item->giftcard_id; ?>"
-        method="post"
-        id="adminForm"
-        name="adminForm"
-        class="adminform form-validate form-horizontal"
-        enctype="multipart/form-data">
+    action="index.php?option=com_redshop&view=giftcard&task=giftcard.edit&giftcard_id=<?php echo $this->item->giftcard_id; ?>"
+    method="post" id="adminForm" name="adminForm" class="adminform form-validate form-horizontal"
+    enctype="multipart/form-data">
 
     <div class="row">
         <div class="col-md-6">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DETAIL') ?></h3>
+                    <h3 class="box-title">
+                        <?php echo Text::_('COM_REDSHOP_DETAIL') ?>
+                    </h3>
                 </div>
                 <div class="box-body">
                     <?php echo $this->form->renderField('giftcard_name') ?>
@@ -52,10 +54,12 @@ JFactory::getDocument()->addScriptDeclaration(
                     <?php echo $this->form->renderField('published') ?>
                 </div>
             </div>
-            <?php if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION')) : ?>
+            <?php if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION')): ?>
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_ECONOMIC'); ?></h3>
+                        <h3 class="box-title">
+                            <?php echo Text::_('COM_REDSHOP_ECONOMIC'); ?>
+                        </h3>
                     </div>
                     <div class="panel-body">
                         <?php echo $this->form->renderField('accountgroup_id') ?>
@@ -66,7 +70,9 @@ JFactory::getDocument()->addScriptDeclaration(
         <div class="col-md-6">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_OTHER_INFORMATION') ?></h3>
+                    <h3 class="box-title">
+                        <?php echo Text::_('COM_REDSHOP_OTHER_INFORMATION') ?>
+                    </h3>
                 </div>
                 <div class="box-body">
                     <?php echo $this->form->renderField('giftcard_bgimage_file') ?>
@@ -86,14 +92,14 @@ JFactory::getDocument()->addScriptDeclaration(
                                 Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
                             );
                             ?>
-                            <?php if ($value) : ?>
-                            <a class="joom-box"
-                               href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $value; ?>">
+                            <?php if ($value): ?>
+                                <a class="joom-box"
+                                    href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $value; ?>">
                                 <?php endif; ?>
                                 <img src="<?php echo $giftCardImagePath; ?>" class="img-polaroid">
-                                <?php if ($value) : ?>
-                            </a>
-                        <?php endif; ?>
+                                <?php if ($value): ?>
+                                </a>
+                            <?php endif; ?>
                             <?php echo $this->form->getInput('giftcard_bgimage') ?>
                         </div>
                     </div>
@@ -114,14 +120,14 @@ JFactory::getDocument()->addScriptDeclaration(
                                 Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
                             );
                             ?>
-                            <?php if ($value) : ?>
-                            <a class="joom-box"
-                               href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $value; ?>">
+                            <?php if ($value): ?>
+                                <a class="joom-box"
+                                    href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $value; ?>">
                                 <?php endif; ?>
                                 <img src="<?php echo $giftCardImagePath; ?>" class="img-polaroid">
-                                <?php if ($value) : ?>
-                            </a>
-                        <?php endif; ?>
+                                <?php if ($value): ?>
+                                </a>
+                            <?php endif; ?>
                             <?php echo $this->form->getInput('giftcard_image') ?>
                         </div>
                     </div>
@@ -131,7 +137,7 @@ JFactory::getDocument()->addScriptDeclaration(
         </div>
     </div>
 
-    <input type="hidden" name="task" value=""/>
+    <input type="hidden" name="task" value="" />
     <?php echo $this->form->getInput('giftcard_id') ?>
     <?php echo JHtml::_('form.token'); ?>
 </form>

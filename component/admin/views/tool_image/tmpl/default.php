@@ -7,7 +7,11 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 ?>
 <script type="text/javascript">
     (function ($) {
@@ -88,21 +92,23 @@ defined('_JEXEC') or die;
             <div class="panel-heading">
                 <h3 class="panel-title">
                     <img class="images-loading"
-                         src="<?php echo JUri::root() ?>/components/com_redshop/assets/images/loading.gif" width="20"
-                         height="20" style="display: none"/>
-                    <?php echo JText::_('COM_REDSHOP_TOOLS_IMAGE_WRAPPER') ?>
+                        src="<?php echo JUri::root() ?>/components/com_redshop/assets/images/loading.gif" width="20"
+                        height="20" style="display: none" />
+                    <?php echo Text::_('COM_REDSHOP_TOOLS_IMAGE_WRAPPER') ?>
                 </h3>
             </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-3">
                         <a class="btn btn-block btn-app" id="images-size-check" href="javascript:void(0);">
-                            <i class="fa fa-refresh"></i><?php echo JText::_('COM_REDSHOP_TOOLS_IMAGE_SIZE_CHECK') ?>
+                            <i class="fa fa-refresh"></i>
+                            <?php echo Text::_('COM_REDSHOP_TOOLS_IMAGE_SIZE_CHECK') ?>
                         </a>
                     </div>
                     <div class="col-md-3">
                         <a class="btn btn-block btn-app" id="images-clean-thumb" href="javascript:void(0);">
-                            <i class="fa fa-remove"></i><?php echo JText::_(
+                            <i class="fa fa-remove"></i>
+                            <?php echo Text::_(
                                 'COM_REDSHOP_TOOLS_IMAGE_CLEAN_THUMBNAIL'
                             ) ?>
                         </a>
@@ -110,7 +116,7 @@ defined('_JEXEC') or die;
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <hr/>
+                        <hr />
                         <div class="images-status-log well" style="height: 300px; overflow: auto;"></div>
                     </div>
                 </div>

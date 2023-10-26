@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 ?>
 <script type="text/javascript">
@@ -36,7 +39,7 @@ defined('_JEXEC') or die;
                             doProcess($table, $loaderImg, $button);
                         } else {
                             $.redshopAlert(
-                                "<?php echo JText::_('COM_REDSHOP_TOOL_RUN_TASK') ?>",
+                                "<?php echo Text::_('COM_REDSHOP_TOOL_RUN_TASK') ?>",
                                 response.msg
                             );
 
@@ -68,7 +71,7 @@ defined('_JEXEC') or die;
                     },
                     function (response) {
                         $.redshopAlert(
-                            "<?php echo JText::_('COM_REDSHOP_TOOL_RUN_DATABASE') ?>",
+                            "<?php echo Text::_('COM_REDSHOP_TOOL_RUN_DATABASE') ?>",
                             response.msg
                         );
 
@@ -80,7 +83,7 @@ defined('_JEXEC') or die;
                 )
                     .fail(function (response) {
                         $.redshopAlert(
-                            "<?php echo JText::_('COM_REDSHOP_TOOL_RUN_DATABASE') ?>",
+                            "<?php echo Text::_('COM_REDSHOP_TOOL_RUN_DATABASE') ?>",
                             response.responseText,
                             "danger"
                         )
@@ -110,7 +113,7 @@ defined('_JEXEC') or die;
             function (response) {
                 if (response.continue === 0) {
                     $.redshopAlert(
-                        "<?php echo JText::_('COM_REDSHOP_TOOL_RUN_TASK') ?>",
+                        "<?php echo Text::_('COM_REDSHOP_TOOL_RUN_TASK') ?>",
                         response.msg
                     );
 
@@ -125,7 +128,7 @@ defined('_JEXEC') or die;
         )
             .fail(function (response) {
                 $.redshopAlert(
-                    "<?php echo JText::_('COM_REDSHOP_TOOL_RUN_TASK') ?>",
+                    "<?php echo Text::_('COM_REDSHOP_TOOL_RUN_TASK') ?>",
                     response.responseText,
                     "danger"
                 );
@@ -139,57 +142,65 @@ defined('_JEXEC') or die;
 <div class="row-fluid">
     <?php if (!empty($this->availableVersions)): ?>
         <div class="callout callout-default">
-            <strong class="text-warning"><i class="fa fa-exclamation-triangle"></i> <?php echo JText::_('WARNING') ?>
+            <strong class="text-warning"><i class="fa fa-exclamation-triangle"></i>
+                <?php echo Text::_('WARNING') ?>
             </strong>
-            <p><?php echo JText::_('COM_REDSHOP_INSTALL_RUN_VERSION_TASKS_UPDATE_WARNING') ?></p>
+            <p>
+                <?php echo Text::_('COM_REDSHOP_INSTALL_RUN_VERSION_TASKS_UPDATE_WARNING') ?>
+            </p>
         </div>
         <table class="table table-bordered table-hover" id="table-tasks">
             <thead>
-            <tr>
-                <th width="5%">
-                    <?php echo JText::_('COM_REDSHOP_TOOL_VERSION') ?>
-                </th>
-                <th width="10%"><?php echo JText::_('COM_REDSHOP_TOOL_TASKS') ?></th>
-                <th width="30%"></th>
-                <th width="10%">&nbsp;</th>
-                <th width="30%">&nbsp;</th>
-            </tr>
+                <tr>
+                    <th width="5%">
+                        <?php echo Text::_('COM_REDSHOP_TOOL_VERSION') ?>
+                    </th>
+                    <th width="10%">
+                        <?php echo Text::_('COM_REDSHOP_TOOL_TASKS') ?>
+                    </th>
+                    <th width="30%"></th>
+                    <th width="10%">&nbsp;</th>
+                    <th width="30%">&nbsp;</th>
+                </tr>
             </thead>
             <tbody>
-            <?php foreach ($this->availableVersions as $availableVersion): ?>
-                <tr>
-                    <td class="text-center"><strong
-                                class="text-danger"><?php echo $availableVersion->version ?></strong></td>
-                    <td>
-                        <button class="btn btn-default btn-block text-center btn-run-task"
+                <?php foreach ($this->availableVersions as $availableVersion): ?>
+                    <tr>
+                        <td class="text-center"><strong class="text-danger">
+                                <?php echo $availableVersion->version ?>
+                            </strong></td>
+                        <td>
+                            <button class="btn btn-default btn-block text-center btn-run-task"
                                 data-version="<?php echo $availableVersion->version ?>">
-                            <i class="fa fa-file text-primary"></i> <?php echo JText::_('COM_REDSHOP_TOOL_RUN_TASK') ?>
-                        </button>
-                        <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>/ajax-loader.gif" class="loader img hidden"
-                             width="128px"
-                             height="15px"/>
-                    </td>
-                    <td>
-                        <ul>
-                            <?php foreach ($availableVersion->tasks as $task): ?>
-                                <li><?php echo $task['text'] ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </td>
-                    <td>
-                        <button class="btn btn-default btn-block text-center btn-run-db"
+                                <i class="fa fa-file text-primary"></i>
+                                <?php echo Text::_('COM_REDSHOP_TOOL_RUN_TASK') ?>
+                            </button>
+                            <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>/ajax-loader.gif" class="loader img hidden"
+                                width="128px" height="15px" />
+                        </td>
+                        <td>
+                            <ul>
+                                <?php foreach ($availableVersion->tasks as $task): ?>
+                                    <li>
+                                        <?php echo $task['text'] ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </td>
+                        <td>
+                            <button class="btn btn-default btn-block text-center btn-run-db"
                                 data-version="<?php echo $availableVersion->version ?>">
-                            <i class="fa fa-database text-danger"></i> <?php echo JText::_(
-                                'COM_REDSHOP_TOOL_RUN_DATABASE'
-                            ) ?>
-                        </button>
-                        <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>/ajax-loader.gif" class="loader img hidden"
-                             width="128px"
-                             height="15px"/>
-                    </td>
-                    <td></td>
-                </tr>
-            <?php endforeach; ?>
+                                <i class="fa fa-database text-danger"></i>
+                                <?php echo Text::_(
+                                    'COM_REDSHOP_TOOL_RUN_DATABASE'
+                                ) ?>
+                            </button>
+                            <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>/ajax-loader.gif" class="loader img hidden"
+                                width="128px" height="15px" />
+                        </td>
+                        <td></td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     <?php endif; ?>

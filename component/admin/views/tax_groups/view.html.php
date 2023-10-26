@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * View Tax groups
  *
@@ -56,7 +58,7 @@ class RedshopViewTax_Groups extends RedshopViewList
             // This column is sortable?
             'sortable'  => false,
             // Text for column
-            'text'      => JText::_('COM_REDSHOP_TAX_RATE'),
+            'text'      => Text::_('COM_REDSHOP_TAX_RATE'),
             // Name of property for get data.
             'dataCol'   => 'tax_rates',
             // Width of column

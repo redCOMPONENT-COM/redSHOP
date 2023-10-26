@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class Redshop Helper Product Accessory
  *
@@ -114,8 +116,10 @@ class RedshopHelperProductAccessory
      */
     public static function replaceMainAccessory(&$accessoryTemplate, $templateContent, $product, $userId)
     {
-        if (strpos($accessoryTemplate, "{if accessory_main}") === false
-            || strpos($accessoryTemplate, "{accessory_main end if}") === false) {
+        if (
+            strpos($accessoryTemplate, "{if accessory_main}") === false
+            || strpos($accessoryTemplate, "{accessory_main end if}") === false
+        ) {
             return;
         }
 
@@ -149,9 +153,9 @@ class RedshopHelperProductAccessory
             );
         }
 
-        $accessoryProductDetail = "<a href='#' title='" . $product->product_name . "'>" . JText::_(
-                'COM_REDSHOP_READ_MORE'
-            ) . "</a>";
+        $accessoryProductDetail = "<a href='#' title='" . $product->product_name . "'>" . Text::_(
+            'COM_REDSHOP_READ_MORE'
+        ) . "</a>";
         $accessoryMiddle        = str_replace("{accessory_main_readmore}", $accessoryProductDetail, $accessoryMiddle);
         $accessoryMainImage     = $product->product_full_image;
         $accessoryMainImage2    = '';
@@ -182,16 +186,20 @@ class RedshopHelperProductAccessory
         $accessoryMiddle = str_replace($accessoryImgTag, $accessoryMainImage2, $accessoryMiddle);
         $productPrices   = array();
 
-        if (strpos($accessoryMiddle, "{accessory_mainproduct_price}") !== false
-            || strpos($templateContent, "{selected_accessory_price}") !== false) {
+        if (
+            strpos($accessoryMiddle, "{accessory_mainproduct_price}") !== false
+            || strpos($templateContent, "{selected_accessory_price}") !== false
+        ) {
             $productPrices = RedshopHelperProductPrice::getNetPrice($product->product_id, $userId, 1, $templateContent);
         }
 
         if (strpos($accessoryMiddle, "{accessory_mainproduct_price}") !== false) {
-            if (Redshop::getConfig()->get('SHOW_PRICE')
+            if (
+                Redshop::getConfig()->get('SHOW_PRICE')
                 && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
                     || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
-                        && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))) {
+                        && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
+            ) {
                 $accessoryMainProductPrice = RedshopHelperProductPrice::priceReplacement(
                     $productPrices['product_price']
                 );

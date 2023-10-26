@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
@@ -21,16 +22,19 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
  * @var   integer $productId   Id current product
  * @var   integer $modal       Flag use form in modal
  */
-extract($displayData);
-?>
 
+extract($displayData);
+
+?>
 <div class="form-group">
-    <label><?php echo JText::_($fieldHandle->title); ?></label>
+    <label>
+        <?php echo Text::_($fieldHandle->title); ?>
+    </label>
     <?php echo $inputField; ?>
-    <?php if ($fieldHandle->required == 1) : ?>
+    <?php if ($fieldHandle->required == 1): ?>
         <span class='required'>*</span>
     <?php endif; ?>
-    <?php if (trim($fieldHandle->description) != '') : ?>
+    <?php if (trim($fieldHandle->description) != ''): ?>
         <?php
         echo '&nbsp; ' . JHtml::_('redshop.tooltip', $fieldHandle->description);
         ?>

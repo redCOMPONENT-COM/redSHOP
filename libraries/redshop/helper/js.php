@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class RedshopHelperJs
  *
@@ -45,7 +47,7 @@ class RedshopHelperJs
         }
 
         if ($session->get('product_currency')) {
-            $currencySymbol  = RedshopEntityCurrency::getInstance((int)$session->get('product_currency'))->get('code');
+            $currencySymbol  = RedshopEntityCurrency::getInstance((int) $session->get('product_currency'))->get('code');
             $currencyConvert = round(RedshopHelperCurrency::convert(1), 2);
         }
 
@@ -56,7 +58,7 @@ class RedshopHelperJs
             'SITE_URL'                          => JUri::root(),
             'AJAX_TOKEN'                        => $token,
             'AJAX_BASE_URL'                     => JUri::root(
-                ) . "index.php?tmpl=component&option=com_redshop&" . $token . "=1&lang=" . $langSef,
+            ) . "index.php?tmpl=component&option=com_redshop&" . $token . "=1&lang=" . $langSef,
             'AJAX_CART_BOX'                     => $config->get('AJAX_CART_BOX'),
             'ENABLE_CLEAR_USER_INFO'            => $config->get('ENABLE_CLEAR_USER_INFO'),
             'REDSHOP_VIEW'                      => $view,
@@ -102,7 +104,7 @@ class RedshopHelperJs
             RedshopHelperUser::getShopperGroup(JFactory::getUser()->id)
         )->getItem();
 
-        $dynamicVars['SHOW_PRICE_WITHOUT_VAT'] = $shopperGroupData ? (int)$shopperGroupData->show_price_without_vat : 0;
+        $dynamicVars['SHOW_PRICE_WITHOUT_VAT'] = $shopperGroupData ? (int) $shopperGroupData->show_price_without_vat : 0;
 
         $backwardJS = array();
 
@@ -165,7 +167,7 @@ class RedshopHelperJs
             JText::script($value);
 
             if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_JS') == 1) {
-                $backwardJS[] = 'window.' . $value . ' = "' . JText::_($value) . '";';
+                $backwardJS[] = 'window.' . $value . ' = "' . Text::_($value) . '";';
             }
         }
 
@@ -174,13 +176,15 @@ class RedshopHelperJs
         }
 
         if ($view == 'product') {
-            if (JFile::exists(
-                REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $config->get('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE')
-            )) {
+            if (
+                JFile::exists(
+                    REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $config->get('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE')
+                )
+            ) {
                 $slimboxCloseButton = "#sbox-btn-close {background: transparent url( \""
                     . REDSHOP_FRONT_IMAGES_ABSPATH . "slimbox/" . $config->get(
-                        'PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE'
-                    )
+                            'PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE'
+                        )
                     . "\" ) no-repeat center;}";
             } else {
                 $slimboxCloseButton = "#sbox-btn-close {background: transparent url( \""

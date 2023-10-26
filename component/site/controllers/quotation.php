@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 /**
  * Quotation Controller.
@@ -36,7 +37,7 @@ class RedshopControllerQuotation extends RedshopController
         $dispatcher = RedshopHelperUtility::getDispatcher();
 
         if (!$post['user_email']) {
-            $msg = JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS');
+            $msg = Text::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS');
             $this->setRedirect(
                 'index.php?tmpl=component&option=com_redshop&view=quotation&return=1&Itemid=' . $Itemid,
                 $msg
@@ -65,9 +66,9 @@ class RedshopControllerQuotation extends RedshopController
             $sent = $model->sendQuotationMail($row->quotation_id);
 
             if ($sent) {
-                $msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
+                $msg = Text::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
             } else {
-                $msg = JText::_('COM_REDSHOP_ERROR_SENDING_QUOTATION_MAIL');
+                $msg = Text::_('COM_REDSHOP_ERROR_SENDING_QUOTATION_MAIL');
             }
 
             $session = JFactory::getSession();
@@ -93,7 +94,7 @@ class RedshopControllerQuotation extends RedshopController
 
             $this->setRedirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, $msg);
         } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
+            $msg = Text::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
             $this->setRedirect(
                 'index.php?tmpl=component&option=com_redshop&view=quotation&return=1&Itemid=' . $Itemid,
                 $msg
@@ -116,7 +117,7 @@ class RedshopControllerQuotation extends RedshopController
 
         $model->usercreate($post);
 
-        $msg = JText::_('COM_REDSHOP_QUOTATION_SENT_AND_USERNAME_PASSWORD_HAS_BEEN_MAILED');
+        $msg = Text::_('COM_REDSHOP_QUOTATION_SENT_AND_USERNAME_PASSWORD_HAS_BEEN_MAILED');
         $this->setRedirect(
             'index.php?tmpl=component&option=com_redshop&view=quotation&return=1&Itemid=' . $Itemid,
             $msg

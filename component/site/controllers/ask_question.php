@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Ask Question Controller.
  *
@@ -27,7 +29,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
     public function submit()
     {
         // Check for request forgeries.
-        JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+        JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
         $app        = JFactory::getApplication();
         $data       = $app->input->post->get('jform', array(), 'array');
@@ -49,7 +51,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
         $form = $model->getForm();
 
         if (!$form) {
-			throw new \Exception($model->getError());
+            throw new \Exception($model->getError());
         }
 
         // Save the data in the session.
@@ -61,14 +63,17 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
             $template = RedshopHelperTemplate::getTemplate('ask_question_template');
 
             try {
-                if (count($template) > 0 && strstr($template[0]->template_desc, '{captcha}')
-                    && !Redshop\Helper\Utility::checkCaptcha($data, false)) {
-                    $app->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
+                if (
+                    count($template) > 0 && strstr($template[0]->template_desc, '{captcha}')
+                    && !Redshop\Helper\Utility::checkCaptcha($data, false)
+                ) {
+                    $app->enqueueMessage(Text::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
                     $this->setRedirect($link);
 
                     return false;
                 }
-            } catch (Exception $e) {
+            }
+            catch (Exception $e) {
                 $app->enqueueMessage($e->getMessage(), 'warning');
                 $this->setRedirect($link);
 
@@ -101,13 +106,13 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
             if ($model->sendMailForAskQuestion($data)) {
                 // Flush the data from the session
                 $app->setUserState('com_redshop.ask_question.data', null);
-                $app->enqueueMessage(JText::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY'));
+                $app->enqueueMessage(Text::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY'));
 
                 if (!$ask) {
                     $link = JUri::root() . $link . '&questionSend=1';
                 }
             } else {
-                $app->enqueueMessage(/** @scrutinizer ignore-deprecated */ $model->getError(), 'warning');
+                $app->enqueueMessage( /** @scrutinizer ignore-deprecated */$model->getError(), 'warning');
             }
         }
 

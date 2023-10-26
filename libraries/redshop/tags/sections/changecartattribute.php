@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer for Change Ajax Cart Attribute
  *
@@ -118,7 +120,7 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
             array(
                 'class' => 'btn',
                 'attr'  => 'name="cancel" onclick="javascript:cancelForm(this.form);"',
-                'text'  => JText::_('COM_REDSHOP_CANCEL')
+                'text'  => Text::_('COM_REDSHOP_CANCEL')
             ),
             '',
             RedshopLayoutHelper::$layoutOption
@@ -136,7 +138,7 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 
         $this->addReplace('{apply_button}', $applyButton);
         $this->addReplace('{cancel_button}', $cancelButton);
-        $this->addReplace('{change_attribute}', JText::_("COM_REDSHOP_CHANGE_ATTRIBUTE"));
+        $this->addReplace('{change_attribute}', Text::_("COM_REDSHOP_CHANGE_ATTRIBUTE"));
 
         $this->template = RedshopLayoutHelper::render(
             'tags.common.form',
@@ -153,7 +155,7 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
         if ($totalAtt > 0) {
             $this->template = RedshopHelperTemplate::parseRedshopPlugin($this->template);
         } else {
-            return JText::_("COM_REDSHOP_NO_ATTRIBUTE_TO_CHANGE");
+            return Text::_("COM_REDSHOP_NO_ATTRIBUTE_TO_CHANGE");
         }
 
         return parent::replace();

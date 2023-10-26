@@ -7,13 +7,14 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
-$isCreditCard   = 0;
-$paymentMethods = RedshopHelperOrder::getPaymentMethodInfo('', false);
+use Joomla\CMS\Language\Text;
 
-$isCompany      = $this->billing->is_company;
-
+$isCreditCard    = 0;
+$paymentMethods  = RedshopHelperOrder::getPaymentMethodInfo('', false);
+$isCompany       = $this->billing->is_company;
 $paymentMethodId = $this->payment_detail->payment_method_class ?? 0;
 
 if (count($paymentMethods) == 1) {
@@ -40,18 +41,16 @@ if (count($paymentMethods) == 1) {
                 if ($isCompany == 0 && $private_person == 1) {
                     ?>
                     <label>
-                        <input type="radio" name="payment_method_class"
-                               value="<?php echo $paymentMethods[$p]->element; ?>" <?php echo $checked; ?> />
-                        <?php echo JText::_($paymentMethods[$p]->name); ?>
+                        <input type="radio" name="payment_method_class" value="<?php echo $paymentMethods[$p]->element; ?>" <?php echo $checked; ?> />
+                        <?php echo Text::_($paymentMethods[$p]->name); ?>
                     </label><br>
                     <?php
                 } else {
                     if ($isCompany == 1 && $business == 1) {
                         ?>
                         <label>
-                            <input type="radio" name="payment_method_class"
-                                   value="<?php echo $paymentMethods[$p]->element; ?>" <?php echo $checked; ?> />
-                            <?php echo JText::_($paymentMethods[$p]->name); ?>
+                            <input type="radio" name="payment_method_class" value="<?php echo $paymentMethods[$p]->element; ?>" <?php echo $checked; ?> />
+                            <?php echo Text::_($paymentMethods[$p]->name); ?>
                         </label><br>
                         <?php
                     }
@@ -59,9 +58,8 @@ if (count($paymentMethods) == 1) {
             } else {
                 ?>
                 <label>
-                    <input type="radio" name="payment_method_class"
-                           value="<?php echo $paymentMethods[$p]->element; ?>" <?php echo $checked; ?> />
-                    <?php echo JText::_($paymentMethods[$p]->name); ?>
+                    <input type="radio" name="payment_method_class" value="<?php echo $paymentMethods[$p]->element; ?>" <?php echo $checked; ?> />
+                    <?php echo Text::_($paymentMethods[$p]->name); ?>
                 </label><br>
                 <?php
             }
@@ -71,6 +69,6 @@ if (count($paymentMethods) == 1) {
         }
         ?>
     <?php else: ?>
-        <?php echo JText::_('COM_REDSHOP_NO_PAYMENT_METHOD_TO_DISPLAY') ?>
+        <?php echo Text::_('COM_REDSHOP_NO_PAYMENT_METHOD_TO_DISPLAY') ?>
     <?php endif; ?>
 </div>

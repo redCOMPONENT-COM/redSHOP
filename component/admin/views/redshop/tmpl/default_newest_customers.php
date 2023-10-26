@@ -7,18 +7,23 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 $model = $this->getModel('redshop');
+
 ?>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
     <div id="editcell">
         <table class="adminlist table table-striped" width="100%">
             <thead>
             <tr>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_FULLNAME'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_NUMBER_OF_ORDERS'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_AVG_AMOUNT_OF_ORDERS'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_TOTAL_AMOUNT_OF_ORDERS'); ?></th>
+                <th align="center"><?php echo Text::_('COM_REDSHOP_FULLNAME'); ?></th>
+                <th align="center"><?php echo Text::_('COM_REDSHOP_NUMBER_OF_ORDERS'); ?></th>
+                <th align="center"><?php echo Text::_('COM_REDSHOP_AVG_AMOUNT_OF_ORDERS'); ?></th>
+                <th align="center"><?php echo Text::_('COM_REDSHOP_TOTAL_AMOUNT_OF_ORDERS'); ?></th>
             </tr>
             </thead>
             <?php

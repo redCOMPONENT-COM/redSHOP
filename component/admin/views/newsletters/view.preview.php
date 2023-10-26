@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * View newletters
  *
@@ -33,12 +35,12 @@ class RedshopViewNewsletters extends RedshopViewAdmin
         $subscribers = $model->listallsubscribers($n);
 
         $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER'));
+        $document->setTitle(Text::_('COM_REDSHOP_NEWSLETTER'));
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT'), 'redshop_newsletter48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT'), 'redshop_newsletter48');
 
         JToolBarHelper::custom('sendNewsletter', 'send.png', 'send.png', 'Send Newsletter');
-        JToolBarHelper::cancel('close', JText::_('JTOOLBAR_CLOSE'));
+        JToolBarHelper::cancel('close', Text::_('JTOOLBAR_CLOSE'));
 
         $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
         $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -51,10 +53,10 @@ class RedshopViewNewsletters extends RedshopViewAdmin
         $oprand = $app->input->getCmd('oprand', 'select');
 
         $optionoprand    = array();
-        $optionoprand[]  = JHtml::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
-        $optionoprand[]  = JHtml::_('select.option', 'more', JText::_('COM_REDSHOP_GTOREQUEL'));
-        $optionoprand[]  = JHtml::_('select.option', 'less', JText::_('COM_REDSHOP_LTOREQUEL'));
-        $optionoprand[]  = JHtml::_('select.option', 'equally', JText::_('COM_REDSHOP_EQUAL_SIGN'));
+        $optionoprand[]  = JHtml::_('select.option', 'select', Text::_('COM_REDSHOP_SELECT'));
+        $optionoprand[]  = JHtml::_('select.option', 'more', Text::_('COM_REDSHOP_GTOREQUEL'));
+        $optionoprand[]  = JHtml::_('select.option', 'less', Text::_('COM_REDSHOP_LTOREQUEL'));
+        $optionoprand[]  = JHtml::_('select.option', 'equally', Text::_('COM_REDSHOP_EQUAL_SIGN'));
         $lists['oprand'] = JHtml::_(
             'select.genericlist',
             $optionoprand,
@@ -66,7 +68,7 @@ class RedshopViewNewsletters extends RedshopViewAdmin
         );
 
         $country_option   = array();
-        $country_option[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT_COUNTRY'));
+        $country_option[] = JHtml::_('select.option', '', Text::_('COM_REDSHOP_SELECT_COUNTRY'));
 
         $country = $model->getCountry();
 
@@ -106,7 +108,7 @@ class RedshopViewNewsletters extends RedshopViewAdmin
         );
 
         $shopper_option   = array();
-        $shopper_option[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
+        $shopper_option[] = JHtml::_('select.option', '', Text::_('COM_REDSHOP_SELECT'));
         $shoppergroup     = $app->input->get('shoppergroups', '');
         $shoppergroups    = $model->getShopperGroup();
 

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Newsletter Controller.
  *
@@ -42,16 +44,16 @@ class RedshopControllerNewsletter extends RedshopController
 
         // Check if user has already subscribe.
         if ($model->checkSubscriptionByEmail($post['email'])) {
-            $msg = JText::_('COM_REDSHOP_ALREADY_NEWSLETTER_SUBSCRIBER');
+            $msg = Text::_('COM_REDSHOP_ALREADY_NEWSLETTER_SUBSCRIBER');
         } else {
             if (RedshopHelperNewsletter::subscribe(0, $post, 1)) {
                 if (Redshop::getConfig()->get('NEWSLETTER_CONFIRMATION')) {
-                    $msg = JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS');
+                    $msg = Text::_('COM_REDSHOP_SUBSCRIBE_SUCCESS');
                 } else {
-                    $msg = JText::_('COM_REDSHOP_NEWSLEETER_SUBSCRIBE_SUCCESS');
+                    $msg = Text::_('COM_REDSHOP_NEWSLEETER_SUBSCRIBE_SUCCESS');
                 }
             } else {
-                $msg = JText::_('COM_REDSHOP_NEWSLEETER_SUBSCRIBE_FAIL');
+                $msg = Text::_('COM_REDSHOP_NEWSLEETER_SUBSCRIBE_FAIL');
             }
         }
 
@@ -83,12 +85,12 @@ class RedshopControllerNewsletter extends RedshopController
         // Check if user has subscribe or not.
         if ($model->checkSubscriptionByEmail($email)) {
             if (RedshopHelperNewsletter::removeSubscribe($email)) {
-                $msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
+                $msg = Text::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
             } else {
-                $msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION_FAIL');
+                $msg = Text::_('COM_REDSHOP_CANCLE_SUBSCRIPTION_FAIL');
             }
         } else {
-            $msg = JText::_('COM_REDSHOP_ALREADY_CANCLE_SUBSCRIPTION');
+            $msg = Text::_('COM_REDSHOP_ALREADY_CANCLE_SUBSCRIPTION');
         }
 
         $this->setRedirect($return, $msg);

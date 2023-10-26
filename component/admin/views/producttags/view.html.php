@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewProducttags extends RedshopViewAdmin
 {
@@ -20,9 +21,9 @@ class RedshopViewProducttags extends RedshopViewAdmin
         $app      = JFactory::getApplication();
         $document = JFactory::getDocument();
 
-        $document->setTitle(JText::_('COM_REDSHOP_TAGS'));
+        $document->setTitle(Text::_('COM_REDSHOP_TAGS'));
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_TAGS_MANAGEMENT'), 'redshop_textlibrary48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_TAGS_MANAGEMENT'), 'redshop_textlibrary48');
         JToolbarHelper::EditList();
         JToolBarHelper::deleteList();
         JToolBarHelper::publishList();

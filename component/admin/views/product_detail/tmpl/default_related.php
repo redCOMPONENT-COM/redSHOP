@@ -7,18 +7,23 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 ?>
 <div class="box box-primary">
     <div class="box-header with-border">
-        <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT'); ?></h3>
+        <h3 class="box-title">
+            <?php echo Text::_('COM_REDSHOP_RELATED_PRODUCT'); ?>
+        </h3>
     </div>
     <div class="box-body">
         <table class="admintable table">
             <tr>
                 <td>
-                    <?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT'); ?>
+                    <?php echo Text::_('COM_REDSHOP_RELATED_PRODUCT'); ?>
                 </td>
                 <td>
 
@@ -28,8 +33,8 @@ defined('_JEXEC') or die;
             <tr>
                 <td colspan="2">
                     <a id="fetch_child_for_related_product" href="javascript:void(0);" class="btn btn-primary"
-                       onclick="updateRelatedProduct();">
-                        <?php echo JText::_('COM_REDSHOP_CHILD_PRODUCT_AS_RELATED_PRODUCT_TEXT'); ?>
+                        onclick="updateRelatedProduct();">
+                        <?php echo Text::_('COM_REDSHOP_CHILD_PRODUCT_AS_RELATED_PRODUCT_TEXT'); ?>
                     </a>
                 </td>
             </tr>
@@ -78,7 +83,7 @@ defined('_JEXEC') or die;
 
             for (i = 0; i < productids.length; i++) {
                 if ($.inArray(productids[i], checkedData) == -1) {
-                    currentData.push({id: productids[i], text: productnames[i]});
+                    currentData.push({ id: productids[i], text: productnames[i] });
                 }
             }
 

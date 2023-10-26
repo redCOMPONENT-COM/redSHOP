@@ -9,13 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Layout data
  * ==============================
  * @var   array $displayData Display data.
  */
 
-$cart = $displayData['cart'];
+$cart  = $displayData['cart'];
 $total = 0;
 
 if (isset($cart) && isset($cart['idx']) && $cart['idx'] > 0) {
@@ -25,12 +27,12 @@ if (isset($cart) && isset($cart['idx']) && $cart['idx'] > 0) {
 if ($displayData['cartOutput'] == 'simple'): ?>
     <div class="mod_cart_extend_total_pro_value" id="mod_cart_total_txt_product">
         <?php if ($displayData['totalQuantity']): ?>
-            <?php echo JText::_(
-                    'MOD_REDSHOP_CART_TOTAL_PRODUCT'
-                ) . ' ' . $displayData['totalQuantity'] . ' ' . JText::plural(
-                    'MOD_REDSHOP_CART_PRODUCTS_IN_CART',
-                    $displayData['totalQuantity']
-                ); ?>
+            <?php echo Text::_(
+                'MOD_REDSHOP_CART_TOTAL_PRODUCT'
+            ) . ' ' . $displayData['totalQuantity'] . ' ' . JText::plural(
+                        'MOD_REDSHOP_CART_PRODUCTS_IN_CART',
+                        $displayData['totalQuantity']
+                    ); ?>
         <?php endif; ?>
     </div>
 <?php else: ?>
@@ -40,50 +42,56 @@ if ($displayData['cartOutput'] == 'simple'): ?>
             ?>
             <?php for ($i = 0; $i < $cart['idx']; $i++):
 
-            if (\Redshop\Helper\Utility::rsMultiArrayKeyExists('giftcard_id', $cart[$i]) && $cart[$i]['giftcard_id']) {
-                $giftCardData = RedshopEntityGiftcard::getInstance($cart[$i]['giftcard_id'])->getItem();
-                $name         = $giftCardData->giftcard_name;
-            } else {
-                $productDetail = \Redshop\Product\Product::getProductById($cart[$i]['product_id']);
-                $name          = $productDetail->product_name;
-            }
-            ?>
-            <div class="mod_cart_product">
-                <div class="mod_cart_product_name">
-                    <?php echo $name . ' x ' . $cart[$i]['quantity']; ?>
-                </div>
-                <?php if (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get(
+                if (\Redshop\Helper\Utility::rsMultiArrayKeyExists('giftcard_id', $cart[$i]) && $cart[$i]['giftcard_id']) {
+                    $giftCardData = RedshopEntityGiftcard::getInstance($cart[$i]['giftcard_id'])->getItem();
+                    $name         = $giftCardData->giftcard_name;
+                } else {
+                    $productDetail = \Redshop\Product\Product::getProductById($cart[$i]['product_id']);
+                    $name          = $productDetail->product_name;
+                }
+                ?>
+                <div class="mod_cart_product">
+                    <div class="mod_cart_product_name">
+                        <?php echo $name . ' x ' . $cart[$i]['quantity']; ?>
+                    </div>
+                    <?php if (
+                        !Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get(
                             'DEFAULT_QUOTATION_MODE'
-                        ) && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))):
-                    if ($displayData['showWithVat']) {
-                        $price = $cart[$i]['product_price'];
-                    } else {
-                        $price = $cart[$i]['product_price_excl_vat'];
-                    }
-                    ?>
-                    <div class="mod_cart_product_price">
-                        <?php echo JText::_('MOD_REDSHOP_CART_PRICE') . " " . RedshopHelperProductPrice::formattedPrice(
+                        ) && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
+                    ):
+                        if ($displayData['showWithVat']) {
+                            $price = $cart[$i]['product_price'];
+                        } else {
+                            $price = $cart[$i]['product_price_excl_vat'];
+                        }
+                        ?>
+                        <div class="mod_cart_product_price">
+                            <?php echo Text::_('MOD_REDSHOP_CART_PRICE') . " " . RedshopHelperProductPrice::formattedPrice(
                                 $price,
                                 true
                             ); ?>
-                    </div>
-                <?php endif; ?>
-                <div class="mod_cart_product_delete">
-                    <a href="javascript:void(0);"
+                        </div>
+                    <?php endif; ?>
+                    <div class="mod_cart_product_delete">
+                        <a href="javascript:void(0);"
                             onclick="deleteCartItem(<?php echo $i; ?>, '<?php echo JSession::getFormToken() ?>', '<?php echo JUri::root() . 'index.php?option=com_redshop&task=cart.ajaxDeleteCartItem'; ?>')">
-                       <?php echo JText::_('COM_REDSHOP_DELETE'); ?>
-                       <i class="far fa-trash-alt"></i>
-                    </a>
+                            <?php echo Text::_('COM_REDSHOP_DELETE'); ?>
+                            <i class="far fa-trash-alt"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        <?php endfor; ?>
+            <?php endfor; ?>
         <?php endif; ?>
     </div>
 <?php endif; ?>
-<span id="mod_cart_total_quantity" class="hidden"><?php echo $displayData['totalQuantity']; ?></span>
-<?php if ((!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get(
-                'DEFAULT_QUOTATION_MODE'
-            ) && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))) && $displayData['totalQuantity']): ?>
+<span id="mod_cart_total_quantity" class="hidden">
+    <?php echo $displayData['totalQuantity']; ?>
+</span>
+<?php if (
+    (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get(
+        'DEFAULT_QUOTATION_MODE'
+    ) && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))) && $displayData['totalQuantity']
+): ?>
     <div class="mod_cart_totalprice">
         <?php if ($displayData['showShippingLine']):
             $shippingValue = $cart['shipping'];
@@ -97,7 +105,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
             }
             ?>
             <div class="mod_cart_shipping_txt cartItemAlign" id="mod_cart_shipping_txt_ajax">
-                <?php echo JText::_('MOD_REDSHOP_CART_SHIPPING_LBL'); ?> :
+                <?php echo Text::_('MOD_REDSHOP_CART_SHIPPING_LBL'); ?> :
             </div>
             <div class="mod_cart_shipping_value cartItemAlign" id="mod_cart_shipping_value_ajax">
                 <?php echo RedshopHelperProductPrice::formattedPrice($shippingValue); ?>
@@ -112,10 +120,10 @@ if ($displayData['cartOutput'] == 'simple'): ?>
                 $discountValue = $cart['discount_ex_vat'] + $cart['discount_vat'];
             }
 
-            if ($discountValue > 0) :
+            if ($discountValue > 0):
                 ?>
                 <div class="mod_cart_discount_txt cartItemAlign" id="mod_cart_discount_txt_ajax">
-                    <?php echo JText::_('MOD_REDSHOP_CART_DISCOUNT_LBL'); ?> :
+                    <?php echo Text::_('MOD_REDSHOP_CART_DISCOUNT_LBL'); ?> :
                 </div>
                 <div class="mod_cart_discount_value cartItemAlign" id="mod_cart_discount_value_ajax">
                     <?php echo RedshopHelperProductPrice::formattedPrice($discountValue); ?>
@@ -125,7 +133,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
         <?php endif; ?>
 
         <div class="mod_cart_total_txt cartItemAlign" id="mod_cart_total_txt_ajax">
-            <?php echo JText::_('MOD_REDSHOP_CART_TOTAL'); ?>
+            <?php echo Text::_('MOD_REDSHOP_CART_TOTAL'); ?>
         </div>
         <div class="mod_cart_total_value cartItemAlign" id="mod_cart_total_value_ajax">
             <?php echo RedshopHelperProductPrice::formattedPrice($total); ?>
@@ -134,6 +142,6 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 
     </div>
 <?php else: ?>
-    <?php echo JText::_('MOD_REDSHOP_CART_EMPTY_CART'); ?>
+    <?php echo Text::_('MOD_REDSHOP_CART_EMPTY_CART'); ?>
 <?php endif;
 ?>

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class RedshopViewGiftcard
  */
@@ -26,7 +28,7 @@ class RedshopViewGiftcard extends RedshopView
 
         // Request variables
         $params               = $app->getParams('com_redshop');
-        $pageHeadingTag       = JText::_('COM_REDSHOP_REDSHOP');
+        $pageHeadingTag       = Text::_('COM_REDSHOP_REDSHOP');
         $model                = $this->getModel('giftcard');
         $giftCardTemplate     = $model->getGiftcardTemplate();
         $detail               = $this->get('data');

@@ -78,7 +78,7 @@ class RedshopViewAccount extends RedshopView
         $this->userdata = $this->model->getUserAccountInfo($this->user->id);
 
         if (empty($this->userdata) && $layout != 'mywishlist') {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER'));
+            $app->enqueueMessage(Text::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER'));
             $this->app->redirect(
                 Redshop\IO\Route::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $itemId)
             );
@@ -141,7 +141,7 @@ class RedshopViewAccount extends RedshopView
 
         if (empty($cards)) {
             JFactory::getApplication()->enqueueMessage(
-                JText::_('COM_REDSHOP_PAYMENT_NO_CREDIT_CARDS_PLUGIN_LIST_FOUND'),
+                Text::_('COM_REDSHOP_PAYMENT_NO_CREDIT_CARDS_PLUGIN_LIST_FOUND'),
                 'warning'
             );
         }

@@ -7,24 +7,27 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 ?>
-
 <ul class='nav nav-wizard'>
     <li <?php echo ($step == 1) ? "class='active'" : "" ?>>
         <a data-toggle="tab">
-            <?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION') ?>
+            <?php echo Text::_('COM_REDSHOP_ORDER_INFORMATION') ?>
         </a>
     </li>
     <li <?php echo ($step == 2) ? "class='active'" : "" ?>>
         <a data-toggle="tab">
-            <?php echo JText::_('COM_REDSHOP_PAYMENT') ?>
+            <?php echo Text::_('COM_REDSHOP_PAYMENT') ?>
         </a>
     </li>
     <li <?php echo ($step == 3) ? "class='active'" : "" ?>>
         <a data-toggle="tab">
-            <?php echo JText::_('COM_REDSHOP_RECEIPT') ?>
+            <?php echo Text::_('COM_REDSHOP_RECEIPT') ?>
         </a>
     </li>
 </ul>

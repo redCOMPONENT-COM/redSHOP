@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Renders a searchtype Form
  *
@@ -30,15 +32,13 @@ class JFormFieldproductsearchtype extends JFormField
     {
         $searchType = array();
 
-        $searchType[] = JHTML::_('select.option', 'p.product_name ASC', JText::_('COM_REDSHOP_PRODUCT_NAME'));
-        $searchType[] = JHTML::_('select.option', 'p.product_price ASC', JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC'));
-        $searchType[] = JHTML::_('select.option', 'p.product_price DESC', JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC'));
-        $searchType[] = JHTML::_('select.option', 'p.product_number ASC', JText::_('COM_REDSHOP_PRODUCT_NUMBER_ASC'));
-        $searchType[] = JHTML::_('select.option', 'p.product_id DESC', JText::_('COM_REDSHOP_NEWEST'));
-        $searchType[] = JHTML::_('select.option', 'pc.ordering ASC', JText::_('COM_REDSHOP_ORDER'));
-        $searchType[] = JHTML::_('select.option', 'm.manufacturer_name ASC', JText::_('COM_REDSHOP_MANUFACTURER_NAME'));
-
-//		array_unshift($searchType, JHTML::_('select.option', '0', '- '.JText::_('COM_REDSHOP_SELECT_SEARCH_TYPE').' -', 'value', 'text'));
+        $searchType[] = JHTML::_('select.option', 'p.product_name ASC', Text::_('COM_REDSHOP_PRODUCT_NAME'));
+        $searchType[] = JHTML::_('select.option', 'p.product_price ASC', Text::_('COM_REDSHOP_PRODUCT_PRICE_ASC'));
+        $searchType[] = JHTML::_('select.option', 'p.product_price DESC', Text::_('COM_REDSHOP_PRODUCT_PRICE_DESC'));
+        $searchType[] = JHTML::_('select.option', 'p.product_number ASC', Text::_('COM_REDSHOP_PRODUCT_NUMBER_ASC'));
+        $searchType[] = JHTML::_('select.option', 'p.product_id DESC', Text::_('COM_REDSHOP_NEWEST'));
+        $searchType[] = JHTML::_('select.option', 'pc.ordering ASC', Text::_('COM_REDSHOP_ORDER'));
+        $searchType[] = JHTML::_('select.option', 'm.manufacturer_name ASC', Text::_('COM_REDSHOP_MANUFACTURER_NAME'));
 
         return JHTML::_(
             'select.genericlist',

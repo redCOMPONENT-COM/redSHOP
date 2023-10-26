@@ -7,15 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 JHtml::_('bootstrap.modal');
 JHtml::_('redshopjquery.framework');
 HTMLHelper::script('com_redshop/jquery.tools.min.js', ['relative' => true]);
 
 $user = JFactory::getUser();
+
 ?>
 <script type="text/javascript" language="javascript">var J = jQuery.noConflict();</script>
 <script type="text/javascript" language="javascript">
@@ -25,13 +27,13 @@ $user = JFactory::getUser();
         var friends_name = document.getElementById("friends_name").value;
 
         if (your_name == "") {
-            alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_YOUR_NAME') ?>");
+            alert("<?php echo Text::_('COM_REDSHOP_PLEASE_ENTER_YOUR_NAME') ?>");
             return false;
         } else if (friends_name == "") {
-            alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FRIENDS_NAME') ?>");
+            alert("<?php echo Text::_('COM_REDSHOP_PLEASE_ENTER_FRIENDS_NAME') ?>");
             return false;
         } else if (friends_email == "") {
-            alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FRIENDS_EMAIL_ADDRESS') ?>");
+            alert("<?php echo Text::_('COM_REDSHOP_PLEASE_ENTER_FRIENDS_EMAIL_ADDRESS') ?>");
             return false;
         }
 
@@ -45,12 +47,12 @@ $user = JFactory::getUser();
                 <td>&nbsp;
                 </td>
                 <td>
-                    <?php echo JText::_('COM_REDSHOP_SEND_TO_FRIEND'); ?>
+                    <?php echo Text::_('COM_REDSHOP_SEND_TO_FRIEND'); ?>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <?php echo JText::_('COM_REDSHOP_YOUR_NAME'); ?>
+                    <?php echo Text::_('COM_REDSHOP_YOUR_NAME'); ?>
                 </td>
                 <td>
                     <input type="text" name="your_name" id="your_name" value="<?php echo $user->name ?>"/>
@@ -58,7 +60,7 @@ $user = JFactory::getUser();
             </tr>
             <tr>
                 <td>
-                    <?php echo JText::_('COM_REDSHOP_FRIENDS_NAME'); ?>
+                    <?php echo Text::_('COM_REDSHOP_FRIENDS_NAME'); ?>
                 </td>
                 <td>
                     <input type="text" name="friends_name" id="friends_name"/>
@@ -66,7 +68,7 @@ $user = JFactory::getUser();
             </tr>
             <tr>
                 <td>
-                    <?php echo JText::_('COM_REDSHOP_FRIENDS_EMAIL'); ?>
+                    <?php echo Text::_('COM_REDSHOP_FRIENDS_EMAIL'); ?>
                 </td>
                 <td>
                     <input type="text" name="friends_email" id="friends_email"/>
@@ -75,7 +77,7 @@ $user = JFactory::getUser();
             <tr>
                 <td>&nbsp;</td>
                 <td>
-                    <input type="submit" value="<?php echo JText::_('COM_REDSHOP_SEND_TO_FRIEND'); ?>"
+                    <input type="submit" value="<?php echo Text::_('COM_REDSHOP_SEND_TO_FRIEND'); ?>"
                            onclick="return friend_val();"/>
                 </td>
             </tr>

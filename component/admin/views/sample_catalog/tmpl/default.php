@@ -7,16 +7,16 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 $uri     = JURI::getInstance();
 $url     = $uri->root();
 $comment = JFactory::getApplication()->input->get('filter');
 
 ?>
-
-
 <table cellpadding="2" cellspacing="2" border="0" width="100%">
     <tr>
         <td></td>
@@ -28,7 +28,7 @@ $comment = JFactory::getApplication()->input->get('filter');
 
                 for ($i = 0; $i < count($this->sample); $i++) {
                     $sample_data = $this->sample[$i];
-                    echo '<tr><th>' . JText::_('COM_REDSHOP_SAMPLE_NAME');
+                    echo '<tr><th>' . Text::_('COM_REDSHOP_SAMPLE_NAME');
                     echo '</th><td>';
                     echo $sample_data->sample_name;
                     echo '</td></tr>';
@@ -41,7 +41,8 @@ $comment = JFactory::getApplication()->input->get('filter');
 
                     echo '</tr>';
                 }
-                ?></table>
+                ?>
+            </table>
         </td>
     </tr>
 

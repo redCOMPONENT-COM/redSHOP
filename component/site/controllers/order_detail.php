@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
@@ -344,7 +345,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
         if (is_bool($result) && $result) {
             // Set success message for product line
-            $app->enqueueMessage($row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_ADDED_TO_CART"));
+            $app->enqueueMessage($row['order_item_name'] . ": " . Text::_("COM_REDSHOP_PRODUCT_ADDED_TO_CART"));
 
             if ($redirect) {
                 // Do final cart calculations
@@ -366,7 +367,7 @@ class RedshopControllerOrder_Detail extends RedshopController
                 $Itemid = RedshopHelperRouter::getItemId($row['product_id']);
             }
 
-            $errorMessage = ($result) ?: JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
+            $errorMessage = ($result) ?: Text::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
             $app->enqueueMessage($errorMessage);
             $app->redirect(
@@ -418,7 +419,7 @@ class RedshopControllerOrder_Detail extends RedshopController
                             <input type="hidden" name="task" value="process_payment" />
                             <input type="hidden" name="view" value="order_detail" />
                             <input type="submit" name="submit" class="greenbutton btn btn-primary"
-                                value="<?php echo JText::_('COM_REDSHOP_PAY'); ?>" />
+                                value="<?php echo Text::_('COM_REDSHOP_PAY'); ?>" />
                             <input type="hidden" name="ccinfo" value="1" />
                             <input type="hidden" name="users_info_id" value="<?php echo $order->user_info_id; ?>" />
                             <input type="hidden" name="order_id" value="<?php echo $order->order_id; ?>" />
@@ -443,10 +444,10 @@ class RedshopControllerOrder_Detail extends RedshopController
 
         $orderPaymentStatus = RedshopEntityOrder::load($orderId)->get('order_payment_status');
 
-        $status = JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
+        $status = Text::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
 
         if ($orderPaymentStatus == 'Paid') {
-            $status = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
+            $status = Text::_('COM_REDSHOP_PAYMENT_STA_PAID');
         }
 
         ob_clean();
@@ -464,13 +465,13 @@ class RedshopControllerOrder_Detail extends RedshopController
         $orderId = $this->input->get->getInt('oid', 0);
 
         if (!$orderId) {
-            $this->setMessage(JText::_('COM_REDSHOP_ORDER_DOWNLOAD_ERROR_MISSING_ORDER_ID'), 'error');
+            $this->setMessage(Text::_('COM_REDSHOP_ORDER_DOWNLOAD_ERROR_MISSING_ORDER_ID'), 'error');
             $this->setRedirect('index.php?option=com_redshop&view=order');
         }
 
         // Check pdf plugins
         if (!RedshopHelperPdf::isAvailablePdfPlugins()) {
-            $this->setMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
+            $this->setMessage(Text::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
             $this->setRedirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=order'));
         }
 

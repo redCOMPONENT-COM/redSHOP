@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -51,7 +53,7 @@ class RedshopTagsSectionsCaTaLog extends RedshopTagsAbstract
         if ($this->isTagExists('{catalog_select}')) {
             $catalog        = \Redshop\Catalog\Catalog::getCatalogList();
             $optionselect   = [];
-            $optionselect[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+            $optionselect[] = JHTML::_('select.option', '0', Text::_('COM_REDSHOP_SELECT'));
             $catalog_select = array_merge($optionselect, $catalog);
 
             $catalogsel = JHTML::_(
@@ -72,7 +74,7 @@ class RedshopTagsSectionsCaTaLog extends RedshopTagsAbstract
             $nameLbl = RedshopLayoutHelper::render(
                 'tags.common.label',
                 array(
-                    'text'  => JText::_('COM_REDSHOP_NAME_LBL'),
+                    'text'  => Text::_('COM_REDSHOP_NAME_LBL'),
                     'tag'   => 'div',
                     'class' => 'name_lbl'
                 ),
@@ -104,7 +106,7 @@ class RedshopTagsSectionsCaTaLog extends RedshopTagsAbstract
             $emailLbl = RedshopLayoutHelper::render(
                 'tags.common.label',
                 array(
-                    'text'  => JText::_('COM_REDSHOP_EMAIL_LBL'),
+                    'text'  => Text::_('COM_REDSHOP_EMAIL_LBL'),
                     'tag'   => 'div',
                     'class' => 'email_lbl'
                 ),
@@ -140,7 +142,7 @@ class RedshopTagsSectionsCaTaLog extends RedshopTagsAbstract
                     'id'    => 'catalogsend',
                     'name'  => 'catalogsend',
                     'attr'  => 'onclick="return getCatalogValidation()"',
-                    'value' => JText::_('COM_REDSHOP_CATALOG_SEND')
+                    'value' => Text::_('COM_REDSHOP_CATALOG_SEND')
                 ),
                 '',
                 RedshopLayoutHelper::$layoutOption

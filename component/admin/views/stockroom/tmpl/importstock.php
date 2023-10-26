@@ -8,13 +8,16 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 ?>
 <script language="javascript" type="text/javascript">
     Joomla.submitbutton = function (pressbutton) {
         var form = document.adminForm;
 
         if (pressbutton == 'cancel') {
-			Joomla.submitform(pressbutton);
+            Joomla.submitform(pressbutton);
             return;
         }
     }
@@ -82,44 +85,50 @@ defined('_JEXEC') or die;
             xmlhttp.send(null);
         }
         else {
-            alert("<?php echo JText::_('COM_REDSHOP_SELECT_STOCKROOM_NAME');?>");
+            alert("<?php echo Text::_('COM_REDSHOP_SELECT_STOCKROOM_NAME'); ?>");
             return false;
         }
     }
 </script>
 <form action="<?php echo Redshop\IO\Route::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
-	<div class="col50">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
-			<table class="admintable table">
-				<tr>
-					<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_STOCKROOM_NAME');?></td>
-					<td><?php echo $this->lists['stockroom_id'];?>&nbsp;&nbsp;&nbsp;<input type="button"
-					                                                                       value="<?php echo JText::_('COM_REDSHOP_IMPORT'); ?>"
-					                                                                       onclick="sendrsImportStock(0);"/>
-					</td>
-				</tr>
-			</table>
-		</fieldset>
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_REDSHOP_IMPORT_LOG'); ?></legend>
-			<table class="admintable table">
-				<tr>
-					<td>
-						<div id="divpreviewlog"></div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div id="divLoading" style="display: none;"><img
-								src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>preloader.gif"></div>
-					</td>
-				</tr>
-			</table>
-		</fieldset>
-	</div>
-	<div style="display: none;" id="tmpresponse"></div>
-	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="view" value="stockroom_detail"/>
-	<input type="hidden" name="option" value="com_redshop"/>
+    <div class="col50">
+        <fieldset class="adminform">
+            <legend>
+                <?php echo Text::_('COM_REDSHOP_DETAILS'); ?>
+            </legend>
+            <table class="admintable table">
+                <tr>
+                    <td valign="top" align="right" class="key">
+                        <?php echo Text::_('COM_REDSHOP_STOCKROOM_NAME'); ?>
+                    </td>
+                    <td>
+                        <?php echo $this->lists['stockroom_id']; ?>&nbsp;&nbsp;&nbsp;<input type="button"
+                            value="<?php echo Text::_('COM_REDSHOP_IMPORT'); ?>" onclick="sendrsImportStock(0);" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+        <fieldset class="adminform">
+            <legend>
+                <?php echo Text::_('COM_REDSHOP_IMPORT_LOG'); ?>
+            </legend>
+            <table class="admintable table">
+                <tr>
+                    <td>
+                        <div id="divpreviewlog"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="divLoading" style="display: none;"><img
+                                src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>preloader.gif"></div>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+    <div style="display: none;" id="tmpresponse"></div>
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="view" value="stockroom_detail" />
+    <input type="hidden" name="option" value="com_redshop" />
 </form>

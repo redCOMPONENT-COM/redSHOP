@@ -11,6 +11,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -30,12 +31,12 @@ class RedshopHelperQuotation
     public static function getQuotationStatusList()
     {
         $status   = array();
-        $status[] = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-        $status[] = JHtml::_('select.option', 1, JText::_('COM_REDSHOP_REQUESTED'));
-        $status[] = JHtml::_('select.option', 2, JText::_('COM_REDSHOP_REPLIED'));
-        $status[] = JHtml::_('select.option', 3, JText::_('COM_REDSHOP_ACCEPTED'));
-        $status[] = JHtml::_('select.option', 4, JText::_('COM_REDSHOP_REJECTED'));
-        $status[] = JHtml::_('select.option', 5, JText::_('COM_REDSHOP_ORDERED'));
+        $status[] = JHtml::_('select.option', 0, Text::_('COM_REDSHOP_SELECT'));
+        $status[] = JHtml::_('select.option', 1, Text::_('COM_REDSHOP_REQUESTED'));
+        $status[] = JHtml::_('select.option', 2, Text::_('COM_REDSHOP_REPLIED'));
+        $status[] = JHtml::_('select.option', 3, Text::_('COM_REDSHOP_ACCEPTED'));
+        $status[] = JHtml::_('select.option', 4, Text::_('COM_REDSHOP_REJECTED'));
+        $status[] = JHtml::_('select.option', 5, Text::_('COM_REDSHOP_ORDERED'));
 
         return $status;
     }
@@ -55,19 +56,19 @@ class RedshopHelperQuotation
 
         switch ($value) {
             case 1:
-                $name = JText::_('COM_REDSHOP_REQUESTED');
+                $name = Text::_('COM_REDSHOP_REQUESTED');
                 break;
             case 2:
-                $name = JText::_('COM_REDSHOP_REPLIED');
+                $name = Text::_('COM_REDSHOP_REPLIED');
                 break;
             case 3:
-                $name = JText::_('COM_REDSHOP_ACCEPTED');
+                $name = Text::_('COM_REDSHOP_ACCEPTED');
                 break;
             case 4:
-                $name = JText::_('COM_REDSHOP_REJECTED');
+                $name = Text::_('COM_REDSHOP_REJECTED');
                 break;
             case 5:
-                $name = JText::_('COM_REDSHOP_ORDERED');
+                $name = Text::_('COM_REDSHOP_ORDERED');
                 break;
         }
 
@@ -96,7 +97,7 @@ class RedshopHelperQuotation
                 $db->qn('#__redshop_users_info', 'u') . ' ON ' . $db->qn('u.user_id') . ' = ' . $db->qn('q.user_id')
                 . ' AND ' . $db->qn('u.address_type') . ' LIKE ' . $db->quote('BT')
             )
-            ->where($db->qn('q.quotation_id') . ' = ' . (int)$quotationId);
+            ->where($db->qn('q.quotation_id') . ' = ' . (int) $quotationId);
 
         $db->setQuery($query);
 
@@ -143,7 +144,7 @@ class RedshopHelperQuotation
             ->where('1=1');
 
         if ($user->id) {
-            $query->where($db->qn('q.user_id') . ' = ' . (int)$user->id);
+            $query->where($db->qn('q.user_id') . ' = ' . (int) $user->id);
         }
 
         $query->order($db->qn('q.quotation_cdate') . ' DESC');
@@ -167,7 +168,7 @@ class RedshopHelperQuotation
         $charList .= "1234567890123456789012345678901234567890123456789012345678901234567890";
 
         $random = "";
-        srand((double)microtime() * 1000000);
+        srand((double) microtime() * 1000000);
 
         for ($i = 0; $i < $pLength; $i++) {
             $random .= substr($charList, (rand() % (strlen($charList))), 1);
@@ -231,10 +232,10 @@ class RedshopHelperQuotation
                 implode(
                     ',',
                     array(
-                        $db->quote((int)$fieldId),
+                        $db->quote((int) $fieldId),
                         $db->quote($value),
-                        $db->quote((int)$quotationItemId),
-                        $db->quote((int)$sectionId)
+                        $db->quote((int) $quotationItemId),
+                        $db->quote((int) $sectionId)
                     )
                 )
             );
@@ -260,7 +261,7 @@ class RedshopHelperQuotation
             ->select('f.*')
             ->from($db->qn('#__redshop_quotation_fields_data', 'qf'))
             ->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('qf.fieldid'))
-            ->where($db->qn('qf.quotation_item_id') . ' = ' . (int)$quotationItemId);
+            ->where($db->qn('qf.quotation_item_id') . ' = ' . (int) $quotationItemId);
 
         return $db->setQuery($query)->loadObjectList();
     }
@@ -292,8 +293,8 @@ class RedshopHelperQuotation
             ->select($db->qn(array('f.title', 'f.type', 'f.name')))
             ->from($db->qn('#__redshop_quotation_fields_data', 'fd'))
             ->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fd.fieldid'))
-            ->where($db->qn('fd.quotation_item_id') . ' = ' . $db->q((int)$quotationItemId))
-            ->where($db->qn('fd.section') . ' = ' . $db->q((int)$sectionId));
+            ->where($db->qn('fd.quotation_item_id') . ' = ' . $db->q((int) $quotationItemId))
+            ->where($db->qn('fd.section') . ' = ' . $db->q((int) $sectionId));
 
         $db->setQuery($query);
         $userField = $db->loadObjectList();
@@ -302,7 +303,7 @@ class RedshopHelperQuotation
             $quotationItem = self::getQuotationProduct(0, $quotationItemId);
             $productId     = $quotationItem[0]->product_id;
 
-            $productDetail   = Redshop::product((int)$productId);
+            $productDetail   = Redshop::product((int) $productId);
             $productTemplate = RedshopHelperTemplate::getTemplate("product", $productDetail->product_template);
 
             $returnArr    = \Redshop\Product\Product::getProductUserfieldFromTemplate(
@@ -367,7 +368,7 @@ class RedshopHelperQuotation
         }
 
         if ($quotationItemId != 0) {
-            $query->where($db->qn('q.quotation_item_id') . " = " . (int)$quotationItemId);
+            $query->where($db->qn('q.quotation_item_id') . " = " . (int) $quotationItemId);
         }
 
         $db->setQuery($query);
@@ -393,8 +394,8 @@ class RedshopHelperQuotation
 
         // Create the base update statement.
         $query->update($db->qn('#__redshop_quotation', 'q'))
-            ->set($db->qn('q.order_id') . ' = ' . (int)$orderId)
-            ->where($db->qn('q.quotation_id') . ' = ' . (int)$quotationId);
+            ->set($db->qn('q.order_id') . ' = ' . (int) $orderId)
+            ->where($db->qn('q.quotation_id') . ' = ' . (int) $quotationId);
 
         // Set the query and execute the update.
         $db->setQuery($query);
@@ -402,7 +403,8 @@ class RedshopHelperQuotation
         try {
             $db->execute();
             self::updateQuotationStatus($quotationId, 5);
-        } catch (RuntimeException $e) {
+        }
+        catch (RuntimeException $e) {
             throw new RuntimeException($e->getMessage(), $e->getCode());
         }
 
@@ -431,15 +433,16 @@ class RedshopHelperQuotation
 
         // Create the base update statement.
         $query->update($db->qn('#__redshop_quotation', 'q'))
-            ->set($db->qn('q.quotation_status') . ' = ' . (int)$status)
-            ->where($db->qn('q.quotation_id') . ' = ' . (int)$quotationId);
+            ->set($db->qn('q.quotation_status') . ' = ' . (int) $status)
+            ->where($db->qn('q.quotation_id') . ' = ' . (int) $quotationId);
 
         // Set the query and execute the update.
         $db->setQuery($query);
 
         try {
             $db->execute();
-        } catch (RuntimeException $e) {
+        }
+        catch (RuntimeException $e) {
             throw new RuntimeException($e->getMessage(), $e->getCode());
         }
     }
@@ -500,7 +503,7 @@ class RedshopHelperQuotation
             ->where('1 = 1');
 
         if ($quotationItemId != 0) {
-            $query->where($db->qn('qa.quotation_item_id') . ' = ' . (int)$quotationItemId);
+            $query->where($db->qn('qa.quotation_item_id') . ' = ' . (int) $quotationItemId);
         }
 
         $db->setQuery($query);
@@ -531,15 +534,15 @@ class RedshopHelperQuotation
 
         $query->select('qat.*')
             ->from($db->qn('#__redshop_quotation_attribute_item', 'qat'))
-            ->where($db->qn('qat.is_accessory_att') . ' = ' . (int)$isAccessory)
+            ->where($db->qn('qat.is_accessory_att') . ' = ' . (int) $isAccessory)
             ->where($db->qn('qat.section') . ' = ' . $db->quote($section));
 
         if ($quotationItemId != 0) {
-            $query->where($db->qn('qat.quotation_item_id') . ' = ' . (int)$quotationItemId);
+            $query->where($db->qn('qat.quotation_item_id') . ' = ' . (int) $quotationItemId);
         }
 
         if ($parentSectionId != 0) {
-            $query->where($db->qn('qat.parent_section_id') . ' = ' . (int)$parentSectionId);
+            $query->where($db->qn('qat.parent_section_id') . ' = ' . (int) $parentSectionId);
         }
 
         $db->setQuery($query);

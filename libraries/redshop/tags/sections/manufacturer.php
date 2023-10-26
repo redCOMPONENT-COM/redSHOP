@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -172,15 +174,19 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
                 $media     = RedshopEntityManufacturer::getInstance($data->id)->getMedia();
                 $thumImage = "";
 
-                if ($media->isValid() && !empty($media->get('media_name'))
+                if (
+                    $media->isValid() && !empty($media->get('media_name'))
                     && JFile::exists(
                         REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $data->id . '/' . $media->get('media_name')
-                    )) {
+                    )
+                ) {
                     $altText = $media->get('media_alternate_text', $data->name);
 
-                    if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get(
+                    if (
+                        Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get(
                             'WATERMARK_MANUFACTURER_THUMB_IMAGE'
-                        )) {
+                        )
+                    ) {
                         $manufacturerImg = RedshopHelperMedia::watermark(
                             'manufacturer',
                             $media->get('media_name'),
@@ -223,10 +229,10 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
             $this->replacements['{manufacturer_description}']         = $data->description;
             $this->replacements['{manufacturer_link}']                = $link;
             $this->replacements['{manufacturer_allproductslink}']     = $manProducts;
-            $this->replacements['{manufacturer_allproductslink_lbl}'] = JText::_(
+            $this->replacements['{manufacturer_allproductslink_lbl}'] = Text::_(
                 'COM_REDSHOP_MANUFACTURER_ALLPRODUCTSLINK_LBL'
             );
-            $this->replacements['{manufacturer_link_lbl}']            = JText::_('COM_REDSHOP_MANUFACTURER_LINK_LBL');
+            $this->replacements['{manufacturer_link_lbl}']            = Text::_('COM_REDSHOP_MANUFACTURER_LINK_LBL');
         } else {
             return null;
         }

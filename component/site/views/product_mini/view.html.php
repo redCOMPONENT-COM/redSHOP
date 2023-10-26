@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewProduct_mini extends RedshopView
 {
@@ -18,7 +19,7 @@ class RedshopViewProduct_mini extends RedshopView
 
         $app      = JFactory::getApplication();
         $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));
+        $document->setTitle(Text::_('COM_REDSHOP_PRODUCT'));
 
         $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
@@ -33,7 +34,7 @@ class RedshopViewProduct_mini extends RedshopView
 
         $temps          = [new \stdClass];
         $temps[0]->id   = "0";
-        $temps[0]->name = JText::_('COM_REDSHOP_SELECT');
+        $temps[0]->name = Text::_('COM_REDSHOP_SELECT');
         $categories     = @array_merge($temps, $categories);
 
         $lists['category'] = JHTML::_(

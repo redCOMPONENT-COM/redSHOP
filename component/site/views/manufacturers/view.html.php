@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Class RedshopViewManufacturers
  *
@@ -96,7 +98,7 @@ class RedshopViewManufacturers extends RedshopView
                 $layout   = $template->section == 'manufacturer_products' ? 'products' : $layout;
 
                 if ($layout == 'products') {
-                    $pagetitletag = JText::_("COM_REDSHOP_MANUFACTURER_PRODUCT") . " " . $pagetitletag;
+                    $pagetitletag = Text::_("COM_REDSHOP_MANUFACTURER_PRODUCT") . " " . $pagetitletag;
                     $document->setTitle($pagetitletag);
                 }
 
@@ -256,7 +258,7 @@ class RedshopViewManufacturers extends RedshopView
         $temps                  = array();
         $temps[0]               = new StdClass;
         $temps[0]->value        = "0";
-        $temps[0]->text         = JText::_('COM_REDSHOP_SELECT');
+        $temps[0]->text         = Text::_('COM_REDSHOP_SELECT');
         $categorylist           = array_merge($temps, $categorylist);
         $filter_by_select       = $app->input->getString('filter_by', 0);
         $lists['filter_select'] = JHTML::_(

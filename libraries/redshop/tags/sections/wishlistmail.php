@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -58,7 +60,7 @@ class RedshopTagsSectionsWishlistMail extends RedshopTagsAbstract
             $emailToFriend = RedshopLayoutHelper::render(
                 'tags.common.tag',
                 array(
-                    'text'  => JText::_('COM_REDSHOP_EMAIL_TO_FRIEND'),
+                    'text'  => Text::_('COM_REDSHOP_EMAIL_TO_FRIEND'),
                     'id'    => 'emailtofriend',
                     'tag'   => 'div',
                     'class' => 'sendmailtofrind'
@@ -75,7 +77,7 @@ class RedshopTagsSectionsWishlistMail extends RedshopTagsAbstract
             $emailToLbl = RedshopLayoutHelper::render(
                 'tags.common.label',
                 array(
-                    'text' => JText::_('COM_REDSHOP_EMAIL_TO'),
+                    'text' => Text::_('COM_REDSHOP_EMAIL_TO'),
                     'id'   => 'emailto'
                 ),
                 '',
@@ -107,7 +109,7 @@ class RedshopTagsSectionsWishlistMail extends RedshopTagsAbstract
             $senderLbl = RedshopLayoutHelper::render(
                 'tags.common.label',
                 array(
-                    'text' => JText::_('COM_REDSHOP_SENDER'),
+                    'text' => Text::_('COM_REDSHOP_SENDER'),
                     'id'   => 'sender'
                 ),
                 '',
@@ -139,7 +141,7 @@ class RedshopTagsSectionsWishlistMail extends RedshopTagsAbstract
             $mailLbl = RedshopLayoutHelper::render(
                 'tags.common.label',
                 array(
-                    'text' => JText::_('COM_REDSHOP_YOUR_EMAIL'),
+                    'text' => Text::_('COM_REDSHOP_YOUR_EMAIL'),
                     'id'   => 'email'
                 ),
                 '',
@@ -171,7 +173,7 @@ class RedshopTagsSectionsWishlistMail extends RedshopTagsAbstract
             $subjectLbl = RedshopLayoutHelper::render(
                 'tags.common.label',
                 array(
-                    'text' => JText::_('COM_REDSHOP_SUBJECT'),
+                    'text' => Text::_('COM_REDSHOP_SUBJECT'),
                     'id'   => 'subject'
                 ),
                 '',
@@ -206,7 +208,7 @@ class RedshopTagsSectionsWishlistMail extends RedshopTagsAbstract
                     'id'    => 'cancel',
                     'name'  => 'cancel',
                     'type'  => 'button',
-                    'value' => JText::_('COM_REDSHOP_CANCEL'),
+                    'value' => Text::_('COM_REDSHOP_CANCEL'),
                     'class' => 'button btn',
                     'attr'  => 'onclick="parent.location.reload()"'
                 ),
@@ -225,7 +227,7 @@ class RedshopTagsSectionsWishlistMail extends RedshopTagsAbstract
                     'id'    => 'send',
                     'name'  => 'send',
                     'type'  => 'submit',
-                    'value' => JText::_('COM_REDSHOP_SEND'),
+                    'value' => Text::_('COM_REDSHOP_SEND'),
                     'class' => 'button btn btn-primary'
                 ),
                 '',

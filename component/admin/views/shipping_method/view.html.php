@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * View shipping method
@@ -41,7 +44,7 @@ class RedshopViewShipping_Method extends RedshopViewForm
             case 'name':
             case 'element':
                 if ($field->getAttribute('name') == 'element') {
-                    $this->form->setFieldAttribute('element', 'label', JText::_('COM_REDSHOP_SHIPPING_CLASS'));
+                    $this->form->setFieldAttribute('element', 'label', Text::_('COM_REDSHOP_SHIPPING_CLASS'));
                 }
 
                 return RedshopLayoutHelper::render(
@@ -102,16 +105,16 @@ class RedshopViewShipping_Method extends RedshopViewForm
             JToolbarHelper::custom(
                 'shipping_rate',
                 'redshop_shipping_rates32',
-                JText::_('COM_REDSHOP_SHIPPING_RATE_LBL'),
-                JText::_('COM_REDSHOP_SHIPPING_RATE_LBL'),
+                Text::_('COM_REDSHOP_SHIPPING_RATE_LBL'),
+                Text::_('COM_REDSHOP_SHIPPING_RATE_LBL'),
                 false
             );
         } elseif ($hasLocation) {
             JToolbarHelper::custom(
                 'shipping_rate',
                 'redshop_shipping_rates32',
-                JText::_('COM_REDSHOP_SHIPPING_LOCATION'),
-                JText::_('COM_REDSHOP_SHIPPING_LOCATION'),
+                Text::_('COM_REDSHOP_SHIPPING_LOCATION'),
+                Text::_('COM_REDSHOP_SHIPPING_LOCATION'),
                 false
             );
         }

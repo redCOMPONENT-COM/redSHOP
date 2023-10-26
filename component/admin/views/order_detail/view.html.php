@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Order detail view
@@ -46,7 +47,7 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
     {
         $document = JFactory::getDocument();
         $input    = JFactory::getApplication()->input;
-        $document->setTitle(JText::_('COM_REDSHOP_ORDER'));
+        $document->setTitle(Text::_('COM_REDSHOP_ORDER'));
 
         $uri = JUri::getInstance();
 
@@ -58,11 +59,11 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 
         $layout = $input->getCmd('layout', '');
 
-		HTMLHelper::script('com_redshop/redshop.order.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.admin.common.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/ajaxupload.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.order.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.admin.common.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/ajaxupload.min.js', ['relative' => true]);
 
         $lists = array();
 
@@ -91,11 +92,11 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 
             $this->setLayout($layout);
 
-            $countryarray           = RedshopHelperWorld::getCountryList((array)$shipping);
+            $countryarray           = RedshopHelperWorld::getCountryList((array) $shipping);
             $shipping->country_code = $countryarray['country_code'];
             $lists['country_code']  = $countryarray['country_dropdown'];
 
-            $statearray          = RedshopHelperWorld::getStateList((array)$shipping);
+            $statearray          = RedshopHelperWorld::getStateList((array) $shipping);
             $lists['state_code'] = $statearray['state_dropdown'];
 
             $showcountry = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 0 : 1;
@@ -104,10 +105,10 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
             $isCompany           = array();
             $isCompany[0]        = new stdClass;
             $isCompany[0]->value = 0;
-            $isCompany[0]->text  = JText::_('COM_REDSHOP_USER_CUSTOMER');
+            $isCompany[0]->text  = Text::_('COM_REDSHOP_USER_CUSTOMER');
             $isCompany[1]        = new stdClass;
             $isCompany[1]->value = 1;
-            $isCompany[1]->text  = JText::_('COM_REDSHOP_USER_COMPANY');
+            $isCompany[1]->text  = Text::_('COM_REDSHOP_USER_COMPANY');
             $lists['is_company'] = JHTML::_(
                 'select.genericlist',
                 $isCompany,
@@ -153,13 +154,13 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 
         $isNew = ($detail->order_id < 1);
 
-        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+        $text = $isNew ? Text::_('COM_REDSHOP_NEW') : Text::_('COM_REDSHOP_EDIT');
         JToolBarHelper::title(
-            JText::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . $text . ' ]</small></small>',
+            Text::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . $text . ' ]</small></small>',
             'pencil-2 redshop_order48'
         );
 
-        JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+        JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
 
         $order_id = $detail->order_id;
 
@@ -200,8 +201,10 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
             'COM_REDSHOP_SEND_INVOICEMAIL'
         );
 
-        if (isset($payment_detail->plugin->params) && $payment_detail->plugin->params->get('enableVault')
-            && ('P' == $detail->order_status || 'Unpaid' == $detail->order_payment_status)) {
+        if (
+            isset($payment_detail->plugin->params) && $payment_detail->plugin->params->get('enableVault')
+            && ('P' == $detail->order_status || 'Unpaid' == $detail->order_payment_status)
+        ) {
             RedshopToolbarHelper::link(
                 'index.php?option=com_redshop&view=order_detail&task=pay&orderId=' . $order_id . $appendTmpl,
                 'credit',

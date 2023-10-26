@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * View Zipcodes
@@ -45,7 +48,7 @@ class RedshopViewShopperGroups extends RedshopViewList
                     'index.php?option=com_redshop&view=discount&layout=edit&spgrpdis_filter=' . $row->id
                 );
 
-                return '<a href="' . $addDiscount . '">' . JText::_('COM_REDSHOP_ADD_DISCOUNT') . '</a>';
+                return '<a href="' . $addDiscount . '">' . Text::_('COM_REDSHOP_ADD_DISCOUNT') . '</a>';
             default:
                 return parent::onRenderColumn($config, $index, $row);
         }

@@ -8,10 +8,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 class RedshopViewXmlimport_detail extends RedshopViewAdmin
 {
@@ -26,8 +26,8 @@ class RedshopViewXmlimport_detail extends RedshopViewAdmin
     {
         $xmlhelper = new xmlHelper;
         $document  = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_xmlimport'));
-		HTMLHelper::script('com_redshop/redshop.xmlfunc.min.js', ['relative' => true]);
+        $document->setTitle(Text::_('COM_REDSHOP_xmlimport'));
+        HTMLHelper::script('com_redshop/redshop.xmlfunc.min.js', ['relative' => true]);
 
         $uri                 = JUri::getInstance();
         $columns             = array();
@@ -55,17 +55,17 @@ class RedshopViewXmlimport_detail extends RedshopViewAdmin
         $detail->xmlimport_url = $model->getXMLImporturl();
 
         $isNew = ($detail->xmlimport_id < 1);
-        $text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+        $text  = $isNew ? Text::_('COM_REDSHOP_NEW') : Text::_('COM_REDSHOP_EDIT');
 
         JToolBarHelper::title(
-            JText::_('COM_REDSHOP_XML_IMPORT_MANAGEMENT') . ': <small><small>[ ' . $text . ' ]</small></small>',
+            Text::_('COM_REDSHOP_XML_IMPORT_MANAGEMENT') . ': <small><small>[ ' . $text . ' ]</small></small>',
             'redshop_import48'
         );
         JToolBarHelper::custom(
             'xmlimport',
             'redshop_import_import32.png',
-            JText::_('COM_REDSHOP_XML_IMPORT'),
-            JText::_('COM_REDSHOP_XML_IMPORT'),
+            Text::_('COM_REDSHOP_XML_IMPORT'),
+            Text::_('COM_REDSHOP_XML_IMPORT'),
             false,
             false
         );
@@ -74,7 +74,7 @@ class RedshopViewXmlimport_detail extends RedshopViewAdmin
         if ($isNew) {
             JToolBarHelper::cancel();
         } else {
-            JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+            JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
         }
 
         $section_type                = $xmlhelper->getSectionTypeList();
@@ -146,7 +146,7 @@ class RedshopViewXmlimport_detail extends RedshopViewAdmin
             $op           = array();
             $op[0]        = new stdClass;
             $op[0]->value = '';
-            $op[0]->text  = JText::_('COM_REDSHOP_SELECT');
+            $op[0]->text  = Text::_('COM_REDSHOP_SELECT');
             $columns      = array_merge($op, $cols);
 
             for ($i = 0, $in = count($xmlfiletag); $i < $in; $i++) {

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Account Billing Address Controller.
  *
@@ -88,8 +90,8 @@ class RedshopControllerAccount_Billto extends RedshopController
         $model       = $this->getModel('account_billto');
         $redshopUser = $model->store($post);
 
-        $msg = $redshopUser ? JText::_('COM_REDSHOP_BILLING_INFORMATION_SAVE')
-            : JText::_('COM_REDSHOP_ERROR_SAVING_BILLING_INFORMATION');
+        $msg = $redshopUser ? Text::_('COM_REDSHOP_BILLING_INFORMATION_SAVE')
+            : Text::_('COM_REDSHOP_ERROR_SAVING_BILLING_INFORMATION');
 
         if ($return != "") {
             if ($setExit) {
@@ -120,7 +122,7 @@ class RedshopControllerAccount_Billto extends RedshopController
     {
         $input   = JFactory::getApplication()->input;
         $itemId  = $input->get('Itemid');
-        $msg     = JText::_('COM_REDSHOP_BILLING_INFORMATION_EDITING_CANCELLED');
+        $msg     = Text::_('COM_REDSHOP_BILLING_INFORMATION_EDITING_CANCELLED');
         $return  = $input->get('return');
         $setexit = $input->getInt('setexit', 1);
 

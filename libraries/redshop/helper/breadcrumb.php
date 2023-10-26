@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Redshop Breadcrumb Helper
  *
@@ -69,7 +71,7 @@ class RedshopHelperBreadcrumb
                 }
 
                 $customPathways = array();
-                $newLink        = 'index.php?option=com_redshop&view=category';
+                $newLink = 'index.php?option=com_redshop&view=category';
 
                 if ($layout === 'categoryproduct') {
                     $newLink = 'index.php?option=com_redshop&view=category&layout=' . $layout;
@@ -94,9 +96,10 @@ class RedshopHelperBreadcrumb
             case "product":
                 $menu = RedshopHelperProduct::getMenuInformation($itemId);
 
-				if (!is_null($menu)
-					&& $menu->getParams()->get('manufacturer_id'))
-				{
+                if (
+                    !is_null($menu)
+                    && $menu->getParams()->get('manufacturer_id')
+                ) {
                     $customPathways = array();
                     $menu           = RedshopHelperProduct::getMenuDetail(
                         "index.php?option=com_redshop&view=manufacturers"
@@ -193,7 +196,7 @@ class RedshopHelperBreadcrumb
             case "manufacturers":
 
                 $customPathways = array();
-                $menu           = RedshopHelperProduct::getMenuDetail(
+                $menu = RedshopHelperProduct::getMenuDetail(
                     "index.php?option=com_redshop&view=manufacturers"
                 );
 
@@ -220,7 +223,7 @@ class RedshopHelperBreadcrumb
                 if ($sectionId != 0) {
                     $menu = RedshopHelperProduct::getMenuInformation(0, $sectionId, "manufacturerid", "manufacturers");
 
-                    if (!empty((array)$menu)) {
+                    if (!empty((array) $menu)) {
                         $main             = new stdClass;
                         $main->name       = $menu->title;
                         $main->link       = "";
@@ -228,7 +231,7 @@ class RedshopHelperBreadcrumb
                     } else {
                         $menu = RedshopEntityManufacturer::getInstance($sectionId)->getItem();
 
-                        if (!empty((array)$menu)) {
+                        if (!empty((array) $menu)) {
                             $main             = new stdClass;
                             $main->name       = $menu->name;
                             $main->link       = "";
@@ -241,15 +244,15 @@ class RedshopHelperBreadcrumb
 
             case "account":
                 $customPathways = array();
-                $menu           = RedshopHelperProduct::getMenuInformation($itemId);
+                $menu = RedshopHelperProduct::getMenuInformation($itemId);
 
-                if (isset($menu) && count((array)$menu) > 0) {
+                if (isset($menu) && count((array) $menu) > 0) {
                     $main       = new stdClass;
                     $main->name = $menu->title;
                     $main->link = "";
                 } else {
                     $main       = new stdClass;
-                    $main->name = JText::_('COM_REDSHOP_ACCOUNT_MAINTAINANCE');
+                    $main->name = Text::_('COM_REDSHOP_ACCOUNT_MAINTAINANCE');
                     $main->link = "";
                 }
 
@@ -259,7 +262,7 @@ class RedshopHelperBreadcrumb
 
             case "order_detail":
                 $customPathways = array();
-                $menu           = RedshopHelperProduct::getMenuInformation(0, 0, "", "account");
+                $menu = RedshopHelperProduct::getMenuInformation(0, 0, "", "account");
 
                 if (!empty($menu)) {
                     $main             = new stdClass;
@@ -268,14 +271,14 @@ class RedshopHelperBreadcrumb
                     $customPathways[] = $main;
                 } else {
                     $main             = new stdClass;
-                    $main->name       = JText::_('COM_REDSHOP_ACCOUNT_MAINTAINANCE');
+                    $main->name       = Text::_('COM_REDSHOP_ACCOUNT_MAINTAINANCE');
                     $main->link       = Redshop\IO\Route::_('index.php?option=com_redshop&view=account&Itemid=' . $itemId);
                     $customPathways[] = $main;
                 }
 
-                $main             = new stdClass;
-                $main->name       = JText::_('COM_REDSHOP_ORDER_DETAILS');
-                $main->link       = "";
+                $main = new stdClass;
+                $main->name = Text::_('COM_REDSHOP_ORDER_DETAILS');
+                $main->link = "";
                 $customPathways[] = $main;
 
                 break;
@@ -284,7 +287,7 @@ class RedshopHelperBreadcrumb
             case "account_billto":
             case "account_shipto":
                 $customPathways = array();
-                $menu           = RedshopHelperProduct::getMenuInformation(0, 0, "", "account");
+                $menu = RedshopHelperProduct::getMenuInformation(0, 0, "", "account");
 
                 if (is_object($menu) && count(get_object_vars($menu)) > 0) {
                     $main             = new stdClass;
@@ -293,22 +296,22 @@ class RedshopHelperBreadcrumb
                     $customPathways[] = $main;
                 } else {
                     $main             = new stdClass;
-                    $main->name       = JText::_('COM_REDSHOP_ACCOUNT_MAINTAINANCE');
+                    $main->name       = Text::_('COM_REDSHOP_ACCOUNT_MAINTAINANCE');
                     $main->link       = Redshop\IO\Route::_('index.php?option=com_redshop&view=account&Itemid=' . $itemId);
                     $customPathways[] = $main;
                 }
 
                 if ($view == 'orders') {
-                    $lastlink = JText::_('COM_REDSHOP_ORDER_LIST');
+                    $lastlink = Text::_('COM_REDSHOP_ORDER_LIST');
                 } elseif ($view == 'account_billto') {
-                    $lastlink = JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL');
+                    $lastlink = Text::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL');
                 } elseif ($view == 'account_shipto') {
-                    $lastlink = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL');
+                    $lastlink = Text::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL');
                 }
 
-                $main             = new stdClass;
-                $main->name       = $lastlink;
-                $main->link       = "";
+                $main = new stdClass;
+                $main->name = $lastlink;
+                $main->link = "";
                 $customPathways[] = $main;
 
                 break;

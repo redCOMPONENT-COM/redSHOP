@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 require_once JPATH_LIBRARIES . '/redshop/library.php';
 
 /**
@@ -67,10 +69,10 @@ class RedshopFormFieldMedia extends JFormField
             $inputId = 'dropzone_alternate_text[' . $mediaDOMId . ']';
             $inputId .= !empty($mediaId) ? '[media-' . $mediaId . ']' : '[]';
             $html    = '<div class="row-fluid">'
-                . '<label>' . JText::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT') . '</label>'
+                . '<label>' . Text::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT') . '</label>'
                 . '<input type="text" class="form-control"'
                 . 'name="' . $inputId . '" value="' . $media->get('media_alternate_text') . '"'
-                . ' placeholder="' . JText::_('COM_REDSHOP_TOOLTIP_MEDIA_ALTERNATE_TEXT') . '"/>'
+                . ' placeholder="' . Text::_('COM_REDSHOP_TOOLTIP_MEDIA_ALTERNATE_TEXT') . '"/>'
                 . '<p></p></div>';
         }
 

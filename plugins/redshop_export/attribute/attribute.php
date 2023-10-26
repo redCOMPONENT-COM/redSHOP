@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 use Redshop\Plugin\AbstractExportPlugin;
 
@@ -43,13 +44,13 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
         }
 
         $configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_PRODUCTS') . '</label>
+			<label class="col-md-2 control-label">' . Text::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_PRODUCTS') . '</label>
 			<div class="col-md-10">'
             . JHtml::_(
                 'select.genericlist',
                 $options,
                 'products[]',
-                'class="form-control" multiple placeholder="' . JText::_(
+                'class="form-control" multiple placeholder="' . Text::_(
                     'PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_PRODUCTS_PLACEHOLDER'
                 ) . '"',
                 'value',
@@ -73,7 +74,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 
         $this->writeData($this->getHeader(), 'w+');
 
-        return (int)$this->getTotal();
+        return (int) $this->getTotal();
     }
 
     /**
@@ -141,7 +142,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
             ->select('COUNT(*)')
             ->from('(' . $query . ') AS ' . $db->qn('attribute_data'));
 
-        return (int)$this->db->setQuery($newQuery)->loadResult();
+        return (int) $this->db->setQuery($newQuery)->loadResult();
     }
 
     /**
@@ -218,13 +219,13 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
                 '(SELECT GROUP_CONCAT(CONCAT('
                 . $db->qn('att_stock.stockroom_id') . ',' . $db->quote(':') . ',' . $db->qn('att_stock.quantity') . ')'
                 . ' SEPARATOR ' . $db->quote('#') . ') FROM ' . $db->qn(
-                    '#__redshop_product_attribute_stockroom_xref',
-                    'att_stock'
-                )
+                        '#__redshop_product_attribute_stockroom_xref',
+                        'att_stock'
+                    )
                 . ' WHERE ' . $db->qn('att_stock.section_id') . ' = ' . $db->qn('ap.property_id')
                 . ' AND ' . $db->qn('att_stock.section') . ' = ' . $db->quote('property') . ') AS ' . $db->qn(
-                    'property_stock'
-                )
+                        'property_stock'
+                    )
             )
             ->select($db->qn('ap.ordering', 'property_ordering'))
             ->select($db->qn('ap.property_number', 'property_virtual_number'))
@@ -297,13 +298,13 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
                 '(SELECT GROUP_CONCAT(CONCAT('
                 . $db->qn('stocksp.stockroom_id') . ',' . $db->quote(':') . ',' . $db->qn('stocksp.quantity') . ')'
                 . ' SEPARATOR ' . $db->quote('#') . ') FROM ' . $db->qn(
-                    '#__redshop_product_attribute_stockroom_xref',
-                    'stocksp'
-                )
+                        '#__redshop_product_attribute_stockroom_xref',
+                        'stocksp'
+                    )
                 . ' WHERE ' . $db->qn('stocksp.section_id') . ' = ' . $db->qn('sp.subattribute_color_id')
                 . ' AND ' . $db->qn('stocksp.section') . ' = ' . $db->quote('subproperty') . ') AS ' . $db->qn(
-                    'subattribute_stock'
-                )
+                        'subattribute_stock'
+                    )
             )
             ->select($db->qn('sp.ordering', 'subattribute_color_ordering'))
             ->select($db->qn('sp.setdefault_selected', 'subattribute_setdefault_selected'))
@@ -404,7 +405,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
         }
 
         foreach ($data as $index => $item) {
-            $item = (array)$item;
+            $item = (array) $item;
 
             // Property image
             if (!empty($item['property_image'])) {

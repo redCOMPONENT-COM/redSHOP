@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Utility class for creating HTML Grids
@@ -36,10 +37,10 @@ class JHtmlRedshopGrid extends JHtmlJGrid
         $tip = 'JGLOBAL_CHECK_ALL',
         $action = 'Joomla.checkAll(this)'
     ) {
-		JHtml::_('bootstrap.tooltip');
+        JHtml::_('bootstrap.tooltip');
 
-		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="'
-			. JHtml::tooltipText($tip) . '" onclick="' . $action . '" />';
+        return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="'
+            . JHtml::tooltipText($tip) . '" onclick="' . $action . '" />';
     }
 
     /**
@@ -68,8 +69,8 @@ class JHtmlRedshopGrid extends JHtmlJGrid
         $teaser = JHtml::_('string.truncate', $data, $count, true, false);
 
         return "<span class='rs-teaser'>" . $teaser . "</span>
-			<span class='rs-full'>" . $data . "</span>
-			<span class='rs-more badge label-success'>" . JText::_('COM_REDSHOP_GRID_SLIDERTEXT_MORE') . "</span>";
+            <span class='rs-full'>" . $data . "</span>
+            <span class='rs-more badge label-success'>" . Text::_('COM_REDSHOP_GRID_SLIDERTEXT_MORE') . "</span>";
     }
 
     /**
@@ -91,7 +92,7 @@ class JHtmlRedshopGrid extends JHtmlJGrid
             return $value;
         }
 
-		HTMLHelper::script('com_redshop/redshop.inline.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.inline.min.js', ['relative' => true]);
         JText::script('COM_REDSHOP_SUCCESS');
         JText::script('COM_REDSHOP_DATA_UPDATE_SUCCESS');
         JText::script('COM_REDSHOP_FAIL');
@@ -142,17 +143,17 @@ class JHtmlRedshopGrid extends JHtmlJGrid
 
         $text           = addslashes(htmlspecialchars($editorName, ENT_COMPAT, 'UTF-8'));
         $date           = addslashes(
-            htmlspecialchars(JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')), ENT_COMPAT, 'UTF-8')
+            htmlspecialchars(JHtml::_('date', $time, Text::_('DATE_FORMAT_LC')), ENT_COMPAT, 'UTF-8')
         );
         $time           = addslashes(htmlspecialchars(JHtml::_('date', $time, 'H:i'), ENT_COMPAT, 'UTF-8'));
-        $active_title   = JText::_('JLIB_HTML_CHECKIN') . '::' . $text . '<br />' . $date . '<br />' . $time;
-        $inactive_title = JText::_('JLIB_HTML_CHECKED_OUT') . '::' . $text . '<br />' . $date . '<br />' . $time;
+        $active_title   = Text::_('JLIB_HTML_CHECKIN') . '::' . $text . '<br />' . $date . '<br />' . $time;
+        $inactive_title = Text::_('JLIB_HTML_CHECKED_OUT') . '::' . $text . '<br />' . $date . '<br />' . $time;
 
         return self::action(
             $i,
             'checkin',
             $prefix,
-            JText::_('JLIB_HTML_CHECKED_OUT'),
+            Text::_('JLIB_HTML_CHECKED_OUT'),
             $active_title,
             $inactive_title,
             true,
@@ -250,16 +251,16 @@ class JHtmlRedshopGrid extends JHtmlJGrid
             $html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\''
                 . $prefix . $task . '\',\'' . $formId . '\')"';
             $html[] = ' title="' . addslashes(
-                    htmlspecialchars($translate ? JText::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')
-                ) . '">';
+                htmlspecialchars($translate ? Text::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')
+            ) . '">';
             $html[] = '<i class="fa fa-' . $iconClass . '">';
             $html[] = '</i>';
             $html[] = '</a>';
         } else {
             $html[] = '<a class="btn btn-small disabled jgrid ' . $buttonClass . ' ' . ($tip ? 'hasPopover' : '') . '" ';
             $html[] = ' title="' . addslashes(
-                    htmlspecialchars($translate ? JText::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8')
-                ) . '">';
+                htmlspecialchars($translate ? Text::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8')
+            ) . '">';
 
             if ($active_class == "protected") {
                 $html[] = '<i class="fa fa-lock"></i>';

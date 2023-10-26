@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -27,13 +29,13 @@ class RedshopTagsSectionsShippingBox extends RedshopTagsAbstract
         $shippingBoxes     = RedshopHelperShipping::getShippingBox();
         $shippingBoxPostId = $this->data['shippingBoxPostId'];
 
-        $this->addReplace('{shipping_box_heading}', JText::_('COM_REDSHOP_SHIPPING_BOXES'));
+        $this->addReplace('{shipping_box_heading}', Text::_('COM_REDSHOP_SHIPPING_BOXES'));
 
         if (count($shippingBoxes) == 1 || (count($shippingBoxes) > 0 && $shippingBoxPostId == 0)) {
             $shippingBoxPostId = $shippingBoxes[0]->shipping_box_id;
         }
 
-        $shippingBoxList = JText::_('COM_REDSHOP_NO_SHIPPING_BOX');
+        $shippingBoxList = Text::_('COM_REDSHOP_NO_SHIPPING_BOX');
 
         if (count($shippingBoxes) > 0) {
             $shippingBoxList = "";

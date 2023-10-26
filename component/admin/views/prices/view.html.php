@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 class RedshopViewPrices extends RedshopViewAdmin
 {
@@ -20,14 +21,14 @@ class RedshopViewPrices extends RedshopViewAdmin
         $app      = JFactory::getApplication();
         $document = JFactory::getDocument();
 
-        $document->setTitle(JText::_('COM_REDSHOP_PRODUCT_PRICE'));
+        $document->setTitle(Text::_('COM_REDSHOP_PRODUCT_PRICE'));
         jimport('joomla.html.pagination');
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'redshop_vatrates48');
+        JToolBarHelper::title(Text::_('COM_REDSHOP_PRODUCT_PRICE'), 'redshop_vatrates48');
         JToolbarHelper::addNew();
         JToolbarHelper::EditList();
         JToolBarHelper::deleteList();
-        JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+        JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
 
         $limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
         $limit      = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');

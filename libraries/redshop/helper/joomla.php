@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Joomla! helper
  *
@@ -62,13 +64,15 @@ class RedshopHelperJoomla
         $app   = JFactory::getApplication();
         $input = $app->input;
 
-        $createUser = isset($data['createaccount']) ? (boolean)$data['createaccount'] : $createUser;
+        $createUser = isset($data['createaccount']) ? (boolean) $data['createaccount'] : $createUser;
 
         // Registration is without account creation REGISTER_METHOD = 1
         // Or Optional account creation
-        if (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || (Redshop::getConfig()->get(
-                    'REGISTER_METHOD'
-                ) == 2 && !$createUser)) {
+        if (
+            Redshop::getConfig()->get('REGISTER_METHOD') == 1 || (Redshop::getConfig()->get(
+                'REGISTER_METHOD'
+            ) == 2 && !$createUser)
+        ) {
             $user     = new stdClass;
             $user->id = 0;
 
@@ -78,8 +82,8 @@ class RedshopHelperJoomla
         $data['password']  = $data['password'] ?? $input->post->get('password1', '', 'RAW');
         $data['password2'] = $data['password2'] ?? $input->post->get('password2', '', 'RAW');
 
-        $data['email']     = $data['email1'];
-        $data['name']      = $name = $data['firstname'];
+        $data['email'] = $data['email1'];
+        $data['name']  = $name = $data['firstname'];
 
         $userParams = JComponentHelper::getParams('com_users');
 
@@ -101,39 +105,39 @@ class RedshopHelperJoomla
         }
 
         if (trim($data['email']) == "") {
-			$app->enqueueMessage(JText::_('COM_REDSHOP_EMPTY_EMAIL'), 'warning');
+            $app->enqueueMessage(Text::_('COM_REDSHOP_EMPTY_EMAIL'), 'warning');
 
             return false;
         }
 
         if (trim($data['username']) == "") {
-			$app->enqueueMessage(JText::_('COM_REDSHOP_EMPTY_USERNAME'), 'warning');
+            $app->enqueueMessage(Text::_('COM_REDSHOP_EMPTY_USERNAME'), 'warning');
 
             return false;
         }
 
         if (RedshopHelperUser::validateUser($data['username']) > 0) {
-			$app->enqueueMessage(JText::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'), 'warning');
+            $app->enqueueMessage(Text::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'), 'warning');
 
             return false;
         }
 
         if (RedshopHelperUser::validateEmail($data['email']) > 0) {
-			$app->enqueueMessage(JText::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'), 'warning');
+            $app->enqueueMessage(Text::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'), 'warning');
 
             return false;
         }
 
         // Check: Password is empty
         if (trim($data['password']) == "") {
-			$app->enqueueMessage(JText::_('COM_REDSHOP_EMPTY_PASSWORD'), 'warning');
+            $app->enqueueMessage(Text::_('COM_REDSHOP_EMPTY_PASSWORD'), 'warning');
 
             return false;
         }
 
         // Check: Password not match
         if ($data['password'] != $data['password2']) {
-			$app->enqueueMessage(JText::_('COM_REDSHOP_PASSWORDS_DO_NOT_MATCH'), 'warning');
+            $app->enqueueMessage(Text::_('COM_REDSHOP_PASSWORDS_DO_NOT_MATCH'), 'warning');
 
             return false;
         }
@@ -146,7 +150,7 @@ class RedshopHelperJoomla
 
         // If user registration is not allowed, show 403 not authorized.
         if (!$user->bind($data)) {
-			throw new \Exception($user->getError());
+            throw new \Exception($user->getError());
         }
 
         $date = JFactory::getDate();
@@ -166,7 +170,7 @@ class RedshopHelperJoomla
 
         // If there was an error with registration, set the message and display form
         if (!$user->save()) {
-			$app->enqueueMessage(JText::_($user->getError()), 'warning');
+            $app->enqueueMessage(Text::_($user->getError()), 'warning');
 
             return false;
         }
@@ -200,8 +204,10 @@ class RedshopHelperJoomla
     {
         $app = JFactory::getApplication();
 
-        if ((!$app->isClient('administrator') && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || $data['user_id'] < 0))
-            || $app->isClient('administrator') && $data['user_id'] < 0 && isset($data['users_info_id'])) {
+        if (
+            (!$app->isClient('administrator') && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || $data['user_id'] < 0))
+            || $app->isClient('administrator') && $data['user_id'] < 0 && isset($data['users_info_id'])
+        ) {
             $reduser     = new stdClass;
             $reduser->id = $data['user_id'];
 
@@ -214,28 +220,28 @@ class RedshopHelperJoomla
 
         // Check: Username is not empty
         if (trim($data['username']) == "") {
-			$app->enqueueMessage(JText::_('COM_REDSHOP_EMPTY_USERNAME'), 'warning');
+            $app->enqueueMessage(Text::_('COM_REDSHOP_EMPTY_USERNAME'), 'warning');
 
             return false;
         }
 
         // Check: Validate username.
         if (RedshopHelperUser::validateUser($data['username'], $data['user_id'])) {
-			$app->enqueueMessage(JText::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'), 'warning');
+            $app->enqueueMessage(Text::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'), 'warning');
 
             return false;
         }
 
         // Check: Email not empty.
         if (trim($data['email']) == "") {
-			$app->enqueueMessage(JText::_('EMPTY_EMAIL'), 'warning');
+            $app->enqueueMessage(Text::_('EMPTY_EMAIL'), 'warning');
 
             return false;
         }
 
         // Check: Validate email
         if (RedshopHelperUser::validateEmail($data['email'], $data['user_id'])) {
-			$app->enqueueMessage(JText::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'), 'warning');
+            $app->enqueueMessage(Text::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'), 'warning');
 
             return false;
         }
@@ -244,14 +250,14 @@ class RedshopHelperJoomla
         $user = new JUser($data['user_id']);
 
         if (!$user->bind($data)) {
-			throw new \Exception($user->getError());
+            throw new \Exception($user->getError());
         }
 
         // Initialise variables;
         $pk = $user->get('id');
 
         if ($user->get('block') && $pk == $me->id && !$me->block) {
-            $app->enqueueMessage(JText::_('YOU_CANNOT_BLOCK_YOURSELF!'), 'error');
+            $app->enqueueMessage(Text::_('YOU_CANNOT_BLOCK_YOURSELF!'), 'error');
 
             return false;
         }
@@ -267,7 +273,7 @@ class RedshopHelperJoomla
             }
 
             if (!$stillSuperAdmin) {
-                $app->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_DEMOTE_SELF'), 'error');
+                $app->enqueueMessage(Text::_('COM_USERS_USERS_ERROR_CANNOT_DEMOTE_SELF'), 'error');
 
                 return false;
             }
@@ -275,7 +281,7 @@ class RedshopHelperJoomla
 
         // If there was an error with registration, set the message and display form
         if (!$user->save()) {
-			$app->enqueueMessage(JText::_($user->getError()), 'warning');
+            $app->enqueueMessage(Text::_($user->getError()), 'warning');
 
             return false;
         }

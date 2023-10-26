@@ -9,6 +9,8 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags replacer abstract class
  *
@@ -68,10 +70,10 @@ class RedshopTagsSectionsOrderDetail extends RedshopTagsAbstract
             'tags.common.img_link',
             array(
                 'link'     => 'javascript:void(0)',
-                'linkAttr' => $onclick . ' title="' . JText::_('COM_REDSHOP_PRINT_LBL') . '"',
+                'linkAttr' => $onclick . ' title="' . Text::_('COM_REDSHOP_PRINT_LBL') . '"',
                 'src'      => JSYSTEM_IMAGES_PATH . 'printButton.png',
-                'alt'      => JText::_('COM_REDSHOP_PRINT_LBL'),
-                'imgAttr'  => 'title="' . JText::_('COM_REDSHOP_PRINT_LBL') . '"'
+                'alt'      => Text::_('COM_REDSHOP_PRINT_LBL'),
+                'imgAttr'  => 'title="' . Text::_('COM_REDSHOP_PRINT_LBL') . '"'
             ),
             '',
             RedshopLayoutHelper::$layoutOption
@@ -97,31 +99,31 @@ class RedshopTagsSectionsOrderDetail extends RedshopTagsAbstract
                 $arrDiscountType = explode(':', $arrDiscount[$d]);
 
                 if ($arrDiscountType[0] == 'c') {
-                    $discountType .= JText::_('COM_REDSHOP_COUPEN_CODE') . ' : ' . $arrDiscountType[1] . $brTag;
+                    $discountType .= Text::_('COM_REDSHOP_COUPEN_CODE') . ' : ' . $arrDiscountType[1] . $brTag;
                 }
 
                 if ($arrDiscountType[0] == 'v') {
-                    $discountType .= JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $arrDiscountType[1] . $brTag;
+                    $discountType .= Text::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $arrDiscountType[1] . $brTag;
                 }
             }
         }
 
-        $this->replacements['{discount_type_lbl}'] = JText::_('COM_REDSHOP_CART_DISCOUNT_CODE_TBL');
+        $this->replacements['{discount_type_lbl}'] = Text::_('COM_REDSHOP_CART_DISCOUNT_CODE_TBL');
 
         if ($discountType) {
             $this->replacements['{discount_type}'] = $discountType;
         } else {
-            $this->replacements['{discount_type}'] = JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
+            $this->replacements['{discount_type}'] = Text::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
         }
 
         $statusText = RedshopHelperOrder::getOrderStatusTitle($ordersDetail->order_status);
 
         if (trim($ordersDetail->order_payment_status) == 'Paid') {
-            $orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
+            $orderPaymentStatus = Text::_('COM_REDSHOP_PAYMENT_STA_PAID');
         } elseif (trim($ordersDetail->order_payment_status) == 'Unpaid') {
-            $orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
+            $orderPaymentStatus = Text::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
         } elseif (trim($ordersDetail->order_payment_status) == 'Partial Paid') {
-            $orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID');
+            $orderPaymentStatus = Text::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID');
         } else {
             $orderPaymentStatus = $ordersDetail->order_payment_status;
         }

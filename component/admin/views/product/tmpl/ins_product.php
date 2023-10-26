@@ -9,9 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $model = $this->getModel('product');
 $eName = JFactory::getApplication()->input->get('e_name');
 $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
+
 ?>
 <script language="javascript" type="text/javascript">
 
@@ -43,62 +46,63 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 
 
 <form
-        action="index.php?option=com_redshop&amp;view=product&amp;task=ins_product&amp;tmpl=component&amp;e_name=<?php echo $eName; ?>"
-        method="post" name="adminForm" id="adminForm">
-    <input type="text" name="keyword" value="<?php echo $this->keyword; ?>"> <input type="submit"
-                                                                                    value="<?php echo JText::_(
-                                                                                        "COM_REDSHOP_SEARCH"
-                                                                                    ) ?>">
+    action="index.php?option=com_redshop&amp;view=product&amp;task=ins_product&amp;tmpl=component&amp;e_name=<?php echo $eName; ?>"
+    method="post" name="adminForm" id="adminForm">
+    <input type="text" name="keyword" value="<?php echo $this->keyword; ?>"> <input type="submit" value="<?php echo Text::_(
+           "COM_REDSHOP_SEARCH"
+       ) ?>">
     <select name="search_field" onchange="javascript:document.adminForm.submit();">
-        <option
-                value="p.product_name" <?php if ($this->search_field == 'p.product_name') {
+        <option value="p.product_name" <?php if ($this->search_field == 'p.product_name') {
             echo "selected='selected'";
-        } ?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NAME") ?></option>
-        <option
-                value="c.category_name" <?php if ($this->search_field == 'c.category_name') {
+        } ?>>
+            <?php echo Text::_("COM_REDSHOP_PRODUCT_NAME") ?>
+        </option>
+        <option value="c.category_name" <?php if ($this->search_field == 'c.category_name') {
             echo "selected='selected'";
-        } ?>><?php echo JText::_("COM_REDSHOP_CATEGORY") ?></option>
-        <option
-                value="p.product_number" <?php if ($this->search_field == 'p.product_number') {
+        } ?>>
+            <?php echo Text::_("COM_REDSHOP_CATEGORY") ?>
+        </option>
+        <option value="p.product_number" <?php if ($this->search_field == 'p.product_number') {
             echo "selected='selected'";
-        } ?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER") ?></option>
+        } ?>><?php echo Text::_("COM_REDSHOP_PRODUCT_NUMBER") ?>
+        </option>
     </select>
 
     <div id="editcell">
         <table class="adminlist table table-striped">
             <thead>
-            <tr>
-                <th width="5">
-                    <?php echo JText::_('COM_REDSHOP_NUM'); ?>
-                </th>
+                <tr>
+                    <th width="5">
+                        <?php echo Text::_('COM_REDSHOP_NUM'); ?>
+                    </th>
 
-                <th class="title">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_PRODUCT_NAME',
-                        'product_name',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th class="title">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_PRODUCT_NUMBER',
-                        'product_number',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
+                    <th class="title">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_PRODUCT_NAME',
+                            'product_name',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th class="title">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_PRODUCT_NUMBER',
+                            'product_number',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
 
-            </tr>
+                </tr>
             </thead>
             <?php
             $k = 0;
             for ($i = 0, $n = count($this->products); $i < $n; $i++) {
-                $row = $this->products[$i];
+                $row     = $this->products[$i];
                 $row->id = $row->product_id;
-                $link = Redshop\IO\Route::_(
+                $link    = Redshop\IO\Route::_(
                     'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id
                 );
 
@@ -111,12 +115,14 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
                     </td>
 
                     <td>
-                        <div style="cursor:pointer"
-                             onclick="insertProduct(<?php echo $row->product_id; ?>);"><?php echo $row->product_name; ?></div>
+                        <div style="cursor:pointer" onclick="insertProduct(<?php echo $row->product_id; ?>);">
+                            <?php echo $row->product_name; ?>
+                        </div>
                     </td>
                     <td>
-                        <div style="cursor:pointer"
-                             onclick="insertProduct(<?php echo $row->product_id; ?>);"><?php echo $row->product_number; ?></div>
+                        <div style="cursor:pointer" onclick="insertProduct(<?php echo $row->product_id; ?>);">
+                            <?php echo $row->product_number; ?>
+                        </div>
                     </td>
 
                 </tr>
@@ -126,19 +132,19 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
             ?>
 
             <tfoot>
-            <td colspan="6">
-				<div class="redShopLimitBox">
-					<?php echo $this->pagination->getLimitBox(); ?>
-				</div>
-                <?php echo $this->pagination->getListFooter(); ?>
-            </td>
+                <td colspan="6">
+                    <div class="redShopLimitBox">
+                        <?php echo $this->pagination->getLimitBox(); ?>
+                    </div>
+                    <?php echo $this->pagination->getListFooter(); ?>
+                </td>
             </tfoot>
         </table>
     </div>
 
-    <input type="hidden" name="view" value="product"/>
-    <input type="hidden" name="task" value="ins_product"/>
-    <input type="hidden" name="boxchecked" value="0"/>
-    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+    <input type="hidden" name="view" value="product" />
+    <input type="hidden" name="task" value="ins_product" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
 </form>

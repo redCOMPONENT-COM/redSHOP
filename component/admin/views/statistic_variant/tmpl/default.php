@@ -7,17 +7,23 @@
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
+
 $total = 0;
 
 foreach ($this->productVariants as $itemId => $data) {
     $total += $data['total_sale'];
 }
+
 ?>
 <script type="text/javascript">
     //Load the Visualization API and the piechart package.
-    google.charts.load("current", {packages: ['corechart']});
+    google.charts.load("current", { packages: ['corechart'] });
 
     //Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
@@ -27,27 +33,27 @@ foreach ($this->productVariants as $itemId => $data) {
     //draws it.
     function drawChart() {
         var data = google.visualization.arrayToDataTable([
-            ['<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION');?>', '<?php echo JText::_(
-                'COM_REDSHOP_SALES_AMOUNT'
-            );?>', {role: 'style'}, {role: 'annotation'}],
-            <?php if ($total > 0) :?>
-            <?php foreach ($this->productVariants as $row) : ?>
-            <?php $row = (object)$row; ?>
-            <?php if (!empty($row->total_sale)) : ?>
-            ['<?php echo $row->product_name . '(' . $row->product_attribute . ')'; ?>', <?php echo $row->total_sale; ?>, 'blue', '<?php echo RedshopHelperProductPrice::formattedPrice(
-                $row->total_sale
-            ); ?>'],
-            <?php endif; ?>
-            <?php endforeach; ?>
+            ['<?php echo Text::_('COM_REDSHOP_STATISTIC_DURATION'); ?>', '<?php echo Text::_(
+                  'COM_REDSHOP_SALES_AMOUNT'
+              ); ?>', { role: 'style' }, { role: 'annotation' }],
+            <?php if ($total > 0): ?>
+                <?php foreach ($this->productVariants as $row): ?>
+                    <?php $row = (object) $row; ?>
+                    <?php if (!empty($row->total_sale)): ?>
+                        ['<?php echo $row->product_name . '(' . $row->product_attribute . ')'; ?>', <?php echo $row->total_sale; ?>, 'blue', '<?php echo RedshopHelperProductPrice::formattedPrice(
+                                        $row->total_sale
+                                    ); ?>'],
+                    <?php endif; ?>
+                <?php endforeach; ?>
             <?php else: ?>
-            [0, 0, 'blue', 0],
+                [0, 0, 'blue', 0],
             <?php endif; ?>
         ]);
 
         var options = {
             chart: {
-                title: '<?php echo JText::_("COM_REDSHOP_STATISTIC_PRODUCT"); ?>',
-                subtitle: '<?php echo JText::_("COM_REDSHOP_STATISTIC_PRODUCT"); ?>',
+                title: '<?php echo Text::_("COM_REDSHOP_STATISTIC_PRODUCT"); ?>',
+                subtitle: '<?php echo Text::_("COM_REDSHOP_STATISTIC_PRODUCT"); ?>',
             },
             annotations: {
                 boxStyle: {
@@ -144,9 +150,9 @@ foreach ($this->productVariants as $itemId => $data) {
                     <div class="col-md-4 col-md-offset-2 demo">
                         <input type="text" id="config-demo" class="form-control">
                         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                        <input type="hidden" name="filter_start_date" value="<?php echo $this->filterStartDate ?>"/>
-                        <input type="hidden" name="filter_end_date" value="<?php echo $this->filterEndDate ?>"/>
-                        <input type="hidden" name="filter_date_label" value="<?php echo $this->filterDateLabel ?>"/>
+                        <input type="hidden" name="filter_start_date" value="<?php echo $this->filterStartDate ?>" />
+                        <input type="hidden" name="filter_end_date" value="<?php echo $this->filterEndDate ?>" />
+                        <input type="hidden" name="filter_date_label" value="<?php echo $this->filterDateLabel ?>" />
                     </div>
                 </td>
             </tr>
@@ -154,38 +160,62 @@ foreach ($this->productVariants as $itemId => $data) {
         <div id="product_variant_statistic_chart"></div>
         <table class="adminlist table table-striped" width="100%">
             <thead>
-            <tr>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_DATE'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTES'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE_SKU'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_UNIT'); ?></th>
-                <th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_TOTAL_SALE'); ?></th>
-            </tr>
+                <tr>
+                    <th align="center">
+                        <?php echo Text::_('COM_REDSHOP_DATE'); ?>
+                    </th>
+                    <th align="center">
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_NAME'); ?>
+                    </th>
+                    <th align="center">
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_ATTRIBUTES'); ?>
+                    </th>
+                    <th align="center">
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_ATTRIBUTE_SKU'); ?>
+                    </th>
+                    <th align="center">
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_UNIT'); ?>
+                    </th>
+                    <th align="center">
+                        <?php echo Text::_('COM_REDSHOP_PRODUCT_TOTAL_SALE'); ?>
+                    </th>
+                </tr>
             </thead>
-            <?php if ($total > 0) : ?>
+            <?php if ($total > 0): ?>
                 <?php
-                foreach ($this->productVariants as $itemId => $data) :
-                    $row = (object)$data;
+                foreach ($this->productVariants as $itemId => $data):
+                    $row = (object) $data;
                     ?>
-                    <?php if (!empty($row->total_sale)) : ?>
-                    <tr>
-                        <td align="center"><?php echo $row->viewdate; ?></td>
-                        <td align="center"><a
-                                    href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]=<?php echo $row->product_id; ?>"><?php echo $row->product_name; ?></a>
-                        </td>
-                        <td align="center"><?php echo $row->product_attribute; ?></td>
-                        <td align="center"><?php echo $row->product_attribute_sku; ?></td>
-                        <td align="center"><?php echo $row->unit_sold; ?></td>
-                        <td align="center"><?php echo RedshopHelperProductPrice::formattedPrice(
-                                $row->total_sale
-                            ); ?></td>
-                    </tr>
-                <?php endif; ?>
+                    <?php if (!empty($row->total_sale)): ?>
+                        <tr>
+                            <td align="center">
+                                <?php echo $row->viewdate; ?>
+                            </td>
+                            <td align="center"><a
+                                    href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]=<?php echo $row->product_id; ?>">
+                                    <?php echo $row->product_name; ?>
+                                </a>
+                            </td>
+                            <td align="center">
+                                <?php echo $row->product_attribute; ?>
+                            </td>
+                            <td align="center">
+                                <?php echo $row->product_attribute_sku; ?>
+                            </td>
+                            <td align="center">
+                                <?php echo $row->unit_sold; ?>
+                            </td>
+                            <td align="center">
+                                <?php echo RedshopHelperProductPrice::formattedPrice(
+                                    $row->total_sale
+                                ); ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             <?php endif; ?>
         </table>
     </div>
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="boxchecked" value="0"/>
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="boxchecked" value="0" />
 </form>
