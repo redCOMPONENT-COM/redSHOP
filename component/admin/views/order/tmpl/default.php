@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 global $context;
 
 $app             = JFactory::getApplication();
-$config          = Redconfiguration::getInstance();
 $calendarFormat  = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
 $lists           = $this->lists;
 $model           = $this->getModel('order');
@@ -575,7 +574,7 @@ JPluginHelper::importPlugin('redshop_product');
                                 $max_delivery = RedshopHelperStockroom::getStockroomMaxDelivery(
                                     implode(',', $stockroomIds)
                                 );
-                                $orderDate    = $config->convertDateFormat($row->cdate);
+                                $orderDate    = RedshopHelperDatetime::convertDateFormat($row->cdate);
 
                                 $stamp         = mktime(
                                     0,
@@ -641,7 +640,7 @@ JPluginHelper::importPlugin('redshop_product');
                                 <?php endif; ?>
                             <?php elseif ($row->bookinvoice_date > 0): ?>
                                 <?php echo Text::_('COM_REDSHOP_INVOICE_BOOKED_ON') ?><br />
-                                <?php echo $config->convertDateFormat($row->bookinvoice_date) ?>
+                                <?php echo RedshopHelperDatetime::convertDateFormat($row->bookinvoice_date) ?>
                             <?php endif; ?>
                         <?php endif; ?>
                     </td>

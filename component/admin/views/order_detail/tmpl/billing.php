@@ -22,13 +22,12 @@ if ($isCompany != 1) {
     $allowCompany = 'style="display:none;"';
 }
 
-$extra_field = extra_field::getInstance();
-
 if (!isset($billing->order_info_id)) {
     $billing->order_info_id = 0;
 }
 
 $Itemid = JFactory::getApplication()->input->get('Itemid');
+
 ?>
 <script type="text/javascript">
 

@@ -13,10 +13,8 @@ use Joomla\CMS\Language\Text;
 
 JLoader::import('redshop.library');
 
-$objOrder         = order_functions::getInstance();
-$objconfiguration = Redconfiguration::getInstance();
-$app              = JFactory::getApplication();
-$input            = $app->input;
+$app   = JFactory::getApplication();
+$input = $app->input;
 
 $task   = $input->getCmd('task');
 $layout = $input->getCmd('layout');

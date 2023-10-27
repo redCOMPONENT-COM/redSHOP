@@ -51,7 +51,6 @@ class RedshopViewWizard extends RedshopViewAdmin
 
         $uri      = JUri::getInstance();
         $db       = JFactory::getDbo();
-        $config   = Redconfiguration::getInstance();
         $model    = $this->getModel();
         $document = JFactory::getDocument();
 
@@ -88,7 +87,7 @@ class RedshopViewWizard extends RedshopViewAdmin
         );
 
         // Date Formats
-        $default_dateformat          = $config->getDateFormat();
+        $default_dateformat          = RedshopHelperDatetime::convertDateFormat();
         $lists['default_dateformat'] = JHtml::_(
             'select.genericlist',
             $default_dateformat,
@@ -286,9 +285,9 @@ class RedshopViewWizard extends RedshopViewAdmin
 
         // Build the State lists for each Country
         $script       = "<script>";
-        $script       .= "var originalOrder = '1';\n";
-        $script       .= "var originalPos = '$selected_country_code';\n";
-        $script       .= "var states = new Array();	// array in the format [key,value,text]\n";
+        $script .= "var originalOrder = '1';\n";
+        $script .= "var originalPos = '$selected_country_code';\n";
+        $script .= "var states = new Array();	// array in the format [key,value,text]\n";
         $i            = 0;
         $prev_country = '';
 
@@ -300,23 +299,23 @@ class RedshopViewWizard extends RedshopViewAdmin
             if ($state->state_name) {
                 if ($prev_country != $country_3_code) {
                     $script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','',' -= " . Text::_(
-                            "COM_REDSHOP_SELECT"
-                        ) . " =-' );\n";
+                        "COM_REDSHOP_SELECT"
+                    ) . " =-' );\n";
                 }
 
                 $prev_country = $country_3_code;
 
                 $script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','" . $state->state_2_code . "','" . addslashes(
-                        Text::_($state->state_name)
-                    ) . "' );\n";
+                    Text::_($state->state_name)
+                ) . "' );\n";
             } else {
                 $script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','','" . Text::_(
-                        "COM_REDSHOP_NONE"
-                    ) . "' );\n";
+                    "COM_REDSHOP_NONE"
+                ) . "' );\n";
             }
         }
 
-        $script                     .= "
+        $script .= "
         window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
         var select = document.createElement('select');
         var params = selectParams.split(' ');

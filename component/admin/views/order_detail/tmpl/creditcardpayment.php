@@ -12,14 +12,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$url  = JURI::base();
-$user = JFactory::getUser();
-$app  = JFactory::getApplication();
-
-$order_functions = order_functions::getInstance();
-$user            = JFactory::getUser();
-$session         = JFactory::getSession();
-$user_id         = $user->id;
+$url     = JURI::base();
+$user    = JFactory::getUser();
+$app     = JFactory::getApplication();
+$user    = JFactory::getUser();
+$session = JFactory::getSession();
+$user_id = $user->id;
 
 $Itemid = RedshopHelperRouter::getCheckoutItemId();
 $cart   = $session->get('cart');
@@ -144,10 +142,8 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1') {
                         </label>
                     </td>
                     <td>
-                        <input class="inputbox" id="order_payment_name" name="order_payment_name"
-                            value="<?php if (!empty($_SESSION['ccdata']['order_payment_name']))
-                                echo $_SESSION['ccdata']['order_payment_name'] ?>"
-                                autocomplete="off" type="text">
+                        <input class="inputbox" id="order_payment_name" name="order_payment_name" value="<?php if (!empty($_SESSION['ccdata']['order_payment_name']))
+                            echo $_SESSION['ccdata']['order_payment_name'] ?>" autocomplete="off" type="text">
                         </td>
 
                     </tr>
@@ -158,10 +154,8 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1') {
                         </label>
                     </td>
                     <td>
-                        <input class="inputbox" id="order_payment_number" name="order_payment_number"
-                            value="<?php if (!empty($_SESSION['ccdata']['order_payment_number']))
-                                echo $_SESSION['ccdata']['order_payment_number'] ?>"
-                                autocomplete="off" type="text">
+                        <input class="inputbox" id="order_payment_number" name="order_payment_number" value="<?php if (!empty($_SESSION['ccdata']['order_payment_number']))
+                            echo $_SESSION['ccdata']['order_payment_number'] ?>" autocomplete="off" type="text">
                         </td>
 
                     </tr>
@@ -236,10 +230,8 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1') {
                         </label>
                     </td>
                     <td>
-                        <input class="inputbox" id="credit_card_code" name="credit_card_code"
-                            value="<?php if (!empty($_SESSION['ccdata']['credit_card_code']))
-                                echo $_SESSION['ccdata']['credit_card_code'] ?>"
-                                autocomplete="off" type="text">
+                        <input class="inputbox" id="credit_card_code" name="credit_card_code" value="<?php if (!empty($_SESSION['ccdata']['credit_card_code']))
+                            echo $_SESSION['ccdata']['credit_card_code'] ?>" autocomplete="off" type="text">
                         </td>
                     </tr>
 

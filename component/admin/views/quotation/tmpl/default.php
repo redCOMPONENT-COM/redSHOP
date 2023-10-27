@@ -11,12 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$quotationHelper = quotationHelper::getInstance();
-
-$config = Redconfiguration::getInstance();
-
 $lists = $this->lists;
 $model = $this->getModel('quotation');
+
 ?>
 <script language="javascript" type="text/javascript">
     var viewForm = 'quotation_detail';
@@ -133,7 +130,7 @@ $model = $this->getModel('quotation');
                     <td align="center"><?php echo RedshopHelperProductPrice::formattedPrice(
                             $row->quotation_total
                         ); ?></td>
-                    <td align="center"><?php echo $config->convertDateFormat($row->quotation_cdate); ?></td>
+                    <td align="center"><?php echo RedshopHelperDatetime::convertDateFormat($row->quotation_cdate); ?></td>
                 </tr>
                 <?php $k = 1 - $k;
             } ?>

@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$Redconfiguration = Redconfiguration::getInstance();
-
 ?>
 <script language="javascript" type="text/javascript">
 
@@ -141,7 +139,7 @@ $Redconfiguration = Redconfiguration::getInstance();
                         <?php echo $row->email; ?>
                     </td>
                     <td align="center">
-                        <?php echo $Redconfiguration->convertDateFormat($row->registerDate); ?>
+                        <?php echo RedshopHelperDatetime::convertDateFormat($row->registerDate); ?>
                     </td>
                     <td align="center">
                         <?php echo $reminder1; ?>

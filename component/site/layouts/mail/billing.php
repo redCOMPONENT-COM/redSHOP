@@ -17,14 +17,13 @@ use Joomla\CMS\Language\Text;
  * @var  array  $displayData      Layout data
  * @var  object $billingAddresses Billing address
  */
-extract($displayData);
 
-$order_functions = order_functions::getInstance();
-$extra_field     = extra_field::getInstance();
+ extract($displayData);
+
 $extra_section   = ($billingAddresses->is_company == 1) ?
     RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS : RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS;
-?>
 
+?>
 <table border="0">
     <?php if ($billingAddresses->is_company == 1): ?>
         <tr>

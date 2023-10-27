@@ -34,15 +34,9 @@ class economic
      */
     public function __construct()
     {
-        $db                     = JFactory::getDbo();
-        $this->_table_prefix    = '#__redshop_';
-        $this->_db              = $db;
-        $this->_shippinghelper  = shipping::getInstance();
-        $this->_order_functions = order_functions::getInstance();
-        $this->_stockroomhelper = rsstockroomhelper::getInstance();
-
-        JPluginHelper::importPlugin('economic');
-        $this->_dispatcher = RedshopHelperUtility::getDispatcher();
+        $db                  = JFactory::getDbo();
+        $this->_table_prefix = '#__redshop_';
+        $this->_db           = $db;
     }
 
     /**

@@ -27,7 +27,6 @@ $show_addtocart           = $app->input->getBool('show_addtocart');
 $show_discountpricelayout = $app->input->getBool('show_discountpricelayout');
 
 $k         = 0;
-$configobj = Redconfiguration::getInstance();
 
 ?>
 <table border="0" cellpadding="2" cellspacing="2">

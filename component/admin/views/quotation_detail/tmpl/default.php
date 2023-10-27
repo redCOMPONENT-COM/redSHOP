@@ -12,15 +12,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$quotationHelper = quotationHelper::getInstance();
-$order_functions = order_functions::getInstance();
-$redconfig       = Redconfiguration::getInstance();
-$model           = $this->getModel('quotation_detail');
-$extra_field     = extra_field::getInstance();
-$quotation       = $this->quotation;
-$uri             = JURI::getInstance();
-$url             = $uri->root();
-$quotation_item  = RedshopHelperQuotation::getQuotationProduct($quotation->quotation_id);
+$model          = $this->getModel('quotation_detail');
+$quotation      = $this->quotation;
+$uri            = JURI::getInstance();
+$url            = $uri->root();
+$quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotation_id);
 
 ?>
 <script type="text/javascript">
@@ -110,7 +106,7 @@ $quotation_item  = RedshopHelperQuotation::getQuotationProduct($quotation->quota
                                 <?php echo Text::_('COM_REDSHOP_QUOTATION_DATE'); ?>
                             </td>
                             <td>
-                                <?php echo $redconfig->convertDateFormat($quotation->quotation_cdate); ?>
+                                <?php echo RedshopHelperDatetime::convertDateFormat($quotation->quotation_cdate); ?>
                             </td>
                         </tr>
                         <tr>

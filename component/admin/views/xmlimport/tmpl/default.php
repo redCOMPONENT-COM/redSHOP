@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$config = Redconfiguration::getInstance();
 $lists  = $this->lists;
 
 ?>
@@ -142,7 +141,7 @@ $lists  = $this->lists;
                             'auto_sync'
                         ); ?>
                     </td>
-                    <!-- <td><?php echo $config->convertDateFormat($row->xmlimport_date); ?></td> -->
+                    <!-- <td><?php echo RedshopHelperDatetime::convertDateFormat($row->xmlimport_date); ?></td> -->
                     <td align="center">
                         <?php echo $published; ?>
                     </td>

@@ -13,9 +13,7 @@ use Joomla\CMS\Language\Text;
 
 JHTML::_('bootstrap.modal');
 
-$app    = JFactory::getApplication();
-$config = Redconfiguration::getInstance();
-
+$app       = JFactory::getApplication();
 $uri       = JURI::getInstance();
 $url       = $uri->root();
 $Itemid    = $app->input->getInt('Itemid');
@@ -26,30 +24,12 @@ $session   = JFactory::getSession();
 $auth      = $session->get('auth');
 
 ?>
-    <div id="newwishlist" class="wishlist_prompt_header">
-        <?php
+<div id="newwishlist" class="wishlist_prompt_header">
+    <?php
 
-        $pagetitle = Text::_('COM_REDSHOP_LOGIN_NEWWISHLIST');
-        ?>
-        <br/>
-
-        <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-            <?php echo $pagetitle; ?>
-        </h1>
-
-        <div>&nbsp;</div>
-
-    </div>
-
-    <div id="wishlist" class="wishlist_prompt_text">
-<?php
-if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) {
-    $wishreturn = Redshop\IO\Route::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
-    $app->redirect($wishreturn);
-} else {
-    $pagetitle = Text::_('COM_REDSHOP_LOGIN_PROMPTWISHLIST');
+    $pagetitle = Text::_('COM_REDSHOP_LOGIN_NEWWISHLIST');
     ?>
-    <br/>
+    <br />
 
     <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
         <?php echo $pagetitle; ?>
@@ -57,32 +37,48 @@ if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) 
 
     <div>&nbsp;</div>
 
-    <form name="adminForm" method="post" action="">
-        <table class="adminlist">
-            <tbody>
-            <tr>
-                <td colspan="3" align="center" class="wishlist_prompt_button_wrapper">
-                    <input type="button" class="wishlist_prompt_button_login"
-                           value="<?php echo Text::_('COM_REDSHOP_ADD_TO_LOGINWISHLIST'); ?>"
-                           onclick="window.parent.location.href='<?php echo Redshop\IO\Route::_(
-                               'index.php?option=com_redshop&view=login&wishlist=1'
-                           ); ?>'"/>&nbsp;
-                    <input type="button" class="wishlist_prompt_button_create"
-                           value="<?php echo Text::_('COM_REDSHOP_CREATE_LOGINACCOUNT'); ?>"
-                           onclick="window.parent.location.href='<?php echo Redshop\IO\Route::_(
-                               'index.php?option=com_redshop&view=registration&Itemid=' . $Itemid . '&wishlist=1'
-                           ); ?>'"/>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <input type="hidden" name="wishlist" value="1"/>
-        <input type="hidden" name="view" value="wishlist"/>
-        <input type="hidden" name="boxchecked" value=""/>
+</div>
 
-        <input type="hidden" name="option" value="com_redshop"/>
-        <input type="hidden" name="task" value="viewloginwishlist"/>
-    </form>
+<div id="wishlist" class="wishlist_prompt_text">
+    <?php
+    if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) {
+        $wishreturn = Redshop\IO\Route::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
+        $app->redirect($wishreturn);
+    } else {
+        $pagetitle = Text::_('COM_REDSHOP_LOGIN_PROMPTWISHLIST');
+        ?>
+        <br />
+
+        <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+            <?php echo $pagetitle; ?>
+        </h1>
+
+        <div>&nbsp;</div>
+
+        <form name="adminForm" method="post" action="">
+            <table class="adminlist">
+                <tbody>
+                    <tr>
+                        <td colspan="3" align="center" class="wishlist_prompt_button_wrapper">
+                            <input type="button" class="wishlist_prompt_button_login"
+                                value="<?php echo Text::_('COM_REDSHOP_ADD_TO_LOGINWISHLIST'); ?>" onclick="window.parent.location.href='<?php echo Redshop\IO\Route::_(
+                                       'index.php?option=com_redshop&view=login&wishlist=1'
+                                   ); ?>'" />&nbsp;
+                            <input type="button" class="wishlist_prompt_button_create"
+                                value="<?php echo Text::_('COM_REDSHOP_CREATE_LOGINACCOUNT'); ?>" onclick="window.parent.location.href='<?php echo Redshop\IO\Route::_(
+                                       'index.php?option=com_redshop&view=registration&Itemid=' . $Itemid . '&wishlist=1'
+                                   ); ?>'" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="hidden" name="wishlist" value="1" />
+            <input type="hidden" name="view" value="wishlist" />
+            <input type="hidden" name="boxchecked" value="" />
+
+            <input type="hidden" name="option" value="com_redshop" />
+            <input type="hidden" name="task" value="viewloginwishlist" />
+        </form>
     </div>
     <?php
-}
+    }

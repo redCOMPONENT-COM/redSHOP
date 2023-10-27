@@ -11,10 +11,6 @@ defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.modal');
 
-// Get product helper
-$config          = Redconfiguration::getInstance();
-$stockroomHelper = rsstockroomhelper::getInstance();
-
 $compare           = new RedshopProductCompare;
 $compareCategoryId = $compare->getCategoryId();
 

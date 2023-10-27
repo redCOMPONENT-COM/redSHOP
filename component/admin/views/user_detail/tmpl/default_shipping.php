@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$shipping_data = $this->order_functions->getShippingAddress($this->detail->user_id);
+$shipping_data = RedshopHelperShipping::getShippingAddress($this->detail->user_id);
 
 $addlink = Redshop\IO\Route::_(
     'index.php?option=com_redshop&view=user_detail&task=edit&user_id=' . $this->detail->user_id . '&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=0'

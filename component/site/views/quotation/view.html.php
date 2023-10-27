@@ -17,8 +17,6 @@ class RedshopViewQuotation extends RedshopView
     public function display($tpl = null)
     {
         $app = JFactory::getApplication();
-
-        $redconfig = Redconfiguration::getInstance();
         $uri       = \Joomla\CMS\Uri\Uri::getInstance();
 
         $Itemid  = $app->input->getInt('Itemid');

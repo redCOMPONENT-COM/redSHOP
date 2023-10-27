@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$config = Redconfiguration::getInstance();
-
 ?>
 <script language="javascript" type="text/javascript">
     Joomla.submitbutton = function (pressbutton) {
@@ -144,7 +142,7 @@ $config = Redconfiguration::getInstance();
                         <?php echo $row->email; ?>
                     </td>
                     <td align="center">
-                        <?php echo $config->convertDateFormat($row->registerdate); ?>
+                        <?php echo RedshopHelperDatetime::convertDateFormat($row->registerdate); ?>
                     </td>
                     <td align="center"><a class="joom-box"
                             href="index.php?tmpl=component&option=com_redshop&amp;view=sample_catalog&amp;cid[]=<?php echo $row->request_id; ?>&amp;showbuttons=1"

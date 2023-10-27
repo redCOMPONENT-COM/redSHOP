@@ -152,8 +152,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
      */
     private function replaceCategoryDetail($template)
     {
-        $replacements     = [];
-        $redConfiguration = Redconfiguration::getInstance();
+        $replacements = [];
 
         $minmax      = $this->model->getMaxMinProductPrice();
         $texPriceMin = $minmax[0];
@@ -233,7 +232,8 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
             $replacements['{total_product}']     = $this->model->_total;
             $replacements['{total_product_lbl}'] = Text::_('COM_REDSHOP_TOTAL_PRODUCT');
 
-            if (strpos($template, '{returntocategory_link}') !== false
+            if (
+                strpos($template, '{returntocategory_link}') !== false
                 || strpos($template, '{returntocategory_name}') !== false
                 || strpos($template, '{returntocategory}') !== false
             ) {
@@ -257,8 +257,8 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                         array(
                             'link'    => $returnCatLink,
                             'content' => Redshop::getConfig()->get(
-                                    'DAFULT_RETURN_TO_CATEGORY_PREFIX'
-                                ) . '&nbsp;' . $categoryList->name
+                                'DAFULT_RETURN_TO_CATEGORY_PREFIX'
+                            ) . '&nbsp;' . $categoryList->name
                         ),
                         '',
                         RedshopLayoutHelper::$layoutOption
@@ -288,7 +288,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
             }
 
             if (strpos($template, '{category_main_description}') !== false) {
-                $mainCatDesc = $redConfiguration->maxchar(
+                $mainCatDesc = RedshopHelperUtility::maxChars(
                     $this->maincat->description,
                     Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'),
                     Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX')
@@ -298,7 +298,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
             }
 
             if (strpos($template, '{category_main_short_desc}') !== false) {
-                $mainCatSDesc = $redConfiguration->maxchar(
+                $mainCatSDesc = RedshopHelperUtility::maxChars(
                     $this->maincat->short_description,
                     Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'),
                     Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX')
@@ -311,7 +311,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 $replacements['{shopname}'] = Redshop::getConfig()->get('SHOP_NAME');
             }
 
-            $mainCatName = $redConfiguration->maxchar(
+            $mainCatName = RedshopHelperUtility::maxChars(
                 $this->maincat->name,
                 Redshop::getConfig()->get('CATEGORY_TITLE_MAX_CHARS'),
                 Redshop::getConfig()->get('CATEGORY_TITLE_END_SUFFIX')
@@ -428,8 +428,10 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 $replacements['{compare_product_div}'] = $compareProductLink . $compareProductDiv;
             }
 
-            if (strpos($template, "{category_loop_start}") !== false
-                && strpos($template, "{category_loop_end}") !== false) {
+            if (
+                strpos($template, "{category_loop_start}") !== false
+                && strpos($template, "{category_loop_end}") !== false
+            ) {
                 $templateSubCat = $this->getTemplateBetweenLoop(
                     '{category_loop_start}',
                     '{category_loop_end}',
@@ -488,8 +490,10 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 $replacements[$subCatTemplate]         = $catDetail;
             }
 
-            if (strpos($template, "{if subcats}") !== false
-                && strpos($template, "{subcats end if}") !== false) {
+            if (
+                strpos($template, "{if subcats}") !== false
+                && strpos($template, "{subcats end if}") !== false
+            ) {
                 $templateSubCats = $this->getTemplateBetweenLoop(
                     '{if subcats}',
                     '{subcats end if}',
@@ -517,8 +521,10 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
             }
         }
 
-        if (strpos($template, "{product_loop_start}") !== false
-            && strpos($template, "{product_loop_end}") !== false) {
+        if (
+            strpos($template, "{product_loop_start}") !== false
+            && strpos($template, "{product_loop_end}") !== false
+        ) {
             $templateProduct = $this->getTemplateBetweenLoop(
                 '{product_loop_start}',
                 '{product_loop_end}',
@@ -569,7 +575,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 $params  = array();
                 $results = RedshopHelperUtility::getDispatcher()->trigger(
                     'onPrepareProduct',
-                    array(& $dataAdd, & $params, $product)
+                    array(&$dataAdd, &$params, $product)
                 );
 
                 if (strpos($dataAdd, "{product_delivery_time}") !== false) {
@@ -608,9 +614,11 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                             $altText = $mediaDocuments[$m]->media_name;
                         }
 
-                        if (JFile::exists(
-                            REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $mediaDocuments[$m]->media_name
-                        )) {
+                        if (
+                            JFile::exists(
+                                REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $mediaDocuments[$m]->media_name
+                            )
+                        ) {
                             $downlink = JURI::root() .
                                 'index.php?tmpl=component&option=' . $this->option .
                                 '&view=product&pid=' . $product->product_id .
@@ -672,7 +680,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                             0,
                             $product->product_id
                         );
-                        $uField            .= $productUserFields[1];
+                        $uField .= $productUserFields[1];
 
                         if ($productUserFields[1] != "") {
                             $countNoUserField++;
@@ -719,7 +727,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                                 0,
                                 $product->product_id
                             );
-                            $uField            .= $productUserFields[1];
+                            $uField .= $productUserFields[1];
 
                             if ($productUserFields[1] != "") {
                                 $countNoUserField++;
@@ -815,8 +823,8 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 );
 
                 $dataAddStr = RedshopHelperProduct::redunitDecimal(
-                        $product->product_volume
-                    ) . "&nbsp;" . $productVolumeUnit;
+                    $product->product_volume
+                ) . "&nbsp;" . $productVolumeUnit;
 
                 $productReplacements['{product_size}'] = $dataAddStr;
 
@@ -832,14 +840,14 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 );
 
                 $productReplacements['{product_length}'] = RedshopHelperProduct::redunitDecimal(
-                        $product->product_length
-                    ) . "&nbsp;" . $productUnit;
+                    $product->product_length
+                ) . "&nbsp;" . $productUnit;
                 $productReplacements['{product_width}']  = RedshopHelperProduct::redunitDecimal(
-                        $product->product_width
-                    ) . "&nbsp;" . $productUnit;
+                    $product->product_width
+                ) . "&nbsp;" . $productUnit;
                 $productReplacements['{product_height}'] = RedshopHelperProduct::redunitDecimal(
-                        $product->product_height
-                    ) . "&nbsp;" . $productUnit;
+                    $product->product_height
+                ) . "&nbsp;" . $productUnit;
 
                 $specificLink = RedshopHelperUtility::getDispatcher()->trigger('createProductLink', array($product));
 
@@ -858,7 +866,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                     $link = $specificLink[0];
                 }
 
-                $pName = $redConfiguration->maxchar(
+                $pName = RedshopHelperUtility::maxChars(
                     $product->product_name,
                     Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'),
                     Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX')
@@ -948,7 +956,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 }
 
                 if (strpos($dataAdd, '{product_s_desc}') !== false) {
-                    $pSDesc = $redConfiguration->maxchar(
+                    $pSDesc = RedshopHelperUtility::maxChars(
                         $product->product_s_desc,
                         Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS'),
                         Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX')
@@ -958,7 +966,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 }
 
                 if (strpos($dataAdd, '{product_desc}') !== false) {
-                    $pDesc = $redConfiguration->maxchar(
+                    $pDesc = RedshopHelperUtility::maxChars(
                         $product->product_desc,
                         Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'),
                         Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX')
@@ -1013,8 +1021,8 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                             'class'   => 'btn btn-primary',
                             'link'    => $manuUrl,
                             'content' => Text::_(
-                                    "COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS"
-                                ) . ' ' . $manufacturerName
+                                "COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS"
+                            ) . ' ' . $manufacturerName
                         ),
                         '',
                         RedshopLayoutHelper::$layoutOption
@@ -1095,8 +1103,10 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
                 $productReplacements[$pImgTag] = $thumbImage . $hiddenThumbImage;
 
                 // Front-back image tag...
-                if (strpos($dataAdd, "{front_img_link}") !== false
-                    || strpos($dataAdd, "{back_img_link}") !== false) {
+                if (
+                    strpos($dataAdd, "{front_img_link}") !== false
+                    || strpos($dataAdd, "{back_img_link}") !== false
+                ) {
                     if ($product->product_thumb_image) {
                         $mainSrcPath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_thumb_image;
                     } else {

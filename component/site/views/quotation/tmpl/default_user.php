@@ -11,9 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$order_functions = order_functions::getInstance();
 $url             = JURI::base();
-$redconfig       = Redconfiguration::getInstance();
 $app             = JFactory::getApplication();
 
 $Itemid = $app->input->getInt('Itemid');
@@ -31,8 +29,6 @@ $state      = RedshopHelperOrder::getStateName($detail->state_code, $detail->cou
 $phone      = $detail->phone;
 $user_email = $detail->user_email;
 
-$field = extra_field::getInstance();
-
 if (
     Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 1 || !Redshop::getConfig()->get(
         'DEFAULT_CUSTOMER_REGISTER_TYPE'
@@ -44,6 +40,7 @@ if (
 }
 
 $link = 'index.php?option=com_redshop&view=cart&Itemid=' . $Itemid;
+
 ?>
 <script>
 

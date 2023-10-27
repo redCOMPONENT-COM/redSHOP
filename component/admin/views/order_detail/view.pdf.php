@@ -34,7 +34,6 @@ class RedshopViewOrder_Detail extends RedshopView
             JFactory::getApplication()->redirect(Redshop\IO\Route::_('index.php?option=com_redshop', false));
         }
 
-        $config   = Redconfiguration::getInstance();
         $detail   = $this->get('data');
         $billing  = RedshopHelperOrder::getBillingAddress($detail->user_id);
         $shipping = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
@@ -70,7 +69,7 @@ class RedshopViewOrder_Detail extends RedshopView
 
         $pdfTemplate = str_replace("{order_id}", $detail->order_id, $pdfTemplate);
         $pdfTemplate = str_replace("{order_number}", $detail->order_number, $pdfTemplate);
-        $pdfTemplate = str_replace("{order_date}", $config->convertDateFormat($detail->cdate), $pdfTemplate);
+        $pdfTemplate = str_replace("{order_date}", RedshopHelperDatetime::convertDateFormat($detail->cdate), $pdfTemplate);
         $pdfTemplate = str_replace("{order_status}", $order_status, $pdfTemplate);
 
         $pdfTemplate = str_replace("{shipping_firstname}", $shipping->firstname, $pdfTemplate);

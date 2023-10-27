@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$config = Redconfiguration::getInstance();
-
 $listOrder    = $this->escape($this->state->get('list.ordering'));
 $listDirn     = $this->escape($this->state->get('list.direction'));
 $filterSearch = $this->state->get('filter.search', '');
@@ -25,8 +23,8 @@ if ($allowOrder) {
     $saveOrderingUrl = 'index.php?option=com_redshop&task=questions.saveOrderAjax';
     JHtml::_('redshopsortable.sortable', 'adminForm', 'adminForm', 'asc', $saveOrderingUrl);
 }
-?>
 
+?>
 <form action="index.php?option=com_redshop&view=questions" class="admin" id="adminForm" method="post" name="adminForm">
     <div class="filterTool">
         <?php echo RedshopLayoutHelper::render(

@@ -14,9 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-$app              = Factory::getApplication();
-$extraFieldHelper = extra_field::getInstance();
-
+$app        = Factory::getApplication();
 $model      = $this->getModel('product');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
@@ -28,11 +26,12 @@ if ($allowOrder) {
     HtmlHelper::_('redshopsortable.sortable', 'adminForm', 'adminForm', 'asc', $saveOrderingUrl);
 }
 
-$category_id = $this->state->get('category_id', 0);
-
+$categoryId = $this->state->get('category_id', 0);
 $user   = Factory::getUser();
 $userId = (int) $user->id;
+
 HtmlHelper::_('redshopjquery.framework');
+
 ?>
 <script language="javascript" type="text/javascript">
     Joomla.submitform = submitform = Joomla.submitbutton = submitbutton = function (pressbutton) {
@@ -171,12 +170,12 @@ HtmlHelper::_('redshopjquery.framework');
         <table class="adminlist table table-striped">
             <thead>
                 <tr>
-                    <?php if ($category_id < 0): ?>
+                    <?php if ($categoryId < 0): ?>
                         <th width="5">
                             <?php echo Text::_('COM_REDSHOP_NUM'); ?>
                         </th>
                     <?php endif ?>
-                    <?php if ($category_id > 0): ?>
+                    <?php if ($categoryId > 0): ?>
                         <th width="1" class="nowrap center hidden-phone">
                             <a href="#" onclick="Joomla.tableOrdering('x.ordering','asc','');return false;"
                                 data-order="X.ordering" data-direction="asc">
@@ -286,12 +285,12 @@ HtmlHelper::_('redshopjquery.framework');
                 $published   = HtmlHelper::_('jgrid.published', $product->published, $index, '', 1);
                 ?>
                 <tr class="<?php echo "row$k"; ?>">
-                    <?php if ($category_id < 0): ?>
+                    <?php if ($categoryId < 0): ?>
                         <td>
                             <?php echo $this->pagination->getRowOffset($index); ?>
                         </td>
                     <?php endif ?>
-                    <?php if ($category_id > 0) {
+                    <?php if ($categoryId > 0) {
                         ?>
                         <td class="order nowrap center hidden-phone">
                             <span class="sortable-handler <?php echo ($allowOrder) ? '' : 'inactive' ?>">

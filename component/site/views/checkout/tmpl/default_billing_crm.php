@@ -23,10 +23,6 @@ if ($Itemid == 0) {
 }
 
 $session = JFactory::getSession();
-
-$order_functions = order_functions::getInstance();
-$extra_field     = extra_field::getInstance();
-
 $billingAddresses = $model->billingaddresses();
 
 ?>

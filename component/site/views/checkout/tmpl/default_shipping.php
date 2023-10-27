@@ -35,7 +35,6 @@ if (count($shippingTemplate) > 0 && $shippingTemplate[0]->template_desc) {
 }
 
 if ($this->users_info_id > 0) {
-    $shippingHelper       = shipping::getInstance();
     $shippingBoxes        = RedshopHelperShipping::getShippingBox();
     $selShippingBoxPostId = 0;
 
@@ -74,6 +73,8 @@ if ($this->users_info_id > 0) {
     echo eval("?>" . $templateDesc . "<?php ");
 } else {
     ?>
-    <div class="shipnotice"><?php echo Text::_('COM_REDSHOP_FILL_SHIPPING_ADDRESS'); ?></div>
+    <div class="shipnotice">
+        <?php echo Text::_('COM_REDSHOP_FILL_SHIPPING_ADDRESS'); ?>
+    </div>
     <?php
 }

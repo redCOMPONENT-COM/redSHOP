@@ -12,14 +12,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$jinput                = JFactory::getApplication()->input;
-$this->order_functions = order_functions::getInstance();
-$this->config          = Redconfiguration::getInstance();
-$this->model           = $this->getModel('user_detail');
-$this->flag            = $jinput->getString('flag', '');
-$this->shipping        = $jinput->getString('shipping', '');
-$cancel                = $jinput->getString('cancel', '');
-$this->silerntuser     = ($this->detail->users_info_id) ? true : false;
+$jinput            = JFactory::getApplication()->input;
+$this->model       = $this->getModel('user_detail');
+$this->flag        = $jinput->getString('flag', '');
+$this->shipping    = $jinput->getString('shipping', '');
+$cancel            = $jinput->getString('cancel', '');
+$this->silerntuser = ($this->detail->users_info_id) ? true : false;
 
 if ($this->detail->users_info_id && $this->detail->user_id && $this->detail->username) {
     $this->silerntuser = false;

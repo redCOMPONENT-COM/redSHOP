@@ -11,12 +11,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$url             = JURI::base();
-$app             = JFactory::getApplication();
-$order_functions = order_functions::getInstance();
-$redconfig       = Redconfiguration::getInstance();
-$Itemid   = $app->input->getInt('Itemid');
-$order_id = $app->input->getInt('order_id', 0);
+$url           = JURI::base();
+$app           = JFactory::getApplication();
+$Itemid        = $app->input->getInt('Itemid');
+$order_id      = $app->input->getInt('order_id', 0);
 $order_detail  = array();
 $OrderProducts = array();
 
@@ -38,7 +36,7 @@ if ($this->params->get('show_page_heading', 1)) {
 
 ?>
 <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=ordertracker&Itemid=' . $Itemid); ?>"
-      method="post" name="adminForm">
+    method="post" name="adminForm">
     <table cellpadding="3" cellspacing="0" border="0">
         <tr>
             <td colspan="2">
@@ -50,50 +48,77 @@ if ($this->params->get('show_page_heading', 1)) {
             <td><input type="submit" id="go" name="go" value="<?php echo Text::_('COM_REDSHOP_GO'); ?>"></td>
         </tr>
     </table>
-    <input type="hidden" name="view" value="ordertracker"/>
-    <input type="hidden" name="task" value="details"/>
+    <input type="hidden" name="view" value="ordertracker" />
+    <input type="hidden" name="task" value="details" />
 </form>
 <table class="tblOrderdetail" cellpadding="4" cellspacing="0" border="0">
     <tr class="tblOrderDetailheading">
         <?php
-        if (count($order_detail) > 0)
-        {
-        ?>
-        <th><?php echo Text::_('COM_REDSHOP_ORDER_ID'); ?>    </th>
-        <th><?php echo Text::_('COM_REDSHOP_ORDER_NUMBER'); ?>    </th>
-        <th><?php echo Text::_('COM_REDSHOP_ORDER_ITEM'); ?></th>
-        <th><?php echo Text::_('COM_REDSHOP_ORDER_TOTAL'); ?></th>
-        <th><?php echo Text::_('COM_REDSHOP_ORDER_DATE'); ?></th>
-        <th><?php echo Text::_('COM_REDSHOP_ORDER_STATUS'); ?></th>
-        <th><?php echo Text::_('COM_REDSHOP_ORDER_DETAIL'); ?></th>
-    </tr>
-    <?php $order_item_name = array();
+        if (count($order_detail) > 0) {
+            ?>
+            <th>
+                <?php echo Text::_('COM_REDSHOP_ORDER_ID'); ?>
+            </th>
+            <th>
+                <?php echo Text::_('COM_REDSHOP_ORDER_NUMBER'); ?>
+            </th>
+            <th>
+                <?php echo Text::_('COM_REDSHOP_ORDER_ITEM'); ?>
+            </th>
+            <th>
+                <?php echo Text::_('COM_REDSHOP_ORDER_TOTAL'); ?>
+            </th>
+            <th>
+                <?php echo Text::_('COM_REDSHOP_ORDER_DATE'); ?>
+            </th>
+            <th>
+                <?php echo Text::_('COM_REDSHOP_ORDER_STATUS'); ?>
+            </th>
+            <th>
+                <?php echo Text::_('COM_REDSHOP_ORDER_DETAIL'); ?>
+            </th>
+        </tr>
+        <?php $order_item_name = array();
 
-    for ($j = 0, $jn = count($OrderProducts); $j < $jn; $j++) {
-        $order_item_name[$j] = $OrderProducts[$j]->order_item_name;
-    }
+        for ($j = 0, $jn = count($OrderProducts); $j < $jn; $j++) {
+            $order_item_name[$j] = $OrderProducts[$j]->order_item_name;
+        }
 
-    $itemlist       = implode(',<br/>', $order_item_name);
-    $statusname     = RedshopHelperOrder::getOrderStatusTitle($order_detail->order_status);
-    $orderdetailurl = Redshop\IO\Route::_('index.php?option=com_redshop&view=order_detail&oid=' . $order_id); ?>
-    <tr class="rblOrderDetailItem">
-        <td><?php echo $order_id; ?></td>
-        <td><?php echo $order_detail->order_number; ?></td>
-        <td><?php echo $itemlist; ?></td>
-        <td><?php echo RedshopHelperProductPrice::formattedPrice($order_detail->order_total); ?></td>
-        <td><?php echo $redconfig->convertDateFormat($order_detail->cdate); ?></td>
+        $itemlist       = implode(',<br/>', $order_item_name);
+        $statusname     = RedshopHelperOrder::getOrderStatusTitle($order_detail->order_status);
+        $orderdetailurl = Redshop\IO\Route::_('index.php?option=com_redshop&view=order_detail&oid=' . $order_id); ?>
+        <tr class="rblOrderDetailItem">
+            <td>
+                <?php echo $order_id; ?>
+            </td>
+            <td>
+                <?php echo $order_detail->order_number; ?>
+            </td>
+            <td>
+                <?php echo $itemlist; ?>
+            </td>
+            <td>
+                <?php echo RedshopHelperProductPrice::formattedPrice($order_detail->order_total); ?>
+            </td>
+            <td>
+                <?php echo RedshopHelperDatetime::convertDateFormat($order_detail->cdate); ?>
+            </td>
 
-        <td><?php echo $statusname; ?></td>
-        <td><a href="<?php echo $orderdetailurl; ?>">
-                <?php echo Text::_('COM_REDSHOP_ORDER_DETAIL'); ?></a></td>
-    </tr>
-    <?php
-    }
-    else {
-        ?>
-        <td><?php echo Text::_('COM_REDSHOP_ORDER_NOT_FOUND'); ?></td>
+            <td>
+                <?php echo $statusname; ?>
+            </td>
+            <td><a href="<?php echo $orderdetailurl; ?>">
+                    <?php echo Text::_('COM_REDSHOP_ORDER_DETAIL'); ?>
+                </a></td>
+        </tr>
         <?php
-    }
-    ?>
+        } else {
+            ?>
+        <td>
+            <?php echo Text::_('COM_REDSHOP_ORDER_NOT_FOUND'); ?>
+        </td>
+        <?php
+        }
+        ?>
     </tr>
 </table>

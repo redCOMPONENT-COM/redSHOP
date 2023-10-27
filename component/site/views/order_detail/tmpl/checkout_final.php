@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-$configobj       = Redconfiguration::getInstance();
-$order_functions = order_functions::getInstance();
-
 $url      = JURI::base();
 $Itemid   = RedshopHelperRouter::getCheckoutItemId();
 $order_id = JFactory::getApplication()->input->getInt('oid');
@@ -21,7 +18,7 @@ $order     = RedshopEntityOrder::getInstance($order_id)->getItem();
 $orderitem = RedshopHelperOrder::getOrderItemDetail($order_id);
 
 if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG')) {
-    $paymentmethod = $order_functions->getOrderPaymentDetail($order_id);
+    $paymentmethod = RedshopHelperOrder::getOrderPaymentDetail($order_id);
     $paymentmethod = RedshopHelperOrder::getPaymentMethodInfo($paymentmethod[0]->payment_method_class);
     $paymentmethod = $paymentmethod[0];
 
@@ -85,10 +82,10 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG')) {
             $epay_url  = "https://relay.ditonlinebetalingssystem.dk/relay/v2/relay.cgi/";
             $actionurl = $url . 'index.php?option=com_redshop&view=epayrelay&oid=' . $order_id . '&Itemid=' . $Itemid;
             $results   = "<form method='post' action='" . $actionurl . "' name='epayrelayfrm' id='epayrelayfrm'>";
-            $results   .= "<input type='hidden' name='order_id' value='" . $values["order_id"] . "'>";
-            $results   .= "<table width='100%' border='0'><tr><td align='right' style='padding-right:50px'> <input type='submit' name='paynowbtn' value='Pay Now'></td></tr></table>";
-            $results   .= "<input type='hidden' name='payment_plugin' value='" . $values['payment_plugin'] . "'>";
-            $results   .= "</form>";
+            $results .= "<input type='hidden' name='order_id' value='" . $values["order_id"] . "'>";
+            $results .= "<table width='100%' border='0'><tr><td align='right' style='padding-right:50px'> <input type='submit' name='paynowbtn' value='Pay Now'></td></tr></table>";
+            $results .= "<input type='hidden' name='payment_plugin' value='" . $values['payment_plugin'] . "'>";
+            $results .= "</form>";
             echo $results;
 
             ?>
@@ -107,7 +104,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG')) {
                 $app = JFactory::getApplication();
                 $app->redirect(
                     Redshop\IO\Route::_(
-	                    'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid . $encr,
+                        'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid . $encr,
                         false
                     )
                 );
@@ -118,7 +115,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG')) {
     $app = JFactory::getApplication();
     $app->redirect(
         Redshop\IO\Route::_(
-	        'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid . $encr,
+            'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid . $encr,
             false
         )
     );

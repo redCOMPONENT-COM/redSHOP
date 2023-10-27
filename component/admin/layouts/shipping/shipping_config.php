@@ -7,7 +7,9 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
 /**
  * Layout variables
  * ======================================
@@ -15,9 +17,10 @@ defined('_JEXEC') or die;
  * @var  object $item
  * @var  array  $displayData
  */
-extract($displayData);
-?>
 
+extract($displayData);
+
+?>
 <div class="box-body">
     <?php
     JPluginHelper::importPlugin('redshop_shipping');

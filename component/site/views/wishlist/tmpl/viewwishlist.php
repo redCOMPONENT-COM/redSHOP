@@ -13,9 +13,7 @@ use Joomla\CMS\Language\Text;
 
 JHTML::_('bootstrap.modal');
 
-$app    = JFactory::getApplication();
-$config = Redconfiguration::getInstance();
-
+$app       = JFactory::getApplication();
 $url       = JURI::base();
 $Itemid    = $app->input->getInt('Itemid');
 $wishlists = $this->wishlists;

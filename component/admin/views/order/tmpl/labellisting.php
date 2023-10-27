@@ -12,10 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$shippinghelper = shipping::getInstance();
-$app            = JFactory::getApplication();
-$jinput         = $app->input;
-$download       = $jinput->get('download');
+$app      = JFactory::getApplication();
+$jinput   = $app->input;
+$download = $jinput->get('download');
 
 if ($download) {
     $oid     = $jinput->getInt('oid');
@@ -45,6 +44,7 @@ if ($download) {
     readfile($tmp_name);
     $app->close();
 }
+
 ?>
 <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=order'); ?>" method="post"
     name="adminForm" id="adminForm">

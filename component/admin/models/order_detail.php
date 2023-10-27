@@ -32,11 +32,9 @@ class RedshopModelOrder_detail extends RedshopModel
 
         $array = JFactory::getApplication()->input->get('cid', 0, 'array');
 
-        $this->setId((int)$array[0]);
+        $this->setId((int) $array[0]);
 
         JPluginHelper::importPlugin('redshop');
-
-        $this->_dispatcher = RedshopHelperUtility::getDispatcher();
     }
 
     public function setId($id)
@@ -60,7 +58,7 @@ class RedshopModelOrder_detail extends RedshopModel
         if (empty($this->_data)) {
             $this->_data = RedshopEntityOrder::getInstance($this->_id)->getItem();
 
-            return (boolean)$this->_data;
+            return (boolean) $this->_data;
         }
 
         return true;
@@ -91,7 +89,7 @@ class RedshopModelOrder_detail extends RedshopModel
             $detail->ip_address         = null;
             $this->_data                = $detail;
 
-            return (boolean)$this->_data;
+            return (boolean) $this->_data;
         }
 
         return true;
@@ -103,14 +101,14 @@ class RedshopModelOrder_detail extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -232,7 +230,7 @@ class RedshopModelOrder_detail extends RedshopModel
             $product_price      = $item[$i]->productprice;
 
             // Attribute price added
-            $generateAttributeCart = \Redshop\Cart\Helper::generateAttribute((array)$item[$i], $user_id);
+            $generateAttributeCart = \Redshop\Cart\Helper::generateAttribute((array) $item[$i], $user_id);
             $retAttArr             = \RedshopHelperProduct::makeAttributeCart(
                 $generateAttributeCart,
                 $productId,
@@ -243,7 +241,7 @@ class RedshopModelOrder_detail extends RedshopModel
             $product_attribute     = $retAttArr[0];
 
             // Accessory price
-            $generateAccessoryCart = \Redshop\Accessory\Helper::generateAccessoryArray((array)$item[$i], $user_id);
+            $generateAccessoryCart = \Redshop\Accessory\Helper::generateAccessoryArray((array) $item[$i], $user_id);
             $retAccArr             = \RedshopHelperProduct::makeAccessoryCart(
                 $generateAccessoryCart,
                 $productId,
@@ -270,7 +268,7 @@ class RedshopModelOrder_detail extends RedshopModel
                 }
             }
 
-            $product = Redshop::product((int)$productId);
+            $product = Redshop::product((int) $productId);
 
             $updatestock             = RedshopHelperStockroom::updateStockroomQuantity($productId, $quantity);
             $stockroom_id_list       = $updatestock['stockroom_list'];
@@ -306,10 +304,10 @@ class RedshopModelOrder_detail extends RedshopModel
                         . "(product_id, user_id, order_id, end_date, download_max, download_id, file_name) "
                         . "VALUES('" . $productId . "', '" . $user_id . "', '" . $this->_id . "', "
                         . "'" . (time() + (Redshop::getConfig()->get(
-                                    'PRODUCT_DOWNLOAD_DAYS'
-                                ) * 23 * 59 * 59)) . "', '" . Redshop::getConfig()->get(
-                            'PRODUCT_DOWNLOAD_LIMIT'
-                        ) . "', "
+                            'PRODUCT_DOWNLOAD_DAYS'
+                        ) * 23 * 59 * 59)) . "', '" . Redshop::getConfig()->get(
+                                'PRODUCT_DOWNLOAD_LIMIT'
+                            ) . "', "
                         . "'" . md5(uniqid(mt_rand(), true)) . "', '" . $medianame[$j]->media_name . "')";
                     $this->_db->setQuery($sql);
                     $this->_db->execute();
@@ -318,7 +316,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
             if (!$orderitemdata->store()) {
                 /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $orderitemdata->getError());
+                $this->setError( /** @scrutinizer ignore-deprecated */$orderitemdata->getError());
 
                 return false;
             }
@@ -361,7 +359,7 @@ class RedshopModelOrder_detail extends RedshopModel
                         if ($attributeId > 0) {
                             if (!$rowattitem->store()) {
                                 /** @scrutinizer ignore-deprecated */
-                                $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                                $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                                 return false;
                             }
@@ -382,8 +380,8 @@ class RedshopModelOrder_detail extends RedshopModel
 
                             $propertyId          = $propArr[$k]['property_id'];
                             $accessory_attribute .= urldecode(
-                                    $propArr[$k]['property_name']
-                                ) . " (" . $propArr[$k]['property_oprand']
+                                $propArr[$k]['property_name']
+                            ) . " (" . $propArr[$k]['property_oprand']
                                 . RedshopHelperProductPrice::formattedPrice(
                                     $propArr[$k]['property_price'] + $section_vat
                                 ) . ")<br/>";
@@ -404,7 +402,7 @@ class RedshopModelOrder_detail extends RedshopModel
                             if ($propertyId > 0) {
                                 if (!$rowattitem->store()) {
                                     /** @scrutinizer ignore-deprecated */
-                                    $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                                    $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                                     return false;
                                 }
@@ -445,7 +443,7 @@ class RedshopModelOrder_detail extends RedshopModel
                                     if (!$rowattitem->store()) {
                                         /** @scrutinizer ignore-deprecated */
                                         $this->setError(
-                                        /** @scrutinizer ignore-deprecated */ $rowattitem->getError()
+                                            /** @scrutinizer ignore-deprecated */    $rowattitem->getError()
                                         );
 
                                         return false;
@@ -461,7 +459,7 @@ class RedshopModelOrder_detail extends RedshopModel
                         $accdata->load($accessoryId);
                     }
 
-                    $accessoryproduct                    = Redshop::product((int)$accdata->child_product_id);
+                    $accessoryproduct                    = Redshop::product((int) $accdata->child_product_id);
                     $rowaccitem                          = $this->getTable('order_acc_item');
                     $rowaccitem->order_item_acc_id       = 0;
                     $rowaccitem->order_item_id           = $orderitemdata->order_item_id;
@@ -478,7 +476,7 @@ class RedshopModelOrder_detail extends RedshopModel
                     if ($accessoryId > 0) {
                         if (!$rowaccitem->store()) {
                             /** @scrutinizer ignore-deprecated */
-                            $this->setError(/** @scrutinizer ignore-deprecated */ $rowaccitem->getError());
+                            $this->setError( /** @scrutinizer ignore-deprecated */$rowaccitem->getError());
 
                             return false;
                         }
@@ -505,7 +503,7 @@ class RedshopModelOrder_detail extends RedshopModel
                     if ($attributeId > 0) {
                         if (!$rowattitem->store()) {
                             /** @scrutinizer ignore-deprecated */
-                            $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                            $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                             return false;
                         }
@@ -542,7 +540,7 @@ class RedshopModelOrder_detail extends RedshopModel
                         if ($propertyId > 0) {
                             if (!$rowattitem->store()) {
                                 /** @scrutinizer ignore-deprecated */
-                                $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                                $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                                 return false;
                             }
@@ -584,7 +582,7 @@ class RedshopModelOrder_detail extends RedshopModel
                             if ($subPropertyId > 0) {
                                 if (!$rowattitem->store()) {
                                     /** @scrutinizer ignore-deprecated */
-                                    $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                                    $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                                     return false;
                                 }
@@ -631,7 +629,9 @@ class RedshopModelOrder_detail extends RedshopModel
             return false;
         }
 
-        $this->_dispatcher->trigger('onAfterAddNewOrderItem', array($orderdata));
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+
+        $dispatcher->trigger('onAfterAddNewOrderItem', array($orderdata));
 
         return true;
     }
@@ -686,11 +686,11 @@ class RedshopModelOrder_detail extends RedshopModel
             ->where($db->qn('order_item_id') . ' = ' . $orderItemId);
         $db->setQuery($query)->execute();
 
-        $this->/** @scrutinizer ignore-call */
-        special_discount(
-            array('order_item_id' => $orderItemId, 'special_discount' => $order->get('special_discount')),
-            true
-        );
+        $this-> /** @scrutinizer ignore-call */
+            special_discount(
+                array('order_item_id' => $orderItemId, 'special_discount' => $order->get('special_discount')),
+                true
+            );
 
         // Economic Integration start for invoice generate
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
@@ -805,10 +805,10 @@ class RedshopModelOrder_detail extends RedshopModel
         foreach ($orderItems as $orderItem) {
             if ($orderItemId != $orderItem->order_item_id) {
                 $orderSubTotalNoVat += $orderItem->product_item_price_excl_vat * $orderItem->product_quantity;
-                $orderSubTotal      += $orderItem->product_item_price * $orderItem->product_quantity;
+                $orderSubTotal += $orderItem->product_item_price * $orderItem->product_quantity;
             }
 
-            $orderDetailTax[] = ((float)$orderItem->product_item_price - (float)$orderItem->product_item_price_excl_vat) * $orderItem->product_quantity;
+            $orderDetailTax[] = ((float) $orderItem->product_item_price - (float) $orderItem->product_item_price_excl_vat) * $orderItem->product_quantity;
         }
 
         if (!empty($orderDetailTax)) {
@@ -856,7 +856,9 @@ class RedshopModelOrder_detail extends RedshopModel
             return false;
         }
 
-        $this->_dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+
+        $dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
 
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
             RedshopEconomic::renewInvoiceInEconomic($orderData);
@@ -903,9 +905,9 @@ class RedshopModelOrder_detail extends RedshopModel
         $new_added_qty = $data['quantity'] - $orderitemdata->product_quantity;
 
         if ($currentStock >= $new_added_qty || Redshop::getConfig()->get('USE_STOCKROOM') == 0) {
-            $quantity = (int)$data['quantity'];
+            $quantity = (int) $data['quantity'];
         } else {
-            $quantity = (int)$orderitemdata->product_quantity;
+            $quantity = (int) $orderitemdata->product_quantity;
         }
 
         $product_item_price          = $productPrice + $product_tax;
@@ -942,8 +944,8 @@ class RedshopModelOrder_detail extends RedshopModel
         }
 
         $total                                      = $subtotal + $orderdata->order_shipping - abs(
-                $orderdata->order_discount
-            );
+            $orderdata->order_discount
+        );
         $orderitemdata->product_item_price          = $product_item_price;
         $orderitemdata->product_item_price_excl_vat = $product_item_price_excl_vat;
         $orderitemdata->product_final_price         = $product_final_price;
@@ -954,7 +956,9 @@ class RedshopModelOrder_detail extends RedshopModel
         $orderdata->order_subtotal                  = $subtotal;
 
         if ($orderitemdata->store()) {
-            $this->_dispatcher->trigger('onAfterUpdateOrderItem', array($orderitemdata));
+            $dispatcher = RedshopHelperUtility::getDispatcher();
+
+            $dispatcher->trigger('onAfterUpdateOrderItem', array($orderitemdata));
 
             if (!$orderdata->store()) {
                 return false;
@@ -966,7 +970,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
             $tmpArr['special_discount']     = $orderdata->special_discount;
             $tmpArr['payment_method_class'] = $data['payment_method_class'];
-            $this->/** @scrutinizer ignore-call */ special_discount($tmpArr, true);
+            $this-> /** @scrutinizer ignore-call */special_discount($tmpArr, true);
         } else {
             return false;
         }
@@ -1003,9 +1007,11 @@ class RedshopModelOrder_detail extends RedshopModel
             $update_discount = $subtotal;
         }
 
-        if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == '0' && Redshop::getConfig()->get(
+        if (
+            Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == '0' && Redshop::getConfig()->get(
                 'VAT_RATE_AFTER_DISCOUNT'
-            ) && $update_discount != "0.00" && $orderData->order_tax && !empty($update_discount)) {
+            ) && $update_discount != "0.00" && $orderData->order_tax && !empty($update_discount)
+        ) {
             $Discountvat     = (Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $update_discount);
             $update_discount = $update_discount + $Discountvat;
         }
@@ -1053,7 +1059,9 @@ class RedshopModelOrder_detail extends RedshopModel
             return false;
         }
 
-        $this->_dispatcher->trigger('onAfterUpdateDiscount', array($orderData));
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+
+        $dispatcher->trigger('onAfterUpdateDiscount', array($orderData));
 
         // Economic Integration start for invoice generate
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
@@ -1098,7 +1106,9 @@ class RedshopModelOrder_detail extends RedshopModel
             }
         }
 
-        $this->_dispatcher->trigger('onAfterUpdateShippingRates', array($orderdata));
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+
+        $dispatcher->trigger('onAfterUpdateShippingRates', array($orderdata));
 
         return true;
     }
@@ -1121,7 +1131,9 @@ class RedshopModelOrder_detail extends RedshopModel
 
             RedshopHelperExtrafields::extraFieldSave($data, $fieldSection, $row->users_info_id);
 
-            $this->_dispatcher->trigger('onAfterUpdateShippingAddress', array($data));
+            $dispatcher = RedshopHelperUtility::getDispatcher();
+
+            $dispatcher->trigger('onAfterUpdateShippingAddress', array($data));
 
             return true;
         } else {
@@ -1147,7 +1159,9 @@ class RedshopModelOrder_detail extends RedshopModel
 
             RedshopHelperExtrafields::extraFieldSave($data, $fieldSection, $row->users_info_id);
 
-            $this->_dispatcher->trigger('onAfterUpdateBillingAddress', array($data));
+            $dispatcher = RedshopHelperUtility::getDispatcher();
+
+            $dispatcher->trigger('onAfterUpdateBillingAddress', array($data));
 
             return true;
         } else {
@@ -1261,6 +1275,6 @@ class RedshopModelOrder_detail extends RedshopModel
         $session->set('issplit', null);
         $session->set('userfield', null);
 
-        unset($_SESSION ['ccdata']);
+        unset($_SESSION['ccdata']);
     }
 }

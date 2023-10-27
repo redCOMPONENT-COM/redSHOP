@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JHTML::_('bootstrap.modal');
 
-$config      = Redconfiguration::getInstance();
 $redTemplate = Redtemplate::getInstance();
 
 $url = JURI::base();

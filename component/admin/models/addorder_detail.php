@@ -201,12 +201,13 @@ class RedshopModelAddorder_detail extends RedshopModel
 
     public function store($postdata)
     {
+        /*
         $order_functions = order_functions::getInstance();
 
         // For barcode generation
         $barcode_code = $order_functions->barcode_randon_number(12, 0);
-
-        $postdata['barcode'] = $barcode_code;
+        */
+        $postdata['barcode'] = null;
 
         /** @var Tableorder_detail $row */
         $row = $this->getTable('order_detail');

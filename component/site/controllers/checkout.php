@@ -41,8 +41,6 @@ class RedshopControllerCheckout extends RedshopController
      */
     public function __construct($default = array())
     {
-        $this->_order_functions = order_functions::getInstance();
-        $this->_shippinghelper  = shipping::getInstance();
         JFactory::getApplication()->input->set('layout', 'default');
         parent::__construct($default);
     }

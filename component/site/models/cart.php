@@ -53,11 +53,10 @@ class RedshopModelCart extends RedshopModel
         parent::__construct();
 
         $this->_table_prefix = '#__redshop_';
-        $this->_objshipping  = shipping::getInstance();
         $user                = JFactory::getUser();
 
         // Remove expired products from cart
-        $this->emptyExpiredCartProducts();
+        \Redshop\Cart\Helper::emptyExpiredCartProducts();
 
         $cart = \Redshop\Cart\Helper::getCart();
 
@@ -72,7 +71,8 @@ class RedshopModelCart extends RedshopModel
                 $userArr = \RedshopHelperUser::getVatUserInformation($userId);
 
                 // Removed due to discount issue $userSession['vatCountry']
-                if ($cart['user_shopper_group_id'] != $shopperGroupId
+                if (
+                    $cart['user_shopper_group_id'] != $shopperGroupId
                     || (!isset($userSession['vatCountry']) || !isset($userSession['vatState']) || $userSession['vatCountry'] != $userArr->country_code || $userSession['vatState'] != $userArr->state_code)
                 ) {
                     $cart                          = \Redshop\Cart\Cart::modify($cart, $userId);
@@ -188,7 +188,7 @@ class RedshopModelCart extends RedshopModel
     {
         \Redshop\Cart\Helper::redMassCart($post);
     }
-    
+
     /**
      * @param   array  $data  Data
      *

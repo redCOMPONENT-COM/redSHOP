@@ -55,7 +55,7 @@ use Joomla\CMS\Language\Text;
                         <?php echo $row->order_number; ?>
                     </td>
                     <td align="center">
-                        <?php echo $this->config->convertDateFormat($row->cdate); ?>
+                        <?php echo RedshopHelperDatetime::convertDateFormat($row->cdate); ?>
                     </td>
                     <td align="center">
                         <?php echo RedshopHelperProductPrice::formattedPrice($row->order_total); ?>

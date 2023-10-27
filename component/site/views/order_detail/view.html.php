@@ -36,10 +36,7 @@ class RedshopViewOrder_Detail extends RedshopView
      */
     public function display($tpl = null)
     {
-        $app = JFactory::getApplication();
-
-        $orderFunctions = order_functions::getInstance();
-
+        $app   = JFactory::getApplication();
         $print = $app->input->getInt('print', 0);
 
         if ($print) {
@@ -57,7 +54,7 @@ class RedshopViewOrder_Detail extends RedshopView
         $auth         = $session->get('auth');
         $orderId      = $app->input->getInt('oid', $session->get('order_id'));
         $encr         = $app->input->getString('encr', null);
-        $orderPayment = $orderFunctions->getOrderPaymentDetail($orderId);
+        $orderPayment = RedshopEntityOrder_Payment::getInstance($orderId);
 
         if ($orderPayment && count($orderPayment)) {
             // Load payment language file

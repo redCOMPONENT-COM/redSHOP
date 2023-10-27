@@ -13,12 +13,10 @@ use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
-$order_functions = order_functions::getInstance();
-$extra_field     = extra_field::getInstance();
 $extra_section   = ($shippingaddresses->is_company == 1) ?
     RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS : RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS;
-?>
 
+?>
 <table border="0">
     <?php if ($shippingaddresses->is_company == 1): ?>
         <tr>
