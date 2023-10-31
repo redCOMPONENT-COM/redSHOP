@@ -37,7 +37,7 @@ class RedshopViewQuotation extends RedshopViewAdmin
      */
     public function display($tpl = null)
     {
-        $uri      = JUri::getInstance();
+        $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $document = JFactory::getDocument();
 
         $document->setTitle(Text::_('COM_REDSHOP_quotation'));

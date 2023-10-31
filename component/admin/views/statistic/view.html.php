@@ -40,7 +40,7 @@ class RedshopViewStatistic extends RedshopViewAdmin
     {
         global $context;
 
-        $uri      = JUri::getInstance();
+        $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $app      = JFactory::getApplication();
         $document = JFactory::getDocument();
 

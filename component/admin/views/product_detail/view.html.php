@@ -511,10 +511,10 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             $detail->not_for_sale_showprice
         );
 
-        $lists['expired'] = HtmlHelper::_(
-            'redshopselect.booleanlist', 
-            'expired', 
-            'class="inputbox"', 
+        $lists['expired']             = HtmlHelper::_(
+            'redshopselect.booleanlist',
+            'expired',
+            'class="inputbox"',
             $detail->expired
         );
         $lists['allow_decimal_piece'] = HtmlHelper::_(
@@ -657,7 +657,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $lists['prop_oprand'] = $propOprand;
 
         $cat_in_sefurl = $model->catin_sefurl($detail->product_id);
-        
+
         $lists['cat_in_sefurl'] = HtmlHelper::_(
             'redshopselect.genericlist',
             $cat_in_sefurl,

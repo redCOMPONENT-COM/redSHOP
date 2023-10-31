@@ -49,7 +49,7 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
         $input    = JFactory::getApplication()->input;
         $document->setTitle(Text::_('COM_REDSHOP_ORDER'));
 
-        $uri = JUri::getInstance();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         // Load payment languages
         RedshopHelperPayment::loadLanguages();

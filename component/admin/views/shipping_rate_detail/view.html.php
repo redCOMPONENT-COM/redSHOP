@@ -25,11 +25,11 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
     {
         $app     = JFactory::getApplication();
         $context = 'shipping_rate';
-        $uri     = JUri::getInstance();
+        $uri     = \Joomla\CMS\Uri\Uri::getInstance();
         $model   = $this->getModel();
         $db      = JFactory::getDbo();
 
-        $id       = (int)$app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
+        $id       = (int) $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
         $shipping = RedshopHelperShipping::getShippingMethodById($id);
 
         HTMLHelper::script('com_redshop/redshop.admin.common.min.js', ['relative' => true]);
@@ -86,7 +86,7 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
         }
 
         $detail->shipping_rate_state = explode(',', $detail->shipping_rate_state);
-//      $tmp                         = new stdClass;
+        //      $tmp                         = new stdClass;
 //      $tmp                         = @array_merge($tmp, $detail->shipping_rate_state);
 
         $lists['shipping_rate_state'] = HTMLHelper::_(
@@ -99,8 +99,8 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
             $detail->shipping_rate_state
         );
 
-        $detail->shipping_rate_country  = explode(',', $detail->shipping_rate_country);
-//      $tmp                            = new stdClass;
+        $detail->shipping_rate_country = explode(',', $detail->shipping_rate_country);
+        //      $tmp                            = new stdClass;
 //      $tmp                            = @array_merge($tmp, $detail->shipping_rate_country);
         $lists['shipping_rate_country'] = HTMLHelper::_(
             'select.genericlist',
@@ -170,7 +170,7 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
         $shippingVatGroup = $model->getVatGroup();
 
         $temps = array(
-            (object)array(
+            (object) array(
                 'value' => '',
                 'text'  => Text::_('COM_REDSHOP_SELECT')
             )
@@ -179,15 +179,15 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
         $shippingVatGroup = array_merge($temps, $shippingVatGroup);
 
         $shippingfor = array(
-            (object)array(
+            (object) array(
                 'value' => 0,
                 'text'  => Text::_('COM_REDSHOP_BOTH')
             ),
-            (object)array(
+            (object) array(
                 'value' => 1,
                 'text'  => Text::_('COM_REDSHOP_COMPANY_ONLY')
             ),
-            (object)array(
+            (object) array(
                 'value' => 2,
                 'text'  => Text::_('COM_REDSHOP_PRIVATE')
             ),

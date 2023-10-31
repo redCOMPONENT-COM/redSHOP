@@ -118,7 +118,7 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
             $pluginButton = implode("<br>", $pluginButton);
 
             if (Redshop::getConfig()->get('SSL_ENABLE_IN_CHECKOUT')) {
-                $uri   = JURI::getInstance();
+                $uri   = \Joomla\CMS\Uri\Uri::getInstance();
                 $cLink = new JURI;
                 $cLink->setScheme('https');
                 $cLink->setHost($uri->getHost());

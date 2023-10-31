@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
+<extension client="site" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_BANKTRANSFER</name>
-    <version>2.0.0</version>
-    <redshop>2.0.0.6</redshop>
-    <creationDate>Nov 2016</creationDate>
+    <version>4.0.0</version>
+    <redshop>4.0.1</redshop>
+    <creationDate>November 2023</creationDate>
     <author>redCOMPONENT.com</author>
-    <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
@@ -38,29 +37,32 @@
                 <field
                         name="payment_discount_is_percent"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="1"
                         class="btn-group"
                         label="PLG_RS_PAYMENT_BANKTRANSFER_PAYMENT_DISCOUNT_IS_PERCENT_LBL">
-                    <option value="1">PLG_RS_PAYMENT_BANKTRANSFER_PERCENTAGE</option>
                     <option value="0">PLG_RS_PAYMENT_BANKTRANSFER_TOTAL</option>
+                    <option value="1">PLG_RS_PAYMENT_BANKTRANSFER_PERCENTAGE</option>
                 </field>
                 <field
                         name="private_person"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="1"
-                        class="btn-group btn-group-yesno"
+                        class="btn-group"
                         label="PLG_RS_PAYMENT_BANKTRANSFER_PRIVATE_PERSON_LBL">
-                    <option value="1">JYES</option>
                     <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field
                         name="business"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="1"
-                        class="btn-group btn-group-yesno"
+                        class="btn-group"
                         label="PLG_RS_PAYMENT_BANKTRANSFER_BUSINESS_LBL">
-                    <option value="1">JYES</option>
                     <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field
                         name="is_creditcard"
@@ -118,38 +120,42 @@
                 <field
                         name="private_person"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="1"
-                        class="btn-group btn-group-yesno"
+                        class="btn-group"
                         label="PLG_RS_PAYMENT_BANKTRANSFER_PRIVATE_PERSON_LBL">
-                    <option value="1">JYES</option>
                     <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field
                         name="business"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="1"
                         label="PLG_RS_PAYMENT_BANKTRANSFER_BUSINESS_LBL"
-                        class="btn-group btn-group-yesno">
-                    <option value="1">JYES</option>
+                        class="btn-group">
                     <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field
                         name="is_show_guest"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="1"
                         label="PLG_RS_PAYMENT_BANKTRANSFER_IS_SHOW_GUEST_LBL"
-                        class="btn-group btn-group-yesno">
-                    <option value="1">JYES</option>
+                        class="btn-group">
                     <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field
                         name="is_show_member"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="1"
                         label="PLG_RS_PAYMENT_BANKTRANSFER_IS_SHOW_MEMBER_LBL"
-                        class="btn-group btn-group-yesno">
-                    <option value="1">JYES</option>
+                        class="btn-group">
                     <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field
                         name="shopper_group_id"

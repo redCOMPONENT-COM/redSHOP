@@ -15,7 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
-$uri = JURI::getInstance();
+$uri = \Joomla\CMS\Uri\Uri::getInstance();
 $url = $uri->root();
 
 $showbuttons = $this->input->getBool('showbuttons', false);
@@ -34,97 +34,94 @@ if ($fsec == 'subproperty') {
 $mainImage = $mainImage[0];
 
 ?>
-    <script language="javascript" type="text/javascript">
-        Joomla.submitbutton = function (pressbutton) {
-            submitbutton(pressbutton);
-        };
+<script language="javascript" type="text/javascript">
+    Joomla.submitbutton = function (pressbutton) {
+        submitbutton(pressbutton);
+    };
 
-        submitbutton = function (pressbutton) {
-            if (pressbutton == 'save') {
-				Joomla.submitform('property_more_img');
-            }
+    submitbutton = function (pressbutton) {
+        if (pressbutton == 'save') {
+            Joomla.submitform('property_more_img');
         }
-    </script>
+    }
+</script>
+
+<fieldset class="adminform">
+
+    <div>
+        <button type="button" onclick="Joomla.submitbutton('save');">
+            <?php echo Text::_('COM_REDSHOP_SAVE'); ?>
+        </button>
+        <button type="button" onclick="window.parent.SqueezeBox.close();">
+            <?php echo Text::_('COM_REDSHOP_CANCEL'); ?>
+        </button>
+    </div>
+
+    <div class="configuration">
+        <?php echo Text::_('COM_REDSHOP_PROPERTY_MORE_IMAGES_INFORMATION'); ?>
+    </div>
+
+</fieldset>
+
+<form action="<?php echo Redshop\IO\Route::_('index.php') ?>" method="post" name="adminForm" id="adminForm"
+    enctype="multipart/form-data">
 
     <fieldset class="adminform">
 
-        <div>
-            <button type="button" onclick="Joomla.submitbutton('save');">
-                <?php echo Text::_('COM_REDSHOP_SAVE'); ?>
-            </button>
-            <button type="button" onclick="window.parent.SqueezeBox.close();">
-                <?php echo Text::_('COM_REDSHOP_CANCEL'); ?>
-            </button>
-        </div>
+        <table class="admintable" border="0" id="admintable">
 
-        <div class="configuration">
-            <?php echo Text::_('COM_REDSHOP_PROPERTY_MORE_IMAGES_INFORMATION'); ?>
-        </div>
+            <tr>
+                <td class="key">
+                    <label for="property_main_img">
+                        <?php echo Text::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE'); ?>
+                    </label>
+                </td>
+                <td>
+                    <input type="file" name="property_main_img" id="property_main_img" value="" size="75" />
+                    <?php
+                    echo JHtml::_(
+                        'redshop.tooltip',
+                        Text::_('COM_REDSHOP_TOOLTIP_PROPERTY_MAIN_IMAGE'),
+                        Text::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE')
+                    );
+                    ?>
+                </td>
+            </tr>
 
+            <tr>
+                <td class="key">
+                    <label for="property_sub_img">
+                        <?php echo Text::_('COM_REDSHOP_PROPERTY_SUB_IMAGE'); ?>
+                    </label>
+                </td>
+                <td>
+                    <input type="file" name="property_sub_img[]" id="property_sub_img" value="" size="75" />
+                    <input type="button" name="addvalue" id="addvalue" class="button"
+                        value="<?php echo Text::_('COM_REDSHOP_ADD'); ?>" onclick="addNewRowOfProp('admintable');" />
+                    <?php
+                    echo JHtml::_(
+                        'redshop.tooltip',
+                        Text::_('COM_REDSHOP_TOOLTIP_PROPERTY_SUB_IMAGE'),
+                        Text::_('COM_REDSHOP_PROPERTY_SUB_IMAGE')
+                    );
+                    ?>
+                </td>
+            </tr>
+
+        </table>
     </fieldset>
 
-    <form action="<?php echo Redshop\IO\Route::_('index.php') ?>" method="post" name="adminForm" id="adminForm"
-          enctype="multipart/form-data">
+    <div class="clr"></div>
 
-        <fieldset class="adminform">
+    <input type="hidden" name="cid" value="<?php echo $productId; ?>" />
+    <input type="hidden" name="option" value="com_redshop" />
+    <input type="hidden" name="fsec" value="<?php echo $fsec ?>" />
+    <input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
+    <input type="hidden" name="attribute_set" value="<?php echo $attribute_set; ?>" />
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="view" value="product_detail" />
 
-            <table class="admintable" border="0" id="admintable">
-
-                <tr>
-                    <td class="key">
-                        <label for="property_main_img">
-                            <?php echo Text::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE'); ?>
-                        </label>
-                    </td>
-                    <td>
-                        <input type="file" name="property_main_img" id="property_main_img" value="" size="75"/>
-                        <?php
-                        echo JHtml::_('redshop.tooltip',
-                            Text::_('COM_REDSHOP_TOOLTIP_PROPERTY_MAIN_IMAGE'),
-                            Text::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE')
-                        );
-                        ?>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="key">
-                        <label for="property_sub_img">
-                            <?php echo Text::_('COM_REDSHOP_PROPERTY_SUB_IMAGE'); ?>
-                        </label>
-                    </td>
-                    <td>
-                        <input type="file" name="property_sub_img[]" id="property_sub_img" value="" size="75"/>
-                        <input type="button"
-                               name="addvalue"
-                               id="addvalue"
-                               class="button"
-                               value="<?php echo Text::_('COM_REDSHOP_ADD'); ?>"
-                               onclick="addNewRowOfProp('admintable');"
-                        />
-                        <?php
-                        echo JHtml::_('redshop.tooltip',
-                            Text::_('COM_REDSHOP_TOOLTIP_PROPERTY_SUB_IMAGE'),
-                            Text::_('COM_REDSHOP_PROPERTY_SUB_IMAGE')
-                        );
-                        ?>
-                    </td>
-                </tr>
-
-            </table>
-        </fieldset>
-
-        <div class="clr"></div>
-
-        <input type="hidden" name="cid" value="<?php echo $productId; ?>"/>
-        <input type="hidden" name="option" value="com_redshop"/>
-        <input type="hidden" name="fsec" value="<?php echo $fsec ?>"/>
-        <input type="hidden" name="section_id" value="<?php echo $section_id; ?>"/>
-        <input type="hidden" name="attribute_set" value="<?php echo $attribute_set; ?>"/>
-        <input type="hidden" name="task" value=""/>
-        <input type="hidden" name="view" value="product_detail"/>
-
-    </form>
+</form>
 <?php
 
 if ($fsec == 'subproperty') {

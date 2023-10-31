@@ -49,7 +49,7 @@ class RedshopViewWizard extends RedshopViewAdmin
         // Set to view variable to use in tmpl files
         $this->temparray = $wizardConfig;
 
-        $uri      = JUri::getInstance();
+        $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $db       = JFactory::getDbo();
         $model    = $this->getModel();
         $document = JFactory::getDocument();

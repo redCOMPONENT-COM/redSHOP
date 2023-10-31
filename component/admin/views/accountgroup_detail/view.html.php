@@ -27,7 +27,7 @@ class RedshopViewAccountgroup_detail extends RedshopViewAdmin
      */
     public function display($tpl = null)
     {
-        $uri = \JUri::getInstance();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         JToolBarHelper::save();
         JToolBarHelper::apply();

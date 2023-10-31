@@ -148,7 +148,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         $isViewProduct = !empty($this->data['isViewProduct']) ? true : false;
         $print         = $this->input->getBool('print', false);
         $url           = JURI::base();
-        $uri           = JURI::getInstance();
+        $uri           = \Joomla\CMS\Uri\Uri::getInstance();
         $Scheme        = $uri->getScheme();
         $user          = JFactory::getUser();
         $document      = JFactory::getDocument();
@@ -160,15 +160,15 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
         if ($isViewProduct) {
             $this->template = RedshopLayoutHelper::render(
-                    'tags.product.heading',
-                    [
-                        'pageheading'    => $this->db->escape($this->product->pageheading),
-                        'params'         => $this->data['params'],
-                        'pageHeadingTag' => $this->db->escape($this->data['pageHeadingTag'])
-                    ],
-                    '',
-                    $this->optionLayout
-                ) . $this->product->event->afterDisplayTitle . $this->product->event->beforeDisplayProduct . $this->template;
+                'tags.product.heading',
+                [
+                    'pageheading'    => $this->db->escape($this->product->pageheading),
+                    'params'         => $this->data['params'],
+                    'pageHeadingTag' => $this->db->escape($this->data['pageHeadingTag'])
+                ],
+                '',
+                $this->optionLayout
+            ) . $this->product->event->afterDisplayTitle . $this->product->event->beforeDisplayProduct . $this->template;
         }
 
         /*
@@ -222,8 +222,8 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                     [
                         'link'    => $returnCatLink,
                         'content' => Redshop::getConfig()->get(
-                                'DAFULT_RETURN_TO_CATEGORY_PREFIX'
-                            ) . " " . $this->product->category_name
+                            'DAFULT_RETURN_TO_CATEGORY_PREFIX'
+                        ) . " " . $this->product->category_name
                     ],
                     '',
                     $this->optionLayout
@@ -330,8 +330,8 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
             $this->addReplace('{product_volume_lbl}', $insertStr);
 
             $insertStr = RedshopHelperProduct::redunitDecimal(
-                    $this->product->product_volume
-                ) . "&nbsp" . $productVolumeUnit;
+                $this->product->product_volume
+            ) . "&nbsp" . $productVolumeUnit;
             $this->addReplace('{product_volume}', $insertStr);
         } else {
             $this->addReplace('{product_volume}', '');
@@ -429,8 +429,8 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
         if ($this->product->weight > 0) {
             $insertStr = RedshopHelperProduct::redunitDecimal(
-                    $this->product->weight
-                ) . "&nbsp;" . $productWeightUnit;
+                $this->product->weight
+            ) . "&nbsp;" . $productWeightUnit;
             $this->addReplace('{product_weight}', $insertStr);
             $this->addReplace('{product_weight_lbl}', Text::_('COM_REDSHOP_PRODUCT_WEIGHT_LBL'));
         } else {
@@ -500,18 +500,15 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
             $this->optionLayout
         );
 
-        if ($this->isTagExists('{manufacturer_link}'))
-        {
+        if ($this->isTagExists('{manufacturer_link}')) {
             $this->addReplace('{manufacturer_link}', $manufacturerLink);
         }
 
-        if ($this->isTagExists('{manufacturer_product_link}'))
-        {
+        if ($this->isTagExists('{manufacturer_product_link}')) {
             $this->addReplace('{manufacturer_product_link}', $manufacturerPLink);
         }
 
-        if ($this->isTagExists('{manufacturer_name}'))
-        {
+        if ($this->isTagExists('{manufacturer_name}')) {
             $this->addReplace('{manufacturer_name}', $this->product->manufacturer_name);
         }
 
@@ -556,7 +553,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
             $document->setMetaData("og:site_name", $siteName);
         }
 
-// Google I like Button
+        // Google I like Button
         if ($this->isTagExists('{googleplus1}')) {
             HTMLHelper::script('https://apis.google.com/js/plusone.js');
             $this->addReplace('{googleplus1}', '<g:plusone></g:plusone>');
@@ -607,8 +604,8 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                     $childProducts = array_merge(array($productInfo), $childProducts);
 
                     $displayText = (Redshop::getConfig()->get(
-                            'CHILDPRODUCT_DROPDOWN'
-                        ) == "product_number") ? "product_number" : "product_name";
+                        'CHILDPRODUCT_DROPDOWN'
+                    ) == "product_number") ? "product_number" : "product_name";
 
                     $selected = array($this->product->product_id);
                     $lists    = [];
@@ -625,9 +622,9 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
                     $frmChild .= "<form name='frmChild' method='post' action=''>";
                     $frmChild .= "<div class='product_child_product'>" . Text::_(
-                            'COM_REDSHOP_CHILD_PRODUCTS'
-                        ) . "</div>";
-                    $frmChild .= "<div class='product_child_product_list'>" . $lists ['product_child_id'] . "</div>";
+                        'COM_REDSHOP_CHILD_PRODUCTS'
+                    ) . "</div>";
+                    $frmChild .= "<div class='product_child_product_list'>" . $lists['product_child_id'] . "</div>";
                     $frmChild .= "<input type='hidden' name='view' value='product'>";
                     $frmChild .= "<input type='hidden' name='task' value='gotochild'>";
                     $frmChild .= "<input type='hidden' name='option' value='com_redshop'>";
@@ -639,7 +636,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
             $this->template = str_replace("{child_products}", $frmChild, $this->template);
         }
 
-// Checking for child products
+        // Checking for child products
         $childProduct = RedshopHelperProduct::getChildProduct($this->product->product_id);
 
         if (!empty($childProduct)) {
@@ -712,7 +709,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
             )
         );
 
-// Product attribute  End
+        // Product attribute  End
 
         $prNumber                    = $this->product->product_number;
         $preSelectedResult           = array();
@@ -921,9 +918,11 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         $templateUserField = $returnArr[0];
         $userFieldArr      = $returnArr[1];
 
-        if ($this->isTagExists('{if product_userfield}') && $this->isTagExists(
+        if (
+            $this->isTagExists('{if product_userfield}') && $this->isTagExists(
                 '{product_userfield end if}'
-            ) && $templateUserField != "") {
+            ) && $templateUserField != ""
+        ) {
             $this->replaceUserField($userFieldArr, $countNoUserField);
         }
         // Product User Field End
@@ -995,21 +994,25 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         // Checking if user logged in then only enabling review button
         $reviewForm = "";
 
-        if (($user->id && Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED')) || !Redshop::getConfig()->get(
+        if (
+            ($user->id && Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED')) || !Redshop::getConfig()->get(
                 'RATING_REVIEW_LOGIN_REQUIRED'
-            )) {
+            )
+        ) {
             // Write Review link with the products
-            if ($this->isTagExists('{form_rating_without_lightbox}') && !JFactory::getApplication()->input->getInt(
+            if (
+                $this->isTagExists('{form_rating_without_lightbox}') && !JFactory::getApplication()->input->getInt(
                     'rate',
                     0
-                )) {
+                )
+            ) {
                 $form = RedshopModelForm::getInstance(
                     'Product_Rating',
                     'RedshopModel',
                     array(
                         'context' => 'com_redshop.edit.product_rating.' . $this->product->product_id
                     )
-                )->/** @scrutinizer ignore-call */ getForm();
+                )-> /** @scrutinizer ignore-call */getForm();
 
                 $ratingForm = RedshopLayoutHelper::render(
                     'product.product_rating',
@@ -1030,7 +1033,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                     [
                         'class' => 'ModalProductRatingButton',
                         'link'  => JURI::root(
-                            ) . 'index.php?option=com_redshop&view=product_rating&tmpl=component&product_id=' . $this->product->product_id .
+                        ) . 'index.php?option=com_redshop&view=product_rating&tmpl=component&product_id=' . $this->product->product_id .
                             '&category_id=' . $this->product->category_id .
                             '&Itemid=' . $this->itemId,
                         'text'  => Text::_('COM_REDSHOP_WRITE_REVIEW')
@@ -1065,7 +1068,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         }
 
         if ($this->isTagExists("{product_rating}")) {
-            if ((int)Redshop::getConfig()->get('FAVOURED_REVIEWS') !== 0) {
+            if ((int) Redshop::getConfig()->get('FAVOURED_REVIEWS') !== 0) {
                 $mainBlock = Redshop::getConfig()->get('FAVOURED_REVIEWS');
             } else {
                 $mainBlock = 5;
@@ -1096,7 +1099,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
             [
                 'class'   => 'redcolorproductimg',
                 'link'    => JURI::root(
-                    ) . 'index.php?option=com_redshop&view=send_friend&pid=' . $this->product->product_id . '&tmpl=component&Itemid=' . $this->itemId,
+                ) . 'index.php?option=com_redshop&view=send_friend&pid=' . $this->product->product_id . '&tmpl=component&Itemid=' . $this->itemId,
                 'content' => '<i class="fas fa-mail-bulk send-to-friend"></i>'
             ],
             '',
@@ -1111,7 +1114,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
                     'name'  => 'question-iframe',
                     'class' => 'redbox btn btn-primary',
                     'link'  => JURI::root(
-                        ) . 'index.php?option=com_redshop&view=ask_question&pid=' . $this->product->product_id .
+                    ) . 'index.php?option=com_redshop&view=ask_question&pid=' . $this->product->product_id .
                         '&tmpl=component&Itemid=' . $this->itemId,
                     'text'  => Text::_('COM_REDSHOP_ASK_QUESTION_ABOUT_PRODUCT'),
                     'x'     => 500,
@@ -1147,10 +1150,10 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         $this->replacements['{attribute_price_with_vat}']    = '';
         $this->replacements['{attribute_price_without_vat}'] = '';
 
-// Replace Minimum quantity per order
+        // Replace Minimum quantity per order
         $minOrderProductQuantity = '';
 
-        if ((int)$this->product->min_order_product_quantity > 0) {
+        if ((int) $this->product->min_order_product_quantity > 0) {
             $minOrderProductQuantity = $this->product->min_order_product_quantity;
         }
 
@@ -1237,13 +1240,15 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
             if (Redshop::getConfig()->getInt('DEFAULT_LINK_FIND') === 0) {
                 $contentNextButton = $nextProducts->product_name . " " . Redshop::getConfig()->get(
-                        'DAFULT_NEXT_LINK_SUFFIX'
-                    );
-            } elseif ((int)Redshop::getConfig()->get('DEFAULT_LINK_FIND') === 1) {
+                    'DAFULT_NEXT_LINK_SUFFIX'
+                );
+            } elseif ((int) Redshop::getConfig()->get('DEFAULT_LINK_FIND') === 1) {
                 $contentNextButton = Redshop::getConfig()->get('CUSTOM_NEXT_LINK_FIND');
-            } elseif (!empty(Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')) && file_exists(
+            } elseif (
+                !empty(Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')) && file_exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')
-                )) {
+                )
+            ) {
                 $contentNextButton = RedshopLayoutHelper::render(
                     'tags.common.img',
                     [
@@ -1284,13 +1289,15 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
             if (Redshop::getConfig()->getInt('DEFAULT_LINK_FIND') === 0) {
                 $contentPrevButton = Redshop::getConfig()->get(
-                        'DAFULT_PREVIOUS_LINK_PREFIX'
-                    ) . " " . $previousProducts->product_name;
+                    'DAFULT_PREVIOUS_LINK_PREFIX'
+                ) . " " . $previousProducts->product_name;
             } elseif (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 1) {
                 $contentPrevButton = Redshop::getConfig()->get('CUSTOM_PREVIOUS_LINK_FIND');
-            } elseif (!empty(Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')) && file_exists(
+            } elseif (
+                !empty(Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')) && file_exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')
-                )) {
+                )
+            ) {
                 $contentPrevButton = RedshopLayoutHelper::render(
                     'tags.common.img',
                     [
@@ -1330,18 +1337,22 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         $manufacturerImage = '';
         $manufacturerMedia = RedshopEntityManufacturer::getInstance($this->product->manufacturer_id)->getMedia();
 
-        if ($manufacturerMedia->isValid() && !empty($manufacturerMedia->get('media_name'))
+        if (
+            $manufacturerMedia->isValid() && !empty($manufacturerMedia->get('media_name'))
             && JFile::exists(
                 REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $this->product->manufacturer_id . '/' . $manufacturerMedia->get(
                     'media_name'
                 )
-            )) {
+            )
+        ) {
             $thumbHeight = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
             $thumbWidth  = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
 
-            if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get(
+            if (
+                Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get(
                     'WATERMARK_MANUFACTURER_THUMB_IMAGE'
-                )) {
+                )
+            ) {
                 $imagePath = RedshopHelperMedia::watermark(
                     'manufacturer',
                     $manufacturerMedia->get('media_name'),
@@ -1466,9 +1477,11 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         $filename1  = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $mediaImage->media_name;
         $moreImages = '';
 
-        if ($mediaImage->media_name != $mediaImage->product_full_image && file_exists(
+        if (
+            $mediaImage->media_name != $mediaImage->product_full_image && file_exists(
                 $filename1
-            ) && !empty($mediaImage->media_name)) {
+            ) && !empty($mediaImage->media_name)
+        ) {
             $altText = RedshopHelperMedia::getAlternativeText(
                 'product',
                 $mediaImage->section_id,
@@ -1687,7 +1700,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         $idx  = 0;
 
         if (isset($cart['idx'])) {
-            $idx = (int)($cart['idx']);
+            $idx = (int) ($cart['idx']);
         }
 
         $cartId = '';
@@ -1932,14 +1945,14 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
                     $replaceQuestion['{question}']       = $productQuestion[$q]->question;
                     $replaceQuestion['{question_date}']  = RedshopHelperDatetime::convertDateFormat(
-                        $productQuestion [$q]->question_date
+                        $productQuestion[$q]->question_date
                     );
                     $replaceQuestion['{question_owner}'] = $productQuestion[$q]->user_name;
 
                     $qLoop = $this->strReplace($replaceQuestion, $questionTemplate['template']);
 
                     $answerTemplate = $this->getTemplateBetweenLoop('{answer_loop_start}', '{answer_loop_end}', $qLoop);
-                    $productAnswer  = RedshopHelperProduct::getQuestionAnswer($productQuestion [$q]->id, 0, 1, 1);
+                    $productAnswer  = RedshopHelperProduct::getQuestionAnswer($productQuestion[$q]->id, 0, 1, 1);
                     $answerLoop     = "";
 
                     for ($a = 0, $an = count($productAnswer); $a < $an; $a++) {

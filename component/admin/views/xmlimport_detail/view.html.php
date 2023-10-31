@@ -29,7 +29,7 @@ class RedshopViewXmlimport_detail extends RedshopViewAdmin
         $document->setTitle(Text::_('COM_REDSHOP_xmlimport'));
         HTMLHelper::script('com_redshop/redshop.xmlfunc.min.js', ['relative' => true]);
 
-        $uri                 = JUri::getInstance();
+        $uri                 = \Joomla\CMS\Uri\Uri::getInstance();
         $columns             = array();
         $lists               = array();
         $updateshippingtag   = array();

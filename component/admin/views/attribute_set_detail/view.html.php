@@ -42,7 +42,7 @@ class RedshopViewAttribute_set_detail extends RedshopViewAdmin
         HTMLHelper::script('com_redshop/redshop.fields.min.js', ['relative' => true]);
         HTMLHelper::script('com_redshop/redshop.validation.min.js', ['relative' => true]);
 
-        $uri = JUri::getInstance();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         $detail = $this->get('data');
 

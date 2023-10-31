@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Redshop\Order\Template;
 use Joomla\CMS\Language\Text;
 
-$uri                  = JURI::getInstance();
+$uri                  = \Joomla\CMS\Uri\Uri::getInstance();
 $url                  = $uri->root();
 $redTemplate          = Redtemplate::getInstance();
 $OrdersDetail         = $this->detail;

@@ -60,7 +60,7 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
 
         HTMLHelper::script('com_redshop/ajaxupload.min.js', ['relative' => true]);
 
-        $uri          = JUri::getInstance();
+        $uri          = \Joomla\CMS\Uri\Uri::getInstance();
         $lists        = array();
         $billing      = array();
         $shippinginfo = array();

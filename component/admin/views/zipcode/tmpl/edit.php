@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHTML::_('bootstrap.tooltip');
-$uri = JURI::getInstance();
+$uri = \Joomla\CMS\Uri\Uri::getInstance();
 $url = $uri->root();
 
 echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' => $this));
@@ -32,7 +32,7 @@ echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' 
             }
         }).done(function (data) {
             jQuery('#jform_state_code').html(data);
-            jQuery('#jform_state_code').select2({width: 'resolve'});
+            jQuery('#jform_state_code').select2({ width: 'resolve' });
             jQuery('#jform_state_code').val("<?php echo $this->item->state_code ?>").trigger('change');
             jQuery('#jform_state_code').select2
         });

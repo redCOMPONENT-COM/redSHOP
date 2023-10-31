@@ -195,7 +195,7 @@ class RedshopHelperDocument
         $script = trim($script);
 
         if (!empty($script)) {
-            $uri = JUri::getInstance();
+            $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
             $relativePath   = trim(str_replace($uri->getPath(), '', JUri::root()), '/');
             $relativeScript = trim(str_replace($uri->getPath(), '', $script), '/');
@@ -248,7 +248,7 @@ class RedshopHelperDocument
 
         if (!empty($stylesheet)) {
             $doc = JFactory::getDocument();
-            $uri = JUri::getInstance();
+            $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
             $relativePath       = trim(str_replace($uri->getPath(), '', JUri::root()), '/');
             $relativeStylesheet = trim(str_replace($uri->getPath(), '', $stylesheet), '/');

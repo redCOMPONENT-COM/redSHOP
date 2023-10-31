@@ -13,7 +13,7 @@ use Joomla\CMS\Language\Text;
 
 $model = $this->getModel('checkout');
 
-$uri = JURI::getInstance();
+$uri = \Joomla\CMS\Uri\Uri::getInstance();
 $url = $uri->root();
 
 $Itemid = RedshopHelperRouter::getCheckoutItemId();
@@ -22,7 +22,7 @@ if ($Itemid == 0) {
     $Itemid = JFactory::getApplication()->input->getInt('Itemid');
 }
 
-$session = JFactory::getSession();
+$session          = JFactory::getSession();
 $billingAddresses = $model->billingaddresses();
 
 ?>

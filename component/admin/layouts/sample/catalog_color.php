@@ -21,7 +21,7 @@ use Joomla\CMS\Language\Text;
  */
 extract($displayData);
 
-$uri = JURI::getInstance();
+$uri = \Joomla\CMS\Uri\Uri::getInstance();
 $url = $uri->root();
 
 ?>

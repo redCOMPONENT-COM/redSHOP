@@ -49,7 +49,7 @@ class RedshopViewAccount_Billto extends RedshopView
             $billingAddresses = $model->_initData();
         }
 
-        $uri     = JUri::getInstance();
+        $uri     = \Joomla\CMS\Uri\Uri::getInstance();
         $session = Factory::getSession();
         $auth    = $session->get('auth');
 
@@ -70,7 +70,7 @@ class RedshopViewAccount_Billto extends RedshopView
         HTMLHelper::_('script', 'com_redshop/redshop.common.min.js', false, true);
         HTMLHelper::_('script', 'com_redshop/redshop.registration.min.js', false, true);
         HTMLHelper::_('script', 'com_redshop/account/billto.min.js', false, true);
-		HTMLHelper::stylesheet('com_redshop/redshop.validation.min.css', ['relative' => true]);
+        HTMLHelper::stylesheet('com_redshop/redshop.validation.min.css', ['relative' => true]);
 
         // Preform security checks
         if ($user->id == 0 && $auth['users_info_id'] == 0) {
@@ -104,7 +104,7 @@ class RedshopViewAccount_Billto extends RedshopView
         JPluginHelper::importPlugin('redshop_shipping');
         $dispatcher = RedshopHelperUtility::getDispatcher();
         $dispatcher->trigger('onRenderCustomField', array($billingAddresses));
-        $post = (array)$billingAddresses;
+        $post = (array) $billingAddresses;
 
         $post["email1"] = $post["email"] = $post["user_email"];
 

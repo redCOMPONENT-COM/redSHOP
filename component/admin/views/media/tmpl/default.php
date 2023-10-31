@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
-$uri = JURI::getInstance();
+$uri = \Joomla\CMS\Uri\Uri::getInstance();
 $url = $uri->root();
 
 // For Add Media Detail
@@ -34,22 +34,22 @@ $directory              = $media_section;
 if ($showbuttons == 1) {
     switch ($media_section) {
         case "product";
-            $sectionadata           = Redshop::product((int)$section_id);
-            $section_name           = isset($sectionadata->product_name) ? $sectionadata->product_name : '';
+            $sectionadata = Redshop::product((int) $section_id);
+            $section_name = isset($sectionadata->product_name) ? $sectionadata->product_name : '';
             $sectiona_primary_image = isset($sectionadata->product_full_image) ? $sectionadata->product_full_image : '';
-            $directory              = $media_section;
+            $directory = $media_section;
             break;
         case "property";
-            $sectionadata           = RedshopHelperProduct_Attribute::getAttributeProperties($section_id);
-            $section_name           = $sectionadata[0]->property_name;
+            $sectionadata = RedshopHelperProduct_Attribute::getAttributeProperties($section_id);
+            $section_name = $sectionadata[0]->property_name;
             $sectiona_primary_image = $sectionadata[0]->property_main_image;
-            $directory              = 'property';
+            $directory = 'property';
             break;
         case "subproperty";
-            $sectionadata           = RedshopHelperProduct_Attribute::getAttributeSubProperties($section_id);
-            $section_name           = $sectionadata[0]->subattribute_color_name;
+            $sectionadata = RedshopHelperProduct_Attribute::getAttributeSubProperties($section_id);
+            $section_name = $sectionadata[0]->subattribute_color_name;
             $sectiona_primary_image = $sectionadata[0]->subattribute_color_main_image;
-            $directory              = 'subproperty';
+            $directory = 'subproperty';
             break;
     }
 }
@@ -63,12 +63,14 @@ if ($showbuttons == 1) {
             </button>
             <button type="button" class="btn btn-small" onclick="Joomla.submitbutton('edit');">
                 <?php echo Text::_('COM_REDSHOP_EDIT'); ?>
-            </button><?php
+            </button>
+            <?php
             if ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty') {
                 ?>
                 <button type="button" class="btn btn-small" onclick="Joomla.submitbutton('setDefault');">
-                <?php echo Text::_('COM_REDSHOP_DEFAULT_MEDIA'); ?>
-                </button><?php
+                    <?php echo Text::_('COM_REDSHOP_DEFAULT_MEDIA'); ?>
+                </button>
+                <?php
             } ?>
             <button type="button" class="btn btn-small" onclick="Joomla.submitbutton('remove');">
                 <?php echo Text::_('COM_REDSHOP_DELETE'); ?>
@@ -83,7 +85,9 @@ if ($showbuttons == 1) {
                 <?php echo Text::_('COM_REDSHOP_CANCEL'); ?>
             </button>
         </div>
-        <div class="configuration"><?php echo Text::_('COM_REDSHOP_ADD_MEDIA'); ?></div>
+        <div class="configuration">
+            <?php echo Text::_('COM_REDSHOP_ADD_MEDIA'); ?>
+        </div>
     </fieldset>
     <?php
 
@@ -105,96 +109,106 @@ if ($showbuttons == 1) {
                 </div>
                 <div class="filterItem">
                     <button class="btn reset"
-                            onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('filter_media_section').value='0';this.form.submit();"><?php echo Text::_(
+                        onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('filter_media_section').value='0';this.form.submit();">
+                        <?php echo Text::_(
                             'COM_REDSHOP_RESET'
-                        ); ?></button>
+                        ); ?>
+                    </button>
                 </div>
             <?php endif; ?>
         </div>
         <table class="adminlist table table-striped">
             <thead>
-            <tr>
-                <th width="1"><?php echo Text::_('COM_REDSHOP_NUM'); ?></th>
-                <th width="1"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
-                <th width="auto" class="title">
-                    <?php echo JHtml::_(
-                        'grid.sort',
-                        'COM_REDSHOP_MEDIA_NAME',
-                        'media_name',
-                        $this->lists ['order_Dir'],
-                        $this->lists ['order']
-                    ) ?>
-                </th>
-                <th width="10%">
-                    <?php echo JHtml::_(
-                        'grid.sort',
-                        'COM_REDSHOP_MEDIA_TYPE',
-                        'media_type',
-                        $this->lists ['order_Dir'],
-                        $this->lists ['order']
-                    ) ?>
-                </th>
-                <?php if ($showbuttons == 1): ?>
-                    <?php $countTd++; ?>
-                    <th width="10%"><?php echo Text::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES') ?></th>
-                <?php endif; ?>
-                <th width="15%">
-                    <?php echo JHtml::_(
-                        'grid.sort',
-                        'COM_REDSHOP_MEDIA_ALTERNATE_TEXT',
-                        'media_alternate_text',
-                        $this->lists ['order_Dir'],
-                        $this->lists ['order']
-                    ) ?>
-                </th>
-                <th width="10%">
-                    <?php echo JHtml::_(
-                        'grid.sort',
-                        'COM_REDSHOP_MEDIA_SECTION',
-                        'media_section',
-                        $this->lists ['order_Dir'],
-                        $this->lists ['order']
-                    ); ?>
-                </th>
-                <?php if ($showbuttons == 1 && ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty')): ?>
-                    <?php $countTd++; ?>
-                    <th width="5%" class="title"><?php echo Text::_('COM_REDSHOP_PRIMARY_MEDIA') ?></th>
-                <?php endif; ?>
-
-                <?php if ($showbuttons == 1): ?>
-                    <?php $countTd++; ?>
-                    <th class="order">
+                <tr>
+                    <th width="1">
+                        <?php echo Text::_('COM_REDSHOP_NUM'); ?>
+                    </th>
+                    <th width="1">
+                        <?php echo JHtml::_('redshopgrid.checkall'); ?>
+                    </th>
+                    <th width="auto" class="title">
                         <?php echo JHtml::_(
                             'grid.sort',
-                            'COM_REDSHOP_ORDERING',
-                            'ordering',
+                            'COM_REDSHOP_MEDIA_NAME',
+                            'media_name',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ) ?>
+                    </th>
+                    <th width="10%">
+                        <?php echo JHtml::_(
+                            'grid.sort',
+                            'COM_REDSHOP_MEDIA_TYPE',
+                            'media_type',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ) ?>
+                    </th>
+                    <?php if ($showbuttons == 1): ?>
+                        <?php $countTd++; ?>
+                        <th width="10%">
+                            <?php echo Text::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES') ?>
+                        </th>
+                    <?php endif; ?>
+                    <th width="15%">
+                        <?php echo JHtml::_(
+                            'grid.sort',
+                            'COM_REDSHOP_MEDIA_ALTERNATE_TEXT',
+                            'media_alternate_text',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ) ?>
+                    </th>
+                    <th width="10%">
+                        <?php echo JHtml::_(
+                            'grid.sort',
+                            'COM_REDSHOP_MEDIA_SECTION',
+                            'media_section',
                             $this->lists['order_Dir'],
                             $this->lists['order']
                         ); ?>
-                        <?php if ($ordering): ?>
-                            <?php echo JHtml::_('grid.order', $this->media); ?>
-                        <?php endif; ?>
                     </th>
-                <?php endif; ?>
-                <th width="60" nowrap="nowrap">
-                    <?php echo JHtml::_(
-                        'grid.sort',
-                        'COM_REDSHOP_PUBLISHED',
-                        'published',
-                        $this->lists ['order_Dir'],
-                        $this->lists ['order']
-                    ); ?>
-                </th>
-                <th width="60" nowrap="nowrap">
-                    <?php echo JHtml::_(
-                        'grid.sort',
-                        'COM_REDSHOP_ID',
-                        'media_id',
-                        $this->lists ['order_Dir'],
-                        $this->lists ['order']
-                    ); ?>
-                </th>
-            </tr>
+                    <?php if ($showbuttons == 1 && ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty')): ?>
+                        <?php $countTd++; ?>
+                        <th width="5%" class="title">
+                            <?php echo Text::_('COM_REDSHOP_PRIMARY_MEDIA') ?>
+                        </th>
+                    <?php endif; ?>
+
+                    <?php if ($showbuttons == 1): ?>
+                        <?php $countTd++; ?>
+                        <th class="order">
+                            <?php echo JHtml::_(
+                                'grid.sort',
+                                'COM_REDSHOP_ORDERING',
+                                'ordering',
+                                $this->lists['order_Dir'],
+                                $this->lists['order']
+                            ); ?>
+                            <?php if ($ordering): ?>
+                                <?php echo JHtml::_('grid.order', $this->media); ?>
+                            <?php endif; ?>
+                        </th>
+                    <?php endif; ?>
+                    <th width="60" nowrap="nowrap">
+                        <?php echo JHtml::_(
+                            'grid.sort',
+                            'COM_REDSHOP_PUBLISHED',
+                            'published',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th width="60" nowrap="nowrap">
+                        <?php echo JHtml::_(
+                            'grid.sort',
+                            'COM_REDSHOP_ID',
+                            'media_id',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                </tr>
             </thead>
             <?php $k = 0; ?>
 
@@ -213,30 +227,30 @@ if ($showbuttons == 1) {
                         <?php echo JHtml::_('grid.id', $i, $row->id) ?>
                     </td>
                     <td>
-                        <?php if ($row->media_type == 'images' && in_array(
+                        <?php if (
+                            $row->media_type == 'images' && in_array(
                                 $row->media_section,
                                 array('manufacturer', 'category')
-                            )): ?>
+                            )
+                        ): ?>
                             <?php
                             $media     = RedshopEntityMediaImage::getInstance($row->media_id);
                             $mediaFile = $media->generateThumb(100, 100);
                             ?>
                             <a class="joom-box img-thumbnail" href="<?php echo $media->getAbsImagePath() ?>"
-                               title="<?php echo Text::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
-                               rel="{handler: 'image', size: {}}">
-                                <img src="<?php echo $mediaFile['abs'] ?>"/></a>
+                                title="<?php echo Text::_('COM_REDSHOP_VIEW_IMAGE'); ?>" rel="{handler: 'image', size: {}}">
+                                <img src="<?php echo $mediaFile['abs'] ?>" /></a>
                         <?php else: ?>
                             <?php $filetype = strtolower(JFile::getExt(trim($row->media_name))); ?>
                             <?php if (($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif') && $row->media_type == 'images'): ?>
                                 <?php
                                 $media_img = $url . 'components/com_redshop/assets/' . $row->media_type . '/' . $row->media_section . '/' . trim(
-                                        $row->media_name
-                                    );
+                                    $row->media_name
+                                );
                                 ?>
                                 <a class="joom-box img-thumbnail" href="<?php echo $media_img; ?>"
-                                   title="<?php echo Text::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
-                                   rel="{handler: 'image', size: {}}">
-                                    <img src="<?php echo $media_img ?>" height="50" width="50"/></a>
+                                    title="<?php echo Text::_('COM_REDSHOP_VIEW_IMAGE'); ?>" rel="{handler: 'image', size: {}}">
+                                    <img src="<?php echo $media_img ?>" height="50" width="50" /></a>
                             <?php else: ?>
                                 <?php echo $row->media_name; ?>
                             <?php endif; ?>
@@ -250,19 +264,22 @@ if ($showbuttons == 1) {
                             <?php if ($row->media_type == 'download'): ?>
                                 <?php $additionalfiles = $model->getAdditionalFiles($row->id); ?>
                                 <a href="index.php?tmpl=component&option=com_redshop&view=media&layout=additionalfile&media_id=<?php echo $row->id; ?>&showbuttons=1"
-                                   class="joom-box" rel="{handler: 'iframe', size: {x: 1000, y: 400}}"
-                                   title="<?php echo Text::_(
-                                           'COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES'
-                                       ) . '&nbsp;(' . count($additionalfiles) . ')'; ?>">
+                                    class="joom-box" rel="{handler: 'iframe', size: {x: 1000, y: 400}}" title="<?php echo Text::_(
+                                        'COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES'
+                                    ) . '&nbsp;(' . count($additionalfiles) . ')'; ?>">
                                     <?php echo Text::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES') . '&nbsp;(' . count(
-                                            $additionalfiles
-                                        ) . ')'; ?>
+                                        $additionalfiles
+                                    ) . ')'; ?>
                                 </a>
                             <?php endif; ?>
                         </td>
                     <?php endif; ?>
-                    <td class="order"><?php echo $row->media_alternate_text ?></td>
-                    <td class="order"><?php echo $row->media_section ?></td>
+                    <td class="order">
+                        <?php echo $row->media_alternate_text ?>
+                    </td>
+                    <td class="order">
+                        <?php echo $row->media_section ?>
+                    </td>
                     <?php if ($showbuttons == 1 && ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty')): ?>
                         <td align="center">
                             <?php
@@ -277,66 +294,78 @@ if ($showbuttons == 1) {
                                 <?php $orderDir = strtoupper($this->lists['order_Dir']); ?>
                                 <div class="input-prepend">
                                     <?php if ($orderDir == 'ASC' || $orderDir == ''): ?>
-                                        <span class="add-on"><?php echo $this->pagination->orderUpIcon(
+                                        <span class="add-on">
+                                            <?php echo $this->pagination->orderUpIcon(
                                                 $i,
                                                 true,
                                                 'orderup'
-                                            ); ?></span>
-                                        <span class="add-on"><?php echo $this->pagination->orderDownIcon(
+                                            ); ?>
+                                        </span>
+                                        <span class="add-on">
+                                            <?php echo $this->pagination->orderDownIcon(
                                                 $i,
                                                 $n,
                                                 true,
                                                 'orderdown'
-                                            ); ?></span>
+                                            ); ?>
+                                        </span>
                                     <?php elseif ($orderDir == 'DESC'): ?>
-                                        <span class="add-on"><?php echo $this->pagination->orderUpIcon(
+                                        <span class="add-on">
+                                            <?php echo $this->pagination->orderUpIcon(
                                                 $i,
                                                 true,
                                                 'orderdown'
-                                            ); ?></span>
-                                        <span class="add-on"><?php echo $this->pagination->orderDownIcon(
+                                            ); ?>
+                                        </span>
+                                        <span class="add-on">
+                                            <?php echo $this->pagination->orderDownIcon(
                                                 $i,
                                                 $n,
                                                 true,
                                                 'orderup'
-                                            ); ?></span>
+                                            ); ?>
+                                        </span>
                                     <?php endif; ?>
                                     <input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>"
-                                           class="width-20 text-area-order"/>
+                                        class="width-20 text-area-order" />
                                 </div>
                             <?php else: ?>
                                 <?php echo $row->ordering; ?>
                             <?php endif; ?>
                         </td>
                     <?php endif; ?>
-                    <td align="center"><?php echo $published; ?></td>
-                    <td align="center"><?php echo $row->media_id; ?></td>
+                    <td align="center">
+                        <?php echo $published; ?>
+                    </td>
+                    <td align="center">
+                        <?php echo $row->media_id; ?>
+                    </td>
                 </tr>
                 <?php $k = 1 - $k; ?>
             <?php endfor; ?>
-            <input type="hidden" name="showbuttons" value="<?php echo $showbuttons; ?>"/>
-            <input type="hidden" name="section_id" value="<?php echo $section_id; ?>"/>
-            <input type="hidden" name="section_name" value="<?php echo $section_name; ?>"/>
+            <input type="hidden" name="showbuttons" value="<?php echo $showbuttons; ?>" />
+            <input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
+            <input type="hidden" name="section_name" value="<?php echo $section_name; ?>" />
             <?php if ($showbuttons == 1): ?>
-                <input type="hidden" name="media_section" value="<?php echo $media_section; ?>"/>
+                <input type="hidden" name="media_section" value="<?php echo $media_section; ?>" />
             <?php endif; ?>
             <tfoot>
-            <tr>
-                <td colspan="<?php echo $countTd; ?>">
-					<div class="redShopLimitBox">
-						<?php echo $this->pagination->getLimitBox(); ?>
-					</div>
-                    <?php echo $this->pagination->getListFooter(); ?>
-                </td>
-            </tr>
+                <tr>
+                    <td colspan="<?php echo $countTd; ?>">
+                        <div class="redShopLimitBox">
+                            <?php echo $this->pagination->getLimitBox(); ?>
+                        </div>
+                        <?php echo $this->pagination->getListFooter(); ?>
+                    </td>
+                </tr>
             </tfoot>
         </table>
     </div>
-    <input type="hidden" name="view" value="media"/>
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="boxchecked" value="0"/>
-    <input type="hidden" name="filter_order" value="<?php echo $this->lists ['order']; ?>"/>
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists ['order_Dir']; ?>"/>
+    <input type="hidden" name="view" value="media" />
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
 </form>
 <script type="text/javascript">
     var viewForm = 'media_detail';

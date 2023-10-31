@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$uri       = JURI::getInstance();
+$uri       = \Joomla\CMS\Uri\Uri::getInstance();
 $url       = $uri->root();
 $sectionId = $this->input->getInt('section_id', null);
 $productId = $this->input->getInt('cid', null);

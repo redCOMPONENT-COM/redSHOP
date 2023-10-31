@@ -127,7 +127,7 @@ class RedshopControllerProduct_Detail extends RedshopController
         //@TODO This is potentially unsafe because $_POST elements are not sanitized.
         $post                 = $this->input->post->getArray();
         $cid                  = $this->input->post->get('cid', array(), 'array');
-        $post['product_id']  = $cid[0];
+        $post['product_id']   = $cid[0];
         $post['product_name'] = $this->input->post->get('product_name', null, 'string');
 
         $selectedTabPosition = $this->input->get('selectedTabPosition');
@@ -679,7 +679,7 @@ class RedshopControllerProduct_Detail extends RedshopController
      */
     public function property_more_img()
     {
-        $uri = JURI::getInstance();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         $url = $uri->root();
 
@@ -720,7 +720,7 @@ class RedshopControllerProduct_Detail extends RedshopController
      */
     public function deleteimage()
     {
-        $uri = JURI::getInstance();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         $url = $uri->root();
 

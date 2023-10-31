@@ -47,6 +47,7 @@
                 <field
                         name="enableAjaxsearch"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="0"
                         class="btn-group"
                         label="MOD_REDSHOP_SEARCH_ENABLE_AJAX_SEACRH_LBL"
@@ -72,10 +73,12 @@
                         default=""
                         label="MOD_REDSHOP_SEARCH_DEFAULT_SEARCH_TYPE_LBL"
                         description="MOD_REDSHOP_SEARCH_DEFAULT_SEARCH_TYPE_DESC"
+                        class="form-select"
                 />
                 <field
                         name="searchProductByCategoryName"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="no"
                         label="MOD_REDSHOP_SEARCH_SEARCH_PRODUCT_BY_CATEGORY_NAME_LBL"
                         class="btn-group"
@@ -86,6 +89,7 @@
                 <field
                         name="searchProductByFieldsData"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="yes"
                         label="MOD_REDSHOP_SEARCH_SEARCH_PRODUCT_BY_FIELDS_DATA_LBL"
                         class="btn-group"
@@ -96,6 +100,7 @@
                 <field
                         name="showSearchTypeField"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="yes"
                         label="MOD_REDSHOP_SEARCH_SHOW_SEARCH_TYPE_FIELD_LBL"
                         class="btn-group"
@@ -106,6 +111,7 @@
                 <field
                         name="showSearchField"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="yes"
                         label="MOD_REDSHOP_SEARCH_SHOW_SEARCH_FIELD_LBL"
                         class="btn-group"
@@ -116,6 +122,7 @@
                 <field
                         name="showCategory"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="yes"
                         label="MOD_REDSHOP_SEARCH_SHOW_CATEGORY_FIELD_LBL"
                         class="btn-group"
@@ -126,6 +133,7 @@
                 <field
                         name="showManufacturer"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="yes"
                         class="btn-group"
                         label="MOD_REDSHOP_SEARCH_SHOW_MANUFACTURER_FIELD_LBL"
@@ -136,6 +144,7 @@
                 <field
                         name="showProductsearchtitle"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="yes"
                         class="btn-group"
                         label="MOD_REDSHOP_SEARCH_SHOW_PRODUCT_SEARCH_TITLE_LBL"
@@ -146,6 +155,7 @@
                 <field
                         name="showKeywordtitle"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="yes"
                         label="MOD_REDSHOP_SEARCH_SHOW_KEYWORD_TITLE_LBL"
                         class="btn-group"
@@ -162,6 +172,7 @@
                 <field
                         name="showCustomfield"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="no"
                         label="MOD_REDSHOP_SEARCH_SHOW_CUSTOM_FIELD"
                         class="btn-group"
@@ -193,7 +204,9 @@
                         name="layout"
                         type="modulelayout"
                         label="JFIELD_ALT_LAYOUT_LABEL"
-                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
+                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+                        class="form-select"
+                />
             </fieldset>
         </fields>
     </config>

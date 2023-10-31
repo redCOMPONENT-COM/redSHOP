@@ -41,7 +41,7 @@ class RedshopViewAddquotation_detail extends RedshopViewAdmin
         HTMLHelper::script('com_redshop/ajaxupload.min.js', ['relative' => true]);
 
         $session = JFactory::getSession();
-        $uri     = JUri::getInstance();
+        $uri     = \Joomla\CMS\Uri\Uri::getInstance();
 
         $lists   = array();
         $model   = $this->getModel();

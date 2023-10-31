@@ -256,7 +256,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
     public function property_more_img()
     {
-        $uri = JURI::getInstance();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         $url = $uri->root();
 
@@ -293,7 +293,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
     public function deleteimage()
     {
-        $uri = JURI::getInstance();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         $url = $uri->root();
 

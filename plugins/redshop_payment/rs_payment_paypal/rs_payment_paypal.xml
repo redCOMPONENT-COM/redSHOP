@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" type="plugin" group="redshop_payment"
-           method="upgrade">
+<extension type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_PAYPAL</name>
     <version>1.5.2</version>
-    <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <redshop>4.0.1</redshop>
+    <creationDate>November 2023</creationDate>
     <author>redCOMPONENT.com</author>
-    <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
@@ -26,11 +24,12 @@
                 <field
                         name="debug_mode"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="1"
                         label="PLG_RS_PAYMENT_PAYPAL_DEBUG_MODE_LBL"
-                        class="btn-group btn-group-yesno">
-                    <option value="1">JYES</option>
+                        class="btn-group">
                     <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field
                         name="merchant_email"
@@ -82,6 +81,7 @@
                 <field
                         name="action_type"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="sale"
                         label="PLG_RS_PAYMENT_PAYPAL_ACTION_TYPE_LBL"
                         description="PLG_RS_PAYMENT_PAYPAL_ACTION_TYPE_DESC" class="btn-group">
@@ -91,6 +91,7 @@
                 <field
                         name="sandbox"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="0"
                         label="PLG_RS_PAYMENT_PAYPAL_SANDBOX_LBL"
                         class="btn-group">
@@ -118,11 +119,12 @@
                 <field
                         name="auto_return"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="0"
-                        class="btn-group btn-group-yesno"
+                        class="btn-group"
                         label="PLG_RS_PAYMENT_PAYPAL_AUTO_RETURN_LBL">
-                    <option value="1">JYES</option>
                     <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field
                         name="auto_return_url"
@@ -148,48 +150,53 @@
                 <field
                         name="payment_discount_is_percent"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="1"
                         class="btn-group"
                         label="PLG_RS_PAYMENT_PAYPAL_PAYMENT_IS_PERCENTAGE_LBL"
                         description="PLG_RS_PAYMENT_PAYPAL_PAYMENT_IS_PERCENTAGE_DESC">
-                    <option value="1">PLG_RS_PAYMENT_PAYPAL_PAYMENT_PERCENTAGE</option>
                     <option value="0">PLG_RS_PAYMENT_PAYPAL_PAYMENT_TOTAL</option>
+                    <option value="1">PLG_RS_PAYMENT_PAYPAL_PAYMENT_PERCENTAGE</option>
                 </field>
                 <field
                         name="private_person"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="1"
-                        class="btn-group btn-group-yesno"
+                        class="btn-group"
                         label="PLG_RS_PAYMENT_PAYPAL_PRIVATE_PERSON_LBL">
-                    <option value="1">JYES</option>
                     <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field
                         name="business"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="1"
                         label="PLG_RS_PAYMENT_PAYPAL_BUSINESS_LBL"
-                        class="btn-group btn-group-yesno">
-                    <option value="1">JYES</option>
+                        class="btn-group">
                     <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field
                         name="is_show_guest"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="1"
                         label="PLG_RS_PAYMENT_PAYPAL_IS_SHOW_GUEST_LBL"
-                        class="btn-group btn-group-yesno">
-                    <option value="1">JYES</option>
+                        class="btn-group">
                     <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field
                         name="is_show_member"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         default="1"
                         label="PLG_RS_PAYMENT_PAYPAL_IS_SHOW_MEMBER_LBL"
-                        class="btn-group btn-group-yesno">
-                    <option value="1">JYES</option>
+                        class="btn-group">
                     <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field
                         name="economic_payment_terms_id"

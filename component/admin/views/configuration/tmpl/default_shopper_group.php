@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$uri             = JURI::getInstance();
+$uri             = \Joomla\CMS\Uri\Uri::getInstance();
 $url             = $uri->root();
 $shopperlogoPath = "components/com_redshop/assets/images/shopperlogo";
 

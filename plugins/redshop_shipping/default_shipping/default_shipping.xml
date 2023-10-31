@@ -28,12 +28,13 @@
                 <field
                         name="allowPacsoftLabel"
                         type="radio"
+                        layout="joomla.form.field.radio.switcher"
                         class="btn-group"
                         default="1"
                         label="PLG_DEFAULT_SHIPPING_ALLOW_PACSOFT_LABEL"
                         description="PLG_DEFAULT_SHIPPING_ALLOW_PACSOFT_LABEL_DESC">
-                    <option value="1">JYES</option>
                     <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field
                         name="extrafield_shipping"

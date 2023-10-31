@@ -30,7 +30,7 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 
     public function display($tpl = null)
     {
-        $uri = JUri::getInstance();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         HTMLHelper::script('com_redshop/redshop.admin.media.min.js', ['relative' => true]);
 

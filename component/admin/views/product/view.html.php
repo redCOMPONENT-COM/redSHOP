@@ -46,7 +46,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 
         $list_in_products = RedshopHelperExtrafields::listAllFieldInProduct();
 
-        $uri = JUri::getInstance();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
 
         $layout = JFactory::getApplication()->input->getCmd('layout', '');
 

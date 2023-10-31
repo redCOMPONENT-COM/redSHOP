@@ -381,7 +381,7 @@ class RedshopModelConfiguration extends RedshopModel
         $mailfrom     = $data['news_mail_from'];
         $mailfromname = $data['news_from_name'];
         $to           = $data['newsletter_test_email'];
-        $uri          = JURI::getInstance();
+        $uri          = \Joomla\CMS\Uri\Uri::getInstance();
         $url          = $uri->root();
 
         // Getting newsletter content

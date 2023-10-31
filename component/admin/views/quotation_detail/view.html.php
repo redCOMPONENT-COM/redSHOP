@@ -33,7 +33,7 @@ class RedshopViewQuotation_detail extends RedshopViewAdmin
         HTMLHelper::script('com_redshop/json.min.js', ['relative' => true]);
         HTMLHelper::script('com_redshop/ajaxupload.min.js', ['relative' => true]);
 
-        $uri   = JUri::getInstance();
+        $uri   = \Joomla\CMS\Uri\Uri::getInstance();
         $lists = array();
 
         if ($layout != 'default') {

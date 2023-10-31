@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 $model = $this->getModel('xmlimport_detail');
-$uri   = JURI::getInstance();
+$uri   = \Joomla\CMS\Uri\Uri::getInstance();
 $url   = $uri->root();
 $style        = "none";
 $orderstyle   = "none";

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$uri      = JURI::getInstance();
+$uri      = \Joomla\CMS\Uri\Uri::getInstance();
 $getShm   = $uri->getScheme();
 $config   = JFactory::getConfig();
 $forceSsl = $config->get('force_ssl');

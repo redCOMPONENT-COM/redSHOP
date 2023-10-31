@@ -18,16 +18,16 @@ class RedshopViewShipping_rate extends RedshopViewAdmin
     {
         $context = 'shipping_rate';
 
-        $uri = JUri::getInstance();
+        $uri = \Joomla\CMS\Uri\Uri::getInstance();
         $app = Factory::getApplication();
 
-        $lists['order'] = $app->getUserStateFromRequest(
+        $lists['order']     = $app->getUserStateFromRequest(
             $context . 'filter_order',
             'filter_order',
             'shipping_rate_id'
         );
         $lists['order_Dir'] = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-        $id = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
+        $id                 = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
 
         if ((int) $id == 0) {
             Factory::getApplication()->enqueueMessage(Text::_('Direct Access not allowed'), 'warning');
@@ -42,7 +42,7 @@ class RedshopViewShipping_rate extends RedshopViewAdmin
         $shipping = RedshopHelperShipping::getShippingMethodById($id);
 
         $shipping_rates = $this->get('Data');
-        $pagination = $this->get('Pagination');
+        $pagination     = $this->get('Pagination');
 
         // Load language file of the shipping plugin
         JFactory::getLanguage()->load(
@@ -50,10 +50,10 @@ class RedshopViewShipping_rate extends RedshopViewAdmin
             JPATH_ADMINISTRATOR
         );
 
-        $plugin = JPluginHelper::getPlugin($shipping->folder, $shipping->element);
+        $plugin       = JPluginHelper::getPlugin($shipping->folder, $shipping->element);
         $pluginParams = new JRegistry($plugin->params);
 
-        $is_shipper = $pluginParams->get('is_shipper');
+        $is_shipper       = $pluginParams->get('is_shipper');
         $shipper_location = $pluginParams->get('shipper_location');
 
         $jtitle = ($shipper_location) ? Text::_('COM_REDSHOP_SHIPPING_LOCATION') : Text::_(
@@ -73,13 +73,13 @@ class RedshopViewShipping_rate extends RedshopViewAdmin
         JToolBarHelper::deleteList();
         JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
 
-        $this->lists = $lists;
-        $this->shipping_rates = $shipping_rates;
-        $this->shipping = $shipping;
-        $this->pagination = $pagination;
-        $this->is_shipper = $is_shipper;
+        $this->lists            = $lists;
+        $this->shipping_rates   = $shipping_rates;
+        $this->shipping         = $shipping;
+        $this->pagination       = $pagination;
+        $this->is_shipper       = $is_shipper;
         $this->shipper_location = $shipper_location;
-        $this->request_url = $uri->toString();
+        $this->request_url      = $uri->toString();
 
         parent::display($tpl);
     }

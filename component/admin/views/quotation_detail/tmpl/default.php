@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 
 $model          = $this->getModel('quotation_detail');
 $quotation      = $this->quotation;
-$uri            = JURI::getInstance();
+$uri            = \Joomla\CMS\Uri\Uri::getInstance();
 $url            = $uri->root();
 $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotation_id);
 

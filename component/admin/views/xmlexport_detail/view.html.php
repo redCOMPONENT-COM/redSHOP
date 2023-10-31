@@ -37,7 +37,7 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
         $document->setTitle(Text::_('COM_REDSHOP_xmlexport'));
         HTMLHelper::script('com_redshop/redshop.xmlfunc.min.js', ['relative' => true]);
 
-        $uri                  = JUri::getInstance();
+        $uri                  = \Joomla\CMS\Uri\Uri::getInstance();
         $lists                = array();
         $colvalue             = array();
         $model                = $this->getModel();
