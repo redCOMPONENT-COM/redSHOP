@@ -64,7 +64,7 @@ class RedshopProduct
             if ($id) {
                 $this->info = \Redshop\Product\Product::getProductById($id);
             } else {
-                $this->info = new JObject;
+                $this->info = new \stdClass;
             }
         }
         catch (Exception $e) {

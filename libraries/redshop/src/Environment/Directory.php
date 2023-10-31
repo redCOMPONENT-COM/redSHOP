@@ -12,13 +12,14 @@ namespace Redshop\Environment;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * @package     Redshop\Environment
  *
  * @since       2.1.0
  */
-class Directory extends \JFolder
+class Directory extends Folder
 {
     /**
      * Create a folder -- and all necessary parent folders.

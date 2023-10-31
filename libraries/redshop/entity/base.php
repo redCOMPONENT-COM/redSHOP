@@ -10,8 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
 use Redshop\BaseObject;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Base Entity.
@@ -227,7 +229,7 @@ abstract class RedshopEntityBase extends BaseObject
     {
         // Accept basic array binding
         if (is_array($item)) {
-            $item = (object)$item;
+            $item = (object) $item;
         }
 
         $this->item = $item;
@@ -302,7 +304,7 @@ abstract class RedshopEntityBase extends BaseObject
      */
     public function hasId()
     {
-        $id = (int)$this->id;
+        $id = (int) $this->id;
 
         return !empty($id);
     }
@@ -500,7 +502,7 @@ abstract class RedshopEntityBase extends BaseObject
             return false;
         }
 
-        return ((int)$item->state === static::STATE_ENABLED || $this->isOwner());
+        return ((int) $item->state === static::STATE_ENABLED || $this->isOwner());
     }
 
     /**
@@ -594,7 +596,7 @@ abstract class RedshopEntityBase extends BaseObject
      */
     protected function getLinkItemIdString($itemId = 'inherit')
     {
-        return ($itemId !== 'inherit') ? '&Itemid=' . (int)$itemId : null;
+        return ($itemId !== 'inherit') ? '&Itemid=' . (int) $itemId : null;
     }
 
     /**
@@ -659,8 +661,8 @@ abstract class RedshopEntityBase extends BaseObject
         }
 
         $url = $this->getDeleteLink($itemId, false, false) . '&return=' . base64_encode(
-                JUri::getInstance()->toString()
-            );
+            JUri::getInstance()->toString()
+        );
 
         return $this->formatUrl($url, $routed, $xhtml);
     }
@@ -830,13 +832,14 @@ abstract class RedshopEntityBase extends BaseObject
 
         try {
             $table = $this->getTable();
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
 
             return false;
         }
 
-        if (!$table->save((array)$item)) {
+        if (!$table->save((array) $item)) {
             JLog::add($table->getError(), JLog::ERROR, 'entity');
 
             return false;
@@ -927,6 +930,6 @@ abstract class RedshopEntityBase extends BaseObject
      */
     protected function getDbo()
     {
-        return JFactory::getDbo();
+        return Factory::getContainer()->get('DatabaseDriver');
     }
 }

@@ -134,7 +134,7 @@ class RedshopModelMedia extends RedshopModel
                         $file
                     ) !== 'index.html'
                 ) {
-                    $tmp                = new JObject;
+                    $tmp                = new \stdClass;
                     $tmp->name          = $file;
                     $tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
                     $tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
@@ -206,7 +206,7 @@ class RedshopModelMedia extends RedshopModel
         // Iterate over the folders if they exist
         if ($folderList !== false) {
             foreach ($folderList as $folder) {
-                $tmp                = new JObject;
+                $tmp                = new \stdClass;
                 $tmp->name          = basename($folder);
                 $tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
                 $tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
