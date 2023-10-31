@@ -1,11 +1,13 @@
+@charset "UTF-8";
 /*!
- * Bootstrap v3.3.7 (http://getbootstrap.com)
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * Bootstrap  v5.2.3 (https://getbootstrap.com/)
+ * Copyright 2011-2022 The Bootstrap Authors
+ * Copyright 2011-2022 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
 // Core variables and mixins
-@import "bootstrap/variables";
+@import "bootstrap/variables"; // BS 5.2
 @import "bootstrap/mixins";
 
 // Reset and dependencies
@@ -23,33 +25,33 @@
 @import "bootstrap/buttons";
 
 // Components
-@import "bootstrap/component-animations";
-@import "bootstrap/dropdowns";
-@import "bootstrap/button-groups";
-@import "bootstrap/input-groups";
-@import "bootstrap/navs";
-@import "bootstrap/navbar";
-@import "bootstrap/breadcrumbs";
-@import "bootstrap/pagination";
-@import "bootstrap/pager";
-@import "bootstrap/labels";
-@import "bootstrap/badges";
-@import "bootstrap/jumbotron";
-@import "bootstrap/thumbnails";
-@import "bootstrap/alerts";
-@import "bootstrap/progress-bars";
-@import "bootstrap/media";
-@import "bootstrap/list-group";
+//@import "bootstrap/component-animations";
+@import "bootstrap/dropdowns"; // BS 5.2
+@import "bootstrap/button-groups"; // BS 5.2
+@import "bootstrap/input-groups"; // BS 5.2
+@import "bootstrap/navs"; // BS 5.2
+@import "bootstrap/navbar"; // BS 5.2
+@import "bootstrap/breadcrumbs"; // BS 5.2
+@import "bootstrap/pagination"; // BS 5.2
+//@import "bootstrap/pager";
+@import "bootstrap/labels"; // BS 5.2
+@import "bootstrap/badges"; // BS 5.2
+//@import "bootstrap/jumbotron";
+//@import "bootstrap/thumbnails";
+@import "bootstrap/alerts"; // BS 5.2
+@import "bootstrap/progress-bars"; // BS 5.2
+//@import "bootstrap/media";
+@import "bootstrap/list-group"; // BS 5.2
 @import "bootstrap/panels";
-@import "bootstrap/responsive-embed";
+//@import "bootstrap/responsive-embed";
 @import "bootstrap/wells";
-@import "bootstrap/close";
+@import "bootstrap/close"; // BS 5.2
 
 // Components w/ JavaScript
-@import "bootstrap/modals";
-@import "bootstrap/tooltip";
-@import "bootstrap/popovers";
-@import "bootstrap/carousel";
+@import "bootstrap/modals"; // BS 5.2
+@import "bootstrap/tooltip"; // BS 5.2
+@import "bootstrap/popovers"; // BS 5.2
+@import "bootstrap/carousel"; // BS 5.2
 
 // Utility classes
 @import "bootstrap/utilities";

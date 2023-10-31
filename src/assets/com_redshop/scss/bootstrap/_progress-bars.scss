@@ -1,87 +1,62 @@
-//
-// Progress bars
-// --------------------------------------------------
+// Disable animation if transitions are disabled
 
-
-// Bar animations
-// -------------------------
-
-// WebKit
-@-webkit-keyframes progress-bar-stripes {
-  from  { background-position: 40px 0; }
-  to    { background-position: 0 0; }
+// scss-docs-start progress-keyframes
+@if $enable-transitions {
+  @keyframes progress-bar-stripes {
+    0% {
+      background-position-x: $progress-height;
+    }
+  }
 }
 
-// Spec and IE10+
-@keyframes progress-bar-stripes {
-  from  { background-position: 40px 0; }
-  to    { background-position: 0 0; }
-}
+// scss-docs-end progress-keyframes
 
-
-// Bar itself
-// -------------------------
-
-// Outer container
 .progress {
-  overflow: hidden;
-  height: $line-height-computed;
-  margin-bottom: $line-height-computed;
-  background-color: $progress-bg;
-  border-radius: $progress-border-radius;
-  @include box-shadow(inset 0 1px 2px rgba(0,0,0,.1));
+  // scss-docs-start progress-css-vars
+  --#{$prefix}progress-height: #{$progress-height};
+  @include rfs($progress-font-size, --#{$prefix}progress-font-size);
+  --#{$prefix}progress-bg: #{$progress-bg};
+  --#{$prefix}progress-border-radius: #{$progress-border-radius};
+  --#{$prefix}progress-box-shadow: #{$progress-box-shadow};
+  --#{$prefix}progress-bar-color: #{$progress-bar-color};
+  --#{$prefix}progress-bar-bg: #{$progress-bar-bg};
+  --#{$prefix}progress-bar-transition: #{$progress-bar-transition};
+  // scss-docs-end progress-css-vars
+
+  display: flex;
+  height: var(--#{$prefix}progress-height);
+  overflow: hidden; // force rounded corners by cropping it
+  @include font-size(var(--#{$prefix}progress-font-size));
+  background-color: var(--#{$prefix}progress-bg);
+  @include border-radius(var(--#{$prefix}progress-border-radius));
+  @include box-shadow(var(--#{$prefix}progress-box-shadow));
 }
 
-// Bar of progress
 .progress-bar {
-  float: left;
-  width: 0%;
-  height: 100%;
-  font-size: $font-size-small;
-  line-height: $line-height-computed;
-  color: $progress-bar-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--#{$prefix}progress-bar-color);
   text-align: center;
-  background-color: $progress-bar-bg;
-  @include box-shadow(inset 0 -1px 0 rgba(0,0,0,.15));
-  @include transition(width .6s ease);
+  white-space: nowrap;
+  background-color: var(--#{$prefix}progress-bar-bg);
+  @include transition(var(--#{$prefix}progress-bar-transition));
 }
 
-// Striped bars
-//
-// `.progress-striped .progress-bar` is deprecated as of v3.2.0 in favor of the
-// `.progress-bar-striped` class, which you just add to an existing
-// `.progress-bar`.
-.progress-striped .progress-bar,
 .progress-bar-striped {
-  @include gradient-striped;
-  background-size: 40px 40px;
+  @include gradient-striped();
+  background-size: var(--#{$prefix}progress-height) var(--#{$prefix}progress-height);
 }
 
-// Call animation for the active one
-//
-// `.progress.active .progress-bar` is deprecated as of v3.2.0 in favor of the
-// `.progress-bar.active` approach.
-.progress.active .progress-bar,
-.progress-bar.active {
-  @include animation(progress-bar-stripes 2s linear infinite);
-}
+@if $enable-transitions {
+  .progress-bar-animated {
+    animation: $progress-bar-animation-timing progress-bar-stripes;
 
-
-// Variations
-// -------------------------
-
-.progress-bar-success {
-  @include progress-bar-variant($progress-bar-success-bg);
-}
-
-.progress-bar-info {
-  @include progress-bar-variant($progress-bar-info-bg);
-}
-
-.progress-bar-warning {
-  @include progress-bar-variant($progress-bar-warning-bg);
-}
-
-.progress-bar-danger {
-  @include progress-bar-variant($progress-bar-danger-bg);
+    @if $enable-reduced-motion {
+      @media (prefers-reduced-motion: reduce) {
+        animation: none;
+      }
+    }
+  }
 }
