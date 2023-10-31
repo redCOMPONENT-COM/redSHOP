@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Redshop Category Model
@@ -464,8 +465,8 @@ class RedshopModelCategory extends RedshopModelForm
                 continue;
             }
 
-            if (JFolder::exists(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $category->id . '/thumb')) {
-                JFolder::delete(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $category->id . '/thumb');
+            if (Folder::exists(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $category->id . '/thumb')) {
+                Folder::delete(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $category->id . '/thumb');
             }
 
             // Update media data with new file name.

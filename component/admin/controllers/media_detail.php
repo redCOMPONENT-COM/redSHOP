@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.filesystem.file');
@@ -659,8 +660,8 @@ class RedshopControllerMedia_Detail extends RedshopController
                                         }
 
                                         if (File::exists($target)) {
-                                            JFolder::delete($target . '/' . $name[0]);
-                                            JFolder::delete($target);
+                                            Folder::delete($target . '/' . $name[0]);
+                                            Folder::delete($target);
                                             File::delete($dest);
                                         }
 

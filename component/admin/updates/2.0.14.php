@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Update class
@@ -37,12 +38,12 @@ class RedshopUpdate2014 extends RedshopInstallUpdate
             ->where(
                 '('
                 . $db->qn('category_full_image') . ' IS NOT NULL OR ' . $db->qn(
-                    'category_full_image'
-                ) . ' <> ' . $db->quote('')
+                        'category_full_image'
+                    ) . ' <> ' . $db->quote('')
                 . ') OR ('
                 . $db->qn('category_back_full_image') . ' IS NOT NULL OR ' . $db->qn(
-                    'category_back_full_image'
-                ) . ' <> ' . $db->quote('')
+                        'category_back_full_image'
+                    ) . ' <> ' . $db->quote('')
                 . ')'
             )
             ->order($db->qn('lft'));
@@ -60,8 +61,8 @@ class RedshopUpdate2014 extends RedshopInstallUpdate
             // Prepare target folder.
             $path = $newBasePath . '/' . $media->id;
 
-            if (!JFolder::exists($path)) {
-                JFolder::create($path);
+            if (!Folder::exists($path)) {
+                Folder::create($path);
             }
 
             // Copy index.html to this folder.
@@ -79,7 +80,7 @@ class RedshopUpdate2014 extends RedshopInstallUpdate
         }
 
         // Remove old folders
-        JFolder::delete($oldBasePath);
+        Folder::delete($oldBasePath);
     }
 
     /**
@@ -103,14 +104,16 @@ class RedshopUpdate2014 extends RedshopInstallUpdate
         // Generate new image using MD5
         $newFileName = md5(basename($fileName)) . '.' . File::getExt($fileName);
 
-        if (!$table->load(
-            array(
-                'media_name'    => $fileName,
-                'media_section' => 'category',
-                'section_id'    => $category->id,
-                'media_type'    => 'images'
+        if (
+            !$table->load(
+                array(
+                    'media_name'    => $fileName,
+                    'media_section' => 'category',
+                    'section_id'    => $category->id,
+                    'media_type'    => 'images'
+                )
             )
-        )) {
+        ) {
             $table->section_id    = $category->id;
             $table->media_section = 'category';
             $table->media_type    = 'images';

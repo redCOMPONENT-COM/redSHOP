@@ -12,6 +12,7 @@ namespace Redshop\Plugin;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Abstract class for import plugin
@@ -114,11 +115,11 @@ class AbstractImportPlugin extends \JPlugin
 
         $this->folder = md5(time());
 
-        if (\JFolder::exists($this->getPath())) {
-            \JFolder::delete($this->getPath());
+        if (Folder::exists($this->getPath())) {
+            Folder::delete($this->getPath());
         }
 
-        \JFolder::create($this->getPath() . '/' . $this->folder);
+        Folder::create($this->getPath() . '/' . $this->folder);
 
         if (!File::move($file['tmp_name'], $this->getPath() . '/' . $file['name'])) {
             return false;
@@ -240,7 +241,7 @@ class AbstractImportPlugin extends \JPlugin
      */
     public function importing()
     {
-        $files = \JFolder::files($this->getPath() . '/' . $this->folder, '.', true);
+        $files = Folder::files($this->getPath() . '/' . $this->folder, '.', true);
 
         usort(
             $files,
@@ -255,7 +256,7 @@ class AbstractImportPlugin extends \JPlugin
         $count          = 1;
 
         if (empty($files)) {
-            \JFolder::delete($this->getPath() . '/' . $this->folder);
+            Folder::delete($this->getPath() . '/' . $this->folder);
 
             return $result;
         }

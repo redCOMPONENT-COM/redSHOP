@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -122,8 +123,8 @@ class RedshopModelMedia extends RedshopModel
         $docs    = array();
 
         // Get the list of files and folders from the given folder
-        $fileList   = JFolder::files($basePath);
-        $folderList = JFolder::folders($basePath);
+        $fileList   = Folder::files($basePath);
+        $folderList = Folder::folders($basePath);
 
         // Iterate over the files if they exist
         if ($fileList !== false) {

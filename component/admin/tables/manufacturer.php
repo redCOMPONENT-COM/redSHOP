@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Table Manufacturer
@@ -75,7 +76,7 @@ class RedshopTableManufacturer extends RedshopTable
         }
 
         // Delete media folder
-        JFolder::delete(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $manufacturerId);
+        Folder::delete(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $manufacturerId);
 
         return true;
     }

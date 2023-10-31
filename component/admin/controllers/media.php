@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.filesystem.file');
@@ -228,7 +229,7 @@ class RedshopControllerMedia extends RedshopController
         // Image Upload
         $src     = $file['tmp_name'];
         $tempDir = REDSHOP_MEDIA_IMAGE_RELPATH . 'tmp/';
-        JFolder::create($tempDir, 0755);
+        Folder::create($tempDir, 0755);
         $dest = $tempDir . $filename;
         File::upload($src, $dest);
 

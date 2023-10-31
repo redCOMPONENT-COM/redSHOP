@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\Folder;
+
 /**
  * redSHOP template manager
  *
@@ -40,7 +42,7 @@ class Redtemplate
         if (!is_dir($this->redshop_template_path)) {
             jimport('joomla.filesystem.folder');
             chmod(JPATH_SITE . '/components/com_redshop', 0755);
-            JFolder::create($this->redshop_template_path, 0755);
+            Folder::create($this->redshop_template_path, 0755);
         }
     }
 
@@ -115,7 +117,7 @@ class Redtemplate
      */
     public function readtemplateFile($section, $fileName, $isAdmin = false)
     {
-        return (string)RedshopHelperTemplate::readTemplateFile($section, $fileName);
+        return (string) RedshopHelperTemplate::readTemplateFile($section, $fileName);
     }
 
     /**

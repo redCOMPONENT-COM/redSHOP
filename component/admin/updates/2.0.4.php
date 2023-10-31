@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Update class
@@ -45,10 +46,10 @@ class RedshopUpdate204 extends RedshopInstallUpdate
         $db->setQuery($query)->execute();
 
         /** Update Image Name */
-        $files = JFolder::files(JPATH_SITE . '/components/com_redshop/assets/images/product/');
+        $files = Folder::files(JPATH_SITE . '/components/com_redshop/assets/images/product/');
         $this->changeImageFileName($files, $path);
 
-        $files = JFolder::files(JPATH_SITE . '/components/com_redshop/assets/images/product/thumb/');
+        $files = Folder::files(JPATH_SITE . '/components/com_redshop/assets/images/product/thumb/');
         $this->changeImageFileName($files, $path);
     }
 
@@ -113,7 +114,7 @@ class RedshopUpdate204 extends RedshopInstallUpdate
 
         $query->clear()
             ->update($db->qn('#__menu'))
-            ->set($db->qn('component_id') . ' = ' . (int)$extensionId)
+            ->set($db->qn('component_id') . ' = ' . (int) $extensionId)
             ->where($db->qn('menutype') . ' = ' . $db->quote('main'))
             ->where($db->qn('path') . ' LIKE ' . $db->quote('%redshop'))
             ->where($db->qn('type') . ' = ' . $db->quote('component'));

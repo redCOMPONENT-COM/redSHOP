@@ -12,6 +12,7 @@ namespace Redshop\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Utility helper
@@ -238,15 +239,15 @@ class Media
 
         $folder = \JPath::clean($folder);
 
-        if (\JFolder::exists($folder)) {
+        if (Folder::exists($folder)) {
             if ($reCreate === false) {
                 return true;
             }
 
-            \JFolder::delete($folder);
+            Folder::delete($folder);
         }
 
-        if (!\JFolder::create($folder)) {
+        if (!Folder::create($folder)) {
             return false;
         }
 

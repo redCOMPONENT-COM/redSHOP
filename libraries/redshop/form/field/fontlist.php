@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 JFormHelper::loadFieldClass('filelist');
 
@@ -44,7 +45,7 @@ class RedshopFormFieldFontList extends JFormFieldFileList
 
         $path = JPath::clean($path);
 
-        $fontFile = JFolder::files($path, $filter);
+        $fontFile = Folder::files($path, $filter);
 
         $options = array();
 

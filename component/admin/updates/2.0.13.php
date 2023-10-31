@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Update class
@@ -51,7 +52,7 @@ class RedshopUpdate2013 extends RedshopInstallUpdate
             /** @var RedshopTableMedia $table */
             $table = RedshopTable::getAdminInstance('Media', array('ignore_request' => true), 'com_redshop');
 
-            $table->bind((array)$media);
+            $table->bind((array) $media);
 
             // In case this media don't have media file. Delete this.
             if (empty($table->media_name)) {
@@ -63,8 +64,8 @@ class RedshopUpdate2013 extends RedshopInstallUpdate
             // Prepare target folder.
             $path = $newBasePath . '/' . $table->section_id;
 
-            if (!JFolder::exists($path)) {
-                JFolder::create($path);
+            if (!Folder::exists($path)) {
+                Folder::create($path);
             }
 
             // Copy index.html to this folder.
@@ -92,6 +93,6 @@ class RedshopUpdate2013 extends RedshopInstallUpdate
         }
 
         // Remove old folders
-        JFolder::delete($oldBasePath);
+        Folder::delete($oldBasePath);
     }
 }

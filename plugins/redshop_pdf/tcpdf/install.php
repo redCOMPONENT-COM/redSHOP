@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
 defined('_JEXEC') or die();
+
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * PlgRedshop_PdfMPdf installer class.
@@ -63,8 +66,8 @@ class PlgRedshop_PdfTcPDFInstallerScript
         // Remove old library
         $oldFolder = JPATH_ROOT . '/plugins/redshop_pdf/tcpdf/helper/tcpdf';
 
-        if (JFolder::exists($oldFolder)) {
-            JFolder::delete($oldFolder);
+        if (Folder::exists($oldFolder)) {
+            Folder::delete($oldFolder);
         }
     }
 }

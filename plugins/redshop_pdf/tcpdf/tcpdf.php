@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Redshop\Order\Template;
 
@@ -109,11 +110,11 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         $invoicePdf    = 'invoice-' . round(microtime(true) * 1000);
 
         // Delete currently order invoice
-        if (JFolder::exists($invoiceFolder)) {
-            JFolder::delete($invoiceFolder);
+        if (Folder::exists($invoiceFolder)) {
+            Folder::delete($invoiceFolder);
         }
 
-        JFolder::create($invoiceFolder);
+        Folder::create($invoiceFolder);
 
         ob_end_clean();
 

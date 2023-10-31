@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Update class
@@ -70,7 +71,7 @@ class RedshopUpdate209 extends RedshopInstallUpdate
         foreach ($templates as $template) {
             /** @var RedshopTableTemplate $table */
             $table = RedshopTable::getAdminInstance('Template', array('ignore_request' => true), 'com_redshop');
-            $table->bind((array)$template);
+            $table->bind((array) $template);
 
             // Skip if template already migrate
             if (!empty($template->file_name)) {
@@ -115,8 +116,8 @@ class RedshopUpdate209 extends RedshopInstallUpdate
         $oldPaths = array_unique($oldPaths);
 
         foreach ($oldPaths as $path) {
-            if (JFolder::exists($path)) {
-                JFolder::delete($path);
+            if (Folder::exists($path)) {
+                Folder::delete($path);
             }
         }
 

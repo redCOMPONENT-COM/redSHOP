@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Model Install
@@ -73,7 +74,7 @@ class RedshopModelInstall extends RedshopModelList
             return $tasks;
         }
 
-        $files   = JFolder::files($updatePath, '.php', false, true);
+        $files   = Folder::files($updatePath, '.php', false, true);
         $classes = array();
 
         foreach ($files as $file) {
@@ -139,7 +140,7 @@ class RedshopModelInstall extends RedshopModelList
     {
         $updatePath = JPATH_COMPONENT_ADMINISTRATOR . '/updates';
 
-        $files    = JFolder::files($updatePath, '.php', false, true);
+        $files    = Folder::files($updatePath, '.php', false, true);
         $versions = array();
 
         foreach ($files as $file) {

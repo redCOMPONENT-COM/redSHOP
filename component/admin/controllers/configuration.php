@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 JLoader::import('joomla.filesystem.folder');
 
@@ -161,7 +162,7 @@ class RedshopControllerConfiguration extends RedshopController
         foreach ($thumbFolders as $thumbFolder) {
             $unlinkPath = REDSHOP_FRONT_IMAGES_RELPATH . $thumbFolder . '/thumb';
 
-            if (!JFolder::exists($unlinkPath) || !JFolder::delete($unlinkPath) || !JFolder::create($unlinkPath)) {
+            if (!Folder::exists($unlinkPath) || !Folder::delete($unlinkPath) || !Folder::create($unlinkPath)) {
                 continue;
             }
 

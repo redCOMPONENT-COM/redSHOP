@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Table Media
@@ -82,15 +83,17 @@ class RedshopTableMedia extends RedshopTable
      */
     protected function doDelete($pk = null)
     {
-        if ($this->media_section == 'images'
-            && ($this->media_section == 'manufacturer' || $this->media_section == 'category')) {
+        if (
+            $this->media_section == 'images'
+            && ($this->media_section == 'manufacturer' || $this->media_section == 'category')
+        ) {
             // New folder structure
             $folder = JPath::clean(
                 REDSHOP_MEDIA_IMAGE_RELPATH . $this->media_section . '/' . $this->section_id . '/thumb'
             );
 
-            if (JFolder::exists($folder)) {
-                JFolder::delete($folder);
+            if (Folder::exists($folder)) {
+                Folder::delete($folder);
             }
 
             $file = JPath::clean(
