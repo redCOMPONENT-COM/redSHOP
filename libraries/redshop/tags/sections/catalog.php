@@ -35,10 +35,10 @@ class RedshopTagsSectionsCaTaLog extends RedshopTagsAbstract
     public function init()
     {
         $this->itemId = $this->data['itemId'];
-        JText::script('COM_REDSHOP_SELECT_CATALOG');
-        JText::script('COM_REDSHOP_ENTER_NAME');
-        JText::script('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS');
-        JText::script('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID');
+        Text::script('COM_REDSHOP_SELECT_CATALOG');
+        Text::script('COM_REDSHOP_ENTER_NAME');
+        Text::script('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS');
+        Text::script('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID');
     }
 
     /**

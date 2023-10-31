@@ -194,7 +194,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
 
         $attributeTemplateData = $attributeTemplate->template_desc;
 
-        JText::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
+        Text::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
 
         if (count($attributes) > 0) {
             $attributeTable = "";

@@ -165,7 +165,7 @@ class RedshopHelperJs
 
         // Now looping to add language strings into javascript store
         foreach ($languages as $value) {
-            JText::script($value);
+            Text::script($value);
 
             if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_JS') == 1) {
                 $backwardJS[] = 'window.' . $value . ' = "' . Text::_($value) . '";';

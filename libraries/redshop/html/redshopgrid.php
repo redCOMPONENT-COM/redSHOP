@@ -63,8 +63,8 @@ class JHtmlRedshopGrid extends JHtmlJGrid
             return $data;
         }
 
-        JText::script('COM_REDSHOP_GRID_SLIDERTEXT_MORE');
-        JText::script('COM_REDSHOP_GRID_SLIDERTEXT_LESS');
+        Text::script('COM_REDSHOP_GRID_SLIDERTEXT_MORE');
+        Text::script('COM_REDSHOP_GRID_SLIDERTEXT_LESS');
 
         $teaser = JHtml::_('string.truncate', $data, $count, true, false);
 
@@ -93,10 +93,10 @@ class JHtmlRedshopGrid extends JHtmlJGrid
         }
 
         HTMLHelper::script('com_redshop/redshop.inline.min.js', ['relative' => true]);
-        JText::script('COM_REDSHOP_SUCCESS');
-        JText::script('COM_REDSHOP_DATA_UPDATE_SUCCESS');
-        JText::script('COM_REDSHOP_FAIL');
-        JText::script('COM_REDSHOP_DATA_UPDATE_FAIL');
+        Text::script('COM_REDSHOP_SUCCESS');
+        Text::script('COM_REDSHOP_DATA_UPDATE_SUCCESS');
+        Text::script('COM_REDSHOP_FAIL');
+        Text::script('COM_REDSHOP_DATA_UPDATE_FAIL');
 
         return RedshopLayoutHelper::render(
             'inline.text',

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-JText::script('COM_REDSHOP_DELETE');
+Text::script('COM_REDSHOP_DELETE');
 
 ?>
 <div class="row">

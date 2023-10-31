@@ -24,39 +24,39 @@ if (isset($data->detail->attribute_set_id)) {
     $attributeSetId = $data->detail->attribute_set_id;
 }
 
-JText::script('COM_REDSHOP_ATTRIBUTE_NAME');
-JText::script('COM_REDSHOP_TITLE');
-JText::script('COM_REDSHOP_ATTRIBUTE_REQUIRED');
-JText::script('COM_REDSHOP_PUBLISHED');
-JText::script('COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECTION');
-JText::script('COM_REDSHOP_HIDE_ATTRIBUTE_PRICE');
-JText::script('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE');
-JText::script('COM_REDSHOP_SUB_ATTRIBUTE');
-JText::script('COM_REDSHOP_PRICE');
-JText::script('COM_REDSHOP_NEW_SUB_PROPERTY');
-JText::script('COM_REDSHOP_SUBATTRIBUTE_REQUIRED');
-JText::script('COM_REDSHOP_SUBATTRIBUTE_MULTISELECTED');
-JText::script('COM_REDSHOP_DELETE_ATTRIBUTE');
-JText::script('COM_REDSHOP_ORDERING');
-JText::script('COM_REDSHOP_DEFAULT_SELECTED');
-JText::script('COM_REDSHOP_SUBPROPERTY_TITLE');
-JText::script('COM_REDSHOP_WARNING_TO_DELETE');
-JText::script('COM_REDSHOP_DELETE');
-JText::script('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD');
-JText::script('COM_REDSHOP_DROPDOWN_LIST');
-JText::script('COM_REDSHOP_RADIOBOX');
-JText::script('COM_REDSHOP_ADD_SUB_ATTRIBUTE');
-JText::script('COM_REDSHOP_PARAMETER');
-JText::script('COM_REDSHOP_PROPERTY_NUMBER');
-JText::script('COM_REDSHOP_DO_WANT_TO_DELETE');
-JText::script('COM_REDSHOP_ALERT_PRESELECTED_CHECK');
-JText::script('COM_REDSHOP_DESCRIPTION');
+Text::script('COM_REDSHOP_ATTRIBUTE_NAME');
+Text::script('COM_REDSHOP_TITLE');
+Text::script('COM_REDSHOP_ATTRIBUTE_REQUIRED');
+Text::script('COM_REDSHOP_PUBLISHED');
+Text::script('COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECTION');
+Text::script('COM_REDSHOP_HIDE_ATTRIBUTE_PRICE');
+Text::script('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE');
+Text::script('COM_REDSHOP_SUB_ATTRIBUTE');
+Text::script('COM_REDSHOP_PRICE');
+Text::script('COM_REDSHOP_NEW_SUB_PROPERTY');
+Text::script('COM_REDSHOP_SUBATTRIBUTE_REQUIRED');
+Text::script('COM_REDSHOP_SUBATTRIBUTE_MULTISELECTED');
+Text::script('COM_REDSHOP_DELETE_ATTRIBUTE');
+Text::script('COM_REDSHOP_ORDERING');
+Text::script('COM_REDSHOP_DEFAULT_SELECTED');
+Text::script('COM_REDSHOP_SUBPROPERTY_TITLE');
+Text::script('COM_REDSHOP_WARNING_TO_DELETE');
+Text::script('COM_REDSHOP_DELETE');
+Text::script('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD');
+Text::script('COM_REDSHOP_DROPDOWN_LIST');
+Text::script('COM_REDSHOP_RADIOBOX');
+Text::script('COM_REDSHOP_ADD_SUB_ATTRIBUTE');
+Text::script('COM_REDSHOP_PARAMETER');
+Text::script('COM_REDSHOP_PROPERTY_NUMBER');
+Text::script('COM_REDSHOP_DO_WANT_TO_DELETE');
+Text::script('COM_REDSHOP_ALERT_PRESELECTED_CHECK');
+Text::script('COM_REDSHOP_DESCRIPTION');
 ?>
 
 <div class="mainTableAttributes form-inline" id="mainTableAttributes">
     <input type="hidden"
-           value="<?php echo is_array($data->lists['attributes']) ? count($data->lists['attributes']) : 0; ?>"
-           name="count_attr" class="count_attr"/>
+        value="<?php echo is_array($data->lists['attributes']) ? count($data->lists['attributes']) : 0; ?>"
+        name="count_attr" class="count_attr" />
     <?php
     if ($data->lists['attributes']) {
         foreach ($data->lists['attributes'] as $keyAttr => $attributeData) {
@@ -70,16 +70,17 @@ JText::script('COM_REDSHOP_DESCRIPTION');
             ?>
 
             <a href="#" class="showhidearrow">
-                <?php echo Text::_('COM_REDSHOP_ATTRIBUTE_NAME'); ?>: <span
-                        class="attributeName"><?php echo $attributeData['attribute_name']; ?></span>
-                <img class="arrowimg" src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>arrow.png" alt=""/>
+                <?php echo Text::_('COM_REDSHOP_ATTRIBUTE_NAME'); ?>: <span class="attributeName">
+                    <?php echo $attributeData['attribute_name']; ?>
+                </span>
+                <img class="arrowimg" src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>arrow.png" alt="" />
             </a>
 
             <div class="attribute_table divInspectFromHideShow">
-                <input type="hidden" name="<?php echo $attrPref; ?>[count_prop]"
-                       class="count_prop" value="<?php echo count($attributeData['property']); ?>"/>
-                <input type="hidden" value="<?php echo $keyAttr; ?>"
-                       name="<?php echo $attrPref; ?>[key_attr]" class="key_attr"/>
+                <input type="hidden" name="<?php echo $attrPref; ?>[count_prop]" class="count_prop"
+                    value="<?php echo count($attributeData['property']); ?>" />
+                <input type="hidden" value="<?php echo $keyAttr; ?>" name="<?php echo $attrPref; ?>[key_attr]"
+                    class="key_attr" />
 
                 <div class="col-sm-12 oneAttribute">
                     <div class="rowAttribute">
@@ -88,26 +89,19 @@ JText::script('COM_REDSHOP_DESCRIPTION');
                                 <label>
                                     <?php echo Text::_('COM_REDSHOP_ATTRIBUTE_NAME'); ?>
                                 </label>
-                                <input type="text"
-                                       class="form-control attributeInput"
-                                       name="<?php echo $attrPref; ?>[name]"
-                                       value="<?php echo $attributeData['attribute_name']; ?>"
-                                       required="required"
-                                />
+                                <input type="text" class="form-control attributeInput" name="<?php echo $attrPref; ?>[name]"
+                                    value="<?php echo $attributeData['attribute_name']; ?>" required="required" />
                             </div>
 
                             <div class="form-group">
                                 <label>
                                     <?php echo Text::_('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE'); ?>
                                 </label>
-                                <select
-                                        name="<?php echo $attrPref; ?>[display_type]" class="form-control">
-                                    <option value="dropdown"
-                                        <?php echo ($displayType == 'dropdown') ? 'selected' : ''; ?>>
+                                <select name="<?php echo $attrPref; ?>[display_type]" class="form-control">
+                                    <option value="dropdown" <?php echo ($displayType == 'dropdown') ? 'selected' : ''; ?>>
                                         <?php echo Text::_('COM_REDSHOP_DROPDOWN_LIST'); ?>
                                     </option>
-                                    <option value="radio"
-                                        <?php echo ($displayType == 'radio') ? 'selected' : ''; ?>>
+                                    <option value="radio" <?php echo ($displayType == 'radio') ? 'selected' : ''; ?>>
                                         <?php echo Text::_('COM_REDSHOP_RADIOBOX'); ?>
                                     </option>
                                 </select>
@@ -117,9 +111,8 @@ JText::script('COM_REDSHOP_DESCRIPTION');
                                 <label>
                                     <?php echo Text::_('COM_REDSHOP_DESCRIPTION'); ?>
                                 </label>
-                                <input class="form-control" type="text"
-                                       name="<?php echo $attrPref; ?>[attribute_description]"
-                                       value="<?php echo $attributeData['attribute_description']; ?>"/>
+                                <input class="form-control" type="text" name="<?php echo $attrPref; ?>[attribute_description]"
+                                    value="<?php echo $attributeData['attribute_description']; ?>" />
                             </div>
                         </div>
 
@@ -130,16 +123,15 @@ JText::script('COM_REDSHOP_DESCRIPTION');
                                     <?php echo Text::_('COM_REDSHOP_ORDERING'); ?>
                                 </label>
                                 <input class="form-control" type="number" name="<?php echo $attrPref; ?>[ordering]"
-                                       value="<?php echo $attributeData['ordering']; ?>"/>
+                                    value="<?php echo $attributeData['ordering']; ?>" />
                             </div>
                         </div>
 
                         <div class="col-sm-4">
 
                             <div class="form-group">
-                                <input type="checkbox"
-                                       name="<?php echo $attrPref; ?>[required]" <?php echo $checkedRequired; ?>
-                                       value="1"/>
+                                <input type="checkbox" name="<?php echo $attrPref; ?>[required]" <?php echo $checkedRequired; ?>
+                                    value="1" />
                                 <label>
                                     <?php echo Text::_('COM_REDSHOP_ATTRIBUTE_REQUIRED'); ?>
                                 </label>
@@ -147,8 +139,7 @@ JText::script('COM_REDSHOP_DESCRIPTION');
                             </div>
 
                             <div class="form-group">
-                                <input type="checkbox" value="1"
-                                       name="<?php echo $attrPref; ?>[allow_multiple_selection]" <?php echo $multipleSelection; ?> />
+                                <input type="checkbox" value="1" name="<?php echo $attrPref; ?>[allow_multiple_selection]" <?php echo $multipleSelection; ?> />
                                 <label>
                                     <?php echo Text::_('COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECTION'); ?>
                                 </label>
@@ -156,8 +147,7 @@ JText::script('COM_REDSHOP_DESCRIPTION');
                             </div>
 
                             <div class="form-group">
-                                <input type="checkbox" value="1"
-                                       name="<?php echo $attrPref; ?>[hide_attribute_price]" <?php echo $hideAttributePrice; ?> />
+                                <input type="checkbox" value="1" name="<?php echo $attrPref; ?>[hide_attribute_price]" <?php echo $hideAttributePrice; ?> />
                                 <label>
                                     <?php echo Text::_('COM_REDSHOP_HIDE_ATTRIBUTE_PRICE'); ?>
                                 </label>
@@ -165,9 +155,7 @@ JText::script('COM_REDSHOP_DESCRIPTION');
                             </div>
 
                             <div class="form-group">
-                                <input type="checkbox"
-                                       name="<?php echo $attrPref; ?>[published]" <?php echo $attributePublished; ?>
-                                       value="1"/>
+                                <input type="checkbox" name="<?php echo $attrPref; ?>[published]" <?php echo $attributePublished; ?> value="1" />
                                 <label>
                                     <?php echo Text::_('COM_REDSHOP_PUBLISHED'); ?>
                                 </label>
@@ -176,18 +164,18 @@ JText::script('COM_REDSHOP_DESCRIPTION');
                         </div>
                     </div>
 
-                    <input class="btn btn-danger delete_attribute"
-                           id="deleteAttribute_<?php echo $attributeId; ?>_<?php
-                           echo $productId; ?>_<?php
-                           echo $attributeSetId; ?>"
-                           value="<?php echo Text::_('COM_REDSHOP_DELETE_ATTRIBUTE'); ?>" type="button"/>
+                    <input class="btn btn-danger delete_attribute" id="deleteAttribute_<?php echo $attributeId; ?>_<?php
+                       echo $productId; ?>_<?php
+                         echo $attributeSetId; ?>" value="<?php echo Text::_('COM_REDSHOP_DELETE_ATTRIBUTE'); ?>"
+                        type="button" />
                     <input type="hidden" name="<?php echo $attrPref; ?>[id]"
-                           value="<?php echo $attributeData['attribute_id']; ?>"/>
+                        value="<?php echo $attributeData['attribute_id']; ?>" />
                 </div>
 
                 <div class="property_table">
                     <a class="btn btn-success add_property">
-                        + <?php echo Text::_('COM_REDSHOP_ADD_SUB_ATTRIBUTE'); ?>
+                        +
+                        <?php echo Text::_('COM_REDSHOP_ADD_SUB_ATTRIBUTE'); ?>
                     </a>
                     <?php
                     foreach ($attributeData['property'] as $keyProperty => $property) {

@@ -1034,7 +1034,7 @@ class RedshopHelperProductTag
 
         $prefix = $accessoryId != 0 ? $uniqueId . "acc_" : $uniqueId . "prd_";
 
-        JText::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
+        Text::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
 
         if (is_array($attributes) && count($attributes) > 0) {
             foreach ($attributes as $attribute) {
