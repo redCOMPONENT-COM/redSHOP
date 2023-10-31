@@ -2,39 +2,39 @@
 // --------------------------------------------------
 
 // Utilities
-@import "mixins/visually-hidden"; // BS 5.2
-//@import "mixins/opacity"; // BS 3
-@import "mixins/image"; // BS 5.2
-//@import "mixins/labels";
-//@import "mixins/reset-filter";
-@import "mixins/resize"; // BS 5.2
-//@import "mixins/responsive-visibility";
-//@import "mixins/size";
-//@import "mixins/tab-focus";
+@import "mixins/hide-text";
+@import "mixins/opacity";
+@import "mixins/image";
+@import "mixins/labels";
+@import "mixins/reset-filter";
+@import "mixins/resize";
+@import "mixins/responsive-visibility";
+@import "mixins/size";
+@import "mixins/tab-focus";
 @import "mixins/reset-text";
-//@import "mixins/text-emphasis";
-//@import "mixins/text-overflow";
-//@import "mixins/vendor-prefixes";
+@import "mixins/text-emphasis";
+@import "mixins/text-overflow";
+@import "mixins/vendor-prefixes";
 
 // Components
-@import "mixins/alerts"; // BS 5.2
-@import "mixins/buttons"; // BS 5.2
-@import "mixins/panels"; // BS 3
-@import "mixins/pagination"; // BS 5.2
-@import "mixins/list-group"; // BS 5.2
-@import "mixins/nav-divider"; // BS 3
-@import "mixins/forms"; // BS 5.2
-@import "mixins/progress-bar"; // BS 3
-@import "mixins/table-row"; // BS 5.2
+@import "mixins/alerts";
+@import "mixins/buttons";
+@import "mixins/panels";
+@import "mixins/pagination";
+@import "mixins/list-group";
+@import "mixins/nav-divider";
+@import "mixins/forms";
+@import "mixins/progress-bar";
+@import "mixins/table-row";
 
 // Skins
-@import "mixins/background-variant"; // BS 3
-@import "mixins/border-radius"; // BS 5.2
-@import "mixins/gradients"; // BS 5.2
+@import "mixins/background-variant";
+@import "mixins/border-radius";
+@import "mixins/gradients";
 
 // Layout
-@import "mixins/clearfix"; // BS 5.2
-@import "mixins/center-block"; // BS 3
-@import "mixins/nav-vertical-align"; // BS 3
-@import "mixins/grid-framework"; // BS 3
-@import "mixins/grid"; // BS 5.2
+@import "mixins/clearfix";
+@import "mixins/center-block";
+@import "mixins/nav-vertical-align";
+@import "mixins/grid-framework";
+@import "mixins/grid";

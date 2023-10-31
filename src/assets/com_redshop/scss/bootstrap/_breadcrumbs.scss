@@ -1,41 +1,28 @@
+//
+// Breadcrumbs
+// --------------------------------------------------
+
+
 .breadcrumb {
-  // scss-docs-start breadcrumb-css-vars
-  --#{$prefix}breadcrumb-padding-x: #{$breadcrumb-padding-x};
-  --#{$prefix}breadcrumb-padding-y: #{$breadcrumb-padding-y};
-  --#{$prefix}breadcrumb-margin-bottom: #{$breadcrumb-margin-bottom};
-  @include rfs($breadcrumb-font-size, --#{$prefix}breadcrumb-font-size);
-  --#{$prefix}breadcrumb-bg: #{$breadcrumb-bg};
-  --#{$prefix}breadcrumb-border-radius: #{$breadcrumb-border-radius};
-  --#{$prefix}breadcrumb-divider-color: #{$breadcrumb-divider-color};
-  --#{$prefix}breadcrumb-item-padding-x: #{$breadcrumb-item-padding-x};
-  --#{$prefix}breadcrumb-item-active-color: #{$breadcrumb-active-color};
-  // scss-docs-end breadcrumb-css-vars
-
-  display: flex;
-  flex-wrap: wrap;
-  padding: var(--#{$prefix}breadcrumb-padding-y) var(--#{$prefix}breadcrumb-padding-x);
-  margin-bottom: var(--#{$prefix}breadcrumb-margin-bottom);
-  @include font-size(var(--#{$prefix}breadcrumb-font-size));
+  padding: $breadcrumb-padding-vertical $breadcrumb-padding-horizontal;
+  margin-bottom: $line-height-computed;
   list-style: none;
-  background-color: var(--#{$prefix}breadcrumb-bg);
-  @include border-radius(var(--#{$prefix}breadcrumb-border-radius));
-}
+  background-color: $breadcrumb-bg;
+  border-radius: $border-radius-base;
 
-.breadcrumb-item {
+  > li {
+    display: inline-block;
 
-  // The separator between breadcrumbs (by default, a forward-slash: "/")
-  +.breadcrumb-item {
-    padding-left: var(--#{$prefix}breadcrumb-item-padding-x);
-
-    &::before {
-      float: left; // Suppress inline spacings and underlining of the separator
-      padding-right: var(--#{$prefix}breadcrumb-item-padding-x);
-      color: var(--#{$prefix}breadcrumb-divider-color);
-      content: var(--#{$prefix}breadcrumb-divider, escape-svg($breadcrumb-divider)) #{"/* rtl:"} var(--#{$prefix}breadcrumb-divider, escape-svg($breadcrumb-divider-flipped)) #{"*/"};
+    + li:before {
+      // [converter] Workaround for https://github.com/sass/libsass/issues/1115
+      $nbsp: "\00a0";
+      content: "#{$breadcrumb-separator}#{$nbsp}"; // Unicode space added since inline-block means non-collapsing white-space
+      padding: 0 5px;
+      color: $breadcrumb-color;
     }
   }
 
-  &.active {
-    color: var(--#{$prefix}breadcrumb-item-active-color);
+  > .active {
+    color: $breadcrumb-active-color;
   }
 }

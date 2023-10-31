@@ -1,36 +1,66 @@
 //
 // Labels
-//
+// --------------------------------------------------
 
-.form-label {
-  margin-bottom: $form-label-margin-bottom;
-  @include font-size($form-label-font-size);
-  font-style: $form-label-font-style;
-  font-weight: $form-label-font-weight;
-  color: $form-label-color;
+.label {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  color: $label-color;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+
+  // [converter] extracted a& to a.label
+
+  // Empty labels collapse automatically (not available in IE8)
+  &:empty {
+    display: none;
+  }
+
+  // Quick fix for labels in buttons
+  .btn & {
+    position: relative;
+    top: -1px;
+  }
 }
 
-// For use with horizontal and inline forms, when you need the label (or legend)
-// text to align with the form controls.
-.col-form-label {
-  padding-top: add($input-padding-y, $input-border-width);
-  padding-bottom: add($input-padding-y, $input-border-width);
-  margin-bottom: 0; // Override the `<legend>` default
-  @include font-size(inherit); // Override the `<legend>` default
-  font-style: $form-label-font-style;
-  font-weight: $form-label-font-weight;
-  line-height: $input-line-height;
-  color: $form-label-color;
+// Add hover effects, but only for links
+a.label {
+  &:hover,
+  &:focus {
+    color: $label-link-hover-color;
+    text-decoration: none;
+    cursor: pointer;
+  }
 }
 
-.col-form-label-lg {
-  padding-top: add($input-padding-y-lg, $input-border-width);
-  padding-bottom: add($input-padding-y-lg, $input-border-width);
-  @include font-size($input-font-size-lg);
+// Colors
+// Contextual variations (linked labels get darker on :hover)
+
+.label-default {
+  @include label-variant($label-default-bg);
 }
 
-.col-form-label-sm {
-  padding-top: add($input-padding-y-sm, $input-border-width);
-  padding-bottom: add($input-padding-y-sm, $input-border-width);
-  @include font-size($input-font-size-sm);
+.label-primary {
+  @include label-variant($label-primary-bg);
+}
+
+.label-success {
+  @include label-variant($label-success-bg);
+}
+
+.label-info {
+  @include label-variant($label-info-bg);
+}
+
+.label-warning {
+  @include label-variant($label-warning-bg);
+}
+
+.label-danger {
+  @include label-variant($label-danger-bg);
 }
