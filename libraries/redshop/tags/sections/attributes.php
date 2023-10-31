@@ -11,6 +11,7 @@ defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
@@ -612,7 +613,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
         self::$preOrderPropertyStock += $preOrderSubPropertyStock;
 
         if ($property->property_image) {
-            if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property->property_image)) {
+            if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property->property_image)) {
                 $thumbUrl = \RedshopHelperMedia::getImagePath(
                     $property->property_image,
                     '',

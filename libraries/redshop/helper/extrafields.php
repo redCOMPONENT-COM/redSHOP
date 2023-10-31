@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Redshop\Helper\ExtraFields;
+use Joomla\CMS\Filesystem\File;
 
 jimport('joomla.filesystem.file');
 
@@ -1072,7 +1073,7 @@ class RedshopHelperExtrafields
                             $src         = $_FILES[$row->name]['tmp_name'][$index];
                             $destination = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $name;
 
-                            JFile::upload($src, $destination);
+                            File::upload($src, $destination);
 
                             if (!empty(trim($texts[$index]))) {
                                 $documents[trim($texts[$index])] = $name;

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Redshop Attribute Helper
@@ -244,7 +245,7 @@ class RedshopHelperAttribute
 
                     if (
                         $property->property_image
-                        && JFile::exists(
+                        && File::exists(
                             REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property->property_image
                         )
                     ) {

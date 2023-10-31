@@ -10,13 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 $app            = JFactory::getApplication();
 $Itemid         = $app->input->getInt('Itemid');
 $loginlink      = 'index.php?option=com_redshop&view=login&Itemid=' . $Itemid;
 $newuser_link   = 'index.php?option=com_redshop&view=registration&Itemid=' . $Itemid;
 $shoppergroupid = $app->input->getInt('protalid', 0);
-$returnitemid = $Itemid;
+$returnitemid   = $Itemid;
 
 if (Redshop::getConfig()->get('PORTAL_LOGIN_ITEMID')) {
     $returnitemid = Redshop::getConfig()->get('PORTAL_LOGIN_ITEMID');
@@ -56,7 +57,7 @@ if ($shoppergroupid != 0) {
         <tr>
             <td colspan="2" align="center">
                 <?php
-                if (JFile::exists($portallogofile)) {
+                if (File::exists($portallogofile)) {
                     ?>
                     <img src="<?php echo $portallogo; ?>">
                     <?php
@@ -66,12 +67,16 @@ if ($shoppergroupid != 0) {
         </tr>
         <tr>
             <td colspan="2" align="center">
-                <label for="portalname"><strong><?php echo $portalname; ?></strong></label>
+                <label for="portalname"><strong>
+                        <?php echo $portalname; ?>
+                    </strong></label>
             </td>
         </tr>
         <tr>
             <td colspan="2" align="center">
-                <label for="portalintrotext"><?php echo $portalintro; ?></label>
+                <label for="portalintrotext">
+                    <?php echo $portalintro; ?>
+                </label>
             </td>
         </tr>
         <tr>
@@ -79,7 +84,7 @@ if ($shoppergroupid != 0) {
                 <label for="username">
                     <?php echo Text::_('COM_REDSHOP_USERNAME'); ?>:
                 </label>
-                <input class="inputbox" type="text" id="username" name="username" autocomplete="username"/>
+                <input class="inputbox" type="text" id="username" name="username" autocomplete="username" />
             </td>
         </tr>
         <tr>
@@ -87,17 +92,17 @@ if ($shoppergroupid != 0) {
                 <label for="password">
                     <?php echo Text::_('COM_REDSHOP_PASSWORD'); ?>:
                 </label>
-                <input class="inputbox" id="password" name="password" type="password" autocomplete="current-password"/>
+                <input class="inputbox" id="password" name="password" type="password" autocomplete="current-password" />
             </td>
         </tr>
         <tr>
             <td align="center" colspan="2"><input type="submit" name="submit" class="button btn btn-primary"
-                                                  value="<?php echo Text::_('COM_REDSHOP_LOGIN'); ?>"></td>
+                    value="<?php echo Text::_('COM_REDSHOP_LOGIN'); ?>"></td>
         </tr>
     </table>
     <input type="hidden" name="task" id="task" value="setlogin">
     <input type="hidden" name="protalid" value="<?php echo $shoppergroupid; ?>">
     <input type="hidden" name="returnitemid" id="returnitemid" value="<?php echo $returnitemid; ?>">
-    <input type="hidden" name="option" id="option" value="com_redshop"/>
+    <input type="hidden" name="option" id="option" value="com_redshop" />
 </form>
 <div>&nbsp;</div>

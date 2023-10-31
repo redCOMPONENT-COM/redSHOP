@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Cart helper
@@ -713,7 +714,7 @@ class Helper
                             }
 
                             if (
-                                count($property) > 0 && \JFile::exists(
+                                count($property) > 0 && File::exists(
                                     REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[0]->property_image
                                 )
                             ) {
@@ -749,7 +750,7 @@ class Helper
                                         }
 
                                         if (
-                                            count($subproperty) > 0 && JFile::exists(
+                                            count($subproperty) > 0 && File::exists(
                                                 REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[0]->subattribute_color_image
                                             )
                                         ) {

@@ -11,6 +11,8 @@ namespace Redshop\Plugin;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * Abstract class for import plugin
  *
@@ -118,7 +120,7 @@ class AbstractImportPlugin extends \JPlugin
 
         \JFolder::create($this->getPath() . '/' . $this->folder);
 
-        if (!\JFile::move($file['tmp_name'], $this->getPath() . '/' . $file['name'])) {
+        if (!File::move($file['tmp_name'], $this->getPath() . '/' . $file['name'])) {
             return false;
         }
 
@@ -185,7 +187,7 @@ class AbstractImportPlugin extends \JPlugin
      */
     public function splitFiles($file)
     {
-        if (empty($file) || !\JFile::exists($file)) {
+        if (empty($file) || !File::exists($file)) {
             return false;
         }
 
@@ -197,16 +199,16 @@ class AbstractImportPlugin extends \JPlugin
             $rows[] = $row;
         }
 
-        fclose(/** @scrutinizer ignore-type */ $handler);
+        fclose( /** @scrutinizer ignore-type */$handler);
 
         $headers = array_shift($rows);
         $maxLine = \Redshop::getConfig()->get('IMPORT_MAX_LINE', 10);
         $maxLine = $maxLine < 10 ? 10 : $maxLine;
         $rows    = array_chunk($rows, $maxLine);
-        $fileExt = \JFile::getExt($file);
+        $fileExt = File::getExt($file);
 
         // Remove old file
-        \JFile::delete($file);
+        File::delete($file);
 
         foreach ($rows as $index => $fileRows) {
             $fileHandle = fopen($this->getPath() . '/' . $this->folder . '/' . ($index + 1) . '.' . $fileExt, 'w');
@@ -223,7 +225,7 @@ class AbstractImportPlugin extends \JPlugin
                 fwrite($fileHandle, '"' . implode('"' . $this->separator . '"', $row) . '"' . "\n");
             }
 
-            fclose(/** @scrutinizer ignore-type */ $fileHandle);
+            fclose( /** @scrutinizer ignore-type */$fileHandle);
         }
 
         return count($rows);
@@ -300,8 +302,8 @@ class AbstractImportPlugin extends \JPlugin
             $result->data[] = $rowResult;
         }
 
-        fclose(/** @scrutinizer ignore-type */ $handle);
-        \JFile::delete($this->getPath() . '/' . $this->folder . '/' . $file);
+        fclose( /** @scrutinizer ignore-type */$handle);
+        File::delete($this->getPath() . '/' . $this->folder . '/' . $file);
 
         $result->status = 1;
 
@@ -391,7 +393,7 @@ class AbstractImportPlugin extends \JPlugin
                 continue;
             }
 
-            $data[$column] = (float)str_replace(',', '.', $data[$column]);
+            $data[$column] = (float) str_replace(',', '.', $data[$column]);
         }
     }
 

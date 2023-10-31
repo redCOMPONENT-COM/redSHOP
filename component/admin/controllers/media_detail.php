@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Utilities\ArrayHelper;
-
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
+use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.archive');
@@ -78,12 +78,12 @@ class RedshopControllerMedia_Detail extends RedshopController
         }
 
         $bulkfile     = $this->input->files->get('bulkfile', null, 'raw');
-        $bulkfiletype = strtolower(JFile::getExt($bulkfile['name']));
+        $bulkfiletype = strtolower(File::getExt($bulkfile['name']));
         $file         = $this->input->files->get('file', array(), 'array');
 
         if (!empty($bulkfile) && $bulkfile['name'] == null && $file[0]['name'] == null && $post['oldmedia'] != "") {
             if ($post['media_bank_image'] == "") {
-                $post['media_id']  = $cid[0];
+                $post['media_id']   = $cid[0];
                 $post['media_name'] = $post['oldmedia'];
 
                 if ($post['media_type'] != $post['oldtype']) {
@@ -96,8 +96,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 
                     copy($old_path, $new_path);
 
-                    JFile::delete($old_path);
-                    JFile::delete($old_thumb_path);
+                    File::delete($old_path);
+                    File::delete($old_thumb_path);
                 }
 
                 if ($save = $model->store($post)) {
@@ -298,7 +298,7 @@ class RedshopControllerMedia_Detail extends RedshopController
                     $post['media_name'] = $post['hdn_download_file'];
                 }
 
-                $filenewtype            = strtolower(JFile::getExt($post['hdn_download_file']));
+                $filenewtype            = strtolower(File::getExt($post['hdn_download_file']));
                 $post['media_mimetype'] = $filenewtype;
 
                 if ($post['hdn_download_file_path'] != $download_path) {
@@ -434,7 +434,7 @@ class RedshopControllerMedia_Detail extends RedshopController
                     $src         = $bulkfile['tmp_name'];
                     $dest        = JPATH_ROOT . '/components/com_redshop/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/'
                         . $bulkfile['name'];
-                    $file_upload = JFile::upload($src, $dest, false, true);
+                    $file_upload = File::upload($src, $dest, false, true);
 
                     if ($file_upload != 1) {
                         $msg = Text::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
@@ -451,7 +451,7 @@ class RedshopControllerMedia_Detail extends RedshopController
                             $newscan = scandir($target . '/' . $scan[$i]);
 
                             for ($j = 2, $jn = count($newscan); $j < $jn; $j++) {
-                                $filenewtype            = strtolower(JFile::getExt($newscan[$j]));
+                                $filenewtype            = strtolower(File::getExt($newscan[$j]));
                                 $btsrc                  = $target . '/' . $scan[$i] . '/' . $newscan[$j];
                                 $post['media_name']     = RedshopHelperMedia::cleanFileName($newscan[$j]);
                                 $post['media_mimetype'] = $filenewtype;
@@ -464,7 +464,7 @@ class RedshopControllerMedia_Detail extends RedshopController
                                     if ($row = $model->store($post)) {
                                         $originaldir = $post['media_name'];
                                         copy($btsrc, $originaldir);
-                                        JFile::delete($btsrc);
+                                        File::delete($btsrc);
 
                                         $msg = Text::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
@@ -530,7 +530,7 @@ class RedshopControllerMedia_Detail extends RedshopController
                                                     );
 
                                             copy($btsrc, $originaldir);
-                                            JFile::delete($btsrc);
+                                            File::delete($btsrc);
                                             $msg = Text::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
                                             if (isset($post['set']) && $post['media_section'] != 'manufacturer') {
@@ -583,7 +583,7 @@ class RedshopControllerMedia_Detail extends RedshopController
                                 }
                             }
                         } else {
-                            $filenewtype            = strtolower(JFile::getExt($scan[$i]));
+                            $filenewtype            = strtolower(File::getExt($scan[$i]));
                             $btsrc                  = $target . '/' . $scan[$i];
                             $post['media_name']     = RedshopHelperMedia::cleanFileName($scan[$i]);
                             $post['media_mimetype'] = $filenewtype;
@@ -596,7 +596,7 @@ class RedshopControllerMedia_Detail extends RedshopController
                                 if ($row = $model->store($post)) {
                                     $originaldir = $post['media_name'];
                                     copy($btsrc, $originaldir);
-                                    JFile::delete($btsrc);
+                                    File::delete($btsrc);
                                     $msg = Text::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
                                     if (isset($post['set']) && $post['media_section'] != 'manufacturer') {
@@ -654,14 +654,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
                                         copy($btsrc, $originaldir);
 
-                                        if (JFile::exists($btsrc)) {
-                                            JFile::delete($btsrc);
+                                        if (File::exists($btsrc)) {
+                                            File::delete($btsrc);
                                         }
 
-                                        if (JFile::exists($target)) {
+                                        if (File::exists($target)) {
                                             JFolder::delete($target . '/' . $name[0]);
                                             JFolder::delete($target);
-                                            JFile::delete($dest);
+                                            File::delete($dest);
                                         }
 
                                         $msg = Text::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
@@ -755,7 +755,7 @@ class RedshopControllerMedia_Detail extends RedshopController
                 $num = count($file);
 
                 for ($i = 0; $i < $num; $i++) {
-                    $fileType = strtolower(JFile::getExt($file[$i]['name']));
+                    $fileType = strtolower(File::getExt($file[$i]['name']));
 
                     if (empty($fileType)) {
                         continue;
@@ -841,7 +841,7 @@ class RedshopControllerMedia_Detail extends RedshopController
                         }
 
                         $post['media_mimetype'] = $file[$i]['type'];
-                        $file_upload            = JFile::upload($src, $dest);
+                        $file_upload            = File::upload($src, $dest);
 
                         if ($file_upload == 1 && $row = $model->store($post)) {
                             $msg = Text::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');

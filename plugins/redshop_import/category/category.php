@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
 use Redshop\Plugin\AbstractImportPlugin;
 
 JLoader::import('redshop.library');
@@ -137,7 +138,8 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
             if (!$table->bind($data) || !$table->check() || !$table->store()) {
                 return false;
             }
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             return false;
         }
 
@@ -145,8 +147,8 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
         if (!empty($data['category_full_image'])) {
             $categoryImage = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . basename($data['category_full_image']);
 
-            if (!JFile::exists($categoryImage)) {
-                JFile::copy($data['category_full_image'], $categoryImage);
+            if (!File::exists($categoryImage)) {
+                File::copy($data['category_full_image'], $categoryImage);
             }
         }
 

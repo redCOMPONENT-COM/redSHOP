@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Product rating Controller.
@@ -220,7 +221,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
             $fileName   = RedshopHelperMedia::cleanFileName($fileName);
             $uploadPath = REDSHOP_FRONT_IMAGES_RELPATH . 'product_rating/' . $fileName;
 
-            if (!JFile::upload($fileTemp, $uploadPath)) {
+            if (!File::upload($fileTemp, $uploadPath)) {
                 continue;
             }
 

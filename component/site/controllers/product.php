@@ -7,12 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Redshop\Filesystem\Mime;
+
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Redshop\Filesystem\Mime;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Product Controller.
@@ -181,7 +183,7 @@ class RedshopControllerProduct extends RedshopController
 
         for ($i = 0, $in = count($propertyId); $i < $in; $i++) {
             $propertyId = $propertyId[$i];
-            $response   .= \RedshopHelperProduct::replaceSubPropertyData(
+            $response .= \RedshopHelperProduct::replaceSubPropertyData(
                 $productId,
                 $accessoryId,
                 $relatedProductId,
@@ -228,8 +230,8 @@ class RedshopControllerProduct extends RedshopController
                 $productId,
                 $accessoryId,
                 $relatedProductId,
-                (int)$propertyId,
-                (int)$subPropertyId
+                (int) $propertyId,
+                (int) $subPropertyId
             );
 
             if (isset($pluginResults['attrbimg'])) {
@@ -240,8 +242,8 @@ class RedshopControllerProduct extends RedshopController
                 $productId,
                 $accessoryId,
                 $relatedProductId,
-                (int)$propertyId,
-                (int)$subPropertyId,
+                (int) $propertyId,
+                (int) $subPropertyId,
                 $mainImgWidth,
                 $mainImgHeight,
                 $redView,
@@ -553,7 +555,8 @@ class RedshopControllerProduct extends RedshopController
                 'html'    => $compare->getAjaxResponse(),
                 'total'   => $compare->getItemsTotal()
             );
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             $response = array(
                 'success' => false,
                 'message' => $e->getMessage(),
@@ -697,7 +700,7 @@ class RedshopControllerProduct extends RedshopController
                 $baseURL  = JURI::root();
                 $tmp_name = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/' . $name;
 
-                $tmp_type = strtolower(JFile::getExt($name));
+                $tmp_type = strtolower(File::getExt($name));
 
                 $downloadname = basename($name);
 
@@ -812,7 +815,7 @@ class RedshopControllerProduct extends RedshopController
 
         if ($this->input->files) {
             $uploadFileData = $this->input->files->get($name);
-            $fileExtension  = JFile::getExt($uploadFileData['name']);
+            $fileExtension  = File::getExt($uploadFileData['name']);
             $fileName       = RedshopHelperMedia::cleanFileName($uploadFileData['name']);
 
             $uploadFilePath = JPath::clean($uploadDir . $fileName);
@@ -826,8 +829,8 @@ class RedshopControllerProduct extends RedshopController
                 return;
             }
 
-            if (JFile::upload($uploadFileData['tmp_name'], $uploadFilePath)) {
-                $id                     = JFile::stripExt(basename($fileName));
+            if (File::upload($uploadFileData['tmp_name'], $uploadFilePath)) {
+                $id                     = File::stripExt(basename($fileName));
                 $sendData               = array();
                 $sendData['id']         = $id;
                 $sendData['product_id'] = $productId;
@@ -836,7 +839,7 @@ class RedshopControllerProduct extends RedshopController
                 $sendData['ajaxFlag']   = $this->input->getString('ajaxFlag', '');
                 $sendData['fileName']   = $fileName;
                 $sendData['action']     = JURI::root(
-                    ) . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload';
+                ) . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload';
                 $session                = Factory::getApplication()->getSession();
                 $userDocuments          = $session->get('userDocument', array());
 
@@ -850,8 +853,8 @@ class RedshopControllerProduct extends RedshopController
                 echo "<li id='uploadNameSpan" . $id . "' name='" . $fileName . "'>"
                     . "<span>" . $fileName . "</span>"
                     . "<a href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>&nbsp;" . Text::_(
-                        'COM_REDSHOP_DELETE'
-                    ) . "</a>"
+                            'COM_REDSHOP_DELETE'
+                        ) . "</a>"
                     . "</li>";
             } else {
                 // WARNING! DO NOT USE "FALSE" STRING AS A RESPONSE!
@@ -900,8 +903,8 @@ class RedshopControllerProduct extends RedshopController
             unset($userDocuments[$productId][$id]);
             $session->set('userDocument', $userDocuments);
 
-            if ($deleteFile && JFile::exists($filePath)) {
-                JFile::delete($filePath);
+            if ($deleteFile && File::exists($filePath)) {
+                File::delete($filePath);
             }
         }
     }
@@ -917,11 +920,11 @@ class RedshopControllerProduct extends RedshopController
         $fileName = $this->input->getString('fname', '');
         $filePath = REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $fileName;
 
-        if (!JFile::exists($filePath)) {
+        if (!File::exists($filePath)) {
             return;
         }
 
-        $fileExt     = strtolower(JFile::getExt($filePath));
+        $fileExt     = strtolower(File::getExt($filePath));
         $contentType = Mime::getMimeFromExtension($fileExt);
 
         if ($contentType === false) {
@@ -951,7 +954,7 @@ class RedshopControllerProduct extends RedshopController
         $pid      = $this->input->post->getInt('pid');
         $cid      = RedshopHelperProduct::getCategoryProduct($pid);
         $ItemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $pid);
-        $pItemid  = RedshopHelperRouter::getItemId($pid, (int)$cid);
+        $pItemid  = RedshopHelperRouter::getItemId($pid, (int) $cid);
 
         if (!empty($ItemData)) {
             $pItemid = $ItemData->id;
@@ -975,7 +978,7 @@ class RedshopControllerProduct extends RedshopController
         $pid      = $this->input->post->getInt('pid');
         $cid      = RedshopHelperProduct::getCategoryProduct($pid);
         $ItemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $pid);
-        $pItemid  = RedshopHelperRouter::getItemId($pid, (int)$cid);
+        $pItemid  = RedshopHelperRouter::getItemId($pid, (int) $cid);
 
         if (!empty($ItemData)) {
             $pItemid = $ItemData->id;

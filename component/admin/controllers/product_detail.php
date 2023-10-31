@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 use Joomla\Utilities\ArrayHelper;
 use Redshop\Economic\RedshopEconomic;
 
 jimport('joomla.filesystem.file');
-
 
 /**
  * Product_Detail Controller.
@@ -491,7 +491,7 @@ class RedshopControllerProduct_Detail extends RedshopController
                 continue;
             }
 
-            if (!JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file)) {
+            if (!File::exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file)) {
                 continue;
             }
 
@@ -499,7 +499,7 @@ class RedshopControllerProduct_Detail extends RedshopController
                 chmod(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file, 0777);
             }
 
-            JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
+            File::delete(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
         }
 
         closedir($dirHandle);
@@ -690,9 +690,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 
         $model = $this->getModel('product_detail');
 
-        $filetype = strtolower(JFile::getExt($main_img['name']));
+        $filetype = strtolower(File::getExt($main_img['name']));
 
-        $filetype_sub = strtolower(JFile::getExt($sub_img['name'][0]));
+        $filetype_sub = strtolower(File::getExt($sub_img['name'][0]));
 
         if (
             $filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg'

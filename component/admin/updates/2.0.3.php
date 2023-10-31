@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Update class
@@ -65,7 +66,7 @@ class RedshopUpdate203 extends RedshopInstallUpdate
         }
 
         foreach ($files as $key => $value) {
-            if (!JFile::exists($dir . $value)) {
+            if (!File::exists($dir . $value)) {
                 $templates[$dir . $value] = JFolder::folders($dir . $value);
             }
         }
@@ -129,7 +130,7 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 
         foreach ($templates as $key => $value) {
             foreach ($value as $name) {
-                if (JFile::exists($key . '/' . $name)) {
+                if (File::exists($key . '/' . $name)) {
                     continue;
                 }
 
@@ -186,10 +187,12 @@ class RedshopUpdate203 extends RedshopInstallUpdate
             foreach ($value as $name) {
                 if ($name === 'layouts') {
                     $overrideLayoutFolders[$key . '/' . $name] = JFolder::folders($key . '/' . $name);
-                } elseif (!JFile::exists($key . '/' . $name) && ($name === 'com_redshop' || strpos(
-                            $name,
-                            'mod_redshop'
-                        ) !== false)) {
+                } elseif (
+                    !File::exists($key . '/' . $name) && ($name === 'com_redshop' || strpos(
+                        $name,
+                        'mod_redshop'
+                    ) !== false)
+                ) {
                     // Read all files and folders in parent folder
                     $overrideFolders[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
                 }
@@ -198,14 +201,14 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 
         foreach ($overrideFolders as $key => $value) {
             foreach ($value as $name) {
-                $target                 = !JFile::exists($key . '/' . $name) ? $key . '/' . $name : $key;
+                $target                 = !File::exists($key . '/' . $name) ? $key . '/' . $name : $key;
                 $overrideFiles[$target] = JFolder::files($target);
             }
         }
 
         foreach ($overrideLayoutFolders as $key => $value) {
             foreach ($value as $name) {
-                if ($name !== 'com_redshop' || JFile::exists($key . '/' . $name)) {
+                if ($name !== 'com_redshop' || File::exists($key . '/' . $name)) {
                     continue;
                 }
 
@@ -216,7 +219,7 @@ class RedshopUpdate203 extends RedshopInstallUpdate
         if (!empty($overrideLayoutFiles)) {
             foreach ($overrideLayoutFiles as $key => $value) {
                 foreach ($value as $name) {
-                    if (JFile::exists($key . '/' . $name)) {
+                    if (File::exists($key . '/' . $name)) {
                         continue;
                     }
 
@@ -279,7 +282,7 @@ class RedshopUpdate203 extends RedshopInstallUpdate
                     }
 
                     $content = str_replace($old, $new, $content);
-                    JFile::write($path . '/' . $file, $content);
+                    File::write($path . '/' . $file, $content);
                 }
             }
         }
@@ -323,7 +326,7 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 
         foreach ($adminHelpers as $path => $files) {
             foreach ($replaceAdminHelper as $old => $new) {
-                if (!JFile::exists($path . '/' . $old)) {
+                if (!File::exists($path . '/' . $old)) {
                     continue;
                 }
 
@@ -331,14 +334,14 @@ class RedshopUpdate203 extends RedshopInstallUpdate
                     JFolder::create($codeDir . 'administrator/components/com_redshop/helpers');
                 }
 
-                JFile::move(
+                File::move(
                     $codeDir . 'com_redshop/helpers/' . $old,
                     $codeDir . 'administrator/components/com_redshop/helpers/' . $new
                 );
             }
 
             foreach ($replaceSiteHelper as $old => $new) {
-                if (!JFile::exists($path . '/' . $old)) {
+                if (!File::exists($path . '/' . $old)) {
                     continue;
                 }
 
@@ -346,7 +349,7 @@ class RedshopUpdate203 extends RedshopInstallUpdate
                     JFolder::create($codeDir . 'components/com_redshop/helpers');
                 }
 
-                JFile::move(
+                File::move(
                     $codeDir . 'com_redshop/helpers/' . $old,
                     $codeDir . 'components/com_redshop/helpers/' . $new
                 );
@@ -392,7 +395,7 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 
         foreach ($adminTemplateHelpers as $path => $files) {
             foreach ($replaceAdminHelper as $old => $new) {
-                if (!JFile::exists($path . '/code/com_redshop/helpers/' . $old)) {
+                if (!File::exists($path . '/code/com_redshop/helpers/' . $old)) {
                     continue;
                 }
 
@@ -400,14 +403,14 @@ class RedshopUpdate203 extends RedshopInstallUpdate
                     JFolder::create($path . '/code/administrator/components/com_redshop/helpers');
                 }
 
-                JFile::move(
+                File::move(
                     $path . '/code/com_redshop/helpers/' . $old,
                     $path . '/code/administrator/components/com_redshop/helpers/' . $new
                 );
             }
 
             foreach ($replaceSiteHelper as $old => $new) {
-                if (!JFile::exists($path . '/code/com_redshop/helpers/' . $old)) {
+                if (!File::exists($path . '/code/com_redshop/helpers/' . $old)) {
                     continue;
                 }
 
@@ -415,7 +418,7 @@ class RedshopUpdate203 extends RedshopInstallUpdate
                     JFolder::create($path . '/code/components/com_redshop/helpers');
                 }
 
-                JFile::move(
+                File::move(
                     $path . '/code/com_redshop/helpers/' . $old,
                     $path . '/code/components/com_redshop/helpers/' . $new
                 );

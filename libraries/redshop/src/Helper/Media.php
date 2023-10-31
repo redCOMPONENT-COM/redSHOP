@@ -11,6 +11,8 @@ namespace Redshop\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * Utility helper
  *
@@ -48,43 +50,46 @@ class Media
 
         try {
             // If main image not exists - display no image
-            if (!\JFile::exists(REDSHOP_MEDIA_IMAGE_RELPATH . $pathMainImage)) {
+            if (!File::exists(REDSHOP_MEDIA_IMAGE_RELPATH . $pathMainImage)) {
                 $pathMainImage = 'noimage.jpg';
 
                 throw new \Exception;
             }
 
             // If watermark not exists or disable - display simple thumb
-            if ($enableWatermark <= 0 || !\JFile::exists(
+            if (
+                $enableWatermark <= 0 || !File::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . \Redshop::getConfig()->get('WATERMARK_IMAGE')
-                )) {
+                )
+            ) {
                 throw new \Exception;
             }
 
             // If width and height not set - use with and height original image
-            if (((int)$thumbWidth == 0 && (int)$thumbHeight == 0)
-                || ((int)$thumbWidth != 0 && (int)$thumbHeight == 0)
-                || ((int)$thumbWidth == 0 && (int)$thumbHeight != 0)
+            if (
+                ((int) $thumbWidth == 0 && (int) $thumbHeight == 0)
+                || ((int) $thumbWidth != 0 && (int) $thumbHeight == 0)
+                || ((int) $thumbWidth == 0 && (int) $thumbHeight != 0)
             ) {
                 list($thumbWidth, $thumbHeight) = getimagesize(REDSHOP_MEDIA_IMAGE_RELPATH . $pathMainImage);
             }
 
-            $imageNameWithPrefix = \JFile::stripExt(
-                    $imageName
-                ) . '_w' . (int)$thumbWidth . '_h' . (int)$thumbHeight . '_i'
-                . \JFile::stripExt(basename(\Redshop::getConfig()->get('WATERMARK_IMAGE'))) . '.' . \JFile::getExt(
-                    $imageName
-                );
+            $imageNameWithPrefix = File::stripExt(
+                $imageName
+            ) . '_w' . (int) $thumbWidth . '_h' . (int) $thumbHeight . '_i'
+                . File::stripExt(basename(\Redshop::getConfig()->get('WATERMARK_IMAGE'))) . '.' . File::getExt(
+                        $imageName
+                    );
 
             $destinationFile = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/thumb/' . $imageNameWithPrefix;
 
-            if (\JFile::exists($destinationFile)) {
+            if (File::exists($destinationFile)) {
                 return REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/' . $imageNameWithPrefix;
             }
 
             $filePath = JPATH_SITE . '/components/com_redshop/assets/images/product/' . \Redshop::getConfig()->get(
-                    'WATERMARK_IMAGE'
-                );
+                'WATERMARK_IMAGE'
+            );
             $fileName = \RedshopHelperMedia::generateImages($filePath, '', $thumbWidth, $thumbHeight, 'thumb');
             $fileInfo = pathinfo($fileName);
 
@@ -103,11 +108,11 @@ class Media
             $contents = ob_get_contents();
             ob_end_clean();
 
-            if (!\JFile::write($destinationFile, $contents)) {
+            if (!File::write($destinationFile, $contents)) {
                 return REDSHOP_MEDIA_IMAGE_ABSPATH . '/' . $sectionId . '/' . $section . '/' . $imageName;
             }
 
-            switch (\JFile::getExt(\Redshop::getConfig()->get('WATERMARK_IMAGE'))) {
+            switch (File::getExt(\Redshop::getConfig()->get('WATERMARK_IMAGE'))) {
                 case 'gif':
                     $targetFile = imagecreatefromjpeg($destinationFile);
                     $sourceFile = imagecreatefromgif($watermark);
@@ -133,7 +138,7 @@ class Media
                 case 'png':
                     $im = imagecreatefrompng($watermark);
 
-                    switch (\JFile::getExt($destinationFile)) {
+                    switch (File::getExt($destinationFile)) {
                         case 'gif':
                             $im2 = imagecreatefromgif($destinationFile);
                             break;
@@ -162,7 +167,7 @@ class Media
                     );
 
                     $waterless = imagesx($im2) - imagesx($im);
-                    $rest      = ceil($waterless / imagesx($im) / 2);
+                    $rest = ceil($waterless / imagesx($im) / 2);
 
                     for ($n = 1; $n <= $rest; $n++) {
                         imagecopy(
@@ -196,12 +201,13 @@ class Media
             }
 
             return REDSHOP_MEDIA_IMAGE_ABSPATH . '/' . $section . '/' . $sectionId . '/thumb/' . $imageNameWithPrefix;
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             if ($e->getMessage()) {
                 \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
             }
 
-            if ((int)$thumbWidth == 0 && (int)$thumbHeight == 0) {
+            if ((int) $thumbWidth == 0 && (int) $thumbHeight == 0) {
                 $fileName = REDSHOP_MEDIA_IMAGE_ABSPATH . '/' . $pathMainImage;
             } else {
                 $filePath = REDSHOP_MEDIA_IMAGE_RELPATH . $pathMainImage;
@@ -244,6 +250,6 @@ class Media
             return false;
         }
 
-        return \JFile::copy(JPATH_REDSHOP_LIBRARY . '/index.html', $folder . '/index.html');
+        return File::copy(JPATH_REDSHOP_LIBRARY . '/index.html', $folder . '/index.html');
     }
 }

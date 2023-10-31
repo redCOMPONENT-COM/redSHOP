@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 class RedshopViewSearch extends RedshopView
 {
@@ -21,7 +22,7 @@ class RedshopViewSearch extends RedshopView
         $lists = array();
 
         $params   = $app->getParams('com_redshop');
-        $document = JFactory::getDocument();
+        $document = Factory::getDocument();
 
         $layout = $app->input->getCmd('layout', '');
         $model  = $this->getModel('search');
@@ -586,7 +587,7 @@ class RedshopViewSearch extends RedshopView
                         }
 
                         if (
-                            JFile::exists(
+                            File::exists(
                                 REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name
                             )
                         ) {

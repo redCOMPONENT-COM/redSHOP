@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 JFormHelper::loadFieldClass('filelist');
 
 /**
@@ -54,7 +56,7 @@ class RedshopFormFieldFontList extends JFormFieldFileList
 
             // If the extension is to be stripped, do it.
             if ($this->stripExt) {
-                $file = JFile::stripExt($file);
+                $file = File::stripExt($file);
             }
 
             $options[] = JHtml::_('select.option', 'ttf.' . $file, $file);

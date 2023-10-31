@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
 
 class RedshopModelXmlexport_detail extends RedshopModel
 {
@@ -165,8 +166,8 @@ class RedshopModelXmlexport_detail extends RedshopModel
                 $result   = $xmlhelper->getXMLExportInfo($cid[$i]);
                 $rootpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/export/" . $result->filename;
 
-                if (JFile::exists($rootpath)) {
-                    JFile::delete($rootpath);
+                if (File::exists($rootpath)) {
+                    File::delete($rootpath);
                 }
             }
 

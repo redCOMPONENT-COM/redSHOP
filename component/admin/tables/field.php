@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 JLoader::import('redshop.library');
 
@@ -226,7 +227,7 @@ class RedshopTableField extends RedshopTable
                     $source      = $extraNames[$j]['tmp_name'];
                     $destination = REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $filename;
 
-                    JFile::upload($source, $destination);
+                    File::upload($source, $destination);
                 }
             }
 

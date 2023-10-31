@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * Update class
  *
@@ -67,7 +69,7 @@ class RedshopUpdate204 extends RedshopInstallUpdate
         foreach ($files as $file) {
             $fileName = str_replace(array('%20', ' '), '-', $file);
 
-            JFile::move($path . $file, $path . $fileName);
+            File::move($path . $file, $path . $fileName);
         }
     }
 

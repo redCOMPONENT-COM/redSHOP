@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Class Redshop Helper Product
@@ -1033,7 +1034,7 @@ class RedshopHelperProduct
                         }
 
                         if (
-                            JFile::exists(
+                            File::exists(
                                 REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $mediaDocuments[$m]->media_name
                             )
                         ) {
@@ -1426,7 +1427,7 @@ class RedshopHelperProduct
 
                 // Product preview image.
                 if (strpos($dataAdd, '{product_preview_img}') !== false) {
-                    if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image)) {
+                    if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image)) {
                         $previewsrcPath = RedshopHelperMedia::getImagePath(
                             $product->product_preview_image,
                             '',
@@ -4451,7 +4452,7 @@ class RedshopHelperProduct
 
                     if (!empty($subproperty[$i]->subattribute_color_image)) {
                         if (
-                            JFile::exists(
+                            File::exists(
                                 REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image
                             )
                         ) {

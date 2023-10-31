@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Tags replacer abstract class
@@ -294,7 +295,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
         $accessoryMainImage  = $product->product_full_image;
         $accessoryMainImage2 = '';
 
-        if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryMainImage)) {
+        if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryMainImage)) {
             $thumbUrl = RedshopHelperMedia::getImagePath(
                 $accessoryMainImage,
                 '',
@@ -687,7 +688,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 
         if (empty($accessoryImg)) {
             if (Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX') == 1) {
-                if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryImage)) {
+                if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryImage)) {
                     $thumbUrl = RedshopHelperMedia::getImagePath(
                         $accessoryImage,
                         '',
@@ -732,7 +733,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                     )
                 );
             } else {
-                if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryImage)) {
+                if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryImage)) {
                     $thumbUrl = RedshopHelperMedia::getImagePath(
                         $accessoryImage,
                         '',

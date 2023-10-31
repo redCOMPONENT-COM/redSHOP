@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Table Template
@@ -68,7 +69,7 @@ class RedshopTableTemplate extends RedshopTable
         if ($this->id && !empty($this->file_name)) {
             $file = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $this->file_name . '.php');
 
-            if (JFile::exists($file)) {
+            if (File::exists($file)) {
                 $this->templateDesc = (string) file_get_contents($file);
             }
         }
@@ -160,7 +161,7 @@ class RedshopTableTemplate extends RedshopTable
         }
 
         // Write template file
-        JFile::write(
+        File::write(
             JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $fileName . '.php'),
             $this->getOption('content', '')
         );
@@ -198,8 +199,8 @@ class RedshopTableTemplate extends RedshopTable
 
         $templatePath = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $this->section . '/' . $this->file_name . '.php');
 
-        if (JFile::exists($templatePath)) {
-            return JFile::delete($templatePath);
+        if (File::exists($templatePath)) {
+            return File::delete($templatePath);
         }
 
         return true;

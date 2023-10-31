@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 JHtml::_('redshopjquery.ui');
 
@@ -64,62 +65,62 @@ extract($displayData);
 </td>
 <td>
     <a href="#" class="btn btn-success" title="<?php echo $rowData->name; ?>" id="add_<?php echo $rowData->name; ?>">
-        <i class="fa fa-plus-circle"></i>&nbsp;<?php echo Text::_('COM_REDSHOP_ADD'); ?>
+        <i class="fa fa-plus-circle"></i>&nbsp;
+        <?php echo Text::_('COM_REDSHOP_ADD'); ?>
     </a>
-    <br/>
+    <br />
     <div id="html_<?php echo $rowData->name; ?>">
         <?php if (!empty($dataTxt)): ?>
-                <?php $idx = 0; ?>
-                <?php foreach ($dataTxt as $text => $value): ?>
-                        <?php $idx++; ?>
-                        <div id="div_<?php echo $rowData->name . $idx; ?>" class="well">
-                            <input type="text" name="text_<?php echo $rowData->name; ?>[]"
-                                   id="text_<?php echo $rowData->name . $idx; ?>" value="<?php echo $text; ?>"
-                                <?php echo $required; ?>
-                                <?php echo $requiredLabel; ?>
-                                <?php echo $errorMsg; ?> />
-                            &nbsp;
-                            <input type="file" name="<?php echo $rowData->name; ?>[]" id="<?php echo $rowData->name . $idx; ?>"
-                                   class="<?php echo $rowData->class; ?>"/>
-                            <?php $destinationPrefix         = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'extrafields/'; ?>
-                            <?php $destinationPrefixAbsolute = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/'; ?>
-                            <?php $destinationPrefixDel      = '/components/com_redshop/assets/document/extrafields/'; ?>
-                            <?php $mediaImage                = $destinationPrefixAbsolute . $value; ?>
+            <?php $idx = 0; ?>
+            <?php foreach ($dataTxt as $text => $value): ?>
+                <?php $idx++; ?>
+                <div id="div_<?php echo $rowData->name . $idx; ?>" class="well">
+                    <input type="text" name="text_<?php echo $rowData->name; ?>[]"
+                        id="text_<?php echo $rowData->name . $idx; ?>" value="<?php echo $text; ?>" <?php echo $required; ?>
+                        <?php echo $requiredLabel; ?>         <?php echo $errorMsg; ?> />
+                    &nbsp;
+                    <input type="file" name="<?php echo $rowData->name; ?>[]" id="<?php echo $rowData->name . $idx; ?>"
+                        class="<?php echo $rowData->class; ?>" />
+                    <?php $destinationPrefix         = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'extrafields/'; ?>
+                    <?php $destinationPrefixAbsolute = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/'; ?>
+                    <?php $destinationPrefixDel      = '/components/com_redshop/assets/document/extrafields/'; ?>
+                    <?php $mediaImage                = $destinationPrefixAbsolute . $value; ?>
 
-                            <?php if (JFile::exists($mediaImage)): ?>
-                                    <?php $mediaImage = $destinationPrefix . $value; ?>
-                                    <?php $mediaType  = strtolower(JFile::getExt($value)); ?>
-                                    <?php if ($mediaType == 'jpg' || $mediaType == 'jpeg' || $mediaType == 'png' || $mediaType == 'gif'): ?>
-                                            <div id="docdiv<?php echo $idx; ?>">
-                                                <img style="max-width: 200px; max-height: 200px;" src="<?php echo $mediaImage; ?>"
-                                                     border="0">
-                                                <a href="#" class="btn btn-danger" onclick="delimg('<?php echo $value ?>',
+                    <?php if (File::exists($mediaImage)): ?>
+                        <?php $mediaImage = $destinationPrefix . $value; ?>
+                        <?php $mediaType  = strtolower(File::getExt($value)); ?>
+                        <?php if ($mediaType == 'jpg' || $mediaType == 'jpeg' || $mediaType == 'png' || $mediaType == 'gif'): ?>
+                            <div id="docdiv<?php echo $idx; ?>">
+                                <img style="max-width: 200px; max-height: 200px;" src="<?php echo $mediaImage; ?>" border="0">
+                                <a href="#" class="btn btn-danger" onclick="delimg('<?php echo $value ?>',
                                         'div_<?php echo $rowData->name . $idx; ?>', '<?php echo $destinationPrefixDel; ?>',
                                         '<?php echo $dataValue->data_id . ':document'; ?>');">
-                                                    <i class="fa fa-times"></i>&nbsp;<?php echo Text::_('COM_REDSHOP_REMOVE_FILE'); ?>
-                                                </a>
-                                                &nbsp;
-                                                <input type="hidden" name="<?php echo $rowData->name; ?>[]"
-                                                       id="<?php echo $rowData->name; ?>" class="<?php echo $rowData->class; ?>"
-                                                       value="<?php echo $value; ?>"/>
-                                            </div>
-                                    <?php else: ?>
-                                            <div id="docdiv<?php echo $idx; ?>">
-                                                <a href="<?php echo $mediaImage; ?>" target="_blank"><?php echo $value; ?></a>
-                                                <a href="#" class="btn btn-danger"
-                                                   onclick="delimg('<?php echo $value ?>', 'div_<?php echo $rowData->name . $idx; ?>', '<?php echo $destinationPrefixDel; ?>', '<?php echo $dataValue->data_id . ':document'; ?>');">
-                                                    <i class="fa fa-times"></i>&nbsp;<?php echo Text::_('COM_REDSHOP_REMOVE_FILE'); ?>
-                                                </a>
-                                                <input type="hidden" name="<?php echo $rowData->name; ?>[]"
-                                                       id="<?php echo $rowData->name; ?>" class="<?php echo $rowData->class; ?>"
-                                                       value="<?php echo $value; ?>"/>
-                                            </div>
-                                    <?php endif; ?>
-                            <?php else: ?>
-                                    <?php echo Text::_('COM_REDSHOP_FILE_NOT_EXIST') ?>
-                            <?php endif; ?>
-                        </div>
-                <?php endforeach; ?>
+                                    <i class="fa fa-times"></i>&nbsp;
+                                    <?php echo Text::_('COM_REDSHOP_REMOVE_FILE'); ?>
+                                </a>
+                                &nbsp;
+                                <input type="hidden" name="<?php echo $rowData->name; ?>[]" id="<?php echo $rowData->name; ?>"
+                                    class="<?php echo $rowData->class; ?>" value="<?php echo $value; ?>" />
+                            </div>
+                        <?php else: ?>
+                            <div id="docdiv<?php echo $idx; ?>">
+                                <a href="<?php echo $mediaImage; ?>" target="_blank">
+                                    <?php echo $value; ?>
+                                </a>
+                                <a href="#" class="btn btn-danger"
+                                    onclick="delimg('<?php echo $value ?>', 'div_<?php echo $rowData->name . $idx; ?>', '<?php echo $destinationPrefixDel; ?>', '<?php echo $dataValue->data_id . ':document'; ?>');">
+                                    <i class="fa fa-times"></i>&nbsp;
+                                    <?php echo Text::_('COM_REDSHOP_REMOVE_FILE'); ?>
+                                </a>
+                                <input type="hidden" name="<?php echo $rowData->name; ?>[]" id="<?php echo $rowData->name; ?>"
+                                    class="<?php echo $rowData->class; ?>" value="<?php echo $value; ?>" />
+                            </div>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <?php echo Text::_('COM_REDSHOP_FILE_NOT_EXIST') ?>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
         <?php endif; ?>
     </div>
 </td>

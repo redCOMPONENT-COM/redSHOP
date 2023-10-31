@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Class Redshop Helper Product Accessory
@@ -162,7 +163,7 @@ class RedshopHelperProductAccessory
 
         self::getWidthHeight($accessoryMiddle, $accessoryImgTag, $accessoryWidthThumb, $accessoryHeightThumb);
 
-        if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryMainImage)) {
+        if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryMainImage)) {
             $thumbUrl = RedshopHelperMedia::getImagePath(
                 $accessoryMainImage,
                 '',

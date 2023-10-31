@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * Update class
  *
@@ -63,8 +65,8 @@ class RedshopUpdate2014 extends RedshopInstallUpdate
             }
 
             // Copy index.html to this folder.
-            if (!JFile::exists($path . '/index.html')) {
-                JFile::copy(REDSHOP_MEDIA_IMAGE_RELPATH . 'index.html', $path . '/index.html');
+            if (!File::exists($path . '/index.html')) {
+                File::copy(REDSHOP_MEDIA_IMAGE_RELPATH . 'index.html', $path . '/index.html');
             }
 
             if (!empty($media->category_full_image)) {
@@ -99,7 +101,7 @@ class RedshopUpdate2014 extends RedshopInstallUpdate
         $table = RedshopTable::getAdminInstance('Media', array('ignore_request' => true), 'com_redshop');
 
         // Generate new image using MD5
-        $newFileName = md5(basename($fileName)) . '.' . JFile::getExt($fileName);
+        $newFileName = md5(basename($fileName)) . '.' . File::getExt($fileName);
 
         if (!$table->load(
             array(
@@ -122,11 +124,11 @@ class RedshopUpdate2014 extends RedshopInstallUpdate
         // Check old image exist.
         $oldImagePath = $oldBasePath . '/' . $fileName;
 
-        if (!JFile::exists($oldImagePath)) {
+        if (!File::exists($oldImagePath)) {
             return;
         }
 
-        if (!JFile::copy($oldImagePath, $newBasePath . '/' . $category->id . '/' . $newFileName)) {
+        if (!File::copy($oldImagePath, $newBasePath . '/' . $category->id . '/' . $newFileName)) {
             return;
         }
 

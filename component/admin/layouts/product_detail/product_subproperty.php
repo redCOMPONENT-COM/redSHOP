@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 extract($displayData);
 
@@ -20,7 +21,7 @@ $subPropertyImage      = '';
 $subPropertyImageThumb = '';
 
 if (
-    $subProperty->subattribute_color_image && JFile::exists(
+    $subProperty->subattribute_color_image && File::exists(
         REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $subProperty->subattribute_color_image
     )
 ) {
@@ -42,7 +43,7 @@ $mainImage      = '';
 $mainImageThumb = '';
 
 if (
-    $subProperty->subattribute_color_main_image && JFile::exists(
+    $subProperty->subattribute_color_main_image && File::exists(
         REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $subProperty->subattribute_color_main_image
     )
 ) {

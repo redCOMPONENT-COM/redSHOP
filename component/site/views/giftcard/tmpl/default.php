@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 JHTML::_('bootstrap.modal');
 
@@ -295,7 +296,7 @@ if ($gid != 0) {
                     '0'
                 );
 
-                if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "giftcard/" . $detail[$i]->giftcard_image)) {
+                if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . "giftcard/" . $detail[$i]->giftcard_image)) {
                     $thum_image = "<a href='" . $link . "'><img src='" . $product_img . "' title='" . $detail[$i]->giftcard_name . "' alt='" . $detail[$i]->giftcard_name . "'></a>";
                     $data_add   = str_replace("{giftcard_image}", $thum_image, $data_add);
                 } else {

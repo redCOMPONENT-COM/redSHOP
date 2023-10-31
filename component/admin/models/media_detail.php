@@ -9,6 +9,7 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
 
 class RedshopModelMedia_detail extends RedshopModel
 {
@@ -240,12 +241,12 @@ class RedshopModelMedia_detail extends RedshopModel
                 $nsrc  = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
                     . $mediadata->media_section . '/' . $mediadata->media_name;
 
-                if (JFile::exists($nsrc)) {
-                    JFile::delete($nsrc);
+                if (File::exists($nsrc)) {
+                    File::delete($nsrc);
                 }
 
-                if (JFile::exists($ntsrc)) {
-                    JFile::delete($ntsrc);
+                if (File::exists($ntsrc)) {
+                    File::delete($ntsrc);
                 }
 
                 if ($mediadata->media_section == 'manufacturer') {

@@ -15,6 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 use Redshop\DB\Tool as RedshopDbTool;
 use Redshop\Economic\RedshopEconomic;
 use Redshop\Order\Template;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Class Redshop Helper for Order
@@ -871,7 +872,7 @@ class RedshopHelperOrder
                 'onReplaceTrackingUrl',
                 array(
                     $orderId,
-            &
+                    &
                     $orderTrackURL
                 )
             );
@@ -1426,7 +1427,7 @@ class RedshopHelperOrder
                 Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT')
             );
 
-            if (JFile::exists($bookInvoicePdf)) {
+            if (File::exists($bookInvoicePdf)) {
                 Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
             }
         }

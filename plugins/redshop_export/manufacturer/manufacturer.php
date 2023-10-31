@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
 use Redshop\Plugin\AbstractExportPlugin;
 
 JLoader::import('redshop.library');
@@ -53,7 +54,7 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
             $this->writeData($headers, 'w+');
         }
 
-        return (int)$this->getTotalManu_Export();
+        return (int) $this->getTotalManu_Export();
     }
 
     /**
@@ -68,7 +69,7 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
             ->clear('group')
             ->select('COUNT(DISTINCT(' . $this->db->qn('m.id') . '))');
 
-        return (int)$this->db->setQuery($query)->loadResult();
+        return (int) $this->db->setQuery($query)->loadResult();
     }
 
     /**
@@ -151,11 +152,11 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
         }
 
         foreach ($data as $index => $item) {
-            $item = (array)$item;
+            $item = (array) $item;
 
             foreach ($item as $column => $value) {
                 if ($column == 'manufacturer_image' && $value != "") {
-                    if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer/' . $value)) {
+                    if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer/' . $value)) {
                         $item[$column] = REDSHOP_FRONT_IMAGES_ABSPATH . 'manufacturer/' . $value;
                     } else {
                         $item[$column] = "";

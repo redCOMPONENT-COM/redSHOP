@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
 use Redshop\Plugin\AbstractImportPlugin;
 
 JLoader::import('redshop.library');
@@ -113,7 +114,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                 ->from($db->qn('#__redshop_manufacturer'))
                 ->where($db->qn('name') . ' = ' . $db->quote($data['manufacturer_name']));
 
-            $manufacturerId = (int)$db->setQuery($query)->loadResult();
+            $manufacturerId = (int) $db->setQuery($query)->loadResult();
 
             if (!empty($manufacturerId)) {
                 $data['manufacturer_id'] = $manufacturerId;
@@ -134,9 +135,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
             $query = $db->getQuery(true)
                 ->select($db->qn("id"))
                 ->from($db->qn('#__redshop_supplier'))
-                ->where($db->qn('name') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($data['supplier_name']));
+                ->where($db->qn('name') . ' = ' . /** @scrutinizer ignore-type */$db->quote($data['supplier_name']));
 
-            $supplierId = (int)$db->setQuery($query)->loadResult();
+            $supplierId = (int) $db->setQuery($query)->loadResult();
 
             if (!empty($supplierId)) {
                 $data['supplier_id'] = $supplierId;
@@ -157,7 +158,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                 $imageName = basename($url);
                 $fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
                 $dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-                JFile::write($dest, file_get_contents($url));
+                File::write($dest, file_get_contents($url));
                 $data['product_thumb_image'] = $fileName;
             } else {
                 $imageName                   = basename($data['product_thumb_image']);
@@ -178,7 +179,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                     $imageName = basename($url);
                     $fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
                     $dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-                    JFile::write($dest, $binaryData);
+                    File::write($dest, $binaryData);
                     $data['product_full_image'] = $fileName;
                 }
             } else {
@@ -195,7 +196,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                 $imageName = basename($url);
                 $fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
                 $dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-                JFile::write($dest, file_get_contents($url));
+                File::write($dest, file_get_contents($url));
                 $data['product_back_full_image'] = $fileName;
             } else {
                 $imageName                       = basename($data['product_back_full_image']);
@@ -211,7 +212,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                 $imageName = basename($url);
                 $fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
                 $dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-                JFile::write($dest, file_get_contents($url));
+                File::write($dest, file_get_contents($url));
                 $data['product_preview_back_image'] = $fileName;
             } else {
                 $imageName                          = basename($data['product_preview_back_image']);
@@ -227,7 +228,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                 $imageName = basename($url);
                 $fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
                 $dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-                JFile::write($dest, file_get_contents($url));
+                File::write($dest, file_get_contents($url));
                 $data['product_back_thumb_image'] = $fileName;
             } else {
                 $imageName                        = basename($data['product_back_thumb_image']);
@@ -243,7 +244,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                 $imageName = basename($url);
                 $fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
                 $dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-                JFile::write($dest, file_get_contents($url));
+                File::write($dest, file_get_contents($url));
                 $data['product_preview_image'] = $fileName;
             } else {
                 $imageName                     = basename($data['product_preview_image']);
@@ -267,7 +268,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
         if (!empty($data['discount_stratdate']) || !empty($data['discount_enddate'])) {
             $data['product_on_sale'] = 1;
         } else {
-            $data['product_on_sale'] = !isset($data['product_on_sale']) ? 0 : (int)$data['product_on_sale'];
+            $data['product_on_sale'] = !isset($data['product_on_sale']) ? 0 : (int) $data['product_on_sale'];
         }
 
         if (isset($data['product_price']) && false !== strpos($data['product_price'], ',')) {
@@ -283,9 +284,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
             $query = $db->getQuery(true)
                 ->select($db->qn('product_id'))
                 ->from($db->qn('#__redshop_product'))
-                ->where($db->qn('product_number') . ' = ' . $db->quote((string)$data['product_number']));
+                ->where($db->qn('product_number') . ' = ' . $db->quote((string) $data['product_number']));
 
-            $data['product_id'] = (int)$db->setQuery($query)->loadResult();
+            $data['product_id'] = (int) $db->setQuery($query)->loadResult();
         }
 
         return $data;
@@ -358,16 +359,16 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
             if (getimagesize($src)) {
                 $file = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_full_image'];
 
-                if (!JFile::exists($file)) {
-                    JFile::copy($src, $file);
+                if (!File::exists($file)) {
+                    File::copy($src, $file);
                 }
 
                 $query = $db->getQuery(true)
                     ->select("COUNT(*)")
                     ->from($db->qn('#__redshop_media'))
-                    ->where($db->qn('media_name') . ' LIKE ' . $db->quote((string)$data['product_full_image']))
+                    ->where($db->qn('media_name') . ' LIKE ' . $db->quote((string) $data['product_full_image']))
                     ->where($db->qn('media_section') . ' LIKE ' . $db->quote('product'))
-                    ->where($db->qn('section_id') . ' = ' . $db->quote((string)$productId))
+                    ->where($db->qn('section_id') . ' = ' . $db->quote((string) $productId))
                     ->where($db->qn('media_type') . ' = ' . $db->quote('images'))
                     ->where($db->qn('published') . ' = ' . $db->quote('1'));
 
@@ -447,7 +448,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
         $query     = $db->getQuery(true)
             ->select($db->qn('product_id'))
             ->from($db->qn('#__redshop_product'))
-            ->where($db->qn('product_number') . ' = ' . $db->quote((string)$data['product_number']));
+            ->where($db->qn('product_number') . ' = ' . $db->quote((string) $data['product_number']));
         $productId = $db->setQuery($query)->loadResult();
 
         // Get attribute id
@@ -491,7 +492,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                 ->from($db->qn('#__redshop_product_attribute_property'))
                 ->where($db->qn('attribute_id') . ' = ' . $db->quote($attributeId))
                 ->where($db->qn('property_name') . ' = ' . $db->quote($data['property_name']));
-            $propertyId = (int)$db->setQuery($query)->loadResult();
+            $propertyId = (int) $db->setQuery($query)->loadResult();
 
             if (!$hasSubPropertyName) {
                 $propertyTable = JTable::getInstance('Attribute_Property', 'Table');
@@ -601,7 +602,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                     $query->clear()
                         ->select('*')
                         ->from($db->qn('#__redshop_media'))
-                        ->where($db->qn('section_id') . ' = ' . (int)$propertyId)
+                        ->where($db->qn('section_id') . ' = ' . (int) $propertyId)
                         ->where($db->qn('media_name') . ' = ' . $db->q($newMediaName))
                         ->where($db->qn('media_section') . ' = ' . $db->q('property'));
 
@@ -618,7 +619,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                         $query->clear()
                             ->update($db->qn('#__redshop_media'))
                             ->set($fields)
-                            ->where($db->qn('media_id') . ' = ' . (int)$mediaId);
+                            ->where($db->qn('media_id') . ' = ' . (int) $mediaId);
 
                         $db->setQuery($query)->execute();
                     } else {
@@ -639,7 +640,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                     $file = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . basename($data['property_image']);
 
                     // Copy If file is not already exist
-                    if (!JFile::exists($file)) {
+                    if (!File::exists($file)) {
                         copy($data['property_image'], $file);
                     }
                 }
@@ -649,19 +650,21 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                     $file = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . basename($data['property_main_image']);
 
                     // Copy If file is not already exist
-                    if (!JFile::exists($file)) {
+                    if (!File::exists($file)) {
                         copy($data['property_main_image'], $file);
                     }
                 }
 
                 // Media
-                if (!empty($data['media_name']) && ($data['media_section'] == 'property') && getimagesize(
+                if (
+                    !empty($data['media_name']) && ($data['media_section'] == 'property') && getimagesize(
                         $data['media_name']
-                    )) {
+                    )
+                ) {
                     $file = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . basename($data['media_name']);
 
                     // Copy If file is not already exist
-                    if (!JFile::exists($file)) {
+                    if (!File::exists($file)) {
                         copy($data['media_name'], $file);
                     }
                 }
@@ -680,7 +683,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                 ->where($db->qn('subattribute_id') . ' = ' . $db->quote($propertyId))
                 ->where($db->qn('subattribute_color_name') . ' = ' . $db->quote($data['subattribute_color_name']));
 
-            $subPropertyId = (int)$db->setQuery($query)->loadResult();
+            $subPropertyId = (int) $db->setQuery($query)->loadResult();
 
             /** @var Tablesubattribute_property $subPropertyTable */
             $subPropertyTable = JTable::getInstance('Subattribute_Property', 'Table');
@@ -786,7 +789,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                 $query->clear()
                     ->select('*')
                     ->from($db->qn('#__redshop_media'))
-                    ->where($db->qn('section_id') . ' = ' . (int)$subPropertyId)
+                    ->where($db->qn('section_id') . ' = ' . (int) $subPropertyId)
                     ->where($db->qn('media_name') . ' = ' . $db->q($newMediaName))
                     ->where($db->qn('media_section') . ' = ' . $db->q('subproperty'));
 
@@ -803,7 +806,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                     $query->clear()
                         ->update($db->qn('#__redshop_media'))
                         ->set($fields)
-                        ->where($db->qn('media_id') . ' = ' . (int)$mediaId);
+                        ->where($db->qn('media_id') . ' = ' . (int) $mediaId);
 
                     $db->setQuery($query)->execute();
                 } else {
@@ -824,18 +827,20 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                 $file = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . basename($data['subattribute_color_image']);
 
                 // Copy If file is not already exist
-                if (!JFile::exists($file)) {
+                if (!File::exists($file)) {
                     copy($data['subattribute_color_image'], $file);
                 }
             }
 
-            if (!empty($data['media_name']) && ($data['media_section'] == 'subproperty') && getimagesize(
+            if (
+                !empty($data['media_name']) && ($data['media_section'] == 'subproperty') && getimagesize(
                     $data['media_name']
-                )) {
+                )
+            ) {
                 $file = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . basename($data['media_name']);
 
                 // Copy If file is not already exist
-                if (!JFile::exists($file)) {
+                if (!File::exists($file)) {
                     copy($data['media_name'], $file);
                 }
             }
@@ -882,14 +887,14 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
             $query->clear()
                 ->select('media_id')
                 ->from($db->qn('#__redshop_media'))
-                ->where($db->qn('media_name') . ' LIKE ' . /** @scrutinizer ignore-type */ $db->quote($image))
+                ->where($db->qn('media_name') . ' LIKE ' . /** @scrutinizer ignore-type */$db->quote($image))
                 ->where($db->qn('media_section') . ' = ' . $db->quote('product'))
                 ->where($db->qn('section_id') . ' = ' . $db->quote($productId))
                 ->where($db->qn('media_type') . ' = ' . $db->quote('images'));
 
             $mediaId = $db->setQuery($query)->loadResult();
 
-            if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . basename($image))) {
+            if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . basename($image))) {
                 if (!$mediaId) {
                     $rows                       = JTable::getInstance('Media_Detail', 'Table');
                     $rows->media_id             = 0;
@@ -906,9 +911,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                 } else {
                     $query = $db->getQuery(true)
                         ->update($db->qn('#__redshop_media'))
-                        ->set($db->qn('media_alternate_text') . ' = ' . $db->quote((string)$alternateText))
-                        ->set($db->qn('ordering') . ' = ' . $db->quote((string)$ordering))
-                        ->where($db->qn('media_id') . ' = ' . $db->quote((string)$mediaId));
+                        ->set($db->qn('media_alternate_text') . ' = ' . $db->quote((string) $alternateText))
+                        ->set($db->qn('ordering') . ' = ' . $db->quote((string) $ordering))
+                        ->where($db->qn('media_id') . ' = ' . $db->quote((string) $mediaId));
                     $db->setQuery($query)->execute();
                 }
             }
@@ -928,11 +933,11 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
         // Copy file
         $source = $data['sitepath'] . "components/com_redshop/assets/images/product/" . $image;
 
-        if (JFile::exists($source)) {
+        if (File::exists($source)) {
             $file = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $image;
 
-            if (!JFile::exists($file)) {
-                JFile::copy($source, $file);
+            if (!File::exists($file)) {
+                File::copy($source, $file);
             }
         } else {
             if (!JUri::isInternal($image)) {
@@ -944,7 +949,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
                     $imageName = basename($image);
                     $fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
                     $dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-                    JFile::write($dest, $binaryData);
+                    File::write($dest, $binaryData);
                     $data['product_preview_image'] = $fileName;
                 }
             }
@@ -984,11 +989,11 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
             // Copy file
             $source = $data['sitepath'] . "components/com_redshop/assets/video/product/" . $video;
 
-            if (JFile::exists($source)) {
+            if (File::exists($source)) {
                 $file = JPATH_COMPONENT_SITE . '/assets/video/product/' . $video;
 
-                if (!JFile::exists($file)) {
-                    JFile::copy($source, $file);
+                if (!File::exists($file)) {
+                    File::copy($source, $file);
                 }
             }
 
@@ -1021,9 +1026,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
             } else {
                 $query = $db->getQuery(true)
                     ->update($db->qn('#__redshop_media'))
-                    ->set($db->qn('media_alternate_text') . ' = ' . $db->quote((string)$alternateText))
-                    ->set($db->qn('ordering') . ' = ' . $db->quote((string)$ordering))
-                    ->where($db->qn('media_id') . ' = ' . $db->quote((string)$mediaId));
+                    ->set($db->qn('media_alternate_text') . ' = ' . $db->quote((string) $alternateText))
+                    ->set($db->qn('ordering') . ' = ' . $db->quote((string) $ordering))
+                    ->where($db->qn('media_id') . ' = ' . $db->quote((string) $mediaId));
                 $db->setQuery($query)->execute();
             }
         }
@@ -1065,11 +1070,11 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
             // Copy file
             $source = $data['sitepath'] . "components/com_redshop/assets/document/product/" . $document;
 
-            if (JFile::exists($source)) {
+            if (File::exists($source)) {
                 $file = REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $document;
 
-                if (!JFile::exists($file)) {
-                    JFile::copy($source, $file);
+                if (!File::exists($file)) {
+                    File::copy($source, $file);
                 }
             }
 
@@ -1102,9 +1107,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
             } else {
                 $query = $db->getQuery(true)
                     ->update($db->qn('#__redshop_media'))
-                    ->set($db->qn('media_alternate_text') . ' = ' . $db->quote((string)$alternateText))
-                    ->set($db->qn('ordering') . ' = ' . $db->quote((string)$ordering))
-                    ->where($db->qn('media_id') . ' = ' . $db->quote((string)$mediaId));
+                    ->set($db->qn('media_alternate_text') . ' = ' . $db->quote((string) $alternateText))
+                    ->set($db->qn('ordering') . ' = ' . $db->quote((string) $ordering))
+                    ->where($db->qn('media_id') . ' = ' . $db->quote((string) $mediaId));
                 $db->setQuery($query)->execute();
             }
         }
@@ -1146,11 +1151,11 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
             // Copy file
             $source = $data['sitepath'] . "components/com_redshop/assets/download/product/" . $download;
 
-            if (JFile::exists($source)) {
+            if (File::exists($source)) {
                 $file = JPATH_COMPONENT_SITE . '/assets/download/product/' . $download;
 
-                if (!JFile::exists($file)) {
-                    JFile::copy($source, $file);
+                if (!File::exists($file)) {
+                    File::copy($source, $file);
                 }
             }
 
@@ -1183,9 +1188,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
             } else {
                 $query = $db->getQuery(true)
                     ->update($db->qn('#__redshop_media'))
-                    ->set($db->qn('media_alternate_text') . ' = ' . $db->quote((string)$alternateText))
-                    ->set($db->qn('ordering') . ' = ' . $db->quote((string)$ordering))
-                    ->where($db->qn('media_id') . ' = ' . $db->quote((string)$mediaId));
+                    ->set($db->qn('media_alternate_text') . ' = ' . $db->quote((string) $alternateText))
+                    ->set($db->qn('ordering') . ' = ' . $db->quote((string) $ordering))
+                    ->where($db->qn('media_id') . ' = ' . $db->quote((string) $mediaId));
                 $db->setQuery($query)->execute();
             }
         }
@@ -1246,8 +1251,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
             $query->clear()
                 ->select('data_id')
                 ->from($db->qn('#__redshop_fields_data'))
-                ->where($db->qn('fieldid') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($fieldId))
-                ->where($db->qn('itemid') . ' = ' . (int)$productId)
+                ->where($db->qn('fieldid') . ' = ' . /** @scrutinizer ignore-type */$db->quote($fieldId))
+                ->where($db->qn('itemid') . ' = ' . (int) $productId)
                 ->where($db->qn('section') . ' = 1');
 
             if ($dataId = $db->setQuery($query)->loadResult()) {

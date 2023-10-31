@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 use Joomla\Utilities\ArrayHelper;
 use Redshop\Plugin\AbstractExportPlugin;
 
@@ -512,7 +513,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
             foreach ($item as $column => $value) {
                 // Image path process
                 if (in_array($column, $imagesColumn) && $value != "") {
-                    if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $value)) {
+                    if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $value)) {
                         $item[$column] = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $value;
                     } else {
                         $item[$column] = "";

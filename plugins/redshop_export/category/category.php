@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
 use Redshop\Plugin\AbstractExportPlugin;
 
 JLoader::import('redshop.library');
@@ -51,7 +52,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
             $this->writeData($headers, 'w+');
         }
 
-        return (int)$this->getTotal();
+        return (int) $this->getTotal();
     }
 
     /**
@@ -201,11 +202,11 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
         }
 
         foreach ($data as $index => $item) {
-            $item = (array)$item;
+            $item = (array) $item;
 
             foreach ($item as $column => $value) {
                 if ($column == 'category_full_image' && $value != "") {
-                    if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $value)) {
+                    if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $value)) {
                         $item[$column] = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $value;
                     } else {
                         $item[$column] = "";

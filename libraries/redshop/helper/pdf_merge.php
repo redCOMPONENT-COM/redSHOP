@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * PDF Merge helper.
  *
@@ -35,7 +37,7 @@ class RedshopHelperPdf_Merge
      */
     public function addPDF($filePath, $pages = 'all')
     {
-        if (!JFile::exists($filePath)) {
+        if (!File::exists($filePath)) {
             throw new exception('Could not locate PDF on: ' . $filePath);
         }
 
@@ -59,8 +61,8 @@ class RedshopHelperPdf_Merge
      */
     private function rewritePages($pages)
     {
-        $pages = str_replace(' ', '', $pages);
-        $parts = explode(',', $pages);
+        $pages    = str_replace(' ', '', $pages);
+        $parts    = explode(',', $pages);
         $newPages = array();
 
         if (empty($parts)) {
@@ -72,7 +74,7 @@ class RedshopHelperPdf_Merge
             $ind = explode('-', $part);
 
             if (count($ind) != 2) {
-                $newPages[] = (int)$ind[0];
+                $newPages[] = (int) $ind[0];
 
                 continue;
             }
@@ -89,7 +91,7 @@ class RedshopHelperPdf_Merge
 
             // Add middle pages
             while ($x <= $y) {
-                $newPages[] = (int)$x;
+                $newPages[] = (int) $x;
                 $x++;
             }
         }

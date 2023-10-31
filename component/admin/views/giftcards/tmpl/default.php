@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -162,7 +163,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <td class="small hidden-phone">
                             <?php $giftCardPath = 'giftcard/' . $item->giftcard_bgimage; ?>
 
-                            <?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $giftCardPath)): ?>
+                            <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $giftCardPath)): ?>
                                 <?php
                                 $giftCardImagePath = RedshopHelperMedia::getImagePath(
                                     $item->giftcard_bgimage,

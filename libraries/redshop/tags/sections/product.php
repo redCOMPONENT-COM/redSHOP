@@ -10,6 +10,7 @@
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
@@ -932,7 +933,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
         // Product preview image.
         if ($this->isTagExists('{product_preview_img}')) {
-            if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $this->product->product_preview_image)) {
+            if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $this->product->product_preview_image)) {
                 $previewsrcPath = RedshopHelperMedia::getImagePath(
                     $this->product->product_preview_image,
                     '',
@@ -1339,7 +1340,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
         if (
             $manufacturerMedia->isValid() && !empty($manufacturerMedia->get('media_name'))
-            && JFile::exists(
+            && File::exists(
                 REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $this->product->manufacturer_id . '/' . $manufacturerMedia->get(
                     'media_name'
                 )

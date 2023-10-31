@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Table Category
@@ -121,8 +122,8 @@ class RedshopTableCategory extends RedshopTableNested
         if (!empty($this->category_thumb_image)) {
             $thumbPath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $this->category_thumb_image;
 
-            if (JFile::exists($thumbPath)) {
-                JFile::delete($thumbPath);
+            if (File::exists($thumbPath)) {
+                File::delete($thumbPath);
             }
         }
 
@@ -130,8 +131,8 @@ class RedshopTableCategory extends RedshopTableNested
         if (!empty($this->category_full_image)) {
             $fullImagePath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $this->category_full_image;
 
-            if (JFile::exists($fullImagePath)) {
-                JFile::delete($fullImagePath);
+            if (File::exists($fullImagePath)) {
+                File::delete($fullImagePath);
             }
         }
 

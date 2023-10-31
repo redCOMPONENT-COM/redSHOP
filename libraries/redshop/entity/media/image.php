@@ -15,6 +15,7 @@ use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\Palette\RGB;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Media image entity
@@ -78,13 +79,13 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
         // Get original file path
         $sourceFile = $this->getImagePath();
 
-        if (empty($sourceFile) || !JFile::exists($sourceFile)) {
+        if (empty($sourceFile) || !File::exists($sourceFile)) {
             return $result;
         }
 
-        $destinationFile = JFile::stripExt(basename($this->get('media_name')));
+        $destinationFile = File::stripExt(basename($this->get('media_name')));
         $destinationFile .= '_w' . $width . '_h' . $height;
-        $destinationFile .= '.' . JFile::getExt($this->get('media_name'));
+        $destinationFile .= '.' . File::getExt($this->get('media_name'));
 
         // Create thumb folder if not exist
         $thumbPath = REDSHOP_MEDIA_IMAGE_RELPATH . $this->get('media_section')
@@ -99,7 +100,7 @@ class RedshopEntityMediaImage extends RedshopEntityMedia
                 . '/' . $this->get('section_id') . '/thumb/' . $destinationFile
         );
 
-        if ($force === false && JFile::exists($result['rel'])) {
+        if ($force === false && File::exists($result['rel'])) {
             return $result;
         }
 

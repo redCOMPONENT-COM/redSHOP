@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 $url       = JUri::root();
 $link_path = "/components/com_redshop/assets/images/";
@@ -93,7 +94,7 @@ echo RedshopLayoutHelper::render(
                     ); ?>
                 </a>
             </div>
-            <?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $imagePreviousLinkFind)): ?>
+            <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $imagePreviousLinkFind)): ?>
                 <div id="prvlinkdiv">
                     <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"
                         title="<?php echo $imagePreviousLinkFind; ?>" rel="{handler: 'image', size: {}}">
@@ -123,7 +124,7 @@ echo RedshopLayoutHelper::render(
                     ); ?>
                 </a>
             </div>
-            <?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $imageNextLinkFind)): ?>
+            <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $imageNextLinkFind)): ?>
                 <div id="nxtlinkdiv">
                     <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"
                         title="<?php echo $imageNextLinkFind; ?>" rel="{handler: 'image', size: {}}">

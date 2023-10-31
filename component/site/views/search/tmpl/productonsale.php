@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 if (count($this->search) > 0) {
     JPluginHelper::importPlugin('redshop_product');
@@ -493,7 +494,7 @@ if (count($this->search) > 0) {
                     $alttext = $media_documents[$m]->media_name;
                 }
 
-                if (JFile::exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name)) {
+                if (File::exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name)) {
                     $downlink = JURI::root(
                     ) . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
                     $more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";

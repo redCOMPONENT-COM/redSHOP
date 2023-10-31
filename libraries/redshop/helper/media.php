@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * Class Redshop Helper for Media
  *
@@ -135,8 +137,8 @@ class RedshopHelperMedia
      */
     public static function cleanFileName($fileName, $id = null)
     {
-        $fileExt       = strtolower(JFile::getExt($fileName));
-        $fileNameNoExt = JFile::stripExt(basename($fileName));
+        $fileExt       = strtolower(File::getExt($fileName));
+        $fileNameNoExt = File::stripExt(basename($fileName));
         $fileNameNoExt = preg_replace("/[&'#]/", '', $fileNameNoExt);
         $fileNameNoExt = JApplicationHelper::stringURLSafe($fileNameNoExt);
         $fileName      = JPath::clean($fileName);
@@ -250,7 +252,7 @@ class RedshopHelperMedia
             $proportional = Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
         }
 
-        if (!JFile::exists($filePath)) {
+        if (!File::exists($filePath)) {
             return false;
         }
 
@@ -260,10 +262,10 @@ class RedshopHelperMedia
             // IMAGETYPE_GIF
             case '1':
 
-                // IMAGETYPE_JPEG
+            // IMAGETYPE_JPEG
             case '2':
 
-                // IMAGETYPE_PNG
+            // IMAGETYPE_PNG
             case '3':
 
                 // This method should be expanded to be usable for other purposes not just making thumbs
@@ -271,14 +273,14 @@ class RedshopHelperMedia
                 if ($command != 'thumb') {
                     switch ($command) {
                         case 'copy':
-                            if (!JFile::copy($filePath, $dest)) {
+                            if (!File::copy($filePath, $dest)) {
                                 return false;
                             }
 
                             break;
                         case 'upload':
                         default:
-                            if (!JFile::upload($filePath, $dest)) {
+                            if (!File::upload($filePath, $dest)) {
                                 return false;
                             }
                             break;
@@ -290,7 +292,7 @@ class RedshopHelperMedia
                         . $width . '_h' . $height . '.' . $srcPathInfo['extension'];
                     $ret         = $dest;
 
-                    if (!JFile::exists($dest)) {
+                    if (!File::exists($dest)) {
                         $ret = self::writeImage($filePath, $dest, '', $width, $height, $proportional);
                     }
                 }
@@ -328,15 +330,15 @@ class RedshopHelperMedia
         $contents = ob_get_contents();
         ob_end_clean();
 
-        if (JFile::exists($dest) && $altDest != '') {
-            if (JFile::exists($altDest)) {
+        if (File::exists($dest) && $altDest != '') {
+            if (File::exists($altDest)) {
                 return false;
             }
 
             $dest = $altDest;
         }
 
-        if (!JFile::write($dest, $contents)) {
+        if (!File::write($dest, $contents)) {
             return false;
         }
 
@@ -378,10 +380,10 @@ class RedshopHelperMedia
         }
 
         // Setting defaults and meta
-        $info = getimagesize($file);
+        $info                       = getimagesize($file);
         list($widthOld, $heightOld) = $info;
-        $horizontalCenter = 0;
-        $verticalCenter   = 0;
+        $horizontalCenter           = 0;
+        $verticalCenter             = 0;
 
         // Calculating proportionality resize
         switch ($proportional) {
@@ -394,14 +396,14 @@ class RedshopHelperMedia
                     $factor = min($width / $widthOld, $height / $heightOld);
                 }
 
-                $finalWidth  = round($widthOld * $factor);
+                $finalWidth = round($widthOld * $factor);
                 $finalHeight = round($heightOld * $factor);
                 break;
 
             // Resize and cropped
             case '2':
-                $width     = ($width <= 0) ? $widthOld : $width;
-                $height    = ($height <= 0) ? $heightOld : $height;
+                $width = ($width <= 0) ? $widthOld : $width;
+                $height = ($height <= 0) ? $heightOld : $height;
                 $ratioOrig = $widthOld / $heightOld;
 
                 if ($width / $height > $ratioOrig) {
@@ -412,16 +414,16 @@ class RedshopHelperMedia
                     $finalHeight = $height;
                 }
 
-                $xMid             = $finalWidth / 2;
-                $yMid             = $finalHeight / 2;
+                $xMid = $finalWidth / 2;
+                $yMid = $finalHeight / 2;
                 $horizontalCenter = $xMid - ($width / 2);
-                $verticalCenter   = $yMid - ($height / 2);
+                $verticalCenter = $yMid - ($height / 2);
                 break;
 
             // Not proportionality resize
             case '0':
             default:
-                $finalWidth  = ($width <= 0) ? $widthOld : $width;
+                $finalWidth = ($width <= 0) ? $widthOld : $width;
                 $finalHeight = ($height <= 0) ? $heightOld : $height;
         }
 
@@ -490,7 +492,7 @@ class RedshopHelperMedia
             if ($useLinuxCommands) {
                 exec('rm ' . $file);
             } else {
-                JFile::delete($file);
+                File::delete($file);
             }
         }
 
@@ -555,7 +557,8 @@ class RedshopHelperMedia
 
         try {
             return imagedestroy($res);
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'warning');
 
             return false;
@@ -664,7 +667,7 @@ class RedshopHelperMedia
             ->from($db->qn('#__redshop_media', 'm'))
             ->where($db->qn('m.media_section') . ' = ' . $db->quote($section))
             ->where($db->qn('m.media_type') . ' = ' . $db->quote($mediaType))
-            ->where($db->qn('m.section_id') . ' = ' . (int)$sectionId)
+            ->where($db->qn('m.section_id') . ' = ' . (int) $sectionId)
             ->where($db->qn('m.published') . ' = 1')
             ->order($db->qn('m.ordering') . ',' . $db->qn('m.media_id') . ' ASC');
 
@@ -746,12 +749,13 @@ class RedshopHelperMedia
 
         try {
             // If main image not exists - display noimage
-            if (!JFile::exists($pathImage)) {
+            if (!File::exists($pathImage)) {
                 return REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
             }
 
             // If watermark not exists or disable - display simple thumb
-            if ($enableWatermark <= 0
+            if (
+                $enableWatermark <= 0
                 || !file_exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . Redshop::getConfig()->get('WATERMARK_IMAGE')
                 )
@@ -760,19 +764,20 @@ class RedshopHelperMedia
             }
 
             // If width and height not set - use with and height original image
-            if (((int)$thumbWidth == 0 && (int)$thumbHeight == 0)
-                || ((int)$thumbWidth != 0 && (int)$thumbHeight == 0)
-                || ((int)$thumbWidth == 0 && (int)$thumbHeight != 0)
+            if (
+                ((int) $thumbWidth == 0 && (int) $thumbHeight == 0)
+                || ((int) $thumbWidth != 0 && (int) $thumbHeight == 0)
+                || ((int) $thumbWidth == 0 && (int) $thumbHeight != 0)
             ) {
                 list($thumbWidth, $thumbHeight) = getimagesize($pathImage);
             }
 
-            $imageNameWithPrefix = JFile::stripExt(
-                    $imageName
-                ) . '_w' . (int)$thumbWidth . '_h' . (int)$thumbHeight . '_i'
-                . JFile::stripExt(basename(Redshop::getConfig()->get('WATERMARK_IMAGE'))) . '.' . JFile::getExt(
-                    $imageName
-                );
+            $imageNameWithPrefix = File::stripExt(
+                $imageName
+            ) . '_w' . (int) $thumbWidth . '_h' . (int) $thumbHeight . '_i'
+                . File::stripExt(basename(Redshop::getConfig()->get('WATERMARK_IMAGE'))) . '.' . File::getExt(
+                        $imageName
+                    );
 
             $destinationFile = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/thumb/' . $imageNameWithPrefix;
 
@@ -780,7 +785,7 @@ class RedshopHelperMedia
                 $destinationFile = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/thumb/' . $imageName;
             }
 
-            if (JFile::exists($destinationFile)) {
+            if (File::exists($destinationFile)) {
                 if (in_array($section, array('manufacturer', 'category'))) {
                     return REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/' . $imageName;
                 }
@@ -789,8 +794,8 @@ class RedshopHelperMedia
             }
 
             $filePath = JPATH_SITE . '/components/com_redshop/assets/images/product/' . Redshop::getConfig()->get(
-                    'WATERMARK_IMAGE'
-                );
+                'WATERMARK_IMAGE'
+            );
 
             $fileName = self::generateImages(
                 $filePath,
@@ -816,14 +821,14 @@ class RedshopHelperMedia
             $contents = ob_get_contents();
             ob_end_clean();
 
-            if (!JFile::write($destinationFile, $contents)) {
+            if (!File::write($destinationFile, $contents)) {
                 return REDSHOP_FRONT_IMAGES_ABSPATH . $section . "/" . $imageName;
             }
 
-            switch (JFile::getExt(Redshop::getConfig()->get('WATERMARK_IMAGE'))) {
+            switch (File::getExt(Redshop::getConfig()->get('WATERMARK_IMAGE'))) {
                 case 'gif':
                     $dest = imagecreatefromjpeg($destinationFile);
-                    $src  = imagecreatefromgif($watermark);
+                    $src = imagecreatefromgif($watermark);
 
                     list($width, $height) = getimagesize($destinationFile);
                     list($watermarkWidth, $watermarkHeight) = getimagesize($watermark);
@@ -849,7 +854,7 @@ class RedshopHelperMedia
                 case 'png':
                     $im = imagecreatefrompng($watermark);
 
-                    switch (JFile::getExt($destinationFile)) {
+                    switch (File::getExt($destinationFile)) {
                         case 'gif':
                             $im2 = imagecreatefromgif($destinationFile);
                             break;
@@ -875,7 +880,7 @@ class RedshopHelperMedia
                     );
 
                     $waterless = imagesx($im2) - imagesx($im);
-                    $rest      = ceil($waterless / imagesx($im) / 2);
+                    $rest = ceil($waterless / imagesx($im) / 2);
 
                     for ($n = 1; $n <= $rest; $n++) {
                         imagecopy(
@@ -910,7 +915,8 @@ class RedshopHelperMedia
             }
 
             return REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $imageNameWithPrefix;
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             if ($e->getMessage()) {
                 JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
             }
@@ -924,7 +930,7 @@ class RedshopHelperMedia
                 $fileName = REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/' . $imageName;
             }
 
-            if ((int)$thumbWidth != 0 || (int)$thumbHeight != 0) {
+            if ((int) $thumbWidth != 0 || (int) $thumbHeight != 0) {
                 $filePath = REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage;
 
                 if (in_array($section, array('manufacturer', 'category'))) {
@@ -944,7 +950,8 @@ class RedshopHelperMedia
                 $fileName = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $fileInfo['basename'];
 
                 if (in_array($section, array('manufacturer', 'category'))) {
-                    $fileName = REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/' . $fileInfo['basename'];;
+                    $fileName = REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/' . $fileInfo['basename'];
+                    ;
                 }
             }
 
@@ -986,7 +993,7 @@ class RedshopHelperMedia
             ->select($db->qn('media_alternate_text'))
             ->from($db->qn('#__redshop_media'))
             ->where($db->qn('media_section') . ' = ' . $db->quote($mediaSection))
-            ->where($db->qn('section_id') . ' = ' . (int)$sectionId)
+            ->where($db->qn('section_id') . ' = ' . (int) $sectionId)
             ->where($db->qn('media_type') . ' = ' . $db->quote($mediaType));
 
         if (!empty($mediaName)) {
@@ -994,7 +1001,7 @@ class RedshopHelperMedia
         }
 
         if ($mediaId) {
-            $query->where($db->qn('media_id') . ' = ' . (int)$mediaId);
+            $query->where($db->qn('media_id') . ' = ' . (int) $mediaId);
         }
 
         return $db->setQuery($query)->loadResult();
@@ -1025,7 +1032,7 @@ class RedshopHelperMedia
         }
 
         if (!empty($sectionId)) {
-            $query->where($db->qn('section_id') . ' = ' . (int)$sectionId);
+            $query->where($db->qn('section_id') . ' = ' . (int) $sectionId);
         }
 
         if (!empty($scope)) {

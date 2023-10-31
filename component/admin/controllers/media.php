@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Utilities\ArrayHelper;
-
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
+use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.filesystem.file');
 
@@ -66,12 +66,12 @@ class RedshopControllerMedia extends RedshopController
 
             if (!$errors) {
                 $filename = RedshopHelperMedia::cleanFileName($file['name'][$i]);
-                $fileExt  = JFile::getExt($filename);
+                $fileExt  = File::getExt($filename);
 
                 if ($fileExt) {
                     $src        = $file['tmp_name'][$i];
                     $dest       = $productDownloadRoot . $filename;
-                    $fileUpload = JFile::upload($src, $dest);
+                    $fileUpload = File::upload($src, $dest);
 
                     if ($fileUpload != 1) {
                         $msg = Text::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
@@ -230,7 +230,7 @@ class RedshopControllerMedia extends RedshopController
         $tempDir = REDSHOP_MEDIA_IMAGE_RELPATH . 'tmp/';
         JFolder::create($tempDir, 0755);
         $dest = $tempDir . $filename;
-        JFile::upload($src, $dest);
+        File::upload($src, $dest);
 
         $fileId    = '';
         $mediaType = 'images';

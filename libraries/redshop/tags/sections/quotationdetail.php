@@ -10,6 +10,7 @@
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Tags replacer abstract class
@@ -308,11 +309,11 @@ class RedshopTagsSectionsQuotationDetail extends RedshopTagsAbstract
         $productImagePath = "";
 
         if ($product->product_full_image) {
-            if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image)) {
+            if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image)) {
                 $productImagePath = $product->product_full_image;
             } else {
                 if (
-                    JFile::exists(
+                    File::exists(
                         REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get(
                             'PRODUCT_DEFAULT_IMAGE'
                         )
@@ -323,7 +324,7 @@ class RedshopTagsSectionsQuotationDetail extends RedshopTagsAbstract
             }
         } else {
             if (
-                JFile::exists(
+                File::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get(
                         'PRODUCT_DEFAULT_IMAGE'
                     )

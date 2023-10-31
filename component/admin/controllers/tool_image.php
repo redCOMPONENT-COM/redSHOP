@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Tool Image controller
@@ -35,7 +37,7 @@ class RedshopControllerTool_Image extends RedshopController
         $images = array();
 
         // Folder
-        $folders = JFolder::folders(REDSHOP_FRONT_IMAGES_RELPATH);
+        $folders = Folder::folders(REDSHOP_FRONT_IMAGES_RELPATH);
 
         foreach ($folders as $index => $folder) {
             if ($folder == 'tmp') {
@@ -44,7 +46,7 @@ class RedshopControllerTool_Image extends RedshopController
                 continue;
             }
 
-            $files = JFolder::files(REDSHOP_FRONT_IMAGES_RELPATH . $folder);
+            $files = Folder::files(REDSHOP_FRONT_IMAGES_RELPATH . $folder);
 
             foreach ($files as $key => $file) {
                 if ($file == 'index.html') {
@@ -79,7 +81,7 @@ class RedshopControllerTool_Image extends RedshopController
         $results = array();
 
         // Folder
-        $folders = JFolder::folders(REDSHOP_FRONT_IMAGES_RELPATH);
+        $folders = Folder::folders(REDSHOP_FRONT_IMAGES_RELPATH);
 
         foreach ($folders as $index => $folder) {
             if ($folder == 'tmp') {
@@ -88,16 +90,16 @@ class RedshopControllerTool_Image extends RedshopController
                 continue;
             }
 
-            $subFolders = JFolder::folders(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $folder);
+            $subFolders = Folder::folders(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $folder);
 
             foreach ($subFolders as $subFolder) {
                 if ($subFolder != 'thumb') {
                     continue;
                 }
 
-                JFolder::delete(JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $folder . '/thumb'));
-                JFolder::create(JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $folder . '/thumb'));
-                JFile::copy(
+                Folder::delete(JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $folder . '/thumb'));
+                Folder::create(JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $folder . '/thumb'));
+                File::copy(
                     REDSHOP_FRONT_IMAGES_RELPATH . '/index.html',
                     REDSHOP_FRONT_IMAGES_RELPATH . '/' . $folder . '/thumb/index.html'
                 );
@@ -130,7 +132,7 @@ class RedshopControllerTool_Image extends RedshopController
             $results = array('status' => 1, 'msg' => Text::_('COM_REDSHOP_TOOLS_IMAGES_DONE'));
             $app->setUserState('com_redshop.tools.images', null);
         } else {
-            if (JFile::exists($file) && RedshopHelperMedia::isImage($file)) {
+            if (File::exists($file) && RedshopHelperMedia::isImage($file)) {
                 $maxWidth  = Redshop::getConfig()->getInt('IMAGE_MAX_WIDTH', 2048);
                 $maxHeight = Redshop::getConfig()->getInt('IMAGE_MAX_HEIGHT', 2048);
 

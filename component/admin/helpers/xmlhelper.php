@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 class xmlHelper
 {
@@ -390,7 +391,7 @@ class xmlHelper
         $xml_document .= "</" . $xmlExportData->parent_name . ">";
 
         // Data in Variables ready to be written to an XML file
-        JFile::write($destpath . $filename, $xml_document);
+        File::write($destpath . $filename, $xml_document);
 
         $this->insertXMLExportlog($xmlExportId, $filename);
 
@@ -856,7 +857,7 @@ class xmlHelper
         $xml_document .= "</" . $xmlimportdata->element_name . "s>";
 
         // Data in Variables ready to be written to an XML file
-        JFile::write($destpath . $filename, $xml_document);
+        File::write($destpath . $filename, $xml_document);
 
         // Update new generated imported file in database record
         $this->updateXMLImportFilename($xmlimport_id, $filename);
@@ -1140,7 +1141,7 @@ class xmlHelper
         $destpath = JPATH_SITE . "/components/com_redshop/assets/xmlfile/import/";
 
         if (
-            ($xmlimportdata->filename == "" || !JFile::exists(
+            ($xmlimportdata->filename == "" || !File::exists(
                 $destpath . $xmlimportdata->filename
             )
             ) && $xmlimportdata->published == 0

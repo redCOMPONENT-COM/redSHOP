@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 use Redshop\Economic\RedshopEconomic;
 
 class RedshopControllerOrder extends RedshopController
@@ -170,7 +171,7 @@ class RedshopControllerOrder extends RedshopController
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
             $bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
 
-            if (JFile::exists($bookinvoicepdf)) {
+            if (File::exists($bookinvoicepdf)) {
                 $ecomsg  = Text::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
                 $msgType = 'message';
                 Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
@@ -214,7 +215,7 @@ class RedshopControllerOrder extends RedshopController
             if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0) {
                 $bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($order_id, 1);
 
-                if (JFile::exists($bookinvoicepdf)) {
+                if (File::exists($bookinvoicepdf)) {
                     $ret = Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
                 }
             }

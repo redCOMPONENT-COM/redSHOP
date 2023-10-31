@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Registry\Registry;
-
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
+use Joomla\Registry\Registry;
 
 /**
  * Class RedshopControllerWizard
@@ -29,7 +29,7 @@ class RedshopControllerWizard extends RedshopController
         $this->_temp_file_dist = JPATH_COMPONENT_ADMINISTRATOR . '/config/config.dist.php';
         $this->_temp_file      = JPATH_COMPONENT_ADMINISTRATOR . '/config/config.php';
 
-        \JFile::copy($this->_temp_file_dist, $this->_temp_file);
+        File::copy($this->_temp_file_dist, $this->_temp_file);
     }
 
     /**

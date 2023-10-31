@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
@@ -243,7 +244,7 @@ if ($showbuttons) {
                                 <?php
 
                                 if ($this->detail->media_name) {
-                                    $filetype = strtolower(JFile::getExt($this->detail->media_name));
+                                    $filetype = strtolower(File::getExt($this->detail->media_name));
 
                                     if ($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif') {
                                         $thumbUrl = RedshopHelperMedia::getImagePath(

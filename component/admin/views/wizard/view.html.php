@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
 
 require_once 'components/com_redshop/views/configuration/view.html.php';
@@ -30,7 +31,7 @@ class RedshopViewWizard extends RedshopViewAdmin
         if ($wizardConfig === false) {
             $config = JPATH_BASE . '/components/com_redshop/config/config.dist.php';
 
-            if (JFile::exists($config)) {
+            if (File::exists($config)) {
                 // Only load this file if this class is not declared
                 if (!class_exists('RedshopConfig')) {
                     require_once $config;

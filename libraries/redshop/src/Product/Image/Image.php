@@ -11,6 +11,8 @@ namespace Redshop\Product\Image;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * Product image helper
  *
@@ -54,12 +56,12 @@ class Image
         /*$refererpath=explode("view=",$_SERVER['HTTP_REFERER']);
         $getview=explode("&",$refererpath[1]);*/
 
-        if (\JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_thumb_image)) {
+        if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_thumb_image)) {
             $type                = 'product';
             $imageName           = $product->product_thumb_image;
             $aTitleImageResponse = $product->product_name;
             $attributeImage      = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $product->product_thumb_image;
-        } elseif (\JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_full_image)) {
+        } elseif (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_full_image)) {
             $altText = $product->product_name;
             \RedshopHelperUtility::getDispatcher()->trigger(
                 'onChangeMainProductImageAlternateText',
@@ -71,16 +73,18 @@ class Image
             $aTitleImageResponse = $altText;
             $attributeImage      = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $product->product_full_image;
         } else {
-            if (\Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')
-                && \JFile::exists(
+            if (
+                \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')
+                && File::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')
-                )) {
+                )
+            ) {
                 $type                = 'product';
                 $imageName           = \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
                 $aTitleImageResponse = \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
                 $attributeImage      = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . \Redshop::getConfig()->get(
-                        'PRODUCT_DEFAULT_IMAGE'
-                    );
+                    'PRODUCT_DEFAULT_IMAGE'
+                );
             }
         }
 
@@ -88,18 +92,22 @@ class Image
             $property   = \RedshopHelperProduct_Attribute::getAttributeProperties($propertyId);
             $productSKU = $property[0]->property_number;
 
-            if (count($property) > 0 && \JFile::exists(
+            if (
+                count($property) > 0 && File::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $property[0]->property_main_image
-                )) {
+                )
+            ) {
                 $type                = 'property';
                 $imageName           = $property[0]->property_main_image;
                 $aTitleImageResponse = $property[0]->text;
             }
 
             // Display attribute image in cart
-            if (count($property) > 0 && \JFile::exists(
+            if (
+                count($property) > 0 && File::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $property[0]->property_image
-                )) {
+                )
+            ) {
                 $attributeImage = REDSHOP_FRONT_IMAGES_ABSPATH . 'product_attributes/' . $property[0]->property_image;
             }
         }
@@ -109,10 +117,12 @@ class Image
             $productSKU  = $subproperty[0]->subattribute_color_number;
 
             // Display Sub-Property Number
-            if (count($subproperty) > 0
-                && \JFile::exists(
+            if (
+                count($subproperty) > 0
+                && File::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $subproperty[0]->subattribute_color_main_image
-                )) {
+                )
+            ) {
                 $type                = 'subproperty';
                 $imageName           = $subproperty[0]->subattribute_color_main_image;
                 $aTitleImageResponse = $subproperty[0]->text;
@@ -120,10 +130,12 @@ class Image
             }
 
             // Subproperty image in cart
-            if (!empty($subproperty)
-                && \JFile::exists(
+            if (
+                !empty($subproperty)
+                && File::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $subproperty[0]->subattribute_color_image
-                )) {
+                )
+            ) {
                 $attributeImage = REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' . $subproperty[0]->subattribute_color_image;
             }
         }
@@ -171,10 +183,13 @@ class Image
             $mainImageResponse = "<img id='main_image" . $id . "' src='" . $productMainImg . "' alt='"
                 . $altText . "' title='" . $altText . "'>";
 
-            if ($view === 'category'
+            if (
+                $view === 'category'
                 || (!\Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX') || !\Redshop::getConfig()->get(
-                        'PRODUCT_DETAIL_IS_LIGHTBOX'
-                    ))) {
+                    'PRODUCT_DETAIL_IS_LIGHTBOX'
+                )
+                )
+            ) {
                 $mainImageResponse = $productMainImg;
             }
         }
@@ -229,9 +244,11 @@ class Image
 
         $productImage = $result->product_full_image;
 
-        if ($isLight !== 2 && $result->product_thumb_image && \JFile::exists(
+        if (
+            $isLight !== 2 && $result->product_thumb_image && File::exists(
                 $middlePath . $result->product_thumb_image
-            )) {
+            )
+        ) {
             $productImage = $result->product_thumb_image;
         }
 
@@ -249,17 +266,19 @@ class Image
 
         $imageName            = '';
         $linkImageName        = '';
-        $productImageExist    = $productImage && \JFile::exists($middlePath . $productImage);
-        $productFullImgExist  = $result->product_full_image && \JFile::exists(
-                $middlePath . $result->product_full_image
-            );
-        $productThumbImgExist = $result->product_thumb_image && \JFile::exists(
-                $middlePath . $result->product_thumb_image
-            );
+        $productImageExist    = $productImage && File::exists($middlePath . $productImage);
+        $productFullImgExist  = $result->product_full_image && File::exists(
+            $middlePath . $result->product_full_image
+        );
+        $productThumbImgExist = $result->product_thumb_image && File::exists(
+            $middlePath . $result->product_thumb_image
+        );
 
         if (!$isStockExists && \Redshop::getConfig()->getInt('USE_PRODUCT_OUTOFSTOCK_IMAGE') === 1) {
-            if (\Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE')
-                && \JFile::exists($middlePath . \Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE'))) {
+            if (
+                \Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE')
+                && File::exists($middlePath . \Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE'))
+            ) {
                 $imageName = \Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE');
             } elseif ($productImageExist) {
                 if ($productFullImgExist && $productThumbImgExist) {
@@ -281,8 +300,10 @@ class Image
                 return '';
             }
         } else {
-            if (\Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')
-                && \JFile::exists($middlePath . \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'))) {
+            if (
+                \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')
+                && File::exists($middlePath . \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'))
+            ) {
                 $imageName = \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
             } else {
                 return '';
@@ -320,9 +341,11 @@ class Image
             $property = \RedshopHelperProduct_Attribute::getAttributeProperties($propertyId);
 
             // Display attribute image in cart
-            if (!empty($property) && \JFile::exists(
+            if (
+                !empty($property) && File::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $property[0]->property_image
-                )) {
+                )
+            ) {
                 return REDSHOP_FRONT_IMAGES_ABSPATH . 'product_attributes/' . $property[0]->property_image;
             }
         }
@@ -330,9 +353,11 @@ class Image
         if ($subPropertyId) {
             $subproperty = \RedshopHelperProduct_Attribute::getAttributeSubProperties($subPropertyId);
 
-            if (!empty($subproperty) && \JFile::exists(
+            if (
+                !empty($subproperty) && File::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $subproperty[0]->subattribute_color_image
-                )) {
+                )
+            ) {
                 return REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' . $subproperty[0]->subattribute_color_image;
             }
         }

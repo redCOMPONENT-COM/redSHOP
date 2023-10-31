@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Tool update controller
@@ -49,7 +51,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
     public function ajaxProcess()
     {
         \Redshop\Helper\Ajax::validateAjaxRequest();
-        $app = JFactory::getApplication();
+        $app = Factory::getApplication();
 
         $remainingTasks = RedshopInstall::getRemainingTasks();
 
@@ -145,7 +147,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
     public function ajaxMigrateFiles()
     {
         \Redshop\Helper\Ajax::validateAjaxRequest();
-        $app     = JFactory::getApplication();
+        $app     = Factory::getApplication();
         $version = $this->input->getString('version', '');
 
         if (empty($version)) {
@@ -184,11 +186,11 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
     public function ajaxRunUpdateSql()
     {
         \Redshop\Helper\Ajax::validateAjaxRequest();
-        $app     = JFactory::getApplication();
+        $app     = Factory::getApplication();
         $version = $this->input->getString('version', '');
         $file    = JPath::clean(JPATH_COMPONENT_ADMINISTRATOR . '/sql/updates/mysql/' . $version . '.sql');
 
-        if (empty($version) || !JFile::exists($file)) {
+        if (empty($version) || !File::exists($file)) {
             $app->sendHeaders();
             echo json_encode(
                 (object) array('msg' => Text::_('COM_REDSHOP_TOOL_AJAX_ERROR_VERSION_NOT_FOUND'), 'continue' => 0)
@@ -218,7 +220,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
             $app->close();
         }
 
-        $db = JFactory::getDbo();
+        $db = Factory::getDbo();
 
         // Process each query in the $queries array (split out of sql file).
         foreach ($queries as $query) {

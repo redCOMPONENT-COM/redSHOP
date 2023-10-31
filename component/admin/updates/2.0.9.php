@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * Update class
  *
@@ -90,7 +92,7 @@ class RedshopUpdate209 extends RedshopInstallUpdate
             $sourceFile = JPATH_SITE . '/components/com_redshop/views/' . $view . '/tmpl/' . $template->section . '/' . $template->name . '.php';
             $sourceFile = JPath::clean($sourceFile);
 
-            if (!JFile::exists($sourceFile)) {
+            if (!File::exists($sourceFile)) {
                 $sourceFile = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $table->section . '/default.php');
             }
 
@@ -98,12 +100,12 @@ class RedshopUpdate209 extends RedshopInstallUpdate
                 JPATH_REDSHOP_TEMPLATE . '/' . $table->section . '/' . $table->file_name . '.php'
             );
 
-            if (JFile::exists($sourceFile)) {
-                if (JFile::exists($targetFile)) {
-                    JFile::delete($targetFile);
+            if (File::exists($sourceFile)) {
+                if (File::exists($targetFile)) {
+                    File::delete($targetFile);
                 }
 
-                JFile::copy($sourceFile, $targetFile);
+                File::copy($sourceFile, $targetFile);
             }
 
             $tables[] = $table;
@@ -246,7 +248,7 @@ class RedshopUpdate209 extends RedshopInstallUpdate
 
             $overrideFile = JPath::clean($overrideFile);
 
-            if (!JFile::exists($overrideFile)) {
+            if (!File::exists($overrideFile)) {
                 continue;
             }
 
@@ -254,11 +256,11 @@ class RedshopUpdate209 extends RedshopInstallUpdate
                 JPATH_REDSHOP_TEMPLATE . '/' . $template->section . '/' . $template->file_name . '.php'
             );
 
-            if (JFile::exists($target)) {
-                JFile::delete($target);
+            if (File::exists($target)) {
+                File::delete($target);
             }
 
-            JFile::move($overrideFile, $target);
+            File::move($overrideFile, $target);
         }
     }
 

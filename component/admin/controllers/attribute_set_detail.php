@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Attribute Set Detail controller
@@ -268,9 +269,9 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
         /** @var RedshopModelProduct_Detail $model */
         $model = $this->getModel('product_detail');
 
-        $filetype = strtolower(JFile::getExt($main_img['name']));
+        $filetype = strtolower(File::getExt($main_img['name']));
 
-        $filetype_sub = strtolower(JFile::getExt($sub_img['name'][0]));
+        $filetype_sub = strtolower(File::getExt($sub_img['name'][0]));
 
         if (
             $filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg' && $main_img['name'] != ''

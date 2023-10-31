@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Category Controller.
@@ -65,8 +66,8 @@ class RedshopControllerCategory extends RedshopController
      */
     public function download()
     {
-        $filename            = $this->input->getString('file', '');
-        $db                  = JFactory::getDbo();
+        $filename    = $this->input->getString('file', '');
+        $db          = JFactory::getDbo();
         $tablePrefix = "#__redshop_";
 
         session_cache_limiter('public');
@@ -92,9 +93,9 @@ class RedshopControllerCategory extends RedshopController
                     . "LEFT JOIN " . $tablePrefix . "xml_export_log AS xl ON x.xmlexport_id=xl.xmlexport_id "
                     . "LEFT JOIN " . $this->_tablePrefix . "xml_export_ipaddress AS xi ON x.xmlexport_id=xi.xmlexport_id "
                     . "WHERE x.published=1 "
-                    . "AND (x.filename=" . $db->quote((string)$filename) . " "
-                    . "OR xl.xmlexport_filename=" . $db->quote((string)$filename) . ") "
-                    . "AND xi.access_ipaddress=" . $db->quote((string)$_SERVER['REMOTE_ADDR']) . " "
+                    . "AND (x.filename=" . $db->quote((string) $filename) . " "
+                    . "OR xl.xmlexport_filename=" . $db->quote((string) $filename) . ") "
+                    . "AND xi.access_ipaddress=" . $db->quote((string) $_SERVER['REMOTE_ADDR']) . " "
                     . "ORDER BY xl.xmlexport_date DESC ";
                 $db->setQuery($query);
                 $data = $db->loadObject();
@@ -136,7 +137,7 @@ class RedshopControllerCategory extends RedshopController
         if ($filename != "") {
             $filepath = JPATH_COMPONENT_SITE . "/assets/xmlfile/export/" . $filename;
 
-            if (!JFile::exists($filepath)) {
+            if (!File::exists($filepath)) {
                 throw new \Exception("Oops. File not found");
             }
         } else {
@@ -149,7 +150,8 @@ class RedshopControllerCategory extends RedshopController
         if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT'])) {
             try {
                 ini_set('zlib.output_compression', 'Off');
-            } catch (Exception $ex) {
+            }
+            catch (Exception $ex) {
                 JFactory::getApplication()->enqueueMessage($ex->getMessage(), 'error');
             }
         }

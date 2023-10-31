@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 $app      = JFactory::getApplication();
 $jinput   = $app->input;
@@ -23,7 +24,7 @@ if ($download) {
     $name     = 'label_' . $oid . '.pdf';
     $tmp_name = JPATH_COMPONENT_ADMINISTRATOR . '/assets/lables/' . $name;
 
-    $tmp_type = strtolower(JFile::getExt($name));
+    $tmp_type = strtolower(File::getExt($name));
 
     switch ($tmp_type) {
         case "pdf":

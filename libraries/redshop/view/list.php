@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 use Redshop\View\AbstractView;
 
 jimport('joomla.application.component.viewlegacy');
@@ -205,7 +206,7 @@ class RedshopViewList extends AbstractView
     {
         $formPath = JPATH_COMPONENT_ADMINISTRATOR . '/models/forms/' . $this->getInstanceName() . '.xml';
 
-        if (!JFile::exists($formPath)) {
+        if (!File::exists($formPath)) {
             return;
         }
 

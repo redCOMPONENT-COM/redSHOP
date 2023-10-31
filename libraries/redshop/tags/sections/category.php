@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Tags replacer abstract class
@@ -351,7 +352,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
             }
         } elseif (
             Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')
-            && JFile::exists($middlePath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'))
+            && File::exists($middlePath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'))
         ) {
             // Use default image
             $categoryFullImage = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');

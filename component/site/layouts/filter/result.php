@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 JLoader::import('redshop.library');
 
@@ -174,7 +175,7 @@ if (
         $productImage = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
         $linkImage    = $productImage;
 
-        if ($row->category_full_image && JFile::exists($middlePath . $row->category_full_image)) {
+        if ($row->category_full_image && File::exists($middlePath . $row->category_full_image)) {
             $categoryFullImage = $row->category_full_image;
             $productImage      = RedshopHelperMedia::watermark(
                 'category',
@@ -194,7 +195,7 @@ if (
                 '0'
             );
         } elseif (
-            Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && JFile::exists(
+            Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && File::exists(
                 $middlePath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')
             )
         ) {
@@ -353,7 +354,7 @@ if (strpos($templateDesc, '{category_main_thumb_image_2}') !== false) {
 $catMainThumb = "";
 
 if (
-    $mainCategory->category_full_image && JFile::exists(
+    $mainCategory->category_full_image && File::exists(
         REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $mainCategory->category_full_image
     )
 ) {
@@ -629,7 +630,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
         // Product preview image.
         if (strstr($dataAdd, '{product_preview_img}')) {
-            if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image)) {
+            if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image)) {
                 $previewsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=product/"
                     . $product->product_preview_image . "&newxsize=" . Redshop::getConfig()->get(
                             'CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH'

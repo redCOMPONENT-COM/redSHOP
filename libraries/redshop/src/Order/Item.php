@@ -12,6 +12,7 @@ namespace Redshop\Order;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Order item helper
@@ -94,7 +95,7 @@ class Item
             );
             $attributeImage = '';
 
-            if (\JFile::exists($path)) {
+            if (File::exists($path)) {
                 $attributeImagePath = \RedshopHelperMedia::getImagePath(
                     $items[$i]->attribute_image,
                     '',
@@ -107,7 +108,7 @@ class Item
                 $attributeImage     = '<img src="' . $attributeImagePath . '">';
             } else {
                 if (
-                    \JFile::exists(
+                    File::exists(
                         JPATH_COMPONENT_SITE . '/assets/images/product_attributes/' . $items[$i]->attribute_image
                     )
                     && \Redshop::getConfig()->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART')
@@ -132,7 +133,7 @@ class Item
                     }
 
                     if ($productFullImg) {
-                        if (\JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $productType . "/" . $productFullImg)) {
+                        if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $productType . "/" . $productFullImg)) {
                             $attributeImagePath = \RedshopHelperMedia::getImagePath(
                                 $productFullImg,
                                 '',
@@ -145,7 +146,7 @@ class Item
                             $attributeImage     = '<img src="' . $attributeImagePath . '">';
                         } else {
                             if (
-                                \JFile::exists(
+                                File::exists(
                                     REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->getString(
                                         'PRODUCT_DEFAULT_IMAGE'
                                     )
@@ -165,7 +166,7 @@ class Item
                         }
                     } else {
                         if (
-                            \JFile::exists(
+                            File::exists(
                                 REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->get(
                                     'PRODUCT_DEFAULT_IMAGE'
                                 )
@@ -397,7 +398,7 @@ class Item
                 'OnSetCartOrderItemImage',
                 array(&
                     $prepareCartAttributes,
-            &
+                    &
                     $attributeImage,
                     $items[$i],
                     $i

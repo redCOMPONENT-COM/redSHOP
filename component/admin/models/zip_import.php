@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
@@ -124,7 +125,7 @@ class RedshopModelZip_import extends RedshopModel
         $this->setState('extension.message', $installer->get('extension.message'));
 
         // Cleanup the install files
-        if (!JFile::exists($package['packagefile'])) {
+        if (!File::exists($package['packagefile'])) {
             $config                 = JFactory::getConfig();
             $package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
         }

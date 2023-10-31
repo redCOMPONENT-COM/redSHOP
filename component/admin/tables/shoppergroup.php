@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * The zipcode table
  *
@@ -45,11 +47,11 @@ class RedshopTableShopperGroup extends RedshopTable
         $this->storeImage();
         $data = JFactory::getApplication()->input->post->get('jform', array(), 'array');
 
-        if ( ! empty($data['manufactures'])) {
+        if (!empty($data['manufactures'])) {
             $this->manufactures = implode(',', $data['manufactures']);
         }
 
-        if ( ! empty($data['categories'])) {
+        if (!empty($data['categories'])) {
             $this->categories = implode(',', $data['categories']);
         }
 
@@ -63,28 +65,28 @@ class RedshopTableShopperGroup extends RedshopTable
         $post            = $app->input->post->getArray();
         $shopperGroupDir = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/';
 
-        if ( ! empty($logo['name']) || ! empty($post['logo_tmp'])) {
+        if (!empty($logo['name']) || !empty($post['logo_tmp'])) {
             $logoPath = $shopperGroupDir . $post['logo'];
 
-            if (JFile::exists($logoPath)) {
-                JFile::delete($logoPath);
+            if (File::exists($logoPath)) {
+                File::delete($logoPath);
             }
         }
 
-        if ( ! empty($logo['name'])) {
+        if (!empty($logo['name'])) {
             $logoName = RedshopHelperMedia::cleanFileName($logo['name']);
 
             // Image Upload
-            $logoType = JFile::getExt($logo['name']);
+            $logoType = File::getExt($logo['name']);
 
             $src  = $logo['tmp_name'];
             $dest = $shopperGroupDir . $logoName;
 
             if ($logoType == 'jpg' || $logoType == 'jpeg' || $logoType == 'gif' || $logoType == 'png') {
-                JFile::upload($src, $dest);
+                File::upload($src, $dest);
                 $this->logo = $logoName;
             }
-        } elseif ( ! empty($post['logo_tmp'])) {
+        } elseif (!empty($post['logo_tmp'])) {
             $imageSplit = explode('/', $post['logo_tmp']);
             $logoName   = RedshopHelperMedia::cleanFileName($imageSplit[count($imageSplit) - 1]);
             $this->logo = $logoName;
@@ -101,8 +103,8 @@ class RedshopTableShopperGroup extends RedshopTable
             $logoPath     = $shopperGroupDir . $post['logo'];
             $copyLogoPath = $shopperGroupDir . $destName;
 
-            if (JFile::exists($logoPath)) {
-                JFile::copy($logoPath, $copyLogoPath);
+            if (File::exists($logoPath)) {
+                File::copy($logoPath, $copyLogoPath);
             }
 
             $this->logo = $destName;

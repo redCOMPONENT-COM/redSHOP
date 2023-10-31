@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Redshop\Helper\ExtraFields;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Class Redshop Helper Product Tag
@@ -501,7 +502,7 @@ class RedshopHelperProductTag
         foreach ($images as $index => $image) {
             $thumb = $image->media_name;
 
-            if (empty($thumb) || !JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $thumb)) {
+            if (empty($thumb) || !File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $thumb)) {
                 unset($images[$index]);
 
                 continue;
@@ -595,9 +596,9 @@ class RedshopHelperProductTag
                 $thumbFileName    = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_thumb_image;
                 $originalFileName = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $image->product_full_image;
 
-                if (JFile::exists($thumbFileName)) {
+                if (File::exists($thumbFileName)) {
                     $thumbOriginal = $product->product_thumb_image;
-                } elseif (JFile::exists($originalFileName)) {
+                } elseif (File::exists($originalFileName)) {
                     $thumbOriginal = $image->product_full_image;
                 } else {
                     $thumbOriginal = $defaultProductImage;
@@ -710,7 +711,7 @@ class RedshopHelperProductTag
             $thumb = $image->media_name;
 
             if (
-                empty($thumb) || $thumb == $image->property_main_image || !JFile::exists(
+                empty($thumb) || $thumb == $image->property_main_image || !File::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $thumb
                 )
             ) {
@@ -750,7 +751,7 @@ class RedshopHelperProductTag
 
                 $propertyFileNameOriginal = REDSHOP_FRONT_IMAGES_RELPATH . "property/" . $thumb;
 
-                if (JFile::exists($propertyFileNameOriginal)) {
+                if (File::exists($propertyFileNameOriginal)) {
                     $propertyImgPathOriginal = RedshopHelperMedia::getImagePath(
                         $thumb,
                         '',
@@ -880,13 +881,13 @@ class RedshopHelperProductTag
 
         foreach ($images as $image) {
             $thumb  = $image->media_name;
-            $folder = JFile::exists(
+            $folder = File::exists(
                 REDSHOP_FRONT_IMAGES_RELPATH . "subproperty/" . $thumb
             ) ? 'subproperty' : 'property';
 
             if (
                 empty($thumb) || $thumb == $image->subattribute_color_main_image
-                || !JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $folder . "/" . $thumb)
+                || !File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $folder . "/" . $thumb)
             ) {
                 continue;
             }
@@ -926,7 +927,7 @@ class RedshopHelperProductTag
 
                 $subPropertyFileNameOriginal = REDSHOP_FRONT_IMAGES_RELPATH . "subproperty/" . $thumb;
 
-                if (JFile::exists($subPropertyFileNameOriginal)) {
+                if (File::exists($subPropertyFileNameOriginal)) {
                     $subPropertyImgPath = RedshopHelperMedia::getImagePath(
                         $image->subattribute_color_image,
                         '',

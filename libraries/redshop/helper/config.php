@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Redshop Configuration
@@ -67,7 +68,7 @@ class RedshopHelperConfig
 
         $file = $this->getConfigurationFilePath();
 
-        if (!JFile::exists($file)) {
+        if (!File::exists($file)) {
             return $this;
         }
 
@@ -281,7 +282,7 @@ class RedshopHelperConfig
             $oldConfigFile = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
             // Old configuration file
-            if (JFile::exists($oldConfigFile)) {
+            if (File::exists($oldConfigFile)) {
                 // New configuration file
                 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/config/config.dist.php';
 
@@ -311,7 +312,7 @@ class RedshopHelperConfig
                     'notice'
                 );
 
-                return JFile::delete($oldConfigFile);
+                return File::delete($oldConfigFile);
             }
 
             JFactory::getApplication()->enqueueMessage(
@@ -360,7 +361,7 @@ class RedshopHelperConfig
         // Attempt to write the configuration file as a PHP class named RedshopConfig.
         $configuration = $config->toString('PHP', array('class' => 'RedshopConfig', 'closingtag' => false));
 
-        if (!JFile::write($file, $configuration)) {
+        if (!File::write($file, $configuration)) {
             throw new RuntimeException(Text::_('LIB_REDSHOP_ERROR_WRITE_FAILED'));
         }
 
@@ -389,7 +390,7 @@ class RedshopHelperConfig
                 return true;
             }
 
-            return JFile::copy($this->getConfigurationDistFilePath(), $this->getConfigurationFilePath());
+            return File::copy($this->getConfigurationDistFilePath(), $this->getConfigurationFilePath());
         }
 
         return true;

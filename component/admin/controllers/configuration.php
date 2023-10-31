@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 JLoader::import('joomla.filesystem.folder');
 
@@ -164,7 +165,7 @@ class RedshopControllerConfiguration extends RedshopController
                 continue;
             }
 
-            JFile::copy(REDSHOP_FRONT_IMAGES_RELPATH . 'index.html', $unlinkPath . '/index.html');
+            File::copy(REDSHOP_FRONT_IMAGES_RELPATH . 'index.html', $unlinkPath . '/index.html');
         }
 
         return true;
@@ -187,8 +188,8 @@ class RedshopControllerConfiguration extends RedshopController
             RedshopHelperExtrafields::deleteExtraFieldData($dataId);
         }
 
-        if (JFile::exists(JPATH_ROOT . '/' . $path . '/' . $imgName)) {
-            JFile::delete(JPATH_ROOT . '/' . $path . '/' . $imgName);
+        if (File::exists(JPATH_ROOT . '/' . $path . '/' . $imgName)) {
+            File::delete(JPATH_ROOT . '/' . $path . '/' . $imgName);
         }
 
         JFactory::getApplication()->close();

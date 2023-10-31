@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -138,7 +139,7 @@ class RedshopModelMedia extends RedshopModel
                     $tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
                     $tmp->size          = filesize($tmp->path);
 
-                    $ext = strtolower(JFile::getExt($file));
+                    $ext = strtolower(File::getExt($file));
 
                     switch ($ext) {
                         // Image
@@ -270,8 +271,8 @@ class RedshopModelMedia extends RedshopModel
         $filename = $this->_db->loadResult();
         $path     = JPATH_ROOT . '/components/com_redshop/assets/download/product/' . $filename;
 
-        if (JFile::exists($path)) {
-            JFile::delete($path);
+        if (File::exists($path)) {
+            File::delete($path);
         }
 
         $query = "DELETE FROM `#__redshop_media_download` WHERE `id`='" . $fileId . "' ";
@@ -363,8 +364,8 @@ class RedshopModelMedia extends RedshopModel
         if ($file) {
             $path = JPATH_ROOT . '/components/com_redshop/assets/images/' . $file->media_section . '/' . $file->media_name;
 
-            if (JFile::exists($path)) {
-                JFile::delete($path);
+            if (File::exists($path)) {
+                File::delete($path);
             }
         }
 

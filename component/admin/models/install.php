@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Model Install
@@ -76,7 +77,7 @@ class RedshopModelInstall extends RedshopModelList
         $classes = array();
 
         foreach ($files as $file) {
-            $updateVersion = JFile::stripExt(basename($file));
+            $updateVersion = File::stripExt(basename($file));
 
             if (!is_null($version) && version_compare($version, $updateVersion, '<')) {
                 $classes[$updateVersion] = array(
@@ -144,7 +145,7 @@ class RedshopModelInstall extends RedshopModelList
         foreach ($files as $file) {
             $version = new stdClass;
 
-            $version->version = JFile::stripExt(basename($file));
+            $version->version = File::stripExt(basename($file));
 
             require_once $file;
 

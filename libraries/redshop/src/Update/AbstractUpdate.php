@@ -12,6 +12,7 @@ namespace Redshop\Update;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Abstract update class
@@ -137,7 +138,7 @@ abstract class AbstractUpdate
                 continue;
             }
 
-            if (!\JFile::delete($file)) {
+            if (!File::delete($file)) {
                 return false;
             }
         }
@@ -158,7 +159,7 @@ abstract class AbstractUpdate
     {
         foreach ($files as $file) {
             if (file_exists($file)) {
-                \JFile::delete($file);
+                File::delete($file);
             }
         }
 

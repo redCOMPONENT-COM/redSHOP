@@ -13,6 +13,8 @@ use WhichBrowser\Parser;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * Abstract class for export plugin
  *
@@ -62,7 +64,7 @@ class AbstractExportPlugin extends \JPlugin
             ->clear('group')
             ->select('COUNT(*)');
 
-        return (int)$this->db->setQuery($query)->loadResult();
+        return (int) $this->db->setQuery($query)->loadResult();
     }
 
     /**
@@ -93,7 +95,7 @@ class AbstractExportPlugin extends \JPlugin
             return false;
         }
 
-        return array_keys((array)$data);
+        return array_keys((array) $data);
     }
 
     /**
@@ -107,8 +109,9 @@ class AbstractExportPlugin extends \JPlugin
     {
         $userBrowser = new Parser($_SERVER['HTTP_USER_AGENT']);
         $mimeType    = ($userBrowser->browser->isFamily('Internet Explorer') || $userBrowser->browser->isFamily(
-                'Opera'
-            )) ?
+            'Opera'
+        )
+        ) ?
             'application/octetstream' : 'application/octet-stream';
 
         // Clean the buffer
@@ -118,7 +121,7 @@ class AbstractExportPlugin extends \JPlugin
         header('Content-Encoding: UTF-8');
         header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 
-        if (!\JFile::exists($this->getFilePath())) {
+        if (!File::exists($this->getFilePath())) {
             $handle = fopen($this->getFilePath(), 'w+');
             fwrite($handle, '');
             fclose($handle);
@@ -138,7 +141,7 @@ class AbstractExportPlugin extends \JPlugin
         readfile($this->getFilePath());
 
         // Clean up file.
-        \JFile::delete($this->getFilePath());
+        File::delete($this->getFilePath());
     }
 
     /**
@@ -174,7 +177,7 @@ class AbstractExportPlugin extends \JPlugin
         $handle = fopen($this->getFilePath(), 'a');
 
         foreach ($data as $item) {
-            $this->writeData((array)$item, '', $handle);
+            $this->writeData((array) $item, '', $handle);
         }
 
         fclose($handle);
@@ -236,7 +239,7 @@ class AbstractExportPlugin extends \JPlugin
 
         $separator = \JFactory::getApplication()->input->getString('separator', $this->separator);
 
-        $row = (array)$row;
+        $row = (array) $row;
 
         foreach ($row as $index => $column) {
             $row[$index] = '"' . str_replace('"', '""', $column) . '"';

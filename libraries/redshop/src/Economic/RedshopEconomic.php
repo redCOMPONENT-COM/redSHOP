@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Redshop\Template\Helper;
 use RedshopHelperUtility;
+use Joomla\CMS\Filesystem\File;
 
 defined('_JEXEC') or die;
 
@@ -1574,9 +1575,9 @@ class RedshopEconomic
                             $bookInvoicePdf = $bookInvoicePdf[0];
 
                             $file = JPATH_ROOT . '/components/com_redshop/assets/orders/rsInvoice_' . $orderId . '.pdf';
-                            \JFile::write($file, $bookInvoicePdf);
+                            File::write($file, $bookInvoicePdf);
 
-                            if (\JFile::exists($file)) {
+                            if (File::exists($file)) {
                                 self::updateBookInvoice($orderId);
                             }
                         }

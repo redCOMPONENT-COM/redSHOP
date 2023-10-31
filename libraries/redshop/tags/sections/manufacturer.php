@@ -10,6 +10,7 @@
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Tags replacer abstract class
@@ -176,7 +177,7 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
 
                 if (
                     $media->isValid() && !empty($media->get('media_name'))
-                    && JFile::exists(
+                    && File::exists(
                         REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $data->id . '/' . $media->get('media_name')
                     )
                 ) {

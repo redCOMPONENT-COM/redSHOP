@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * Update class
  *
@@ -66,21 +68,21 @@ class RedshopUpdate2013 extends RedshopInstallUpdate
             }
 
             // Copy index.html to this folder.
-            if (!JFile::exists($path . '/index.html')) {
-                JFile::copy(REDSHOP_MEDIA_IMAGE_RELPATH . 'index.html', $path . '/index.html');
+            if (!File::exists($path . '/index.html')) {
+                File::copy(REDSHOP_MEDIA_IMAGE_RELPATH . 'index.html', $path . '/index.html');
             }
 
             // Check old image exist.
             $oldImagePath = $oldBasePath . '/' . $table->media_name;
 
-            if (!JFile::exists($oldImagePath)) {
+            if (!File::exists($oldImagePath)) {
                 continue;
             }
 
             // Generate new image using MD5
-            $newFileName = md5(basename($table->media_name)) . '.' . JFile::getExt($table->media_name);
+            $newFileName = md5(basename($table->media_name)) . '.' . File::getExt($table->media_name);
 
-            if (!JFile::copy($oldImagePath, $path . '/' . $newFileName)) {
+            if (!File::copy($oldImagePath, $path . '/' . $newFileName)) {
                 continue;
             }
 

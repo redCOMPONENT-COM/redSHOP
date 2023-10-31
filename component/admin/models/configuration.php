@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Filesystem\File;
+
+jimport('joomla.filesystem.file');
 
 /**
  * Class RedshopModelConfiguration
@@ -241,7 +242,7 @@ class RedshopModelConfiguration extends RedshopModel
     {
         $allowedDefaultExt = array('jpg', 'jpeg', 'gif', 'png');
 
-        if (empty($source) || !in_array(JFile::getExt($source), $allowedDefaultExt)) {
+        if (empty($source) || !in_array(File::getExt($source), $allowedDefaultExt)) {
             return;
         }
 
@@ -249,11 +250,11 @@ class RedshopModelConfiguration extends RedshopModel
         $dest   = REDSHOP_FRONT_IMAGES_RELPATH . $folderPrefix . $return;
 
         // Delete old file
-        if (JFile::exists($dest)) {
-            JFile::delete($dest);
+        if (File::exists($dest)) {
+            File::delete($dest);
         }
 
-        JFile::upload($tmpFile, $dest);
+        File::upload($tmpFile, $dest);
     }
 
     /**
@@ -551,7 +552,7 @@ class RedshopModelConfiguration extends RedshopModel
         $xmlfile = JPATH_ROOT . '/administrator/components/com_redshop/redshop.xml';
         $version = Text::_('COM_REDSHOP_FILE_NOT_FOUND');
 
-        if (JFile::exists($xmlfile)) {
+        if (File::exists($xmlfile)) {
             $data    = JInstaller::parseXMLInstallFile($xmlfile);
             $version = $data['version'];
         }

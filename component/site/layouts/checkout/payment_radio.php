@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Layout variables
@@ -25,8 +26,8 @@ use Joomla\CMS\Language\Text;
 extract($displayData);
 
 $checkedClass = $checked ? 'paymentgtwchecked' : '';
-$params = new JRegistry($oneMethod->params);
-$logo   = $params->get('logo', '');
+$params       = new JRegistry($oneMethod->params);
+$logo         = $params->get('logo', '');
 
 $lang = JFactory::getLanguage();
 $lang->load('plg_redshop_payment_rs_payment_banktransfer', JPATH_ADMINISTRATOR, 'en-GB', true);
@@ -35,22 +36,18 @@ $lang->load('plg_redshop_payment_rs_payment_paypal', JPATH_ADMINISTRATOR, 'en-GB
 ?>
 <div id="<?php echo $oneMethod->name ?>" class="<?php echo $checkedClass ?>">
     <label class="radio" for="<?php echo $oneMethod->name . $index ?>">
-        <input
-                type="radio"
-                name="payment_method_id"
-                id="<?php echo $oneMethod->name . $index ?>"
-                value="<?php echo $oneMethod->name ?>"
-            <?php echo $checked ? 'checked="checked"' : '' ?>
-                onclick="javascript:onestepCheckoutProcess(this.name, '');"
-        />
+        <input type="radio" name="payment_method_id" id="<?php echo $oneMethod->name . $index ?>"
+            value="<?php echo $oneMethod->name ?>" <?php echo $checked ? 'checked="checked"' : '' ?>
+            onclick="javascript:onestepCheckoutProcess(this.name, '');" />
 
-        <?php if (!empty($logo) && JFile::exists(JPATH_ROOT . '/' . $logo)): ?>
-            <img
-                    alt="<?php echo Text::_('PLG_' . strtoupper($oneMethod->name)) ?>"
-                    title="<?php echo Text::_('PLG_' . strtoupper($oneMethod->name)) ?>"
-                    src="<?php echo JUri::root() . $logo ?>"/>
+        <?php if (!empty($logo) && File::exists(JPATH_ROOT . '/' . $logo)): ?>
+            <img alt="<?php echo Text::_('PLG_' . strtoupper($oneMethod->name)) ?>"
+                title="<?php echo Text::_('PLG_' . strtoupper($oneMethod->name)) ?>"
+                src="<?php echo JUri::root() . $logo ?>" />
         <?php endif; ?>
 
-        <span><?php echo Text::_('PLG_' . strtoupper($oneMethod->name)) ?></span>
+        <span>
+            <?php echo Text::_('PLG_' . strtoupper($oneMethod->name)) ?>
+        </span>
     </label>
 </div>

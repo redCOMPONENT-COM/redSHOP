@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Table Manufacturer
@@ -172,8 +173,8 @@ class RedshopTableManufacturer extends RedshopTable
                     . $this->id . '/' . $mediaTable->media_name
                 );
 
-                if (JFile::exists($oldMediaFile)) {
-                    JFile::delete($oldMediaFile);
+                if (File::exists($oldMediaFile)) {
+                    File::delete($oldMediaFile);
                 }
 
                 if (empty($value)) {
@@ -186,7 +187,7 @@ class RedshopTableManufacturer extends RedshopTable
                 $mediaTable->set('media_section', 'manufacturer');
             }
 
-            if (!JFile::exists(JPATH_ROOT . '/' . $value)) {
+            if (!File::exists(JPATH_ROOT . '/' . $value)) {
                 continue;
             }
 
@@ -197,10 +198,10 @@ class RedshopTableManufacturer extends RedshopTable
             $mediaTable->set('published', 1);
 
             // Copy new image for this media
-            $fileName = md5($this->name) . '.' . JFile::getExt($value);
+            $fileName = md5($this->name) . '.' . File::getExt($value);
             $file     = REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $this->id . '/' . $fileName;
 
-            JFile::move(JPATH_ROOT . '/' . $value, $file);
+            File::move(JPATH_ROOT . '/' . $value, $file);
 
             $mediaTable->set('media_name', $fileName);
             $mediaTable->store();

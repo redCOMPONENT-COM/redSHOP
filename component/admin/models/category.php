@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Redshop Category Model
@@ -130,22 +131,22 @@ class RedshopModelCategory extends RedshopModelForm
             $post['level']                 = $copyData[$i]->level;
             $post['product_filter_params'] = $copyData[$i]->product_filter_params;
 
-            $this->/** @scrutinizer ignore-call */ saveCategory($post);
+            $this-> /** @scrutinizer ignore-call */saveCategory($post);
 
             /** @var RedshopEntityCategory $medias */
             $medias = RedshopEntityCategory::getInstance($copyData[$i]->id)->getMedia();
 
-            foreach ($medias->/** @scrutinizer ignore-call */ getAll() as $media) {
+            foreach ($medias-> /** @scrutinizer ignore-call */getAll() as $media) {
                 /** @var RedshopEntityMedia $media */
                 if ($media->get('scope') == 'full') {
-                    $this->/** @scrutinizer ignore-call */ storeMediaCopy(
+                    $this-> /** @scrutinizer ignore-call */storeMediaCopy(
                         $copyData[$i]->id,
                         $post['id'],
                         $media,
                         'full'
                     );
                 } elseif ($media->get('scope') == 'back') {
-                    $this->/** @scrutinizer ignore-call */ storeMediaCopy(
+                    $this-> /** @scrutinizer ignore-call */storeMediaCopy(
                         $copyData[$i]->id,
                         $post['id'],
                         $media,
@@ -174,7 +175,7 @@ class RedshopModelCategory extends RedshopModelForm
 
         /** @var RedshopTableCategory $row */
         $row = $this->getTable();
-        $pk  = (!empty($data['id'])) ? $data['id'] : (int)$this->getState($this->getName() . '.id');
+        $pk  = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 
         // Load the row if saving an existing record.
         if ($pk > 0) {
@@ -190,12 +191,12 @@ class RedshopModelCategory extends RedshopModelForm
 
         if ($data['product_filter']['enable'] == 1) {
             $registry                      = new Registry($data['product_filter']);
-            $data['product_filter_params'] = (string)$registry;
+            $data['product_filter_params'] = (string) $registry;
         }
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -203,7 +204,7 @@ class RedshopModelCategory extends RedshopModelForm
         // Check the data.
         if (!$row->check()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -215,13 +216,12 @@ class RedshopModelCategory extends RedshopModelForm
             $row->setOption('media', $dropzoneMedia);
         }
 
-		if (!$row->store())
-		{
-			/** @scrutinizer ignore-deprecated */
-			$this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+        if (!$row->store()) {
+            /** @scrutinizer ignore-deprecated */
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
-			return false;
-		}
+            return false;
+        }
 
         $data['id'] = $row->id;
 
@@ -233,8 +233,8 @@ class RedshopModelCategory extends RedshopModelForm
 
         // Sheking for the image at the updation time
         if (!empty($data['id']) && !empty($data['category_full_image'])) {
-            JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
-            JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
+            File::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
+            File::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
         }
 
         // Extra Field Data Saved
@@ -318,7 +318,7 @@ class RedshopModelCategory extends RedshopModelForm
 
                 if (!$accessoryTable->store()) {
                     /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $accessoryTable->getError());
+                    $this->setError( /** @scrutinizer ignore-deprecated */$accessoryTable->getError());
 
                     return false;
                 }
@@ -349,11 +349,11 @@ class RedshopModelCategory extends RedshopModelForm
 
         $dest = REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $catId . '/' . $newFullImage;
 
-        if (JFile::exists($src)) {
-            JFile::copy($src, $dest);
+        if (File::exists($src)) {
+            File::copy($src, $dest);
         }
 
-        if (JFile::exists($dest)) {
+        if (File::exists($dest)) {
             $mediaFullImage                       = new stdClass;
             $mediaFullImage->media_name           = $newFullImage;
             $mediaFullImage->media_alternate_text = '';
@@ -384,7 +384,7 @@ class RedshopModelCategory extends RedshopModelForm
 
         if (!$table->saveorder($order, $pks)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $table->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$table->getError());
 
             return false;
         }
@@ -425,8 +425,8 @@ class RedshopModelCategory extends RedshopModelForm
                     . $category->id . '/' . $table->media_name
                 );
 
-                if (JFile::exists($oldMediaFile)) {
-                    JFile::delete($oldMediaFile);
+                if (File::exists($oldMediaFile)) {
+                    File::delete($oldMediaFile);
                 }
 
                 if (empty($file)) {
@@ -447,18 +447,20 @@ class RedshopModelCategory extends RedshopModelForm
             $file = JPath::clean(JPATH_ROOT . '/' . $file);
 
             // Check old image exist.
-            if (!JFile::exists($file)) {
+            if (!File::exists($file)) {
                 continue;
             }
 
             // Generate new image using MD5
-            $newFileName = md5(basename($category->name) . $scope) . '.' . JFile::getExt($file);
-	        $typeFile = explode('.', $newFileName);
+            $newFileName = md5(basename($category->name) . $scope) . '.' . File::getExt($file);
+            $typeFile    = explode('.', $newFileName);
 
-            if (!JFile::move(
-                $file,
-                JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $category->id . '/' . $newFileName)
-            )) {
+            if (
+                !File::move(
+                    $file,
+                    JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $category->id . '/' . $newFileName)
+                )
+            ) {
                 continue;
             }
 
@@ -467,8 +469,8 @@ class RedshopModelCategory extends RedshopModelForm
             }
 
             // Update media data with new file name.
-            $table->media_name = $newFileName;
-	        $table->media_mimetype = 'image/'.$typeFile[1];
+            $table->media_name     = $newFileName;
+            $table->media_mimetype = 'image/' . $typeFile[1];
             $table->store();
         }
     }

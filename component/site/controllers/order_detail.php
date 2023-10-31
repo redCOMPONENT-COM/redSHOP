@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
@@ -29,8 +30,7 @@ class RedshopControllerOrder_Detail extends RedshopController
     public function __construct($default = array())
     {
         parent::__construct($default);
-        $this->_redshopMail     = redshopMail::getInstance();
-        $this->_order_functions = order_functions::getInstance();
+        $this->_redshopMail = redshopMail::getInstance();
     }
 
     /**
@@ -63,7 +63,7 @@ class RedshopControllerOrder_Detail extends RedshopController
         $billingAddresses       = RedshopHelperOrder::getBillingAddress($order->user_id);
         $data['billingaddress'] = $billingAddresses;
 
-        $shippingaddresses       = RedshopHelperOrder::getOrderShippingUserInfo($order->order_id);
+        $shippingaddresses       = RedshopEntityOrder::getInstance($order->order_id)->getShipping()->getItem();
         $data['shippingaddress'] = $shippingaddresses;
 
         $Itemid = $this->input->getInt('Itemid');
@@ -326,7 +326,7 @@ class RedshopControllerOrder_Detail extends RedshopController
             $row['sel_wrapper_id']  = $row['wrapper_id'];
             $row['category_id']     = 0;
 
-            if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "orderMergeImages/" . $row['attribute_image'])) {
+            if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . "orderMergeImages/" . $row['attribute_image'])) {
                 $newMedia = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $row['attribute_image'];
                 $oldMedia = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages/' . $row['attribute_image'];
                 copy($oldMedia, $newMedia);
@@ -334,7 +334,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
             $row['attributeImage'] = $row['attribute_image'];
 
-            if (JFile::exists(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $row['attribute_image'])) {
+            if (File::exists(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $row['attribute_image'])) {
                 $row['hidden_attribute_cartimage'] = REDSHOP_FRONT_IMAGES_ABSPATH . "product_attributes/" . $row['attribute_image'];
             }
         }

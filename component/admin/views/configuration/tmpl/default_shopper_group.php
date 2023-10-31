@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 $uri             = \Joomla\CMS\Uri\Uri::getInstance();
 $url             = $uri->root();
@@ -63,7 +64,7 @@ $defaultPortalLogo = $this->config->get('DEFAULT_PORTAL_LOGO');
 $html              = '<input type="file" name="default_portal_logo" id="default_portal_logo" size="57"/>'
     . '<input type="hidden" name="default_portal_logo_tmp" value="' . $defaultPortalLogo . '" />';
 
-if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $defaultPortalLogo)) {
+if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $defaultPortalLogo)) {
     $html .= '<div class="divimages" id="usrdiv">'
         . '<a class="joom-box" href="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . $defaultPortalLogo . '" title="' . $defaultPortalLogo . '"'
         . ' rel="{handler: \'image\', size: {}}">'

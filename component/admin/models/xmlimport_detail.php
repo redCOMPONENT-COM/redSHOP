@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
 
 class RedshopModelXmlimport_detail extends RedshopModel
 {
@@ -165,9 +166,9 @@ class RedshopModelXmlimport_detail extends RedshopModel
             $filename = JPath::clean($file['name']);
             $dest     = $destpath . '/' . $filename;
 
-            JFile::upload($src, $dest);
+            File::upload($src, $dest);
             $xmlimport_url = $dest;
-        } elseif ($this->_data->filename != "" && JFile::exists(
+        } elseif ($this->_data->filename != "" && File::exists(
                 JPATH_COMPONENT_SITE . '/assets/xmlfile/import/' . $this->_data->filename
             )) {
             $xmlimport_url = JPATH_COMPONENT_SITE . '/assets/xmlfile/import/' . $this->_data->filename;
@@ -321,8 +322,8 @@ class RedshopModelXmlimport_detail extends RedshopModel
                 $result   = $xmlhelper->getXMLImportInfo($cid[$i]);
                 $rootpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/import/" . $result->filename;
 
-                if (JFile::exists($rootpath)) {
-                    JFile::delete($rootpath);
+                if (File::exists($rootpath)) {
+                    File::delete($rootpath);
                 }
             }
 

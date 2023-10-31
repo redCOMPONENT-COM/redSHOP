@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Tags replacer abstract class
@@ -545,7 +546,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
             }
 
             if ($this->isTagExists('{addtocart_image}')) {
-                $fileExist = \JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $requestBackground);
+                $fileExist = File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $requestBackground);
                 $this->replaceImage(
                     $requestBackground,
                     $class,
@@ -633,7 +634,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                     'preOrderStyle'           => $preOrderStyle,
                     'quantity'                => $quantity,
                     'cartIcon'                => $cartIcon,
-                    'fileExitPreOrderImage'   => \JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $preOrderImage),
+                    'fileExitPreOrderImage'   => File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $preOrderImage),
                     'preOrderLabel'           => $preOrderLabel,
                     'displayText'             => $displayText,
                     'checkTag'                => $checkTag

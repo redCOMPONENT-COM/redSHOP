@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 $orderPath = "/components/com_redshop/assets/images/";
 
@@ -356,7 +357,7 @@ echo RedshopLayoutHelper::render(
         <input class="text_area" type="file" name="file_pre_order_image" id="file_pre_order_image" size="40" />
         <input type="hidden" name="pre_order_image" id="pre_order_image" value="<?php echo $preOrderImage ?>" />
 
-        <?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $preOrderImage)): ?>
+        <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $preOrderImage)): ?>
             <div class="divimages" id="preorddiv">
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $preOrderImage; ?>"
                     title="<?php echo $preOrderImage; ?>" rel="{handler: 'image', size: {}}">

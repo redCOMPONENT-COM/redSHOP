@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -241,7 +242,7 @@ if ($showbuttons == 1) {
                                 title="<?php echo Text::_('COM_REDSHOP_VIEW_IMAGE'); ?>" rel="{handler: 'image', size: {}}">
                                 <img src="<?php echo $mediaFile['abs'] ?>" /></a>
                         <?php else: ?>
-                            <?php $filetype = strtolower(JFile::getExt(trim($row->media_name))); ?>
+                            <?php $filetype = strtolower(File::getExt(trim($row->media_name))); ?>
                             <?php if (($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif') && $row->media_type == 'images'): ?>
                                 <?php
                                 $media_img = $url . 'components/com_redshop/assets/' . $row->media_type . '/' . $row->media_section . '/' . trim(

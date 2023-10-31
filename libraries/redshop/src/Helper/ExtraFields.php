@@ -12,6 +12,7 @@ namespace Redshop\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Extra Fields helper
@@ -214,7 +215,7 @@ class ExtraFields
                         $documentLink    = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'extrafields/' . $fileName;
                         $absDocumentLink = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $fileName;
 
-                        if (!\JFile::exists($absDocumentLink)) {
+                        if (!File::exists($absDocumentLink)) {
                             continue;
                         }
 

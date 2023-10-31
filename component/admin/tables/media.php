@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * Table Media
  *
@@ -95,8 +97,8 @@ class RedshopTableMedia extends RedshopTable
                 REDSHOP_MEDIA_IMAGE_RELPATH . $this->media_section . '/' . $this->section_id . '/' . $this->media_name
             );
 
-            if (JFile::exists($file)) {
-                JFile::delete($file);
+            if (File::exists($file)) {
+                File::delete($file);
             }
         }
 

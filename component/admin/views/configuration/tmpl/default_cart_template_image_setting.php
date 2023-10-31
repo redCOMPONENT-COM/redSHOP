@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 $url           = JUri::root();
 $addToCartPath = "/components/com_redshop/assets/images/";
@@ -55,7 +56,7 @@ echo RedshopLayoutHelper::render(
         <input class="text_area" type="file" name="cartimg" id="cartimg" size="50" />
         <input type="hidden" name="addtocart_image" id="addtocart_image"
             value="<?php echo $this->config->get('ADDTOCART_IMAGE'); ?>" />
-        <?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $this->config->get('ADDTOCART_IMAGE'))): ?>
+        <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $this->config->get('ADDTOCART_IMAGE'))): ?>
             <div class="divimages" id="cartdiv">
                 <a class="joom-box"
                     href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $this->config->get('ADDTOCART_IMAGE') ?>"
@@ -93,7 +94,7 @@ echo RedshopLayoutHelper::render(
         <input class="text_area" type="file" name="quoteimg" id="quoteimg" size="50" />
         <input type="hidden" name="requestquote_image" id="requestquote_image"
             value="<?php echo $requestquoteImage; ?>" />
-        <?php if (JFile::exists(JPATH_ROOT . $addToCartPath . $requestquoteImage)): ?>
+        <?php if (File::exists(JPATH_ROOT . $addToCartPath . $requestquoteImage)): ?>
             <div class="divimages" id="quotediv">
                 <a class="joom-box" href="<?php echo $url . $addToCartPath . $requestquoteImage; ?>"
                     title="<?php echo $requestquoteImage; ?>" rel="{handler: 'image', size: {}}">
@@ -128,7 +129,7 @@ echo RedshopLayoutHelper::render(
         <?php $addtocartUpdate = $this->config->get('ADDTOCART_UPDATE'); ?>
         <input class="text_area" type="file" name="cartupdate" id="cartupdate" size="50" />
         <input type="hidden" name="addtocart_update" id="addtocart_update" value="<?php echo $addtocartUpdate; ?>" />
-        <?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $addtocartUpdate)): ?>
+        <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $addtocartUpdate)): ?>
             <div class="divimages" id="cartupdatediv">
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartUpdate; ?>"
                     title="<?php echo $addtocartUpdate; ?>" rel="{handler: 'image', size: {}}">
@@ -152,7 +153,7 @@ echo RedshopLayoutHelper::render(
         <?php $addtocartDelete = $this->config->get('ADDTOCART_DELETE'); ?>
         <input class="text_area" type="file" name="cartdelete" id="cartdelete" size="50" />
         <input type="hidden" name="addtocart_delete" id="addtocart_delete" value="<?php echo $addtocartDelete; ?>" />
-        <?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $addtocartDelete)): ?>
+        <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $addtocartDelete)): ?>
             <div class="divimages" id="cartdeldiv">
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartDelete; ?>"
                     title="<?php echo $addtocartDelete; ?>" rel="{handler: 'image', size: {}}">

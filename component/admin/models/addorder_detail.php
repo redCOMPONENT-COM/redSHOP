@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 use Redshop\Economic\RedshopEconomic;
 
 class RedshopModelAddorder_detail extends RedshopModel
@@ -751,7 +752,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
                 $bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
-                if (JFile::exists($bookinvoicepdf)) {
+                if (File::exists($bookinvoicepdf)) {
                     Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
                 }
             }

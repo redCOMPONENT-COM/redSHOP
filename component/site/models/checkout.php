@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 use Redshop\Economic\RedshopEconomic;
 use Redshop\Environment as RedshopEnvironment;
 
@@ -394,7 +395,7 @@ class RedshopModelCheckout extends RedshopModel
 
             if ($paymentResponse->responsestatus == "Success") {
                 $d["order_payment_trans_id"] = $paymentResponse->transaction_id;
-                $order_status_log             = $paymentResponse->message;
+                $order_status_log            = $paymentResponse->message;
 
                 if (!isset($paymentResponse->status)) {
                     $paymentResponse->status = 'C';
@@ -1234,7 +1235,7 @@ class RedshopModelCheckout extends RedshopModel
 
                 $bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
-                if (JFile::exists($bookinvoicepdf)) {
+                if (File::exists($bookinvoicepdf)) {
                     Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
                 }
             }

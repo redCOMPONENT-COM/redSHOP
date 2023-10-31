@@ -46,9 +46,8 @@ class redshopMail
      */
     public function __construct()
     {
-        $this->_db              = JFactory::getDbo();
-        $this->_table_prefix    = '#__redshop_';
-        $this->_order_functions = order_functions::getInstance();
+        $this->_db           = JFactory::getDbo();
+        $this->_table_prefix = '#__redshop_';
     }
 
     /**

@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Filesystem\File;
 
 defined('_JEXEC') || die;
 
@@ -58,7 +59,7 @@ trait CartItem
             0
         );
 
-        if (\JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . \Redshop::getConfig()->get('ADDTOCART_DELETE'))) {
+        if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . \Redshop::getConfig()->get('ADDTOCART_DELETE'))) {
             $deleteImg = \Redshop::getConfig()->get('ADDTOCART_DELETE');
         } else {
             $deleteImg = "defaultcross.png";
@@ -337,18 +338,18 @@ trait CartItem
                 $productImage = str_replace($imagePath, '', $cart[$i]['hidden_attribute_cartimage']);
             }
 
-            if ($productImage && \JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $productImage)) {
+            if ($productImage && File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $productImage)) {
                 $val        = explode("/", $productImage);
                 $productImg = $val[1];
                 $type       = $val[0];
             } elseif (
                 isset($product->product_full_image)
-                && \JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image)
+                && File::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image)
             ) {
                 $productImg = $product->product_full_image;
                 $type       = 'product';
             } elseif (
-                \JFile::exists(
+                File::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')
                 )
             ) {
@@ -359,7 +360,7 @@ trait CartItem
             $isAttributeImage = false;
 
             if (isset($cart[$i]['attributeImage'])) {
-                $isAttributeImage = \JFile::exists(
+                $isAttributeImage = File::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $cart[$i]['attributeImage']
                 );
             }
@@ -372,7 +373,7 @@ trait CartItem
             if ($productImg !== '') {
                 if (
                     \Redshop::getConfig()->getBool('WATERMARK_CART_THUMB_IMAGE')
-                    && \JFile::exists(
+                    && File::exists(
                         REDSHOP_FRONT_IMAGES_RELPATH . "product/" . \Redshop::getConfig()->get('WATERMARK_IMAGE')
                     )
                 ) {
@@ -715,7 +716,7 @@ trait CartItem
             if ($view == 'checkout') {
                 $updateCart = $quantity;
             } else {
-                if (\JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . \Redshop::getConfig()->get('ADDTOCART_UPDATE'))) {
+                if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . \Redshop::getConfig()->get('ADDTOCART_UPDATE'))) {
                     $updateImage = \Redshop::getConfig()->get('ADDTOCART_UPDATE');
                 } else {
                     $updateImage = "defaultupdate.png";
@@ -753,7 +754,7 @@ trait CartItem
                 $optionLayout
             );
 
-            if (\JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . \Redshop::getConfig()->get('ADDTOCART_DELETE'))) {
+            if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . \Redshop::getConfig()->get('ADDTOCART_DELETE'))) {
                 $deleteImg = \Redshop::getConfig()->get('ADDTOCART_DELETE');
             } else {
                 $deleteImg = "defaultcross.png";

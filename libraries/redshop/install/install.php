@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Install class
@@ -245,7 +246,7 @@ class RedshopInstall
         $redShopSefFolder = JPATH_SITE . '/administrator/components/com_redshop/extras';
 
         if (
-            !JFile::copy(
+            !File::copy(
                 $redShopSefFolder . '/sh404sef/language/com_redshop.php',
                 $sh404SEFAdmin . '/language/plugins/com_redshop.php'
             )
@@ -322,7 +323,7 @@ class RedshopInstall
         foreach ($files as $file) {
             $version = new stdClass;
 
-            $version->version = JFile::stripExt(basename($file));
+            $version->version = File::stripExt(basename($file));
 
             require_once $file;
 

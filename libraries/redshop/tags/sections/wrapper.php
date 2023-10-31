@@ -10,6 +10,7 @@
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Tags replacer abstract class
@@ -117,7 +118,7 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
 
             $wrapperimageDiv .= "<td id='wrappertd" . $wid . "'>";
 
-            if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->image)) {
+            if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->image)) {
                 $thumbUrl = RedshopHelperMedia::getImagePath(
                     $wrapper[$i]->image,
                     '',

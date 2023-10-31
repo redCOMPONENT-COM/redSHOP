@@ -11,6 +11,7 @@ defined('_JEXEC') || die;
 
 use \Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -62,7 +63,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
                             . '/plugins/redshop_payment/'
                             . $paymentMethod->name . '/' . $paymentMethod->name . '.php';
 
-                        if (!JFile::exists($paymentFilePath)) {
+                        if (!File::exists($paymentFilePath)) {
                             return false;
                         }
 
@@ -173,7 +174,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
             $isCreditCard   = (boolean) $oneMethod->params->get('is_creditcard', 0);
             $checked        = $this->data['paymentMethodId'] === $oneMethod->name || $totalPaymentMethod <= 1;
             $logo           = $oneMethod->params->get('logo', '');
-            $showImage      = (!empty($logo) && JFile::exists(JPATH_ROOT . '/' . $logo)) ? 1 : 0;
+            $showImage      = (!empty($logo) && File::exists(JPATH_ROOT . '/' . $logo)) ? 1 : 0;
             $isShowOnGuest  = $oneMethod->params->get('is_show_guest', 1);
             $isShowOnMember = $oneMethod->params->get('is_show_member', 1);
 

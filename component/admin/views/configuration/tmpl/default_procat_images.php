@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 $uri              = \Joomla\CMS\Uri\Uri::getInstance();
 $url              = $uri->root();
@@ -29,7 +30,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
         <input class="text_area" type="file" name="categoryImg" id="categoryImg" size="40" />
         <input type="hidden" name="category_default_image" id="category_default_image"
             value="<?php echo $categoryDefaultImage ?>" />
-        <?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $categoryDefaultImage)): ?>
+        <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $categoryDefaultImage)): ?>
             <div class="divimages" id="catdiv">
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $categoryDefaultImage; ?>"
                     title="<?php echo $categoryDefaultImage; ?>" rel="{handler: 'image', size: {}}">
@@ -54,7 +55,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
         <input class="text_area" type="file" name="productImg" id="productImg" size="40" />
         <input type="hidden" name="product_default_image" id="product_default_image"
             value="<?php echo $productDefaultImage; ?>" />
-        <?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $productDefaultImage)): ?>
+        <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $productDefaultImage)): ?>
             <div class="divimages" id="proddiv">
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $productDefaultImage ?>"
                     title="<?php echo $productDefaultImage ?>" rel="{handler: 'image', size: {}}">
@@ -77,7 +78,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
         <?php $watermarkImage = $this->config->get('WATERMARK_IMAGE'); ?>
         <input class="text_area" type="file" name="watermarkImg" id="watermarkImg" size="40" />
         <input type="hidden" name="watermark_image" id="watermark_image" value="<?php echo $watermarkImage; ?>" />
-        <?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $watermarkImage)): ?>
+        <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $watermarkImage)): ?>
             <div class="divimages" id="prodwaterdiv">
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $watermarkImage; ?>"
                     title="<?php echo $watermarkImage; ?>" rel="{handler: 'image', size: {}}">
@@ -103,7 +104,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
         <input class="text_area" type="file" name="productoutofstockImg" id="categoryImg" size="40" />
         <input type="hidden" name="product_outofstock_image" id="product_outofstock_image"
             value="<?php echo $productOutofstockImage ?>" />
-        <?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $productOutofstockImage)): ?>
+        <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $productOutofstockImage)): ?>
             <div class="divimages" id="prodstockdiv">
                 <a class="joom-box"
                     href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $productOutofstockImage; ?>"
@@ -129,7 +130,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
         <input class="text_area" type="file" name="imgslimbox" id="imgslimbox" size="40" />
         <input type="hidden" name="product_detail_lighbox_close_button_image"
             id="product_detail_lighbox_close_button_image" value="<?php echo $productDetailLightboxCloseBtnImage; ?>" />
-        <?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $productDetailLightboxCloseBtnImage)): ?>
+        <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $productDetailLightboxCloseBtnImage)): ?>
             <div class="divimages" id="slimboximglinkdiv">
                 <a class="joom-box" title="<?php echo $productDetailLightboxCloseBtnImage; ?>"
                     rel="{handler: 'image', size: {}}"

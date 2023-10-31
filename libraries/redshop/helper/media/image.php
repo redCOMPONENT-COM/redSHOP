@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Redshop Helper for Media Upload Dropzone
@@ -61,8 +62,8 @@ class RedshopHelperMediaImage
                 'name' => $image,
                 'size' => filesize($imgFile) ? filesize($imgFile) : 0,
                 'blob' => 'data: ' . self::getMimeType($imgFile) . ';base64,' . base64_encode(
-                        file_get_contents($imgFile)
-                    )
+                    file_get_contents($imgFile)
+                )
             );
         }
 
@@ -88,14 +89,14 @@ class RedshopHelperMediaImage
      */
     public static function requireDependencies()
     {
-		HTMLHelper::stylesheet('com_redshop/dropzone.min.css', ['relative' => true]);
-		HTMLHelper::stylesheet('com_redshop/cropper.min.css', ['relative' => true]);
-		HTMLHelper::stylesheet('com_redshop/lightbox2/css/lightbox.min.css', ['relative' => true]);
-		HTMLHelper::stylesheet('com_redshop/redshop.media.min.css', ['relative' => true]);
-		HTMLHelper::script('com_redshop/dropzone.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/cropper.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/lightbox2.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.media.min.js', ['relative' => true]);
+        HTMLHelper::stylesheet('com_redshop/dropzone.min.css', ['relative' => true]);
+        HTMLHelper::stylesheet('com_redshop/cropper.min.css', ['relative' => true]);
+        HTMLHelper::stylesheet('com_redshop/lightbox2/css/lightbox.min.css', ['relative' => true]);
+        HTMLHelper::stylesheet('com_redshop/redshop.media.min.css', ['relative' => true]);
+        HTMLHelper::script('com_redshop/dropzone.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/cropper.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/lightbox2.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.media.min.js', ['relative' => true]);
 
         return true;
     }
@@ -111,7 +112,7 @@ class RedshopHelperMediaImage
      */
     public static function getMimeType($path)
     {
-        if (empty($path) || !JFile::exists($path)) {
+        if (empty($path) || !File::exists($path)) {
             return false;
         }
 
@@ -164,7 +165,7 @@ class RedshopHelperMediaImage
                     $tmpImg = array(
                         'id'        => $lm->media_id,
                         'url'       => JUri::root(
-                            ) . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
+                        ) . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
                         'name'      => $lm->media_name,
                         'size'      => self::sizeFilter(filesize($tmpFile)),
                         'dimension' => $dimension,
@@ -190,8 +191,8 @@ class RedshopHelperMediaImage
                 'name' => $image,
                 'size' => filesize($imgFile),
                 'blob' => 'data: ' . mime_content_type($imgFile) . ';base64,' . base64_encode(
-                        file_get_contents($imgFile)
-                    )
+                    file_get_contents($imgFile)
+                )
             );
         }
 
@@ -260,7 +261,7 @@ class RedshopHelperMediaImage
                 $tmpImg = array(
                     'id'        => $lm->media_id,
                     'url'       => JUri::root(
-                        ) . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
+                    ) . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
                     'name'      => $lm->media_name,
                     'size'      => self::sizeFilter(filesize($tmpFile)),
                     'dimension' => $dimension,

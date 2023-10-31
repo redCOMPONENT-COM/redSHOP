@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Import VirtueMart model
@@ -236,7 +237,7 @@ class RedshopModelImport_Vm extends RedshopModel
 
         // Copy image
         if (!empty($categoryVM->file_name)) {
-            JFile::copy(
+            File::copy(
                 JPATH_ROOT . '/' . $categoryVM->file_name,
                 REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . basename($categoryVM->file_name)
             );
@@ -593,8 +594,8 @@ class RedshopModelImport_Vm extends RedshopModel
         if (!empty($manufacturerVM->file_name)) {
             $mediaFile = REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer/' . basename($manufacturerVM->file_name);
 
-            if (!JFile::exists($mediaFile)) {
-                JFile::copy(JPATH_ROOT . '/' . $manufacturerVM->file_name, $mediaFile);
+            if (!File::exists($mediaFile)) {
+                File::copy(JPATH_ROOT . '/' . $manufacturerVM->file_name, $mediaFile);
             }
 
             /** @var Tablemedia_detail $mediaTable */
@@ -1012,7 +1013,7 @@ class RedshopModelImport_Vm extends RedshopModel
 
         foreach ($medias as $media) {
             // Skip migrate image file if not exist.
-            if (empty($media->file_url) || !JFile::exists(JPATH_ROOT . '/' . $media->file_url)) {
+            if (empty($media->file_url) || !File::exists(JPATH_ROOT . '/' . $media->file_url)) {
                 continue;
             }
 
@@ -1033,7 +1034,7 @@ class RedshopModelImport_Vm extends RedshopModel
                 continue;
             }
 
-            JFile::copy(JPATH_ROOT . '/' . $media->file_url, REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $fileName);
+            File::copy(JPATH_ROOT . '/' . $media->file_url, REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $fileName);
         }
     }
 

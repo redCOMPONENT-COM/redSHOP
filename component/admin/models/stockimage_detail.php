@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 class RedshopModelStockimage_detail extends RedshopModel
 {
@@ -89,14 +90,14 @@ class RedshopModelStockimage_detail extends RedshopModel
 
             $src  = $file['tmp_name'];
             $dest = REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $filename;
-            JFile::upload($src, $dest);
+            File::upload($src, $dest);
 
             if (
-                isset($data['stock_image']) != "" && JFile::exists(
+                isset($data['stock_image']) != "" && File::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $data['stock_image']
                 )
             ) {
-                JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $data['stock_image']);
+                File::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $data['stock_image']);
             }
         }
 
@@ -127,11 +128,11 @@ class RedshopModelStockimage_detail extends RedshopModel
                 $stock_amount_image = $this->_db->loadResult();
 
                 if (
-                    $stock_amount_image != "" && JFile::exists(
+                    $stock_amount_image != "" && File::exists(
                         REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $stock_amount_image
                     )
                 ) {
-                    JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $stock_amount_image);
+                    File::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $stock_amount_image);
                 }
             }
 

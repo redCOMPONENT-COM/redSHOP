@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
@@ -91,12 +93,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
                 $tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $imagename->property_image;
 
-                if (JFile::exists($dest)) {
-                    JFile::delete($dest);
+                if (File::exists($dest)) {
+                    File::delete($dest);
                 }
 
-                if (JFile::exists($tsrc)) {
-                    JFile::delete($tsrc);
+                if (File::exists($tsrc)) {
+                    File::delete($tsrc);
                 }
 
                 $attr_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute WHERE attribute_id =' . $imagename->attribute_id;
@@ -250,11 +252,11 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                 $tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $imagename->property_image;
 
                 if (file_exists($dest)) {
-                    JFile::delete($dest);
+                    File::delete($dest);
                 }
 
                 if (file_exists($tsrc)) {
-                    JFile::delete($tsrc);
+                    File::delete($tsrc);
                 }
             }
 
@@ -288,11 +290,11 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                 $tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $imagename;
 
                 if (file_exists($dest)) {
-                    JFile::delete($dest);
+                    File::delete($dest);
                 }
 
                 if (file_exists($tsrc)) {
-                    JFile::delete($tsrc);
+                    File::delete($tsrc);
                 }
             }
 
@@ -317,11 +319,11 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                 $tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $property_image->property_image;
 
                 if (file_exists($dest)) {
-                    JFile::delete($dest);
+                    File::delete($dest);
                 }
 
                 if (file_exists($tsrc)) {
-                    JFile::delete($tsrc);
+                    File::delete($tsrc);
                 }
             }
 
@@ -394,7 +396,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
     public function property_more_img($post, $main_img, $sub_img)
     {
         if ($main_img['name'] != '') {
-            $filetype = strtolower(JFile::getExt($main_img['name']));
+            $filetype = strtolower(File::getExt($main_img['name']));
 
             if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg') {
                 return false;
@@ -405,7 +407,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                 // Specific path of the file
                 $main_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $main_name;
 
-                JFile::upload($main_src, $main_dest);
+                File::upload($main_src, $main_dest);
 
                 $query = "UPDATE " . $this->_table_prefix . "product_attribute_property SET property_main_image = '"
                     . $main_name . "' WHERE property_id ='" . $post['section_id'] . "' ";
@@ -417,7 +419,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
         for ($i = 0; $i < $num; $i++) {
             if ($sub_img['name'][$i] != "") {
-                $filetype = strtolower(JFile::getExt($sub_img['name'][$i]));
+                $filetype = strtolower(File::getExt($sub_img['name'][$i]));
 
                 if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg') {
                     return false;
@@ -431,7 +433,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                     // Specific path of the file
                     $sub__dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $sub_name;
 
-                    JFile::upload($sub_src, $sub__dest);
+                    File::upload($sub_src, $sub__dest);
 
                     $query = "INSERT INTO " . $this->_table_prefix . "media
 								(`media_id`,`media_name`,`media_section`,`section_id`,`media_type`,`media_mimetype`,`published`)
@@ -453,11 +455,11 @@ class RedshopModelAttribute_set_detail extends RedshopModel
         $tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'property/thumb/' . $imgdata->media_name;
 
         if (file_exists($dest)) {
-            JFile::delete($dest);
+            File::delete($dest);
         }
 
         if (file_exists($tsrc)) {
-            JFile::delete($tsrc);
+            File::delete($tsrc);
         }
 
         $query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id = ' . $mediaid;
@@ -473,7 +475,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
         for ($i = 0; $i < $num; $i++) {
             if ($sub_img['name'][$i] != "") {
-                $filetype = strtolower(JFile::getExt($sub_img['name'][$i]));
+                $filetype = strtolower(File::getExt($sub_img['name'][$i]));
 
                 if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg') {
                     return false;
@@ -485,18 +487,18 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                     // Specific path of the file
                     $sub__dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $sub_name;
 
-                    JFile::upload($sub_src, $sub__dest);
+                    File::upload($sub_src, $sub__dest);
 
                     if ($post['property_sub_img_tmp'][$i] != "") {
                         $sub       = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $post['property_sub_img_tmp'][$i];
                         $sub_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/thumb/' . $post['property_sub_img_tmp'][$i];
 
                         if (file_exists($sub)) {
-                            JFile::delete($sub);
+                            File::delete($sub);
                         }
 
                         if (file_exists($sub_thumb)) {
-                            JFile::delete($sub_thumb);
+                            File::delete($sub_thumb);
                         }
                     }
 
@@ -540,7 +542,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
             $sub_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $diff->subattribute_color_image;
 
             if (file_exists($sub_dest)) {
-                JFile::delete($sub_dest);
+                File::delete($sub_dest);
             }
 
             $query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE subattribute_color_id = "'
@@ -595,15 +597,15 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
         $imagethumbsrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/thumb/" . $imagename;
 
-        if (JFile::exists($imagethumbsrcphy)) {
-            JFile::delete($imagethumbsrcphy);
+        if (File::exists($imagethumbsrcphy)) {
+            File::delete($imagethumbsrcphy);
         }
 
         $imagesrc    = REDSHOP_FRONT_IMAGES_ABSPATH . "product_attributes/" . $imagename;
         $imagesrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $imagename;
 
-        if (JFile::exists($imagesrcphy)) {
-            JFile::delete($imagesrcphy);
+        if (File::exists($imagesrcphy)) {
+            File::delete($imagesrcphy);
         }
 
         $query = "UPDATE `" . $this->_table_prefix . "product_attribute_property` SET `property_image` = '' WHERE `property_id` = " . $pid;
@@ -619,14 +621,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
         $imagename        = $image->subattribute_color_image;
         $imagethumbsrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/thumb/" . $imagename;
 
-        if (JFile::exists($imagethumbsrcphy)) {
-            JFile::delete($imagethumbsrcphy);
+        if (File::exists($imagethumbsrcphy)) {
+            File::delete($imagethumbsrcphy);
         }
 
         $imagesrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $imagename;
 
-        if (JFile::exists($imagesrcphy)) {
-            JFile::delete($imagesrcphy);
+        if (File::exists($imagesrcphy)) {
+            File::delete($imagesrcphy);
         }
 
         $query = "UPDATE `" . $this->_table_prefix . "product_subattribute_color` SET `subattribute_color_image` = ''

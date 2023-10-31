@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
 use Redshop\Economic\RedshopEconomic;
 
 /**
@@ -44,13 +45,13 @@ class RedshopTableGiftcard extends RedshopTable
     protected function doDelete($pk = null)
     {
         if ($this->giftcard_image != '' && file(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image)) {
-            JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image);
+            File::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image);
         }
 
         if ($this->giftcard_bgimage != '' && file(
                 REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_bgimage
             )) {
-            JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_bgimage);
+            File::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_bgimage);
         }
 
         return parent::doDelete($pk);
@@ -73,28 +74,28 @@ class RedshopTableGiftcard extends RedshopTable
         $image        = $giftCardFile['giftcard_image_file'];
 
         if ($image['name'] != '' && $this->giftcard_image != '') {
-            JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image);
+            File::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image);
             $this->giftcard_image = '';
         }
 
         if ($image['name'] != '') {
             $image['name']        = RedshopHelperMedia::cleanFileName($image['name']);
             $this->giftcard_image = $image['name'];
-            JFile::upload($image['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $image['name']);
+            File::upload($image['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $image['name']);
         }
 
         // Get background image file
         $bgImage = $giftCardFile['giftcard_bgimage_file'];
 
         if (($bgImage['name'] != '' && $this->giftcard_bgimage != '')) {
-            JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_bgimage);
+            File::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_bgimage);
             $this->giftcard_bgimage = '';
         }
 
         if ($bgImage['name'] != '') {
             $bgImage['name']        = RedshopHelperMedia::cleanFileName($bgImage['name']);
             $this->giftcard_bgimage = $bgImage['name'];
-            JFile::upload($bgImage['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $bgImage['name']);
+            File::upload($bgImage['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $bgImage['name']);
         }
 
         $this->giftcard_price = RedshopHelperProduct::redpriceDecimal($this->giftcard_price);

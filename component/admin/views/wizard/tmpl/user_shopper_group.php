@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 $uri = \Joomla\CMS\Uri\Uri::getInstance();
 $url = $uri->root();
@@ -102,7 +103,7 @@ $url = $uri->root();
                     echo $DEFAULT_PORTAL_LOGO;
                     ?>" /></div>
             <?php
-            if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $DEFAULT_PORTAL_LOGO)) {
+            if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $DEFAULT_PORTAL_LOGO)) {
                 ?>
                 <div><a class="joom-box" href="<?php
                 echo REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . $DEFAULT_PORTAL_LOGO;

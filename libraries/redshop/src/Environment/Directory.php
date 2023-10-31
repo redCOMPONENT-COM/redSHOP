@@ -11,6 +11,8 @@ namespace Redshop\Environment;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * @package     Redshop\Environment
  *
@@ -38,11 +40,11 @@ class Directory extends \JFolder
             return false;
         }
 
-        if (!\JFile::exists($path . '/index.html')) {
+        if (!File::exists($path . '/index.html')) {
             // Avoid 'pass by reference' error in J1.6+
             $content = '<html><body bgcolor="#ffffff"></body></html>';
 
-            return \JFile::write($path . '/index.html', $content);
+            return File::write($path . '/index.html', $content);
         }
 
         return true;

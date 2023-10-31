@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Redshop\Order\Template;
 
@@ -240,7 +241,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 
         foreach (glob(JPATH_SITE . "/components/com_redshop/assets/document/invoice/*") as $file) {
             if (!in_array(basename($file), $storeFiles)) {
-                JFile::delete($file);
+                File::delete($file);
             }
         }
 

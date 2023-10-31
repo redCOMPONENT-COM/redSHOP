@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Class RedshopHelperJs
@@ -177,7 +178,7 @@ class RedshopHelperJs
 
         if ($view == 'product') {
             if (
-                JFile::exists(
+                File::exists(
                     REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $config->get('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE')
                 )
             ) {

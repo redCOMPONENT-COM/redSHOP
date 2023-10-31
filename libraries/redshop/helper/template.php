@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * redSHOP libraries helper template
@@ -344,7 +345,7 @@ class RedshopHelperTemplate
     {
         $templateFile = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $section . '/default.php');
 
-        if (!JFile::exists($templateFile)) {
+        if (!File::exists($templateFile)) {
             return '';
         }
 

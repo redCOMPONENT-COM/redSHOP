@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * Model Manufacturer
  *
@@ -44,13 +46,13 @@ class RedshopModelManufacturer extends RedshopModelForm
 
         /** @var RedshopTableMedia $table */
         $table = RedshopTable::getAdminInstance('Media', array('ignore_request' => true), 'com_redshop');
-        $table->bind((array)$media->getItem());
+        $table->bind((array) $media->getItem());
 
         // Copy new image for this media
-        $newFileName = md5($target->name) . '.' . JFile::getExt($media->get('media_name'));
+        $newFileName = md5($target->name) . '.' . File::getExt($media->get('media_name'));
         \Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $target->id);
         \Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $target->id . '/thumb');
-        JFile::copy(
+        File::copy(
             $media->getImagePath(),
             REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $target->id . '/' . $newFileName
         );
