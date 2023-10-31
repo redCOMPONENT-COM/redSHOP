@@ -71,8 +71,8 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 
         $detail = $this->get('data');
 
-        $billing  = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
-        $shipping = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
+        $billing  = RedshopEntityOrder::getInstance($detail->order_id)->getBilling()->getItem();
+        $shipping = RedshopEntityOrder::getInstance($detail->order_id)->getShipping()->getItem();
 
         $task = $input->getCmd('task', '');
 

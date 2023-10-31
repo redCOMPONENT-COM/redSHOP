@@ -61,8 +61,8 @@ class RedshopModelCategory extends RedshopModel
      */
     public function __construct()
     {
-        $app    = JFactory::getApplication();
-        $input  = $app->input;
+        $app   = JFactory::getApplication();
+        $input = $app->input;
         /** @scrutinizer ignore-call */
         $params = $app->getParams('com_redshop');
         $layout = $input->getCmd('layout', 'detail');
@@ -70,7 +70,7 @@ class RedshopModelCategory extends RedshopModel
         $Id     = $input->getInt('cid', 0);
 
         if (!$print && !$Id) {
-            $Id = (int)$params->get('cid');
+            $Id = (int) $params->get('cid');
         }
 
         // Different context depending on the view
@@ -80,7 +80,7 @@ class RedshopModelCategory extends RedshopModel
 
         parent::__construct();
 
-        $this->setId((int)$Id);
+        $this->setId((int) $Id);
     }
 
     public function setId($id)
@@ -118,7 +118,7 @@ class RedshopModelCategory extends RedshopModel
             )
             ->where($db->qn('p.published') . ' = 1')
             ->where($db->qn('p.expired') . ' = 0')
-            ->where($db->qn('pc.category_id') . ' = ' . $db->q((int)$categoryId))
+            ->where($db->qn('pc.category_id') . ' = ' . $db->q((int) $categoryId))
             ->where($db->qn('p.product_parent_id') . ' = 0')
             ->order($orderBy->ordering . ' ' . $orderBy->direction)
             ->setLimit(0, $limit);
@@ -147,10 +147,12 @@ class RedshopModelCategory extends RedshopModel
         $user    = JFactory::getUser();
         $orderBy = $this->buildProductOrderBy();
 
-        if ($minmax && !(strpos($orderBy, "p.product_price ASC") !== false || strpos(
-                    $orderBy,
-                    "p.product_price DESC"
-                ) !== false)) {
+        if (
+            $minmax && !(strpos($orderBy, "p.product_price ASC") !== false || strpos(
+                $orderBy,
+                "p.product_price DESC"
+            ) !== false)
+        ) {
             $orderBy = "p.product_price ASC";
         }
 
@@ -174,7 +176,7 @@ class RedshopModelCategory extends RedshopModel
         // Shopper group - choose from manufactures End
 
         if ($manufacturerId && $manufacturerId > 0) {
-            $query->where('p.manufacturer_id = ' . (int)$manufacturerId);
+            $query->where('p.manufacturer_id = ' . (int) $manufacturerId);
         }
 
         $query->select('DISTINCT(' . $db->qn('p.product_id') . ')')
@@ -224,16 +226,18 @@ class RedshopModelCategory extends RedshopModel
 
         RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query, &$categories, &$endlimit));
 
-	    $productFilters = JFactory::getApplication()->input->get->get('filterform', array(), 'array');
+        $productFilters = JFactory::getApplication()->input->get->get('filterform', array(), 'array');
 
         if (!empty($productFilters)) {
             $query->clear();
             $query = RedshopHelperCategory::buildQueryFilterProduct($productFilters, $this->_id, $categories);
-	        $query->order($orderBy);
+            $query->order($orderBy);
         }
 
-        if (\Redshop::getConfig()->getInt('USE_STOCKROOM')
-            && \Redshop::getConfig()->getInt('DISPLAY_OUT_OF_STOCK_AFTER')) {
+        if (
+            \Redshop::getConfig()->getInt('USE_STOCKROOM')
+            && \Redshop::getConfig()->getInt('DISPLAY_OUT_OF_STOCK_AFTER')
+        ) {
             $query->clear('order');
             $subQuery = $db->getQuery(true)
                 ->select('sr.product_id')
@@ -274,7 +278,7 @@ class RedshopModelCategory extends RedshopModel
                         'pc.ordering',
                         'c.*',
                         'm.*',
-                        'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int)$user->id . ') AS concat_id'
+                        'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id'
                     )
                 )
                 ->leftJoin('#__redshop_category AS c ON c.id = pc.category_id')
@@ -365,11 +369,11 @@ class RedshopModelCategory extends RedshopModel
             $this->_total   = count($newProduct);
             $this->_product = array_slice($newProduct, $limitstart, $endlimit);
         } else {
-			$subQueryCount->clear('select')
-				->select('count(*)');
+            $subQueryCount->clear('select')
+                ->select('count(*)');
 
             $this->_total = $db->setQuery($subQueryCount)
-				->loadResult();
+                ->loadResult();
         }
 
         return $this->_product;
@@ -382,7 +386,7 @@ class RedshopModelCategory extends RedshopModel
      */
     public function buildProductOrderBy()
     {
-        $orderBy        = RedshopHelperUtility::prepareOrderBy(
+        $orderBy = RedshopHelperUtility::prepareOrderBy(
             Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD')
         );
 
@@ -437,13 +441,13 @@ class RedshopModelCategory extends RedshopModel
                         $i = 1;
 
                         for ($t = 1, $tn = count($tag); $t < $tn; $t++) {
-                            $finder_query   .= " LEFT JOIN #__redproductfinder_association_tag AS at" . $t . " ON at" . $t . ".association_id=at.association_id";
-                            $finder_where[] = " at" . $t . ".tag_id = " . (int)$tag[$t] . " ";
+                            $finder_query .= " LEFT JOIN #__redproductfinder_association_tag AS at" . $t . " ON at" . $t . ".association_id=at.association_id";
+                            $finder_where[] = " at" . $t . ".tag_id = " . (int) $tag[$t] . " ";
                             $i++;
                         }
                     }
 
-                    $finder_query     .= " WHERE a.id = at.association_id AND at.tag_id = " . (int)$tag[0] . " ";
+                    $finder_query .= " WHERE a.id = at.association_id AND at.tag_id = " . (int) $tag[0] . " ";
                     $finder_where_str = "";
 
                     if (!empty($finder_where)) {
@@ -530,10 +534,12 @@ class RedshopModelCategory extends RedshopModel
             $this->_data = $this->_getList($query);
         } else {
             if (isset($this->_template[0]->template_desc)) {
-                if (strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") === false && strpos(
+                if (
+                    strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") === false && strpos(
                         $this->_template[0]->template_desc,
                         "{pagination}"
-                    ) !== false) {
+                    ) !== false
+                ) {
                     $this->_data = $this->_getList($query, $limitstart, $endlimit);
                 } else {
                     if (strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") !== false) {
@@ -574,9 +580,9 @@ class RedshopModelCategory extends RedshopModel
             ->where($db->qn('c.published') . ' = 1');
 
         if ($this->_id > 0) {
-            $query->where($db->qn('c.parent_id') . ' = ' . (int)$this->_id);
+            $query->where($db->qn('c.parent_id') . ' = ' . (int) $this->_id);
         } else {
-            $query->where($db->qn('c.parent_id') . ' = ' . (int)RedshopHelperCategory::getRootId());
+            $query->where($db->qn('c.parent_id') . ' = ' . (int) RedshopHelperCategory::getRootId());
         }
 
         if ($layout != 'categoryproduct') {
@@ -599,7 +605,7 @@ class RedshopModelCategory extends RedshopModel
                         'p.manufacturer_id'
                     )
                 )
-                ->where($db->qn('m.id') . ' = ' . (int)$manufacturer_id)
+                ->where($db->qn('m.id') . ' = ' . (int) $manufacturer_id)
                 ->group($db->qn('c.id'));
         }
 
@@ -684,7 +690,7 @@ class RedshopModelCategory extends RedshopModel
             ->order($db->qn('ordering') . ' ASC');
 
         if ($mid != 0) {
-            $query->where($db->qn('m.id') . ' = ' . $db->qn((int)$mid));
+            $query->where($db->qn('m.id') . ' = ' . $db->qn((int) $mid));
         }
 
         if ($cid != 0) {
@@ -693,7 +699,7 @@ class RedshopModelCategory extends RedshopModel
                     'p.product_id'
                 ) . ' = ' . 'pcx.product_id'
             )
-                ->where($db->qn('pcx.category_id') . ' = ' . $db->q((int)$cid));
+                ->where($db->qn('pcx.category_id') . ' = ' . $db->q((int) $cid));
         }
 
         return $db->setQuery($query)->loadObjectList();
@@ -738,7 +744,7 @@ class RedshopModelCategory extends RedshopModel
                 )
             )
             ->where($db->qn('fd.txt') . ' LIKE ' . $db->q($letter . '%'))
-            ->where($db->qn('fd.fieldid') . ' = ' . $db->q((int)$fieldId))
+            ->where($db->qn('fd.fieldid') . ' = ' . $db->q((int) $fieldId))
             ->where($db->qn('fd.section') . ' = 1')
             ->where($db->qn('p.published') . ' = 1')
             ->order($db->qn('p.product_name'));
@@ -757,7 +763,7 @@ class RedshopModelCategory extends RedshopModel
 
     public function getfletterTotal($letter, $fieldid)
     {
-        if (empty ($this->_total)) {
+        if (empty($this->_total)) {
             $query        = $this->_buildfletterQuery($letter, $fieldid);
             $this->_total = $this->_getListCount($query);
         }
@@ -777,14 +783,14 @@ class RedshopModelCategory extends RedshopModel
      */
     protected function populateState($ordering = '', $direction = '')
     {
-        $app              = JFactory::getApplication();
+        $app = JFactory::getApplication();
         /** @scrutinizer ignore-call */
         $params           = $app->getParams('com_redshop');
         $selectedTemplate = Redshop::getConfig()->get('DEFAULT_CATEGORYLIST_TEMPLATE');
         $layout           = $app->input->getCmd('layout', 'detail');
 
         if ($this->_id) {
-            $selectedTemplate = (int)$params->get('category_template', 0);
+            $selectedTemplate = (int) $params->get('category_template', 0);
             $mainCat          = $this->_loadCategory();
 
             if (!$selectedTemplate && isset($mainCat->template)) {
@@ -803,10 +809,12 @@ class RedshopModelCategory extends RedshopModel
         if ($_POST) {
             $manufacturerId = $app->input->post->getInt('manufacturer_id', 0);
 
-            if ($manufacturerId != $app->getUserState(
+            if (
+                $manufacturerId != $app->getUserState(
                     $this->context . '.manufacturer_id',
                     $app->input->get->getInt('manufacturer_id', 0)
-                )) {
+                )
+            ) {
                 $app->redirect(
                     Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=category&layout=' . $layout . '&cid=' . $this->_id . '&manufacturer_id=' . $manufacturerId
@@ -843,13 +851,17 @@ class RedshopModelCategory extends RedshopModel
 
         $this->loadCategoryTemplate($categoryTemplate);
 
-        if (isset($this->_template[0]->template_desc)
-            && strstr($this->_template[0]->template_desc, "{show_all_products_in_category}")) {
+        if (
+            isset($this->_template[0]->template_desc)
+            && strstr($this->_template[0]->template_desc, "{show_all_products_in_category}")
+        ) {
             $limit = 0;
-        } elseif (isset($this->_template[0]->template_desc)
+        } elseif (
+            isset($this->_template[0]->template_desc)
             && strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") === false
             && strpos($this->_template[0]->template_desc, "{pagination}") !== false
-            && strpos($this->_template[0]->template_desc, "perpagelimit:") !== false) {
+            && strpos($this->_template[0]->template_desc, "perpagelimit:") !== false
+        ) {
             $perpage = explode('{perpagelimit:', $this->_template[0]->template_desc);
             $perpage = explode('}', $perpage[1]);
             $limit   = intval($perpage[0]);
@@ -859,15 +871,17 @@ class RedshopModelCategory extends RedshopModel
             if ($this->_id) {
                 $item = $app->getMenu()->getActive();
 
-                if (isset($this->_template[0]->template_desc) && strstr(
+                if (
+                    isset($this->_template[0]->template_desc) && strstr(
                         $this->_template[0]->template_desc,
                         "{product_display_limit}"
-                    )) {
+                    )
+                ) {
                     $limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', 0, 'int');
                 }
 
                 if (!$limit && $item) {
-                    $limit = (int)$item->getParams()->get('maxproduct', 0);
+                    $limit = (int) $item->getParams()->get('maxproduct', 0);
                 }
 
                 if (!$limit) {
@@ -888,7 +902,7 @@ class RedshopModelCategory extends RedshopModel
 
     public function _loadCategory()
     {
-        $this->_maincat = RedshopHelperCategory::getCategoryById($this->_id);
+        $this->_maincat = RedshopEntityCategory::getInstance($this->_id)->getItem();
 
         return $this->_maincat;
     }

@@ -63,7 +63,7 @@ class RedshopModelCategories extends RedshopModelList
         if (count($cid)) {
             $db         = $this->getDbo();
             $fields     = array(
-                $db->qn('template') . ' = ' . $db->q((int)$categoryTemplate)
+                $db->qn('template') . ' = ' . $db->q((int) $categoryTemplate)
             );
             $conditions = array(
                 $db->qn('id') . ' IN (' . implode(',', $cid) . ')'
@@ -73,7 +73,7 @@ class RedshopModelCategories extends RedshopModelList
                 ->set($fields)
                 ->where($conditions);
 
-			$db->setQuery($query)->execute();
+            $db->setQuery($query)->execute();
         }
 
         return true;
@@ -148,15 +148,15 @@ class RedshopModelCategories extends RedshopModelList
         $parentId = $this->getState('filter.category_id');
 
         if (!empty($parentId)) {
-            $info = RedshopHelperCategory::getCategoryById($parentId);
+            $info = RedshopEntityCategory::getInstance($parentId)->getItem();
 
             // Filter: Get deeper child or parent
             $lft = $info->lft;
             $rgt = $info->rgt;
 
             if ($lft && $rgt) {
-                $query->where($db->qn('c.lft') . ' >= ' . (int)$lft)
-                    ->where($db->qn('c.rgt') . ' <= ' . (int)$rgt);
+                $query->where($db->qn('c.lft') . ' >= ' . (int) $lft)
+                    ->where($db->qn('c.rgt') . ' <= ' . (int) $rgt);
             }
         }
 
@@ -165,7 +165,7 @@ class RedshopModelCategories extends RedshopModelList
 
         if (!empty($search)) {
             if (stripos($search, 'id:') === 0) {
-                $query->where($db->qn('c.id') . ' = ' . $db->q((int)substr($search, 3)));
+                $query->where($db->qn('c.id') . ' = ' . $db->q((int) substr($search, 3)));
             } else {
                 $search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
                 $query->where($db->qn('c.name') . ' LIKE ' . $search);

@@ -395,8 +395,8 @@ class RedshopControllerOrder_detail extends RedshopController
         $order   = RedshopEntityOrder::getInstance($request['order_id'])->getItem();
 
         // Send the order_id and order payment_id to the payment plugin so it knows which DB record to update upon successful payment
-        $userBilling       = RedshopHelperOrder::getOrderBillingUserInfo($request['order_id']);
-        $shippingAddresses = RedshopHelperOrder::getOrderShippingUserInfo($request['order_id']);
+        $userBilling       = RedshopEntityOrder::getInstance($request['order_id'])->getBilling()->getItem();
+        $shippingAddresses = RedshopEntityOrder::getInstance($request['order_id'])->getShipping()->getItem();
 
         if (isset($shippingAddresses)) {
             $shippingAddress = $shippingAddresses;

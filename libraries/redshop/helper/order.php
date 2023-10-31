@@ -303,7 +303,7 @@ class RedshopHelperOrder
             RedshopHelperUtility::getDispatcher()->trigger(
                 'onAfterOrderStatusUpdate',
                 array(
-                    self::getOrderDetails($orderId),
+                    RedshopEntityOrder::getInstance($orderId)->getItem(),
                     $data->order_status_code
                 )
             );
@@ -437,8 +437,8 @@ class RedshopHelperOrder
         }
 
         // Getting the order details
-        $orderDetail = self::getOrderDetails($orderId);
-        $userDetail  = self::getOrderBillingUserInfo($orderId);
+        $orderDetail = RedshopEntityOrder::getInstance($orderId)->getItem();
+        $userDetail  = RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
 
         $userFullname = $userDetail->firstname . " " . $userDetail->lastname;
         $userEmail    = $userDetail->email;
@@ -700,7 +700,7 @@ class RedshopHelperOrder
         $app = JFactory::getApplication();
 
         // Changes to parse all tags same as order mail end
-        $userDetail = self::getOrderBillingUserInfo($orderId);
+        $userDetail = RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
 
         $mailFrom     = $app->get('mailfrom');
         $fromName     = $app->get('fromname');
@@ -750,7 +750,7 @@ class RedshopHelperOrder
             }
 
             // Changes to parse all tags same as order mail start
-            $orderDetail = self::getOrderDetails($orderId);
+            $orderDetail = RedshopEntityOrder::getInstance($orderId)->getItem();
             $mailData    = str_replace(
                 "{order_mail_intro_text_title}",
                 Text::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'),
@@ -792,7 +792,7 @@ class RedshopHelperOrder
             $mailData = RedshopHelperBillingTag::replaceBillingAddress($mailData, $userDetail);
 
             // Get ShippingAddress From order Users info
-            $shippingAddresses = self::getOrderShippingUserInfo($orderId);
+            $shippingAddresses = RedshopEntityOrder::getInstance($orderId)->getShipping()->getItem();
 
             if (count($shippingAddresses) <= 0) {
                 $shippingAddresses = $userDetail;
@@ -943,7 +943,7 @@ class RedshopHelperOrder
 
         // Only Execute this function for selected status match
         if ($orderStatus == Redshop::getConfig()->get('GENERATE_LABEL_ON_STATUS') && $paymentStatus == "Paid") {
-            $orderDetails = self::getOrderDetails($orderId);
+            $orderDetails = RedshopEntityOrder::getInstance($orderId)->getItem();
             $details      = Redshop\Shipping\Rate::decrypt($orderDetails->ship_method_id);
 
             $shippingParams = new Registry(
@@ -985,10 +985,10 @@ class RedshopHelperOrder
     public static function generateParcel($orderId)
     {
         $db                        = JFactory::getDbo();
-        $orderDetail               = self::getOrderDetails($orderId);
+        $orderDetail               = RedshopEntityOrder::getInstance($orderId)->getItem();
         $orderProducts             = self::getOrderItemDetail($orderId);
-        $billingInfo               = self::getOrderBillingUserInfo($orderId);
-        $shippingInfo              = self::getOrderShippingUserInfo($orderId);
+        $billingInfo               = RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
+        $shippingInfo              = RedshopEntityOrder::getInstance($orderId)->getShipping()->getItem();
         $shippingRateDecryptDetail = Redshop\Shipping\Rate::decrypt($orderDetail->ship_method_id);
 
         // Get Shipping Delivery Type
@@ -1214,47 +1214,6 @@ class RedshopHelperOrder
     }
 
     /**
-     * Get order details
-     *
-     * @param   integer  $orderId  Order ID
-     *
-     * @return  object
-     *
-     * @since       2.0.3
-     *
-     * @deprecated  2.0.6
-     */
-    public static function getOrderDetails($orderId)
-    {
-        return self::getOrderDetail($orderId);
-    }
-
-    /**
-     * Get order information from order id.
-     *
-     * @param   integer  $orderId  Order Id
-     * @param   boolean  $force    Force to get order information from DB instead of cache.
-     *
-     * @return  object    Order Information Object
-     *
-     * @deprecated  2.0.6
-     */
-    public static function getOrderDetail($orderId, $force = false)
-    {
-        if (!$orderId) {
-            return null;
-        }
-
-        $order = RedshopEntityOrder::getInstance($orderId);
-
-        if ($force) {
-            $order->reset();
-        }
-
-        return $order->getItem();
-    }
-
-    /**
      * Get list item of an specific order.
      *
      * @param   mixed    $orderId      Order ID
@@ -1300,58 +1259,6 @@ class RedshopHelperOrder
         }
 
         return self::$orderItems[$key];
-    }
-
-    /**
-     * Get Order billing user information
-     *
-     * @param   integer  $orderId  Order Id
-     * @param   boolean  $force    Force get information
-     *
-     * @return  object   Order Billing information object
-     *
-     * @deprecated  2.0.6
-     */
-    public static function getOrderBillingUserInfo($orderId, $force = false)
-    {
-        if (!$orderId) {
-            return null;
-        }
-
-        /** @var RedshopEntityOrder_User $userBilling */
-        $userBilling = RedshopEntityOrder::getInstance($orderId)->getBilling();
-
-        if ($force) {
-            $userBilling->reset()->loadExtraFields();
-        }
-
-        return $userBilling->getItem();
-    }
-
-    /**
-     * Get Order shipping user information
-     *
-     * @param   integer  $orderId  Order Id
-     * @param   boolean  $force    Order Id
-     *
-     * @return  object   Order Shipping information object
-     *
-     * @deprecated  2.0.6
-     */
-    public static function getOrderShippingUserInfo($orderId, $force = false)
-    {
-        if (!$orderId) {
-            return null;
-        }
-
-        /** @var RedshopEntityOrder_User $userBilling */
-        $userBilling = RedshopEntityOrder::getInstance($orderId)->getShipping();
-
-        if ($force) {
-            $userBilling->reset()->loadExtraFields();
-        }
-
-        return $userBilling->getItem();
     }
 
     /**
@@ -1949,8 +1856,8 @@ class RedshopHelperOrder
             $values["order_id"]            = $orderId;
             $values["order_transactionid"] = $result->order_payment_trans_id;
             $values["order_amount"]        = $orderDetail->order_total + $result->order_transfee;
-            $values['shippinginfo']        = self::getOrderShippingUserInfo($orderId);
-            $values['billinginfo']         = self::getOrderBillingUserInfo($orderId);
+            $values['shippinginfo']        = RedshopEntityOrder::getInstance($orderId)->getShipping()->getItem();
+            $values['billinginfo']         = RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
             $values["order_userid"]        = $values['billinginfo']->user_id;
 
             JPluginHelper::importPlugin('redshop_payment');
@@ -2510,16 +2417,16 @@ class RedshopHelperOrder
 
         $isCreditCard = $paymentParams->get('is_creditcard', '');
 
-        $order = self::getOrderDetails($row->order_id);
+        $order = RedshopEntityOrder::getInstance($row->order_id)->getItem();
 
-        if ($userBillingInfo = self::getOrderBillingUserInfo($row->order_id)) {
+        if ($userBillingInfo = RedshopEntityOrder::getInstance($row->order_id)->getBilling()->getItem()) {
             $userBillingInfo->country_2_code = RedshopHelperWorld::getCountryCode2($userBillingInfo->country_code);
             $userBillingInfo->state_2_code   = RedshopHelperWorld::getStateCode2($userBillingInfo->state_code);
         }
 
         $task = $app->input->getCmd('task');
 
-        if ($shippingAddress = self::getOrderShippingUserInfo($row->order_id)) {
+        if ($shippingAddress = RedshopEntityOrder::getInstance($row->order_id)->getShipping()->getItem()) {
             $shippingAddress->country_2_code = RedshopHelperWorld::getCountryCode2($shippingAddress->country_code);
             $shippingAddress->state_2_code   = RedshopHelperWorld::getStateCode2($shippingAddress->state_code);
         }
@@ -2640,7 +2547,7 @@ class RedshopHelperOrder
             return;
         }
 
-        $orderDetail   = self::getOrderDetails($orderId);
+        $orderDetail   = RedshopEntityOrder::getInstance($orderId)->getItem();
         $orderTemplate = RedshopHelperTemplate::getTemplate('order_print');
 
         if (count($orderTemplate) > 0 && $orderTemplate[0]->template_desc != "") {

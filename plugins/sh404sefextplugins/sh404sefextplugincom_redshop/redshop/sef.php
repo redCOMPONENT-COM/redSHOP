@@ -202,7 +202,7 @@ switch ($view) {
                         if ($cat_in_sefurl > 0) {
                             $where = " AND c.category_id = '$cat_in_sefurl'";
 
-                            if ($categoryData = RedshopHelperCategory::getCategoryById($cat_in_sefurl)) {
+                            if ($categoryData = RedshopEntityCategory::getInstance($cat_in_sefurl)->getItem()) {
                                 $category_id = $categoryData->id;
                             }
                         } else {
@@ -230,7 +230,7 @@ switch ($view) {
 
                     $catname = '';
 
-                    if ($categoryData = RedshopHelperCategory::getCategoryById($category_id)) {
+                    if ($categoryData = RedshopEntityCategory::getInstance($category_id)->getItem()) {
                         $catname = $categoryData->name;
                     }
 

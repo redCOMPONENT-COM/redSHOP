@@ -23,16 +23,6 @@ use Redshop\Economic\RedshopEconomic;
 class RedshopControllerCheckout extends RedshopController
 {
     /**
-     * @var  order_functions
-     */
-    public $_order_functions = null;
-
-    /**
-     * @var shipping
-     */
-    public $_shippinghelper = null;
-
-    /**
      * Constructor.
      *
      * @param   array  $default  config array
@@ -502,7 +492,7 @@ class RedshopControllerCheckout extends RedshopController
             }
 
             if ($order_id) {
-                $billingAddresses = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
+                $billingAddresses = RedshopEntityOrder::getInstance($order_id)->getBilling()->getItem();
 
                 JPluginHelper::importPlugin('redshop_product');
                 JPluginHelper::importPlugin('redshop_alert');

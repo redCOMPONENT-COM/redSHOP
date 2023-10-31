@@ -1515,7 +1515,7 @@ class RedshopEconomic
             (\Redshop::getConfig()->getInt('ECONOMIC_INVOICE_DRAFT') == 2
                 && $orderEntity->order_status == \Redshop::getConfig()->getString('BOOKING_ORDER_STATUS')) || $checkOrderStatus == 0
         ) {
-            $userBillingInfo = \RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+            $userBillingInfo = \RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
 
             if ($userBillingInfo->is_company == 0 || (!$userBillingInfo->ean_number && $userBillingInfo->is_company == 1)) {
                 $currency = \Redshop::getConfig()->get('CURRENCY_CODE');

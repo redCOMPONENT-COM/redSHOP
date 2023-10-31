@@ -69,7 +69,7 @@ $attributeTemplate = \Redshop\Template\Helper::getAttribute($templateDesc);
 // Begin replace template
 $templateDesc   = str_replace("{total_product_lbl}", Text::_('COM_REDSHOP_TOTAL_PRODUCT'), $templateDesc);
 $templateDesc   = str_replace("{total_product}", $displayData['total'], $templateDesc);
-$categoryDetail = RedshopHelperCategory::getCategoryById($cid);
+$categoryDetail = RedshopEntityCategory::getInstance($cid)->getItem();
 
 if (strpos($templateDesc, "{template_selector_category}") !== false) {
     $categoryTemplate = $categoryDetail->template . ',' . $categoryDetail->more_template;

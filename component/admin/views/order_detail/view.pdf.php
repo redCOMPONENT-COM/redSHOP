@@ -35,8 +35,8 @@ class RedshopViewOrder_Detail extends RedshopView
         }
 
         $detail   = $this->get('data');
-        $billing  = RedshopHelperOrder::getBillingAddress($detail->user_id);
-        $shipping = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
+        $billing  = RedshopEntityOrder::getInstance($detail->order_id)->getBilling()->getItem();
+        $shipping = RedshopEntityOrder::getInstance($detail->order_id)->getShipping()->getItem();
 
         if (!$shipping) {
             $shipping = $billing;

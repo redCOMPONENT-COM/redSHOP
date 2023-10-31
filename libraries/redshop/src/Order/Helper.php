@@ -331,7 +331,7 @@ class Helper
 
                     $mailFrom   = $app->get('mailfrom');
                     $fromName   = $app->get('fromname');
-                    $userDetail = \RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+                    $userDetail = \RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
 
                     $isSend = \Redshop\Mail\Helper::sendEmail(
                         $mailFrom,

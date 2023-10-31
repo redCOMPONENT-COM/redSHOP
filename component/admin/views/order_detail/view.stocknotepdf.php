@@ -44,20 +44,20 @@ class RedshopViewOrder_Detail extends RedshopView
         } else {
             $pdfTemplate = '<table border="0" cellspacing="2" cellpadding="2" width="100%"><tr><td>{order_id_lbl} : {order_id}</td><td> {order_date_lbl} : {order_date}</td></tr></table>
                        <table border="1" cellspacing="0" cellpadding="0" width="100%"><tbody><tr style="background-color: #d7d7d4"><th align="center">{product_name_lbl}</th> <th align="center">{product_number_lbl}</th> <th align="center">{product_quantity_lbl}</th></tr>
-						{product_loop_start}
-						<tr>
-						<td  align="center">
-							<table>
-							<tr><td>{product_name}</td></tr>
-							<tr><td>{product_attribute}</td></tr>
-							</table>
-						</td>
-						<td  align="center">{product_number}</td>
-						<td  align="center">{product_quantity}</td>
-						</tr>
-						{product_loop_end}
-						</tbody>
-						</table>';
+                        {product_loop_start}
+                        <tr>
+                        <td  align="center">
+                            <table>
+                            <tr><td>{product_name}</td></tr>
+                            <tr><td>{product_attribute}</td></tr>
+                            </table>
+                        </td>
+                        <td  align="center">{product_number}</td>
+                        <td  align="center">{product_quantity}</td>
+                        </tr>
+                        {product_loop_end}
+                        </tbody>
+                        </table>';
         }
 
         ob_start();
@@ -71,9 +71,9 @@ class RedshopViewOrder_Detail extends RedshopView
         $pdfTemplate = str_replace("{product_name_lbl}", Text::_('COM_REDSHOP_PRODUCT_NAME'), $pdfTemplate);
         $pdfTemplate = str_replace("{product_number_lbl}", Text::_('COM_REDSHOP_PRODUCT_NUMBER'), $pdfTemplate);
         $pdfTemplate = str_replace("{product_quantity_lbl}", Text::_('COM_REDSHOP_QUANTITY'), $pdfTemplate);
-        $billing     = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
+        $billing     = RedshopEntityOrder::getInstance($detail->order_id)->getBilling()->getItem();
         $pdfTemplate = RedshopHelperBillingTag::replaceBillingAddress($pdfTemplate, $billing);
-        $shipping    = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
+        $shipping    = RedshopEntityOrder::getInstance($detail->order_id)->getShipping()->getItem();
         $pdfTemplate = Redshop\Shipping\Tag::replaceShippingAddress($pdfTemplate, $shipping);
         $pdfTemplate = str_replace("{requisition_number}", $detail->requisition_number, $pdfTemplate);
         $pdfTemplate = str_replace(

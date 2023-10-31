@@ -69,7 +69,7 @@ class RedshopViewOrder_Detail extends RedshopView
         /** @var RedshopModelOrder_detail $model */
         $model = $this->getModel('order_detail');
 
-        $orderDetail = RedshopHelperOrder::getOrderDetails($orderId);
+        $orderDetail = RedshopEntityOrder::getInstance($orderId)->getItem();
 
         if ($orderDetail === null) {
             throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);

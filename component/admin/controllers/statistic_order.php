@@ -61,7 +61,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
         echo "Order Total\n";
 
         for ($i = 0, $in = count($data); $i < $in; $i++) {
-            $billingInfo = RedshopHelperOrder::getOrderBillingUserInfo($data[$i]->order_id);
+            $userBilling = RedshopEntityOrder::getInstance($data[$i]->order_id)->getBilling()->getItem();
             $details     = Redshop\Shipping\Rate::decrypt($data[$i]->ship_method_id);
 
             echo $data[$i]->order_id . ",";
@@ -74,28 +74,28 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
                 echo '';
             }
 
-            $shippingInfo = RedshopHelperOrder::getOrderShippingUserInfo($data[$i]->order_id);
+            $shippingAddresses = RedshopEntityOrder::getInstance($data[$i]->order_id)->getShipping()->getItem();
 
-            echo str_replace(",", " ", $shippingInfo->firstname) . " " . str_replace(
+            echo str_replace(",", " ", $shippingAddresses->firstname) . " " . str_replace(
                 ",",
                 " ",
-                $shippingInfo->lastname
+                $shippingAddresses->lastname
             ) . " ,";
-            echo str_replace(",", " ", utf8_decode($shippingInfo->address)) . " ,";
-            echo $shippingInfo->zipcode . " ,";
-            echo str_replace(",", " ", utf8_decode($shippingInfo->city)) . " ,";
-            echo $shippingInfo->country_code . " ,";
-            echo str_replace(",", " ", $shippingInfo->company_name) . " ,";
-            echo $shippingInfo->user_email . " ,";
+            echo str_replace(",", " ", utf8_decode($shippingAddresses->address)) . " ,";
+            echo $shippingAddresses->zipcode . " ,";
+            echo str_replace(",", " ", utf8_decode($shippingAddresses->city)) . " ,";
+            echo $shippingAddresses->country_code . " ,";
+            echo str_replace(",", " ", $shippingAddresses->company_name) . " ,";
+            echo $shippingAddresses->user_email . " ,";
 
-            echo str_replace(",", " ", utf8_decode($billingInfo->address)) . " ,";
-            echo $billingInfo->zipcode . " ,";
-            echo str_replace(",", " ", utf8_decode($billingInfo->city)) . " ,";
-            echo $billingInfo->country_code . " ,";
-            echo str_replace(",", " ", $billingInfo->firstname) . " " . str_replace(
+            echo str_replace(",", " ", utf8_decode($userBilling->address)) . " ,";
+            echo $userBilling->zipcode . " ,";
+            echo str_replace(",", " ", utf8_decode($userBilling->city)) . " ,";
+            echo $userBilling->country_code . " ,";
+            echo str_replace(",", " ", $userBilling->firstname) . " " . str_replace(
                 ",",
                 " ",
-                $billingInfo->lastname
+                $userBilling->lastname
             ) . " ,";
 
             $noItems = RedshopHelperOrder::getOrderItemDetail($data[$i]->order_id);

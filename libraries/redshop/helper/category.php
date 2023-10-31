@@ -31,27 +31,13 @@ class RedshopHelperCategory
     {
         self::$categoryListReverse = array();
 
-        if ($category = self::getCategoryById($cid)) {
+        if ($category = RedshopEntityCategory::getInstance($cid)->getItem()) {
             if (isset($category->parent_id)) {
                 self::getCategoryListRecursion($category->parent_id);
             }
         }
 
         return self::$categoryListReverse;
-    }
-
-    /**
-     * Get category data
-     *
-     * @param   int  $cid  Category id
-     *
-     * @return  mixed
-     *
-     * @deprecated  2.0.6  Use RedshopEntityCategory instead
-     */
-    public static function getCategoryById($cid)
-    {
-        return RedshopEntityCategory::getInstance($cid)->getItem();
     }
 
     /**
@@ -63,7 +49,7 @@ class RedshopHelperCategory
      */
     private static function getCategoryListRecursion($cid = '0')
     {
-        if ($category = self::getCategoryById($cid)) {
+        if ($category = RedshopEntityCategory::getInstance($cid)->getItem();) {
             if (isset($category->parent_id)) {
                 self::$categoryListReverse[] = $category;
                 self::getCategoryListRecursion($category->parent_id);
