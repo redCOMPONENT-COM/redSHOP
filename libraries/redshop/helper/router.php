@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Multilanguage;
+
 /**
  * Redshop Router helper class
  *
@@ -47,7 +49,7 @@ class RedshopHelperRouter
         // Get Itemid from Product detail
         if ($productId) {
             $result = self::getRedShopMenuItem(
-                array('option' => 'com_redshop', 'view' => 'product', 'pid' => (int)$productId)
+                array('option' => 'com_redshop', 'view' => 'product', 'pid' => (int) $productId)
             );
 
             if ($result) {
@@ -147,7 +149,8 @@ class RedshopHelperRouter
         }
 
         foreach ($queryItems as $key => $value) {
-            if (!isset($oneMenuItem->query[$key])
+            if (
+                !isset($oneMenuItem->query[$key])
                 || (is_array($value) && !in_array($oneMenuItem->query[$key], $value))
                 || (!is_array($value) && $oneMenuItem->query[$key] != $value)
             ) {
@@ -190,7 +193,7 @@ class RedshopHelperRouter
                         'option' => 'com_redshop',
                         'view'   => 'category',
                         'layout' => 'detail',
-                        'cid'    => (int)$category
+                        'cid'    => (int) $category
                     )
                 );
 
@@ -278,7 +281,7 @@ class RedshopHelperRouter
         // Create the link
         $link = 'index.php?option=com_redshop&view=product&pid=' . $id;
 
-        if ((int)$catId > 0) {
+        if ((int) $catId > 0) {
             $link .= '&cid=' . $catId;
         }
 
@@ -292,10 +295,10 @@ class RedshopHelperRouter
         );
 
         if (isset($items[0])) {
-            $link .= '&Itemid=' . (int)$items[0]->id;
+            $link .= '&Itemid=' . (int) $items[0]->id;
         }
 
-        if ($language && $language !== '*' && JLanguageMultilang::isEnabled()) {
+        if ($language && $language !== '*' && Multilanguage::isEnabled()) {
             $link .= '&lang=' . $language;
         }
 

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Multilanguage;
+
 /**
  * Helper for mod_login
  *
@@ -35,7 +37,7 @@ class ModRedshopLoginHelper
         if ($item) {
             $lang = '';
 
-            if ($item->language !== '*' && JLanguageMultilang::isEnabled()) {
+            if ($item->language !== '*' && Multilanguage::isEnabled()) {
                 $lang = '&lang=' . $item->language;
             }
 
