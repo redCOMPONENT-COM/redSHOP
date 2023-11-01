@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Object\CMSObject;
+
 /**
  * Model Discount Product
  *
@@ -49,7 +51,7 @@ class RedshopModelDiscount_Product extends RedshopModelForm
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $app = JFactory::getApplication();
+        $app  = JFactory::getApplication();
         $data = $app->getUserState('com_redshop.edit.discount_product.data', array());
 
         if (empty($data)) {
@@ -66,7 +68,7 @@ class RedshopModelDiscount_Product extends RedshopModelForm
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  JObject|boolean  Object on success, false on failure.
+     * @return  CMSObject|boolean  Object on success, false on failure.
      *
      * @since   2.1.0
      */

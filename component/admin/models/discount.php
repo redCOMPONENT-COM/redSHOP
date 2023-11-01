@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Object\CMSObject;
+
 /**
  * Model Discount
  *
@@ -47,7 +49,7 @@ class RedshopModelDiscount extends RedshopModelForm
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  JObject|boolean  Object on success, false on failure.
+     * @return  CMSObject|boolean  Object on success, false on failure.
      *
      * @since   2.1.0
      */

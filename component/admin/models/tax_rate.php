@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Object\CMSObject;
+
 /**
  * Model Tax Rate
  *
@@ -18,21 +20,21 @@ defined('_JEXEC') or die;
  */
 class RedshopModelTax_Rate extends RedshopModelForm
 {
-	/**
-	 * Method to get a single record.
-	 *
-	 * @param   integer $pk The id of the primary key.
-	 *
-	 * @return  JObject|boolean  Object on success, false on failure.
-	 *
-	 * @since   3.0.2
-	 */
-	public function getItem($pk = null)
-	{
-		$item = parent::getItem($pk);
+    /**
+     * Method to get a single record.
+     *
+     * @param   integer $pk The id of the primary key.
+     *
+     * @return  CMSObject|boolean  Object on success, false on failure.
+     *
+     * @since   3.0.2
+     */
+    public function getItem($pk = null)
+    {
+        $item = parent::getItem($pk);
 
-		$item->shopper_group = RedshopEntityTax_Rate::getInstance($item->id)->getShopperGroups()->ids();
+        $item->shopper_group = RedshopEntityTax_Rate::getInstance($item->id)->getShopperGroups()->ids();
 
-		return $item;
-	}
+        return $item;
+    }
 }

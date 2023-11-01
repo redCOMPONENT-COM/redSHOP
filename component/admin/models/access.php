@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Object\CMSObject;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -62,9 +63,9 @@ class RedshopModelAccess extends RedshopModelForm
             $table->parent_id = $root->id;
         }
 
-        $table->name = $this->assetName;
+        $table->name  = $this->assetName;
         $table->title = $data['title'];
-        $table->rules = (string)$rules;
+        $table->rules = (string) $rules;
 
         if (!$table->check() || !$table->store()) {
             return false;
@@ -91,7 +92,7 @@ class RedshopModelAccess extends RedshopModelForm
         }
 
         $item = $table->getProperties(true);
-        $item = ArrayHelper::toObject($item, 'JObject');
+        $item = ArrayHelper::toObject($item, 'CMSObject::class');
 
         return $item;
     }
