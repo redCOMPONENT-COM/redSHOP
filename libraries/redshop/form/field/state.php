@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Redshop States field.
@@ -33,7 +35,7 @@ class RedshopFormFieldState extends JFormFieldList
      */
     protected function getOptions()
     {
-        $key = isset($this->element['idfield']) ? (string)$this->element['idfield'] : 'id';
+        $key = isset($this->element['idfield']) ? (string) $this->element['idfield'] : 'id';
 
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true)
@@ -54,8 +56,8 @@ class RedshopFormFieldState extends JFormFieldList
         $fieldName = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
         foreach ($options as $option) {
-            $option->text     = JText::alt((string)$option->text, $fieldName);
-            $option->value    = (string)$option->value;
+            $option->text     = JText::alt((string) $option->text, $fieldName);
+            $option->value    = (string) $option->value;
             $option->disable  = false;
             $option->class    = '';
             $option->selected = false;

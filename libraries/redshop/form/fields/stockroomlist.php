@@ -10,9 +10,11 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormHelper;
 
 JLoader::import('redshop.library');
-JFormHelper::loadFieldClass('list');
+
+FormHelper::loadFieldClass('list');
 
 // Load library language
 $lang = JFactory::getLanguage();

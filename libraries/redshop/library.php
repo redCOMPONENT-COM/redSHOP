@@ -10,6 +10,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Form\FormHelper;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
 jimport('joomla.filesystem.file');
@@ -65,13 +66,11 @@ jimport('joomla.filesystem.file');
 JLoader::import('redshop.redshop');
 $systemRedshop = JPluginHelper::getPlugin('system', 'redshop');
 
-if (!empty($systemRedshop))
-{
+if (!empty($systemRedshop)) {
     $params = new JRegistry($systemRedshop->params);
 
-    if ($params->get('enable_twig'))
-    {
-        require_once (JPATH_PLUGINS . '/system/redshop/libraries/vendor/autoload.php');
+    if ($params->get('enable_twig')) {
+        require_once(JPATH_PLUGINS . '/system/redshop/libraries/vendor/autoload.php');
         JLoader::import('redshop.twig');
     }
 }
@@ -83,11 +82,11 @@ JLoader::registerPrefix('Redshop', JPATH_REDSHOP_LIBRARY);
 JForm::addFormPath(JPATH_REDSHOP_LIBRARY . '/form/forms');
 
 // Make available the redSHOP fields
-JFormHelper::addFieldPath(JPATH_REDSHOP_LIBRARY . '/form/fields');
-JFormHelper::addFieldPath(JPATH_REDSHOP_LIBRARY . '/form/field');
+FormHelper::addFieldPath(JPATH_REDSHOP_LIBRARY . '/form/fields');
+FormHelper::addFieldPath(JPATH_REDSHOP_LIBRARY . '/form/field');
 
 // Make available the redSHOP form rules
-JFormHelper::addRulePath(JPATH_REDSHOP_LIBRARY . '/form/rules');
+FormHelper::addRulePath(JPATH_REDSHOP_LIBRARY . '/form/rules');
 
 // Load helpers paths in JLoader
 JLoader::discover('', JPATH_SITE . '/components/com_redshop/helpers', true, true);

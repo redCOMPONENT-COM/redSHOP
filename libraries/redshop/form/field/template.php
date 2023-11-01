@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Redshop Templates field.
@@ -33,7 +35,7 @@ class RedshopFormFieldTemplate extends JFormFieldList
      */
     protected function getOptions()
     {
-        $section = isset($this->element['section']) ? (string)$this->element['section'] : null;
+        $section = isset($this->element['section']) ? (string) $this->element['section'] : null;
 
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true)

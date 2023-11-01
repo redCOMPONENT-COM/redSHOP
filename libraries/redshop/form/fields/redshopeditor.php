@@ -9,8 +9,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Form\FormHelper;
+
 JLoader::import('redshop.library');
-JFormHelper::loadFieldClass('editor');
+
+FormHelper::loadFieldClass('editor');
 
 /**
  * Form Field class to show redSHOP editor
@@ -34,11 +37,11 @@ class JFormFieldRedshopEditor extends JFormFieldEditor
     protected function getInput()
     {
         if (!$this->value) {
-            $layoutFile = $this->element['layoutFile'] ? (string)$this->element['layoutFile'] : 'sample';
+            $layoutFile  = $this->element['layoutFile'] ? (string) $this->element['layoutFile'] : 'sample';
             $this->value = RedshopLayoutHelper::render(
                 $layoutFile,
                 null,
-                JPATH_SITE . (string)$this->element['basePath']
+                JPATH_SITE . (string) $this->element['basePath']
             );
         }
 

@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('checkboxes');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('checkboxes');
 
 /**
  * Prepare checkboxes for different card types

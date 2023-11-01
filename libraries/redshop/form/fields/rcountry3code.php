@@ -7,8 +7,12 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
-JFormHelper::loadFieldClass('list');
+
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * RCountry3Code select list for redSHOP
@@ -43,7 +47,8 @@ class JFormFieldRCountry3Code extends JFormFieldList
 
         try {
             $options = $db->loadObjectList();
-        } catch (RuntimeException $e) {
+        }
+        catch (RuntimeException $e) {
             throw new Exception($e->getMessage());
         }
 

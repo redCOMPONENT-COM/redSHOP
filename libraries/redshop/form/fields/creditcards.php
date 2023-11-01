@@ -10,8 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormHelper;
 
-JFormHelper::loadFieldClass('checkboxes');
+FormHelper::loadFieldClass('checkboxes');
 
 /**
  * Renders a Credit Card Form

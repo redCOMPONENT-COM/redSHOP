@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Field to create extra field list dynamically
@@ -94,18 +96,18 @@ class JFormFieldExtraFields extends JFormFieldList
         $this->fieldSection = 1;
 
         if (isset($this->element['section'])) {
-            $this->fieldSection = (int)$this->element['section'];
+            $this->fieldSection = (int) $this->element['section'];
         } elseif (isset($this->element['field_section'])) {
-            $this->fieldSection = (int)$this->element['field_section'];
+            $this->fieldSection = (int) $this->element['field_section'];
         }
 
         $this->fieldType        = isset($this->element['field_type']) ? $this->element['field_type'] : "";
-        $this->fieldShowInFront = isset($this->element['show_in_front']) ? (int)$this->element['show_in_front'] : null;
-        $this->published        = isset($this->element['published']) ? (int)$this->element['published'] : 1;
+        $this->fieldShowInFront = isset($this->element['show_in_front']) ? (int) $this->element['show_in_front'] : null;
+        $this->published        = isset($this->element['published']) ? (int) $this->element['published'] : 1;
 
         // Dynamic query select options
-        $this->valueField = isset($this->element['value_field']) ? (string)$this->element['value_field'] : 'name';
-        $this->textField  = isset($this->element['text_field']) ? (string)$this->element['text_field'] : 'title';
+        $this->valueField = isset($this->element['value_field']) ? (string) $this->element['value_field'] : 'name';
+        $this->textField  = isset($this->element['text_field']) ? (string) $this->element['text_field'] : 'title';
 
         return array_merge(
             parent::getOptions(),
@@ -137,13 +139,13 @@ class JFormFieldExtraFields extends JFormFieldList
                 )
             )
             ->from($db->qn('#__redshop_fields'))
-            ->where($db->qn('published') . ' = ' . (int)$this->published);
+            ->where($db->qn('published') . ' = ' . (int) $this->published);
 
         if ($this->fieldShowInFront !== null) {
-            $query->where($db->qn('show_in_front') . ' = ' . (int)$this->fieldShowInFront);
+            $query->where($db->qn('show_in_front') . ' = ' . (int) $this->fieldShowInFront);
         }
 
-        $query->where($db->qn('section') . ' = ' . (int)$this->fieldSection)
+        $query->where($db->qn('section') . ' = ' . (int) $this->fieldSection)
             ->order($db->qn('ordering') . ' ASC');
 
         if ($this->fieldType != "") {

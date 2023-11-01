@@ -9,7 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -37,7 +39,7 @@ class JFormFieldCategories extends JFormFieldList
 
         if (count($categories) > 0) {
             foreach ($categories as $category) {
-                $option = JHtml::_('select.option', $category->id, $category->name);
+                $option    = JHtml::_('select.option', $category->id, $category->name);
                 $options[] = $option;
             }
         }
@@ -46,12 +48,12 @@ class JFormFieldCategories extends JFormFieldList
         $attr    = '';
 
         // Initialize some field attributes.
-        $attr .= $this->element['class'] ? ' class="' . (string)$this->element['class'] . '"' : '';
-        $attr .= $this->element['size'] ? ' size="' . (int)$this->element['size'] . '"' : '';
+        $attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+        $attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
         $attr .= $this->element['multiple'] ? ' multiple' : '';
 
         // Initialize JavaScript field attributes.
-        $attr .= $this->element['onchange'] ? ' onchange="' . (string)$this->element['onchange'] . '"' : '';
+        $attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
         return JHtml::_(
             'select.genericlist',

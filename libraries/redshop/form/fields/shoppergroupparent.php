@@ -10,8 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Form\FormHelper;
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 /**
  * @package        RedSHOP.Backend
@@ -56,11 +57,11 @@ class JFormFieldShopperGroupParent extends JFormFieldList
 
         $attr = '';
         // Initialize some field attributes.
-        $attr .= $this->element['class'] ? ' class="' . (string)$this->element['class'] . '"' : '';
-        $attr .= $this->element['size'] ? ' size="' . (int)$this->element['size'] . '"' : '';
+        $attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+        $attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 
         // Initialize JavaScript field attributes.
-        $attr .= $this->element['onchange'] ? ' onchange="' . (string)$this->element['onchange'] . '"' : '';
+        $attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
         return JHTML::_(
             'select.genericlist',
@@ -105,7 +106,7 @@ class JFormFieldShopperGroupParent extends JFormFieldList
         }
 
         foreach ($groups as $group) {
-            $options[] = (object)[
+            $options[] = (object) [
                 'value' => $group->value,
                 'text'  => str_repeat('- ', $level) . $group->text
             ];

@@ -9,7 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('predefinedlist');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('predefinedlist');
 
 /**
  * jQuery UI datepicker field for redbooking.
@@ -62,7 +64,7 @@ class JFormFieldRpublished extends JFormFieldPredefinedList
         if (!isset(static::$options[$type][$hash]) && !empty($this->predefinedOptions)) {
             // B/C with statuses options
             if (!isset($this->element['filter']) && isset($this->element['statuses'])) {
-                $this->element['filter'] = (string)$this->element['statuses'];
+                $this->element['filter'] = (string) $this->element['statuses'];
             }
 
             static::$options[$type][$hash] = parent::getOptions();

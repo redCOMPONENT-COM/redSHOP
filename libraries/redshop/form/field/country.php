@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Redshop Countries field.
@@ -33,7 +35,7 @@ class RedshopFormFieldCountry extends JFormFieldList
      */
     protected function getOptions()
     {
-        $key = isset($this->element['idfield']) ? (string)$this->element['idfield'] : 'id';
+        $key = isset($this->element['idfield']) ? (string) $this->element['idfield'] : 'id';
 
         $db      = JFactory::getDbo();
         $query   = $db->getQuery(true)

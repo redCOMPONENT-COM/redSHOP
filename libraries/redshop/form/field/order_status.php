@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Redshop Order Status Section Search field.
@@ -36,7 +38,7 @@ class RedshopFormFieldOrder_Status extends JFormFieldList
         // Load redSHOP Library
         JLoader::import('redshop.library');
 
-        $this->value = $this->multiple ? (array)$this->value : (string)$this->value;
+        $this->value = $this->multiple ? (array) $this->value : (string) $this->value;
         $orderStatus = RedshopHelperOrder::getOrderStatusList();
 
         // Merge any additional options in the XML definition.

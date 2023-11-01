@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Redshop Users Search field.
@@ -33,7 +35,7 @@ class RedshopFormFieldUsers extends JFormFieldList
      */
     protected function getOptions()
     {
-        $addressType = isset($this->element['address_type']) ? (string)$this->element['address_type'] : false;
+        $addressType = isset($this->element['address_type']) ? (string) $this->element['address_type'] : false;
 
         $db = JFactory::getDbo();
 

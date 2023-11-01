@@ -11,8 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Form\FormHelper;
 
-JFormHelper::loadFieldClass('filelist');
+FormHelper::loadFieldClass('filelist');
 
 /**
  * Supports an HTML select list of image

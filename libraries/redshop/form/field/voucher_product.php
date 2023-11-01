@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Redshop Voucher Product Search field.
@@ -36,7 +38,7 @@ class RedshopFormFieldVoucher_Product extends JFormFieldList
      */
     protected function getInput()
     {
-        $voucherId = isset($this->element['voucher_id']) ? (int)$this->element['voucher_id'] : false;
+        $voucherId = isset($this->element['voucher_id']) ? (int) $this->element['voucher_id'] : false;
         $selected  = array();
         $typeField = ', alert:"voucher"';
 
