@@ -49,7 +49,7 @@ class PlgRedshop_ExportShipping_Address extends AbstractExportPlugin
 
         $this->writeData($this->getHeader(), 'w+');
 
-        return (int)$this->getTotal();
+        return (int) $this->getTotal();
     }
 
     /**
@@ -112,7 +112,7 @@ class PlgRedshop_ExportShipping_Address extends AbstractExportPlugin
     /**
      * Method for get query
      *
-     * @return \JDatabaseQuery
+     * @return \\Joomla\Database\DatabaseQuery
      *
      * @since  1.0.0
      */

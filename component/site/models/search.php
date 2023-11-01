@@ -147,7 +147,7 @@ class RedshopModelSearch extends RedshopModel
      * @param   int|array  $manudata  Post request
      * @param   bool       $getTotal  Get total product(true) or product data(false)
      *
-     * @return JDatabaseQuery
+     * @return \Joomla\Database\DatabaseQuery
      */
     public function _buildQuery($manudata = 0, $getTotal = false)
     {
@@ -1173,7 +1173,7 @@ class RedshopModelSearch extends RedshopModel
     /**
      * Get List from product
      *
-     * @return  JDatabaseQuery
+     * @return  \Joomla\Database\DatabaseQuery
      */
     public function getListQuery()
     {

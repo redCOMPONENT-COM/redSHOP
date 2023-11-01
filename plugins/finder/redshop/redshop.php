@@ -177,7 +177,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
         FinderIndexerHelper::getContentExtras($item);
 
         // Index the item.
-		$this->indexer->index($item);
+        $this->indexer->index($item);
     }
 
     /**
@@ -215,9 +215,9 @@ class PlgFinderRedShop extends FinderIndexerAdapter
     /**
      * Method to get the SQL query used to retrieve the list of content items.
      *
-     * @param   mixed  $query  A JDatabaseQuery object or null.
+     * @param   mixed  $query  A DatabaseQuery object or null.
      *
-     * @return  JDatabaseQuery  A database object.
+     * @return  \Joomla\Database\DatabaseQuery  A database object.
      *
      * @since   2.5
      */
@@ -226,7 +226,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
         $db = JFactory::getDbo();
 
         // Check if we can use the supplied SQL query.
-        $query = is_a($query, 'JDatabaseQuery') ? $query : $this->db->getQuery(true);
+        $query = is_a($query, '\Joomla\Database\DatabaseQuery') ? $query : $this->db->getQuery(true);
 
         $caseWhenItemAlias = ' CASE WHEN ';
         $caseWhenItemAlias .= $query->charLength('p.product_name', '!=', '0');
@@ -269,7 +269,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
      * Method to get a SQL query to load the published and access states for
      * a news feed and category.
      *
-     * @return JDatabaseQuery A database object.
+     * @return \Joomla\Database\DatabaseQuery A database object.
      *
      * @since 2.0
      */

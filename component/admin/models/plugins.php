@@ -64,7 +64,7 @@ class RedshopModelPlugins extends RedshopModelList
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  JDatabaseQuery
+     * @return  \Joomla\Database\DatabaseQuery
      */
     protected function getListQuery()
     {
@@ -175,7 +175,7 @@ class RedshopModelPlugins extends RedshopModelList
     /**
      * Returns an object list.
      *
-     * @param JDatabaseQuery $query      A database query object.
+     * @param \Joomla\Database\DatabaseQuery $query      A database query object.
      * @param integer        $limitstart Offset.
      * @param integer        $limit      The number of records.
      *

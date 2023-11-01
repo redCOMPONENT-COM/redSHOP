@@ -75,7 +75,7 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
     /**
      * Method for get query
      *
-     * @return \JDatabaseQuery
+     * @return \\Joomla\Database\DatabaseQuery
      *
      * @since  1.0.0
      */

@@ -49,7 +49,7 @@ class PlgRedshop_ExportNewsletter_Subscriber extends AbstractExportPlugin
 
         $this->writeData($this->getHeader(), 'w+');
 
-        return (int)$this->getTotal();
+        return (int) $this->getTotal();
     }
 
     /**
@@ -107,7 +107,7 @@ class PlgRedshop_ExportNewsletter_Subscriber extends AbstractExportPlugin
     /**
      * Method for get query
      *
-     * @return \JDatabaseQuery
+     * @return \\Joomla\Database\DatabaseQuery
      *
      * @since  1.0.0
      */

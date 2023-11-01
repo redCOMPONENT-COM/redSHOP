@@ -37,7 +37,7 @@ class RedshopModel extends JModelLegacy
     /**
      * An internal cache for the last query used.
      *
-     * @var    JDatabaseQuery|string
+     * @var    \Joomla\Database\DatabaseQuery|string
      * @since  1.5
      */
     protected $query = array();
@@ -122,8 +122,9 @@ class RedshopModel extends JModelLegacy
         $query = $this->_getListQuery();
 
         try {
-            $items = $this->_getList($query, $this->getStart(), (int)$this->getState('limit'));
-        } catch (RuntimeException $e) {
+            $items = $this->_getList($query, $this->getStart(), (int) $this->getState('limit'));
+        }
+        catch (RuntimeException $e) {
             $this->setError($e->getMessage());
 
             return false;
@@ -166,7 +167,7 @@ class RedshopModel extends JModelLegacy
      *
      * This method ensures that the query is constructed only once for a given state of the model.
      *
-     * @return  JDatabaseQuery  A JDatabaseQuery object
+     * @return  \Joomla\Database\DatabaseQuery  A DatabaseQuery object
      *
      * @since   1.5
      */
@@ -188,9 +189,9 @@ class RedshopModel extends JModelLegacy
     }
 
     /**
-     * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+     * Method to get a DatabaseQuery object for retrieving the data set from a database.
      *
-     * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+     * @return  \Joomla\Database\DatabaseQuery   A DatabaseQuery object to retrieve the data set.
      *
      * @since   1.5
      */
@@ -223,7 +224,7 @@ class RedshopModel extends JModelLegacy
         $total = $this->getTotal();
 
         if ($start > $total - $limit) {
-            $start = max(0, (int)(ceil($total / $limit) - 1) * $limit);
+            $start = max(0, (int) (ceil($total / $limit) - 1) * $limit);
         }
 
         // Add the total to the internal cache.
@@ -253,8 +254,9 @@ class RedshopModel extends JModelLegacy
         $query = $this->_getListQuery();
 
         try {
-            $total = (int)$this->_getListCount($query);
-        } catch (RuntimeException $e) {
+            $total = (int) $this->_getListCount($query);
+        }
+        catch (RuntimeException $e) {
             $this->setError($e->getMessage());
 
             return false;
@@ -326,7 +328,7 @@ class RedshopModel extends JModelLegacy
 
         // Create the pagination object.
         jimport('joomla.html.pagination');
-        $limit = (int)$this->getState('limit') - (int)$this->getState('list.links');
+        $limit = (int) $this->getState('limit') - (int) $this->getState('list.links');
         $page  = new JPagination($this->getTotal(), $this->getStart(), $limit);
 
         // Add the object to the internal cache.
@@ -350,7 +352,8 @@ class RedshopModel extends JModelLegacy
             if (!$table->save($data)) {
                 return false;
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             return false;
         }
 
@@ -372,7 +375,8 @@ class RedshopModel extends JModelLegacy
             if (!$result = $table->delete($pk)) {
                 return false;
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             return false;
         }
 

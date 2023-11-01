@@ -49,7 +49,7 @@ class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugi
 
         $this->writeData($this->getHeader(), 'w+');
 
-        return (int)$this->getTotal();
+        return (int) $this->getTotal();
     }
 
     /**
@@ -96,13 +96,13 @@ class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugi
             ->select('COUNT(*)')
             ->from('(' . $query . ') AS ' . $db->qn('attribute_price'));
 
-        return (int)$this->db->setQuery($newQuery)->loadResult();
+        return (int) $this->db->setQuery($newQuery)->loadResult();
     }
 
     /**
      * Method for get query
      *
-     * @return \JDatabaseQuery
+     * @return \\Joomla\Database\DatabaseQuery
      *
      * @since  1.0.0
      */

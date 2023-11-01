@@ -56,7 +56,7 @@ class RedshopModelCurrencies extends RedshopModelList
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  JDatabaseQuery  An SQL query
+     * @return  \Joomla\Database\DatabaseQuery  An SQL query
      *
      * @since   2.0.11
      */
@@ -103,7 +103,7 @@ class RedshopModelCurrencies extends RedshopModelList
      */
     protected function populateState($ordering = 'c.id', $direction = 'asc')
     {
-        $search = $this->getUserStateFromRequest((string)$this->context . '.filter.search', 'filter_search');
+        $search = $this->getUserStateFromRequest((string) $this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
 
         // List state information.

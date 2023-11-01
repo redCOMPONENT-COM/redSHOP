@@ -59,7 +59,7 @@ class RedshopModelProduct_mini extends RedshopModel
     }
 
     /**
-     * @return JDatabaseQuery|string|null
+     * @return \Joomla\Database\DatabaseQuery|string|null
      * @throws Exception
      */
     public function _buildQuery()

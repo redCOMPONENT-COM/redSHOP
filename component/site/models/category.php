@@ -557,7 +557,7 @@ class RedshopModelCategory extends RedshopModel
     /**
      * Build a query
      *
-     * @return  JDatabaseQuery
+     * @return  \Joomla\Database\DatabaseQuery
      */
     public function _buildQuery()
     {

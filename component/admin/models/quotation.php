@@ -58,9 +58,9 @@ class RedshopModelQuotation extends RedshopModelList
     }
 
     /**
-     * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+     * Method to get a DatabaseQuery object for retrieving the data set from a database.
      *
-     * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+     * @return  \Joomla\Database\DatabaseQuery   A DatabaseQuery object to retrieve the data set.
      */
     public function getListQuery()
     {

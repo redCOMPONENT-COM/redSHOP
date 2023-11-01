@@ -450,7 +450,7 @@ class RedshopHelperCategory
      * @param   array    $allCategories  array of all categories id (main category or main category & its subcategories)
      * @param   array    $filter         Filter data
      *
-     * @return  bool|JDatabaseQuery  $query   The result query
+     * @return  bool|\Joomla\Database\DatabaseQuery  $query   The result query
      *
      * @since   2.1.2
      */

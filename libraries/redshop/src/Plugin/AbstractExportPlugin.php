@@ -70,7 +70,7 @@ class AbstractExportPlugin extends \JPlugin
     /**
      * Method for get query
      *
-     * @return \JDatabaseQuery
+     * @return \\Joomla\Database\DatabaseQuery
      *
      * @since  2.0.3
      */

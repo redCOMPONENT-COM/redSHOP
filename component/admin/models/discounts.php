@@ -56,7 +56,7 @@ class RedshopModelDiscounts extends RedshopModelList
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  JDatabaseQuery  An SQL query
+     * @return  \Joomla\Database\DatabaseQuery  An SQL query
      *
      * @since   2.1.0
      */
@@ -79,7 +79,7 @@ class RedshopModelDiscounts extends RedshopModelList
         $filterPublished = $this->getState('filter.published', null);
 
         if (is_numeric($filterPublished)) {
-            $query->where($db->qn('d.published') . ' = ' . (int)$filterPublished);
+            $query->where($db->qn('d.published') . ' = ' . (int) $filterPublished);
         } else {
             $query->where($db->qn('d.published') . ' IN (0,1)');
         }
@@ -91,7 +91,7 @@ class RedshopModelDiscounts extends RedshopModelList
             $subQuery = $db->getQuery(true)
                 ->select('DISTINCT(' . $db->qn('discount_id') . ')')
                 ->from($db->qn('#__redshop_discount_shoppers'))
-                ->where($db->qn('shopper_group_id') . ' = ' . (int)$filterShopperGroup);
+                ->where($db->qn('shopper_group_id') . ' = ' . (int) $filterShopperGroup);
 
             $query->where($db->qn('d.discount_id') . ' IN (' . $subQuery . ')');
         }
@@ -100,7 +100,7 @@ class RedshopModelDiscounts extends RedshopModelList
         $filterType = $this->getState('filter.type', null);
 
         if (is_numeric($filterType)) {
-            $query->where($db->qn('d.discount_type') . ' = ' . (int)$filterType);
+            $query->where($db->qn('d.discount_type') . ' = ' . (int) $filterType);
         }
 
         // Add the list ordering clause.
@@ -126,22 +126,22 @@ class RedshopModelDiscounts extends RedshopModelList
      */
     protected function populateState($ordering = 'd.discount_id', $direction = 'asc')
     {
-        $search = $this->getUserStateFromRequest((string)$this->context . '.filter.search', 'filter_search');
+        $search = $this->getUserStateFromRequest((string) $this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
 
         $filterPublished = $this->getUserStateFromRequest(
-            (string)$this->context . '.filter.published',
+            (string) $this->context . '.filter.published',
             'filter_published'
         );
         $this->setState('filter.published', $filterPublished);
 
         $filterShopperGroup = $this->getUserStateFromRequest(
-            (string)$this->context . '.filter.shopper_group',
+            (string) $this->context . '.filter.shopper_group',
             'filter_shopper_group'
         );
         $this->setState('filter.shopper_group', $filterShopperGroup);
 
-        $filterType = $this->getUserStateFromRequest((string)$this->context . '.filter.type', 'filter_type');
+        $filterType = $this->getUserStateFromRequest((string) $this->context . '.filter.type', 'filter_type');
         $this->setState('filter.type', $filterType);
 
         // List state information.

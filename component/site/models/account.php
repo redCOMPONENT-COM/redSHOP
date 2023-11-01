@@ -111,7 +111,7 @@ class RedshopModelAccount extends RedshopModel
     /**
      * Method for build query
      *
-     * @return JDatabaseQuery|boolean
+     * @return \Joomla\Database\DatabaseQuery|boolean
      *
      * @throws Exception
      */

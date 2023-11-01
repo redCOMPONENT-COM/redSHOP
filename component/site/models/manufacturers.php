@@ -82,7 +82,7 @@ class RedshopModelManufacturers extends RedshopModel
         if ($params->get('manufacturerid') != "") {
             $manid = $params->get('manufacturerid');
         } else {
-            $manid = (int)$app->input->getInt('mid', 0);
+            $manid = (int) $app->input->getInt('mid', 0);
         }
 
         $this->setId($manid);
@@ -134,13 +134,13 @@ class RedshopModelManufacturers extends RedshopModel
             $shopper_group_manufactures = explode(',', $shopper_group_manufactures);
             $shopper_group_manufactures = \Joomla\Utilities\ArrayHelper::toInteger($shopper_group_manufactures);
             $shopper_group_manufactures = implode(',', $shopper_group_manufactures);
-            $and                        .= " AND mn.id IN (" . $shopper_group_manufactures . ") ";
+            $and .= " AND mn.id IN (" . $shopper_group_manufactures . ") ";
         }
 
         // Shopper group - choose from manufactures End
 
         if ($this->_id) {
-            $and .= " AND mn.id = " . (int)$this->_id . " ";
+            $and .= " AND mn.id = " . (int) $this->_id . " ";
         }
 
         $query = "SELECT mn.* FROM " . $this->_table_prefix . "manufacturer AS mn "
@@ -173,10 +173,12 @@ class RedshopModelManufacturers extends RedshopModel
             if (in_array($order_by, $this->filter_fields_manufacturer)) {
                 $filter_order = $order_by;
             } // User can get not allowed order_by, when url contain Itemid from another view, so it need check here
-            elseif (in_array(
-                $params->get('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD')),
-                $this->filter_fields_manufacturer
-            )) {
+            elseif (
+                in_array(
+                    $params->get('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD')),
+                    $this->filter_fields_manufacturer
+                )
+            ) {
                 $filter_order = $params->get(
                     'order_by',
                     Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD')
@@ -231,7 +233,7 @@ class RedshopModelManufacturers extends RedshopModel
                     'pcx.product_id'
                 )
             )
-            ->where($db->qn('p.manufacturer_id') . ' = ' . $db->q((int)$this->_id))
+            ->where($db->qn('p.manufacturer_id') . ' = ' . $db->q((int) $this->_id))
             ->where($db->qn('c.published') . ' = 1')
             ->order($db->qn('c.name') . ' ASC');
 
@@ -261,7 +263,7 @@ class RedshopModelManufacturers extends RedshopModel
     /**
      * @param   string  $template_data  Template content
      *
-     * @return  JDatabaseQuery
+     * @return  \Joomla\Database\DatabaseQuery
      */
     public function _buildProductQuery($template_data = '')
     {
@@ -285,7 +287,7 @@ class RedshopModelManufacturers extends RedshopModel
             ->leftjoin(
                 $db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id')
             )
-            ->where($db->qn('p.manufacturer_id') . ' = ' . $db->q((int)$this->_id))
+            ->where($db->qn('p.manufacturer_id') . ' = ' . $db->q((int) $this->_id))
             ->where($db->qn('p.published') . ' = 1')
             ->where($db->qn('p.expired') . ' = 0')
             ->where($db->qn('p.product_parent_id') . ' = 0')
@@ -300,7 +302,7 @@ class RedshopModelManufacturers extends RedshopModel
         }
 
         if ($filterBy != '0') {
-            $query->where($db->qn('c.id') . ' = ' . $db->q((int)$filterBy));
+            $query->where($db->qn('c.id') . ' = ' . $db->q((int) $filterBy));
         }
 
         // Filter cids by menu configuration

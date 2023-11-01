@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
-class DB {
+class DB
+{
     /**
-     * @return JDatabaseQuery|string
+     * @return \Joomla\Database\DatabaseQuery|string
      * @since  __DEPLOY_VERSION__
      */
-    public static function buildQueryList() {
+    public static function buildQueryList()
+    {
         $db = \Joomla\CMS\Factory::getDbo();
 
         return $db->getQuery(true)
@@ -28,10 +30,12 @@ class DB {
      * @return null
      * @since  __DEPLOY_VERSION__
      */
-    public static function getPromotionsFromDB() {
+    public static function getPromotionsFromDB()
+    {
         return \Redshop\DB\Tool::safeSelect(
             \Joomla\CMS\Factory::getDbo(),
             self::buildQueryList(),
-            true);
+            true
+        );
     }
 }

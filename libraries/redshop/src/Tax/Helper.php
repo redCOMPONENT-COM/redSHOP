@@ -36,7 +36,7 @@ class Helper
     /**
      * @param   int  $taxGroupId
      *
-     * @return \JDatabaseQuery
+     * @return \\Joomla\Database\DatabaseQuery
      * @since 3.0
      */
     public static function getTaxRatesQuery($taxGroupId = 1)

@@ -51,7 +51,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 
         $this->writeData($this->getHeader(), 'w+');
 
-        return (int)$this->getTotal();
+        return (int) $this->getTotal();
     }
 
     /**
@@ -104,13 +104,13 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
             ->select('COUNT(*)')
             ->from('(' . $query . ') AS ' . $db->qn('field_union'));
 
-        return (int)$this->db->setQuery($newQuery)->loadResult();
+        return (int) $this->db->setQuery($newQuery)->loadResult();
     }
 
     /**
      * Method for get query
      *
-     * @return \JDatabaseQuery
+     * @return \\Joomla\Database\DatabaseQuery
      *
      * @since  1.0.0
      */
@@ -259,7 +259,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
         }
 
         foreach ($data as $index => $item) {
-            $item = (array)$item;
+            $item = (array) $item;
 
             foreach ($item as $column => $value) {
                 if (!in_array($column, array('desc', 'data_txt', 'field_value'))) {

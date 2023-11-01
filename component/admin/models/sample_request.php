@@ -59,7 +59,7 @@ class RedshopModelSample_request extends RedshopModel
     }
 
     /**
-     * @return JDatabaseQuery
+     * @return \Joomla\Database\DatabaseQuery
      * @throws Exception
      * @since 3.0
      */
@@ -124,7 +124,8 @@ class RedshopModelSample_request extends RedshopModel
 
             try {
                 $db->execute();
-            } catch (\Exception $e) {
+            }
+            catch (\Exception $e) {
                 \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
                 return false;
@@ -151,7 +152,7 @@ class RedshopModelSample_request extends RedshopModel
             $query->update($db->qn('#__redshop_sample_request'))
                 ->set(
                     [
-                        $db->qn('block') . ' = ' . $db->q((int)$publish)
+                        $db->qn('block') . ' = ' . $db->q((int) $publish)
                     ]
                 )
                 ->where($db->qn('request_id') . ' IN (' . $db->q($sampleIds) . ')');
@@ -160,7 +161,8 @@ class RedshopModelSample_request extends RedshopModel
 
             try {
                 !$this->_db->execute();
-            } catch (\Exception $e) {
+            }
+            catch (\Exception $e) {
                 \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
                 return false;

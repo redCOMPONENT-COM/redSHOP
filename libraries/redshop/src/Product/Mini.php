@@ -41,7 +41,8 @@ class Mini
             $db->setQuery($query);
 
             return $db->loadResult();
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
             return [];
@@ -55,7 +56,7 @@ class Mini
      * @param   int     $limit
      * @param   null    $orderBy
      *
-     * @return \JDatabaseQuery
+     * @return \\Joomla\Database\DatabaseQuery
      */
     public static function getQueryObject(
         $keyword = null,
@@ -75,7 +76,7 @@ class Mini
 
         if ($categoryId) {
             $where = true;
-            $query->where($db->qn('c.category_id') . ' = ' . $db->q((int)$categoryId));
+            $query->where($db->qn('c.category_id') . ' = ' . $db->q((int) $categoryId));
         }
 
         if ($where) {
@@ -99,7 +100,7 @@ class Mini
         }
 
         if ($limit) {
-            $query->setLimit((int)$limit);
+            $query->setLimit((int) $limit);
         }
 
         if (isset($orderBy)) {

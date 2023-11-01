@@ -64,7 +64,7 @@ class RedshopModelCoupons extends RedshopModelList
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  JDatabaseQuery  An SQL query
+     * @return  \Joomla\Database\DatabaseQuery  An SQL query
      *
      * @since   2.1.0
      */

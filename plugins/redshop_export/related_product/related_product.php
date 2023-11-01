@@ -49,7 +49,7 @@ class PlgRedshop_ExportRelated_Product extends AbstractExportPlugin
 
         $this->writeData($this->getHeader(), 'w+');
 
-        return (int)$this->getTotal();
+        return (int) $this->getTotal();
     }
 
     /**
@@ -102,7 +102,7 @@ class PlgRedshop_ExportRelated_Product extends AbstractExportPlugin
     /**
      * Method for get query
      *
-     * @return \JDatabaseQuery
+     * @return \\Joomla\Database\DatabaseQuery
      *
      * @since  1.0.0
      */

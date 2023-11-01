@@ -36,7 +36,7 @@ class RedshopModelOrder extends RedshopModel
     /**
      * Method for build query
      *
-     * @return JDatabaseQuery
+     * @return \Joomla\Database\DatabaseQuery
      * @throws Exception
      */
     public function _buildQuery()
@@ -67,7 +67,7 @@ class RedshopModelOrder extends RedshopModel
                     'os.order_status_code'
                 ) . '=' . $this->_db->qn('o.order_status')
             )
-//			->where($db->qn('uf.address_type') . '=' . $db->q('BT'))
+            //			->where($db->qn('uf.address_type') . '=' . $db->q('BT'))
             ->group($db->qn('o.order_id'));
 
         $filterBy = $this->getState('filter_by');
@@ -151,7 +151,7 @@ class RedshopModelOrder extends RedshopModel
         $query->order($db->escape($filterOrder . ' ' . $filterOrderDir));
 
         // Get the dispatcher and load the users plugins.
-		$dispatcher = RedshopHelperUtility::getDispatcher();
+        $dispatcher = RedshopHelperUtility::getDispatcher();
         JPluginHelper::importPlugin('redshop');
 
         // Trigger the data preparation event.
@@ -247,8 +247,8 @@ class RedshopModelOrder extends RedshopModel
             $totalWeight = 0;
 
             foreach ($orderProducts as $orderProduct) {
-                $weight      = (float)$this->getProductWeight($orderProduct->product_id);
-                $totalWeight += ($weight * (float)$orderProduct->product_quantity);
+                $weight      = (float) $this->getProductWeight($orderProduct->product_id);
+                $totalWeight += ($weight * (float) $orderProduct->product_quantity);
             }
 
             $unitRatio = \Redshop\Helper\Utility::getUnitConversation(
@@ -282,7 +282,7 @@ class RedshopModelOrder extends RedshopModel
                 '',
                 '',
                 $parcelType,
-                'Z'    // Shippment Type
+                'Z' // Shippment Type
             );
 
             $userDetail = array();
@@ -290,7 +290,8 @@ class RedshopModelOrder extends RedshopModel
             if (!empty($order->ship_method_id)) {
                 $userDetail = array(
                     $billingDetails->get('firstname') . ' ' . $billingDetails->get('lastname'),
-                    substr($order->customer_note, 0, 29),        // GLS only support max 29 characters
+                    substr($order->customer_note, 0, 29),
+                    // GLS only support max 29 characters
                     Redshop::getConfig()->get('GLS_CUSTOMER_ID'),
                     $billingDetails->get('user_email'),
                     $userPhone[1]
@@ -387,8 +388,8 @@ class RedshopModelOrder extends RedshopModel
             $totalWeight     = 0;
 
             foreach ($orderProducts as $orderProduct) {
-                $weight      = (float)$this->getProductWeight($orderProduct->product_id);
-                $totalWeight += ($weight * (float)$orderProduct->product_quantity);
+                $weight      = (float) $this->getProductWeight($orderProduct->product_id);
+                $totalWeight += ($weight * (float) $orderProduct->product_quantity);
             }
 
             $unitRatio = \Redshop\Helper\Utility::getUnitConversation(

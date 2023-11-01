@@ -64,7 +64,7 @@ class RedshopModelShipping_rate extends RedshopModel
     }
 
     /**
-     * @return JDatabaseQuery
+     * @return \Joomla\Database\DatabaseQuery
      * @throws Exception
      * @since 3.0
      */
@@ -86,7 +86,7 @@ class RedshopModelShipping_rate extends RedshopModel
                 . 'CONVERT(' . $db->qn('p.element') . ' USING utf8)'
                 . ' = ' .
                 'CONVERT(' . $db->qn('r.shipping_class') . ' USING utf8)'
-            )->where($db->qn('p.extension_id') . ' = ' . $db->q((int)$id));
+            )->where($db->qn('p.extension_id') . ' = ' . $db->q((int) $id));
 
         $filterOrder    = $app->getUserStateFromRequest(
             $this->_context . 'filter_order',
@@ -109,7 +109,8 @@ class RedshopModelShipping_rate extends RedshopModel
         if (empty($this->_pagination)) {
             jimport('joomla.html.pagination');
             $this->_pagination = new JPagination(
-                $this->getTotal(), $this->getState('limitstart'),
+                $this->getTotal(),
+                $this->getState('limitstart'),
                 $this->getState('limit')
             );
         }

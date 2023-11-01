@@ -49,7 +49,7 @@ class PlgRedshop_ExportShopper_Group_Product_Price extends AbstractExportPlugin
 
         $this->writeData($this->getHeader(), 'w+');
 
-        return (int)$this->getTotal();
+        return (int) $this->getTotal();
     }
 
     /**
@@ -111,7 +111,7 @@ class PlgRedshop_ExportShopper_Group_Product_Price extends AbstractExportPlugin
     /**
      * Method for get query
      *
-     * @return \JDatabaseQuery
+     * @return \\Joomla\Database\DatabaseQuery
      *
      * @since  1.0.0
      */
