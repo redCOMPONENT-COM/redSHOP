@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Product table
@@ -188,7 +189,7 @@ class TableProduct_Detail extends JTable
     /**
      * Constructor
      *
-     * @param   JDatabaseDriver  $db  Database driver object.
+     * @param   DatabaseDriver  $db  Database driver object.
      *
      * @since 11.1
      */

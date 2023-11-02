@@ -12,6 +12,7 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Tags replacer abstract class
@@ -79,7 +80,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
     ];
 
     /**
-     * @var    \JDatabaseDriver
+     * @var    DatabaseDriver
      *
      * @since   3.0.1
      */

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Add quotation detail controller
@@ -21,7 +22,7 @@ use Joomla\CMS\Language\Text;
 class RedshopControllerAddquotation_Detail extends RedshopController
 {
     /**
-     * @var JDatabaseDriver
+     * @var DatabaseDriver
      */
     protected $_db;
 
@@ -59,7 +60,7 @@ class RedshopControllerAddquotation_Detail extends RedshopController
     {
         $post = $this->input->post->getArray();
 
-        $cid                   = $this->input->post->get('cid', array(0), 'array');
+        $cid                  = $this->input->post->get('cid', array(0), 'array');
         $post['quotation_id'] = $cid[0];
 
         /** @var RedshopModelAddquotation_detail $model */

@@ -11,6 +11,8 @@ namespace Redshop\DB;
 
 defined('_JEXEC') or die;
 
+use Joomla\Database\DatabaseDriver;
+
 /**
  * Account helper
  *
@@ -24,7 +26,7 @@ class Tool
      *
      * @return bool
      */
-    public static function safeExecute(\JDatabaseDriver $db, $query)
+    public static function safeExecute(DatabaseDriver $db, $query)
     {
         try {
             $db->transactionStart();
@@ -33,7 +35,8 @@ class Tool
             $db->transactionCommit();
 
             return true;
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             $db->transactionRollback();
             \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
@@ -51,7 +54,7 @@ class Tool
      *
      * @return null
      */
-    public static function safeSelect(\JDatabaseDriver $db, $query, $getList = false, $defaultReturn = null)
+    public static function safeSelect(DatabaseDriver $db, $query, $getList = false, $defaultReturn = null)
     {
         try {
             if ($getList) {
@@ -59,7 +62,8 @@ class Tool
             }
 
             return $db->setQuery($query)->loadObject();
-        } catch (\RuntimeException $e) {
+        }
+        catch (\RuntimeException $e) {
             \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
             return $defaultReturn;

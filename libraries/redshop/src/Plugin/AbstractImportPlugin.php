@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Abstract class for import plugin
@@ -37,7 +38,7 @@ class AbstractImportPlugin extends \JPlugin
     protected $encoding = 'UTF-8';
 
     /**
-     * @var  \JDatabaseDriver
+     * @var  DatabaseDriver
      */
     protected $db;
 

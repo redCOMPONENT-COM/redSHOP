@@ -14,6 +14,7 @@ use WhichBrowser\Parser;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Abstract class for export plugin
@@ -28,7 +29,7 @@ class AbstractExportPlugin extends \JPlugin
     protected $separator = ',';
 
     /**
-     * @var  \JDatabaseDriver
+     * @var  DatabaseDriver
      */
     protected $db;
 

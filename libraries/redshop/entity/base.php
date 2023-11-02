@@ -926,7 +926,7 @@ abstract class RedshopEntityBase extends BaseObject
     /**
      * Local proxy for JFactory::getDbo()
      *
-     * @return  JDatabaseDriver
+     * @return  DatabaseDriver
      */
     protected function getDbo()
     {

@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Attribute table
@@ -24,7 +25,7 @@ class RedshopTableAttribute extends JTable
     /**
      * Constructor
      *
-     * @param   JDatabaseDriver  $db  Database driver object.
+     * @param   DatabaseDriver  $db  Database driver object.
      *
      * @since  11.1
      */

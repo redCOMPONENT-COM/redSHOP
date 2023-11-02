@@ -16,6 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 use Redshop\Table\Traits\HasAutoEvents;
 use Redshop\Table\Traits\HasInstanceName;
 use Redshop\Table\Traits\HasInstancePrefix;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Base table class.
@@ -59,7 +60,7 @@ abstract class AbstractTable extends Table implements TableInterface
     /**
      * Constructor
      *
-     * @param   \JDatabaseDriver  $db  A database connector object
+     * @param   DatabaseDriver  $db  A database connector object
      *
      * @throws  \UnexpectedValueException
      */
@@ -93,7 +94,7 @@ abstract class AbstractTable extends Table implements TableInterface
             $this->generateEventsConfig();
         }
 
-		parent::__construct($this->_tbl, $key, $db);
+        parent::__construct($this->_tbl, $key, $db);
     }
 
     /**

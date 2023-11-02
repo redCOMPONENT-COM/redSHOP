@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Class newsletterModelnewsletter
@@ -26,7 +27,7 @@ class RedshopModelNewsletter extends RedshopModel
     public $_table_prefix = null;
 
     /**
-     * @var JDatabaseDriver|null
+     * @var    DatabaseDriver|null
      */
     public $_db = null;
 

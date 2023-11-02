@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Tool update controller
@@ -209,7 +210,7 @@ class RedshopControllerTool_Update extends RedshopControllerAdmin
         }
 
         // Create an array of queries from the sql file
-        $queries = JDatabaseDriver::splitSql($buffer);
+        $queries = DatabaseDriver::splitSql($buffer);
 
         if (count($queries) === 0) {
             // No queries to process
