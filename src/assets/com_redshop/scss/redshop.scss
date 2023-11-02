@@ -1,10 +1,10 @@
 // Import Bootstrap Compass integration
-//@import "bootstrap-compass";
+@import "bootstrap-compass";
 // Import custom Bootstrap variables
-//@import "bootstrap-variables";
+@import "bootstrap-variables";
 // Import Bootstrap for Sass
-//@import "bootstrap";
-//@import "bootstrap-nav-wizard";
+@import "bootstrap";
+@import "bootstrap-nav-wizard";
 
 body {
     word-wrap: break-word;
@@ -631,13 +631,13 @@ hr {
 }
 
 label.btn.btn-outline-secondary {
-    background: rgb(234 237 240);
+    background: #eaedf0;
     border-color: #ced4da;
     padding: 10px;
 }
 
 label.btn.btn-outline-secondary.active.btn-success {
-    background: rgb(0, 117, 0);
+    background: #007500;
     border-color: #ced4da;
     padding: 10px;
 }

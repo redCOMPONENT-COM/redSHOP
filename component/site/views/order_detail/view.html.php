@@ -54,14 +54,14 @@ class RedshopViewOrder_Detail extends RedshopView
         $auth         = $session->get('auth');
         $orderId      = $app->input->getInt('oid', $session->get('order_id'));
         $encr         = $app->input->getString('encr', null);
-        $orderPayment = RedshopEntityOrder_Payment::getInstance($orderId);
+        $orderPayment = (array) RedshopEntityOrder::getInstance($orderId)->getPayment()->getItem();
 
         if ($orderPayment && count($orderPayment)) {
             // Load payment language file
             $language     = JFactory::getLanguage();
             $base_dir     = JPATH_ADMINISTRATOR;
             $language_tag = $language->getTag();
-            $extension    = 'plg_redshop_payment_' . ($orderPayment[0]->payment_method_class);
+            $extension    = 'plg_redshop_payment_' . ($orderPayment['payment_method_class']);
 
             $language->load($extension, $base_dir, $language_tag, true);
         }
