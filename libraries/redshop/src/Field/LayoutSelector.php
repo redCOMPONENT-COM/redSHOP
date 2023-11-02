@@ -14,6 +14,7 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Form\FormField;
 
 FormHelper::loadFieldClass('groupedlist');
 
@@ -22,7 +23,7 @@ FormHelper::loadFieldClass('groupedlist');
  *
  * @since  1.0.0
  */
-abstract class LayoutSelector extends \JFormFieldGroupedList
+abstract class LayoutSelector extends \Joomla\CMS\Form\Field\GroupedlistField
 {
     /**
      * Active templates names.
@@ -44,7 +45,7 @@ abstract class LayoutSelector extends \JFormFieldGroupedList
     protected $clientId;
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed             $value    The form field value to validate.
@@ -54,7 +55,7 @@ abstract class LayoutSelector extends \JFormFieldGroupedList
      *
      * @return  boolean  True on success.
      *
-     * @see     JFormField::setup()
+     * @see     FormField::setup()
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
@@ -62,7 +63,7 @@ abstract class LayoutSelector extends \JFormFieldGroupedList
             return false;
         }
 
-        $this->__set('clientId', (int)$this->getAttribute('clientId', 0));
+        $this->__set('clientId', (int) $this->getAttribute('clientId', 0));
 
         return true;
     }
@@ -80,12 +81,12 @@ abstract class LayoutSelector extends \JFormFieldGroupedList
             $query = $db->getQuery(true)
                 ->select('template')
                 ->from($db->qn('#__template_styles'))
-                ->where('client_id = ' . (int)$this->clientId)
+                ->where('client_id = ' . (int) $this->clientId)
                 ->where('home = 1');
 
             $db->setQuery($query);
 
-            static::$activeTemplates[$this->clientId] = (string)$db->loadResult();
+            static::$activeTemplates[$this->clientId] = (string) $db->loadResult();
         }
 
         return static::$activeTemplates[$this->clientId];

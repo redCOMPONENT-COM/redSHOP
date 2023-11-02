@@ -22,7 +22,7 @@ class RedshopViewAsk_Question extends RedshopView
     protected $state;
 
     /**
-     * @var JForm
+     * @var \Joomla\CMS\Form\Form
      */
     protected $form;
 

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\FormField;
+
 require_once JPATH_LIBRARIES . '/redshop/library.php';
 
 /**
@@ -16,7 +18,7 @@ require_once JPATH_LIBRARIES . '/redshop/library.php';
  *
  * @since  1.0
  */
-class RedshopFormFieldRules extends JFormField
+class RedshopFormFieldRules extends FormField
 {
     /**
      * The form field type.
@@ -39,10 +41,10 @@ class RedshopFormFieldRules extends JFormField
         JHtml::_('bootstrap.tooltip');
 
         // Initialise some field attributes.
-        $section    = $this->element['section'] ? (string)$this->element['section'] : '';
-        $component  = $this->element['component'] ? (string)$this->element['component'] : '';
-        $assetField = $this->element['asset_field'] ? (string)$this->element['asset_field'] : 'asset_id';
-        $showGroup  = $this->element['show_group'] ? (string)$this->element['show_group'] : '';
+        $section    = $this->element['section'] ? (string) $this->element['section'] : '';
+        $component  = $this->element['component'] ? (string) $this->element['component'] : '';
+        $assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+        $showGroup  = $this->element['show_group'] ? (string) $this->element['show_group'] : '';
         $showGroup  = ($showGroup == 'true') ? true : false;
 
         // Current view is global config?
@@ -50,14 +52,13 @@ class RedshopFormFieldRules extends JFormField
 
         // Get the actions for the asset.
         $actions = JAccess::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
-			"/access/section[@name='" . $section . "']/"
-		);
+            JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+            "/access/section[@name='" . $section . "']/"
+        );
 
-		if (empty($actions))
-		{
-			$actions = [];
-		}
+        if (empty($actions)) {
+            $actions = [];
+        }
 
         // Iterate over the children and add to the actions.
         foreach ($this->element->children() as $el) {
@@ -65,10 +66,10 @@ class RedshopFormFieldRules extends JFormField
                 continue;
             }
 
-            $actions[] = (object)array(
-                'name'        => (string)$el['name'],
-                'title'       => (string)$el['title'],
-                'description' => (string)$el['description']
+            $actions[] = (object) array(
+                'name'        => (string) $el['name'],
+                'title'       => (string) $el['title'],
+                'description' => (string) $el['description']
             );
         }
 
@@ -76,7 +77,7 @@ class RedshopFormFieldRules extends JFormField
             $newActions = array();
 
             foreach ($actions as $action) {
-                $group = explode('.', (string)$action->name);
+                $group = explode('.', (string) $action->name);
                 $group = $group[0];
 
                 if (!isset($newActions[$group])) {
@@ -108,7 +109,7 @@ class RedshopFormFieldRules extends JFormField
 
             $db->setQuery($query);
 
-            $assetId = (int)$db->loadResult();
+            $assetId = (int) $db->loadResult();
             /**
              * @to do: incorrect info
              * When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
@@ -129,7 +130,7 @@ class RedshopFormFieldRules extends JFormField
 
             $db->setQuery($query);
 
-            $parentAssetId = (int)$db->loadResult();
+            $parentAssetId = (int) $db->loadResult();
         }
 
         // Full width format.

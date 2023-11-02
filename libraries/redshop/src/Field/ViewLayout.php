@@ -52,7 +52,7 @@ class ViewLayout extends LayoutSelector
 
         $mainFolder      = $appFolder . '/components/' . $this->component . '/views/' . $this->view . '/tmpl';
         $overridesFolder = $appFolder . '/templates/' . $this->activeTemplate(
-            ) . '/html/' . $this->component . '/' . $this->view;
+        ) . '/html/' . $this->component . '/' . $this->view;
 
         return [
             Text::_('LIB_TWIG_LBL_COMPONENT') => $mainFolder,
@@ -61,7 +61,7 @@ class ViewLayout extends LayoutSelector
     }
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
@@ -71,7 +71,7 @@ class ViewLayout extends LayoutSelector
      *
      * @return  boolean  True on success.
      *
-     * @see     JFormField::setup()
+     * @see     \Joomla\CMS\Form\FormField::setup()
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {

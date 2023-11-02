@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 
 FormHelper::loadFieldClass('list');
 
@@ -20,7 +21,7 @@ FormHelper::loadFieldClass('list');
  *
  * @since  1.6
  */
-class JFormFieldCategoriesParent extends JFormFieldList
+class JFormFieldCategoriesParent extends ListField
 {
     /**
      * The form field type.

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormField;
 
 /**
  * Ajax Users Form Field
@@ -18,7 +19,7 @@ use Joomla\CMS\Language\Text;
  * @subpackage  FormField
  * @since       2.0.0.4
  */
-class JFormFieldRAjaxProducts extends JFormField
+class JFormFieldRAjaxProducts extends FormField
 {
     /**
      * Element name

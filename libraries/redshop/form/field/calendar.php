@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormField;
 
 require_once JPATH_LIBRARIES . '/redshop/library.php';
 
@@ -18,7 +19,7 @@ require_once JPATH_LIBRARIES . '/redshop/library.php';
  *
  * @since  1.0
  */
-class RedshopFormFieldCalendar extends JFormField
+class RedshopFormFieldCalendar extends FormField
 {
     /**
      * The form field type.
@@ -87,12 +88,12 @@ class RedshopFormFieldCalendar extends JFormField
     {
         switch ($name) {
             case 'maxlength':
-                $this->{$name} = (int)$value;
+                $this->{$name} = (int) $value;
                 break;
 
             case 'format':
             case 'filter':
-                $this->{$name} = (string)$value;
+                $this->{$name} = (string) $value;
                 break;
 
             default:
@@ -101,7 +102,7 @@ class RedshopFormFieldCalendar extends JFormField
     }
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed             $value    The form field value to validate.
@@ -111,7 +112,7 @@ class RedshopFormFieldCalendar extends JFormField
      *
      * @return  boolean  True on success.
      *
-     * @see     JFormField::setup()
+     * @see     \Joomla\CMS\Form\FormField::setup()
      * @since   3.2
      */
     public function setup(SimpleXMLElement $element, $value, $group = null)
@@ -119,10 +120,10 @@ class RedshopFormFieldCalendar extends JFormField
         $return = parent::setup($element, $value, $group);
 
         if ($return) {
-            $this->maxlength = (int)$this->element['maxlength'] ? (int)$this->element['maxlength'] : 45;
-            $this->format    = (string)$this->element['format'] ? (string)$this->element['format']
+            $this->maxlength = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
+            $this->format    = (string) $this->element['format'] ? (string) $this->element['format']
                 : Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
-            $this->filter    = (string)$this->element['filter'] ? (string)$this->element['filter'] : null;
+            $this->filter    = (string) $this->element['filter'] ? (string) $this->element['filter'] : null;
         }
 
         return $return;

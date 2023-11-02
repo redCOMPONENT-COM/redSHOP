@@ -12,6 +12,7 @@ namespace Phproberto\Joomla\Twig\Field;
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormField;
 
 /**
  * Plugin layout selector.
@@ -52,7 +53,7 @@ class PluginLayout extends LayoutSelector
 
         $mainFolder      = $appFolder . '/plugins/' . $this->pluginGroup . '/' . $this->pluginName . '/tmpl';
         $overridesFolder = $appFolder . '/templates/' . $this->activeTemplate(
-            ) . '/html/plugins/' . $this->pluginGroup . '/' . $this->pluginName;
+        ) . '/html/plugins/' . $this->pluginGroup . '/' . $this->pluginName;
 
         return [
             Text::_('LIB_TWIG_LBL_PLUGIN')   => $mainFolder,
@@ -61,7 +62,7 @@ class PluginLayout extends LayoutSelector
     }
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
@@ -71,7 +72,7 @@ class PluginLayout extends LayoutSelector
      *
      * @return  boolean  True on success.
      *
-     * @see     JFormField::setup()
+     * @see     FormField::setup()
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {

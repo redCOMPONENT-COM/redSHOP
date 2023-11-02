@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
+
 jimport('joomla.application.component.modellist');
 
 /**
@@ -37,7 +40,7 @@ class RedshopModelList extends JModelList
     /**
      * Array of form objects.
      *
-     * @var  JForm[]
+     * @var  Form[]
      */
     protected $forms = array();
 
@@ -147,9 +150,12 @@ class RedshopModelList extends JModelList
             foreach ($this->filter_fields as $filter) {
                 $filterName = 'filter.' . $filter;
 
-                if (property_exists($this->state, $filterName) && (!empty($this->state->{$filterName}) || is_numeric(
-                            $this->state->{$filterName}
-                        ))) {
+                if (
+                    property_exists($this->state, $filterName) && (!empty($this->state->{$filterName}) || is_numeric(
+                        $this->state->{$filterName}
+                    )
+                    )
+                ) {
                     $activeFilters[$filter] = $this->state->get($filterName);
                 }
             }
@@ -164,7 +170,7 @@ class RedshopModelList extends JModelList
      * @param   array    $data      data
      * @param   boolean  $loadData  load current data
      *
-     * @return  JForm/false  the JForm object or false
+     * @return  Form/false  the Form object or false
      */
     public function getForm($data = array(), $loadData = true)
     {
@@ -200,9 +206,9 @@ class RedshopModelList extends JModelList
      * @param   boolean  $clear    Optional argument to force load a new form.
      * @param   mixed    $xpath    An optional xpath to search for the fields.
      *
-     * @return  mixed  JForm object on success, False on error.
+     * @return  mixed  Form object on success, False on error.
      *
-     * @see     JForm
+     * @see     Form
      */
     protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
     {
@@ -218,11 +224,11 @@ class RedshopModelList extends JModelList
         }
 
         // Get the form.
-        JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
-        JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
+        FormHelper::addFormPath(JPATH_COMPONENT . '/models/forms');
+        FormHelper::addFieldPath(JPATH_COMPONENT . '/models/fields');
 
         try {
-            $form = JForm::getInstance($name, $source, $options, false, $xpath);
+            $form = Form::getInstance($name, $source, $options, false, $xpath);
 
             if (isset($options['load_data']) && $options['load_data']) {
                 // Get the data for the form.
@@ -240,7 +246,8 @@ class RedshopModelList extends JModelList
 
             // Load the data into the form after the plugins have operated.
             $form->bind($data);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             $this->setError($e->getMessage());
 
             return false;
@@ -268,7 +275,7 @@ class RedshopModelList extends JModelList
     /**
      * Method to allow derived classes to preprocess the form.
      *
-     * @param   JForm   $form   A JForm object.
+     * @param   Form   $form   A Form object.
      * @param   mixed   $data   The data expected for the form.
      * @param   string  $group  The name of the plugin group to import (defaults to "content").
      *
@@ -276,7 +283,7 @@ class RedshopModelList extends JModelList
      *
      * @throws  Exception if there is an error in the form event.
      */
-    protected function preprocessForm(JForm $form, $data, $group = 'content')
+    protected function preprocessForm(Form $form, $data, $group = 'content')
     {
         // Import the appropriate plugin group.
         JPluginHelper::importPlugin($group);
@@ -324,7 +331,7 @@ class RedshopModelList extends JModelList
         }
 
         // Create the pagination object.
-        $limit = (int)$this->getState('list.limit') - (int)$this->getState('list.links');
+        $limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
         $page  = new JPagination($this->getTotal(), $this->getStart(), $limit, $this->paginationPrefix);
 
         // Add the object to the internal cache.
@@ -353,14 +360,14 @@ class RedshopModelList extends JModelList
     /**
      * Method to validate the form data.
      *
-     * @param   JForm   $form   The form to validate against.
+     * @param   Form   $form   The form to validate against.
      * @param   array   $data   The data to validate.
      * @param   string  $group  The name of the field group to validate.
      *
      * @return  mixed  Array of filtered data if valid, false otherwise.
      *
-     * @see     JFormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   1.7
      */
     public function validate($form, $data, $group = null)

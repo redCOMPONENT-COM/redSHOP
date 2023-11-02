@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormField;
 
 require_once JPATH_LIBRARIES . '/redshop/library.php';
 
@@ -18,7 +19,7 @@ require_once JPATH_LIBRARIES . '/redshop/library.php';
  *
  * @since  2.1.0
  */
-class RedshopFormFieldMedia extends JFormField
+class RedshopFormFieldMedia extends FormField
 {
     /**
      * The form field type.
@@ -42,20 +43,20 @@ class RedshopFormFieldMedia extends JFormField
      */
     protected function getInput()
     {
-        $mediaDOMId        = isset($this->element['media-dom']) ? (string)$this->element['media-dom'] : null;
-        $mediaType         = isset($this->element['media-type']) ? (string)$this->element['media-type'] : null;
-        $mediaSection      = isset($this->element['media-section']) ? (string)$this->element['media-section'] : null;
+        $mediaDOMId        = isset($this->element['media-dom']) ? (string) $this->element['media-dom'] : null;
+        $mediaType         = isset($this->element['media-type']) ? (string) $this->element['media-type'] : null;
+        $mediaSection      = isset($this->element['media-section']) ? (string) $this->element['media-section'] : null;
         $showGallery       = isset($this->element['media-gallery']) ? boolval(
-            (string)$this->element['media-gallery']
+            (string) $this->element['media-gallery']
         ) : false;
         $useMediaPath      = isset($this->element['media-newMediaPath']) ? boolval(
-            (string)$this->element['media-newMediaPath']
+            (string) $this->element['media-newMediaPath']
         ) : false;
         $showAlternateText = isset($this->element['media-alternate']) ? boolval(
-            (string)$this->element['media-alternate']
+            (string) $this->element['media-alternate']
         ) : false;
-        $referenceId       = isset($this->element['media-reference']) ? (int)$this->element['media-reference'] : 0;
-        $mediaId           = isset($this->element['media-id']) ? (int)$this->element['media-id'] : 0;
+        $referenceId       = isset($this->element['media-reference']) ? (int) $this->element['media-reference'] : 0;
+        $mediaId           = isset($this->element['media-id']) ? (int) $this->element['media-id'] : 0;
 
         $media = RedshopEntityMediaImage::getInstance();
 

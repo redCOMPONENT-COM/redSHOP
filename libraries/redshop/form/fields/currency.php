@@ -13,6 +13,7 @@ JLoader::import('redshop.library');
 
 use Redshop\Currency\Currency;
 use Redshop\Currency\CurrencyLayer;
+use Joomla\CMS\Form\FormField;
 
 /**
  * Renders a Currency Form
@@ -21,7 +22,7 @@ use Redshop\Currency\CurrencyLayer;
  * @subpackage    Banners
  * @since         1.5
  */
-class JFormFieldCurrency extends JFormField
+class JFormFieldCurrency extends FormField
 {
     /**
      * Element name
@@ -97,7 +98,7 @@ class JFormFieldCurrency extends JFormField
      */
     protected function getCurrency($currency = "")
     {
-        $db = JFactory::getDbo();
+        $db    = JFactory::getDbo();
         $query = $db->getQuery(true)
             ->select($db->qn('code', 'value'))
             ->select($db->qn('name', 'text'))

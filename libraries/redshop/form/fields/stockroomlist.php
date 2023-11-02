@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 
 JLoader::import('redshop.library');
 
@@ -25,7 +26,7 @@ $lang->load('com_redshop', JPATH_ADMINISTRATOR);
  *
  * @since  1.5.0.1
  */
-class JFormFieldStockroomlist extends JFormFieldList
+class JFormFieldStockroomlist extends ListField
 {
     /**
      * A static cache.

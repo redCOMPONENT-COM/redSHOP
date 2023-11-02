@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\FormField;
+
 JLoader::import('redshop.library');
 
 /**
@@ -17,7 +19,7 @@ JLoader::import('redshop.library');
  * @package  RedSHOP
  * @since    1.5
  */
-class JFormFieldOrderbymanufacturer extends JFormField
+class JFormFieldOrderbymanufacturer extends FormField
 {
     /**
      * Element name
@@ -34,7 +36,7 @@ class JFormFieldOrderbymanufacturer extends JFormField
      */
     protected function getInput()
     {
-        $name = $this->name;
+        $name  = $this->name;
         $value = $this->value;
 
         if (!$value) {

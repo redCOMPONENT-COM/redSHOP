@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Form;
 use Joomla\String\StringHelper;
 
 /**
@@ -106,7 +107,7 @@ class RedshopModelForm extends JModelAdmin
         $prefix        = $componentName . 'Model';
 
         if (is_null($client)) {
-            $client = (int)JFactory::getApplication()->isClient('administrator');
+            $client = (int) JFactory::getApplication()->isClient('administrator');
         }
 
         // Admin
@@ -188,7 +189,7 @@ class RedshopModelForm extends JModelAdmin
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed  A JForm object on success, false on failure
+     * @return  mixed  A Form object on success, false on failure
      *
      * @since   1.5
      */
@@ -216,7 +217,7 @@ class RedshopModelForm extends JModelAdmin
      * Each field error is stored in session and can be retrieved with getFieldError().
      * Once getFieldError() is called, the error is deleted from the session.
      *
-     * @param   JForm   $form   The form to validate against.
+     * @param   Form   $form   The form to validate against.
      * @param   array   $data   The data to validate.
      * @param   string  $group  The name of the field group to validate.
      *

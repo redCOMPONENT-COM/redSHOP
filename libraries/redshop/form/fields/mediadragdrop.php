@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\FormField;
+
 jimport('joomla.form.formfield');
 
 /**
@@ -18,7 +20,7 @@ jimport('joomla.form.formfield');
  *
  * @since    2.0.3
  */
-class JFormFieldMediadragdrop extends JFormField
+class JFormFieldMediadragdrop extends FormField
 {
     /**
      * The form field type

@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\EditorField;
 
 JLoader::import('redshop.library');
 
@@ -20,7 +21,7 @@ FormHelper::loadFieldClass('editor');
  *
  * @since  1.5
  */
-class JFormFieldRedshopEditor extends JFormFieldEditor
+class JFormFieldRedshopEditor extends EditorField
 {
     /**
      * The form field type.

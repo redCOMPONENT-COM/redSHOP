@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormField;
 
 /**
  * Layout variables
@@ -17,7 +18,7 @@ use Joomla\CMS\Language\Text;
  * @var   array        $displayData    List of available data.
  * @var   array        $groups         List of available user groups.
  * @var   array        $actions        List of available actions.
- * @var   JFormField   $field          Field object data.
+ * @var   FormField   $field          Field object data.
  * @var   boolean      $newItem        Is that new item.
  * @var   JAccessRules $assetRules     Access Rules
  * @var   integer      $assetId        Asset ID
@@ -36,27 +37,30 @@ $selectedTabPosition = JFactory::getApplication()->getUserState(
 );
 
 ?>
-<p class="rule-desc"><?php echo Text::_('JLIB_RULES_SETTINGS_DESC') ?></p>
+<p class="rule-desc">
+    <?php echo Text::_('JLIB_RULES_SETTINGS_DESC') ?>
+</p>
 <div id="permissions-sliders">
     <div class="row">
         <div class="col-md-3">
             <ul class="nav nav-stacked nav-pills">
                 <?php foreach ($groups as $group): ?>
-                        <?php $active = ('permission-' . $group->value == $selectedTabPosition) ? 'active' : ''; ?>
-                        <li class="<?php echo $active ?>">
-                            <a href="#permission-<?php echo $group->value ?>" data-toggle="tab"
-                               aria-controls="permission-<?php echo $group->value ?>">
-                                <?php if ($group->level == 1): ?>
-                                        <span class="level">&vdash;</span>
-                                <?php elseif ($group->level > 1): ?>
-                                        <span class="level">&vdash;</span><?php echo str_repeat(
-                                            '&ndash;&ndash;',
-                                            $group->level - 1
-                                        ) ?>
-                                <?php endif; ?>
-                                <?php echo $group->text ?>
-                            </a>
-                        </li>
+                    <?php $active = ('permission-' . $group->value == $selectedTabPosition) ? 'active' : ''; ?>
+                    <li class="<?php echo $active ?>">
+                        <a href="#permission-<?php echo $group->value ?>" data-toggle="tab"
+                            aria-controls="permission-<?php echo $group->value ?>">
+                            <?php if ($group->level == 1): ?>
+                                <span class="level">&vdash;</span>
+                            <?php elseif ($group->level > 1): ?>
+                                <span class="level">&vdash;</span>
+                                <?php echo str_repeat(
+                                    '&ndash;&ndash;',
+                                    $group->level - 1
+                                ) ?>
+                            <?php endif; ?>
+                            <?php echo $group->text ?>
+                        </a>
+                    </li>
                 <?php endforeach; ?>
             </ul>
         </div>

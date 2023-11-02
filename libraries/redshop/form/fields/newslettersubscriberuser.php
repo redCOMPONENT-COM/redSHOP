@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormField;
 
 JLoader::import('redshop.library');
 
@@ -19,7 +20,7 @@ JLoader::import('redshop.library');
  * @package  RedSHOP
  * @since    1.5
  */
-class JFormFieldNewslettersubscriberuser extends JFormField
+class JFormFieldNewslettersubscriberuser extends FormField
 {
     /**
      * Element name

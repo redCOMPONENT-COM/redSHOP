@@ -8,12 +8,13 @@
  * @license 	GNU/GPL v.3 or later.
  */
 
-// защита от прямого доступа
 defined('_JEXEC') or die('@-_-@');
+
+use Joomla\CMS\Form\FormField;
 
 jimport('joomla.form.formfield');
 
-class JFormFieldCallbackUrl extends JFormField
+class JFormFieldCallbackUrl extends FormField
 {
     /**
      * The form field type.
@@ -31,17 +32,17 @@ class JFormFieldCallbackUrl extends JFormField
      */
     protected function getInput()
     {
-        $task = !empty($this->element['value']) ? '?index.php?option=com_ajax&group=redshop_login&plugin=googleLoginCallBack&format=raw' : '';
+        $task     = !empty($this->element['value']) ? '?index.php?option=com_ajax&group=redshop_login&plugin=googleLoginCallBack&format=raw' : '';
         $readonly = ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
-        $class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+        $class    = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 
-        $CallbackUrl = JURI::root().$task;
+        $CallbackUrl = JURI::root() . $task;
 
-        if(substr($CallbackUrl, -1, 1) == '/'){
+        if (substr($CallbackUrl, -1, 1) == '/') {
             $CallbackUrl = substr($CallbackUrl, 0, -1);
         }
 
-        $html = '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'.$CallbackUrl.'" size="70%" '. $class . $readonly .' />';
+        $html = '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="' . $CallbackUrl . '" size="70%" ' . $class . $readonly . ' />';
 
         return $html;
     }

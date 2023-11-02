@@ -13,13 +13,14 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Form\FormHelper;
 
 FormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\Field\ListField;
 
 /**
  * Redshop Shipping Methods field.
  *
  * @since  1.0
  */
-class RedshopFormFieldShipping_Method extends JFormFieldList
+class RedshopFormFieldShipping_Method extends ListField
 {
     /**
      * The form field type.

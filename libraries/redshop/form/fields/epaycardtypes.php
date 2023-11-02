@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\FormField;
 
 /**
  * Renders a ePay card Types Form
@@ -17,7 +18,7 @@ defined('_JEXEC') or die;
  * @subpackage     Banners
  * @since          1.7
  */
-class JFormFieldEpayCardTypes extends JFormField
+class JFormFieldEpayCardTypes extends FormField
 {
     /**
      * Element name

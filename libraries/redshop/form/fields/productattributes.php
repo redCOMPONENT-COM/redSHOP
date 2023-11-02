@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 
 FormHelper::loadFieldClass('list');
 
@@ -18,7 +19,7 @@ FormHelper::loadFieldClass('list');
  *
  * @since  2.1.2
  */
-class JFormFieldProductattributes extends JFormFieldList
+class JFormFieldProductattributes extends ListField
 {
     /**
      * A flexible category list that respects access controls

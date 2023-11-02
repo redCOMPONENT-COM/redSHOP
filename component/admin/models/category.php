@@ -28,7 +28,7 @@ class RedshopModelCategory extends RedshopModelForm
      * @param   array    $data      Data for the form. [optional]
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
      *
-     * @return  mixed               A JForm object on success, false on failure
+     * @return  mixed               A Form object on success, false on failure
      *
      * @since   2.0.6
      */

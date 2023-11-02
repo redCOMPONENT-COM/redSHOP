@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\CheckboxesField;
 
 FormHelper::loadFieldClass('checkboxes');
 
@@ -21,7 +22,7 @@ FormHelper::loadFieldClass('checkboxes');
  * @subpackage     Element
  * @since          1.5
  */
-class JFormFieldCreditCards extends JFormFieldCheckboxes
+class JFormFieldCreditCards extends CheckboxesField
 {
     /**
      * Element name

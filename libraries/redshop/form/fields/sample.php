@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\FormField;
+
 JLoader::import('redshop.library');
 
 /**
@@ -17,7 +19,7 @@ JLoader::import('redshop.library');
  *
  * @since  1.5
  */
-class JFormFieldSample extends JFormField
+class JFormFieldSample extends FormField
 {
     /**
      * The form field type.
@@ -35,8 +37,8 @@ class JFormFieldSample extends JFormField
      */
     protected function getLabel()
     {
-        $layoutFile = $this->element['layoutFile'] ? (string)$this->element['layoutFile'] : 'sample';
-        $html       = RedshopLayoutHelper::render($layoutFile, null, JPATH_SITE . (string)$this->element['basePath']);
+        $layoutFile = $this->element['layoutFile'] ? (string) $this->element['layoutFile'] : 'sample';
+        $html       = RedshopLayoutHelper::render($layoutFile, null, JPATH_SITE . (string) $this->element['basePath']);
 
         // Style needed for J2.5
         // @todo: remove style in redSHOP 1.6

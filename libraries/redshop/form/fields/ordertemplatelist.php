@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormField;
 
 /**
  * Renders a template Form
@@ -18,7 +19,7 @@ use Joomla\CMS\Language\Text;
  * @subpackage     Banners
  * @since          1.5
  */
-class JFormFieldordertemplatelist extends JFormField
+class JFormFieldordertemplatelist extends FormField
 {
     /**
      * Element name

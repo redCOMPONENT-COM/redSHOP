@@ -22,7 +22,7 @@ use Joomla\CMS\Language\Text;
 class RedshopViewAccess extends RedshopViewAdmin
 {
     /**
-     * @var  JForm
+     * @var  \Joomla\CMS\Form\Form
      */
     protected $form;
 

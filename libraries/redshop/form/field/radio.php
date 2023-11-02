@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\RadioField;
 
 require_once JPATH_LIBRARIES . '/redshop/library.php';
 
@@ -21,7 +22,7 @@ FormHelper::loadFieldClass('radio');
  *
  * @since  1.0
  */
-class RedshopFormFieldRadio extends JFormFieldRadio
+class RedshopFormFieldRadio extends RadioField
 {
     /**
      * The form field type.

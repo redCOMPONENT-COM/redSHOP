@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 /**
  * $displayData extract
  *
- * @param   object  $form       A JForm object
+ * @param   object  $form       A Form object
  * @param   int     $productId  Id current product
  * @param   int     $modal      Flag use form in modal
  */
@@ -26,9 +26,9 @@ $cmd     = JFactory::getApplication()->input->get('cmd');
 $total   = $compare->getItemsTotal();
 
 ?>
-<?php if (count($compare->getItems()) > 0) : ?>
+<?php if (count($compare->getItems()) > 0): ?>
     <ul id='compare_ul'>
-        <?php foreach ($compare->getItems() as $data) : ?>
+        <?php foreach ($compare->getItems() as $data): ?>
             <?php
             $productId  = $data['item']->productId;
             $categoryId = $data['item']->categoryId;
@@ -49,16 +49,20 @@ $total   = $compare->getItemsTotal();
             ?>
             <li>
                 <span>
-                    <a href="<?php echo $link ?>"><?php echo $product->product_name ?></a>
+                    <a href="<?php echo $link ?>">
+                        <?php echo $product->product_name ?>
+                    </a>
                 </span>
                 <span>
-                <a id="removeCompare<?php echo $productId . '.' . $categoryId; ?>" href='javascript:;'
-                   value="<?php echo $productId . '.' . $categoryId; ?>">
-                    <?php echo Text::_('COM_REDSHOP_DELETE'); ?>
-                </a>
-            </span>
+                    <a id="removeCompare<?php echo $productId . '.' . $categoryId; ?>" href='javascript:;'
+                        value="<?php echo $productId . '.' . $categoryId; ?>">
+                        <?php echo Text::_('COM_REDSHOP_DELETE'); ?>
+                    </a>
+                </span>
             </li>
         <?php endforeach; ?>
     </ul>
-    <div id="totalCompareProduct" style="display:none;"><?php echo $total ?></div>
+    <div id="totalCompareProduct" style="display:none;">
+        <?php echo $total ?>
+    </div>
 <?php endif ?>

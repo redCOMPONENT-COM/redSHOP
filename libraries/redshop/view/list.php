@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Redshop\View\AbstractView;
+use Joomla\CMS\Form\Form;
 
 jimport('joomla.application.component.viewlegacy');
 
@@ -45,7 +46,7 @@ class RedshopViewList extends AbstractView
     public $activeFilters;
 
     /**
-     * @var  JForm
+     * @var  Form
      */
     public $filterForm;
 

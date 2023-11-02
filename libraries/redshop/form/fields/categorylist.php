@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 
 FormHelper::loadFieldClass('list');
 
@@ -22,7 +23,7 @@ FormHelper::loadFieldClass('list');
  *
  * @since  1.6
  */
-class JFormFieldCategoryList extends JFormFieldList
+class JFormFieldCategoryList extends ListField
 {
     /**
      * A flexible category list that respects access controls
@@ -40,7 +41,7 @@ class JFormFieldCategoryList extends JFormFieldList
     protected $allowAdd;
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
      * @param   mixed             $value    The form field value to validate.
@@ -50,7 +51,7 @@ class JFormFieldCategoryList extends JFormFieldList
      *
      * @return  boolean  True on success.
      *
-     * @see     JFormField::setup()
+     * @see     \Joomla\CMS\Form\FormField::setup()
      * @since   3.2
      */
     public function setup(SimpleXMLElement $element, $value, $group = null)

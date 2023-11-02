@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\FilelistField;
 
 FormHelper::loadFieldClass('filelist');
 
@@ -20,7 +21,7 @@ FormHelper::loadFieldClass('filelist');
  *
  * @since  2.1.2
  */
-class RedshopFormFieldFontList extends JFormFieldFileList
+class RedshopFormFieldFontList extends FilelistField
 {
     /**
      * The form field type.

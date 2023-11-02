@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\FormField;
+
 /**
  * Renders a Productfinder Form
  *
@@ -16,7 +18,7 @@ defined('_JEXEC') or die;
  * @subpackage     Banners
  * @since          1.5
  */
-class JFormFieldextrainfo extends JFormField
+class JFormFieldextrainfo extends FormField
 {
     /**
      * Element name

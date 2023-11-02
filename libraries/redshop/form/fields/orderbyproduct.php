@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Field\ListField;
+
 JLoader::import('redshop.library');
 
 /**
@@ -17,7 +19,7 @@ JLoader::import('redshop.library');
  * @package  RedSHOP
  * @since    1.2
  */
-class JFormFieldOrderByProduct extends JFormFieldList
+class JFormFieldOrderByProduct extends ListField
 {
     /**
      * Element name

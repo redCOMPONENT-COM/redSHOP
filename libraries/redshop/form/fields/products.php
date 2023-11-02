@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Form\FormField;
 
 /**
  * element for default product layout
@@ -21,7 +22,7 @@ use Joomla\CMS\Router\Route;
  * @subpackage     redSHOP
  * @since          1.5
  */
-class JFormFieldProducts extends JFormField
+class JFormFieldProducts extends FormField
 {
     /**
      * Element name
@@ -60,13 +61,13 @@ class JFormFieldProducts extends JFormField
             . Text::_('JTOOLBAR_CLOSE') . '</button>';
 
         $value         = htmlspecialchars($product->product_name, ENT_QUOTES, 'UTF-8');
-        $attributes [] = 'style="background: #ffffff;"';
-        $attributes [] = ($this->required) ? 'required="required"' : '';
-        $class []      = ($this->required) ? 'required=' : '';
+        $attributes[] = 'style="background: #ffffff;"';
+        $attributes[] = ($this->required) ? 'required="required"' : '';
+        $class[]      = ($this->required) ? 'required=' : '';
         $attributes    = array_merge($attributes, $class);
         $attributes    = trim(implode(' ', array_unique($attributes)));
 
-        $html  = '<div class="controls">';
+        $html = '<div class="controls">';
         $html .= '<div class="input-group">';
         $html .= '<input type="text" class="form-control" id="' . $name . '_name" value="' . $value . '" ' . 'disabled="disabled"' . ' />';
         $html .= '<button data-bs-target="#selectProductModal" class="btn btn-primary" data-bs-toggle="modal">
@@ -74,7 +75,7 @@ class JFormFieldProducts extends JFormField
                   </button>';
         $html .= '</div>';
         $html .= '</div>';
-        $html .= '<input type="hidden" id="' . $name . '_id" name="' . $fieldName . '" value="' . (int)$this->value . '"' . $attributes . ' />';
+        $html .= '<input type="hidden" id="' . $name . '_id" name="' . $fieldName . '" value="' . (int) $this->value . '"' . $attributes . ' />';
 
         $html .= HTMLHelper::_(
             'bootstrap.renderModal',

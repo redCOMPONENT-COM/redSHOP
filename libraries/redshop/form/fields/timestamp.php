@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\FormField;
+
 JLoader::import('redshop.library');
 
 /**
@@ -16,7 +18,7 @@ JLoader::import('redshop.library');
  *
  * @since  1.5
  */
-class JFormFieldTimestamp extends JFormField
+class JFormFieldTimestamp extends FormField
 {
     /**
      * Element name
@@ -26,7 +28,7 @@ class JFormFieldTimestamp extends JFormField
     protected $type = 'timestamp';
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
      * @param   mixed             $value    The form field value to validate.

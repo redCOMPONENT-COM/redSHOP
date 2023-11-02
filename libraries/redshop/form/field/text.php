@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormField;
 
 require_once JPATH_LIBRARIES . '/redshop/library.php';
 
@@ -18,7 +19,7 @@ require_once JPATH_LIBRARIES . '/redshop/library.php';
  *
  * @since  1.0
  */
-class RedshopFormFieldText extends JFormField
+class RedshopFormFieldText extends FormField
 {
     /**
      * The form field type.

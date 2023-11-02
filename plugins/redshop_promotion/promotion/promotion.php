@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 
 require_once(__DIR__ . '/helpers/Step.php');
@@ -45,7 +46,7 @@ class PlgRedshop_PromotionPromotion extends JPlugin
         $this->query        = $this->db->getQuery(true);
         $this->table        = '#__redshop_promotion';
         $this->layoutFolder = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/layouts';
-        $this->form         = JForm::getInstance("promotions", __DIR__ . "/forms/promotion.xml", []);
+        $this->form         = Form::getInstance("promotions", __DIR__ . "/forms/promotion.xml", []);
     }
 
     /**

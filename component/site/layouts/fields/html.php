@@ -18,7 +18,7 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
  * $displayData extract
  *
  * @var   array   $displayData Layout data
- * @var   object  $form        A JForm object
+ * @var   object  $form        A Form object
  * @var   integer $productId   Id current product
  * @var   integer $modal       Flag use form in modal
  */

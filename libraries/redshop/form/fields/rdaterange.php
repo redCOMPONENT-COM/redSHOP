@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Form\FormField;
 
 JLoader::import('redshop.library');
 
@@ -20,7 +21,7 @@ JLoader::import('redshop.library');
  * @subpackage  Fields
  * @since       2.0.3
  */
-class JFormFieldRdaterange extends JFormField
+class JFormFieldRdaterange extends FormField
 {
     /**
      * Element name
@@ -47,17 +48,17 @@ class JFormFieldRdaterange extends JFormField
      */
     public function getInput()
     {
-        $format     = (isset($this->element['format'])) ? (string)$this->element['format'] : 'DD/MM/YYYY';
-        $firstDay   = (isset($this->element['first_day'])) ? (int)$this->element['first_day'] : 1;
-        $autoApply  = (isset($this->element['auto_apply'])) ? (boolean)$this->element['auto_apply'] : true;
-        $showButton = (isset($this->element['show_button'])) ? (boolean)$this->element['show_button'] : true;
-        $class      = (isset($this->element['class'])) ? (string)$this->element['class'] : '';
-        $onChange   = (isset($this->element['onChange'])) ? (string)$this->element['onChange'] : '';
-        $phpFormat  = (isset($this->element['phpFormat'])) ? (string)$this->element['phpFormat'] : 'd/m/Y';
+        $format     = (isset($this->element['format'])) ? (string) $this->element['format'] : 'DD/MM/YYYY';
+        $firstDay   = (isset($this->element['first_day'])) ? (int) $this->element['first_day'] : 1;
+        $autoApply  = (isset($this->element['auto_apply'])) ? (boolean) $this->element['auto_apply'] : true;
+        $showButton = (isset($this->element['show_button'])) ? (boolean) $this->element['show_button'] : true;
+        $class      = (isset($this->element['class'])) ? (string) $this->element['class'] : '';
+        $onChange   = (isset($this->element['onChange'])) ? (string) $this->element['onChange'] : '';
+        $phpFormat  = (isset($this->element['phpFormat'])) ? (string) $this->element['phpFormat'] : 'd/m/Y';
 
-		HTMLHelper::script('com_redshop/moment.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/daterangepicker.min.js', ['relative' => true]);
-		HTMLHelper::stylesheet('com_redshop/daterangepicker.min.css', ['relative' => true]);
+        HTMLHelper::script('com_redshop/moment.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/daterangepicker.min.js', ['relative' => true]);
+        HTMLHelper::stylesheet('com_redshop/daterangepicker.min.css', ['relative' => true]);
 
         return RedshopLayoutHelper::render(
             'field.date_range',

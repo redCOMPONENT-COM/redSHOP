@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 
 FormHelper::loadFieldClass('list');
 
@@ -21,7 +22,7 @@ FormHelper::loadFieldClass('list');
  * @subpackage     Element
  * @since          1.5
  */
-class RedshopFormFieldFieldSection extends JFormFieldList
+class RedshopFormFieldFieldSection extends ListField
 {
     /**
      * Element name

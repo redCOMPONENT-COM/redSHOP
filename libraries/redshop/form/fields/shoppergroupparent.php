@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 
 FormHelper::loadFieldClass('list');
 
@@ -19,7 +20,7 @@ FormHelper::loadFieldClass('list');
  * @subpackage     Element
  * @since          __DEPLOY_VERSION__
  */
-class JFormFieldShopperGroupParent extends JFormFieldList
+class JFormFieldShopperGroupParent extends ListField
 {
     /**
      * Element name

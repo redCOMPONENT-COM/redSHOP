@@ -22,7 +22,7 @@ class RedshopViewStatistic_Customer extends RedshopViewAdmin
 {
     public $customers = array();
     /**
-     * @var  JForm
+     * @var  \Joomla\CMS\Form\Form
      */
     public $filterForm = null;
     protected $state = array();

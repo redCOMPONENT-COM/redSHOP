@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormField;
 
 /**
  * Renders a searchtype Form
@@ -18,7 +19,7 @@ use Joomla\CMS\Language\Text;
  * @subpackage     Banners
  * @since          1.5
  */
-class JFormFieldsearchtype extends JFormField
+class JFormFieldsearchtype extends FormField
 {
     /**
      * Element name

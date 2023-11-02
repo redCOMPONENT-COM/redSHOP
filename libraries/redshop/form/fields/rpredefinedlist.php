@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 
 FormHelper::loadFieldClass('list');
 
@@ -21,7 +22,7 @@ FormHelper::loadFieldClass('list');
  * @subpackage  Field
  * @since       1.0
  */
-abstract class JFormFieldPredefinedList extends JFormFieldList
+abstract class JFormFieldPredefinedList extends ListField
 {
     /**
      * Cached array of the category items.

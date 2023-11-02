@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Redshop\View\AbstractView;
+use Joomla\CMS\Form\Form;
 
 /**
  * Base view.
@@ -28,7 +29,7 @@ class RedshopViewForm extends AbstractView
      */
     public $item;
     /**
-     * @var    JForm
+     * @var    Form
      *
      * @since  2.0.6
      */
