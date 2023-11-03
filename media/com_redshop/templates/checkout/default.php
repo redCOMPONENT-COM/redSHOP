@@ -114,7 +114,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="checkbox">
+                                    <div class="form-check">
                                         {newsletter_signup_chk}
                                         <label class="form-check-label">
                                             {newsletter_signup_lbl}

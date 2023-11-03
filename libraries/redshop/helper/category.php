@@ -49,7 +49,7 @@ class RedshopHelperCategory
      */
     private static function getCategoryListRecursion($cid = '0')
     {
-        if ($category = RedshopEntityCategory::getInstance($cid)->getItem();) {
+        if ($category = RedshopEntityCategory::getInstance($cid)->getItem()) {
             if (isset($category->parent_id)) {
                 self::$categoryListReverse[] = $category;
                 self::getCategoryListRecursion($category->parent_id);
@@ -82,7 +82,7 @@ class RedshopHelperCategory
         );
 
         if ($categoryId) {
-            $cid = (int)$categoryId;
+            $cid = (int) $categoryId;
         }
 
         $key = $context . '_' . $view . '_' . $categoryMainFilter . '_' . $cid;
@@ -127,7 +127,7 @@ class RedshopHelperCategory
             $query->where($db->qn('name') . ' LIKE ' . $db->q('%' . $categoryMainFilter . '%'));
         } else {
             if ($cid !== null) {
-                $query->where($db->qn('parent_id') . ' = ' . (int)$cid);
+                $query->where($db->qn('parent_id') . ' = ' . (int) $cid);
             }
         }
 
@@ -180,7 +180,7 @@ class RedshopHelperCategory
                 )
             )
             ->from($db->qn('#__redshop_category'))
-            ->where('parent_id = ' . (int)$cid);
+            ->where('parent_id = ' . (int) $cid);
         $level++;
 
         $cats = $db->setQuery($query)->loadObjectList();
@@ -231,7 +231,7 @@ class RedshopHelperCategory
             ->order($db->qn('lft'));
 
         if ($categoryId) {
-            $query->where($db->qn('id') . ' = ' . $db->q((int)$categoryId));
+            $query->where($db->qn('id') . ' = ' . $db->q((int) $categoryId));
         }
 
         // Categories nested
@@ -246,7 +246,7 @@ class RedshopHelperCategory
 
         $multiple = $multiple ? "multiple=\"multiple\"" : "";
         $id       = str_replace('[]', '', $name);
-        $html     .= "<select class=\"inputbox form-control\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
+        $html .= "<select class=\"inputbox form-control\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
 
         if ($topLevel) {
             $html .= "<option value=\"0\"> -Top- </option>\n";
@@ -282,7 +282,7 @@ class RedshopHelperCategory
             ->select('id, name, level, published, parent_id, lft, rgt')
             ->from('#__redshop_category');
 
-        $query->from('(' . (string)$subQuery . ') AS a')
+        $query->from('(' . (string) $subQuery . ') AS a')
             ->join('LEFT', $db->qn('#__redshop_category') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
             ->where($db->qn('a.level') . ' > 0');
         $query->order('a.lft ASC');
@@ -292,7 +292,8 @@ class RedshopHelperCategory
 
         try {
             $options = $db->loadObjectList();
-        } catch (RuntimeException $exception) {
+        }
+        catch (RuntimeException $exception) {
             throw new Exception($exception->getMessage(), 500);
         }
 
@@ -392,7 +393,7 @@ class RedshopHelperCategory
         $query = $db->getQuery(true)
             ->select($db->qn(array('id', 'name', 'parent_id')))
             ->from($db->qn('#__redshop_category'))
-            ->where($db->qn('parent_id') . ' = ' . $db->q((int)$cid));
+            ->where($db->qn('parent_id') . ' = ' . $db->q((int) $cid));
 
         $db->setQuery($query);
 
@@ -456,9 +457,9 @@ class RedshopHelperCategory
      */
     public static function buildQueryFilterProduct(
         $filters,
-        $categoryId, 
+        $categoryId,
         $allCategories = array()
-    ){
+    ) {
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true)
             ->select('DISTINCT(p.product_id)')
@@ -494,8 +495,8 @@ class RedshopHelperCategory
         /* query builder for manufacturer filters */
         $manufacturer = $filters['manufacturer'];
 
-        if ((int)$filters['mid'] > 0) {
-            $query->where($db->qn('p.manufacturer_id') . ' = ' . (int)$filters['mid']);
+        if ((int) $filters['mid'] > 0) {
+            $query->where($db->qn('p.manufacturer_id') . ' = ' . (int) $filters['mid']);
         } elseif (!empty($manufacturer)) {
             $query->where($db->qn('p.manufacturer_id') . ' IN (' . implode(',', $manufacturer) . ')');
         }
@@ -507,11 +508,11 @@ class RedshopHelperCategory
             $min                  = $priceRange['min'];
             $max                  = $priceRange['max'];
             $comparePrice         = $db->qn('p.product_price') . ' >= ' . $db->q($min) . ' AND ' . $db->qn(
-                    'p.product_price'
-                ) . ' <= ' . $db->q(($max));
+                'p.product_price'
+            ) . ' <= ' . $db->q(($max));
             $compareDiscountPrice = $db->qn('p.discount_price') . ' >= ' . $db->q($min) . ' AND ' . $db->qn(
-                    'p.discount_price'
-                ) . ' <= ' . $db->q(($max));
+                'p.discount_price'
+            ) . ' <= ' . $db->q(($max));
             $saleTime             = $db->qn('p.discount_stratdate') . ' AND ' . $db->qn('p.discount_enddate');
             $query->where(
                 '( CASE WHEN( ' . $db->qn('p.product_on_sale') . ' = 1 AND UNIX_TIMESTAMP() BETWEEN '
@@ -562,7 +563,7 @@ class RedshopHelperCategory
                     'fd' . $key . '.itemid'
                 )
             )
-                ->where($db->qn('fd' . $key . '.fieldid') . ' = ' . $db->q((int)$fieldId));
+                ->where($db->qn('fd' . $key . '.fieldid') . ' = ' . $db->q((int) $fieldId));
             $key++;
 
             if (!empty($subQuery)) {

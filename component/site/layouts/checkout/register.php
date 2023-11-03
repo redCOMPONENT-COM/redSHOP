@@ -29,10 +29,9 @@ extract($displayData);
                     <?php if (Redshop::getConfig()->get('REGISTER_METHOD') == 2):
                         $checked_style = (Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1) ? 'checked="checked"' : "''";
                         ?>
-                        <div class="checkbox">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="createaccount" <?php echo $checked_style; ?> id="createaccount" value="1" onclick="createUserAccount(this);" />
                             <label>
-                                <input type="checkbox" name="createaccount" <?php echo $checked_style; ?> id="createaccount"
-                                    value="1" onclick="createUserAccount(this);" />
                                 <?php echo Text::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>
                             </label>
                         </div>
@@ -92,9 +91,9 @@ extract($displayData);
                                     'shippingtable',
                                     '',
                                     array(
-                                        'data' => $post,
+                                        'data'      => $post,
                                         'isCompany' => $isCompany,
-                                        'lists' => $this->lists
+                                        'lists'     => $this->lists
                                     )
                                 );
                                 ?>

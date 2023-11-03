@@ -21,7 +21,7 @@ $customer        = "hidden";
 $registerMethod = Redshop::getConfig()->getInt('REGISTER_METHOD');
 
 if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 0) {
-    $company = "";
+    $company  = "";
     $customer = "";
 } elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1) {
     $openToStretcher = 0;
@@ -42,50 +42,51 @@ $input = JFactory::getApplication()->input;
 
 ?>
 <?php if ($registerMethod == 2): ?>
-    <div class="form-group">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" name="createaccount" id="createaccount" class="onestep-createaccount-toggle"
-                    <?php echo Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1 ? 'checked="checked"' : "''" ?>
-                       value="1"/>
-                <?php echo Text::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>
-            </label>
-        </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="createaccount" id="createaccount"
+            class="onestep-createaccount-toggle" <?php echo Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1 ? 'checked="checked"' : "''" ?> value="1" />
+        <label>
+            <?php echo Text::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>
+        </label>
     </div>
 <?php endif; ?>
 <?php if ($registerMethod != 1 && $registerMethod != 3): ?>
-    <div id="onestep-createaccount-wrapper"
-         style="display: <?php echo (Redshop::getConfig()->get(
-                 'CREATE_ACCOUNT_CHECKBOX'
-             ) == 1 || $registerMethod == 0) ? 'block' : 'none' ?>;">
+    <div id="onestep-createaccount-wrapper" style="display: <?php echo (Redshop::getConfig()->get(
+        'CREATE_ACCOUNT_CHECKBOX'
+    ) == 1 || $registerMethod == 0) ? 'block' : 'none' ?>;">
         <div class="form-group">
-            <label><?php echo Text::_('COM_REDSHOP_USERNAME_REGISTER') ?></label>
-            <input class="inputbox form-control required" type="text" name="username"
-                   id="onestep-createaccount-username"
-                   size="32" maxlength="250" value="<?php echo $input->getString('username', '') ?>"/>
+            <label>
+                <?php echo Text::_('COM_REDSHOP_USERNAME_REGISTER') ?>
+            </label>
+            <input class="inputbox form-control required" type="text" name="username" id="onestep-createaccount-username"
+                size="32" maxlength="250" value="<?php echo $input->getString('username', '') ?>" />
         </div>
         <div class="form-group">
-            <label><?php echo Text::_('COM_REDSHOP_PASSWORD_REGISTER') ?></label>
-            <input class="inputbox form-control required" type="password" name="password1"
-                   id="password1" autocomplete="new-password" size="32" maxlength="250" value=""/>
+            <label>
+                <?php echo Text::_('COM_REDSHOP_PASSWORD_REGISTER') ?>
+            </label>
+            <input class="inputbox form-control required" type="password" name="password1" id="password1"
+                autocomplete="new-password" size="32" maxlength="250" value="" />
         </div>
         <div class="form-group">
-            <label><?php echo Text::_('COM_REDSHOP_CONFIRM_PASSWORD') ?></label>
-            <input class="inputbox form-control required" type="password" name="password2"
-                   id="password2" autocomplete="new-password" size="32" maxlength="250" value=""/>
+            <label>
+                <?php echo Text::_('COM_REDSHOP_CONFIRM_PASSWORD') ?>
+            </label>
+            <input class="inputbox form-control required" type="password" name="password2" id="password2"
+                autocomplete="new-password" size="32" maxlength="250" value="" />
         </div>
-        <hr/>
+        <hr />
     </div>
 <?php endif; ?>
 <div class="form-group">
     <label class="radio-inline <?php echo $customer; ?>">
         <input type="radio" name="togglerchecker" id="toggler1" class="toggler" onclick="getBillingTemplate(this);"
-               value="0" <?php echo ($isCompany == 0) ? 'checked="checked"' : '' ?> billing_type="private"/>
+            value="0" <?php echo ($isCompany == 0) ? 'checked="checked"' : '' ?> billing_type="private" />
         <?php echo Text::_('COM_REDSHOP_USER_REGISTRATION'); ?>
     </label>
     <label class="radio-inline <?php echo $company; ?>">
         <input type="radio" name="togglerchecker" id="toggler2" class="toggler" onclick="getBillingTemplate(this);"
-               value="1" <?php echo ($isCompany == 1) ? 'checked="checked"' : '' ?> billing_type="company"/>
+            value="1" <?php echo ($isCompany == 1) ? 'checked="checked"' : '' ?> billing_type="company" />
         <?php echo Text::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?>
     </label>
     <?php $dispatcher->trigger('onRenderOnstepCheckout'); ?>

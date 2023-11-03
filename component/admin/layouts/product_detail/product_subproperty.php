@@ -65,7 +65,7 @@ if (
 <div class="sub_property_table">
     <div class="row">
         <div class="col-sm-2">
-            <label>
+            <label class="form-check-label">
                 <?php echo Text::_('COM_REDSHOP_PARAMETER'); ?>
             </label>
             <input type="text" class="input-small" name="<?php echo $subPropPref; ?>[name]"
@@ -97,7 +97,7 @@ if (
                 value="<?php echo $subProperty->subattribute_color_price; ?>" />
         </div>
         <div class="col-sm-1">
-            <label>
+            <label class="form-check-label">
                 <?php echo Text::_('COM_REDSHOP_SUBPROPERTY_NUMBER'); ?>
             </label>
             <input type="text" size="14" class="vpnrequired input-mini"
@@ -105,14 +105,14 @@ if (
                 name="<?php echo $subPropPref; ?>[number]" />
         </div>
         <div class="col-sm-1">
-            <label>
+            <label class="form-check-label">
                 <?php echo Text::_('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD'); ?>
             </label>
             <input type="text" class="input-mini" name="<?php echo $subPropPref; ?>[extra_field]"
                 value="<?php echo $subProperty->extra_field; ?>" />
         </div>
         <div class="col-sm-3">
-            <label>
+            <label class="form-check-label">
                 <?php echo Text::_('COM_REDSHOP_ORDERING'); ?>
             </label>
             <input class="text-center input-xmini" type="text" name="<?php echo $subPropPref; ?>[order]"
@@ -137,7 +137,7 @@ if (
         </div>
 
         <div class="col-sm-1">
-            <label>
+            <label class="form-check-label">
                 <?php echo Text::_('COM_REDSHOP_PUBLISHED'); ?>
 
             </label>
@@ -146,10 +146,11 @@ if (
         </div>
 
         <div class="col-sm-1">
-            <label>
+            <label class="form-check-label">
                 <?php echo Text::_('COM_REDSHOP_DEFAULT_SELECTED'); ?>
             </label>
-            <input type="checkbox" value="1" name="<?php echo $subPropPref; ?>[chk_propdselected]" <?php echo ($subProperty->setdefault_selected == 1) ? 'checked' : ''; ?> />
+            <input class="form-check-input" type="checkbox" value="1"
+                name="<?php echo $subPropPref; ?>[chk_propdselected]" <?php echo ($subProperty->setdefault_selected == 1) ? 'checked' : ''; ?> />
         </div>
 
         <div class="col-sm-1">

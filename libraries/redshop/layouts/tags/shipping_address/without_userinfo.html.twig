@@ -1,8 +1,7 @@
 <div class="form-check">
-    <label class="form-check-label" for="billisship">
-        <input class="form-check-input toggler" type="checkbox" id="billisship"
-               name="billisship" value="1" onclick="billingIsShipping(this);" checked=""/>
-        {{ jtext('COM_REDSHOP_SHIPPING_SAME_AS_BILLING') }}
+    <input class="form-check-input toggler" type="checkbox" id="billisship" name="billisship" value="1"
+        onclick="billingIsShipping(this);" checked="" />
+    <label class="form-check-label" for="billisship"> {{ jtext('COM_REDSHOP_SHIPPING_SAME_AS_BILLING') }}
     </label>
 </div>
 <div id="divShipping" style="display: none">

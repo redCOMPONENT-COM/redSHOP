@@ -50,8 +50,8 @@ $thirdPartyLogin = Redshop\Helper\Login::getThirdPartyLogin();
         </div>
 
         <div class="form-group">
-            <div>
-                <input id="modlgn-remember" type="checkbox" name="remember" class="col-sm-offset-3" value="1" />
+            <div class="form-check">
+                <input id="modlgn-remember" type="checkbox" name="remember" class="form-check-input" value="1" />
                 <label for="modlgn-remember" class="control-label f-merri fw-300">
                     <?php echo Text::_('COM_REDSHOP_REMEMBER_ME'); ?>
                 </label>

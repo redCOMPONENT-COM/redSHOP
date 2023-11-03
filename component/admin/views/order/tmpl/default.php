@@ -508,11 +508,10 @@ JPluginHelper::importPlugin('redshop_product');
                                                             name="customer_note<?php echo $row->order_id ?>"
                                                             style="resize: none;"><?php echo $row->customer_note ?></textarea>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" <?php echo $send_mail_to_customer ?> value="1"
+                                                            name="sendordermail<?php echo $row->order_id ?>" />
                                                         <label>
-                                                            <input type="checkbox" <?php echo $send_mail_to_customer ?>
-                                                                value="1"
-                                                                name="sendordermail<?php echo $row->order_id ?>" />
                                                             <?php echo Text::_(
                                                                 'COM_REDSHOP_SEND_ORDER_MAIL'
                                                             ) ?>
@@ -810,15 +809,13 @@ JPluginHelper::importPlugin('redshop_product');
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="row-fluid">
-                            <label class="radio col-md-12">
-                                <input type="checkbox" value="1" name="mass_mail_sending" />
-                                <?php echo Text::_(
-                                    'COM_REDSHOP_SEND_ORDER_MAIL'
-                                ) ?>
-                            </label>
-                        </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="1" name="mass_mail_sending" />
+                        <label class="radio col-md-12">
+                            <?php echo Text::_(
+                                'COM_REDSHOP_SEND_ORDER_MAIL'
+                            ) ?>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -914,9 +911,9 @@ JPluginHelper::importPlugin('redshop_product');
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row-fluid">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" name="mass_mail_sending" />
                                 <label class="radio col-md-12">
-                                    <input type="checkbox" value="1" name="mass_mail_sending" />
                                     <?php echo Text::_(
                                         'COM_REDSHOP_SEND_ORDER_MAIL'
                                     ) ?>

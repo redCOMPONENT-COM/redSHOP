@@ -129,8 +129,8 @@ Text::script('COM_REDSHOP_DESCRIPTION');
 
                         <div class="col-sm-4">
 
-                            <div class="form-group">
-                                <input type="checkbox" name="<?php echo $attrPref; ?>[required]" <?php echo $checkedRequired; ?>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="<?php echo $attrPref; ?>[required]" <?php echo $checkedRequired; ?>
                                     value="1" />
                                 <label>
                                     <?php echo Text::_('COM_REDSHOP_ATTRIBUTE_REQUIRED'); ?>
@@ -138,24 +138,24 @@ Text::script('COM_REDSHOP_DESCRIPTION');
 
                             </div>
 
-                            <div class="form-group">
-                                <input type="checkbox" value="1" name="<?php echo $attrPref; ?>[allow_multiple_selection]" <?php echo $multipleSelection; ?> />
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" name="<?php echo $attrPref; ?>[allow_multiple_selection]" <?php echo $multipleSelection; ?> />
                                 <label>
                                     <?php echo Text::_('COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECTION'); ?>
                                 </label>
 
                             </div>
 
-                            <div class="form-group">
-                                <input type="checkbox" value="1" name="<?php echo $attrPref; ?>[hide_attribute_price]" <?php echo $hideAttributePrice; ?> />
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" name="<?php echo $attrPref; ?>[hide_attribute_price]" <?php echo $hideAttributePrice; ?> />
                                 <label>
                                     <?php echo Text::_('COM_REDSHOP_HIDE_ATTRIBUTE_PRICE'); ?>
                                 </label>
 
                             </div>
 
-                            <div class="form-group">
-                                <input type="checkbox" name="<?php echo $attrPref; ?>[published]" <?php echo $attributePublished; ?> value="1" />
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="<?php echo $attrPref; ?>[published]" <?php echo $attributePublished; ?> value="1" />
                                 <label>
                                     <?php echo Text::_('COM_REDSHOP_PUBLISHED'); ?>
                                 </label>

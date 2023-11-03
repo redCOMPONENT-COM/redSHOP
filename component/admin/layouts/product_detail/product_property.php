@@ -254,7 +254,8 @@ if (
                 <label name="<?php echo $propPref; ?>[preselected]">
                     <?php echo Text::_('COM_REDSHOP_DEFAULT_SELECTED'); ?>
                 </label>
-                <input type="checkbox" value="1" name="<?php echo $propPref; ?>[default_sel]" <?php echo ($property->setdefault_selected == 1) ? 'checked="checked"' : ''; ?> />
+                <input class="form-check-input" type="checkbox" value="1" name="<?php echo $propPref; ?>[default_sel]"
+                    <?php echo ($property->setdefault_selected == 1) ? 'checked="checked"' : ''; ?> />
             </div>
         </div>
     </div>
@@ -266,7 +267,7 @@ if (
                 <label>
                     <?php echo Text::_('COM_REDSHOP_PUBLISHED'); ?>
                 </label>
-                <input type="checkbox" value="1" <?php echo $propertyPublished; ?>
+                <input class="form-check-input" type="checkbox" value="1" <?php echo $propertyPublished; ?>
                     name="<?php echo $propPref; ?>[published]" />
             </div>
         </div>
@@ -295,11 +296,12 @@ if (
                        ) > 0) ? $property->subvalue[0]->subattribute_color_title : ''; ?>">
                 </div>
 
-                <div class="form-group">
+                <div class="form-check">
                     <label>
                         <?php echo Text::_('COM_REDSHOP_SUBATTRIBUTE_REQUIRED'); ?>
                     </label>
-                    <input type="checkbox" value="1" name="<?php echo $propPref; ?>[req_sub_att]" <?php echo ($property->setrequire_selected == 1) ? 'checked="checked"' : ''; ?> />
+                    <input class="form-check-input" type="checkbox" value="1"
+                        name="<?php echo $propPref; ?>[req_sub_att]" <?php echo ($property->setrequire_selected == 1) ? 'checked="checked"' : ''; ?> />
                 </div>
             </div>
 
@@ -322,7 +324,8 @@ if (
                     <label>
                         <?php echo Text::_('COM_REDSHOP_SUBATTRIBUTE_MULTISELECTED'); ?>
                     </label>
-                    <input type="checkbox" value="1" name="<?php echo $propPref; ?>[multi_sub_att]" <?php echo ($property->setmulti_selected == 1) ? 'checked' : ''; ?>>
+                    <input class="form-check-input" type="checkbox" value="1"
+                        name="<?php echo $propPref; ?>[multi_sub_att]" <?php echo ($property->setmulti_selected == 1) ? 'checked' : ''; ?>>
                 </div>
 
 

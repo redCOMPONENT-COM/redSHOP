@@ -16,10 +16,12 @@ defined('_JEXEC') or die;
  * @var   object $rowData    Extra field data
  * @var   string $required   Extra field required
  * @var   string $uniqueId   Extra field unique Id
- * @var   arra $fieldCheck   Extra field check
+ * @var   array $fieldCheck  Extra field check
  * @var   string $checkData  Extra field check data
  */
+
 extract($displayData);
+
 ?>
 <?php foreach ($fieldCheck as $key => $field) : ?>
     <?php $checked = (!empty($checkData) && in_array(
