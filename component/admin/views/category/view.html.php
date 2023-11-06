@@ -150,8 +150,6 @@ class RedshopViewCategory extends RedshopViewForm
                 }
             }
 
-            JToolbarHelper::cancel('category.cancel', Text::_('JTOOLBAR_CLOSE'));
-
             $itemId = (int) RedshopHelperRouter::getCategoryItemid($this->item->id);
 
             $link = JURI::root() . 'index.php?option=com_redshop'
@@ -159,7 +157,9 @@ class RedshopViewCategory extends RedshopViewForm
                 . '&cid=' . $this->item->id
                 . '&Itemid=' . $itemId;
 
-            RedshopToolbarHelper::link($link, 'preview', 'JGLOBAL_PREVIEW', '_blank');
+            JToolbarHelper::preview($link, Text::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
+
+            JToolbarHelper::cancel('category.cancel', Text::_('JTOOLBAR_CLOSE'));
         }
     }
 }

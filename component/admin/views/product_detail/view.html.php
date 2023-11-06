@@ -332,15 +332,6 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         JToolBarHelper::save();
         JToolBarHelper::save2new();
 
-        if ($isNew) {
-            JToolBarHelper::cancel();
-        } else {
-            JToolbarHelper::save2copy();
-            $model->checkout($user->get('id'));
-
-            JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
-        }
-
         if ($detail->product_id > 0) {
             $menu           = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $detail->product_id);
             $mainCategoryId = $detail->cat_in_sefurl;
@@ -357,8 +348,18 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             $link .= '&cid=' . $mainCategoryId;
             $link .= '&Itemid=' . $pItemid;
 
-            RedshopToolbarHelper::link($link, 'preview', 'JGLOBAL_PREVIEW', '_blank');
+            JToolbarHelper::preview($link, Text::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
+
             JToolBarHelper::addNew('prices', Text::_('COM_REDSHOP_ADD_PRICE_LBL'));
+        }
+
+        if ($isNew) {
+            JToolBarHelper::cancel();
+        } else {
+            JToolbarHelper::save2copy();
+            $model->checkout($user->get('id'));
+
+            JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
         }
 
         $model = $this->getModel('product_detail');

@@ -2814,7 +2814,7 @@ select[multiple].input-lg {
         font-size: 12px;
     }
 }
-
+/*
 .btn {
     display: inline-block;
     margin-bottom: 0;
@@ -3605,7 +3605,6 @@ tbody.collapse.in {
 .btn-group,
 .btn-group-vertical {
     position: relative;
-    /*    display: inline-block;*/
     vertical-align: middle;
 }
 
@@ -3637,8 +3636,8 @@ tbody.collapse.in {
     margin-left: -5px;
     padding-left: 36px;
     padding-right: 36px;
-    margin-top: 25px !important;
-    margin-bottom: 10px !important;
+    margin-top: 25px;
+    margin-bottom: 10px;
 }
 
 .content-header .btn-toolbar#toolbar.affix {
@@ -3699,20 +3698,19 @@ tbody.collapse.in {
     pointer-events: none;
 }
 
-/*
 .input-group {
     position: relative;
     display: table;
     border-collapse: separate;
 }
-*/
+
 .input-group[class*="col-"] {
     float: none;
     padding-left: 0;
     padding-right: 0;
 }
 
-/*
+
 .input-group .form-control {
     position: relative;
     z-index: 2;
@@ -3720,7 +3718,7 @@ tbody.collapse.in {
     width: 100%;
     margin-bottom: 0;
 }
-*/
+
 .input-group-lg>.form-control,
 .input-group-lg>.input-group-addon,
 .input-group-lg>.input-group-btn>.btn {
@@ -3881,6 +3879,7 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
     z-index: 2;
     margin-left: -1px;
 }
+*/
 
 .breadcrumb {
     display: flex;
@@ -11616,10 +11615,9 @@ a:focus {
  * Component: Button
  * -----------------
  */
+/*
 .btn {
     border-radius: 5px;
-    /*box-shadow: none !important;
-  border: 0px !important;*/
 }
 
 .btn.uppercase {
@@ -11796,6 +11794,7 @@ a:focus {
     font-size: 10px;
     font-weight: 400;
 }
+*/
 
 /*
  * Component: Callout
@@ -18435,7 +18434,7 @@ i.tools {
 
 #adminForm .filterTool .filterItem .btn-wrapper .reset,
 #adminForm .filterTool .filterItem.calendar-div>.btn {
-    height: 40px;
+    height: 42px;
     background-color: #7f7f7f;
     background-image: none;
     color: #FFFFFF;
@@ -18451,8 +18450,8 @@ i.tools {
 
 .filterTool .chzn-container-single,
 .filterTool .select2-container .select2-choice {
-    height: 40px !important;
-    line-height: 40px;
+    height: 42px !important;
+    line-height: 42px;
     background-color: #FFFFFF !important;
     box-shadow: none;
 }
@@ -18460,8 +18459,8 @@ i.tools {
 .filterTool .chzn-container-single .chzn-single {
     border: 0;
     box-shadow: none;
-    line-height: 40px;
-    min-height: 40px;
+    line-height: 42px;
+    min-height: 42px;
 }
 
 .filterTool .select2-container .select2-choice .select2-arrow b {
@@ -18747,7 +18746,7 @@ svg {
 .hasTooltip .icon-unpublish {
     background-image: none;
 }
-
+/*
 .icon-save {
     background: transparent url(../images/save.png) center center no-repeat;
 }
@@ -18790,7 +18789,7 @@ svg {
 .icon-send {
     background: transparent url(../images/send.png) center center no-repeat;
 }
-
+*/
 .icon-redshop_order32 {
     background: transparent url(../images/order1.png) center center no-repeat;
 }
@@ -22053,7 +22052,7 @@ table th[class*="span"],
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
-
+/*
 .fade {
     opacity: 0;
     -webkit-transition: opacity .15s linear;
@@ -22070,7 +22069,7 @@ table th[class*="span"],
 .hide.fade.in {
     display: block !important;
 }
-
+*/
 .collapse {
     position: relative;
     height: 0;
@@ -22104,7 +22103,7 @@ table th[class*="span"],
     opacity: 0.4;
     filter: alpha(opacity=40);
 }
-
+/*
 button.close {
     padding: 3;
     cursor: pointer;
@@ -22463,7 +22462,7 @@ input[type="submit"].btn.btn-mini {
     *display: inline;
     *zoom: 1;
     font-size: 0;
-*/
+
     vertical-align: middle;
     white-space: nowrap;
     *margin-left: .3em;
@@ -22715,7 +22714,7 @@ input[type="submit"].btn.btn-mini {
     -moz-border-radius: 0 0 6px 6px;
     border-radius: 0 0 6px 6px;
 }
-
+*/
 
 .nav {
     display: block;
@@ -27402,10 +27401,6 @@ body .navbar-fixed-top {
     margin-top: 6px;
 }
 
-#toolbar .btn-success {
-    width: 148px;
-}
-
 #toolbar #toolbar-options,
 #toolbar #toolbar-help {
     float: right;
@@ -28709,8 +28704,6 @@ textarea.noResize {
     overflow: hidden;
 }
 
-.oneAttribute .rowAttribute .attributeoptions {}
-
 .oneAttribute .rowAttribute .form-group {
     width: 100%;
     margin-bottom: 10px;
@@ -28737,8 +28730,6 @@ textarea.noResize {
 .showsubproperty {
     padding: 5px 0;
 }
-
-.sub_attribute_table {}
 
 .sub_property_table {
     padding: 10px 0;
@@ -28789,12 +28780,12 @@ textarea.noResize {
 .priceInput .form-control {
     width: 50%;
 }
-
+/*
 #redSHOPAdminContainer .select2-container {
     width: 100%;
     display: block;
 }
-
+*/
 .select2-disabled {
     color: #999;
 }
@@ -28992,4 +28983,13 @@ h3.popover-header {
 
 .select2-container .select2-choice .select2-arrow b {
     background: url(/media/com_redshop/css/select2/select2.png) no-repeat 0 5px;
+}
+
+.contentpane .subhead {
+    margin: 0px 0px 0;
+}
+
+.content-header .btn-toolbar {
+    margin-top: 0px;
+    margin-bottom: 0px;
 }

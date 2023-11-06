@@ -167,7 +167,7 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
         if (RedshopHelperPdf::isAvailablePdfPlugins()) {
             RedshopToolbarHelper::link(
                 'index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id,
-                'redshop_export_export32',
+                'preview',
                 'COM_REDSHOP_CREATE_STOCKNOTE',
                 '_blank'
             );

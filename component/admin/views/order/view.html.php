@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Order List View
@@ -75,10 +76,10 @@ class RedshopViewOrder extends RedshopViewAdmin
             RedshopToolbarHelper::title(Text::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
             RedshopToolbarHelper::addNew();
 
-            RedshopToolbarHelper::custom(
+            ToolbarHelper::custom(
                 'multiprint_order',
-                'print_f2.png',
-                'print_f2.png',
+                'print',
+                'print',
                 'COM_REDSHOP_MULTI_PRINT_ORDER_LBL',
                 true
             );

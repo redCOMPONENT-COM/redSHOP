@@ -71,6 +71,29 @@ extract($displayData);
                                 ) ?>"></i>
                             <?php elseif (strtolower($group) == 'product_listing'): ?>
                                 <i class="fa fa-briefcase"></i>
+                            <?php elseif (strtolower($group) == 'order'): ?>
+                                <i class="fas fa-shopping-cart"></i>
+                            <?php elseif (strtolower($group) == 'discount'): ?>
+                                <i class="fas fa-percentage"></i>
+                            <?php elseif (strtolower($group) == 'communication'): ?>
+                                <i class="fas fa-comment-alt"></i>
+                            <?php elseif (strtolower($group) == 'shipping'): ?>
+                                <i class="fas fa-truck"></i>
+
+                            <?php elseif (strtolower($group) == 'user'): ?>
+                                <i class="fas fa-user"></i>
+                            <?php elseif (strtolower($group) == 'import_export'): ?>
+                                <i class="fas fa-exchange-alt"></i>
+                            <?php elseif (strtolower($group) == 'customization'): ?>
+                                <i class="fas fa-tools"></i>
+                            <?php elseif (strtolower($group) == 'customer_input'): ?>
+                                <i class="fas fa-pencil-alt"></i>
+                            <?php elseif (strtolower($group) == 'statistic'): ?>
+                                <i class="fas fa-chart-pie"></i>
+                            <?php elseif (strtolower($group) == 'config'): ?>
+                                <i class="fas fa-sliders-h"></i>
+                            <?php elseif (strtolower($group) == 'tools'): ?>
+                                <i class="fas fa-toolbox"></i>
                             <?php else: ?>
                                 <i class="<?php echo strtolower($group) ?>"></i>
                             <?php endif; ?>

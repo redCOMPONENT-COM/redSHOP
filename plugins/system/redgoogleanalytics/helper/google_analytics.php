@@ -82,7 +82,7 @@ class RedSHOPGoogle_AnalyticsHelper
 
         // $pageCode = $this->pageTrackerView();
 
-        $pageTitle = Factory::getDocument()->getTitle();
+        $pageTitle = JFactory::getApplication()->JComponentTitle;
 
         // The first line of the tracking script should always initialize the page tracker object.
         $pageTrans = "
@@ -91,38 +91,38 @@ class RedSHOPGoogle_AnalyticsHelper
             gtag('js', new Date());
     
             gtag('config', '" . $this->trackerKey . "', {
-                'page_title': $pageTitle
+                'page_title': '" . $pageTitle . "'
             });
         ";
-
-        if (isset($analyticsData['addtrans'])) {
-            $pagePurchase = "gtag('event', 'purchase', {
-            'transaction_id': '" . $analyticsData['addtrans']['order_id'] . "',                      // Transaction ID. Required.
-            'value': '" . number_format($analyticsData['addtrans']['order_total'], 2, '.', '') . "', // Grand Total.
-            'tax': '" . $analyticsData['addtrans']['order_tax'] . "',                                // Tax.
-            'shipping': '" . $analyticsData['addtrans']['order_shipping'] . "',                      // Shipping.
-            'currency': '" . $analyticsData['addtrans']['currency'] . "'                             // local currency code.
-            'items': [
-                if (isset(" . $analyticsData['addItem'] . ")) {
-                    foreach (" . $analyticsData['addItem'] . "as" . $transactionItem . ") {
-                        " . $transactionItem['product_name'] . " = str_replace('\n', ' ', " . $transactionItem['product_name'] . ");
-                        " . $transactionItem['product_name'] . " = str_replace('\r', ' ', " . $transactionItem['product_name'] . ");
-    
-                            {
-                                'item_id': '" . $transactionItem['product_number'] . "',                         // SKU/code.
-                                'item_name': '" . $transactionItem['product_name'] . "',                         // Product name. Required.
-                                'affiliation': '" . $transactionItem['shopname'] . "',                           // Affiliation or store name.
-                                'item_category': '" . $transactionItem['product_category'] . "',                 // Category or variation.
-                                'price': '" . number_format($transactionItem['product_price'], 2, '.', '') . "', // Unit price.
-                                'quantity': '" . $transactionItem['product_quantity'] . "',                      // Quantity.
-                                'currency': '" . $transactionItem['currency'] . "'                               // local currency code.
+        /*
+                if (isset($analyticsData['addtrans'])) {
+                    $pagePurchase = "gtag('event', 'purchase', {
+                    'transaction_id': '" . $analyticsData['addtrans']['order_id'] . "',                      // Transaction ID. Required.
+                    'value': '" . number_format($analyticsData['addtrans']['order_total'], 2, '.', '') . "', // Grand Total.
+                    'tax': '" . $analyticsData['addtrans']['order_tax'] . "',                                // Tax.
+                    'shipping': '" . $analyticsData['addtrans']['order_shipping'] . "',                      // Shipping.
+                    'currency': '" . $analyticsData['addtrans']['currency'] . "'                             // local currency code.
+                    'items': [
+                        if (isset(" . $analyticsData['addItem'] . ")) {
+                            foreach (" . $analyticsData['addItem'] . "as" . $transactionItem . ") {
+                                " . $transactionItem['product_name'] . " = str_replace('\n', ' ', " . $transactionItem['product_name'] . ");
+                                " . $transactionItem['product_name'] . " = str_replace('\r', ' ', " . $transactionItem['product_name'] . ");
+            
+                                    {
+                                        'item_id': '" . $transactionItem['product_number'] . "',                         // SKU/code.
+                                        'item_name': '" . $transactionItem['product_name'] . "',                         // Product name. Required.
+                                        'affiliation': '" . $transactionItem['shopname'] . "',                           // Affiliation or store name.
+                                        'item_category': '" . $transactionItem['product_category'] . "',                 // Category or variation.
+                                        'price': '" . number_format($transactionItem['product_price'], 2, '.', '') . "', // Unit price.
+                                        'quantity': '" . $transactionItem['product_quantity'] . "',                      // Quantity.
+                                        'currency': '" . $transactionItem['currency'] . "'                               // local currency code.
+                                    }
                             }
-                    }
+                        }
+                    ]
+                })";
                 }
-            ]
-        })";
-        }
-
+        */
         Factory::getDocument()->addScriptDeclaration($pageTrans);
     }
 
