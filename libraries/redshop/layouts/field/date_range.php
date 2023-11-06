@@ -157,13 +157,15 @@ if (!empty($value)) {
 </script>
 
 <div class="<?php echo $field->id ?>-date-range" id="<?php echo $field->id ?>_wrapper">
-    <div class="input-append">
-        <input id="<?php echo $field->id ?>" class="<?php echo $class ?>" type="text" autocomplete="false"/>
+    <div class="input-group">
+        <input id="<?php echo $field->id ?>" class="form-control <?php echo $class ?>" type="text"
+            autocomplete="false" />
         <input type="hidden" value="<?php echo $value ?>" name="<?php echo $field->name ?>"
-               id="<?php echo $field->id ?>_input"/>
+            id="<?php echo $field->id ?>_input" />
         <?php if ($showButton): ?>
-                <button class="btn btn-success" id="date_range_<?php echo $field->id ?>_btn"><i class="fa fa-calendar"></i>
-                </button>
+            <button class="btn btn-success input-group-text" id="date_range_<?php echo $field->id ?>_btn"><i
+                    class="fa fa-calendar"></i>
+            </button>
         <?php endif; ?>
     </div>
 </div>

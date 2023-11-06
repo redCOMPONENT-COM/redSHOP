@@ -33,6 +33,7 @@ if (isset($post['checkoutshoppers'])) {
 } else {
     $checked = "";
 }
+
 ?>
 <script language="javascript" type="text/javascript">
     function clearreset() {

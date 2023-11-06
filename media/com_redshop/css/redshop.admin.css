@@ -2814,6 +2814,7 @@ select[multiple].input-lg {
         font-size: 12px;
     }
 }
+
 /*
 .btn {
     display: inline-block;
@@ -6465,6 +6466,7 @@ button.close {
     }
 }
 
+/*
 .fa {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
@@ -6474,7 +6476,6 @@ button.close {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* makes the font 33% larger relative to the icon container */
 .fa-lg {
     font-size: 1.33333333em;
     line-height: 0.75em;
@@ -6546,7 +6547,6 @@ button.close {
     margin-left: .3em;
 }
 
-/* Deprecated as of 4.4.0 */
 .pull-right {
     float: right;
 }
@@ -6669,8 +6669,6 @@ button.close {
     color: #fff;
 }
 
-/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
-   readers do not read off random characters that represent icons */
 .fa-glass:before {
     content: "\f000";
 }
@@ -9179,6 +9177,7 @@ button.close {
 .fa-percent:before {
     content: "\f295";
 }
+*/
 
 /*
  * Core: General Layout Style
@@ -17827,10 +17826,6 @@ button.ui-datepicker-trigger {
     color: #fff;
 }
 
-.content {
-    padding: 0 30px 0 36px;
-}
-
 .list-columns {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -18071,12 +18066,14 @@ Searchtools
     padding: 15px 0 0 0;
 }
 
+/*
 [class^="icon-"]::before,
 [class*=" icon-"]::before {
     font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;
 }
+*/
 
 .nowrap {
     white-space: nowrap;
@@ -18734,6 +18731,7 @@ svg {
     content: "";
 }
 
+/*
 .icon-unpublish {
     background: transparent url(../images/unpublish.png) center center no-repeat;
 }
@@ -18746,7 +18744,7 @@ svg {
 .hasTooltip .icon-unpublish {
     background-image: none;
 }
-/*
+
 .icon-save {
     background: transparent url(../images/save.png) center center no-repeat;
 }
@@ -19247,6 +19245,7 @@ svg {
     height: 30;
 }
 
+/*
 .icon-32-gbase {
     background-image: url(../images/gbase.png);
 }
@@ -19266,7 +19265,7 @@ svg {
 .icon-checkin {
     background-image: url(../images/check.png);
 }
-
+*/
 .popup .btn.btn-small {
     font-size: 14px;
     color: #293235;
@@ -22052,6 +22051,7 @@ table th[class*="span"],
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
+
 /*
 .fade {
     opacity: 0;
@@ -22103,6 +22103,7 @@ table th[class*="span"],
     opacity: 0.4;
     filter: alpha(opacity=40);
 }
+
 /*
 button.close {
     padding: 3;
@@ -28780,6 +28781,7 @@ textarea.noResize {
 .priceInput .form-control {
     width: 50%;
 }
+
 /*
 #redSHOPAdminContainer .select2-container {
     width: 100%;
@@ -28943,10 +28945,6 @@ div.modal.jviewport-width100 {
     background-color: #337ab7 !important;
 }
 
-joomla-toolbar-button {
-    margin-right: 3px;
-}
-
 .contentpane {
     padding: 0px;
 }
@@ -28992,4 +28990,22 @@ h3.popover-header {
 .content-header .btn-toolbar {
     margin-top: 0px;
     margin-bottom: 0px;
+}
+
+.far {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 400;
+}
+
+a[target=_blank]::before {
+    -webkit-padding-end: 3px;
+    padding-inline-end: 3px;
+    font-family: "Font Awesome 5 Free";
+    font-size: 14px;
+    font-weight: 900;
+    content: none;
+}
+
+.content {
+    padding: 0 15px 0 15px;
 }

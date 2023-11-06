@@ -112,7 +112,7 @@ class PlgRedshop_ExportShipping_Address extends AbstractExportPlugin
     /**
      * Method for get query
      *
-     * @return \\Joomla\Database\DatabaseQuery
+     * @return \Joomla\Database\DatabaseQuery
      *
      * @since  1.0.0
      */

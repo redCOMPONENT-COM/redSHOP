@@ -13,6 +13,7 @@ $data = $displayData;
 
 // Load the form list fields
 $list = $data['view']->filterForm->getGroup('list');
+
 ?>
 <?php if ($list): ?>
     <div class="ordering-select">

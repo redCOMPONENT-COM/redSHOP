@@ -256,30 +256,30 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
             'multiple'           => 'false',
             'allowClear'         => 'true',
             'ajax'               => '{ // instead of writing the function to execute the request we use Select2\'s convenient helper
-				url: "' . $options['select2.ajaxOptions']['url'] . '",
-				dataType: "json",
-				type: "post",
-				quietMillis: ' . $options['select2.ajaxOptions']['quietMillis'] . ',
-				data: function (term, page) {
-					return {
-						input: term, // search term
-						"' . JSession::getFormToken() . '": 1,
-						limit: ' . $options['select2.ajaxOptions']['limit'] . ',
-						page: page // page number
-						' . $options['select2.ajaxOptions']['typeField'] . '
-					};
-				},
-				results: function (data, page) {
-					var more = (page * ' . $options['select2.ajaxOptions']['limit'] . ') < data.total;
-					// whether or not there are more results available
-					// notice we return the value of more so Select2 knows if more results can be loaded
+                url: "' . $options['select2.ajaxOptions']['url'] . '",
+                dataType: "json",
+                type: "post",
+                quietMillis: ' . $options['select2.ajaxOptions']['quietMillis'] . ',
+                data: function (term, page) {
+                    return {
+                        input: term, // search term
+                        "' . JSession::getFormToken() . '": 1,
+                        limit: ' . $options['select2.ajaxOptions']['limit'] . ',
+                        page: page // page number
+                        ' . $options['select2.ajaxOptions']['typeField'] . '
+                    };
+                },
+                results: function (data, page) {
+                    var more = (page * ' . $options['select2.ajaxOptions']['limit'] . ') < data.total;
+                    // whether or not there are more results available
+                    // notice we return the value of more so Select2 knows if more results can be loaded
 
-					return {results: data.result, more: more};
-				}
-			}',
+                    return {results: data.result, more: more};
+                }
+            }',
             'initSelection'      => 'function(element, callback) {
-				callback(' . json_encode($initSelection) . ');
-			}'
+                callback(' . json_encode($initSelection) . ');
+            }'
         );
 
         if (is_array($attribs)) {
@@ -390,29 +390,29 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
             'multiple'           => 'false',
             'allowClear'         => 'true',
             'ajax'               => '{ // instead of writing the function to execute the request we use Select2\'s convenient helper
-				url: "' . $options['select2.ajaxOptions']['url'] . '",
-				dataType: "json",
-				type: "post",
-				quietMillis: ' . $options['select2.ajaxOptions']['quietMillis'] . ',
-				data: function (term, page) {
-					return {
-						input: term, // search term
-						"' . JSession::getFormToken() . '": 1,
-						limit: ' . $options['select2.ajaxOptions']['limit'] . ',
-						page: page // page number
-						' . $options['select2.ajaxOptions']['typeField'] . '
-					};
-				},
-				results: function (data, page) {
-					var more = (page * ' . $options['select2.ajaxOptions']['limit'] . ') < data.total;
-					// whether or not there are more results available
-					// notice we return the value of more so Select2 knows if more results can be loaded
-					return {results: data.result, more: more};
-				}
-			}',
+                url: "' . $options['select2.ajaxOptions']['url'] . '",
+                dataType: "json",
+                type: "post",
+                quietMillis: ' . $options['select2.ajaxOptions']['quietMillis'] . ',
+                data: function (term, page) {
+                    return {
+                        input: term, // search term
+                        "' . JSession::getFormToken() . '": 1,
+                        limit: ' . $options['select2.ajaxOptions']['limit'] . ',
+                        page: page // page number
+                        ' . $options['select2.ajaxOptions']['typeField'] . '
+                    };
+                },
+                results: function (data, page) {
+                    var more = (page * ' . $options['select2.ajaxOptions']['limit'] . ') < data.total;
+                    // whether or not there are more results available
+                    // notice we return the value of more so Select2 knows if more results can be loaded
+                    return {results: data.result, more: more};
+                }
+            }',
             'initSelection'      => 'function(element, callback) {
-				callback(' . json_encode($initSelection) . ');
-			}'
+                callback(' . json_encode($initSelection) . ');
+            }'
         );
 
         if (is_array($attribs)) {

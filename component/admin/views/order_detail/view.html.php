@@ -160,72 +160,55 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
             'pencil-2 redshop_order48'
         );
 
-        JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
-
+        $toolbar  = JToolbar::getInstance();
         $order_id = $detail->order_id;
 
         if (RedshopHelperPdf::isAvailablePdfPlugins()) {
-            RedshopToolbarHelper::link(
-                'index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id,
-                'preview',
-                'COM_REDSHOP_CREATE_STOCKNOTE',
-                '_blank'
-            );
+            $toolbar->linkButton('', 'COM_REDSHOP_CREATE_STOCKNOTE')
+                ->icon('far fa-file-pdf')
+                ->url(JRoute::_('index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id));
 
-            RedshopToolbarHelper::link(
-                'index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id,
-                'redshop_export_export32',
-                'COM_REDSHOP_CREATE_SHIPPING_LABEL',
-                '_blank'
-            );
+            $toolbar->linkButton('', 'COM_REDSHOP_CREATE_SHIPPING_LABEL')
+                ->icon('far fa-file-pdf')
+                ->url(JRoute::_('index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id));
         }
 
         $tmpl       = JFactory::getApplication()->input->get('tmpl', '');
         $appendTmpl = ($tmpl) ? '&tmpl=component' : '';
 
-        RedshopToolbarHelper::link(
-            'index.php?option=com_redshop&view=order_detail&task=send_downloadmail&cid[]=' . $order_id . $appendTmpl,
-            'send',
-            'COM_REDSHOP_SEND_DOWNLOEADMAIL'
-        );
+        $toolbar->linkButton('', 'COM_REDSHOP_SEND_DOWNLOEADMAIL')
+            ->icon('far fa-envelope')
+            ->url(JRoute::_('index.php?option=com_redshop&view=order_detail&task=send_downloadmail&cid[]=' . $order_id . $appendTmpl));
 
-        RedshopToolbarHelper::link(
-            'index.php?option=com_redshop&view=order_detail&task=resendOrderMail&orderid=' . $order_id . $appendTmpl,
-            'send',
-            'COM_REDSHOP_RESEND_ORDER_MAIL'
-        );
+        $toolbar->linkButton('', 'COM_REDSHOP_RESEND_ORDER_MAIL')
+            ->icon('far fa-envelope')
+            ->url(JRoute::_('index.php?option=com_redshop&view=order_detail&task=resendOrderMail&orderid=' . $order_id . $appendTmpl));
 
-        RedshopToolbarHelper::link(
-            'index.php?option=com_redshop&view=order_detail&task=send_invoicemail&cid[]=' . $order_id . $appendTmpl,
-            'send',
-            'COM_REDSHOP_SEND_INVOICEMAIL'
-        );
+        $toolbar->linkButton('', 'COM_REDSHOP_SEND_INVOICEMAIL')
+            ->icon('far fa-envelope')
+            ->url(JRoute::_('index.php?option=com_redshop&view=order_detail&task=send_invoicemail&cid[]=' . $order_id . $appendTmpl));
 
         if (
             isset($payment_detail->plugin->params) && $payment_detail->plugin->params->get('enableVault')
             && ('P' == $detail->order_status || 'Unpaid' == $detail->order_payment_status)
         ) {
-            RedshopToolbarHelper::link(
-                'index.php?option=com_redshop&view=order_detail&task=pay&orderId=' . $order_id . $appendTmpl,
-                'credit',
-                'COM_REDSHOP_ORDER_PAY'
-            );
+            $toolbar->linkButton('', 'COM_REDSHOP_ORDER_PAY')
+                ->icon('far fa-envelope')
+                ->url(JRoute::_('index.php?option=com_redshop&view=order_detail&task=pay&orderId=' . $order_id . $appendTmpl));
         }
 
         if ($tmpl) {
-            RedshopToolbarHelper::link(
-                'index.php?option=com_redshop&view=order&tmpl=component',
-                'back',
-                'COM_REDSHOP_BACK'
-            );
+            $toolbar->linkButton('back', 'COM_REDSHOP_BACK')
+                ->icon('far fa-envelope')
+                ->url(JRoute::_('index.php?option=com_redshop&view=order_detail&task=send_invoicemail&cid[]=' . $order_id . $appendTmpl));
         }
 
-        RedshopToolbarHelper::link(
-            'index.php?tmpl=component&option=com_redshop&view=order_detail&layout=print_order&cid[]=' . $order_id,
-            'print',
-            'COM_REDSHOP_PRINT',
-            '_blank'
-        );
+        $toolbar->linkButton('', 'COM_REDSHOP_PRINT')
+            ->icon('fas fa-print')
+            ->attributes(['target' => '_blank'])
+            ->url(JRoute::_('index.php?tmpl=component&option=com_redshop&view=order_detail&layout=print_order&cid[]=' . $order_id));
+
+        JToolBarHelper::cancel('cancel', Text::_('JTOOLBAR_CLOSE'));
 
         $lists['order_extra_fields'] = RedshopHelperExtrafields::listAllField(
             RedshopHelperExtrafields::SECTION_ORDER,

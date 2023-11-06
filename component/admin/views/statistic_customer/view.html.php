@@ -62,6 +62,8 @@ class RedshopViewStatistic_Customer extends RedshopViewAdmin
     protected function addToolbar()
     {
         JFactory::getApplication()->input->set('hidemainmenu', true);
+        $toolbar = JToolbar::getInstance();
+
         JToolBarHelper::title(Text::_('COM_REDSHOP_STATISTIC_CUSTOMER'), 'statistic redshop_statistic48');
 
         RedshopToolbarHelper::custom(
@@ -71,11 +73,10 @@ class RedshopViewStatistic_Customer extends RedshopViewAdmin
             'COM_REDSHOP_EXPORT_DATA_LBL',
             false
         );
-        RedshopToolbarHelper::link(
-            'index.php?tmpl=component&option=com_redshop&view=statistic_customer',
-            'print',
-            'COM_REDSHOP_PRINT',
-            '_blank'
-        );
+
+        $toolbar->linkButton('', 'COM_REDSHOP_PRINT')
+            ->icon('fas fa-print')
+            ->attributes(['target' => '_blank'])
+            ->url(JRoute::_('index.php?tmpl=component&option=com_redshop&view=statistic_customer'));
     }
 }

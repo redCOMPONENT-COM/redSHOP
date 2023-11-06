@@ -39,16 +39,17 @@ class RedshopViewQuotation extends RedshopViewAdmin
     {
         $uri      = \Joomla\CMS\Uri\Uri::getInstance();
         $document = JFactory::getDocument();
+        $toolbar  = JToolbar::getInstance();
 
         $document->setTitle(Text::_('COM_REDSHOP_quotation'));
 
         JToolBarHelper::title(Text::_('COM_REDSHOP_QUOTATION_MANAGEMENT'), 'redshop_quotation48');
         JToolBarHelper::addNew();
-        RedshopToolbarHelper::link(
-            'index.php?option=com_redshop&view=quotation&format=csv',
-            'save',
-            Text::_('COM_REDSHOP_EXPORT_DATA_LBL')
-        );
+
+        $toolbar->linkButton('', 'COM_REDSHOP_EXPORT_DATA_LBL')
+            ->icon('fas fa-file-export')
+            ->url(JRoute::_('index.php?option=com_redshop&view=quotation&format=csv'));
+
         JToolBarHelper::editList();
         JToolBarHelper::deleteList();
 

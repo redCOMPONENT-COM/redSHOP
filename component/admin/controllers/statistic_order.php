@@ -30,7 +30,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
     public function exportOrder()
     {
         $model        = $this->getModel();
-        $data         = $model->exportOrder();
+        $data         = $model->getItems();
         $noProducts   = $model->countProductByOrder();
         $productCount = array();
 

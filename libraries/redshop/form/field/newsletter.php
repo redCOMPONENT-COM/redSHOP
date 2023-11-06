@@ -21,30 +21,30 @@ FormHelper::loadFieldClass('list');
  */
 class RedshopFormFieldNewsletter extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 */
-	public $type = 'Newsletter';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     */
+    public $type = 'Newsletter';
 
-	/**
-	 * Method to get the field input markup.
-	 *
-	 * @return  string  The field input markup.
-	 */
-	protected function getOptions()
-	{
-		$db      = JFactory::getDbo();
-		$query   = $db->getQuery(true)
-			->select($db->qn('id', 'value'))
-			->select($db->qn('name', 'text'))
-			->from($db->qn('#__redshop_newsletter'));
-		$options = $db->setQuery($query)->loadObjectList();
+    /**
+     * Method to get the field input markup.
+     *
+     * @return  string  The field input markup.
+     */
+    protected function getOptions()
+    {
+        $db      = JFactory::getDbo();
+        $query   = $db->getQuery(true)
+            ->select($db->qn('id', 'value'))
+            ->select($db->qn('name', 'text'))
+            ->from($db->qn('#__redshop_newsletter'));
+        $options = $db->setQuery($query)->loadObjectList();
 
-		$parentOptions = parent::getOptions();
-		$options       = array_merge($parentOptions, $options);
+        $parentOptions = parent::getOptions();
+        $options       = array_merge($parentOptions, $options);
 
-		return $options;
-	}
+        return $options;
+    }
 }

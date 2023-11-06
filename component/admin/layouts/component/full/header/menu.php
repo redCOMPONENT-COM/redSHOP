@@ -15,6 +15,7 @@ extract($displayData);
 
 $logoutUrl = Redshop\IO\Route::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1');
 $user      = JFactory::getUser();
+
 ?>
 <ul class="nav navbar-nav">
     <?php echo RedshopLayoutHelper::render('alert.header_link') ?>
@@ -30,16 +31,18 @@ $user      = JFactory::getUser();
         <a title="Joomla" href="<?php echo Redshop\IO\Route::_('index.php') ?>"><i class="fa fa-joomla"></i></a>
     </li>
 
-    <li>
+    <li style="display:none">
         <a title="<?php echo Text::_('JHELP'); ?>" href="#"
-            onclick="Joomla.popupWindow('http://docs.redcomponent.com/collection/171-redshop', 'Help', 700, 500, 1)">
+            onclick="Joomla.popupWindow('https://docs.redcomponent.com/collection/171-redshop', 'Help', 700, 500, 1)">
             <i class="fa fa-question-circle"></i>
 
         </a>
     </li>
 
     <li>
-        <a title="<?php echo Text::_('JGLOBAL_VIEW_SITE'); ?>" href="<?php echo JUri::root() ?>" target="_blank"></a>
+        <a title="<?php echo Text::_('JGLOBAL_VIEW_SITE'); ?>" href="<?php echo JUri::root() ?>" target="_blank">
+            <i class="icon-eye"></i>
+        </a>
     </li>
     <li>
         <a title="<?php echo Text::_('JLOGOUT'); ?>" href="<?php echo $logoutUrl ?>"><i class="fa fa-sign-out"></i></a>

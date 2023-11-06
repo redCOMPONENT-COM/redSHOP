@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Form\Field\ListField;
 
@@ -60,7 +61,7 @@ class RedshopFormFieldTemplate extends ListField
 
         if (count($items) > 0) {
             foreach ($items as $item) {
-                $option    = JHTML::_('select.option', $item->id, $item->name);
+                $option    = HTMLHelper::_('select.option', $item->id, $item->name);
                 $options[] = $option;
             }
         }

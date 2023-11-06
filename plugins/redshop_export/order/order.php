@@ -31,15 +31,15 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 
         $configs   = array();
         $configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . Text::_('PLG_REDSHOP_EXPORT_ORDER_CONFIG_FROM_DATE') . '</label>
-			<div class="col-md-4">
-				<label class="text-inline"><input name="from_date" type="date" checked/></label>
-			</div>
-			<label class="col-md-2 control-label">' . Text::_('PLG_REDSHOP_EXPORT_ORDER_CONFIG_TO_DATE') . '</label>
-			<div class="col-md-4">
-				<label class="text-inline"><input name="to_date" type="date" checked/></label>
-			</div>
-		</div>';
+            <label class="col-md-2 control-label">' . Text::_('PLG_REDSHOP_EXPORT_ORDER_CONFIG_FROM_DATE') . '</label>
+            <div class="col-md-4">
+                <label class="text-inline"><input name="from_date" type="date" checked/></label>
+            </div>
+            <label class="col-md-2 control-label">' . Text::_('PLG_REDSHOP_EXPORT_ORDER_CONFIG_TO_DATE') . '</label>
+            <div class="col-md-4">
+                <label class="text-inline"><input name="to_date" type="date" checked/></label>
+            </div>
+        </div>';
 
         return implode('', $configs);
     }
@@ -97,7 +97,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
     /**
      * Method for get query
      *
-     * @return \\Joomla\Database\DatabaseQuery
+     * @return \Joomla\Database\DatabaseQuery
      *
      * @since  1.0.0
      */

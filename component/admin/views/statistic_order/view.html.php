@@ -39,20 +39,20 @@ class RedshopViewStatistic_Order extends RedshopViewAdmin
 
         $model = $this->getModel();
 
-        $this->orders = $model->getItems();
+        $this->orders     = $model->getItems();
         $this->pagination = $model->getPagination();
-        $this->state = $model->getState();
+        $this->state      = $model->getState();
         $this->filterForm = $model->getForm();
 
         $this->addToolbar();
 
         $app = JFactory::getApplication()->input;
 
-        $filterOrderStatus = $app->getString('filter_order_status', '');
+        $filterOrderStatus   = $app->getString('filter_order_status', '');
         $filterPaymentStatus = $app->getString('filter_payment_status', '');
-        $lists = array();
+        $lists               = array();
 
-        $lists['filter_order_status'] = RedshopHelperOrder::getStatusList(
+        $lists['filter_order_status']   = RedshopHelperOrder::getStatusList(
             'filter_order_status',
             $filterOrderStatus,
             'class="inputbox" size="1" onchange="document.adminForm.submit();"'
@@ -78,20 +78,21 @@ class RedshopViewStatistic_Order extends RedshopViewAdmin
     protected function addToolbar()
     {
         JFactory::getApplication()->input->set('hidemainmenu', true);
+        $toolbar = JToolbar::getInstance();
+
         JToolBarHelper::title(Text::_('COM_REDSHOP_STATISTIC_ORDER'), 'statistic redshop_statistic48');
-        RedshopToolbarHelper::link(
-            'index.php?tmpl=component&option=com_redshop&task=statistic_order.exportOrder&date_range=' . $this->state->get(
-                'filter.date_range'
-            ),
+
+        RedshopToolbarHelper::custom(
+            'exportOrder',
             'save.png',
+            'save_f2.png',
             'COM_REDSHOP_EXPORT_DATA_LBL',
-            '_blank'
+            false
         );
-        RedshopToolbarHelper::link(
-            'index.php?tmpl=component&option=com_redshop&view=statistic_order',
-            'print',
-            'COM_REDSHOP_PRINT',
-            '_blank'
-        );
+
+        $toolbar->linkButton('', 'COM_REDSHOP_PRINT')
+            ->icon('fas fa-print')
+            ->attributes(['target' => '_blank'])
+            ->url(JRoute::_('index.php?tmpl=component&option=com_redshop&view=statistic_order'));
     }
 }

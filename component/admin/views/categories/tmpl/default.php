@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 echo RedshopLayoutHelper::render('view.list', array('data' => $this));
+
 ?>
 <script language="javascript" type="text/javascript">
     function AssignTemplate() {

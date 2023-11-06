@@ -56,7 +56,7 @@ class Mini
      * @param   int     $limit
      * @param   null    $orderBy
      *
-     * @return \\Joomla\Database\DatabaseQuery
+     * @return \Joomla\Database\DatabaseQuery
      */
     public static function getQueryObject(
         $keyword = null,

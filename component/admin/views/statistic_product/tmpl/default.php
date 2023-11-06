@@ -19,7 +19,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <script type="text/javascript">
     //Load the Visualization API and the piechart package.
-    google.charts.load("current", {packages: ['corechart']});
+    google.charts.load("current", { packages: ['corechart'] });
 
     //Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
@@ -29,19 +29,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
     //draws it.
     function drawChart() {
         var data = google.visualization.arrayToDataTable([
-            ['', '<?php echo Text::_('COM_REDSHOP_SALES_AMOUNT') ?>', {role: 'annotation'}],
-            <?php if (count($this->products) > 0) :?>
-            <?php foreach ($this->products as $row) : ?>
-            <?php if (!empty($row->total_sale)) : ?>
-            [
-                '<?php echo $row->product_name ?>',
-                <?php echo $row->total_sale ?>,
-                "<?php echo strip_tags(RedshopHelperProductPrice::formattedPrice($row->total_sale)); ?>"
-            ],
-            <?php endif; ?>
-            <?php endforeach; ?>
+            ['', '<?php echo Text::_('COM_REDSHOP_SALES_AMOUNT') ?>', { role: 'annotation' }],
+            <?php if (is_countable($this->products) && count($this->products) > 0): ?>
+                <?php foreach ($this->products as $row): ?>
+                    <?php if (!empty($row->total_sale)): ?>
+                        [
+                        '<?php echo $row->product_name ?>',
+                        <?php echo $row->total_sale ?>,
+                        "<?php echo strip_tags(RedshopHelperProductPrice::formattedPrice($row->total_sale)); ?>"
+                        ],
+                    <?php endif; ?>
+                <?php endforeach; ?>
             <?php else: ?>
-            [0, 0, 0],
+                [0, 0, 0],
             <?php endif; ?>
         ]);
 
@@ -77,86 +77,111 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
         </div>
     </div>
     <?php if (empty($this->products)): ?>
-        <hr/>
+        <hr />
         <div class="alert alert-info">
-            <p><?php echo Text::_('COM_REDSHOP_NO_DATA') ?></p>
+            <p>
+                <?php echo Text::_('COM_REDSHOP_NO_DATA') ?>
+            </p>
         </div>
     <?php else: ?>
         <div id="product_statistic_chart"></div>
-        <hr/>
+        <hr />
         <table class="adminlist table table-striped" width="100%">
             <thead>
-            <tr>
-                <th align="center"><?php echo JHTML::_(
-                        'grid.sort',
-                        Text::_('COM_REDSHOP_PRODUCT_NAME'),
-                        'p.product_name',
-                        $listDirn,
-                        $listOrder
-                    ) ?></th>
-                <th align="center"><?php echo JHTML::_(
-                        'grid.sort',
-                        Text::_('COM_REDSHOP_PRODUCT_SKU'),
-                        'p.product_number',
-                        $listDirn,
-                        $listOrder
-                    ) ?></th>
-                <th align="center"><?php echo JHTML::_(
-                        'grid.sort',
-                        Text::_('COM_REDSHOP_PRODUCT_MANUFACTURER'),
-                        'manufacturer_name',
-                        $listDirn,
-                        $listOrder
-                    ) ?></th>
-                <th align="center"><?php echo JHTML::_(
-                        'grid.sort',
-                        Text::_('COM_REDSHOP_ORDER_COUNT'),
-                        'order_count',
-                        $listDirn,
-                        $listOrder
-                    ) ?></th>
-                <th align="center"><?php echo JHTML::_(
-                        'grid.sort',
-                        Text::_('COM_REDSHOP_PRODUCT_UNIT'),
-                        'unit_sold',
-                        $listDirn,
-                        $listOrder
-                    ) ?></th>
-                <th align="center"><?php echo JHTML::_(
-                        'grid.sort',
-                        Text::_('COM_REDSHOP_PRODUCT_TOTAL_SALE'),
-                        'total_sale',
-                        $listDirn,
-                        $listOrder
-                    ) ?></th>
-            </tr>
+                <tr>
+                    <th align="center">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            Text::_('COM_REDSHOP_PRODUCT_NAME'),
+                            'p.product_name',
+                            $listDirn,
+                            $listOrder
+                        ) ?>
+                    </th>
+                    <th align="center">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            Text::_('COM_REDSHOP_PRODUCT_SKU'),
+                            'p.product_number',
+                            $listDirn,
+                            $listOrder
+                        ) ?>
+                    </th>
+                    <th align="center">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            Text::_('COM_REDSHOP_PRODUCT_MANUFACTURER'),
+                            'manufacturer_name',
+                            $listDirn,
+                            $listOrder
+                        ) ?>
+                    </th>
+                    <th align="center">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            Text::_('COM_REDSHOP_ORDER_COUNT'),
+                            'order_count',
+                            $listDirn,
+                            $listOrder
+                        ) ?>
+                    </th>
+                    <th align="center">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            Text::_('COM_REDSHOP_PRODUCT_UNIT'),
+                            'unit_sold',
+                            $listDirn,
+                            $listOrder
+                        ) ?>
+                    </th>
+                    <th align="center">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            Text::_('COM_REDSHOP_PRODUCT_TOTAL_SALE'),
+                            'total_sale',
+                            $listDirn,
+                            $listOrder
+                        ) ?>
+                    </th>
+                </tr>
             </thead>
             <tbody>
-            <?php foreach ($this->products as $i => $row) : ?>
-                <tr>
-                    <td align="center"><a
+                <?php foreach ($this->products as $i => $row): ?>
+                    <tr>
+                        <td align="center"><a
                                 href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]=<?php echo $row->product_id; ?>">
-                            <?php echo $row->product_name; ?></a>
-                    </td>
-                    <td align="center"><?php echo $row->product_number ?></td>
-                    <td align="center"><?php echo $row->manufacturer_name ?></td>
-                    <td align="center"><?php echo $row->order_count ?></td>
-                    <td align="center"><?php echo $row->unit_sold ?></td>
-                    <td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->total_sale); ?></td>
-                </tr>
-            <?php endforeach; ?>
+                                <?php echo $row->product_name; ?>
+                            </a>
+                        </td>
+                        <td align="center">
+                            <?php echo $row->product_number ?>
+                        </td>
+                        <td align="center">
+                            <?php echo $row->manufacturer_name ?>
+                        </td>
+                        <td align="center">
+                            <?php echo $row->order_count ?>
+                        </td>
+                        <td align="center">
+                            <?php echo $row->unit_sold ?>
+                        </td>
+                        <td align="center">
+                            <?php echo RedshopHelperProductPrice::formattedPrice($row->total_sale); ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
             <tfoot>
-            <td colspan="4">
-                <?php echo $this->pagination->getListFooter(); ?>
-            </td>
+                <td colspan="4">
+                    <?php echo $this->pagination->getListFooter(); ?>
+                </td>
             </tfoot>
         </table>
     <?php endif; ?>
-    <input type="hidden" name="filter_order" value="<?php echo $listOrder ?>"/>
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn ?>"/>
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="boxchecked" value="0"/>
-    <input type="hidden" name="view" value="statistic_product"/>
+    <input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn ?>" />
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <input type="hidden" name="view" value="statistic_product" />
     <?php echo JHtml::_('form.token'); ?>
 </form>

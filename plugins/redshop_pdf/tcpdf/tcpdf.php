@@ -346,7 +346,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         // Changed font to support Unicode Characters - Specially Polish Characters
         $this->tcpdf->SetTitle(JText::sprintf('PLG_REDSHOP_PDF_TCPDF_ORDER_STOCK_NOTE_TITLE', $orderData->order_id));
         $this->tcpdf->SetMargins(15, 15, 15);
-        $this->tcpdf->SetHeaderData('', '', '', Text::_('COM_REDSHOP_ORDER') . ' ' . $orderData->order_id);
+        $this->tcpdf->SetHeaderData('', '0', '', Text::_('COM_REDSHOP_ORDER') . ' ' . $orderData->order_id);
         $this->settingTCPDF(10, 10);
         $this->tcpdf->WriteHTML($pdfHtml);
         $this->tcpdf->Output('order_stock_note_' . $orderData->order_id . '.pdf', 'D');
@@ -374,7 +374,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
         // Changed font to support Unicode Characters - Specially Polish Characters
         $this->tcpdf->SetTitle(Text::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
         $this->tcpdf->SetMargins(15, 15, 15);
-        $this->tcpdf->SetHeaderData('', '', '', Text::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
+        $this->tcpdf->SetHeaderData('', '0', '', Text::_('COM_REDSHOP_ORDER') . ': ' . $orderData->order_id);
         $this->settingTCPDF(10, 12);
         $this->tcpdf->WriteHTML($pdfHtml);
         $this->tcpdf->Output('Order_' . $orderData->order_id . ".pdf", "D");
