@@ -43,7 +43,7 @@ abstract class AbstractView extends HtmlView
      */
     public $canCreate;
     /**
-     * @var    \JModelLegacy
+     * @var    \Joomla\CMS\MVC\Model\BaseDatabaseModel
      *
      * @since  2.0.6
      */

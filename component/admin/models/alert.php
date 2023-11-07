@@ -17,7 +17,7 @@ class RedshopModelAlert extends RedshopModel
      *
      * @param   array  $config  An optional associative array of configuration settings.
      *
-     * @see     JModelLegacy
+     * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function __construct($config = array())
     {
@@ -41,7 +41,7 @@ class RedshopModelAlert extends RedshopModel
             ->from($db->qn('#__redshop_alerts', 'a'));
 
         if ($readFilter != 'select') {
-            $query->where($db->qn('a.read') . ' = ' . $db->q((int)$readFilter));
+            $query->where($db->qn('a.read') . ' = ' . $db->q((int) $readFilter));
         }
 
         if (!empty($nameFilter)) {

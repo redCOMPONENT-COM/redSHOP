@@ -41,7 +41,7 @@ class RedshopViewAccount extends RedshopView
     public $params;
 
     /**
-     * @var  \JModelLegacy
+     * @var  \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public $model;
 

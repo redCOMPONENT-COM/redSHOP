@@ -27,7 +27,7 @@ class RedshopViewImport_Vm extends RedshopViewAdmin
     protected $checkVirtuemart;
 
     /**
-     * @var    JModelLegacy
+     * @var    \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since  2.1.0
      */
     protected $model;

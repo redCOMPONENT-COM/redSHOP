@@ -86,7 +86,7 @@ class RedshopModelList extends JModelList
      *
      * @param   array  $config  An optional associative array of configuration settings.
      *
-     * @see     JModelLegacy
+     * @see    \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function __construct($config = array())
     {

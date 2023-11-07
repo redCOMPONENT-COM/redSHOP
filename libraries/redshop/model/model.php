@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Redshop Model
@@ -18,7 +18,7 @@ jimport('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.4
  */
-class RedshopModel extends JModelLegacy
+class RedshopModel extends BaseDatabaseModel
 {
     /**
      * Context string for the model type.  This is used to handle uniqueness
@@ -47,7 +47,7 @@ class RedshopModel extends JModelLegacy
      *
      * @param   array  $config  An optional associative array of configuration settings.
      *
-     * @see JModelLegacy
+     * @see    \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function __construct($config = array())
     {

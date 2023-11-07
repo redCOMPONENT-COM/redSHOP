@@ -127,7 +127,7 @@ class RedshopModelForm extends JModelAdmin
 
         $model = self::getInstance($name, $prefix, $config);
 
-        if (!$model instanceof JModelAdmin && !$model instanceof JModelLegacy) {
+        if (!$model instanceof JModelAdmin && !$model instanceof \Joomla\CMS\MVC\Model\BaseDatabaseModel) {
             throw new InvalidArgumentException(
                 sprintf('Cannot instantiate the model %s from client %s.', $name, $client)
             );
