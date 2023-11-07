@@ -13,6 +13,7 @@ use Doctrine\Common\Inflector\Inflector;
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 JLoader::import('joomla.application.component.controlleradmin');
 
@@ -23,7 +24,7 @@ JLoader::import('joomla.application.component.controlleradmin');
  * @subpackage  Controller
  * @since       1.0
  */
-abstract class RedshopControllerAdminBase extends JControllerAdmin
+abstract class RedshopControllerAdminBase extends AdminController
 {
     /**
      * The method => state map.
@@ -159,7 +160,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
      */
     protected function getRedirectToListRoute($append = null)
     {
-        $returnUrl = (string)$this->input->get('return', '', 'Base64');
+        $returnUrl = (string) $this->input->get('return', '', 'Base64');
 
         if ($returnUrl) {
             return Redshop\IO\Route::_(base64_decode($returnUrl) . $append, false);
@@ -223,7 +224,8 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
                 } else {
                     $this->setMessage($model->getError(), 'error');
                 }
-            } catch (Exception $e) {
+            }
+            catch (Exception $e) {
                 $this->setMessage(Text::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE'), 'error');
             }
         }
@@ -410,7 +412,8 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
             $model = $this->getModel();
             $model->copy($pks);
             $this->setMessage(JText::plural('COM_REDSHOP_N_ITEMS_COPIED', count($pks)));
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
         }
 
