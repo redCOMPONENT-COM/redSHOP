@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.viewlegacy');
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * A csv view working with a RModelList.
@@ -18,7 +18,7 @@ jimport('joomla.application.component.viewlegacy');
  * @subpackage  View
  * @since       1.0
  */
-abstract class RedshopViewCsv extends JViewLegacy
+abstract class RedshopViewCsv extends HtmlView
 {
     /**
      * This is locale for UTF8 support in CSV files.

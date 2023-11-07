@@ -28,12 +28,12 @@ class RedshopViewSend_Friend extends RedshopView
      *
      * @return  mixed         A string if successful, otherwise an Error object.
      *
-     * @see     JViewLegacy::loadTemplate()
+     * @see     \Joomla\CMS\MVC\View\HtmlView::loadTemplate()
      * @since   1.0.0
      */
     public function display($tpl = null)
     {
-		HTMLHelper::stylesheet('com_redshop/scrollable-navig.min.css', ['relative' => true]);
+        HTMLHelper::stylesheet('com_redshop/scrollable-navig.min.css', ['relative' => true]);
 
         parent::display($tpl);
     }

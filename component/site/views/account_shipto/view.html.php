@@ -54,7 +54,7 @@ class RedshopViewAccount_Shipto extends RedshopView
      * @return  mixed         A string if successful, otherwise an Error object.
      * @throws  Exception
      *
-     * @see     JViewLegacy::loadTemplate()
+     * @see     \Joomla\CMS\MVC\View\HtmlView::loadTemplate()
      * @since   12.2
      */
     public function display($tpl = null)

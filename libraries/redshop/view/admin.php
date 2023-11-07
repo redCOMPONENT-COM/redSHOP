@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.viewlegacy');
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * Base view.
@@ -18,7 +18,7 @@ jimport('joomla.application.component.viewlegacy');
  * @subpackage  View
  * @since       1.5
  */
-class RedshopViewAdmin extends JViewLegacy
+class RedshopViewAdmin extends HtmlView
 {
     /**
      * Layout used to render the component

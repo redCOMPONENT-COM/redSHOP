@@ -12,6 +12,7 @@ namespace Redshop\View;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
 use Doctrine\Common\Inflector\Inflector;
 
 jimport('joomla.application.component.viewlegacy');
@@ -23,7 +24,7 @@ jimport('joomla.application.component.viewlegacy');
  * @subpackage  View
  * @since       2.0.6
  */
-abstract class AbstractView extends \JViewLegacy
+abstract class AbstractView extends HtmlView
 {
     /**
      * @var  boolean

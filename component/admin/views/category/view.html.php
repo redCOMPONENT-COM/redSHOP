@@ -40,7 +40,7 @@ class RedshopViewCategory extends RedshopViewForm
      * @throws  Exception
      * @since   12.2
      *
-     * @see     JViewLegacy::loadTemplate()
+     * @see     \Joomla\CMS\MVC\View\HtmlView::loadTemplate()
      */
     public function display($tpl = null)
     {
