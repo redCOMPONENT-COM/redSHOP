@@ -8,12 +8,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Controller\BaseController;
+
 /**
  * RedSHOP master controller.
  *
  * @package  RedSHOP.Backend
  * @since    1.3.3.1
  */
-class RedshopController extends JControllerLegacy
+class RedshopController extends BaseController
 {
 }

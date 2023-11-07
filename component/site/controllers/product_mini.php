@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Product Mini Controller.
@@ -34,7 +35,7 @@ class RedshopControllerProduct_mini extends RedshopController
      * @param   bool   $cachable
      * @param   array  $urlparams
      *
-     * @return JControllerLegacy|void
+     * @return BaseController|void
      */
     public function display($cachable = false, $urlparams = array())
     {

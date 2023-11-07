@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Category Controller.
@@ -30,7 +31,7 @@ class RedshopControllerCategory extends RedshopController
      * @param   boolean  $cachable   If true, the view output will be cached
      * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
      *
-     * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
+     * @return  BaseController  A BaseController object to support chaining.
      *
      * @since   3.0
      */

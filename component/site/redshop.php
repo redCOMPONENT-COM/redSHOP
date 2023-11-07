@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 $app = JFactory::getApplication();
 
@@ -121,8 +122,7 @@ if (strpos($command, '.') === false) {
 }
 
 // Perform the Request task
-$controller = JControllerLegacy::getInstance('Redshop');
-// $controller = \Joomla\CMS\MVC\Controller\BaseController::getInstance('Redshop');
+$controller = BaseController::getInstance('Redshop');
 
 $task = $app->input->get('task', '');
 

@@ -19,6 +19,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 $app = \JFactory::getApplication();
 
@@ -112,7 +113,7 @@ Text::script('COM_REDSHOP_IS_REQUIRED');
 Text::script('COM_REDSHOP_DELETE_CONFIRM');
 
 // Execute the task.
-$controller = \JControllerLegacy::getInstance('Redshop');
+$controller = BaseController::getInstance('Redshop');
 
 $task = \JFactory::getApplication()->input->getCmd('task', '');
 

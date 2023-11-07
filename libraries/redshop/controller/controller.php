@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Redshop Model
@@ -18,7 +18,7 @@ jimport('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.4
  */
-class RedshopController extends JControllerLegacy
+class RedshopController extends BaseController
 {
     /**
      * Gets the URL arguments to append to an item redirect.
