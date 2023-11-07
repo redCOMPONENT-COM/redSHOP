@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Model\AdminModel;
+
 /**
  * Redshop Attribute Model
  *
@@ -16,7 +18,7 @@ defined('_JEXEC') or die;
  * @subpackage  Models.Attribute
  * @since       2.0.0.2
  */
-class RedshopModelAttribute extends JModelAdmin
+class RedshopModelAttribute extends AdminModel
 {
     /**
      * Returns a Table object, always creating it
@@ -85,5 +87,3 @@ class RedshopModelAttribute extends JModelAdmin
         return $data;
     }
 }
-
-

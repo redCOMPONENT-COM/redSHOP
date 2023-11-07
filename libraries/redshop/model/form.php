@@ -12,15 +12,17 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Form\Form;
 use Joomla\String\StringHelper;
 use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
-/**
- * Redshop Model
+
+/** * Redshop Model
  *
  * @package     Redshop.library
  * @subpackage  Model
  * @since       1.5
  */
-class RedshopModelForm extends JModelAdmin
+class RedshopModelForm extends AdminModel
 {
     /**
      * Context for session
@@ -127,7 +129,7 @@ class RedshopModelForm extends JModelAdmin
 
         $model = self::getInstance($name, $prefix, $config);
 
-        if (!$model instanceof JModelAdmin && !$model instanceof \Joomla\CMS\MVC\Model\BaseDatabaseModel) {
+        if (!$model instanceof AdminModel && !$model instanceof BaseDatabaseModel) {
             throw new InvalidArgumentException(
                 sprintf('Cannot instantiate the model %s from client %s.', $name, $client)
             );
