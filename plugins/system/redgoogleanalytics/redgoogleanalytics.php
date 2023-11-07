@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\LegacyModelLoaderTrait;
 
 JLoader::import('redshop.library');
 
@@ -97,7 +98,7 @@ class PlgSystemRedGoogleAnalytics extends JPlugin
 
             /** @var RedshopModelOrder_detail $orderDetailModel */
     /*
-            $orderDetailModel = JModelLegacy::getInstance('Order_Detail', 'RedshopModel');
+            $orderDetailModel = LegacyModelLoaderTrait::getInstance('Order_Detail', 'RedshopModel');
 
             $billingAddress = $orderDetailModel->billingaddresses();
             $orderItems     = RedshopHelperOrder::getOrderItemDetail($orderDetail->order_id);
@@ -199,7 +200,7 @@ class PlgSystemRedGoogleAnalytics extends JPlugin
         }
 
         /** @var RedshopModelOrder_detail $orderDetailModel */
-        $orderDetailModel = JModelLegacy::getInstance('Order_Detail', 'RedshopModel');
+        $orderDetailModel = LegacyModelLoaderTrait::getInstance('Order_Detail', 'RedshopModel');
 
         $billingAddress = $orderDetailModel->billingaddresses();
         $orderItems     = RedshopHelperOrder::getOrderItemDetail($orderDetail->order_id);

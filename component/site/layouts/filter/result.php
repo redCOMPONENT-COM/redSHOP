@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\MVC\Model\LegacyModelLoaderTrait;
 
 JLoader::import('redshop.library');
 
@@ -25,7 +26,7 @@ $app        = Factory::getApplication();
 $input      = $app->input;
 
 /** @var RedshopModelCategory $categoryModel */
-$categoryModel = JModelLegacy::getInstance('Category', 'RedshopModel');
+$categoryModel = LegacyModelLoaderTrait::getInstance('Category', 'RedshopModel');
 $categoryModel->setId($cid);
 $categoryData = $categoryModel->getData();
 $mainCategory = $categoryModel->_loadCategory();

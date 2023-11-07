@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\MVC\Model\LegacyModelLoaderTrait;
 
 /**
  * Tags replacer abstract class
@@ -298,7 +299,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
     private function getThumbnail($category, $width, $height)
     {
         $input          = JFactory::getApplication()->input;
-        $model          = JModelLegacy::getInstance('Category', 'RedshopModel');
+        $model          = LegacyModelLoaderTrait::getInstance('Category', 'RedshopModel');
         $manufacturerId = $model->getState('manufacturer_id');
 
         // Default with JPATH_ROOT . '/components/com_redshop/assets/images/'

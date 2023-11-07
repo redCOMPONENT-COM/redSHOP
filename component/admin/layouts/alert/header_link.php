@@ -10,11 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\LegacyModelLoaderTrait;
 
-JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
-$model       = JModelLegacy::getInstance("Alert", "RedshopModel");
+BaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
+$model       = LegacyModelLoaderTrait::getInstance("Alert", "RedshopModel");
 $alertsCount = $model->countAlert();
 $alerts      = $model->getAlert(5);
+
 ?>
 <li class="dropdown notifications-menu">
     <a title="<?php echo Text::_('COM_REDSHOP_ALERT'); ?>" href="#" class="dropdown-toggle" data-toggle="dropdown">

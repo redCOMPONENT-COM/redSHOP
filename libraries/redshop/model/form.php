@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\String\StringHelper;
+use Joomla\CMS\MVC\Model\BaseModel;
 
 /**
  * Redshop Model
@@ -146,7 +147,7 @@ class RedshopModelForm extends JModelAdmin
     public static function addIncludePath($path = '', $prefix = '')
     {
         parent::addIncludePath($path, $prefix);
-        $return = JModelLegacy::addIncludePath($path, $prefix);
+        $return = BaseModel::addIncludePath($path, $prefix);
 
         return $return;
     }

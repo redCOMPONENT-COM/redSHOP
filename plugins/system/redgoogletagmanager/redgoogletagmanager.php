@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Model\LegacyModelLoaderTrait;
+
 JLoader::import('redshop.library');
 
 /**
@@ -82,7 +84,7 @@ class PlgSystemRedGoogleTagmanager extends JPlugin
         $googleTagmanagerHelper = new RedSHOPGoogle_TagmanagerHelper();
 
         /** @var RedshopModelOrder_detail $orderDetailModel */
-        $orderDetailModel = JModelLegacy::getInstance('Order_Detail', 'RedshopModel');
+        $orderDetailModel = LegacyModelLoaderTrait::getInstance('Order_Detail', 'RedshopModel');
 
         $billingAddress = $orderDetailModel->billingaddresses();
         $orderItems     = RedshopHelperOrder::getOrderItemDetail($orderDetail->order_id);

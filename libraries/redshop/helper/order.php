@@ -16,6 +16,8 @@ use Redshop\DB\Tool as RedshopDbTool;
 use Redshop\Economic\RedshopEconomic;
 use Redshop\Order\Template;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\LegacyModelLoaderTrait;
 
 /**
  * Class Redshop Helper for Order
@@ -350,8 +352,8 @@ class RedshopHelperOrder
             }
 
             if ($data->order_payment_status_code == "Paid") {
-                JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-                $checkoutModelCheckout = JModelLegacy::getInstance('Checkout', 'RedshopModel');
+                BaseModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+                $checkoutModelCheckout = LegacyModelLoaderTrait::getInstance('Checkout', 'RedshopModel');
                 $checkoutModelCheckout->sendGiftCard($orderId);
 
                 // Send the Order mail
@@ -1575,8 +1577,8 @@ class RedshopHelperOrder
             );
 
             if ($paymentStatus == "Paid") {
-                JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-                $checkoutModel = JModelLegacy::getInstance('Checkout', 'RedshopModel');
+                BaseModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+                $checkoutModel = LegacyModelLoaderTrait::getInstance('Checkout', 'RedshopModel');
                 $checkoutModel->sendGiftCard($orderId);
 
                 // Send the Order mail
