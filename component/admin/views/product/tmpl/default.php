@@ -27,8 +27,8 @@ if ($allowOrder) {
 }
 
 $categoryId = $this->state->get('category_id', 0);
-$user   = Factory::getUser();
-$userId = (int) $user->id;
+$user       = Factory::getUser();
+$userId     = (int) $user->id;
 
 HtmlHelper::_('redshopjquery.framework');
 
@@ -92,23 +92,18 @@ HtmlHelper::_('redshopjquery.framework');
 
 </script>
 <form action="index.php?option=com_redshop&view=product" method="post" name="adminForm" id="adminForm">
-
     <div id="editcell">
         <div class="filterTool">
             <div class="js-stools" role="search">
                 <div class="js-stools-container-bar">
                     <div class="btn-toolbar">
-                        <div class="filter-search-bar btn-group">
+                        <div class="filterItem">
                             <div class="input-group">
-                                <input type="text" name="keyword" id="keyword" class="js-enter-submits"
+                                <input type="text" name="keyword" id="keyword" class="form-control"
                                     value="<?php echo $this->keyword; ?>"
                                     placeholder="<?php echo Text::_("COM_REDSHOP_USER_FILTER") ?>">
-                                <span class="filter-search-bar__label visually-hidden">
-                                    <?php echo $filters['filter_search']->label; ?>
-                                </span>
-                                <button type="submit" class="filter-search-bar__button btn btn-primary"
-                                    aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
-                                    <span class="filter-search-bar__button-icon icon-search" aria-hidden="true"></span>
+                                <button class="btn btn-success input-group-text" id="date_range_filter_date_range_btn">
+                                    <i class="icon-search"></i>
                                 </button>
                             </div>
                         </div>
@@ -488,8 +483,8 @@ HtmlHelper::_('redshopjquery.framework');
     <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
     <?php echo HtmlHelper::_('form.token'); ?>
 </form>
-<?php
 
+<?php
 echo RedshopLayoutHelper::render(
     'modal.iframe',
     [

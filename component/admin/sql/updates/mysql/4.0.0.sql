@@ -373,3 +373,19 @@ CALL redSHOP_Column_Update('#__redshop_quotation_attribute_item', 'section_opran
 -- ------------------------------------------------------
 CALL redSHOP_Column_Update('#__redshop_coupons', 'userid' 'userid' 'INT(11) NOT NULL DEFAULT "0"');
 CALL redSHOP_Column_Update('#__redshop_coupons', 'orderid' 'orderid' 'INT(11) NOT NULL DEFAULT "0"');
+
+-- ------------------------------------------------------
+-- Table '#__redshop_product_price'
+-- ------------------------------------------------------
+CALL redSHOP_Column_Update('#__redshop_product_price', 'product_currency' 'product_currency' 'VARCHAR(10) NOT NULL DEFAULT "0"');
+CALL redSHOP_Column_Update('#__redshop_product_price', 'cdate' 'cdate' 'INT(11) NOT NULL DEFAULT "0"');
+CALL redSHOP_Column_Update('#__redshop_product_price', 'discount_price' 'discount_price' 'DECIMAL(12,4) NOT NULL DEFAULT "0"');
+CALL redSHOP_Column_Update('#__redshop_product_price', 'discount_start_date' 'discount_start_date' 'INT(11) NOT NULL DEFAULT "0"');
+
+-- ------------------------------------------------------
+-- Table '#__redshop_product_attribute_price'
+-- ------------------------------------------------------
+CALL redSHOP_Column_Update('#__redshop_product_attribute_price', 'product_currency' 'product_currency' 'VARCHAR(10) NOT NULL DEFAULT "0"');
+CALL redSHOP_Column_Update('#__redshop_product_attribute_price', 'cdate' 'cdate' 'INT(11) NOT NULL DEFAULT "0"');
+CALL redSHOP_Column_Update('#__redshop_product_attribute_price', 'discount_price' 'discount_price' 'DECIMAL(12,4) NOT NULL DEFAULT "0"');
+CALL redSHOP_Column_Update('#__redshop_product_attribute_price', 'discount_start_date' 'discount_start_date' 'INT(11) NOT NULL DEFAULT "0"');

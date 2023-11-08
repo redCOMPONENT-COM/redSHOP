@@ -11,11 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-/**
- * Class RedshopViewProduct_rating
- *
- * @since  1.5
- */
 class RedshopViewProduct_Rating extends RedshopView
 {
     protected $state;

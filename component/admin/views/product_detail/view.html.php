@@ -40,11 +40,6 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
     public $input;
 
     /**
-     * @var productHelper
-     */
-    public $producthelper;
-
-    /**
      * @var  JEventDispatcher
      */
     public $dispatcher;

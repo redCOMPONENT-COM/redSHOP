@@ -10,9 +10,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Html\HtmlHelper;
 
-JHtml::_('behavior.formvalidator');
+// HtmlHelper::_('behavior.formvalidator');
+Factory::getDocument()->getWebAssetManager()->useScript('form.validate');
 
 $model = $this->getModel('product');
 
@@ -35,33 +38,32 @@ $model = $this->getModel('product');
 </script>
 
 <script type="text/javascript">
-    (function ($) {
-        $(document).ready(function () {
-            // Validate discount price
-            document.formvalidator.setHandler("discountPrice", function (value, element) {
-                if (isNaN(value) || value < 0) {
-                    return false;
-                }
+        (function ($) {
+            $(document).ready(function () {
+                // Validate discount price
+                document.formvalidator.setHandler("discountPrice", function (value, element) {
+                    if (isNaN(value) || value < 0) {
+                        return false;
+                    }
 
-                var $priceField = $("#" + $(element).attr("id").replace("discount_", "product_"));
+                    var $priceField = $("#" + $(element).attr("id").replace("discount_", "product_"));
 
-                var price = parseFloat($priceField.val());
-                var discount = parseFloat(value);
+                    var price = parseFloat($priceField.val());
+                    var discount = parseFloat(value);
 
-                return (discount == 0 || (discount > 0 && price > discount));
+                    return (discount == 0 || (discount > 0 && price > discount));
+                });
+
+                // Validate Product price
+                document.formvalidator.setHandler("positiveNumber", function (value) {
+                    return !isNaN(value) && value >= 0;
+                });
             });
-
-            // Validate Product price
-            document.formvalidator.setHandler("positiveNumber", function (value) {
-                return !isNaN(value) && value >= 0;
-            });
-        });
-    })(jQuery);
+        })(jQuery);
 </script>
 
 <form action="<?php echo 'index.php?option=com_redshop&view=product&layout=listing'; ?>" method="post" name="adminForm"
-      id="adminForm"
-      class="form-validate">
+    id="adminForm" class="form-validate">
     <div class="filterTool">
         <div class="filterItem">
             <div class="btn-wrapper input-append">
@@ -86,46 +88,46 @@ $model = $this->getModel('product');
     <div id="editcell">
         <table class="adminlist table table-striped" id="table-product-price">
             <thead>
-            <tr>
-                <th width="5">
-                    #
-                </th>
-                <th width="20">
-                    <?php echo JHtml::_('redshopgrid.checkall'); ?>
-                </th>
-                <th class="title" width="500">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_PRODUCT_NAME',
-                        'product_name',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th class="title" width="300">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_PRODUCT_NUMBER',
-                        'product_number',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
-                </th>
-                <th class="title" width="20">
-                    <?php echo Text::_('COM_REDSHOP_PRICE'); ?>
-                    <a href="javascript:Joomla.submitbutton('saveprice')" class="btn btn-success"
-                       title="<?php echo Text::_('COM_REDSHOP_PRICE') ?>">
-                        <i class="fa fa-save"></i>
-                    </a>
-                </th>
-                <th class="title" width="20">
-                    <?php echo Text::_('COM_REDSHOP_DISCOUNT_PRICE'); ?>
-                    <a href="javascript:Joomla.submitbutton('savediscountprice')" class="btn btn-success"
-                       title="<?php echo Text::_('COM_REDSHOP_DISCOUNT_PRICE') ?>">
-                        <i class="fa fa-save"></i>
-                    </a>
-                </th>
-            </tr>
+                <tr>
+                    <th width="5">
+                        #
+                    </th>
+                    <th width="20">
+                        <?php echo JHtml::_('redshopgrid.checkall'); ?>
+                    </th>
+                    <th class="title" width="500">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_PRODUCT_NAME',
+                            'product_name',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th class="title" width="300">
+                        <?php echo JHTML::_(
+                            'grid.sort',
+                            'COM_REDSHOP_PRODUCT_NUMBER',
+                            'product_number',
+                            $this->lists['order_Dir'],
+                            $this->lists['order']
+                        ); ?>
+                    </th>
+                    <th class="title" width="20">
+                        <?php echo Text::_('COM_REDSHOP_PRICE'); ?>
+                        <a href="javascript:Joomla.submitbutton('saveprice')" class="btn btn-success btn-sm"
+                            title="<?php echo Text::_('COM_REDSHOP_PRICE') ?>">
+                            <i class="fa fa-save"></i>
+                        </a>
+                    </th>
+                    <th class="title" width="20">
+                        <?php echo Text::_('COM_REDSHOP_DISCOUNT_PRICE'); ?>
+                        <a href="javascript:Joomla.submitbutton('savediscountprice')" class="btn btn-success btn-sm"
+                            title="<?php echo Text::_('COM_REDSHOP_DISCOUNT_PRICE') ?>">
+                            <i class="fa fa-save"></i>
+                        </a>
+                    </th>
+                </tr>
             </thead>
             <?php foreach ($this->products as $i => $row): ?>
                 <tr>
@@ -138,8 +140,7 @@ $model = $this->getModel('product');
                     <td>
                         <a href="<?php echo Redshop\IO\Route::_(
                             'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id
-                        ) ?>"
-                           title="<?php echo Text::_('COM_REDSHOP_EDIT_PRODUCT') ?>">
+                        ) ?>" title="<?php echo Text::_('COM_REDSHOP_EDIT_PRODUCT') ?>">
                             <?php echo $row->product_name ?>
                         </a>
                     </td>
@@ -147,51 +148,46 @@ $model = $this->getModel('product');
                         <?php echo $row->product_number ?>
                     </td>
                     <td width="20%">
-                        <input type="hidden" name='pid[]' value="<?php echo $row->product_id ?>"/>
+                        <input type="hidden" name='pid[]' value="<?php echo $row->product_id ?>" />
                         <label id="product_price_<?php echo $row->product_id ?>-lbl"
-                               for="product_price_<?php echo $row->product_id ?>"
-                               class="hidden">
+                            for="product_price_<?php echo $row->product_id ?>" class="hidden">
                             <?php echo Text::_('COM_REDSHOP_PRODUCT_PRICE_ERROR_PRICE_MUST_NOT_NEGATIVE_NUMBER') ?>
                         </label>
                         <input type="number" name="price[]" size="4" id="product_price_<?php echo $row->product_id ?>"
-                               class="validate-positiveNumber"
-                               value="<?php echo RedshopHelperProduct::redpriceDecimal(
-                                   $row->product_price,
-                                   false
-                               ); ?>"/>
-                        <a class='joom-box btn btn-primary btn-small' rel="{handler: 'iframe', size: {x: 750, y: 400}}"
-                           href="index.php?tmpl=component&option=com_redshop&view=product_price&pid=<?php echo $row->product_id ?>">
+                            class="validate-positiveNumber" value="<?php echo RedshopHelperProduct::redpriceDecimal(
+                                $row->product_price,
+                                false
+                            ); ?>" />
+                        <a class='joom-box btn btn-primary btn-sm' rel="{handler: 'iframe', size: {x: 750, y: 400}}"
+                            href="index.php?tmpl=component&option=com_redshop&view=product_price&pid=<?php echo $row->product_id ?>">
                             <i class="fa fa-plus"></i>
-                        </a>
                     </td>
                     <td width="20%">
                         <label id="discount_price_<?php echo $row->product_id ?>-lbl"
-                               for="discount_price_<?php echo $row->product_id ?>"
-                               class="hidden">
+                            for="discount_price_<?php echo $row->product_id ?>" class="hidden">
                             <?php echo Text::_('COM_REDSHOP_DISCOUNT_PRICE_MUST_BE_LESS_THAN_PRICE') ?>
                         </label>
                         <input type="number" id="discount_price_<?php echo $row->product_id ?>" name="discount_price[]"
-                               size="4"
-                               class="form-control validate-discountPrice"
-                               value="<?php echo RedshopHelperProduct::redpriceDecimal($row->discount_price) ?>"/>
+                            size="4" class="form-control validate-discountPrice"
+                            value="<?php echo RedshopHelperProduct::redpriceDecimal($row->discount_price) ?>" />
                     </td>
                 </tr>
             <?php endforeach; ?>
             <tfoot>
-            <tr>
-                <td colspan="6">
-					<div class="redShopLimitBox">
-						<?php echo $this->pagination->getLimitBox() ?>
-					</div>
-                    <?php echo $this->pagination->getListFooter() ?>
-                </td>
-            </tr>
+                <tr>
+                    <td colspan="6">
+                        <div class="redShopLimitBox">
+                            <?php echo $this->pagination->getLimitBox() ?>
+                        </div>
+                        <?php echo $this->pagination->getListFooter() ?>
+                    </td>
+                </tr>
             </tfoot>
         </table>
     </div>
     <?php echo JHtml::_('form.token') ?>
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="boxchecked" value="0"/>
-    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="boxchecked" value="0" />
+    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
 </form>

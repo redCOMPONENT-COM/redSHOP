@@ -288,7 +288,7 @@ class RedshopModelProduct extends RedshopModel
             ->leftjoin(
                 $db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id')
             )
-            ->where($db->qn('pcx.product_id') . ' = ' . $db->q((int)$pid))
+            ->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
             ->order($db->qn('c.name'));
 
         return $db->setQuery($query)->loadObjectlist();
@@ -456,7 +456,7 @@ class RedshopModelProduct extends RedshopModel
             foreach ($orderarray as $productid => $order) {
                 if ($order >= 0) {
                     // Update ordering
-                    $query = 'UPDATE #__redshop_product_category_xref' . ' SET ordering = ' . (int)$i
+                    $query = 'UPDATE #__redshop_product_category_xref' . ' SET ordering = ' . (int) $i
                         . ' WHERE product_id=' . $productid . ' AND category_id = ' . $category_id_my;
                     $this->_db->setQuery($query);
                     $this->_db->execute();
@@ -495,11 +495,11 @@ class RedshopModelProduct extends RedshopModel
                 continue;
             }
 
-            $price = (float)$discountPrices[$index];
+            $price = (float) $discountPrices[$index];
 
             $case[] = 'WHEN ' . $db->qn('product_id') . ' = ' . $productId . ' AND ' . $db->qn(
-                    'product_price'
-                ) . ' >= ' . $price
+                'product_price'
+            ) . ' >= ' . $price
                 . ' THEN ' . $db->quote($price);
         }
 
@@ -519,7 +519,7 @@ class RedshopModelProduct extends RedshopModel
     }
 
     /*
-                 * Save product ordering
+     * Save product ordering
      * @params: $cid - array , $order-array
      * $cid= product ids
      * $order = product current ordring
@@ -552,7 +552,7 @@ class RedshopModelProduct extends RedshopModel
                 continue;
             }
 
-            $price = (float)$prices[$index];
+            $price = (float) $prices[$index];
 
             $case[] = 'WHEN ' . $db->qn('product_id') . ' = ' . $productId . ' THEN ' . $db->quote($price);
         }
@@ -629,5 +629,19 @@ class RedshopModelProduct extends RedshopModel
         $this->setState('product_sort', $product_sort);
 
         parent::populateState($ordering, $direction);
+    }
+
+    public function getPagination()
+    {
+        if (empty($this->_pagination)) {
+            jimport('joomla.html.pagination');
+            $this->_pagination = new JPagination(
+                $this->getTotal(),
+                $this->getState('limitstart'),
+                $this->getState('limit')
+            );
+        }
+
+        return $this->_pagination;
     }
 }
