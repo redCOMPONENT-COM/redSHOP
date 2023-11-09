@@ -9,12 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
 $logoutUrl = Redshop\IO\Route::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1');
-$user      = JFactory::getUser();
+$user      = Factory::getApplication()->getIdentity();
 
 ?>
 <ul class="nav navbar-nav">

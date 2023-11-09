@@ -10,9 +10,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-$user  = JFactory::getUser();
+$user  = Factory::getApplication()->getIdentity();
 $start = $this->pagination->limitstart;
 $end   = $this->pagination->limit;
 
@@ -28,12 +29,12 @@ $end   = $this->pagination->limit;
             <thead>
             <tr>
                 <th width="60%" align="center"><?php
-                    if ($this->filteroption != 0) {
-                        echo Text::_('COM_REDSHOP_DATE');
-                    } else {
-                        echo Text::_('COM_REDSHOP_HASH');
-                    }
-                    ?>
+                if ($this->filteroption != 0) {
+                    echo Text::_('COM_REDSHOP_DATE');
+                } else {
+                    echo Text::_('COM_REDSHOP_HASH');
+                }
+                ?>
                 </th>
                 <th width="40%" align="center"><?php echo Text::_('COM_REDSHOP_TOTAL_VISITORS'); ?></th>
             </tr>
@@ -50,26 +51,26 @@ $end   = $this->pagination->limit;
                     break;
                 }
                 ?>
-                <tr>
-                    <td align="center">
-                        <?php
-                        if ($this->filteroption != 0 && isset($row->viewdate) === true) {
-                            echo $row->viewdate;
-                        } else {
-                            echo Text::_('COM_REDSHOP_HASH');
-                        }
-                        ?>
-                    </td>
-                    <td align="center"><?php echo !empty($row->viewer) ? $row->viewer : 0; ?></td>
-                </tr>
-                <?php
+                    <tr>
+                        <td align="center">
+                            <?php
+                            if ($this->filteroption != 0 && isset($row->viewdate) === true) {
+                                echo $row->viewdate;
+                            } else {
+                                echo Text::_('COM_REDSHOP_HASH');
+                            }
+                            ?>
+                        </td>
+                        <td align="center"><?php echo !empty($row->viewer) ? $row->viewer : 0; ?></td>
+                    </tr>
+                    <?php
             }
             ?>
             <tfoot>
             <td colspan="2">
-				<div class="redShopLimitBox">
-					<?php echo $this->pagination->getLimitBox(); ?>
-				</div>
+                <div class="redShopLimitBox">
+                    <?php echo $this->pagination->getLimitBox(); ?>
+                </div>
                 <?php echo $this->pagination->getListFooter(); ?></td>
             </tfoot>
         </table>

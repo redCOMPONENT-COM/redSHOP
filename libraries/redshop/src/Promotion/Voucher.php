@@ -9,6 +9,8 @@
 
 namespace Redshop\Promotion;
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -41,7 +43,7 @@ class Voucher
     {
         $db = \JFactory::getDbo();
 
-        $user           = \JFactory::getUser();
+        $user           = Factory::getApplication()->getIdentity();
         $voucher        = array();
         $currentTime    = \JFactory::getDate()->toSql();
         $globalVouchers = self::getGlobalVoucher($voucherCode);
@@ -193,7 +195,7 @@ class Voucher
         $db = \JFactory::getDbo();
 
         $today  = \JFactory::getDate()->toSql();
-        $user   = \JFactory::getUser();
+        $user   = Factory::getApplication()->getIdentity();
         $coupon = array();
 
         // Create the base select statement.

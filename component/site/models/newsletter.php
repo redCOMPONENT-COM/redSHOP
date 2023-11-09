@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
@@ -98,7 +99,7 @@ class RedshopModelNewsletter extends RedshopModel
             $app->redirect(Redshop\IO\Route::_($link));
         }
 
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         if ($user->id) {
             $email = $user->email;

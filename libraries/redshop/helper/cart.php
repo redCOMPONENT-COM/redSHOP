@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
@@ -36,7 +37,7 @@ abstract class RedshopHelperCart
      */
     public static function addCartToDatabase($cart = array())
     {
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         // If user is not logged in don't save in db
         if ($user->guest) {
@@ -173,7 +174,7 @@ abstract class RedshopHelperCart
     public static function removeCartFromDatabase($cartId = 0, $userId = 0, $delCart = false)
     {
         if (!$userId) {
-            $user   = JFactory::getUser();
+            $user   = Factory::getApplication()->getIdentity();
             $userId = (int) $user->id;
         }
 
@@ -348,7 +349,7 @@ abstract class RedshopHelperCart
     public static function databaseToCart($userId = 0)
     {
         if (!$userId) {
-            $user   = JFactory::getUser();
+            $user   = Factory::getApplication()->getIdentity();
             $userId = $user->id;
         }
 
@@ -911,7 +912,7 @@ abstract class RedshopHelperCart
      */
     public static function taxExemptAddToCart($userId = 0, $isShowButtonAddToCart = false)
     {
-        $userId = !$userId ? JFactory::getUser()->id : $userId;
+        $userId = !$userId ? Factory::getApplication()->getIdentity()->id : $userId;
 
         if (!$userId) {
             return true;

@@ -9,13 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 JLoader::import('joomla.application.module.helper');
 
 $app          = JFactory::getApplication();
-$user         = JFactory::getUser();
-$params       = $app->getParams('com_redshop');
+$user         = Factory::getApplication()->getIdentity();
+$params       = $app->getParams();
 $Itemid       = $app->input->getInt('Itemid');
 $returnitemid = $params->get('logout', $Itemid);
 
@@ -34,20 +35,20 @@ if ($module = JModuleHelper::getModule('redshop_login')) {
 <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=login'); ?>" method="post">
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <?php if (isset($this->ShopperGroupDetail[0])): ?>
-            <tr>
-                <td>
-                    <h1>
-                        <?php echo $this->ShopperGroupDetail[0]->name; ?>
-                    </h1>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>
-                        <?php echo $this->ShopperGroupDetail[0]->introtext; ?>
-                    </strong>
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        <h1>
+                            <?php echo $this->ShopperGroupDetail[0]->name; ?>
+                        </h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>
+                            <?php echo $this->ShopperGroupDetail[0]->introtext; ?>
+                        </strong>
+                    </td>
+                </tr>
         <?php endif; ?>
         <tr>
             <td><input type="submit" name="submit" class="button btn btn-primary"

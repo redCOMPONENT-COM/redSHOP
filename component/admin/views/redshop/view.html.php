@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -50,7 +51,7 @@ class RedshopViewRedshop extends RedshopViewAdmin
      */
     public function display($tpl = null)
     {
-        $user         = \JFactory::getUser();
+        $user         = Factory::getApplication()->getIdentity();
         $this->layout = \JFactory::getApplication()->input->getCmd('layout', 'default');
         $menuHide     = explode(",", \Redshop::getConfig()->get('MENUHIDE'));
         \JToolBarHelper::title(JText::sprintf('COM_REDSHOP_ADMIN_WELCOME', $user->name));

@@ -11,6 +11,8 @@ namespace Redshop\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\User\UserFactoryInterface;
+
 /**
  * Login helper class
  *
@@ -23,23 +25,26 @@ class Login
      *
      * @throws \Exception
      */
-    public static function loginJoomlaRedShop($data) {
-        $app = \JFactory::getApplication();
-        $jUser = \JUserHelper::getUserId($data['email']);
+    public static function loginJoomlaRedShop($data)
+    {
+        $app        = \JFactory::getApplication();
+        $jUser      = \JUserHelper::getUserId($data['email']);
         $pluginName = substr($app->input->get('plugin'), 0, -13);
         if (isset($pluginName) && $pluginName == 'google') {
             $pluginName = 'google';
         } else {
             $pluginName = 'facebook';
         }
-        $plugin = \JPluginHelper::getPlugin('redshop_login', $pluginName);
-        $params = json_decode($plugin->params);
+        $plugin   = \JPluginHelper::getPlugin('redshop_login', $pluginName);
+        $params   = json_decode($plugin->params);
         $returnId = $params->redirectlogin;
-        $menu = \JFactory::getApplication()->getMenu();
-        $item = $menu->getItem($returnId);
+        $menu     = \JFactory::getApplication()->getMenu();
+        $item     = $menu->getItem($returnId);
 
         if ($jUser > 0) {
-            $jUser = \JFactory::getUser($jUser);
+            $container   = Factory::getContainer();
+            $userFactory = $container->get(UserFactoryInterface::class);
+            $jUser       = $userFactory->loadUserById($jUser);
 
             \JPluginHelper::importPlugin('user');
 
@@ -69,8 +74,9 @@ class Login
     /**
      * @return array
      */
-    public static function getThirdPartyLogin() {
+    public static function getThirdPartyLogin()
+    {
         \JPluginHelper::importPlugin('redshop_login');
-       return \RedshopHelperUtility::getDispatcher()->trigger('onThirdPartyLogin');
+        return \RedshopHelperUtility::getDispatcher()->trigger('onThirdPartyLogin');
     }
 }

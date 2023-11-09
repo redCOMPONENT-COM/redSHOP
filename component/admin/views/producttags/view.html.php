@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 class RedshopViewProducttags extends RedshopViewAdmin
@@ -38,7 +39,7 @@ class RedshopViewProducttags extends RedshopViewAdmin
         $tags       = $this->get('Data');
         $pagination = $this->get('Pagination');
 
-        $this->user        = JFactory::getUser();
+        $this->user        = Factory::getApplication()->getIdentity();
         $this->lists       = $lists;
         $this->tags        = $tags;
         $this->pagination  = $pagination;

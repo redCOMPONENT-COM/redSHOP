@@ -32,13 +32,13 @@ class RedshopViewQuotation_Detail extends RedshopView
 
         if ($print) {
             ?>
-            <script type="text/javascript" language="javascript">
-                window.print();
-            </script>
-            <?php
+                        <script type="text/javascript" language="javascript">
+                            window.print();
+                        </script>
+                        <?php
         }
 
-        $user   = JFactory::getUser();
+        $user   = Factory::getApplication()->getIdentity();
         $itemId = $app->input->getInt('Itemid');
         $quoid  = $app->input->getInt('quoid');
         $encr   = $app->input->getString('encr');

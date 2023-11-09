@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * Class Redshop Helper for Cart - Shipping
@@ -59,11 +62,11 @@ class RedshopHelperCartShipping
         $isCompany      = 0;
         $whereState     = '';
         $whereShopper   = '';
-        $userId         = JFactory::getUser()->id;
+        $userId         = Factory::getApplication()->getIdentity()->id;
 
         if ($userInfo) {
             $country   = $userInfo->country_code;
-            $isCompany = (int)$userInfo->is_company;
+            $isCompany = (int) $userInfo->is_company;
             $userId    = $userInfo->user_id;
             $state     = $userInfo->state_code;
         }
@@ -71,31 +74,31 @@ class RedshopHelperCartShipping
         $shopperGroup = RedshopHelperUser::getShopperGroupData($userId);
 
         if (null !== $shopperGroup) {
-            $whereShopper = ' AND (FIND_IN_SET(' . $db->quote((int)$shopperGroup->id) . ', '
+            $whereShopper = ' AND (FIND_IN_SET(' . $db->quote((int) $shopperGroup->id) . ', '
                 . $db->qn('shipping_rate_on_shopper_group') . ' ) OR '
                 . $db->qn('shipping_rate_on_shopper_group') . ' = "") ';
         }
 
-        $whereCountry = '(FIND_IN_SET(' . (string)$db->quote($country) . ', ' . $db->qn(
-                'shipping_rate_country'
-            ) . ') OR '
+        $whereCountry = '(FIND_IN_SET(' . (string) $db->quote($country) . ', ' . $db->qn(
+            'shipping_rate_country'
+        ) . ') OR '
             . $db->qn('shipping_rate_country') . ' = ' . $db->quote(0) . ' OR ' . $db->qn(
-                'shipping_rate_country'
-            ) . ' = "")';
+                    'shipping_rate_country'
+                ) . ' = "")';
 
         if ($state) {
-            $whereState = ' AND (FIND_IN_SET(' . (string)$db->quote($state) . ', ' . $db->qn(
-                    'shipping_rate_state'
-                ) . ') OR '
+            $whereState = ' AND (FIND_IN_SET(' . (string) $db->quote($state) . ', ' . $db->qn(
+                'shipping_rate_state'
+            ) . ') OR '
                 . $db->qn('shipping_rate_state') . ' = ' . $db->quote(0) . ' OR ' . $db->qn(
-                    'shipping_rate_state'
-                ) . ' = "")';
+                        'shipping_rate_state'
+                    ) . ' = "")';
         }
 
         $companyOnly = !$isCompany ? 2 : 1;
         $isWhere     = ' AND (' . $db->qn('company_only') . ' = ' . $companyOnly . ' OR ' . $db->qn(
-                'company_only'
-            ) . ' = 0) ';
+            'company_only'
+        ) . ' = 0) ';
 
         $shippingRate = self::getShippingRateFirst(
             $volume,
@@ -182,7 +185,7 @@ class RedshopHelperCartShipping
         $whereShopper = ''
     ) {
         $cart = \Redshop\Cart\Helper::getCart();
-        $idx  = (int)$cart['idx'];
+        $idx  = (int) $cart['idx'];
 
         if (!$idx) {
             return null;
@@ -231,7 +234,7 @@ class RedshopHelperCartShipping
     public static function prepareProductWhere()
     {
         $cart = \Redshop\Cart\Helper::getCart();
-        $idx  = (int)$cart['idx'];
+        $idx  = (int) $cart['idx'];
 
         if (!$idx) {
             return '';
@@ -242,7 +245,7 @@ class RedshopHelperCartShipping
         $pWhere = 'AND ( ';
 
         for ($i = 0; $i < $idx; $i++) {
-            $productId = (int)$cart[$i]['product_id'];
+            $productId = (int) $cart[$i]['product_id'];
 
             $pWhere .= 'FIND_IN_SET(' . $productId . ', ' . $db->qn('shipping_rate_on_product') . ')';
 
@@ -281,7 +284,7 @@ class RedshopHelperCartShipping
         $whereShopper = ''
     ) {
         $cart = \Redshop\Cart\Helper::getCart();
-        $idx  = (int)$cart['idx'];
+        $idx  = (int) $cart['idx'];
 
         if (!$idx) {
             return null;
@@ -301,8 +304,8 @@ class RedshopHelperCartShipping
             . " AND " . $db->qn('shipping_rate_volume_end') . " >= "
             . $db->quote($volume) . ") OR (" . $db->qn('shipping_rate_volume_end') . " = 0) )
 								 AND ((" . $db->qn('shipping_rate_ordertotal_start') . " <= " . $db->quote(
-                $orderSubtotal
-            )
+                    $orderSubtotal
+                )
             . " AND " . $db->qn('shipping_rate_ordertotal_end') . " >= "
             . $db->quote($orderSubtotal) . ")  OR (" . $db->qn('shipping_rate_ordertotal_end') . " = 0))
 								 AND ((" . $db->qn('shipping_rate_weight_start') . " <= " . $db->quote($weightTotal)
@@ -328,7 +331,7 @@ class RedshopHelperCartShipping
     public static function prepareCategoryWhere()
     {
         $cart = \Redshop\Cart\Helper::getCart();
-        $idx  = (int)$cart['idx'];
+        $idx  = (int) $cart['idx'];
 
         if (!$idx) {
             return '';
@@ -343,7 +346,7 @@ class RedshopHelperCartShipping
                 continue;
             }
 
-            $productId = (int)$cart[$i]['product_id'];
+            $productId = (int) $cart[$i]['product_id'];
             $product   = \Redshop\Product\Product::getProductById($productId);
 
             if (empty($product->categories)) {
@@ -355,7 +358,7 @@ class RedshopHelperCartShipping
 
             if (is_array($product->categories) && count($product->categories) > 0) {
                 foreach ($product->categories as $category) {
-                    $where .= " FIND_IN_SET(" . (int)$category . ", " . $db->qn('shipping_rate_on_category') . ") ";
+                    $where .= " FIND_IN_SET(" . (int) $category . ", " . $db->qn('shipping_rate_on_category') . ") ";
 
                     if ($index != count($product->categories) - 1) {
                         $where .= " OR ";
@@ -406,8 +409,8 @@ class RedshopHelperCartShipping
 							 ON
 							 " . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element') . "
 					WHERE " . $db->qn('s.folder') . " = " . $db->quote('redshop_shipping') . " AND " . $db->qn(
-                's.enabled'
-            ) . " = 1 AND "
+                    's.enabled'
+                ) . " = 1 AND "
             . $whereCountry . $whereShopper . $isWhere . $whereState . "
 					AND ((" . $db->qn('shipping_rate_volume_start') . " <= " . $db->quote($volume)
             . " AND " . $db->qn('shipping_rate_volume_end') . " >= "

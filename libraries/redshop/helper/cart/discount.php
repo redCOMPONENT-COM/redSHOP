@@ -9,6 +9,7 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -42,7 +43,7 @@ class RedshopHelperCartDiscount
         }
 
         if ($productId) {
-            $query->where($db->qn('product_id') . ' = ' . (int)$productId);
+            $query->where($db->qn('product_id') . ' = ' . (int) $productId);
         }
 
         $query->order($db->qn('option_name'));
@@ -75,7 +76,7 @@ class RedshopHelperCartDiscount
         }
 
         $view   = JFactory::getApplication()->input->getCmd('view', '');
-        $user   = JFactory::getUser();
+        $user   = Factory::getApplication()->getIdentity();
         $db     = JFactory::getDbo();
         $return = false;
 
@@ -114,7 +115,7 @@ class RedshopHelperCartDiscount
                 $query = $db->getQuery(true)
                     ->select('SUM(' . $db->qn('coupon_value') . ') AS usertotal')
                     ->from($db->qn('#__redshop_coupons_transaction'))
-                    ->where($db->qn('userid') . ' = ' . (int)$user->id)
+                    ->where($db->qn('userid') . ' = ' . (int) $user->id)
                     ->group($db->qn('userid'));
 
                 // Set the query and load the result.
@@ -155,9 +156,11 @@ class RedshopHelperCartDiscount
             if ($discountType == 0) {
                 $avgVAT = 1;
 
-                if ((float)Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get(
+                if (
+                    (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get(
                         'APPLY_VAT_ON_DISCOUNT'
-                    )) {
+                    )
+                ) {
                     $avgVAT = $subTotal / $cart['product_subtotal_excl_vat'];
                 }
 
@@ -212,7 +215,7 @@ class RedshopHelperCartDiscount
                     break;
 
                 case 3:
-                    $coupons    = array();
+                    $coupons = array();
                     $oldCoupons = array();
                     unset($cart['coupon']);
                     $return = true;
@@ -220,18 +223,18 @@ class RedshopHelperCartDiscount
                     break;
 
                 case 2:
-                    $coupons    = array();
+                    $coupons = array();
                     $oldCoupons = array();
                     unset($cart['voucher']);
                     unset($cart['coupon']);
                     $cart['voucher_discount'] = 0;
-                    $return                   = true;
+                    $return = true;
 
                     break;
 
                 case 1:
                 default:
-                    $coupons    = array();
+                    $coupons = array();
                     $oldCoupons = array();
                     unset($cart['voucher']);
                     unset($cart['coupon']);
@@ -382,8 +385,10 @@ class RedshopHelperCartDiscount
         if ($productPrice < $voucherValue) {
             $remainingVoucherDiscount = $voucherValue - $productPrice;
             $voucherValue             = $productPrice;
-        } elseif ($cart['voucher_discount'] > 0 && ($productPrice - $cart['voucher_discount']) <= 0 && Redshop::getConfig(
-            )->get('DISCOUNT_TYPE') != 4) {
+        } elseif (
+            $cart['voucher_discount'] > 0 && ($productPrice - $cart['voucher_discount']) <= 0 && Redshop::getConfig(
+            )->get('DISCOUNT_TYPE') != 4
+        ) {
             $remainingVoucherDiscount = $voucherValue;
             $voucherValue             = 0;
         }
@@ -401,7 +406,7 @@ class RedshopHelperCartDiscount
 
             case 3:
 
-                $vouchers    = array();
+                $vouchers = array();
                 $oldVouchers = array();
                 unset($cart['voucher']);
                 $return = true;
@@ -424,13 +429,13 @@ class RedshopHelperCartDiscount
 
             case 1:
             default:
-                $vouchers    = array();
+                $vouchers = array();
                 $oldVouchers = array();
 
                 unset($cart['coupon']);
 
-                $cart['cart_discount']    = 0;
-                $cart['coupon_discount']  = 0;
+                $cart['cart_discount'] = 0;
+                $cart['coupon_discount'] = 0;
                 $cart['voucher_discount'] = 0;
 
                 $return = true;

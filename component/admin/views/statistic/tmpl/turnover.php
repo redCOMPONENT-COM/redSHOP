@@ -10,9 +10,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-$user = JFactory::getUser();
+$user  = Factory::getApplication()->getIdentity();
 $start = $this->pagination->limitstart;
 $end   = $this->pagination->limit;
 
@@ -23,18 +24,13 @@ $end   = $this->pagination->limit;
             <tr>
                 <td><?php echo Text::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption']; ?></td>
             </tr>
-            <?php /*<tr><td><?php echo Text::_('COM_REDSHOP_STARTDATE');?></td>
-        <td><?php echo JHTML::_('calendar', $this->startdate , 'startdate', 'startdate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
-    <tr><td><?php echo Text::_('COM_REDSHOP_ENDDATE');?></td>
-        <td><?php echo JHTML::_('calendar', $this->enddate , 'enddate', 'enddate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
-    <tr><td colspan="2"><input type="submit" name="filter" value=<?php echo Text::_('COM_REDSHOP_SUBMIT');?> /></td></tr><?php */ ?>
         </table>
         <table class="adminlist table table-striped" width="100%">
             <thead>
             <tr>
                 <th align="center"><?php echo Text::_('COM_REDSHOP_HASH'); ?></th>
                 <?php if ($this->filteroption) { ?>
-                    <th align="center"><?php echo Text::_('COM_REDSHOP_DATE'); ?></th>
+                        <th align="center"><?php echo Text::_('COM_REDSHOP_DATE'); ?></th>
                 <?php } ?>
                 <th align="center"><?php echo Text::_('COM_REDSHOP_TOTAL_TURNOVER'); ?></th>
             </tr>
@@ -47,13 +43,13 @@ $end   = $this->pagination->limit;
 
                 $row = $this->totalturnover[$i];
                 ?>
-                <tr>
-                    <td align="center"><?php echo $i + 1; ?></td>
-                    <?php if ($this->filteroption) { ?>
-                        <td align="center"><?php echo $row->viewdate; ?></td>
-                    <?php } ?>
-                    <td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->turnover); ?></td>
-                </tr>
+                    <tr>
+                        <td align="center"><?php echo $i + 1; ?></td>
+                        <?php if ($this->filteroption) { ?>
+                                <td align="center"><?php echo $row->viewdate; ?></td>
+                        <?php } ?>
+                        <td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->turnover); ?></td>
+                    </tr>
             <?php } ?>
             <tfoot>
             <td colspan="3">

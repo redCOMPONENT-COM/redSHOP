@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Class Redshop Helper for Media
  *
@@ -34,10 +36,10 @@ class RedshopHelperNewsletter
      */
     public static function subscribe($userId = 0, $data = array(), $sendMail = false, $isNew = null)
     {
-	    $db   = JFactory::getDbo();
+        $db         = JFactory::getDbo();
         $newsletter = 1;
-        $userId     = (int)$userId;
-        $user       = JFactory::getUser();
+        $userId     = (int) $userId;
+        $user       = Factory::getApplication()->getIdentity();
 
         if (Redshop::getConfig()->get('DEFAULT_NEWSLETTER') > 0) {
             $newsletter = Redshop::getConfig()->get('DEFAULT_NEWSLETTER');
@@ -83,33 +85,37 @@ class RedshopHelperNewsletter
             $data['published'] = 0;
         }
 
-	    $query = $db->getQuery(true)
-		    ->insert($db->qn('#__redshop_newsletter_subscription'))
-		    ->columns(
-			    array(
-				    $db->quoteName('user_id'), $db->quoteName('date'),
-				    $db->quoteName('newsletter_id'), $db->quoteName('name'),
-				    $db->quoteName('email'), $db->quoteName('published')
-			    )
-		    )
-		    ->values($db->quote(abs($data['user_id'])) . ','
-		             . $db->quote(date('Y-m-d H:i:s',$data['date']))
-		             . ',' . $db->quote($data['newsletter_id'])
-		             . ',' . $db->quote($data['name'])
-		             . ',' . $db->quote($data['email'])
-		             . ',' . $db->quote(1)
-		    );
+        $query = $db->getQuery(true)
+            ->insert($db->qn('#__redshop_newsletter_subscription'))
+            ->columns(
+                array(
+                    $db->quoteName('user_id'),
+                    $db->quoteName('date'),
+                    $db->quoteName('newsletter_id'),
+                    $db->quoteName('name'),
+                    $db->quoteName('email'),
+                    $db->quoteName('published')
+                )
+            )
+            ->values(
+                $db->quote(abs($data['user_id'])) . ','
+                . $db->quote(date('Y-m-d H:i:s', $data['date']))
+                . ',' . $db->quote($data['newsletter_id'])
+                . ',' . $db->quote($data['name'])
+                . ',' . $db->quote($data['email'])
+                . ',' . $db->quote(1)
+            );
 
-	    $result = $db->setQuery($query)->execute();
+        $result = $db->setQuery($query)->execute();
 
-	    if ($result) {
-		    $query = $db->getQuery(true)
-			    ->select('id')
-			    ->from($db->qn('#__redshop_newsletter_subscription'))
-			    ->where($db->qn('user_id') . ' = ' . $db->q(abs($data['user_id'])));
+        if ($result) {
+            $query = $db->getQuery(true)
+                ->select('id')
+                ->from($db->qn('#__redshop_newsletter_subscription'))
+                ->where($db->qn('user_id') . ' = ' . $db->q(abs($data['user_id'])));
 
-		    $subId = $db->setQuery($query)->loadResult();
-	    }
+            $subId = $db->setQuery($query)->loadResult();
+        }
 
         if ($needSendMail) {
             Redshop\Mail\Newsletter::sendConfirmationMail($subId);
@@ -130,7 +136,7 @@ class RedshopHelperNewsletter
     public static function removeSubscribe($email = "")
     {
         $db   = JFactory::getDbo();
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         // Skip if user is guest and empty email.
         if (empty($email) && $user->guest) {

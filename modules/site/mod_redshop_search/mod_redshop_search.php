@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Registry\Registry;
@@ -21,7 +22,7 @@ HTMLHelper::script('modules/mod_redshop_search/js/search.min.js');
 
 $app      = JFactory::getApplication();
 $input    = $app->input;
-$user     = JFactory::getUser();
+$user     = Factory::getApplication()->getIdentity();
 $document = JFactory::getDocument();
 $document->addScriptDeclaration(
     "var base_url = '" . JUri::root() . "';"

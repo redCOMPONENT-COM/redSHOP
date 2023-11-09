@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Class RedshopModelAccount_Billto
  *
@@ -52,7 +54,7 @@ class RedshopModelAccount_Billto extends RedshopModel
                     $isCompany = 1;
                 }
 
-                $user   = JFactory::getUser();
+                $user   = Factory::getApplication()->getIdentity();
                 $detail = new stdClass;
 
                 $detail->users_info_id         = 0;

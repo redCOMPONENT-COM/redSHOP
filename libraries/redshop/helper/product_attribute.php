@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -66,7 +67,7 @@ abstract class RedshopHelperProduct_Attribute
         if (!array_key_exists($key, static::$propertyPrice)) {
             $db      = JFactory::getDbo();
             $session = JFactory::getSession();
-            $user    = JFactory::getUser();
+            $user    = Factory::getApplication()->getIdentity();
 
             if ($userId === 0) {
                 $userId = $user->id;
@@ -92,14 +93,14 @@ abstract class RedshopHelperProduct_Attribute
                     )
                 )
                 ->from($db->qn('#__redshop_product_attribute_price', 'p'))
-                ->where($db->qn('p.section_id') . ' = ' . (int)$sectionId)
+                ->where($db->qn('p.section_id') . ' = ' . (int) $sectionId)
                 ->where($db->qn('p.section') . ' = ' . $db->q($section))
                 ->where(
                     '(
 						(
-							' . $db->qn('p.price_quantity_start') . ' <= ' . (int)$quantity . '
+							' . $db->qn('p.price_quantity_start') . ' <= ' . (int) $quantity . '
 							AND
-							' . $db->qn('p.price_quantity_end') . ' >= ' . (int)$quantity . '
+							' . $db->qn('p.price_quantity_end') . ' >= ' . (int) $quantity . '
 						)
 						OR
 						(
@@ -117,10 +118,10 @@ abstract class RedshopHelperProduct_Attribute
                         'p.shopper_group_id'
                     )
                 )
-                    ->where($db->qn('u.user_id') . ' = ' . (int)$userId)
+                    ->where($db->qn('u.user_id') . ' = ' . (int) $userId)
                     ->where($db->qn('u.address_type') . ' = ' . $db->q('BT'));
             } else {
-                $query->where($db->qn('p.shopper_group_id') . ' = ' . (int)$shopperGroupId);
+                $query->where($db->qn('p.shopper_group_id') . ' = ' . (int) $shopperGroupId);
             }
 
             $db->setQuery($query, 0, 1);
@@ -128,12 +129,14 @@ abstract class RedshopHelperProduct_Attribute
             $result  = $db->loadObject();
             $current = time();
 
-            if ($result && $result->discount_price != 0
+            if (
+                $result && $result->discount_price != 0
                 && $result->discount_start_date != 0
                 && $result->discount_end_date != 0
                 && $result->discount_price < $result->product_price
                 && $result->discount_start_date <= $current
-                && $result->discount_end_date >= $current) {
+                && $result->discount_end_date >= $current
+            ) {
                 $result->product_price = $result->discount_price;
             }
 
@@ -212,7 +215,7 @@ abstract class RedshopHelperProduct_Attribute
                         );
                     }
                     $property->property_price_without_vat = $property->property_price;
-                    $property->property_price             += $attributePropertyVAT;
+                    $property->property_price += $attributePropertyVAT;
                 }
 
                 $propPrice[]          = $property->property_price;
@@ -251,7 +254,7 @@ abstract class RedshopHelperProduct_Attribute
                             );
                         }
                         $subProperty->subattribute_color_price_without_vat = $subProperty->subattribute_color_price;
-                        $subProperty->subattribute_color_price             += $attributesSubPropertyVAT;
+                        $subProperty->subattribute_color_price += $attributesSubPropertyVAT;
                     }
 
                     $subPropertiesPrice[]  = $subProperty->subattribute_color_price;
@@ -399,7 +402,7 @@ abstract class RedshopHelperProduct_Attribute
                 }
 
                 if ($required != 0) {
-                    $query->where('ap.setrequire_selected = ' . (int)$required);
+                    $query->where('ap.setrequire_selected = ' . (int) $required);
                 }
 
                 if ($notPropertyId != 0) {
@@ -445,8 +448,8 @@ abstract class RedshopHelperProduct_Attribute
      */
     public static function getAttributeSubProperties($subPropertyId = 0, $propertyId = 0, $includeUnpublished = false)
     {
-        $subPropertyId = (int)$subPropertyId;
-        $propertyId    = (int)$propertyId;
+        $subPropertyId = (int) $subPropertyId;
+        $propertyId    = (int) $propertyId;
 
         $key = md5($subPropertyId . '_' . $propertyId);
 

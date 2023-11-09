@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -1965,7 +1966,7 @@ class RedshopHelperOrder
     public static function getUserOrderDetails($userId = 0)
     {
         $db   = JFactory::getDbo();
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         if ($userId == 0) {
             $userId = $user->id;
@@ -2057,7 +2058,7 @@ class RedshopHelperOrder
     public static function getBillingAddress($userId = 0)
     {
         if ($userId == 0) {
-            $user   = JFactory::getUser();
+            $user   = Factory::getApplication()->getIdentity();
             $userId = $user->id;
         }
 
@@ -2099,7 +2100,7 @@ class RedshopHelperOrder
     public static function getShippingAddress($userId = 0)
     {
         if ($userId == 0) {
-            $user   = JFactory::getUser();
+            $user   = Factory::getApplication()->getIdentity();
             $userId = $user->id;
         }
 
@@ -2135,7 +2136,7 @@ class RedshopHelperOrder
     public static function getUserFullName($userId)
     {
         $fullName = "";
-        $user     = JFactory::getUser();
+        $user     = Factory::getApplication()->getIdentity();
         $db       = JFactory::getDbo();
 
         if ($userId == 0) {
@@ -2738,7 +2739,7 @@ class RedshopHelperOrder
     public static function writeOrderLog($orderId, $byUserId, $orderStatusCode, $orderPaymentStatus, $customerNote)
     {
         if (empty($byUserId)) {
-            $byUserId = JFactory::getUser()->id;
+            $byUserId = Factory::getApplication()->getIdentity()->id;
         }
 
         $userId = $byUserId ?: 0;

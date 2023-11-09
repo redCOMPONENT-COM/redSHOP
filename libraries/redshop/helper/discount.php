@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Discount class
  *
@@ -28,14 +30,14 @@ class RedshopHelperDiscount
      */
     public static function getDiscount($subTotal = 0, $userId = 0)
     {
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         if (!$userId) {
             $userId = $user->id;
         }
 
         $userData       = RedshopHelperUser::createUserSession($userId);
-        $shopperGroupId = (int)$userData['rs_user_shopperGroup'];
+        $shopperGroupId = (int) $userData['rs_user_shopperGroup'];
 
         $shopperGroupDiscounts = RedshopEntityShopper_Group::getInstance($shopperGroupId)->getDiscounts();
 
@@ -45,8 +47,8 @@ class RedshopHelperDiscount
 
         $result      = false;
         $currentTime = time();
-	    $max = null;
-        $discounts = $shopperGroupDiscounts->getAll();
+        $max         = null;
+        $discounts   = $shopperGroupDiscounts->getAll();
 
         foreach ($discounts as $discount) {
             // Skip if this discount is not published
@@ -66,25 +68,28 @@ class RedshopHelperDiscount
              * 3. Had only end date and end date higher than current time.
              * 4. Start date exist and smaller than current time. End date exist and higher than current time.
              */
-            if ((!$startDate && !$endDate)
+            if (
+                (!$startDate && !$endDate)
                 || ($startDate && !$endDate && $startDate <= $currentTime)
                 || (!$startDate && $endDate && $endDate >= $currentTime)
-                || ($startDate && $startDate <= $currentTime && $endDate && $endDate >= $currentTime)) {
-                if (($condition == 1 && $amount > $subTotal)
+                || ($startDate && $startDate <= $currentTime && $endDate && $endDate >= $currentTime)
+            ) {
+                if (
+                    ($condition == 1 && $amount > $subTotal)
                     || ($condition == 2 && $amount == $subTotal)
-                    || ($condition == 3 && $amount < $subTotal)) {
-	                if ($max == null) {
-		                $max = $discount->get('amount');
+                    || ($condition == 3 && $amount < $subTotal)
+                ) {
+                    if ($max == null) {
+                        $max = $discount->get('amount');
 
-		                if (false === $result || $result->amount > $discount->get('amount'))
-		                {
-			                $result = $discount;
-		                }
-	                } else {
-		                if ($discount->get('amount') > $max && $max < $subTotal){
-			                $result = $discount;
-		                }
-	                }
+                        if (false === $result || $result->amount > $discount->get('amount')) {
+                            $result = $discount;
+                        }
+                    } else {
+                        if ($discount->get('amount') > $max && $max < $subTotal) {
+                            $result = $discount;
+                        }
+                    }
                 } else {
                     continue;
                 }
@@ -121,10 +126,12 @@ class RedshopHelperDiscount
         if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0) {
             $productData->discount_price = 0;
         } else {
-            if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
-                || ((int)$productData->discount_enddate >= $today && (int)$productData->discount_stratdate <= $today)
-                || ($productData->discount_enddate == '0' && (int)$productData->discount_stratdate <= $today)) {
-                return (float)$productData->discount_price;
+            if (
+                ($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
+                || ((int) $productData->discount_enddate >= $today && (int) $productData->discount_stratdate <= $today)
+                || ($productData->discount_enddate == '0' && (int) $productData->discount_stratdate <= $today)
+            ) {
+                return (float) $productData->discount_price;
             }
         }
 
@@ -204,7 +211,7 @@ class RedshopHelperDiscount
             // If the product is already discount
             if ($productPriceArray['product_price_saving_percentage'] > 0 && empty($cart[$i]['cart_attribute'])) {
                 $amount = $percent * $productPriceArray['product_price'] / 100;
-                $value  -= $amount * $cart[$i]['quantity'];
+                $value -= $amount * $cart[$i]['quantity'];
             }
         }
 
@@ -223,7 +230,7 @@ class RedshopHelperDiscount
      */
     public static function modifyDiscount($cart = [])
     {
-        $cart = empty($cart) ? \Redshop\Cart\Helper::getCart(): $cart;
+        $cart                              = empty($cart) ? \Redshop\Cart\Helper::getCart() : $cart;
         $calculations                      = \Redshop\Cart\Helper::calculation();
         $cart['product_subtotal']          = $calculations[1];
         $cart['product_subtotal_excl_vat'] = $calculations[2];
@@ -283,9 +290,11 @@ class RedshopHelperDiscount
                     $couponDiscount += $cartCoupon['coupon_value'];
                 }
             } else {
-                if (!empty($cart['coupon'][0]['coupon_value']) && (int)Redshop::getConfig()->get(
+                if (
+                    !empty($cart['coupon'][0]['coupon_value']) && (int) Redshop::getConfig()->get(
                         'DISCOUNT_TYPE'
-                    ) !== 2) {
+                    ) !== 2
+                ) {
                     $couponDiscount = $cart['coupon'][0]['coupon_value'];
                 } else {
                     for ($c = 0; $c < $couponIndex; $c++) {
@@ -321,8 +330,8 @@ class RedshopHelperDiscount
                 $vatData = RedshopHelperUser::getVatUserInformation();
 
                 if (!empty($vatData->tax_rate)) {
-                    $productPriceExclVAT = (float)$cart['product_subtotal_excl_vat'];
-                    $productVAT          = (float)$cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
+                    $productPriceExclVAT = (float) $cart['product_subtotal_excl_vat'];
+                    $productVAT          = (float) $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
 
                     if ($productPriceExclVAT > 0) {
                         $avgVAT      = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
@@ -349,7 +358,7 @@ class RedshopHelperDiscount
         $cart['discount_vat']              = $discountVAT;
         $cart['shipping_tax']              = $calculations[6];
         $cart['discount_ex_vat']           = $totalDiscount - $discountVAT;
-        $cart['mod_cart_total']            = Redshop\Cart\Module::calculate((array)$cart);
+        $cart['mod_cart_total']            = Redshop\Cart\Module::calculate((array) $cart);
 
         \Redshop\Cart\Helper::setCart($cart);
 

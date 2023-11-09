@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+
 JHTML::_('bootstrap.modal');
 
 /**
@@ -45,7 +48,7 @@ class RedshopViewPlugins extends RedshopViewList
      */
     public function onRenderColumn($config, $index, $row)
     {
-        $isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
+        $isCheckedOut = $row->checked_out && Factory::getApplication()->getIdentity()->id != $row->checked_out;
         $isInline     = Redshop::getConfig()->getBool('INLINE_EDITING');
         $value        = $row->{$config['dataCol']};
 
@@ -83,7 +86,7 @@ class RedshopViewPlugins extends RedshopViewList
                 JToolbarHelper::save2copy($this->getInstancesName() . '.copy', 'COM_REDSHOP_TOOLBAR_COPY');
             }
 
-            if ( ! empty($this->stateColumns)) {
+            if (!empty($this->stateColumns)) {
                 JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
                 JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
             }

@@ -10,6 +10,7 @@ namespace Redshop\Traits\Replace;
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -39,7 +40,7 @@ trait NewsletterSubscription
 
             if (\Redshop::getConfig()->get('DEFAULT_NEWSLETTER') != 0) {
                 //@TODO: move query code into function for common use
-                $user  = \JFactory::getUser();
+                $user  = Factory::getApplication()->getIdentity();
                 $query = $db->getQuery(true);
                 $query->select($db->qn('id'))
                     ->from($db->qn('#__redshop_newsletter_subscription'))

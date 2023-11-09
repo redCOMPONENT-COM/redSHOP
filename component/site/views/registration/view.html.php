@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 class RedshopViewRegistration extends RedshopView
 {
@@ -20,7 +20,7 @@ class RedshopViewRegistration extends RedshopView
 
         $Itemid = $app->input->getInt('Itemid');
 
-        $user    = JFactory::getUser();
+        $user    = Factory::getApplication()->getIdentity();
         $session = JFactory::getSession();
         $auth    = $session->get('auth');
 
@@ -28,13 +28,13 @@ class RedshopViewRegistration extends RedshopView
             $app->redirect(Redshop\IO\Route::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid));
         }
 
-        $params = $app->getParams('com_redshop');
+        $params = $app->getParams();
         JHtml::_('redshopjquery.framework');
-		HTMLHelper::script('com_redshop/jquery.validate.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/jquery.metadata.min.js', ['relative' => true]);
-		HTMLHelper::script('com_redshop/redshop.registration.min.js', ['relative' => true]);
-		HTMLHelper::stylesheet('com_redshop/redshop.validation.min.css', ['relative' => true]);
+        HTMLHelper::script('com_redshop/jquery.validate.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.common.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/jquery.metadata.min.js', ['relative' => true]);
+        HTMLHelper::script('com_redshop/redshop.registration.min.js', ['relative' => true]);
+        HTMLHelper::stylesheet('com_redshop/redshop.validation.min.css', ['relative' => true]);
 
         JPluginHelper::importPlugin('redshop_vies_registration');
 

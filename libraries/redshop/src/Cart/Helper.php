@@ -1058,7 +1058,7 @@ class Helper
     public static function updateCart($data)
     {
         $cart = \Redshop\Cart\Helper::getCart();
-        $user = \JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         $cartElement = $data['cart_index'];
         $newQuantity = intval(abs($data['quantity']) > 0 ? $data['quantity'] : 1);

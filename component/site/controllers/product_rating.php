@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 
@@ -41,7 +42,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
         $modal       = $app->input->getInt('modal', 0);
         $category_id = $app->input->getInt('category_id', 0);
         $returnUrl   = $app->input->getString('returnurl', '');
-        $user        = JFactory::getUser();
+        $user        = Factory::getApplication()->getIdentity();
 
         if (!empty($returnUrl)) {
             $link = base64_decode($returnUrl);
@@ -70,7 +71,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
         $app->setUserState('com_redshop.edit.product_rating.' . $productId . '.data', $data);
 
         // Check captcha only for guests
-        if (JFactory::getUser()->guest) {
+        if (Factory::getApplication()->getIdentity()->guest) {
             if (!Redshop\Helper\Utility::checkCaptcha( /** @scrutinizer ignore-type */$data, false)) {
                 $app->enqueueMessage(Text::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
                 $this->setRedirect($link);

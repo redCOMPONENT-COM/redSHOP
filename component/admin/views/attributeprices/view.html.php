@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 jimport('joomla.html.pagination');
@@ -41,7 +42,7 @@ class RedshopViewAttributeprices extends RedshopViewAdmin
         $data       = $this->get('Data');
         $pagination = new JPagination($total, $limitstart, $limit);
 
-        $this->user        = JFactory::getUser();
+        $this->user        = Factory::getApplication()->getIdentity();
         $this->data        = $data;
         $this->section_id  = $section_id;
         $this->section     = $section;

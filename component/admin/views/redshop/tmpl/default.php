@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 $statistic = $this->model->getStatisticDashboard();
@@ -35,46 +36,47 @@ $statistic = $this->model->getStatisticDashboard();
         }
     }
 </script>
+
 <?php
-$user           = JFactory::getUser();
+$user           = Factory::getApplication()->getIdentity();
 $userType       = array_keys($user->groups);
 $user->usertype = $userType[0];
 $user->gid      = $user->groups[$user->usertype];
-?>
 
+?>
 <div class="row">
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-			<span class="info-box-icon bg-green">
-				<i class="fa fa-money" aria-hidden="true"></i>
-			</span>
+            <span class="info-box-icon bg-green">
+                <i class="fa fa-money" aria-hidden="true"></i>
+            </span>
 
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo Text::_('COM_REDSHOP_STATISTIC_TOTAL_SALES'); ?></span>
                 <span class="info-box-number"><?php echo RedshopHelperProductPrice::formattedPrice(
-                        $statistic[0]
-                    ); ?></span>
+                    $statistic[0]
+                ); ?></span>
             </div>
         </div>
     </div>
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-			<span class="info-box-icon bg-blue">
-				<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-			</span>
+            <span class="info-box-icon bg-blue">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+            </span>
 
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo Text::_('COM_REDSHOP_STATISTIC_ORDER_COUNT'); ?></span>
-                <span class="info-box-number"><?php echo (int)$statistic[1] ?></span>
+                <span class="info-box-number"><?php echo (int) $statistic[1] ?></span>
             </div>
         </div>
     </div>
 
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-			<span class="info-box-icon bg-aqua">
-				<i class="fa fa-users" aria-hidden="true"></i>
-			</span>
+            <span class="info-box-icon bg-aqua">
+                <i class="fa fa-users" aria-hidden="true"></i>
+            </span>
 
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo Text::_('COM_REDSHOP_STATISTIC_TOTAL_MEMBER'); ?></span>
@@ -85,13 +87,13 @@ $user->gid      = $user->groups[$user->usertype];
 
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-			<span class="info-box-icon bg-yellow">
-				<i class="fa fa-area-chart" aria-hidden="true"></i>
-			</span>
+            <span class="info-box-icon bg-yellow">
+                <i class="fa fa-area-chart" aria-hidden="true"></i>
+            </span>
 
             <div class="info-box-content">
                 <span class="info-box-text"><?php echo Text::_('COM_REDSHOP_STATISTIC_TOTAL_VISITOR'); ?></span>
-                <span class="info-box-number"><?php echo (int)($statistic[3] ?? null) ?></span>
+                <span class="info-box-number"><?php echo (int) ($statistic[3] ?? null) ?></span>
             </div>
         </div>
     </div>

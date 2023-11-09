@@ -10,9 +10,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-$user  = JFactory::getUser();
+$user  = Factory::getApplication()->getIdentity();
 $start = $this->pagination->limitstart;
 $end   = $this->pagination->limit;
 
@@ -50,23 +51,23 @@ $end   = $this->pagination->limit;
 
                 if ($this->filteroption && $row->viewdate != $disdate) {
                     $disdate = $row->viewdate; ?>
+                            <tr>
+                                <td colspan="3">
+                                    <?php echo Text::_("COM_REDSHOP_DATE") . ": " . $disdate; ?>
+                                </td>
+                            </tr>
+                    <?php } ?>
                     <tr>
-                        <td colspan="3">
-                            <?php echo Text::_("COM_REDSHOP_DATE") . ": " . $disdate; ?>
+                        <td align="center">
+                            <?php echo $i + 1; ?>
+                        </td>
+                        <td align="center">
+                            <?php echo $row->firstname . ' ' . $row->lastname; ?>
+                        </td>
+                        <td align="center">
+                            <?php echo $row->totalorder; ?>
                         </td>
                     </tr>
-                <?php } ?>
-                <tr>
-                    <td align="center">
-                        <?php echo $i + 1; ?>
-                    </td>
-                    <td align="center">
-                        <?php echo $row->firstname . ' ' . $row->lastname; ?>
-                    </td>
-                    <td align="center">
-                        <?php echo $row->totalorder; ?>
-                    </td>
-                </tr>
             <?php } ?>
             <tfoot>
                 <td colspan="3">

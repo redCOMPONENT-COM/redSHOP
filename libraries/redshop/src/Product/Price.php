@@ -9,6 +9,8 @@
 
 namespace Redshop\Product;
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -32,7 +34,7 @@ class Price
      */
     public static function getPrice($productId, $withVAT = true, $userId = 0)
     {
-        $userId = !$userId ? \JFactory::getUser()->id : $userId;
+        $userId = !$userId ? Factory::getApplication()->getIdentity()->id : $userId;
 
         $row    = \Redshop\Product\Product::getProductById($productId);
         $result = \RedshopHelperProduct::getProductPrices($productId, $userId);

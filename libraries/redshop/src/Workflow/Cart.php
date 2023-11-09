@@ -9,6 +9,7 @@
 
 namespace Redshop\Workflow;
 
+use Joomla\CMS\Factory;
 use Redshop\Workflow\Base as BaseWorkflow;
 
 defined('_JEXEC') or die;
@@ -137,7 +138,7 @@ class Cart extends BaseWorkflow
         // Call empty_cart method of model to remove all products from cart
         \RedshopHelperCart::emptyCart();
         ;
-        $user = \JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         if ($user->id) {
             \RedshopHelperCart::removeCartFromDatabase(0, $user->id, true);

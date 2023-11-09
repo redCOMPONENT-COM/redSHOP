@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 
@@ -27,11 +28,11 @@ $vName              = $app->input->getCmd('view', 'category');
 $task               = $app->input->getCmd('task', '');
 $format             = $app->input->getWord('format', 'html');
 $layout             = $app->input->getWord('layout', '');
-$params             = $app->getParams('com_redshop');
+$params             = $app->getParams();
 $categoryId         = $app->input->getInt('cid', $params->get('categoryid'));
 $productId          = $app->input->getInt('pid', 0);
 $shopperGroupPortal = RedshopHelperShopper_Group::getShopperGroupPortal();
-$user               = JFactory::getUser();
+$user               = Factory::getApplication()->getIdentity();
 $portal             = 0;
 
 // Add product in cart from db

@@ -11,6 +11,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\User\UserFactoryInterface;
+
 /**
  * Class Redshop Helper for Access Level
  *
@@ -73,14 +76,14 @@ class RedshopHelperAccess
             return true;
         }
 
-        $shopperGroupId   = RedshopHelperUser::getShopperGroup(JFactory::getUser()->id);
+        $shopperGroupId   = RedshopHelperUser::getShopperGroup(Factory::getApplication()->getIdentity()->id);
         $shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
         if (!empty($shopperGroupData)) {
             if (isset($shopperGroupData[0]) && $shopperGroupData[0]->categories) {
                 $shopperCategories = explode(',', $shopperGroupData[0]->categories);
 
-                if (array_search((int)$cid, $shopperCategories) !== false) {
+                if (array_search((int) $cid, $shopperCategories) !== false) {
                     static::$portalCategories = $shopperCategories;
 
                     return true;
@@ -93,7 +96,7 @@ class RedshopHelperAccess
             ->select($db->qn('id'))
             ->from($db->qn('#__redshop_shopper_group'))
             ->where('FIND_IN_SET(' . $db->quote($cid) . ', categories)')
-            ->where($db->qn('id') . ' = ' . (int)$shopperGroupId);
+            ->where($db->qn('id') . ' = ' . (int) $shopperGroupId);
 
         if (!$db->setQuery($query)->loadResult()) {
             return false;
@@ -131,9 +134,11 @@ class RedshopHelperAccess
     public static function canDo($target = '', $task = '', $userId = 0)
     {
         if (!$userId) {
-            $user = JFactory::getUser();
+            $user = Factory::getApplication()->getIdentity();
         } else {
-            $user = JFactory::getUser($userId);
+            $container   = Factory::getContainer();
+            $userFactory = $container->get(UserFactoryInterface::class);
+            $user        = $userFactory->loadUserById($userId);
         }
 
         return $user->authorise($target . '.' . $task, 'com_redshop.backend');

@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
-
-defined('_JEXEC') or die;
 
 /**
  * Class productModelproduct
@@ -168,7 +168,7 @@ class RedshopModelProduct extends RedshopModel
 
     public function sendMailForReview($data)
     {
-        $user           = JFactory::getUser();
+        $user           = Factory::getApplication()->getIdentity();
         $data['userid'] = $user->id;
 
         $data['user_rating'] = $data['user_rating'];
@@ -195,7 +195,7 @@ class RedshopModelProduct extends RedshopModel
             return false;
         }
 
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         $url       = JURI::base();
         $Itemid    = $this->input->get('Itemid');
@@ -413,7 +413,7 @@ class RedshopModelProduct extends RedshopModel
 
     public function addProductTagsXref($post, $tags)
     {
-        $user  = JFactory::getUser();
+        $user  = Factory::getApplication()->getIdentity();
         $query = "INSERT INTO " . $this->_table_prefix . "product_tags_xref "
             . "VALUES('" . (int) $tags->tags_id . "','" . (int) $post['product_id'] . "','" . (int) $user->id . "')";
         $this->_db->setQuery($query);
@@ -424,7 +424,7 @@ class RedshopModelProduct extends RedshopModel
 
     public function checkProductTags($tagname, $productid)
     {
-        $user  = JFactory::getUser();
+        $user  = Factory::getApplication()->getIdentity();
         $query = "SELECT pt.*,ptx.product_id,ptx.users_id FROM " . $this->_table_prefix . "product_tags AS pt "
             . "LEFT JOIN " . $this->_table_prefix . "product_tags_xref AS ptx ON pt.tags_id=ptx.tags_id "
             . "WHERE pt.tags_name LIKE " . /** @scrutinizer ignore-type */
@@ -439,7 +439,7 @@ class RedshopModelProduct extends RedshopModel
 
     public function checkWishlist($productId)
     {
-        $user  = JFactory::getUser();
+        $user  = Factory::getApplication()->getIdentity();
         $query = "SELECT * FROM " . $this->_table_prefix . "wishlist "
             . "WHERE product_id = " . (int) $productId . " "
             . "AND user_id = " . (int) $user->id;
@@ -526,7 +526,7 @@ class RedshopModelProduct extends RedshopModel
     public function addNotifystock($productId, $propertyId, $subPropertyId, $email_not_login = null)
     {
         ob_clean();
-        $user                    = JFactory::getUser();
+        $user                    = Factory::getApplication()->getIdentity();
         $user_id                 = $user->id;
         $data                    = array();
         $data['product_id']      = $productId;

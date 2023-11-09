@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Utilities\ArrayHelper;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Question Detail controller
@@ -52,7 +52,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
         $model = $this->getModel('Question');
 
         if ($data['id'] == 0) {
-            $user = JFactory::getUser();
+            $user = Factory::getApplication()->getIdentity();
 
             $data['user_name']     = $user->username;
             $data['user_email']    = $user->email;

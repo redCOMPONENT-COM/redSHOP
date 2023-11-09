@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Class Redshop Helper Statistic
  *
@@ -39,7 +41,7 @@ abstract class RedshopHelperStatistic
     public static function recordVisitor()
     {
         $sessionId = JFactory::getSession()->getId();
-        $user      = JFactory::getUser();
+        $user      = Factory::getApplication()->getIdentity();
 
         $table = RedshopTable::getInstance('Site_Viewer', 'RedshopTable');
 
@@ -68,7 +70,7 @@ abstract class RedshopHelperStatistic
     {
         $input     = JFactory::getApplication()->input;
         $sessionId = JFactory::getSession()->getId();
-        $user      = JFactory::getUser();
+        $user      = Factory::getApplication()->getIdentity();
 
         $view      = $input->getCmd('view', '');
         $section   = '';
@@ -76,17 +78,17 @@ abstract class RedshopHelperStatistic
 
         switch ($view) {
             case 'product':
-                $section   = $view;
+                $section = $view;
                 $sectionId = $input->getInt('pid', 0);
                 break;
 
             case 'category':
-                $section   = $view;
+                $section = $view;
                 $sectionId = $input->getInt('cid', 0);
                 break;
 
             case 'manufacturers':
-                $section   = $view;
+                $section = $view;
                 $sectionId = $input->getInt('mid', 0);
                 break;
 

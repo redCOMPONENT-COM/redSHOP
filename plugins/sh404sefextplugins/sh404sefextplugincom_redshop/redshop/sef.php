@@ -7,7 +7,10 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
 
 // ------------------  standard plugin initialize function - don't change ---------------------------
 global $sh_LANG;
@@ -329,7 +332,7 @@ switch ($view) {
             $title[] = $layout;
 
             if ($layout == 'portal') {
-                $user = JFactory::getUser();
+                $user = Factory::getApplication()->getIdentity();
 
                 if ($user->id > 0) {
                     $title[] = $sh_LANG[$shLangIso]['_REDSHOP_PORTAL_AFTERLOGIN'];

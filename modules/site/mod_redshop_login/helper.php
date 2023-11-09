@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 
 /**
@@ -55,7 +56,7 @@ class ModRedshopLoginHelper
      */
     public static function getType()
     {
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         return (!$user->get('guest')) ? 'logout' : 'login';
     }

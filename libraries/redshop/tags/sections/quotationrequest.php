@@ -9,6 +9,7 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -61,7 +62,7 @@ class RedshopTagsSectionsQuotationRequest extends RedshopTagsAbstract
         $session      = JFactory::getSession();
         $cart         = $session->get('cart');
         $detail       = $this->data['detail'];
-        $user         = JFactory::getUser();
+        $user         = Factory::getApplication()->getIdentity();
         $layoutOption = \RedshopLayoutHelper::$layoutOption;
 
         $subTemplate = $this->getTemplateBetweenLoop('{product_loop_start}', '{product_loop_end}');

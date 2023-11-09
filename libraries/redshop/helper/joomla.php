@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -146,7 +147,7 @@ class RedshopHelperJoomla
         RedshopHelperUtility::getDispatcher()->trigger('onBeforeCreateJoomlaUser', array(&$data));
 
         // Get required system objects
-        $user = clone JFactory::getUser();
+        $user = clone Factory::getApplication()->getIdentity();
 
         // If user registration is not allowed, show 403 not authorized.
         if (!$user->bind($data)) {
@@ -180,7 +181,7 @@ class RedshopHelperJoomla
         $credentials['password'] = $data['password2'];
 
         // Perform the login action
-        if (!JFactory::getUser()->id) {
+        if (!Factory::getApplication()->getIdentity()->id) {
             $app->login($credentials);
         }
 
@@ -214,7 +215,7 @@ class RedshopHelperJoomla
             return $reduser;
         }
 
-        $me = JFactory::getUser();
+        $me = Factory::getApplication()->getIdentity();
 
         $data['name'] = $name = $data['firstname'];
 

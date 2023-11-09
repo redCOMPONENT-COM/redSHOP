@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Redshop\Economic\RedshopEconomic;
@@ -56,7 +57,7 @@ class RedshopModelCheckout extends RedshopModel
         $session             = JFactory::getSession();
         $this->_redshopMail  = redshopMail::getInstance();
 
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
         $cart = $session->get('cart');
 
         if (!empty($cart)) {
@@ -200,7 +201,7 @@ class RedshopModelCheckout extends RedshopModel
             $shop_id .= '###' . $gls_zipcode;
         }
 
-        $user    = JFactory::getUser();
+        $user    = Factory::getApplication()->getIdentity();
         $session = JFactory::getSession();
         $auth    = $session->get('auth');
         $userId  = $user->id;
@@ -1278,7 +1279,7 @@ class RedshopModelCheckout extends RedshopModel
      */
     public function billingaddresses()
     {
-        $user           = JFactory::getUser();
+        $user           = Factory::getApplication()->getIdentity();
         $session        = JFactory::getSession();
         $auth           = $session->get('auth');
         $billingAddress = new stdClass;
@@ -1329,7 +1330,7 @@ class RedshopModelCheckout extends RedshopModel
 
     public function coupon($cart)
     {
-        $user       = JFactory::getUser();
+        $user       = Factory::getApplication()->getIdentity();
         $db         = JFactory::getDbo();
         $couponType = array();
 
@@ -1395,7 +1396,7 @@ class RedshopModelCheckout extends RedshopModel
             $this->discount_type .= '@';
         }
 
-        $user        = JFactory::getUser();
+        $user        = Factory::getApplication()->getIdentity();
         $voucherType = array();
 
         $db    = JFactory::getDbo();
@@ -1470,7 +1471,7 @@ class RedshopModelCheckout extends RedshopModel
 
     public function shippingaddresses()
     {
-        $user    = JFactory::getUser();
+        $user    = Factory::getApplication()->getIdentity();
         $session = JFactory::getSession();
         $auth    = $session->get('auth');
 
@@ -1487,7 +1488,7 @@ class RedshopModelCheckout extends RedshopModel
 
     public function getpaymentmethod()
     {
-        $user          = JFactory::getUser();
+        $user          = Factory::getApplication()->getIdentity();
         $shopper_group = RedshopHelperOrder::getBillingAddress($user->id);
         $query         = "SELECT * FROM " . $this->_table_prefix . "payment_method WHERE published = '1' AND (FIND_IN_SET('" . (int) $shopper_group->shopper_group_id . "', shopper_group) OR shopper_group = '') ORDER BY ordering ASC";
         $this->_db->setQuery($query);
@@ -1826,7 +1827,7 @@ class RedshopModelCheckout extends RedshopModel
         $session->set('ccdata', null);
         $session->set('issplit', null);
         $session->set('userfield', null);
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
         RedshopHelperCart::removeCartFromDatabase($cart_id = 0, $user->id, $delCart = true);
     }
 

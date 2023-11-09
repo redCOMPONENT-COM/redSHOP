@@ -75,23 +75,23 @@ class RedshopHelperWishlist
      */
     public static function checkWishlistExist($productId = 0)
     {
-        $productId       = (int) $productId;
-        $session         = JFactory::getSession();
+        $productId        = (int) $productId;
+        $session          = JFactory::getSession();
         $wishlistSessions = $session->get('wishlist');
 
         if (!$productId) {
             return false;
         }
 
-/*
-        if (!empty($wishlistSessions)) {
-            foreach ($wishlistSessions as $wishlistSession) {
-                if (!empty($wishlistSession->product_id) && array_key_exists($productId, $wishlistSession->product_id)) {
-                    return true;
+        /*
+                if (!empty($wishlistSessions)) {
+                    foreach ($wishlistSessions as $wishlistSession) {
+                        if (!empty($wishlistSession->product_id) && array_key_exists($productId, $wishlistSession->product_id)) {
+                            return true;
+                        }
+                    }
                 }
-            }
-        }
-*/
+        */
 
         $userWishlists = self::getUserWishlist();
 
@@ -122,7 +122,7 @@ class RedshopHelperWishlist
         $userId = (int) $userId;
 
         if (!$userId) {
-            $userId = JFactory::getUser()->id;
+            $userId = Factory::getApplication()->getIdentity()->id;
         }
 
         if (!$userId) {

@@ -9,12 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
 $redTemplate = Redtemplate::getInstance();
 
-$user   = JFactory::getUser();
+$user   = Factory::getApplication()->getIdentity();
 $jinput = JFactory::getApplication()->input;
 $post   = $jinput->getArray($_POST);
 
@@ -73,8 +74,8 @@ if ($this->users_info_id > 0) {
     echo eval("?>" . $templateDesc . "<?php ");
 } else {
     ?>
-    <div class="shipnotice">
-        <?php echo Text::_('COM_REDSHOP_FILL_SHIPPING_ADDRESS'); ?>
-    </div>
-    <?php
+        <div class="shipnotice">
+            <?php echo Text::_('COM_REDSHOP_FILL_SHIPPING_ADDRESS'); ?>
+        </div>
+        <?php
 }

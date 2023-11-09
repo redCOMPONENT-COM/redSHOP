@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Product Entity
  *
@@ -78,7 +80,7 @@ class RedshopEntityProduct extends RedshopEntity
 
         $query->select($db->quoteName('product_id'))
             ->from($db->quoteName('#__redshop_product'))
-            ->where($db->quoteName('product_parent_id') . ' = ' . (int)$this->getId());
+            ->where($db->quoteName('product_parent_id') . ' = ' . (int) $this->getId());
 
         $productIds = $db->setQuery($query)->loadColumn();
 
@@ -116,7 +118,7 @@ class RedshopEntityProduct extends RedshopEntity
             return true;
         }
 
-        return (boolean)$entity->save(
+        return (boolean) $entity->save(
             array
             (
                 'fieldid'  => $fieldId,
@@ -145,7 +147,7 @@ class RedshopEntityProduct extends RedshopEntity
         $redshopUser = \JFactory::getSession()->get('rs_user');
 
         if ($userId == 0) {
-            $user   = \JFactory::getUser();
+            $user   = Factory::getApplication()->getIdentity();
             $userId = $user->id;
         }
 
@@ -163,7 +165,7 @@ class RedshopEntityProduct extends RedshopEntity
             $productPrice = $this->get('product_price', $productPrice);
         }
 
-        $productPrice = \RedshopHelperProductPrice::priceRound((float)$productPrice);
+        $productPrice = \RedshopHelperProductPrice::priceRound((float) $productPrice);
 
         if ($taxExempt) {
             return $productPrice * $taxRate;

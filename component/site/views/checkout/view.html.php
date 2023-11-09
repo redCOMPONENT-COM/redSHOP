@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -27,7 +28,7 @@ class RedshopViewCheckout extends RedshopView
         $model = $this->getModel('checkout');
 
         $Itemid  = $app->input->getInt('Itemid');
-        $user    = JFactory::getUser();
+        $user    = Factory::getApplication()->getIdentity();
         $session = JFactory::getSession();
 
         $language = JFactory::getLanguage();
@@ -157,8 +158,8 @@ class RedshopViewCheckout extends RedshopView
 
             $total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
             $subtotal       = (Redshop::getConfig()->get(
-                    'SHIPPING_AFTER'
-                ) == 'total') ? $cart['product_subtotal_excl_vat'] - $total_discount : $cart['product_subtotal_excl_vat'];
+                'SHIPPING_AFTER'
+            ) == 'total') ? $cart['product_subtotal_excl_vat'] - $total_discount : $cart['product_subtotal_excl_vat'];
 
             $this->shipping_rate_id = $shipping_rate_id;
             $this->element          = $element;
@@ -184,14 +185,14 @@ class RedshopViewCheckout extends RedshopView
         echo RedshopLayoutHelper::render(
             'modal.iframe',
             [
-                'modalButton'     => '.ModalAddShippingAddressButton',
-                'selector'        => 'ModalAddShippingAddress',
-                'params'          => [
-                            'title'      => '',
-                            'footer'     => '',
-                            'modalWidth' => '40',
-                            'bodyHeight' => '80',
-                            'modalCss'   => '',
+                'modalButton' => '.ModalAddShippingAddressButton',
+                'selector'    => 'ModalAddShippingAddress',
+                'params'      => [
+                    'title'      => '',
+                    'footer'     => '',
+                    'modalWidth' => '40',
+                    'bodyHeight' => '80',
+                    'modalCss'   => '',
                 ]
             ]
         );

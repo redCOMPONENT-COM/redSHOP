@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 class RedshopViewProduct_Rating extends RedshopView
@@ -30,7 +31,7 @@ class RedshopViewProduct_Rating extends RedshopView
         $this->form  = $this->get('Form');
 
         $app  = JFactory::getApplication();
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         // Preform security checks
         if (!$user->id && Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED')) {
@@ -39,7 +40,7 @@ class RedshopViewProduct_Rating extends RedshopView
             return;
         }
 
-        $this->params      = $app->getParams('com_redshop');
+        $this->params      = $app->getParams();
         $model             = $this->getModel('product_rating');
         $this->productId   = $app->input->getInt('product_id', 0);
         $rate              = $app->input->getInt('rate', 0);

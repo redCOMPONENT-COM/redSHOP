@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -56,7 +57,7 @@ class RedshopViewAccount extends RedshopView
     public function display($tpl = null)
     {
         $this->params = $this->app->getParams('com_redshop');
-        $this->user   = JFactory::getUser();
+        $this->user   = Factory::getApplication()->getIdentity();
         $twigParams   = [
             'url'    => \JURI::base(),
             'app'    => $this->app,

@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 $app    = JFactory::getApplication();
-$user   = JFactory::getUser();
+$user   = Factory::getApplication()->getIdentity();
 $email  = $app->input->getString('email');
 $name   = $app->input->getString('name');
 $Itemid = $app->input->getInt('Itemid');
@@ -24,11 +25,13 @@ if ($user->id != "") {
 
 if ($this->params->get('show_page_heading', 1)) {
     ?>
-    <div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-        <?php echo $this->escape($this->params->get('page_title')); ?>
-    </div>
-    <?php
-} ?>
+        <div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+            <?php echo $this->escape($this->params->get('page_title')); ?>
+        </div>
+        <?php
+}
+
+?>
 <form method="post" action="" name="subscribeForm2" onsubmit="return validation();">
     <div class="redshop_newsletter">
         <div class="redshop_newsletter_label">
@@ -65,13 +68,13 @@ if ($this->params->get('show_page_heading', 1)) {
         var patt1 = new RegExp("([a-z0-9_]+)@([a-z0-9_-]+)[.][a-z]");
 
         if (name == '') {
-            alert("<?php echo Text::_('COM_REDSHOP_ENTER_A_NAME');?>");
+            alert("<?php echo Text::_('COM_REDSHOP_ENTER_A_NAME'); ?>");
             return false;
         } else if (email == '') {
-            alert("<?php echo Text::_('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS');?>");
+            alert("<?php echo Text::_('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS'); ?>");
             return false;
         } else if (patt1.test(email) == false) {
-            alert("<?php echo Text::_('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID');?>");
+            alert("<?php echo Text::_('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID'); ?>");
             return false;
         } else {
             return true;

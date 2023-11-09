@@ -48,7 +48,7 @@ class RedshopModelZip_import extends RedshopModel
 
     public function getzipfilenames()
     {
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
         $url  = Redshop::getConfig()->get(
             'REMOTE_UPDATE_DOMAIN_URL'
         ) . "index.php?option=com_remoteupdate&view=getcomponent&redusername=" .
@@ -107,10 +107,10 @@ class RedshopModelZip_import extends RedshopModel
         // Install the package
         if (!$installer->install($package['dir'])) {
             ?>
-            <script type="text/javascript" language="javascript">
-                window.location = "index.php?option=com_redshop&view=zip_import&msg=err";
-            </script>
-            <?php
+                        <script type="text/javascript" language="javascript">
+                            window.location = "index.php?option=com_redshop&view=zip_import&msg=err";
+                        </script>
+                        <?php
         } else {
             $msg = Text::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
             $app->enqueueMessage($msg);
@@ -132,11 +132,11 @@ class RedshopModelZip_import extends RedshopModel
 
         JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
         ?>
-        <script type='text/javascript' language='javascript'>
-            window.location = "index.php?option=com_redshop&view=zip_import&msg=suc";
-        </script>
-        <?php
-        return $result;
+                <script type='text/javascript' language='javascript'>
+                    window.location = "index.php?option=com_redshop&view=zip_import&msg=suc";
+                </script>
+                <?php
+                return $result;
     }
 
     // Related product sync
@@ -158,10 +158,10 @@ class RedshopModelZip_import extends RedshopModel
         if (!$url) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_PLEASE_ENTER_A_URL'), 'warning');
             ?>
-            <script type='text/javascript' language='javascript'>
-                window.location = "index.php?option=com_redshop&view=zip_import&msg=err";
-            </script>
-            <?php
+                        <script type='text/javascript' language='javascript'>
+                            window.location = "index.php?option=com_redshop&view=zip_import&msg=err";
+                        </script>
+                        <?php
         }
 
         // Download the package at the URL given
@@ -172,10 +172,10 @@ class RedshopModelZip_import extends RedshopModel
             Factory::getApplication()->enqueueMessage(Text::_('COM_REDSHOP_INVALID_URL'), 'warning');
 
             ?>
-            <script type='text/javascript' language='javascript'>
-                //window.location="index.php?option=com_redshop&view=zip_import&msg=err";
-            </script>
-            <?php
+                        <script type='text/javascript' language='javascript'>
+                            //window.location="index.php?option=com_redshop&view=zip_import&msg=err";
+                        </script>
+                        <?php
         }
 
         $config   = JFactory::getConfig();
@@ -185,11 +185,11 @@ class RedshopModelZip_import extends RedshopModel
         $package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
         ?>
-        <script type='text/javascript' language='javascript'>
-            //window.location="index.php?option=com_redshop&view=zip_import";
-        </script>
-        <?php
-        return $package;
+                <script type='text/javascript' language='javascript'>
+                    //window.location="index.php?option=com_redshop&view=zip_import";
+                </script>
+                <?php
+                return $package;
     }
 
     public function getzipfilescount()

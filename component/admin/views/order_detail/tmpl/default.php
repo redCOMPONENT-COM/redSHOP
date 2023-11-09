@@ -10,7 +10,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\UserFactoryInterface;
 
 JPluginHelper::importPlugin('redshop_shipping');
 $dispatcher = RedshopHelperUtility::getDispatcher();
@@ -36,6 +38,9 @@ if (!empty($shipping->users_info_id)) {
     $session->set('shipp_users_info_id', $shipping->users_info_id);
 }
 
+$container   = Factory::getContainer();
+$userFactory = $container->get(UserFactoryInterface::class);
+
 # get Downloadable Products
 $downloadProducts     = RedshopHelperOrder::getDownloadProduct($orderId);
 $totalDownloadProduct = count($downloadProducts);
@@ -46,6 +51,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
 
     $dproducts[$downloadProduct->product_id][$downloadProduct->download_id] = $downloadProduct;
 }
+
 ?>
 <script type="text/javascript">
     var rowCount = 1;
@@ -293,7 +299,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                             </tbody>
                         </table>
                         <?php if ($tmpl): ?>
-                                        <input type="hidden" name="tmpl" value="<?php echo $tmpl ?>">
+                                            <input type="hidden" name="tmpl" value="<?php echo $tmpl ?>">
                         <?php endif; ?>
                         <input type="hidden" name="option" value="com_redshop"/>
                         <input type="hidden" name="view" value="order"/>
@@ -320,33 +326,33 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                 <td><?php echo Text::_('COM_REDSHOP_ORDER_PAYMENT_METHOD'); ?>:</td>
                                 <td>
                                     <?php if ($this->detail->order_payment_status == 'Unpaid'): ?>
-                                                    <?php echo $this->loadTemplate('payment'); ?>
+                                                        <?php echo $this->loadTemplate('payment'); ?>
                                     <?php else: ?>
-                                                    <?php echo Text::_($this->payment_detail->order_payment_name); ?>
-                                                    <?php if (!empty($model->getccdetail($orderId))): ?>
-                                                                    <a href="<?php echo Redshop\IO\Route::_(
-                                                                        'index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $orderId
-                                                                    ); ?>"
-                                                                       class="joom-box btn btn-primary"
-                                                                       rel="{handler: 'iframe', size: {x: 550, y: 200}}"><?php echo Text::_(
-                                                                           'COM_REDSHOP_CLICK_TO_VIEW_CREDIT_CARD_DETAIL'
-                                                                       ); ?></a>
-                                                    <?php endif; ?>
+                                                        <?php echo Text::_($this->payment_detail->order_payment_name); ?>
+                                                        <?php if (!empty($model->getccdetail($orderId))): ?>
+                                                                            <a href="<?php echo Redshop\IO\Route::_(
+                                                                                'index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $orderId
+                                                                            ); ?>"
+                                                                               class="joom-box btn btn-primary"
+                                                                               rel="{handler: 'iframe', size: {x: 550, y: 200}}"><?php echo Text::_(
+                                                                                   'COM_REDSHOP_CLICK_TO_VIEW_CREDIT_CARD_DETAIL'
+                                                                               ); ?></a>
+                                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </td>
                             </tr>
                         </table>
                         <?php if ($this->detail->order_payment_status == 'Unpaid'): ?>
-                                        <input type="submit" name="add" id="add" class="btn btn-primary"
-                                               value="<?php echo Text::_('COM_REDSHOP_UPDATE'); ?>"/>
-                                        <input type="hidden" name="task" value="update_paymentmethod">
-                                        <input type="hidden" name="user_id" id="user_id"
-                                               value="<?php echo $this->detail->user_id; ?>">
-                                        <input type="hidden" name="shipp_users_info_id" id="shipp_users_info_id"
-                                               value="<?php echo $shipping->users_info_id; ?>">
-                                        <input type="hidden" name="view" value="order_detail">
-                                        <input type="hidden" name="return" value="order_detail">
-                                        <input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
+                                            <input type="submit" name="add" id="add" class="btn btn-primary"
+                                                   value="<?php echo Text::_('COM_REDSHOP_UPDATE'); ?>"/>
+                                            <input type="hidden" name="task" value="update_paymentmethod">
+                                            <input type="hidden" name="user_id" id="user_id"
+                                                   value="<?php echo $this->detail->user_id; ?>">
+                                            <input type="hidden" name="shipp_users_info_id" id="shipp_users_info_id"
+                                                   value="<?php echo $shipping->users_info_id; ?>">
+                                            <input type="hidden" name="view" value="order_detail">
+                                            <input type="hidden" name="return" value="order_detail">
+                                            <input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
                         <?php endif; ?>
                     </form>
                 </div>
@@ -354,105 +360,105 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
         </div>
         <div class="col-sm-6">
             <?php if ($this->detail->ship_method_id): ?>
-                            <div class="box box-primary">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_SHIPPING_METHOD'); ?></h3>
-                                </div>
-                                <div class="box-body">
-                                    <form action="index.php?option=com_redshop" method="post" name="updateshippingrate"
-                                          id="updateshippingrate">
-                                        <table border="0" cellspacing="0" cellpadding="0"
-                                               class="adminlist table table-striped table-condensed no-margin">
-                                            <tr>
-                                                <td align="left">
-                                                    <?php echo Text::_('COM_REDSHOP_SHIPPING_NAME') ?>:
-                                                </td>
-                                                <td>
-                                                    <?php echo $shipping_name = Redshop\Shipping\Tag::replaceShippingMethod(
-                                                        $this->detail,
-                                                        "{shipping_method}"
-                                                    ); ?>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="left">
-                                                    <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_NAME') ?>:
-                                                </td>
-                                                <td>
-                                                    <?php echo $shipping_name = Redshop\Shipping\Tag::replaceShippingMethod(
-                                                        $this->detail,
-                                                        "{shipping_rate_name}"
-                                                    ); ?>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <?php echo Text::_('COM_REDSHOP_ORDER_SHIPPING_EXTRA_FILEDS'); ?>:
-                                                </td>
-                                                <td>
-                                                    <?php echo $ShippingExtrafields = RedshopHelperProduct::getPaymentandShippingExtrafields(
-                                                        $this->detail,
-                                                        19
-                                                    ); ?>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="left">
-                                                    <?php echo Text::_('COM_REDSHOP_SHIPPING_MODE') ?>:
-                                                </td>
-                                                <td>
-                                                    <?php echo $this->loadTemplate('shipping'); ?>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                            $details = Redshop\Shipping\Rate::decrypt($this->detail->ship_method_id);
-
-                                            if (count($details) <= 1) {
-                                                $details = explode("|", $row->ship_method_id);
-                                            }
-
-                                            $disp_style = '';
-
-                                            if (strtolower($details[0]) != 'plgredshop_shippingdefault_shipping_gls') {
-                                                $disp_style = "style=display:none";
-                                            }
-                                            ?>
-                                            <tr>
-                                                <td align="left">
-                                                    <div id="rs_glslocationId" <?php echo $disp_style ?>>
-                                                        <?php $result = $dispatcher->trigger(
-                                                            'getGLSLocation',
-                                                            array(
-                                                                $shipping->users_info_id,
-                                                                'default_shipping_gls',
-                                                                $this->detail->shop_id
-                                                            )
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_SHIPPING_METHOD'); ?></h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <form action="index.php?option=com_redshop" method="post" name="updateshippingrate"
+                                              id="updateshippingrate">
+                                            <table border="0" cellspacing="0" cellpadding="0"
+                                                   class="adminlist table table-striped table-condensed no-margin">
+                                                <tr>
+                                                    <td align="left">
+                                                        <?php echo Text::_('COM_REDSHOP_SHIPPING_NAME') ?>:
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $shipping_name = Redshop\Shipping\Tag::replaceShippingMethod(
+                                                            $this->detail,
+                                                            "{shipping_method}"
                                                         ); ?>
-                                                        <?php echo $result[0]; ?>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <?php if ($this->detail->track_no) { ?>
-                                                            <tr>
-                                                                <td><?php echo Text::_('COM_REDSHOP_TRACKING_NUMBER'); ?>:</td>
-                                                                <td><?php echo $this->detail->track_no; ?></td>
-                                                            </tr>
-                                            <?php } ?>
-                                        </table>
-                                        <input type="submit" name="add" id="add" class="btn btn-primary"
-                                               value="<?php echo Text::_('COM_REDSHOP_UPDATE'); ?>"/>
-                                        <input type="hidden" name="task" value="update_shippingrates">
-                                        <input type="hidden" name="user_id" id="user_id"
-                                               value="<?php echo $this->detail->user_id; ?>">
-                                        <input type="hidden" name="shipp_users_info_id" id="shipp_users_info_id"
-                                               value="<?php echo $shipping->users_info_id; ?>">
-                                        <input type="hidden" name="view" value="order_detail">
-                                        <input type="hidden" name="return" value="order_detail">
-                                        <input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
-                                    </form>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left">
+                                                        <?php echo Text::_('COM_REDSHOP_SHIPPING_RATE_NAME') ?>:
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $shipping_name = Redshop\Shipping\Tag::replaceShippingMethod(
+                                                            $this->detail,
+                                                            "{shipping_rate_name}"
+                                                        ); ?>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <?php echo Text::_('COM_REDSHOP_ORDER_SHIPPING_EXTRA_FILEDS'); ?>:
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $ShippingExtrafields = RedshopHelperProduct::getPaymentandShippingExtrafields(
+                                                            $this->detail,
+                                                            19
+                                                        ); ?>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left">
+                                                        <?php echo Text::_('COM_REDSHOP_SHIPPING_MODE') ?>:
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->loadTemplate('shipping'); ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                $details = Redshop\Shipping\Rate::decrypt($this->detail->ship_method_id);
 
+                                                if (count($details) <= 1) {
+                                                    $details = explode("|", $row->ship_method_id);
+                                                }
+
+                                                $disp_style = '';
+
+                                                if (strtolower($details[0]) != 'plgredshop_shippingdefault_shipping_gls') {
+                                                    $disp_style = "style=display:none";
+                                                }
+                                                ?>
+                                                <tr>
+                                                    <td align="left">
+                                                        <div id="rs_glslocationId" <?php echo $disp_style ?>>
+                                                            <?php $result = $dispatcher->trigger(
+                                                                'getGLSLocation',
+                                                                array(
+                                                                    $shipping->users_info_id,
+                                                                    'default_shipping_gls',
+                                                                    $this->detail->shop_id
+                                                                )
+                                                            ); ?>
+                                                            <?php echo $result[0]; ?>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <?php if ($this->detail->track_no) { ?>
+                                                                    <tr>
+                                                                        <td><?php echo Text::_('COM_REDSHOP_TRACKING_NUMBER'); ?>:</td>
+                                                                        <td><?php echo $this->detail->track_no; ?></td>
+                                                                    </tr>
+                                                <?php } ?>
+                                            </table>
+                                            <input type="submit" name="add" id="add" class="btn btn-primary"
+                                                   value="<?php echo Text::_('COM_REDSHOP_UPDATE'); ?>"/>
+                                            <input type="hidden" name="task" value="update_shippingrates">
+                                            <input type="hidden" name="user_id" id="user_id"
+                                                   value="<?php echo $this->detail->user_id; ?>">
+                                            <input type="hidden" name="shipp_users_info_id" id="shipp_users_info_id"
+                                                   value="<?php echo $shipping->users_info_id; ?>">
+                                            <input type="hidden" name="view" value="order_detail">
+                                            <input type="hidden" name="return" value="order_detail">
+                                            <input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
+                                        </form>
+
+                                    </div>
                                 </div>
-                            </div>
             <?php endif; ?>
             <div class="row">
                 <div class="col-sm-6">
@@ -462,15 +468,15 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                 'COM_REDSHOP_BILLING_ADDRESS_INFORMATION'
                             ); ?></h3>
                             <?php if (!empty($billing)): ?>
-                                            <?php if (!$tmpl) { ?>
-                                                            <a class="joom-box btn btn-primary"
-                                                               href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=billing&cid[]=<?php echo $orderId; ?>"
-                                                               rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo Text::_(
-                                                                   'COM_REDSHOP_EDIT'
-                                                               ); ?></a>
-                                            <?php } ?>
+                                                <?php if (!$tmpl) { ?>
+                                                                    <a class="joom-box btn btn-primary"
+                                                                       href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=billing&cid[]=<?php echo $orderId; ?>"
+                                                                       rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo Text::_(
+                                                                           'COM_REDSHOP_EDIT'
+                                                                       ); ?></a>
+                                                <?php } ?>
                             <?php else: ?>
-                                            <h4 class=""><?php echo Text::_('(User deleted)') ?></h4>
+                                                <h4 class=""><?php echo Text::_('(User deleted)') ?></h4>
                             <?php endif; ?>
                         </div>
                         <div class="box-body">
@@ -484,10 +490,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                     <td><?php echo (!empty($billing->lastname) ? $billing->lastname : ''); ?></td>
                                 </tr>
                                 <?php if ($isCompany) { ?>
-                                                <tr>
-                                                    <td align="right"><?php echo Text::_('COM_REDSHOP_COMPANY'); ?>:</td>
-                                                    <td><?php echo (!empty($billing->company_name) ? $billing->company_name : ''); ?></td>
-                                                </tr>
+                                                    <tr>
+                                                        <td align="right"><?php echo Text::_('COM_REDSHOP_COMPANY'); ?>:</td>
+                                                        <td><?php echo (!empty($billing->company_name) ? $billing->company_name : ''); ?></td>
+                                                    </tr>
                                 <?php } ?>
                                 <tr>
                                     <td align="right"><?php echo Text::_('COM_REDSHOP_ADDRESS'); ?>:</td>
@@ -528,24 +534,24 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                 <?php
                                 if ($isCompany) {
                                     ?>
-                                                <tr>
-                                                    <td align="right"><?php echo Text::_('COM_REDSHOP_VAT_NUMBER'); ?>:</td>
-                                                    <td><?php echo (!empty($billing->vat_number) ? $billing->vat_number : ''); ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td align="right"><?php echo Text::_('COM_REDSHOP_TAX_EXEMPT'); ?>:</td>
-                                                    <td><?php echo (!empty($billing->tax_exempt) ? $billing->tax_exempt : ''); ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td align="right"><?php echo Text::_('COM_REDSHOP_EAN_NUMBER'); ?>:</td>
-                                                    <td><?php echo (!empty($billing->ean_number) ? $billing->ean_number : ''); ?></td>
-                                                </tr>
-                                                <?php if (!empty($billing->users_info_id)) {
-                                                    $fields = RedshopHelperExtrafields::listAllFieldDisplay(
-                                                        8,
-                                                        $billing->users_info_id
-                                                    );
-                                                }
+                                                    <tr>
+                                                        <td align="right"><?php echo Text::_('COM_REDSHOP_VAT_NUMBER'); ?>:</td>
+                                                        <td><?php echo (!empty($billing->vat_number) ? $billing->vat_number : ''); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="right"><?php echo Text::_('COM_REDSHOP_TAX_EXEMPT'); ?>:</td>
+                                                        <td><?php echo (!empty($billing->tax_exempt) ? $billing->tax_exempt : ''); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="right"><?php echo Text::_('COM_REDSHOP_EAN_NUMBER'); ?>:</td>
+                                                        <td><?php echo (!empty($billing->ean_number) ? $billing->ean_number : ''); ?></td>
+                                                    </tr>
+                                                    <?php if (!empty($billing->users_info_id)) {
+                                                        $fields = RedshopHelperExtrafields::listAllFieldDisplay(
+                                                            8,
+                                                            $billing->users_info_id
+                                                        );
+                                                    }
                                 } else {
                                     if (!empty($billing->users_info_id)) {
                                         $fields = RedshopHelperExtrafields::listAllFieldDisplay(
@@ -567,15 +573,15 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                 'COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'
                             ); ?></h3>
                             <?php if (!empty($shipping)): ?>
-                                            <?php if (!$tmpl) { ?>
-                                                            <a class="joom-box btn btn-primary"
-                                                               href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=shipping&cid[]=<?php echo $orderId; ?>"
-                                                               rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo Text::_(
-                                                                   'COM_REDSHOP_EDIT'
-                                                               ); ?></a>
-                                            <?php } ?>
+                                                <?php if (!$tmpl) { ?>
+                                                                    <a class="joom-box btn btn-primary"
+                                                                       href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=shipping&cid[]=<?php echo $orderId; ?>"
+                                                                       rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo Text::_(
+                                                                           'COM_REDSHOP_EDIT'
+                                                                       ); ?></a>
+                                                <?php } ?>
                             <?php else: ?>
-                                            <h4 class=""><?php echo Text::_('(User deleted)') ?></h4>
+                                                <h4 class=""><?php echo Text::_('(User deleted)') ?></h4>
                             <?php endif; ?>
                         </div>
                         <div class="box-body">
@@ -642,27 +648,27 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
     </div>
 
     <?php if (!empty($this->lists['order_extra_fields'])): ?>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="box box-primary">
-                                <div class="box-header with-border">
-                                    <h3><?php echo Text::_('COM_REDSHOP_EXTRA_FIELD'); ?></h3>
-                                </div>
-                                <div class="box-body">
-                                    <form action="<?php echo Redshop\IO\Route::_(
-                                        'index.php?option=com_redshop&view=order_detail&task=storeExtraField'
-                                    ); ?>" method="post"
-                                          name="adminForm" id="adminForm" enctype="multipart/form-data">
-                                        <?php echo $this->lists['order_extra_fields'] ?>
-                                        <input class="button btn btn-primary" name="submit"
-                                               value="<?php echo Text::_('COM_REDSHOP_SAVE'); ?>" type="submit"/>
-                                        <input type="hidden" name="order_id" value="<?php echo $billing->order_id; ?>"/>
-                                        <input type="hidden" name="user_email" value="<?php echo $billing->user_email; ?>"/>
-                                    </form>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <h3><?php echo Text::_('COM_REDSHOP_EXTRA_FIELD'); ?></h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <form action="<?php echo Redshop\IO\Route::_(
+                                            'index.php?option=com_redshop&view=order_detail&task=storeExtraField'
+                                        ); ?>" method="post"
+                                              name="adminForm" id="adminForm" enctype="multipart/form-data">
+                                            <?php echo $this->lists['order_extra_fields'] ?>
+                                            <input class="button btn btn-primary" name="submit"
+                                                   value="<?php echo Text::_('COM_REDSHOP_SAVE'); ?>" type="submit"/>
+                                            <input type="hidden" name="order_id" value="<?php echo $billing->order_id; ?>"/>
+                                            <input type="hidden" name="user_email" value="<?php echo $billing->user_email; ?>"/>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
     <?php endif; ?>
 
     <div class="row">
@@ -765,328 +771,328 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                             $displayAttribute = $makeAttributeOrder->product_attribute;
 
                             ?>
-                                        <tr>
-                                            <td>
-                                                <table border="0" cellspacing="0" cellpadding="0"
-                                                       class="adminlist table table-striped table-condensed"
-                                                       width="100%">
-                                                    <tr>
-                                                        <td>
-                                                            <form action="index.php?option=com_redshop" method="post"
-                                                                  name="itemForm<?php echo $order_item_id; ?>"
-                                                                  id="itemForm<?php echo $order_item_id; ?>">
-                                                                <table border="0" cellspacing="0" cellpadding="0"
-                                                                       class="adminlist table table-striped"
-                                                                       width="100%">
-                                                                    <tr>
-                                                                        <td width="20%">
-                                                                            <div class="order_product_detail"
-                                                                                 id="order_product_detail_<?php echo $order_item_id ?>">
-                                                                                <a href="<?php echo $productFrontendLink; ?>"
-                                                                                   target="_blank">
-                                                                                    <?php echo $order_item_name ?>
-                                                                                </a>
-                                                                                <div>
-                                                                                    <span class="small">SKU:</span>&nbsp;
-                                                                                    <span><?php echo $order_item_sku ?></span>
+                                            <tr>
+                                                <td>
+                                                    <table border="0" cellspacing="0" cellpadding="0"
+                                                           class="adminlist table table-striped table-condensed"
+                                                           width="100%">
+                                                        <tr>
+                                                            <td>
+                                                                <form action="index.php?option=com_redshop" method="post"
+                                                                      name="itemForm<?php echo $order_item_id; ?>"
+                                                                      id="itemForm<?php echo $order_item_id; ?>">
+                                                                    <table border="0" cellspacing="0" cellpadding="0"
+                                                                           class="adminlist table table-striped"
+                                                                           width="100%">
+                                                                        <tr>
+                                                                            <td width="20%">
+                                                                                <div class="order_product_detail"
+                                                                                     id="order_product_detail_<?php echo $order_item_id ?>">
+                                                                                    <a href="<?php echo $productFrontendLink; ?>"
+                                                                                       target="_blank">
+                                                                                        <?php echo $order_item_name ?>
+                                                                                    </a>
+                                                                                    <div>
+                                                                                        <span class="small">SKU:</span>&nbsp;
+                                                                                        <span><?php echo $order_item_sku ?></span>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                            <div class="order_product_detail_more">
-                                                                                <?php if (!empty($p_userfield)): ?>
-                                                                                                <div class="order_product_userfield"><?php echo $p_userfield ?></div>
-                                                                                <?php endif; ?>
-                                                                                <?php echo $displayAttribute ?>
-                                                                                <div class="order_product_category">
-                                                                                    <span class="small">Category:</span>
-                                                                                    <?php echo $cname ?>
+                                                                                <div class="order_product_detail_more">
+                                                                                    <?php if (!empty($p_userfield)): ?>
+                                                                                                        <div class="order_product_userfield"><?php echo $p_userfield ?></div>
+                                                                                    <?php endif; ?>
+                                                                                    <?php echo $displayAttribute ?>
+                                                                                    <div class="order_product_category">
+                                                                                        <span class="small">Category:</span>
+                                                                                        <?php echo $cname ?>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php $dispatcher->trigger(
-                                                                                'onAdminDisplayOrderItem',
-                                                                                array(
-                                                                                    $orderId,
-                                                                                    $products[$i]
-                                                                                )
-                                                                            ) ?>
-                                                                        </td>
-                                                                        <td width="15%">
-                                                                            <?php
-                                                                            echo $products[$i]->product_accessory . "<br/>" . $products[$i]->discount_calc_data;
+                                                                            </td>
+                                                                            <td>
+                                                                                <?php $dispatcher->trigger(
+                                                                                    'onAdminDisplayOrderItem',
+                                                                                    array(
+                                                                                        $orderId,
+                                                                                        $products[$i]
+                                                                                    )
+                                                                                ) ?>
+                                                                            </td>
+                                                                            <td width="15%">
+                                                                                <?php
+                                                                                echo $products[$i]->product_accessory . "<br/>" . $products[$i]->discount_calc_data;
 
-                                                                            if ($wrapper_id) {
-                                                                                $wrapper = RedshopHelperProduct::getWrapper(
-                                                                                    $productId,
-                                                                                    $wrapper_id
-                                                                                );
-                                                                                echo "<br>" . Text::_(
-                                                                                    'COM_REDSHOP_WRAPPER'
-                                                                                ) . ": " . $wrapper[0]->name . "(" . $products[$i]->wrapper_price . ")";
-                                                                            }
+                                                                                if ($wrapper_id) {
+                                                                                    $wrapper = RedshopHelperProduct::getWrapper(
+                                                                                        $productId,
+                                                                                        $wrapper_id
+                                                                                    );
+                                                                                    echo "<br>" . Text::_(
+                                                                                        'COM_REDSHOP_WRAPPER'
+                                                                                    ) . ": " . $wrapper[0]->name . "(" . $products[$i]->wrapper_price . ")";
+                                                                                }
 
-                                                                            if ($subscribe_detail) {
-                                                                                $subscription_detail   = $model->getProductSubscriptionDetail(
-                                                                                    $productId,
-                                                                                    $subscribe_detail->subscription_id
-                                                                                );
-                                                                                $selected_subscription = $subscription_detail->subscription_period . " " . $subscription_detail->period_type;
-                                                                                echo Text::_(
-                                                                                    'COM_REDSHOP_SUBSCRIPTION'
-                                                                                ) . ': ' . $selected_subscription;
-                                                                            }
-                                                                            ?>
-                                                                            <br/><br/>
-                                                                            <?php
-                                                                            JPluginHelper::importPlugin('redshop_product');
-                                                                            $dispatcher = RedshopHelperUtility::getDispatcher();
-                                                                            $dispatcher->trigger(
-                                                                                'onDisplayOrderItemNote',
-                                                                                array($products[$i])
-                                                                            );
-                                                                            ?>
-                                                                        </td>
-                                                                        <td width="10%">
-                                                                            <div class="input-group">
-                                                                                <span class="input-group-text"><?php echo Redshop::getConfig(
-                                                                                )->get('REDCURRENCY_SYMBOL'); ?></span>
-                                                                                <input type="number" min="0" name="update_price"
-                                                                                       id="update_price"
-                                                                                       class="form-control"
-                                                                                       value="<?php echo RedshopHelperProduct::redpriceDecimal(
-                                                                                           $products[$i]->product_item_price_excl_vat
-                                                                                       ); ?>"
-                                                                                       size="10">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td width="5%"><?php echo Redshop::getConfig()->get(
-                                                                            'REDCURRENCY_SYMBOL'
-                                                                        ) . " " . $vat; ?></td>
-                                                                        <td width="10%"><?php echo RedshopHelperProductPrice::formattedPrice(
-                                                                            $products[$i]->product_item_price
-                                                                        ) . " " . Text::_('COM_REDSHOP_INCL_VAT'); ?></td>
-                                                                        <td width="5%">
-                                                                            <input type="number" min="1" name="quantity"
-                                                                                   id="quantity" class="col-sm-12"
-                                                                                   value="<?php echo $quantity; ?>" size="3">
-                                                                        </td>
-                                                                        <td align="right" width="10%">
-                                                                            <?php
-                                                                            echo Redshop::getConfig()->get(
-                                                                                'REDCURRENCY_SYMBOL'
-                                                                            ) . "&nbsp;";
-                                                                            echo RedshopHelperProduct::redpriceDecimal(
-                                                                                $products[$i]->product_final_price
-                                                                            );
-                                                                            ?>
-                                                                        </td>
-                                                                        <td width="20%">
-                                                                            <?php
-                                                                            echo RedshopHelperOrder::getStatusList(
-                                                                                'status',
-                                                                                $products[$i]->order_status,
-                                                                                "class=\"form-control\" size=\"1\" "
-                                                                            );
-                                                                            ?>
-                                                                            <br/><br/>
-                                                                            <textarea cols="30" rows="3" class="form-control"
-                                                                                      name="customer_note"><?php echo $products[$i]->customer_note; ?></textarea>
-                                                                        </td>
-                                                                        <td width="5%">
-                                                                            <button type="button" class="btn btn-danger"
-                                                                                    title="<?php echo Text::_(
-                                                                                        'COM_REDSHOP_DELETE'
-                                                                                    ); ?>"
-                                                                                    onclick="if(confirm('<?php echo Text::_(
-                                                                                        'COM_REDSHOP_CONFIRM_DELETE_ORDER_ITEM'
-                                                                                    ); ?>')) { document.itemForm<?php echo $order_item_id; ?>.task.value='delete_item';document.itemForm<?php echo $order_item_id; ?>.submit();}"
-                                                                                    href="javascript:void(0);">
-                                                                                <i class="fa fa-remove"></i>
-                                                                            </button>
-                                                                            <button type="button" class="btn btn-success"
-                                                                                    title="<?php echo Text::_(
-                                                                                        'COM_REDSHOP_UPDATE'
-                                                                                    ); ?>"
-                                                                                    onclick="document.itemForm<?php echo $order_item_id; ?>.task.value='updateItem';javascript:validateProductQuantity('#itemForm<?php echo $order_item_id; ?>');">
-                                                                                <i class="fa fa-save"></i>
-                                                                            </button>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                                <input type="hidden" name="task" id="task" value="">
-                                                                <input type="hidden" name="view" value="order_detail">
-                                                                <input type="hidden" name="productid"
-                                                                       value="<?php echo $productId; ?>">
-                                                                <input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
-                                                                <input type="hidden" name="order_id[]"
-                                                                       value="<?php echo $orderId; ?>"/>
-                                                                <input type="hidden" name="order_item_id"
-                                                                       value="<?php echo $order_item_id; ?>">
-                                                                <input type="hidden" name="return" value="order_detail"/>
-                                                                <input type="hidden" name="isproduct" value="1"/>
-                                                                <input type="hidden" name="option" value="com_redshop"/>
-                                                                <input type="hidden" name="payment_method_class"
-                                                                       value="<?php echo $this->payment_detail->payment_method_class ?>">
-                                                                <?php if ($tmpl) { ?>
-                                                                                <input type="hidden" name="tmpl" value="<?php echo $tmpl; ?>"/>
-                                                                <?php } ?>
-                                                            </form>
-                                                        </td>
-                                                        <?php
-                                                        $downloadarray = @$dproducts[$productId];
-                                                        if ($totalDownloadProduct > 0) {
-                                                            ?>
-                                                                        <td>
-                                                                            <?php
-                                                                            if (count($downloadarray) > 0) {
+                                                                                if ($subscribe_detail) {
+                                                                                    $subscription_detail   = $model->getProductSubscriptionDetail(
+                                                                                        $productId,
+                                                                                        $subscribe_detail->subscription_id
+                                                                                    );
+                                                                                    $selected_subscription = $subscription_detail->subscription_period . " " . $subscription_detail->period_type;
+                                                                                    echo Text::_(
+                                                                                        'COM_REDSHOP_SUBSCRIPTION'
+                                                                                    ) . ': ' . $selected_subscription;
+                                                                                }
                                                                                 ?>
-                                                                                            <form action="index.php?option=com_redshop" method="post"
-                                                                                                  name="download_token<?php echo $order_item_id; ?>">
-                                                                                                <table cellpadding="0" cellspacing="0" border="0">
-                                                                                                    <?php
-                                                                                                    foreach ($downloadarray as $downloads) {
-                                                                                                        $file_name                 = substr(
-                                                                                                            basename($downloads->file_name),
-                                                                                                            11
-                                                                                                        );
-                                                                                                        $download_id               = $downloads->download_id;
-                                                                                                        $download_max              = $downloads->download_max;
-                                                                                                        $end_date                  = $downloads->end_date;
-                                                                                                        $product_download_infinite = ($end_date == 0) ? 1 : 0;
+                                                                                <br/><br/>
+                                                                                <?php
+                                                                                JPluginHelper::importPlugin('redshop_product');
+                                                                                $dispatcher = RedshopHelperUtility::getDispatcher();
+                                                                                $dispatcher->trigger(
+                                                                                    'onDisplayOrderItemNote',
+                                                                                    array($products[$i])
+                                                                                );
+                                                                                ?>
+                                                                            </td>
+                                                                            <td width="10%">
+                                                                                <div class="input-group">
+                                                                                    <span class="input-group-text"><?php echo Redshop::getConfig(
+                                                                                    )->get('REDCURRENCY_SYMBOL'); ?></span>
+                                                                                    <input type="number" min="0" name="update_price"
+                                                                                           id="update_price"
+                                                                                           class="form-control"
+                                                                                           value="<?php echo RedshopHelperProduct::redpriceDecimal(
+                                                                                               $products[$i]->product_item_price_excl_vat
+                                                                                           ); ?>"
+                                                                                           size="10">
+                                                                                </div>
+                                                                            </td>
+                                                                            <td width="5%"><?php echo Redshop::getConfig()->get(
+                                                                                'REDCURRENCY_SYMBOL'
+                                                                            ) . " " . $vat; ?></td>
+                                                                            <td width="10%"><?php echo RedshopHelperProductPrice::formattedPrice(
+                                                                                $products[$i]->product_item_price
+                                                                            ) . " " . Text::_('COM_REDSHOP_INCL_VAT'); ?></td>
+                                                                            <td width="5%">
+                                                                                <input type="number" min="1" name="quantity"
+                                                                                       id="quantity" class="col-sm-12"
+                                                                                       value="<?php echo $quantity; ?>" size="3">
+                                                                            </td>
+                                                                            <td align="right" width="10%">
+                                                                                <?php
+                                                                                echo Redshop::getConfig()->get(
+                                                                                    'REDCURRENCY_SYMBOL'
+                                                                                ) . "&nbsp;";
+                                                                                echo RedshopHelperProduct::redpriceDecimal(
+                                                                                    $products[$i]->product_final_price
+                                                                                );
+                                                                                ?>
+                                                                            </td>
+                                                                            <td width="20%">
+                                                                                <?php
+                                                                                echo RedshopHelperOrder::getStatusList(
+                                                                                    'status',
+                                                                                    $products[$i]->order_status,
+                                                                                    "class=\"form-control\" size=\"1\" "
+                                                                                );
+                                                                                ?>
+                                                                                <br/><br/>
+                                                                                <textarea cols="30" rows="3" class="form-control"
+                                                                                          name="customer_note"><?php echo $products[$i]->customer_note; ?></textarea>
+                                                                            </td>
+                                                                            <td width="5%">
+                                                                                <button type="button" class="btn btn-danger"
+                                                                                        title="<?php echo Text::_(
+                                                                                            'COM_REDSHOP_DELETE'
+                                                                                        ); ?>"
+                                                                                        onclick="if(confirm('<?php echo Text::_(
+                                                                                            'COM_REDSHOP_CONFIRM_DELETE_ORDER_ITEM'
+                                                                                        ); ?>')) { document.itemForm<?php echo $order_item_id; ?>.task.value='delete_item';document.itemForm<?php echo $order_item_id; ?>.submit();}"
+                                                                                        href="javascript:void(0);">
+                                                                                    <i class="fa fa-remove"></i>
+                                                                                </button>
+                                                                                <button type="button" class="btn btn-success"
+                                                                                        title="<?php echo Text::_(
+                                                                                            'COM_REDSHOP_UPDATE'
+                                                                                        ); ?>"
+                                                                                        onclick="document.itemForm<?php echo $order_item_id; ?>.task.value='updateItem';javascript:validateProductQuantity('#itemForm<?php echo $order_item_id; ?>');">
+                                                                                    <i class="fa fa-save"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <input type="hidden" name="task" id="task" value="">
+                                                                    <input type="hidden" name="view" value="order_detail">
+                                                                    <input type="hidden" name="productid"
+                                                                           value="<?php echo $productId; ?>">
+                                                                    <input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
+                                                                    <input type="hidden" name="order_id[]"
+                                                                           value="<?php echo $orderId; ?>"/>
+                                                                    <input type="hidden" name="order_item_id"
+                                                                           value="<?php echo $order_item_id; ?>">
+                                                                    <input type="hidden" name="return" value="order_detail"/>
+                                                                    <input type="hidden" name="isproduct" value="1"/>
+                                                                    <input type="hidden" name="option" value="com_redshop"/>
+                                                                    <input type="hidden" name="payment_method_class"
+                                                                           value="<?php echo $this->payment_detail->payment_method_class ?>">
+                                                                    <?php if ($tmpl) { ?>
+                                                                                        <input type="hidden" name="tmpl" value="<?php echo $tmpl; ?>"/>
+                                                                    <?php } ?>
+                                                                </form>
+                                                            </td>
+                                                            <?php
+                                                            $downloadarray = @$dproducts[$productId];
+                                                            if ($totalDownloadProduct > 0) {
+                                                                ?>
+                                                                                <td>
+                                                                                    <?php
+                                                                                    if (count($downloadarray) > 0) {
+                                                                                        ?>
+                                                                                                        <form action="index.php?option=com_redshop" method="post"
+                                                                                                              name="download_token<?php echo $order_item_id; ?>">
+                                                                                                            <table cellpadding="0" cellspacing="0" border="0">
+                                                                                                                <?php
+                                                                                                                foreach ($downloadarray as $downloads) {
+                                                                                                                    $file_name                 = substr(
+                                                                                                                        basename($downloads->file_name),
+                                                                                                                        11
+                                                                                                                    );
+                                                                                                                    $download_id               = $downloads->download_id;
+                                                                                                                    $download_max              = $downloads->download_max;
+                                                                                                                    $end_date                  = $downloads->end_date;
+                                                                                                                    $product_download_infinite = ($end_date == 0) ? 1 : 0;
 
-                                                                                                        if ($end_date == 0) {
-                                                                                                            $limit_over = false;
-                                                                                                        } else {
-                                                                                                            $days_in_time = $end_date - time();
-                                                                                                            $hour         = date("H", $end_date);
-                                                                                                            $minite       = date("i", $end_date);
-                                                                                                            $days         = round(
-                                                                                                                $days_in_time / (24 * 60 * 60)
-                                                                                                            );
-                                                                                                            $limit_over   = false;
-                                                                                                            if ($days_in_time <= 0 || $download_max <= 0) {
-                                                                                                                $limit_over = true;
-                                                                                                            }
-                                                                                                        }
-                                                                                                        $td_style = ($end_date == 0) ? 'style="display:none;"' : 'style="display:table-row;"';
-                                                                                                        ?>
-                                                                                                                    <tr>
-                                                                                                                        <th colspan="2"
-                                                                                                                            align="center"><?php echo Text::_(
-                                                                                                                                'COM_REDSHOP_TOKEN_ID'
-                                                                                                                            ) . ": " . $download_id; ?></th>
-                                                                                                                    </tr>
-                                                                                                                    <?php
-                                                                                                                    if ($limit_over) {
-                                                                                                                        ?>
+                                                                                                                    if ($end_date == 0) {
+                                                                                                                        $limit_over = false;
+                                                                                                                    } else {
+                                                                                                                        $days_in_time = $end_date - time();
+                                                                                                                        $hour         = date("H", $end_date);
+                                                                                                                        $minite       = date("i", $end_date);
+                                                                                                                        $days         = round(
+                                                                                                                            $days_in_time / (24 * 60 * 60)
+                                                                                                                        );
+                                                                                                                        $limit_over   = false;
+                                                                                                                        if ($days_in_time <= 0 || $download_max <= 0) {
+                                                                                                                            $limit_over = true;
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                    $td_style = ($end_date == 0) ? 'style="display:none;"' : 'style="display:table-row;"';
+                                                                                                                    ?>
                                                                                                                                     <tr>
-                                                                                                                                        <td colspan="2"
+                                                                                                                                        <th colspan="2"
                                                                                                                                             align="center"><?php echo Text::_(
-                                                                                                                                                'COM_REDSHOP_DOWNLOAD_LIMIT_OVER'
-                                                                                                                                            ); ?></td>
+                                                                                                                                                'COM_REDSHOP_TOKEN_ID'
+                                                                                                                                            ) . ": " . $download_id; ?></th>
                                                                                                                                     </tr>
                                                                                                                                     <?php
-                                                                                                                    }
-                                                                                                                    ?>
-                                                                                                                    <tr>
-                                                                                                                        <td valign="top" align="right"
-                                                                                                                            class="key"><?php echo Text::_(
-                                                                                                                                'COM_REDSHOP_PRODUCT_DOWNLOAD_INFINITE_LIMIT'
-                                                                                                                            ); ?>
-                                                                                                                            :
-                                                                                                                        </td>
-                                                                                                                        <td><?php echo JHtml::_(
-                                                                                                                            'select.booleanlist',
-                                                                                                                            'product_download_infinite_' . $download_id,
-                                                                                                                            'class="inputbox" onclick="hideDownloadLimit(this,\'' . $download_id . '\');" ',
-                                                                                                                            $product_download_infinite
-                                                                                                                        ); ?></td>
-                                                                                                                    </tr>
-                                                                                                                    <tr id="limit_<?php echo $download_id; ?>" <?php echo $td_style; ?>>
-                                                                                                                        <td><?php echo Text::_(
-                                                                                                                            'COM_REDSHOP_PRODUCT_DOWNLOAD_LIMIT_LBL'
-                                                                                                                        ); ?></td>
-                                                                                                                        <td><input type="text"
-                                                                                                                                   name="limit_<?php echo $download_id; ?>"
-                                                                                                                                   value="<?php echo $download_max; ?>">
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr id="days_<?php echo $download_id; ?>" <?php echo $td_style; ?>>
-                                                                                                                        <td><?php echo Text::_(
-                                                                                                                            'COM_REDSHOP_PRODUCT_DOWNLOAD_DAYS_LBL'
-                                                                                                                        ); ?></td>
-                                                                                                                        <td>
-                                                                                                                            <input type="text"
-                                                                                                                                   name="days_<?php echo $download_id; ?>"
-                                                                                                                                   size="2"
-                                                                                                                                   maxlength="2"
-                                                                                                                                   value="<?php echo $days; ?>">
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr id="clock_<?php echo $download_id; ?>" <?php echo $td_style; ?>>
-                                                                                                                        <td><?php echo Text::_(
-                                                                                                                            'COM_REDSHOP_PRODUCT_DOWNLOAD_CLOCK_LBL'
-                                                                                                                        ); ?></td>
-                                                                                                                        <td>
-                                                                                                                            <input type="text"
-                                                                                                                                   name="clock_<?php echo $download_id; ?>"
-                                                                                                                                   size="2"
-                                                                                                                                   maxlength="2"
-                                                                                                                                   value="<?php echo $hour; ?>">:
-                                                                                                                            <input type="text"
-                                                                                                                                   name="clock_min_<?php echo $download_id; ?>"
-                                                                                                                                   size="2" maxlength="2"
-                                                                                                                                   value="<?php echo $minite; ?>">
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td colspan="2">
-                                                                                                                            <input type="hidden" name="download_id[]"
-                                                                                                                                   value="<?php echo $download_id; ?>">
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <?php
-                                                                                                    }
-                                                                                                    ?>
-                                                                                                    <tr>
-                                                                                                        <td colspan="2" align="center">
-                                                                                                            <input type="button" name="update"
-                                                                                                                   value="<?php echo Text::_(
-                                                                                                                       'COM_REDSHOP_UPDATE'
-                                                                                                                   ); ?>"
-                                                                                                                   onclick="document.download_token<?php echo $order_item_id; ?>.submit();">
-                                                                                                            <input type="hidden" name="option"
-                                                                                                                   value="com_redshop"/>
-                                                                                                            <input type="hidden" name="view" value="order"/>
-                                                                                                            <input type="hidden" name="task"
-                                                                                                                   value="download_token"/>
-                                                                                                            <input type="hidden" name="product_id"
-                                                                                                                   value="<?php echo $productId; ?>"/>
-                                                                                                            <input type="hidden" name="return"
-                                                                                                                   value="order_detail"/>
-                                                                                                            <input type="hidden" name="cid[]"
-                                                                                                                   value="<?php echo $orderId; ?>"/>
-                                                                                                            <?php if ($tmpl) { ?>
-                                                                                                                            <input type="hidden" name="tmpl"
-                                                                                                                                   value="<?php echo $tmpl; ?>"/>
-                                                                                                            <?php } ?>
-                                                                                                        </td>
-                                                                                                    </tr>
-                                                                                                </table>
-                                                                                            </form>
-                                                                                            <?php
-                                                                            }
-                                                                            ?>
-                                                                        </td>
-                                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                        <?php
+                                                                                                                                    if ($limit_over) {
+                                                                                                                                        ?>
+                                                                                                                                                        <tr>
+                                                                                                                                                            <td colspan="2"
+                                                                                                                                                                align="center"><?php echo Text::_(
+                                                                                                                                                                    'COM_REDSHOP_DOWNLOAD_LIMIT_OVER'
+                                                                                                                                                                ); ?></td>
+                                                                                                                                                        </tr>
+                                                                                                                                                        <?php
+                                                                                                                                    }
+                                                                                                                                    ?>
+                                                                                                                                    <tr>
+                                                                                                                                        <td valign="top" align="right"
+                                                                                                                                            class="key"><?php echo Text::_(
+                                                                                                                                                'COM_REDSHOP_PRODUCT_DOWNLOAD_INFINITE_LIMIT'
+                                                                                                                                            ); ?>
+                                                                                                                                            :
+                                                                                                                                        </td>
+                                                                                                                                        <td><?php echo JHtml::_(
+                                                                                                                                            'select.booleanlist',
+                                                                                                                                            'product_download_infinite_' . $download_id,
+                                                                                                                                            'class="inputbox" onclick="hideDownloadLimit(this,\'' . $download_id . '\');" ',
+                                                                                                                                            $product_download_infinite
+                                                                                                                                        ); ?></td>
+                                                                                                                                    </tr>
+                                                                                                                                    <tr id="limit_<?php echo $download_id; ?>" <?php echo $td_style; ?>>
+                                                                                                                                        <td><?php echo Text::_(
+                                                                                                                                            'COM_REDSHOP_PRODUCT_DOWNLOAD_LIMIT_LBL'
+                                                                                                                                        ); ?></td>
+                                                                                                                                        <td><input type="text"
+                                                                                                                                                   name="limit_<?php echo $download_id; ?>"
+                                                                                                                                                   value="<?php echo $download_max; ?>">
+                                                                                                                                        </td>
+                                                                                                                                    </tr>
+                                                                                                                                    <tr id="days_<?php echo $download_id; ?>" <?php echo $td_style; ?>>
+                                                                                                                                        <td><?php echo Text::_(
+                                                                                                                                            'COM_REDSHOP_PRODUCT_DOWNLOAD_DAYS_LBL'
+                                                                                                                                        ); ?></td>
+                                                                                                                                        <td>
+                                                                                                                                            <input type="text"
+                                                                                                                                                   name="days_<?php echo $download_id; ?>"
+                                                                                                                                                   size="2"
+                                                                                                                                                   maxlength="2"
+                                                                                                                                                   value="<?php echo $days; ?>">
+                                                                                                                                        </td>
+                                                                                                                                    </tr>
+                                                                                                                                    <tr id="clock_<?php echo $download_id; ?>" <?php echo $td_style; ?>>
+                                                                                                                                        <td><?php echo Text::_(
+                                                                                                                                            'COM_REDSHOP_PRODUCT_DOWNLOAD_CLOCK_LBL'
+                                                                                                                                        ); ?></td>
+                                                                                                                                        <td>
+                                                                                                                                            <input type="text"
+                                                                                                                                                   name="clock_<?php echo $download_id; ?>"
+                                                                                                                                                   size="2"
+                                                                                                                                                   maxlength="2"
+                                                                                                                                                   value="<?php echo $hour; ?>">:
+                                                                                                                                            <input type="text"
+                                                                                                                                                   name="clock_min_<?php echo $download_id; ?>"
+                                                                                                                                                   size="2" maxlength="2"
+                                                                                                                                                   value="<?php echo $minite; ?>">
+                                                                                                                                        </td>
+                                                                                                                                    </tr>
+                                                                                                                                    <tr>
+                                                                                                                                        <td colspan="2">
+                                                                                                                                            <input type="hidden" name="download_id[]"
+                                                                                                                                                   value="<?php echo $download_id; ?>">
+                                                                                                                                        </td>
+                                                                                                                                    </tr>
+                                                                                                                                    <?php
+                                                                                                                }
+                                                                                                                ?>
+                                                                                                                <tr>
+                                                                                                                    <td colspan="2" align="center">
+                                                                                                                        <input type="button" name="update"
+                                                                                                                               value="<?php echo Text::_(
+                                                                                                                                   'COM_REDSHOP_UPDATE'
+                                                                                                                               ); ?>"
+                                                                                                                               onclick="document.download_token<?php echo $order_item_id; ?>.submit();">
+                                                                                                                        <input type="hidden" name="option"
+                                                                                                                               value="com_redshop"/>
+                                                                                                                        <input type="hidden" name="view" value="order"/>
+                                                                                                                        <input type="hidden" name="task"
+                                                                                                                               value="download_token"/>
+                                                                                                                        <input type="hidden" name="product_id"
+                                                                                                                               value="<?php echo $productId; ?>"/>
+                                                                                                                        <input type="hidden" name="return"
+                                                                                                                               value="order_detail"/>
+                                                                                                                        <input type="hidden" name="cid[]"
+                                                                                                                               value="<?php echo $orderId; ?>"/>
+                                                                                                                        <?php if ($tmpl) { ?>
+                                                                                                                                            <input type="hidden" name="tmpl"
+                                                                                                                                                   value="<?php echo $tmpl; ?>"/>
+                                                                                                                        <?php } ?>
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                            </table>
+                                                                                                        </form>
+                                                                                                        <?php
+                                                                                    }
+                                                                                    ?>
+                                                                                </td>
+                                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <?php
                         }
                         ?>
                         <tr>
@@ -1405,7 +1411,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                     <input type="hidden" name="requiedAttributeproduct1" id="requiedAttributeproduct1"
                                            value="0">
                                     <?php if ($tmpl) { ?>
-                                                    <input type="hidden" name="tmpl" id="tmpl" value="<?php echo $tmpl ?>">
+                                                        <input type="hidden" name="tmpl" id="tmpl" value="<?php echo $tmpl ?>">
                                     <?php } ?>
 
                                 </td>
@@ -1442,116 +1448,116 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                     <ul class="timeline">
                         <?php $orderStatusLogs = array_reverse($orderStatusLogs); ?>
                         <?php foreach ($orderStatusLogs as $index => $log): ?>
-                                        <?php $nextLog = (isset($orderStatusLogs[$index + 1])) ? $orderStatusLogs[$index + 1] : false; ?>
-                                        <li class="time-label">
-                                            <span class="bg-green">
-                                                <?php
-                                                $timezone = new \DateTimeZone(\JFactory::getConfig()->get('offset', 'UTC'));
-                                                $dt       = new \DateTime('now', $timezone);
-                                                echo $dt->setTimestamp($log->date_changed)->format('d-m-Y H:i');
-                                                ?>
-                                            </span>
-                                        </li>
-                                        <?php if (!$nextLog): ?>
-                                                        <li>
-                                                            <i class="fa fa-check bg-green"></i>
-                                                            <div class="timeline-item">
-                                                                <h3 class="timeline-header"><?php echo Text::_(
-                                                                    'COM_REDSHOP_ORDER_PLACED'
-                                                                ) ?></h3>
-                                                                <div class="timeline-body">
-                                                                    <?php if ($log->by_user_id > 0): ?>
-                                                                                    <p>
-                                                                                        <?php echo Text::_('JGLOBAL_USERNAME') ?>:
-                                                                                        <span class="label order_placed_by_username">
-                                                                                            <?php echo JFactory::getUser($log->by_user_id)->username ?>
-                                                                                        </span>
-                                                                                    </p>
-                                                                    <?php endif; ?>
-                                                                    <p><?php echo Text::_('COM_REDSHOP_ORDER_STATUS') ?>:
-                                                                        <span class="label order_status_<?php echo strtolower($log->order_status) ?>">
-                                                                            <?php echo $log->order_status_name ?>
-                                                                        </span>
-                                                                    </p>
-                                                                    <?php if (empty($log->order_payment_status)): ?>
-                                                                                    <p><?php echo Text::_('COM_REDSHOP_PAYMENT_STATUS') ?>:
-                                                                                        <span class="label order_payment_status_unpaid">
-                                                                                            <?php echo Text::_('COM_REDSHOP_PAYMENT_STA_UNPAID') ?>
-                                                                                        </span>
-                                                                                    </p>
-                                                                    <?php else: ?>
+                                            <?php $nextLog = (isset($orderStatusLogs[$index + 1])) ? $orderStatusLogs[$index + 1] : false; ?>
+                                            <li class="time-label">
+                                                <span class="bg-green">
+                                                    <?php
+                                                    $timezone = new \DateTimeZone(\JFactory::getConfig()->get('offset', 'UTC'));
+                                                    $dt       = new \DateTime('now', $timezone);
+                                                    echo $dt->setTimestamp($log->date_changed)->format('d-m-Y H:i');
+                                                    ?>
+                                                </span>
+                                            </li>
+                                            <?php if (!$nextLog): ?>
+                                                                <li>
+                                                                    <i class="fa fa-check bg-green"></i>
+                                                                    <div class="timeline-item">
+                                                                        <h3 class="timeline-header"><?php echo Text::_(
+                                                                            'COM_REDSHOP_ORDER_PLACED'
+                                                                        ) ?></h3>
+                                                                        <div class="timeline-body">
+                                                                            <?php if ($log->by_user_id > 0): ?>
+                                                                                                <p>
+                                                                                                    <?php echo Text::_('JGLOBAL_USERNAME') ?>:
+                                                                                                    <span class="label order_placed_by_username">
+                                                                                                        <?php echo $userFactory->loadUserById($log->by_user_id)->username ?>
+                                                                                                    </span>
+                                                                                                </p>
+                                                                            <?php endif; ?>
+                                                                            <p><?php echo Text::_('COM_REDSHOP_ORDER_STATUS') ?>:
+                                                                                <span class="label order_status_<?php echo strtolower($log->order_status) ?>">
+                                                                                    <?php echo $log->order_status_name ?>
+                                                                                </span>
+                                                                            </p>
+                                                                            <?php if (empty($log->order_payment_status)): ?>
+                                                                                                <p><?php echo Text::_('COM_REDSHOP_PAYMENT_STATUS') ?>:
+                                                                                                    <span class="label order_payment_status_unpaid">
+                                                                                                        <?php echo Text::_('COM_REDSHOP_PAYMENT_STA_UNPAID') ?>
+                                                                                                    </span>
+                                                                                                </p>
+                                                                            <?php else: ?>
+                                                                                                <?php $paymentName = Text::_(
+                                                                                                    'COM_REDSHOP_PAYMENT_STA_' . strtoupper(
+                                                                                                        str_replace(' ', '_', $log->order_payment_status)
+                                                                                                    )
+                                                                                                ); ?>
+                                                                                                <p><?php echo Text::_('COM_REDSHOP_PAYMENT_STATUS') ?>: <span
+                                                                                                            class="label order_payment_status_<?php echo strtolower(
+                                                                                                                $log->order_payment_status
+                                                                                                            ) ?>"><?php echo $paymentName ?></span>
+                                                                                                </p>
+                                                                            <?php endif; ?>
+                                                                            <p><?php echo $log->customer_note ?></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                            <?php else: ?>
+                                                                <?php if (!empty($log->by_user_id)): ?>
+                                                                                    <li>
+                                                                                        <i class="fa fa-user bg-navy"></i>
+                                                                                        <div class="timeline-item">
+                                                                                            <div class="timeline-body">
+                                                                                                <?php echo Text::_('JGLOBAL_USERNAME') ?>&nbsp;
+                                                                                                <span class="label order_status_<?php echo strtolower($log->by_user_id) ?>">
+                                                                                                    <?php echo $userFactory->loadUserById($log->by_user_id)->username ?>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </li>
+                                                                <?php endif; ?>
+                                                                <?php if ($log->order_status != $nextLog->order_status): ?>
+                                                                                    <li>
+                                                                                        <i class="fa fa-book bg-blue"></i>
+                                                                                        <div class="timeline-item">
+                                                                                            <div class="timeline-body">
+                                                                                                <?php echo Text::_('COM_REDSHOP_ORDER_STATUS_CHANGE_TO') ?>&nbsp;<span
+                                                                                                        class="label order_status_<?php echo strtolower(
+                                                                                                            $log->order_status
+                                                                                                        ) ?>"><?php echo $log->order_status_name ?>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </li>
+                                                                <?php endif; ?>
+                                                                <?php if ($log->order_payment_status != $nextLog->order_payment_status && $log->order_payment_status): ?>
                                                                                     <?php $paymentName = Text::_(
                                                                                         'COM_REDSHOP_PAYMENT_STA_' . strtoupper(
                                                                                             str_replace(' ', '_', $log->order_payment_status)
                                                                                         )
                                                                                     ); ?>
-                                                                                    <p><?php echo Text::_('COM_REDSHOP_PAYMENT_STATUS') ?>: <span
-                                                                                                class="label order_payment_status_<?php echo strtolower(
-                                                                                                    $log->order_payment_status
-                                                                                                ) ?>"><?php echo $paymentName ?></span>
-                                                                                    </p>
-                                                                    <?php endif; ?>
-                                                                    <p><?php echo $log->customer_note ?></p>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                        <?php else: ?>
-                                                        <?php if (!empty($log->by_user_id)): ?>
-                                                                        <li>
-                                                                            <i class="fa fa-user bg-navy"></i>
-                                                                            <div class="timeline-item">
-                                                                                <div class="timeline-body">
-                                                                                    <?php echo Text::_('JGLOBAL_USERNAME') ?>&nbsp;
-                                                                                    <span class="label order_status_<?php echo strtolower($log->by_user_id) ?>">
-                                                                                        <?php echo JFactory::getUser($log->by_user_id)->username ?>
-                                                                                    </span>
-                                                                                </div>
-                                                                            </div>
-                                                                        </li>
-                                                        <?php endif; ?>
-                                                        <?php if ($log->order_status != $nextLog->order_status): ?>
-                                                                        <li>
-                                                                            <i class="fa fa-book bg-blue"></i>
-                                                                            <div class="timeline-item">
-                                                                                <div class="timeline-body">
-                                                                                    <?php echo Text::_('COM_REDSHOP_ORDER_STATUS_CHANGE_TO') ?>&nbsp;<span
-                                                                                            class="label order_status_<?php echo strtolower(
-                                                                                                $log->order_status
-                                                                                            ) ?>"><?php echo $log->order_status_name ?>
-                                                                                </div>
-                                                                            </div>
-                                                                        </li>
-                                                        <?php endif; ?>
-                                                        <?php if ($log->order_payment_status != $nextLog->order_payment_status && $log->order_payment_status): ?>
-                                                                        <?php $paymentName = Text::_(
-                                                                            'COM_REDSHOP_PAYMENT_STA_' . strtoupper(
-                                                                                str_replace(' ', '_', $log->order_payment_status)
-                                                                            )
-                                                                        ); ?>
-                                                                        <li>
-                                                                            <i class="fa fa-dollar bg-red"></i>
-                                                                            <div class="timeline-item">
-                                                                                <div class="timeline-body">
-                                                                                    <?php echo Text::_('COM_REDSHOP_ORDER_PAYMENT_STATUS_CHANGE_TO') ?>
-                                                                                    &nbsp;<span
-                                                                                            class="label order_payment_status_<?php echo strtolower(
-                                                                                                $log->order_payment_status
-                                                                                            ) ?>"><?php echo $paymentName ?>
-                                                                                </div>
-                                                                            </div>
-                                                                        </li>
-                                                        <?php endif; ?>
-                                                        <?php if (!empty($log->customer_note) && $log->customer_note != $nextLog->customer_note): ?>
-                                                                        <li>
-                                                                            <i class="fa fa-comment bg-yellow"></i>
-                                                                            <div class="timeline-item">
-                                                                                <div class="timeline-body">
-                                                                                    <i><?php echo $log->customer_note ?></i>
-                                                                                </div>
-                                                                            </div>
-                                                                        </li>
-                                                        <?php endif; ?>
-                                        <?php endif; ?>
+                                                                                    <li>
+                                                                                        <i class="fa fa-dollar bg-red"></i>
+                                                                                        <div class="timeline-item">
+                                                                                            <div class="timeline-body">
+                                                                                                <?php echo Text::_('COM_REDSHOP_ORDER_PAYMENT_STATUS_CHANGE_TO') ?>
+                                                                                                &nbsp;<span
+                                                                                                        class="label order_payment_status_<?php echo strtolower(
+                                                                                                            $log->order_payment_status
+                                                                                                        ) ?>"><?php echo $paymentName ?>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </li>
+                                                                <?php endif; ?>
+                                                                <?php if (!empty($log->customer_note) && $log->customer_note != $nextLog->customer_note): ?>
+                                                                                    <li>
+                                                                                        <i class="fa fa-comment bg-yellow"></i>
+                                                                                        <div class="timeline-item">
+                                                                                            <div class="timeline-body">
+                                                                                                <i><?php echo $log->customer_note ?></i>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </li>
+                                                                <?php endif; ?>
+                                            <?php endif; ?>
                         <?php endforeach; ?>
                     </ul>
                 </div>

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -29,7 +30,7 @@ class RedshopControllerWishlist extends RedshopController
      */
     public function createsave()
     {
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         /** @var RedshopModelWishlist $model */
         $model = $this->getModel("wishlist");
@@ -59,12 +60,12 @@ class RedshopControllerWishlist extends RedshopController
             $this->setRedirect($return);
         } else {
             ?>
-            <script language="javascript">
-                //  var t = setTimeout("window.parent.common.closeModal();window.parent.location.reload();", 2000);
-                //  $('#modalAddToWishlist').modal('hide');
-                myModal.hide();
-            </script>
-            <?php
+                        <script language="javascript">
+                            //  var t = setTimeout("window.parent.common.closeModal();window.parent.location.reload();", 2000);
+                            //  $('#modalAddToWishlist').modal('hide');
+                            myModal.hide();
+                        </script>
+                        <?php
         }
     }
 
@@ -94,10 +95,10 @@ class RedshopControllerWishlist extends RedshopController
         }
 
         ?>
-        <script language="javascript">
-            var t = setTimeout("window.parent.SqueezeBox.close();window.parent.location.reload()", 2000);
-        </script>
-        <?php
+                <script language="javascript">
+                    var t = setTimeout("window.parent.SqueezeBox.close();window.parent.location.reload()", 2000);
+                </script>
+                <?php
     }
 
     /**
@@ -109,7 +110,7 @@ class RedshopControllerWishlist extends RedshopController
     public function delwishlist()
     {
         $app    = JFactory::getApplication();
-        $user   = JFactory::getUser();
+        $user   = Factory::getApplication()->getIdentity();
         $model  = $this->getModel("wishlist");
         $Itemid = $app->input->get('Itemid');
         $post   = $app->input->getArray();

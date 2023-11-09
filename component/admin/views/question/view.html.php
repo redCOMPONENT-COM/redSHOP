@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -44,7 +45,7 @@ class RedshopViewQuestion extends RedshopViewAdmin
         $this->requestUrl = JUri::getInstance()->toString();
 
         if (!$this->item->id) {
-            $user                   = JFactory::getUser();
+            $user                   = Factory::getApplication()->getIdentity();
             $this->item->user_email = $user->email;
             $this->item->user_name  = $user->username;
         }

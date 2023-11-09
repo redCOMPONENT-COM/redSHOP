@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -131,7 +132,7 @@ class RedshopViewCategory extends RedshopViewForm
     protected function addToolbar()
     {
         JFactory::getApplication()->input->set('hidemainmenu', true);
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         if ($this->is_new && (!empty($user->authorise('com_redshop', 'core.create')))) {
             JToolbarHelper::apply('category.apply');

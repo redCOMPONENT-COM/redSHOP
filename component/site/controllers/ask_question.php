@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -58,7 +59,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
         $app->setUserState('com_redshop.ask_question.data', $data);
 
         // Check captcha only for guests
-        if (JFactory::getUser()->guest) {
+        if (Factory::getApplication()->getIdentity()->guest) {
             // Check exists captcha tag in question template form
             $template = RedshopHelperTemplate::getTemplate('ask_question_template');
 

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since       __DEPLOY_VERSION__
  */
-class RedshopUpdate303 extends RedshopInstallUpdate
+class RedshopUpdate401 extends RedshopInstallUpdate
 {
     /**
      * Return list of old files for clean

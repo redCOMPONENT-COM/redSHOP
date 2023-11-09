@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 // Include the login functions only once
 require_once 'helper.php';
 
@@ -17,13 +19,12 @@ $params->def('greeting', 1);
 $type             = \ModRedshopLoginHelper::getType();
 $return           = \ModRedshopLoginHelper::getReturnUrl($params, $type);
 $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
-$user             = JFactory::getUser();
-$thirdPartyLogin = Redshop\Helper\Login::getThirdPartyLogin();
+$user             = Factory::getApplication()->getIdentity();
+$thirdPartyLogin  = Redshop\Helper\Login::getThirdPartyLogin();
 $layout           = $params->get('layout', 'default');
 
 // Logged users must load the logout sub layout
-if (!$user->guest)
-{
+if (!$user->guest) {
     $layout .= '_logout';
 }
 

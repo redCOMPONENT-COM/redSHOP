@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 class RedshopViewLogin extends RedshopView
@@ -16,7 +17,7 @@ class RedshopViewLogin extends RedshopView
     public function display($tpl = null)
     {
         $app  = JFactory::getApplication();
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         $model = $this->getModel();
 

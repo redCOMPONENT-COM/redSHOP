@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Form\FormField;
 
@@ -169,7 +170,7 @@ class RedshopFormFieldCalendar extends FormField
 
         // Get some system objects.
         $config = JFactory::getConfig();
-        $user   = JFactory::getUser();
+        $user   = Factory::getApplication()->getIdentity();
         $tz     = $config->get('offset');
 
         // If a known filter is given use it.

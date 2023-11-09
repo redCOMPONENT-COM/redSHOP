@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Model Country
  *
@@ -91,7 +93,7 @@ class RedshopModelQuestion extends RedshopModelForm
             return $data;
         }
 
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         // Store Answer
         $answerData               = $data;

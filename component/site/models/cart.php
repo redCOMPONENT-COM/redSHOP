@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 
 /**
  * Class RedshopModelCart.
@@ -53,7 +54,7 @@ class RedshopModelCart extends RedshopModel
         parent::__construct();
 
         $this->_table_prefix = '#__redshop_';
-        $user                = JFactory::getUser();
+        $user                = Factory::getApplication()->getIdentity();
 
         // Remove expired products from cart
         \Redshop\Cart\Helper::emptyExpiredCartProducts();

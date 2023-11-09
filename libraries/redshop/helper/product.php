@@ -197,7 +197,7 @@ class RedshopHelperProduct
         $app         = JFactory::getApplication();
 
         if ($userId == 0 && !$app->isClient('administrator')) {
-            $user   = JFactory::getUser();
+            $user   = Factory::getApplication()->getIdentity();
             $userId = $user->id;
         } else {
             $userId = $app->input->getInt('user_id', 0);
@@ -3012,7 +3012,7 @@ class RedshopHelperProduct
         $data = '',
         $isReturnObject = false
     ) {
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         if ($userId == 0) {
             $userId = $user->id;
@@ -3280,7 +3280,7 @@ class RedshopHelperProduct
 
     public static function makeAccessoryCart($attArr = array(), $productId = 0, $user_id = 0)
     {
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         if ($user_id == 0) {
             $user_id = $user->id;
@@ -3952,7 +3952,7 @@ class RedshopHelperProduct
     public static function loadAclProducts()
     {
         $db      = JFactory::getDbo();
-        $user    = JFactory::getUser();
+        $user    = Factory::getApplication()->getIdentity();
         $userArr = JFactory::getSession()->get('rs_user');
 
         if (empty($userArr)) {

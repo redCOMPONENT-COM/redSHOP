@@ -11,6 +11,7 @@ namespace Redshop\Product;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -73,7 +74,7 @@ class Property
         $selectedQuantity  = 1;
         $productNetPrice   = \RedshopHelperProductPrice::getNetPrice(
             $productId,
-            \JFactory::getUser()->id,
+            Factory::getApplication()->getIdentity()->id,
             $selectedQuantity,
             $content
         );

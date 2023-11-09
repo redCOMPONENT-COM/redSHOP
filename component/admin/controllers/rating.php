@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\UserFactoryInterface;
 
 /**
  * Controller Rating Detail
@@ -54,7 +56,10 @@ class RedshopControllerRating extends RedshopControllerForm
         }
 
         if (isset($data['userid']) && $data['userid'] > 0) {
-            $user             = JFactory::getUser($data['userid']);
+            $container   = Factory::getContainer();
+            $userFactory = $container->get(UserFactoryInterface::class);
+            $user        = $userFactory->loadUserById($data['userid']);
+
             $data['email']    = $user->email;
             $data['username'] = $user->username;
         }

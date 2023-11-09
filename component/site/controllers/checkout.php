@@ -401,7 +401,7 @@ class RedshopControllerCheckout extends RedshopController
         $model             = $this->getModel('checkout');
         $session           = JFactory::getSession();
         $cart              = $session->get('cart');
-        $user              = JFactory::getUser();
+        $user              = Factory::getApplication()->getIdentity();
         $payment_method_id = $input->post->getString('payment_method_id', '');
 
         if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0) {
@@ -620,7 +620,7 @@ class RedshopControllerCheckout extends RedshopController
 
         $session->set('rs_user', $redShopUser);
 
-        $user             = JFactory::getUser();
+        $user             = Factory::getApplication()->getIdentity();
         $cart             = $session->get('cart');
         $shipping_box_id  = $post['shipping_box_id'];
         $shipping_rate_id = $post['shipping_rate_id'];

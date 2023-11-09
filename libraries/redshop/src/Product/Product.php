@@ -151,7 +151,7 @@ class Product
     public static function getProductById($productId, $userId = 0, $setRelated = true)
     {
         if (!$userId) {
-            $user   = \JFactory::getUser();
+            $user   = Factory::getApplication()->getIdentity();
             $userId = $user->id;
         }
 
@@ -167,7 +167,7 @@ class Product
                 $query = self::getMainProductQuery(false, $userId);
 
                 // Select product
-                $query->where($db->qn('p.product_id') . ' = ' . (int)$productId);
+                $query->where($db->qn('p.product_id') . ' = ' . (int) $productId);
 
                 $db->setQuery($query);
                 static::$products[$key] = $db->loadObject();
@@ -217,7 +217,7 @@ class Product
             ->leftJoin(
                 $db->qn('#__redshop_product_price', 'pp')
                 . ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1)'
-                . ' OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0)) AND pp.shopper_group_id = ' . (int)$shopperGroupId
+                . ' OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0)) AND pp.shopper_group_id = ' . (int) $shopperGroupId
             )
             ->order('pp.price_quantity_start ASC');
 
@@ -551,7 +551,7 @@ class Product
         // Select product
         $query->where($db->qn('p.product_id') . ' IN (' . implode(',', $productIds) . ')');
 
-        $items = (array)$db->setQuery($query)->loadObjectList();
+        $items = (array) $db->setQuery($query)->loadObjectList();
 
         if (empty($items)) {
             return $results;
@@ -639,17 +639,17 @@ class Product
         if ($dirn < 0) {
             $query->where($db->qn('ordering') . ' < (' . $subQuery . ')')
                 ->where($db->qn('p.published') . ' = 1')
-                ->where($db->qn('category_id') . ' = ' . (int)$category_id)
+                ->where($db->qn('category_id') . ' = ' . (int) $category_id)
                 ->order($db->qn('ordering') . 'DESC');
         } elseif ($dirn > 0) {
             $query->where($db->qn('ordering') . ' > (' . $subQuery . ')')
                 ->where($db->qn('p.published') . ' = 1')
-                ->where($db->qn('category_id') . ' = ' . (int)$category_id)
+                ->where($db->qn('category_id') . ' = ' . (int) $category_id)
                 ->order($db->qn('ordering'));
         } else {
             $query->where($db->qn('ordering') . ' = (' . $subQuery . ')')
                 ->where($db->qn('p.published') . ' = 1')
-                ->where($db->qn('category_id') . ' = ' . (int)$category_id)
+                ->where($db->qn('category_id') . ' = ' . (int) $category_id)
                 ->order($db->qn('ordering'));
         }
 

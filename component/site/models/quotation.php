@@ -45,7 +45,7 @@ class RedshopModelQuotation extends RedshopModel
 
     public function _loadData()
     {
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         if ($user->id) {
             $this->_data               = RedshopHelperOrder::getBillingAddress($user->id);
@@ -83,7 +83,7 @@ class RedshopModelQuotation extends RedshopModel
         $app = JFactory::getApplication();
 
         // Get required system objects
-        $user      = clone(JFactory::getUser());
+        $user      = clone (Factory::getApplication()->getIdentity());
         $authorize = JFactory::getACL();
 
         $MailFrom = $app->get('mailfrom');
@@ -126,7 +126,7 @@ class RedshopModelQuotation extends RedshopModel
 
         if ($data['is_company'] == 1) {
             $tmp  = @explode(" ", $data['contact_person']);
-            $name = @ $tmp[0] . ' ' . $tmp[1];
+            $name = @$tmp[0] . ' ' . $tmp[1];
             $name = $app->input->get('username');
         } else {
             $name = $app->input->get('firstname') . ' ' . $app->input->get('lastname');
@@ -165,7 +165,7 @@ class RedshopModelQuotation extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -195,7 +195,7 @@ class RedshopModelQuotation extends RedshopModel
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -212,21 +212,21 @@ class RedshopModelQuotation extends RedshopModel
 
         $quotation_id       = $quotationDetail->quotation_id;
         $quotationdetailurl = JURI::root(
-            ) . 'index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotation_id . '&encr=' . $quotationDetail->quotation_encrkey;
+        ) . 'index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotation_id . '&encr=' . $quotationDetail->quotation_encrkey;
 
         $mailbody    = '<table>';
-        $mailbody    .= '<tr><td>' . Text::_(
-                'COM_REDSHOP_USERNAME'
-            ) . '</td><td> : </td><td>' . $data['username'] . '</td></tr>';
-        $mailbody    .= '<tr><td>' . Text::_(
-                'COM_REDSHOP_PASSWORD'
-            ) . '</td><td> : </td><td>' . $password . '</td></tr>';
-        $mailbody    .= '<tr><td>' . Text::_(
-                'COM_REDSHOP_QUOTATION_DETAILS'
-            ) . '</td><td> : </td><td><a href="' . $quotationdetailurl . '">' . Text::_(
-                "COM_REDSHOP_QUOTATION_DETAILS"
-            ) . '</a></td></tr>';
-        $mailbody    .= '</table>';
+        $mailbody .= '<tr><td>' . Text::_(
+            'COM_REDSHOP_USERNAME'
+        ) . '</td><td> : </td><td>' . $data['username'] . '</td></tr>';
+        $mailbody .= '<tr><td>' . Text::_(
+            'COM_REDSHOP_PASSWORD'
+        ) . '</td><td> : </td><td>' . $password . '</td></tr>';
+        $mailbody .= '<tr><td>' . Text::_(
+            'COM_REDSHOP_QUOTATION_DETAILS'
+        ) . '</td><td> : </td><td><a href="' . $quotationdetailurl . '">' . Text::_(
+                    "COM_REDSHOP_QUOTATION_DETAILS"
+                ) . '</a></td></tr>';
+        $mailbody .= '</table>';
         $mailsubject = 'Register';
         $mailbcc     = null;
         $mailinfo    = Redshop\Mail\Helper::getTemplate(0, "quotation_user_register");
@@ -256,7 +256,7 @@ class RedshopModelQuotation extends RedshopModel
         $session->set('ccdata', null);
         $session->set('issplit', null);
         $session->set('userfield', null);
-        unset ($_SESSION ['ccdata']);
+        unset($_SESSION['ccdata']);
 
         return;
     }
@@ -264,7 +264,7 @@ class RedshopModelQuotation extends RedshopModel
     public function store($data, $post)
     {
         $this->_loadData();
-        $user         = JFactory::getUser();
+        $user         = Factory::getApplication()->getIdentity();
         $user_id      = 0;
         $user_info_id = 0;
         $user_email   = $post['user_email'];
@@ -293,7 +293,7 @@ class RedshopModelQuotation extends RedshopModel
         $data['quotation_cdate']     = time();
         $data['quotation_mdate']     = time();
         $data['quotation_note']      = $data['quotation_note'];
-        $data['quotation_ipaddress'] = $_SERVER ['REMOTE_ADDR'];
+        $data['quotation_ipaddress'] = $_SERVER['REMOTE_ADDR'];
         $data['quotation_encrkey']   = RedshopHelperQuotation::randomQuotationEncryptKey();
         $data['quotation_discount']  = (isset($data['discount2'])) ? $data['discount2'] : 0;
 
@@ -304,14 +304,14 @@ class RedshopModelQuotation extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -366,21 +366,21 @@ class RedshopModelQuotation extends RedshopModel
 
             if (!$rowitem->bind($quotation_item[$i])) {
                 /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $rowitem->getError());
+                $this->setError( /** @scrutinizer ignore-deprecated */$rowitem->getError());
 
                 return false;
             }
 
             if (!$rowitem->store()) {
                 /** @scrutinizer ignore-deprecated */
-                $this->setError(/** @scrutinizer ignore-deprecated */ $rowitem->getError());
+                $this->setError( /** @scrutinizer ignore-deprecated */$rowitem->getError());
 
                 return false;
             }
 
             /** my accessory save in table start */
             if (count($data[$i]['cart_accessory']) > 0) {
-                $attArr = $data [$i] ['cart_accessory'];
+                $attArr = $data[$i]['cart_accessory'];
 
                 for ($a = 0, $an = count($attArr); $a < $an; $a++) {
                     $accessory_vat_price = 0;
@@ -415,7 +415,7 @@ class RedshopModelQuotation extends RedshopModel
                         if ($attributeId > 0) {
                             if (!$rowattitem->store()) {
                                 /** @scrutinizer ignore-deprecated */
-                                $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                                $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                                 return false;
                             }
@@ -453,7 +453,7 @@ class RedshopModelQuotation extends RedshopModel
                             if ($propertyId > 0) {
                                 if (!$rowattitem->store()) {
                                     /** @scrutinizer ignore-deprecated */
-                                    $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                                    $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                                     return false;
                                 }
@@ -487,7 +487,7 @@ class RedshopModelQuotation extends RedshopModel
                                     if (!$rowattitem->store()) {
                                         /** @scrutinizer ignore-deprecated */
                                         $this->setError(
-                                        /** @scrutinizer ignore-deprecated */ $rowattitem->getError()
+                                            /** @scrutinizer ignore-deprecated */    $rowattitem->getError()
                                         );
 
                                         return false;
@@ -522,7 +522,7 @@ class RedshopModelQuotation extends RedshopModel
                     if ($accessoryId > 0) {
                         if (!$rowaccitem->store()) {
                             /** @scrutinizer ignore-deprecated */
-                            $this->setError(/** @scrutinizer ignore-deprecated */ $rowaccitem->getError());
+                            $this->setError( /** @scrutinizer ignore-deprecated */$rowaccitem->getError());
 
                             return false;
                         }
@@ -532,7 +532,7 @@ class RedshopModelQuotation extends RedshopModel
 
             // My attribute save in table start
             if (count($data[$i]['cart_attribute']) > 0) {
-                $attArr = $data [$i] ['cart_attribute'];
+                $attArr = $data[$i]['cart_attribute'];
 
                 for ($j = 0, $jn = count($attArr); $j < $jn; $j++) {
                     $attributeId = $attArr[$j]['attribute_id'];
@@ -549,7 +549,7 @@ class RedshopModelQuotation extends RedshopModel
                     if ($attributeId > 0) {
                         if (!$rowattitem->store()) {
                             /** @scrutinizer ignore-deprecated */
-                            $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                            $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                             return false;
                         }
@@ -579,7 +579,7 @@ class RedshopModelQuotation extends RedshopModel
                         if ($propertyId > 0) {
                             if (!$rowattitem->store()) {
                                 /** @scrutinizer ignore-deprecated */
-                                $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                                $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                                 return false;
                             }
@@ -609,7 +609,7 @@ class RedshopModelQuotation extends RedshopModel
                             if ($subPropertyId > 0) {
                                 if (!$rowattitem->store()) {
                                     /** @scrutinizer ignore-deprecated */
-                                    $this->setError(/** @scrutinizer ignore-deprecated */ $rowattitem->getError());
+                                    $this->setError( /** @scrutinizer ignore-deprecated */$rowattitem->getError());
 
                                     return false;
                                 }

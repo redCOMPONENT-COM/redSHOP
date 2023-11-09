@@ -11,6 +11,7 @@ namespace Redshop\Shipping;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -210,7 +211,7 @@ class Rate
         }
 
         $orderSubtotal = isset($cart['product_subtotal']) ? $cart['product_subtotal'] : null;
-        $userId        = \JFactory::getUser()->id;
+        $userId        = Factory::getApplication()->getIdentity()->id;
 
         if (!empty($idx)) {
             $text = Text::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE');

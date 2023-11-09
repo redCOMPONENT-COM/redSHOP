@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -149,8 +150,8 @@ class RedshopHelperBillingTag
             if (!empty($billingAddress->user_email)) {
                 $email      = $billingAddress->user_email;
                 $emailLabel = Text::_('COM_REDSHOP_EMAIL');
-            } elseif (!empty(JFactory::getUser()->email)) {
-                $email      = JFactory::getUser()->email;
+            } elseif (!empty(Factory::getApplication()->getIdentity()->email)) {
+                $email      = Factory::getApplication()->getIdentity()->email;
                 $emailLabel = Text::_('COM_REDSHOP_EMAIL');
             }
 

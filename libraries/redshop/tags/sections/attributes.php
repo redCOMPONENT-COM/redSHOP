@@ -684,12 +684,12 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                     $attributesPropertyVatShow     = RedshopHelperProduct::getProductTax(
                         $productId,
                         $property->property_price,
-                        \JFactory::getUser()->id
+                        Factory::getApplication()->getIdentity()->id
                     );
                     $attributesPropertyOldPriceVat = RedshopHelperProduct::getProductTax(
                         $productId,
                         $attributesPropertyOldPrice,
-                        \JFactory::getUser()->id
+                        Factory::getApplication()->getIdentity()->id
                     );
                 }
             }
@@ -700,7 +700,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             $attributesPropertyVat = RedshopHelperProduct::getProductTax(
                 $productId,
                 $property->property_price,
-                \JFactory::getUser()->id
+                Factory::getApplication()->getIdentity()->id
             );
 
             $property->property_price += $attributesPropertyVat;

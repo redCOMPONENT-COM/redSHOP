@@ -8,17 +8,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Joomla\Utilities\ArrayHelper;
 
-defined('_JEXEC') or die;
-
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
-
 
 /**
  * Product_Detail Model.
@@ -4144,7 +4143,7 @@ class RedshopModelProduct_Detail extends RedshopModel
         if ($this->id) {
             // Make sure we have a user id to checkout the article with.
             if (is_null($uid)) {
-                $user = JFactory::getUser();
+                $user = Factory::getApplication()->getIdentity();
                 $uid  = (int) $user->get('id');
             }
 
@@ -4208,7 +4207,7 @@ class RedshopModelProduct_Detail extends RedshopModel
     {
         // Only attempt to check the row in if it exists.
         if ($pk) {
-            $user = JFactory::getUser();
+            $user = Factory::getApplication()->getIdentity();
 
             // Get an instance of the row to checkin.
             $table = $this->getTable('product_detail');

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -53,7 +54,7 @@ class RedshopViewNewsletter extends RedshopView
 
         $layout = $app->input->getCmd('layout');
 
-        $this->user     = JFactory::getUser();
+        $this->user     = Factory::getApplication()->getIdentity();
         $this->userdata = $app->input->getString('userdata');
         $this->params   = $app->getParams('com_redshop');
 

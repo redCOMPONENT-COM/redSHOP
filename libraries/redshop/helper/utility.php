@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Behat\Transliterator\Transliterator;
-use Joomla\CMS\Factory;
 
 /**
  * Utility functions for redSHOP
@@ -158,7 +158,7 @@ class RedshopHelperUtility
      */
     protected static function showPrice()
     {
-        $user           = JFactory::getUser();
+        $user           = Factory::getApplication()->getIdentity();
         $shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
         $shopperGroups  = \Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
@@ -186,7 +186,7 @@ class RedshopHelperUtility
      */
     protected static function getCatalog()
     {
-        $user           = JFactory::getUser();
+        $user           = Factory::getApplication()->getIdentity();
         $shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
         $shopperGroup   = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
@@ -217,7 +217,7 @@ class RedshopHelperUtility
     protected static function setQuotationMode()
     {
         $db             = JFactory::getDbo();
-        $user           = JFactory::getUser();
+        $user           = Factory::getApplication()->getIdentity();
         $shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
 
         if ($user->id) {
@@ -486,7 +486,7 @@ class RedshopHelperUtility
     {
         $session = JFactory::getSession();
         $cart    = $session->get('cart');
-        $user    = JFactory::getUser();
+        $user    = Factory::getApplication()->getIdentity();
 
         if ($user->id && !isset($cart['idx'])) {
             RedshopHelperCart::databaseToCart();

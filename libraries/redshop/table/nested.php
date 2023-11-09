@@ -609,7 +609,7 @@ class RedshopTableNested extends JTableNested
 
         // Optional created_by field updated when present
         if (!$tableInstance->hasPrimaryKey() && property_exists($tableInstance, $tableFieldCreatedBy)) {
-            $user = JFactory::getUser();
+            $user = Factory::getApplication()->getIdentity();
 
             if ($user->id) {
                 $tableInstance->{$tableFieldCreatedBy} = $user->id;
@@ -626,7 +626,7 @@ class RedshopTableNested extends JTableNested
         // Optional modified_by field updated when present
         if (property_exists($tableInstance, $tableFieldModifiedBy)) {
             if (!isset($user)) {
-                $user = JFactory::getUser();
+                $user = Factory::getApplication()->getIdentity();
             }
 
             if ($user->id) {

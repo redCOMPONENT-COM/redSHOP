@@ -9,8 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\User\UserFactoryInterface;
 
 /**
  * Import VirtueMart model
@@ -388,8 +390,10 @@ class RedshopModelImport_Vm extends RedshopModel
 
         $this->setState($this->logName, $userVM->first_name . ' ' . $userVM->last_name);
 
-        $userTable = JTable::getInstance('user_detail', 'Table');
-        $isPrivate = (boolean) $userVM->address_type == 'BT';
+        $userTable   = JTable::getInstance('user_detail', 'Table');
+        $isPrivate   = (boolean) $userVM->address_type == 'BT';
+        $container   = Factory::getContainer();
+        $userFactory = $container->get(UserFactoryInterface::class);
 
         if ($isPrivate) {
             $redshopUser = RedshopHelperOrder::getBillingAddress($userVM->virtuemart_user_id);
@@ -407,7 +411,7 @@ class RedshopModelImport_Vm extends RedshopModel
                 $userTable->zipcode      = $userVM->zip;
                 $userTable->phone        = $userVM->phone_1;
             } else {
-                $user = JFactory::getUser($userVM->virtuemart_user_id);
+                $user = $userFactory->loadUserById($userVM->virtuemart_user_id);
 
                 $userTable->reset();
 
@@ -425,7 +429,7 @@ class RedshopModelImport_Vm extends RedshopModel
                 $userTable->address_type = $userVM->address_type;
             }
         } else {
-            $user = JFactory::getUser($userVM->virtuemart_user_id);
+            $user = $userFactory->loadUserById($userVM->virtuemart_user_id);
 
             $userTable->reset();
 

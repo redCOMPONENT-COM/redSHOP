@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -84,7 +85,7 @@ class RedshopModelAsk_Question extends RedshopModelForm
      */
     public function store($data)
     {
-        $user                  = JFactory::getUser();
+        $user                  = Factory::getApplication()->getIdentity();
         $data['user_id']       = $user->id;
         $data['user_name']     = $data['your_name'];
         $data['user_email']    = $data['your_email'];

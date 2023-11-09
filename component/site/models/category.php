@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Class categoryModelcategory
  *
@@ -144,7 +146,7 @@ class RedshopModelCategory extends RedshopModel
 
         $app     = JFactory::getApplication();
         $db      = JFactory::getDbo();
-        $user    = JFactory::getUser();
+        $user    = Factory::getApplication()->getIdentity();
         $orderBy = $this->buildProductOrderBy();
 
         if (

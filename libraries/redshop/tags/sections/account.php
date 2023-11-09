@@ -9,6 +9,7 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -52,7 +53,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
     {
         $this->optionLayout = RedshopLayoutHelper::$layoutOption;
         $this->itemId       = JFactory::getApplication()->input->getInt('Itemid');
-        $this->user         = JFactory::getUser();
+        $this->user         = Factory::getApplication()->getIdentity();
     }
 
     /**

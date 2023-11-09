@@ -9,6 +9,7 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Redshop\Traits\Replace;
@@ -96,7 +97,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
         $usersess['rs_user_info_id'] = $usersInfoId;
         unset($cart['shipping']);
         $session->set('rs_user', $usersess);
-        $cart = \Redshop\Cart\Cart::modify($cart, JFactory::getUser()->id);
+        $cart = \Redshop\Cart\Cart::modify($cart, Factory::getApplication()->getIdentity()->id);
 
         if ($shippingRateId && $cart['free_shipping'] != 1) {
             $shipArr              = Redshop\Helper\Shipping::calculateShipping($shippingRateId);

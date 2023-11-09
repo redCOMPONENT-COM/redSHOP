@@ -9,6 +9,8 @@
 
 namespace Redshop\Account;
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -30,7 +32,7 @@ class Wishlist
      */
     public static function send($post)
     {
-        $userId     = \JFactory::getUser()->id;
+        $userId     = Factory::getApplication()->getIdentity()->id;
         $wishlistId = \JFactory::getApplication()->input->getInt('wishlist_id');
         $emailTo    = $post['emailto'];
         $sender     = $post['sender'];
@@ -61,10 +63,10 @@ class Wishlist
             $productIds = array();
 
             for ($index = 1; $index < $_SESSION['no_of_prod']; $index++) {
-                $productIds[] = (int)$_SESSION['wish_' . $index]->product_id;
+                $productIds[] = (int) $_SESSION['wish_' . $index]->product_id;
             }
 
-            $productIds[] = (int)$_SESSION['wish_' . $index]->product_id;
+            $productIds[] = (int) $_SESSION['wish_' . $index]->product_id;
 
             $query->select('DISTINCT p.*')
                 ->from($db->qn('#__redshop_product', 'p'))
@@ -158,7 +160,7 @@ class Wishlist
             foreach ($myWishList as $row) {
                 $itemId       = \RedshopHelperRouter::getItemId($row->product_id);
                 $link         = \Redshop\IO\Route::_(
-                    'index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . (int)$itemId,
+                    'index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . (int) $itemId,
                     true,
                     -1
                 );

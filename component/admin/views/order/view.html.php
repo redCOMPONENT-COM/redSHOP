@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -167,7 +168,7 @@ class RedshopViewOrder extends RedshopViewAdmin
             'class="inputbox" size="1" onchange="document.adminForm.submit();" '
         );
 
-        $this->user        = JFactory::getUser();
+        $this->user        = Factory::getApplication()->getIdentity();
         $this->lists       = $lists;
         $this->orders      = $this->get('Data');
         $this->pagination  = $this->get('Pagination');

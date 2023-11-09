@@ -32,7 +32,7 @@ class RedshopViewProduct_price extends RedshopViewAdmin
         $sql = "SELECT g.*,p.product_price,p.price_id,p.price_quantity_end,p.price_quantity_start 
                 FROM #__redshop_shopper_group g 
                 LEFT JOIN #__redshop_product_price p 
-                ON shopper_group_id = p.shopper_group_id 
+                ON g.id = p.shopper_group_id 
                 AND product_id = '$productId'";
 
         $db->setQuery($sql);

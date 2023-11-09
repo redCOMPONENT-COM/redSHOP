@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Class Redshop Helper Text
  *
@@ -56,8 +58,8 @@ class RedshopHelperTax
      */
     public static function getVatRates($productId = 0, $userId = 0)
     {
-        $userId      = !$userId ? JFactory::getUser()->id : $userId;
-        $productInfo = (object)\Redshop\Product\Product::getProductById($productId);
+        $userId      = !$userId ? Factory::getApplication()->getIdentity()->id : $userId;
+        $productInfo = (object) \Redshop\Product\Product::getProductById($productId);
         $taxGroupId  = 0;
         $session     = JFactory::getSession();
         $userData    = RedshopHelperUser::getVatUserInformation($userId);
@@ -77,9 +79,9 @@ class RedshopHelperTax
         $key = $taxGroup . '.' . $userId;
 
         if (!array_key_exists($key, self::$vatRate)) {
-        	$shopperGroupId = isset($userData->shopper_group_id) ? $userData->shopper_group_id : $userArr['rs_user_shopperGroup'];
-            $db    = JFactory::getDbo();
-            $query = $db->getQuery(true)
+            $shopperGroupId = isset($userData->shopper_group_id) ? $userData->shopper_group_id : $userArr['rs_user_shopperGroup'];
+            $db             = JFactory::getDbo();
+            $query          = $db->getQuery(true)
                 ->select('tr.*')
                 ->from($db->qn('#__redshop_tax_rate', 'tr'))
                 ->leftJoin(
@@ -98,11 +100,11 @@ class RedshopHelperTax
                         's.state_3_code'
                     )
                 )
-	            ->leftJoin(
-		            $db->qn('#__redshop_tax_shoppergroup_xref', 'tsx') . ' ON ' . $db->qn('tr.id') . ' = ' . $db->qn(
-			            'tsx.tax_rate_id'
-		            )
-	            )
+                ->leftJoin(
+                    $db->qn('#__redshop_tax_shoppergroup_xref', 'tsx') . ' ON ' . $db->qn('tr.id') . ' = ' . $db->qn(
+                        'tsx.tax_rate_id'
+                    )
+                )
                 ->where($db->qn('tg.published') . ' = 1')
                 ->where(
                     '(' . $db->qn('s.state_2_code') . ' = ' . $db->quote($userData->state_code) . ' OR '
@@ -114,8 +116,8 @@ class RedshopHelperTax
                     . '(' . $db->qn('tr.tax_country') . ' = ' . $db->quote('')
                     . ' OR ' . $db->qn('tr.tax_country') . ' IS NULL))'
                 )
-                ->where('tr.tax_group_id = ' . (int)$taxGroup)
-	            ->where($db->qn('tsx.shopper_group_id') . ' = ' . $db->q($shopperGroupId))
+                ->where('tr.tax_group_id = ' . (int) $taxGroup)
+                ->where($db->qn('tsx.shopper_group_id') . ' = ' . $db->q($shopperGroupId))
                 ->order('tax_rate');
 
             if (Redshop::getConfig()->get('VAT_BASED_ON') == 2) {
@@ -139,21 +141,20 @@ class RedshopHelperTax
         return self::$vatRate[$key];
     }
 
-	public static function getTaxRateByShopperGroup($shopperGroupId, $vatCountry)
-	{
-		if (empty($shopperGroupId))
-		{
-			return false;
-		}
+    public static function getTaxRateByShopperGroup($shopperGroupId, $vatCountry)
+    {
+        if (empty($shopperGroupId)) {
+            return false;
+        }
 
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('tax_rate')
-			->from($db->qn('#__redshop_tax_rate', 'tr'))
-			->leftJoin($db->qn('#__redshop_tax_shoppergroup_xref', 'tsx') . ' ON ' . $db->qn('tr.id') . ' = ' . $db->qn('tsx.tax_rate_id'))
-			->where($db->qn('tsx.shopper_group_id') . '=' . $db->q($shopperGroupId))
-			->where($db->qn('tr.tax_country') . '=' . $db->q($vatCountry));
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true)
+            ->select('tax_rate')
+            ->from($db->qn('#__redshop_tax_rate', 'tr'))
+            ->leftJoin($db->qn('#__redshop_tax_shoppergroup_xref', 'tsx') . ' ON ' . $db->qn('tr.id') . ' = ' . $db->qn('tsx.tax_rate_id'))
+            ->where($db->qn('tsx.shopper_group_id') . '=' . $db->q($shopperGroupId))
+            ->where($db->qn('tr.tax_country') . '=' . $db->q($vatCountry));
 
-		return $db->setQuery($query)->loadResult();
-	}
+        return $db->setQuery($query)->loadResult();
+    }
 }

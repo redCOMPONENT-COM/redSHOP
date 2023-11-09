@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Class Order_detailModelOrder_detail
  *
@@ -97,7 +99,7 @@ class RedshopModelOrder_detail extends RedshopModel
      */
     public function billingaddresses()
     {
-        $user           = JFactory::getUser();
+        $user           = Factory::getApplication()->getIdentity();
         $session        = JFactory::getSession();
         $auth           = $session->get('auth');
         $billingAddress = new stdClass;

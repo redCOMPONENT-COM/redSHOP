@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Utilities\ArrayHelper;
 
@@ -37,7 +38,7 @@ class RedshopModelAccess extends RedshopModelForm
      */
     public function save($data)
     {
-        if (empty($data) || empty($data['rules']) || !JFactory::getUser()->authorise('core.manage', 'com_redshop')) {
+        if (empty($data) || empty($data['rules']) || !Factory::getApplication()->getIdentity()->authorise('core.manage', 'com_redshop')) {
             return false;
         }
 

@@ -82,7 +82,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
     {
         $app         = Factory::getApplication();
         $this->input = $app->input;
-        $user        = JFactory::getUser();
+        $user        = Factory::getApplication()->getIdentity();
 
         JPluginHelper::importPlugin('redshop_product');
         JPluginHelper::importPlugin('redshop_product_type');

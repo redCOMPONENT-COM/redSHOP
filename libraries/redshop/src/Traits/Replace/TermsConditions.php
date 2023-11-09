@@ -10,6 +10,7 @@ namespace Redshop\Traits\Replace;
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -30,7 +31,7 @@ trait TermsConditions
     public function replaceTermsConditions($templateDesc = "", $itemId = 1)
     {
         if (strpos($templateDesc, "{terms_and_conditions") !== false) {
-            $user           = \JFactory::getUser();
+            $user           = Factory::getApplication()->getIdentity();
             $session        = \JFactory::getSession();
             $auth           = $session->get('auth');
             $userId         = $user->id ?: ($auth['users_info_id'] < 0 ? $auth['users_info_id'] : 0);

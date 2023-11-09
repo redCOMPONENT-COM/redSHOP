@@ -9,6 +9,8 @@
 
 namespace Redshop\Template;
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -35,14 +37,16 @@ class Helper
      */
     public static function isApplyAttributeVat($template = "", $userId = 0)
     {
-        $userId          = !$userId ? \JFactory::getUser()->id : $userId;
+        $userId          = !$userId ? Factory::getApplication()->getIdentity()->id : $userId;
         $userInformation = $userId ? \RedshopHelperUser::getUserInformation($userId) : new \stdClass;
         $userInformation = ($userInformation == new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault(
         ) : $userInformation;
 
-        if (!empty($userInformation)
+        if (
+            !empty($userInformation)
             && isset($userInformation->show_price_without_vat)
-            && $userInformation->show_price_without_vat) {
+            && $userInformation->show_price_without_vat
+        ) {
             return false;
         }
 
@@ -67,15 +71,17 @@ class Helper
      */
     public static function isApplyVat($template = "", $userId = 0)
     {
-        $userId          = !$userId ? \JFactory::getUser()->id : $userId;
-	    $userSession = \JFactory::getSession()->get('rs_user');
+        $userId          = !$userId ? Factory::getApplication()->getIdentity()->id : $userId;
+        $userSession     = \JFactory::getSession()->get('rs_user');
         $userInformation = $userId ? \RedshopHelperUser::getUserInformation($userId) : new \stdClass;
         $userInformation = ($userInformation == new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault(
         ) : $userInformation;
 
-        if (!empty($userInformation)
+        if (
+            !empty($userInformation)
             && isset($userInformation->show_price_without_vat)
-            && $userInformation->show_price_without_vat) {
+            && $userInformation->show_price_without_vat
+        ) {
             return false;
         }
 
@@ -83,25 +89,25 @@ class Helper
             return false;
         }
 
-	    if (isset($userId) && !empty($userId)) {
-		    $taxRateShopperGroup = \RedshopHelperTax::getTaxRateByShopperGroup($userInformation->shopper_group_id, $userInformation->country_code);
+        if (isset($userId) && !empty($userId)) {
+            $taxRateShopperGroup = \RedshopHelperTax::getTaxRateByShopperGroup($userInformation->shopper_group_id, $userInformation->country_code);
 
-		    if (isset($taxRateShopperGroup) && $taxRateShopperGroup == 0) {
-			    return false;
-		    }
+            if (isset($taxRateShopperGroup) && $taxRateShopperGroup == 0) {
+                return false;
+            }
 
-		    return true;
-	    }
+            return true;
+        }
 
-	    if (isset($userSession['rs_user_info_id'])) {
-		    $taxRateShopperGroup = \RedshopHelperTax::getTaxRateByShopperGroup($userSession['rs_user_shopperGroup'], $userSession['vatCountry']);
+        if (isset($userSession['rs_user_info_id'])) {
+            $taxRateShopperGroup = \RedshopHelperTax::getTaxRateByShopperGroup($userSession['rs_user_shopperGroup'], $userSession['vatCountry']);
 
-		    if (isset($taxRateShopperGroup) && $taxRateShopperGroup == 0) {
-			    return false;
-		    }
+            if (isset($taxRateShopperGroup) && $taxRateShopperGroup == 0) {
+                return false;
+            }
 
-		    return true;
-	    }
+            return true;
+        }
 
         return \RedshopHelperCart::taxExemptAddToCart($userId);
     }
@@ -252,10 +258,12 @@ class Helper
             $templates = \RedshopHelperTemplate::getTemplate('ajax_cart_detail_box');
 
             foreach ($templates as $template) {
-                if (strpos(
+                if (
+                    strpos(
                         $productTemplate[0]->template_desc,
                         '{ajaxdetail_template:' . $template->name . '}'
-                    ) !== false) {
+                    ) !== false
+                ) {
                     $ajaxDetailData = $template;
                     break;
                 }
@@ -364,6 +372,6 @@ class Helper
         $end     = "{product_attribute_loop_end}";
         $matches = \Redshop\Helper\Utility::findStringBetween($start, $end, $template);
 
-        return count($matches) > 0 ? (string)$matches[0] : '';
+        return count($matches) > 0 ? (string) $matches[0] : '';
     }
 }

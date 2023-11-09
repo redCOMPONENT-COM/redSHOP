@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -17,7 +18,7 @@ $dispatcher = RedshopHelperUtility::getDispatcher();
 $dispatcher->trigger('onRenderCustomField');
 
 $url        = JURI::base();
-$user       = JFactory::getUser();
+$user       = Factory::getApplication()->getIdentity();
 $session    = JFactory::getSession();
 $teleSearch = RedshopHelperOrder::getParameters('rs_telesearch');
 $itemId     = RedshopHelperRouter::getCheckoutItemId();
@@ -100,132 +101,132 @@ if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)) 
     $isCompany     = $this->lists['is_company'];
     ?>
 
-    <div class="form-group">
-        <label class="radio-inline" <?php echo $allowCustomer; ?>>
-            <input type="radio" name="togglerchecker" id="toggler1" class="toggler" onclick="showCompanyOrCustomer(this);"
-                value="0" <?php echo ($isCompany == 0) ? 'checked="checked"' : '' ?> />
-            <?php echo Text::_('COM_REDSHOP_USER_REGISTRATION'); ?>
-        </label>
-        <label class="radio-inline" <?php echo $allowCompany; ?>>
-            <input type="radio" name="togglerchecker" id="toggler2" class="toggler" onclick="showCompanyOrCustomer(this);"
-                value="1" <?php echo ($isCompany == 1) ? 'checked="checked"' : '' ?> />
-            <?php echo Text::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?>
-        </label>
-    </div>
-
-    <?php if (count($teleSearch) > 0 && $teleSearch[0]->enabled): ?>
-
-        <div class="input-group">
-            <span class="input-group-btn">
-                <button class="btn btn-primary" type="button" name="searchaddbyphone" id="searchaddbyphone"
-                    onclick="return searchByPhone();">
-                    <?php echo Text::_('COM_REDSHOP_SEARCH') ?>
-                </button>
-            </span>
-            <input class="form-control" name="searchphone" id="searchphone" type="text" value=""
-                placeholder="<?php echo Text::_('COM_REDSHOP_GET_ADDRESS_BY_PHONE') ?>" />
+        <div class="form-group">
+            <label class="radio-inline" <?php echo $allowCustomer; ?>>
+                <input type="radio" name="togglerchecker" id="toggler1" class="toggler" onclick="showCompanyOrCustomer(this);"
+                    value="0" <?php echo ($isCompany == 0) ? 'checked="checked"' : '' ?> />
+                <?php echo Text::_('COM_REDSHOP_USER_REGISTRATION'); ?>
+            </label>
+            <label class="radio-inline" <?php echo $allowCompany; ?>>
+                <input type="radio" name="togglerchecker" id="toggler2" class="toggler" onclick="showCompanyOrCustomer(this);"
+                    value="1" <?php echo ($isCompany == 1) ? 'checked="checked"' : '' ?> />
+                <?php echo Text::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?>
+            </label>
         </div>
 
-        <div id="divSearchPhonemsg" style="display:none">
-            <?php echo Text::_('COM_REDSHOP_NO_RESULT_FOUND_BY_SEARCHPHONE'); ?>
-        </div>
-    <?php endif; ?>
+        <?php if (count($teleSearch) > 0 && $teleSearch[0]->enabled): ?>
 
-    <div id="redshopRegistrationForm">
-        <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId); ?>"
-            method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
-
-            <?php if (Redshop::getConfig()->get('REGISTER_METHOD') == 2):
-                $checked_style = (Redshop::getConfig()->get(
-                    'CREATE_ACCOUNT_CHECKBOX'
-                ) == 1) ? 'checked="checked"' : "''";
-                ?>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="createaccount" <?php echo $checked_style; ?>
-                        id="createaccount" value="1" onclick="createUserAccount(this);" />
-                    <label>
-                        <?php echo Text::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>
-                    </label>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" name="searchaddbyphone" id="searchaddbyphone"
+                            onclick="return searchByPhone();">
+                            <?php echo Text::_('COM_REDSHOP_SEARCH') ?>
+                        </button>
+                    </span>
+                    <input class="form-control" name="searchphone" id="searchphone" type="text" value=""
+                        placeholder="<?php echo Text::_('COM_REDSHOP_GET_ADDRESS_BY_PHONE') ?>" />
                 </div>
-            <?php endif; ?>
 
-            <fieldset>
-                <legend>
-                    <?php echo Text::_('COM_REDSHOP_ADDRESS_INFORMATION'); ?>
-                </legend>
+                <div id="divSearchPhonemsg" style="display:none">
+                    <?php echo Text::_('COM_REDSHOP_NO_RESULT_FOUND_BY_SEARCHPHONE'); ?>
+                </div>
+        <?php endif; ?>
 
-                <?php echo RedshopHelperBilling::render(
-                    $this->lists,
-                    $post,
-                    $isCompany,
-                    Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'),
-                    1,
-                    Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX')
-                ); ?>
-            </fieldset>
+        <div id="redshopRegistrationForm">
+            <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId); ?>"
+                method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
-            <?php if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')): ?>
+                <?php if (Redshop::getConfig()->get('REGISTER_METHOD') == 2):
+                    $checked_style = (Redshop::getConfig()->get(
+                        'CREATE_ACCOUNT_CHECKBOX'
+                    ) == 1) ? 'checked="checked"' : "''";
+                    ?>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="createaccount" <?php echo $checked_style; ?>
+                                id="createaccount" value="1" onclick="createUserAccount(this);" />
+                            <label>
+                                <?php echo Text::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>
+                            </label>
+                        </div>
+                <?php endif; ?>
 
-                <?php
-                $billingIsShipping = "";
+                <fieldset>
+                    <legend>
+                        <?php echo Text::_('COM_REDSHOP_ADDRESS_INFORMATION'); ?>
+                    </legend>
 
-                if (count($_POST) > 0) {
-                    if (isset($post['billisship']) && $post['billisship'] == 1) {
-                        $billingIsShipping = "style='display:none'";
-                    }
-                } elseif (Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS')) {
-                    $billingIsShipping = "style='display:none'";
-                }
-                ?>
+                    <?php echo RedshopHelperBilling::render(
+                        $this->lists,
+                        $post,
+                        $isCompany,
+                        Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'),
+                        1,
+                        Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX')
+                    ); ?>
+                </fieldset>
 
-                <div id="divShipping" <?php echo $billingIsShipping; ?>>
-                    <fieldset class="adminform subTable">
-                        <legend>
-                            <?php echo Text::_('COM_REDSHOP_SHIPPING_ADDRESSES'); ?>
-                        </legend>
+                <?php if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')): ?>
+
                         <?php
-                        echo RedshopTagsReplacer::_(
-                            'shippingtable',
-                            '',
-                            array(
-                                'data'      => $post,
-                                'isCompany' => $isCompany,
-                                'lists'     => $this->lists
-                            )
-                        );
+                        $billingIsShipping = "";
+
+                        if (count($_POST) > 0) {
+                            if (isset($post['billisship']) && $post['billisship'] == 1) {
+                                $billingIsShipping = "style='display:none'";
+                            }
+                        } elseif (Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS')) {
+                            $billingIsShipping = "style='display:none'";
+                        }
                         ?>
-                    </fieldset>
+
+                        <div id="divShipping" <?php echo $billingIsShipping; ?>>
+                            <fieldset class="adminform subTable">
+                                <legend>
+                                    <?php echo Text::_('COM_REDSHOP_SHIPPING_ADDRESSES'); ?>
+                                </legend>
+                                <?php
+                                echo RedshopTagsReplacer::_(
+                                    'shippingtable',
+                                    '',
+                                    array(
+                                        'data'      => $post,
+                                        'isCompany' => $isCompany,
+                                        'lists'     => $this->lists
+                                    )
+                                );
+                                ?>
+                            </fieldset>
+                        </div>
+
+                <?php endif; ?>
+
+                <?php echo RedshopLayoutHelper::render('registration.captcha'); ?>
+
+                <div class="btn-group">
+                    <input type="button" class="btn btn-default btn-lg" name="back"
+                        value="<?php echo Text::_('COM_REDSHOP_BACK'); ?>" onclick="javascript:window.history.go(-1);">
+                    <input type="submit" class="btn btn-primary btn-lg" name="submitbtn" id="submitbtn"
+                        value="<?php echo Text::_('COM_REDSHOP_PROCEED'); ?>">
                 </div>
 
-            <?php endif; ?>
+                <div class="clr"></div>
+                <input type="hidden" name="l" value="0">
+                <input type="hidden" name="address_type" value="BT" />
+                <input type="hidden" name="user_id" id="user_id" value="0" />
+                <input type="hidden" name="usertype" value="Registered" />
+                <input type="hidden" name="groups[]" value="2" />
+                <input type="hidden" name="is_company" id="is_company" value="<?php echo $isCompany; ?>" />
+                <input type="hidden" name="shopper_group_id" value="1" />
+                <input type="hidden" name="task" value="checkoutprocess" />
 
-            <?php echo RedshopLayoutHelper::render('registration.captcha'); ?>
-
-            <div class="btn-group">
-                <input type="button" class="btn btn-default btn-lg" name="back"
-                    value="<?php echo Text::_('COM_REDSHOP_BACK'); ?>" onclick="javascript:window.history.go(-1);">
-                <input type="submit" class="btn btn-primary btn-lg" name="submitbtn" id="submitbtn"
-                    value="<?php echo Text::_('COM_REDSHOP_PROCEED'); ?>">
-            </div>
-
-            <div class="clr"></div>
-            <input type="hidden" name="l" value="0">
-            <input type="hidden" name="address_type" value="BT" />
-            <input type="hidden" name="user_id" id="user_id" value="0" />
-            <input type="hidden" name="usertype" value="Registered" />
-            <input type="hidden" name="groups[]" value="2" />
-            <input type="hidden" name="is_company" id="is_company" value="<?php echo $isCompany; ?>" />
-            <input type="hidden" name="shopper_group_id" value="1" />
-            <input type="hidden" name="task" value="checkoutprocess" />
-
-        </form>
-    </div>
-    <?php
-    if ($showLogin) {
-        echo HTMLHelper::_('bootstrap.endTab');
-        echo '</div>';
-    }
-    echo HTMLHelper::_('bootstrap.endTabSet');
+            </form>
+        </div>
+        <?php
+        if ($showLogin) {
+            echo HTMLHelper::_('bootstrap.endTab');
+            echo '</div>';
+        }
+        echo HTMLHelper::_('bootstrap.endTabSet');
 } ?>
 
 <script type="text/javascript">

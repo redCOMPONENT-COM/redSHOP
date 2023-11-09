@@ -11,6 +11,7 @@ namespace Redshop\Table\Traits;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -189,27 +190,35 @@ trait HasAutoEvents
         // Auto-fill created_by and modified_by information
         $now          = \JDate::getInstance();
         $nowFormatted = $now->toSql();
-        $userId       = \JFactory::getUser()->get('id');
+        $userId       = Factory::getApplication()->getIdentity()->get('id');
 
-        if (property_exists($this, 'created_by')
-            && empty($src['created_by']) && (is_null($this->created_by) || empty($this->created_by))) {
+        if (
+            property_exists($this, 'created_by')
+            && empty($src['created_by']) && (is_null($this->created_by) || empty($this->created_by))
+        ) {
             $src['created_by'] = $userId;
         }
 
-        if (property_exists($this, 'created_user_id')
-            && empty($src['created_user_id']) && empty($this->created_user_id)) {
+        if (
+            property_exists($this, 'created_user_id')
+            && empty($src['created_user_id']) && empty($this->created_user_id)
+        ) {
             $src['created_user_id'] = $userId;
         }
 
-        if (property_exists($this, 'created_date')
+        if (
+            property_exists($this, 'created_date')
             && (empty($src['created_date']) || $src['created_date'] === '0000-00-00 00:00:00')
-            && (empty($this->created_date) || $this->created_date === '0000-00-00 00:00:00')) {
+            && (empty($this->created_date) || $this->created_date === '0000-00-00 00:00:00')
+        ) {
             $src['created_date'] = $nowFormatted;
         }
 
-        if (property_exists($this, 'created_time')
+        if (
+            property_exists($this, 'created_time')
             && (empty($src['created_time']) || $src['created_time'] === '0000-00-00 00:00:00')
-            && (empty($this->created_time) || $this->created_time === '0000-00-00 00:00:00')) {
+            && (empty($this->created_time) || $this->created_time === '0000-00-00 00:00:00')
+        ) {
             $src['created_time'] = $nowFormatted;
         }
 
@@ -221,26 +230,30 @@ trait HasAutoEvents
             $src['modified_user_id'] = $userId;
         }
 
-        if (property_exists($this, 'modified_date')
-            && (empty($src['modified_date']) || $src['modified_date'] === '0000-00-00 00:00:00')) {
+        if (
+            property_exists($this, 'modified_date')
+            && (empty($src['modified_date']) || $src['modified_date'] === '0000-00-00 00:00:00')
+        ) {
             $src['modified_date'] = $nowFormatted;
         }
 
-        if (property_exists($this, 'modified_time')
-            && (empty($src['modified_time']) || $src['modified_time'] === '0000-00-00 00:00:00')) {
+        if (
+            property_exists($this, 'modified_time')
+            && (empty($src['modified_time']) || $src['modified_time'] === '0000-00-00 00:00:00')
+        ) {
             $src['modified_time'] = $nowFormatted;
         }
 
         if (isset($src['params']) && is_array($src['params'])) {
             $registry = new Registry;
             $registry->loadArray($src['params']);
-            $src['params'] = (string)$registry;
+            $src['params'] = (string) $registry;
         }
 
         if (isset($src['metadata']) && is_array($src['metadata'])) {
             $registry = new Registry;
             $registry->loadArray($src['metadata']);
-            $src['metadata'] = (string)$registry;
+            $src['metadata'] = (string) $registry;
         }
 
         if (isset($src['rules']) && is_array($src['rules'])) {
@@ -693,7 +706,7 @@ trait HasAutoEvents
         $tableFieldModifiedBy   = $tableInstance->get('_tableFieldModifiedBy');
         $tableFieldModifiedDate = $tableInstance->get('_tableFieldModifiedDate');
         $auditDateFormat        = $tableInstance->get('_auditDateFormat');
-        $user                   = \JFactory::getUser();
+        $user                   = Factory::getApplication()->getIdentity();
 
         // Optional created_by field updated when present
         if (!$tableInstance->hasPrimaryKey() && property_exists($tableInstance, $tableFieldCreatedBy)) {

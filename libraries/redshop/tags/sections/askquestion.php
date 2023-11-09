@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -42,7 +43,7 @@ class RedshopTagsSectionsAskQuestion extends RedshopTagsAbstract
         $this->setTemplateAskQuestion();
 
         $form       = $this->data['form'];
-        $user       = JFactory::getUser();
+        $user       = Factory::getApplication()->getIdentity();
         $input      = JFactory::getApplication()->input;
         $menuItemId = $input->getInt('Itemid', 0);
         $pid        = $input->getInt('pid', 0);

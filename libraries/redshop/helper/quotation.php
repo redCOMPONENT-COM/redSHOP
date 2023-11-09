@@ -11,6 +11,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
@@ -135,7 +136,7 @@ class RedshopHelperQuotation
      */
     public static function getQuotationUserList()
     {
-        $user  = JFactory::getUser();
+        $user  = Factory::getApplication()->getIdentity();
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true);
 

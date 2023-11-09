@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -41,15 +42,15 @@ class RedshopViewOrder_Detail extends RedshopView
 
         if ($print) {
             ?>
-            <script type="text/javascript" language="javascript">
-                window.print();
-            </script>
-            <?php
+                        <script type="text/javascript" language="javascript">
+                            window.print();
+                        </script>
+                        <?php
         }
 
         RedshopHelperBreadcrumb::generate();
 
-        $user         = JFactory::getUser();
+        $user         = Factory::getApplication()->getIdentity();
         $session      = JFactory::getSession();
         $auth         = $session->get('auth');
         $orderId      = $app->input->getInt('oid', $session->get('order_id'));

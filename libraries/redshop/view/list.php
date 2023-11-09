@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Redshop\View\AbstractView;
@@ -318,7 +319,7 @@ class RedshopViewList extends AbstractView
      */
     public function onRenderColumn($config, $index, $row)
     {
-        $user             = JFactory::getUser();
+        $user             = Factory::getApplication()->getIdentity();
         $isCheckedOut     = !empty($row->checked_out) && $user->id !== $row->checked_out;
         $inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
         $value            = $row->{$config['dataCol']} ?? '';

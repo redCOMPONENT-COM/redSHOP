@@ -11,6 +11,7 @@ namespace Redshop\Cart;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -59,7 +60,7 @@ class Render
 
         $input           = \JFactory::getApplication()->input;
         $productPreOrder = '';
-        $userId          = \JFactory::getUser()->id;
+        $userId          = Factory::getApplication()->getIdentity()->id;
         $fieldSection    = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
 
         if ($relatedProductId != 0) {

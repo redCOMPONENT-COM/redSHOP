@@ -29,7 +29,7 @@ class Helper
      */
     public static function getReserveDiscount()
     {
-        $userId = \JFactory::getUser()->id;
+        $userId = Factory::getApplication()->getIdentity()->id;
         $db     = \JFactory::getDbo();
         $query  = $db->getQuery(true)
             ->select('*')
@@ -81,7 +81,7 @@ class Helper
             ->innerJoin(
                 $db->qn('#__redshop_orders', 'o') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('pd.order_id')
             )
-            ->where($db->qn('pd.user_id') . ' = ' . (int)$userId)
+            ->where($db->qn('pd.user_id') . ' = ' . (int) $userId)
             ->where($db->qn('o.order_payment_status') . ' = ' . $db->quote('Paid'));
 
         return $db->setQuery($query)->loadObjectList();
@@ -103,10 +103,10 @@ class Helper
         $query = $db->getQuery(true)
             ->select($db->qn('coupon_value'))
             ->from($db->qn('#__redshop_coupons_transaction'))
-            ->where($db->qn('userid') . ' = ' . (int)$userId)
+            ->where($db->qn('userid') . ' = ' . (int) $userId)
             ->where($db->qn('coupon_code') . ' = ' . $db->quote($couponCode));
 
-        return (float)$db->setQuery($query)->loadResult();
+        return (float) $db->setQuery($query)->loadResult();
     }
 
     /**
@@ -125,9 +125,9 @@ class Helper
             ->select('COUNT(pt.tags_id)')
             ->from($db->quoteName('#__redshop_product_tags', 'pt'))
             ->leftJoin($db->quoteName('#__redshop_product_tags_xref', 'ptx') . ' ON pt.tags_id = ptx.tags_id')
-            ->where('ptx.users_id = ' . (int)$userId)
+            ->where('ptx.users_id = ' . (int) $userId)
             ->where('pt.published = 1');
 
-        return (int)$db->setQuery($query)->loadResult();
+        return (int) $db->setQuery($query)->loadResult();
     }
 }

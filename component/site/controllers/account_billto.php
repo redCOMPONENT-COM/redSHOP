@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -42,7 +43,7 @@ class RedshopControllerAccount_Billto extends RedshopController
      */
     public function edit()
     {
-        $user             = JFactory::getUser();
+        $user             = Factory::getApplication()->getIdentity();
         $billingAddresses = RedshopHelperOrder::getBillingAddress($user->id);
 
         Redshop\User\Billing\Billing::setGlobal($billingAddresses);
@@ -69,7 +70,7 @@ class RedshopControllerAccount_Billto extends RedshopController
     {
         $app     = JFactory::getApplication();
         $input   = $app->input;
-        $user    = JFactory::getUser();
+        $user    = Factory::getApplication()->getIdentity();
         $post    = $input->post->getArray();
         $itemId  = $input->getInt('Itemid', 0);
         $setExit = $input->getInt('setexit', 0);
@@ -95,7 +96,7 @@ class RedshopControllerAccount_Billto extends RedshopController
 
         if ($return != "") {
             if ($setExit) {
-				$app->enqueueMessage($msg);
+                $app->enqueueMessage($msg);
                 $app->redirect(
                     Redshop\IO\Route::_(
                         'index.php?option=com_redshop&view=account_billto&tmpl=component&is_edit=1&return=' . $return,
@@ -131,11 +132,11 @@ class RedshopControllerAccount_Billto extends RedshopController
 
             if (!isset($setexit) || $setexit != 0) {
                 ?>
-                <script language="javascript">
-                    window.parent.location.href = "<?php echo $link ?>";
-                </script>
-                <?php
-                JFactory::getApplication()->close();
+                                <script language="javascript">
+                                    window.parent.location.href = "<?php echo $link ?>";
+                                </script>
+                                <?php
+                                JFactory::getApplication()->close();
             }
         } else {
             $link = 'index.php?option=com_redshop&view=account&Itemid=' . $itemId;

@@ -277,7 +277,7 @@ abstract class RedshopEntityBase extends BaseObject
      */
     public function canDo($action)
     {
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         return $user->authorise($action, $this->getAssetName());
     }
@@ -349,7 +349,7 @@ abstract class RedshopEntityBase extends BaseObject
             return false;
         }
 
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         if ($user->get('guest')) {
             return false;

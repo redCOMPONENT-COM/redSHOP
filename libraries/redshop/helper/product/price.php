@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
@@ -77,7 +78,7 @@ class RedshopHelperProductPrice
         $seoProductSavingPrice        = '';
         $oldPriceNoVat                = '';
 
-        $userId    = !$userId ? JFactory::getUser()->id : $userId;
+        $userId    = !$userId ? Factory::getApplication()->getIdentity()->id : $userId;
         $relPrefix = !$isRel ? '' : 'rel';
 
         $defaultQuantity = \Redshop\Cart\Helper::getDefaultQuantity($productId, $templateHtml);
@@ -295,7 +296,7 @@ class RedshopHelperProductPrice
         $productId = isset($row->product_id) ? $row->product_id : '';
         $newPrice  = isset($row->product_price) ? $row->product_price : 0;
 
-        $userId             = !$userId ? JFactory::getUser()->id : $userId;
+        $userId             = !$userId ? Factory::getApplication()->getIdentity()->id : $userId;
         $productPrices      = array();
         $priceText          = Text::_('COM_REDSHOP_REGULAR_PRICE') . "";
         $productVatLabel    = '';
@@ -548,7 +549,7 @@ class RedshopHelperProductPrice
         $userArr = JFactory::getSession()->get('rs_user');
 
         if (empty($userArr)) {
-            $user    = JFactory::getUser();
+            $user    = Factory::getApplication()->getIdentity();
             $userArr = RedshopHelperUser::createUserSession($user->id);
         }
 

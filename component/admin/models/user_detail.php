@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\UserFactoryInterface;
 
 class RedshopModelUser_detail extends RedshopModel
 {
@@ -286,15 +287,18 @@ class RedshopModelUser_detail extends RedshopModel
 
                 $joomlaUserIds = $db->setQuery($queryCustom)->loadColumn();
 
+                $container   = Factory::getContainer();
+                $userFactory = $container->get(UserFactoryInterface::class);
+
                 foreach ($joomlaUserIds as $joomlaUserId) {
-                    $joomlaUser = JFactory::getUser($joomlaUserId);
+                    $joomlaUser = $userFactory->loadUserById($joomlaUserId);
 
                     // Skip this user whom in Super Administrator group.
                     if ($joomlaUser->authorise('core.admin')) {
                         continue;
                     }
 
-                    $user = JFactory::getUser($joomlaUserId);
+                    $user = $userFactory->loadUserById($joomlaUserId);
 
                     if ($user->guest) {
                         continue;

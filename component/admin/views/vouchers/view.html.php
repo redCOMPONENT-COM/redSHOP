@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * View Vouchers
  *
@@ -33,7 +35,7 @@ class RedshopViewVouchers extends RedshopViewList
      */
     public function onRenderColumn($config, $index, $row)
     {
-        $isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
+        $isCheckedOut = $row->checked_out && Factory::getApplication()->getIdentity()->id != $row->checked_out;
         $isInline     = Redshop::getConfig()->getBool('INLINE_EDITING');
         $value        = $row->{$config['dataCol']};
 
@@ -60,7 +62,7 @@ class RedshopViewVouchers extends RedshopViewList
                     return '';
                 }
 
-                $tz   = new \DateTimeZone(\JFactory::getConfig()->get('offset'));
+                $tz = new \DateTimeZone(\JFactory::getConfig()->get('offset'));
                 $date = date_create_from_format('Y-m-d H:i:s', $value, new \DateTimeZone('UTC'));
 
                 return $date->setTimezone($tz)->format(Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'd-m-Y'));

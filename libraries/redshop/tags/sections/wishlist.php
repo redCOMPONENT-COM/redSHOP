@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -117,7 +118,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 
             $productId = $this->data['productId'];
             $formId    = $this->data['formId'];
-            $user      = JFactory::getUser();
+            $user      = Factory::getApplication()->getIdentity();
             $link      = '';
 
             if (!$user->guest) {
@@ -287,19 +288,19 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
                 }
             }
 
-/*
-            $saveWishlistModal = RedshopLayoutHelper::render(
-                'tags.common.modal_iframe',
-                [
-                    'class'    => 'modalAddToWishlistButton',
-                    'link'     => $link ?? '',
-                    'text'     => Text::_('COM_REDSHOP_SAVE_WISHLIST'),
-                    'dataInfo' => 'data-productid=' . $myProductId ?? '',
-                ],
-                '',
-                $this->optionLayout
-            );
-*/
+            /*
+                        $saveWishlistModal = RedshopLayoutHelper::render(
+                            'tags.common.modal_iframe',
+                            [
+                                'class'    => 'modalAddToWishlistButton',
+                                'link'     => $link ?? '',
+                                'text'     => Text::_('COM_REDSHOP_SAVE_WISHLIST'),
+                                'dataInfo' => 'data-productid=' . $myProductId ?? '',
+                            ],
+                            '',
+                            $this->optionLayout
+                        );
+            */
             $footer = '<button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">'
                 . Text::_('COM_REDSHOP_CLOSE') . '</button>';
 

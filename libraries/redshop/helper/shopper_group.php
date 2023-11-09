@@ -11,6 +11,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Redshop\Helper\ShopperGroup;
 
 /**
@@ -53,7 +54,7 @@ class RedshopHelperShopper_Group
             ->from($db->qn('#__redshop_shopper_group'));
 
         if ($shopperGroupId) {
-            $query->where($db->qn('id') . ' = ' . (int)$shopperGroupId);
+            $query->where($db->qn('id') . ' = ' . (int) $shopperGroupId);
         }
 
         $db->setQuery($query);
@@ -65,7 +66,7 @@ class RedshopHelperShopper_Group
 
         $multiple = $multiple ? "multiple=\"multiple\"" : "";
         $id       = str_replace('[]', '', $name);
-        $html     .= "<select class=\"inputbox\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
+        $html .= "<select class=\"inputbox\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
 
         if ($topLevel) {
             $html .= "<option value=\"0\"> -Top- </option>\n";
@@ -105,8 +106,8 @@ class RedshopHelperShopper_Group
 
         $query->select($db->qn(array('id', 'name', 'parent_id')))
             ->from($db->qn('#__redshop_shopper_group'))
-            ->where($db->qn('parent_id') . ' = ' . (int)$cid)
-            ->where($db->qn('id') . ' != ' . (int)$shopperGroupId);
+            ->where($db->qn('parent_id') . ' = ' . (int) $cid)
+            ->where($db->qn('id') . ' != ' . (int) $shopperGroupId);
 
         $db->setQuery($query);
         $groups = $db->loadObjectList();
@@ -170,7 +171,7 @@ class RedshopHelperShopper_Group
 
         $query->select('*')
             ->from($db->qn('#__redshop_shopper_group'))
-            ->where($db->qn('parent_id') . ' = ' . (int)$cid)
+            ->where($db->qn('parent_id') . ' = ' . (int) $cid)
             ->order($filterOrder . ' ' . $filterOrderDir);
 
         $db->setQuery($query);
@@ -189,8 +190,8 @@ class RedshopHelperShopper_Group
                 $html .= $group->name;
             }
 
-            $group->name = $html;
-            $GLOBALS['grouplist'][]    = $group;
+            $group->name            = $html;
+            $GLOBALS['grouplist'][] = $group;
             self::getShopperGroupListArray($shopperGroupId, $childId, $level);
         }
 
@@ -224,7 +225,7 @@ class RedshopHelperShopper_Group
                 . ' ON ' .
                 $db->qn('c.id') . ' = ' . $db->qn('cx.parent_id')
             )
-            ->where($db->qn('cx.id') . ' = ' . (int)$cid);
+            ->where($db->qn('cx.id') . ' = ' . (int) $cid);
 
         $db->setQuery($query);
         $groups = $db->loadObjectList();
@@ -249,7 +250,7 @@ class RedshopHelperShopper_Group
      */
     public static function getShopperGroupPortal()
     {
-        $user           = JFactory::getUser();
+        $user           = Factory::getApplication()->getIdentity();
         $shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
 
         $result = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
@@ -310,7 +311,7 @@ class RedshopHelperShopper_Group
      */
     public static function getShopperGroupCategory($cid = 0)
     {
-        $user             = JFactory::getUser();
+        $user             = Factory::getApplication()->getIdentity();
         $shopperGroupId   = RedshopHelperUser::getShopperGroup($user->id);
         $shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
@@ -318,7 +319,7 @@ class RedshopHelperShopper_Group
             if (isset($shopperGroupData[0]) && $shopperGroupData[0]->categories) {
                 $categories = explode(',', $shopperGroupData[0]->categories);
 
-                if (array_search((int)$cid, $categories) !== false) {
+                if (array_search((int) $cid, $categories) !== false) {
                     return $shopperGroupData[0];
                 }
             }
@@ -339,7 +340,7 @@ class RedshopHelperShopper_Group
     public static function getShopperGroupManufacturers($userId = 0)
     {
         if (!$userId) {
-            $userId = JFactory::getUser()->id;
+            $userId = Factory::getApplication()->getIdentity()->id;
         }
 
         $shopperGroupId = RedshopHelperUser::getShopperGroup($userId);

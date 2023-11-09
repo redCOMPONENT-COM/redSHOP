@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Redshop\Economic\RedshopEconomic;
 
@@ -195,7 +196,7 @@ class RedshopHelperUser
         // Let's create a common user session first.
         self::createUserSession();
 
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         if ($userId == 0) {
             $userId = $user->id;
@@ -294,7 +295,7 @@ class RedshopHelperUser
         $userArr = $session->get('rs_user');
 
         if (!$userId) {
-            $userId = JFactory::getUser()->id;
+            $userId = Factory::getApplication()->getIdentity()->id;
         }
 
         if (empty($userArr)) {
@@ -349,7 +350,7 @@ class RedshopHelperUser
         $force = false
     ) {
         if (0 == $userId && 0 == $userInfoId) {
-            $userId     = JFactory::getUser()->id;
+            $userId     = Factory::getApplication()->getIdentity()->id;
             $auth       = JFactory::getSession()->get('auth');
             $userInfoId = $auth['users_info_id'];
         }
@@ -420,7 +421,7 @@ class RedshopHelperUser
      */
     public static function getShopperGroupData($userId = 0)
     {
-        $userId = !$userId ? JFactory::getUser()->id : $userId;
+        $userId = !$userId ? Factory::getApplication()->getIdentity()->id : $userId;
 
         // If user is guest. Try to get redshop user id.
         if (!$userId) {
@@ -613,7 +614,7 @@ class RedshopHelperUser
             $row->user_id = (0 - $row->users_info_id);
             $row->store();
 
-            $jUserTable = JFactory::getUser();
+            $jUserTable = Factory::getApplication()->getIdentity();
 
             $jUserTable->set('username', $row->user_email);
             $jUserTable->set('email', $row->user_email);
@@ -639,7 +640,7 @@ class RedshopHelperUser
         );
 
         $extraFieldSection = !$row->is_company ?
-        RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS : RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS;
+            RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS : RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS;
 
         // Store user billing data.
         RedshopHelperExtrafields::extraFieldSave($data, $extraFieldSection, $row->users_info_id);

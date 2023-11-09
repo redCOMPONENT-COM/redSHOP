@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 
@@ -102,7 +103,7 @@ class RedshopHelperJs
 
         // Current Shopper Group - Show price with VAT config
         $shopperGroupData = RedshopEntityShopper_Group::getInstance(
-            RedshopHelperUser::getShopperGroup(JFactory::getUser()->id)
+            RedshopHelperUser::getShopperGroup(Factory::getApplication()->getIdentity()->id)
         )->getItem();
 
         $dynamicVars['SHOW_PRICE_WITHOUT_VAT'] = $shopperGroupData ? (int) $shopperGroupData->show_price_without_vat : 0;

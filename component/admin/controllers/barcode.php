@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 class RedshopControllerBarcode extends RedshopController
@@ -27,7 +28,7 @@ class RedshopControllerBarcode extends RedshopController
             $barcode = $post['barcode'];
             $barcode = substr($barcode, 0, 12);
 
-            $user = JFactory::getUser();
+            $user = Factory::getApplication()->getIdentity();
             $uid  = $user->get('id');
             $row  = $model->checkorder($barcode);
 

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 JHTML::_('bootstrap.modal');
@@ -18,7 +19,7 @@ $url       = JURI::base();
 $Itemid    = $app->input->getInt('Itemid');
 $wishlists = $this->wishlists;
 $productId = $app->input->getInt('product_id');
-$user      = JFactory::getUser();
+$user      = Factory::getApplication()->getIdentity();
 
 $pagetitle = Text::_('COM_REDSHOP_MY_WISHLIST');
 
@@ -31,13 +32,13 @@ $userfieldArr      = $returnArr[1];
 
 if ($this->params->get('show_page_heading', 1)) {
     ?>
-    <h1 class="componentheading<?php echo $this->escape(
-        $this->params->get('pageclass_sfx')
-    ); ?>">
-        <?php echo $pagetitle; ?>
-    </h1>
-    <div>&nbsp;</div>
-    <?php
+        <h1 class="componentheading<?php echo $this->escape(
+            $this->params->get('pageclass_sfx')
+        ); ?>">
+            <?php echo $pagetitle; ?>
+        </h1>
+        <div>&nbsp;</div>
+        <?php
 }
 
 $wishlistTemplateWapper = \RedshopTagsReplacer::_(

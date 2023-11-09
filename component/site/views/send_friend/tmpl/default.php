@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -16,7 +17,7 @@ JHtml::_('bootstrap.modal');
 JHtml::_('redshopjquery.framework');
 HTMLHelper::script('com_redshop/jquery.tools.min.js', ['relative' => true]);
 
-$user = JFactory::getUser();
+$user = Factory::getApplication()->getIdentity();
 
 ?>
 <script type="text/javascript" language="javascript">var J = jQuery.noConflict();</script>

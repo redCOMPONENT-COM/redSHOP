@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -35,7 +36,7 @@ class RedshopViewCoupons extends RedshopViewList
      */
     public function onRenderColumn($config, $index, $row)
     {
-        $isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
+        $isCheckedOut = $row->checked_out && Factory::getApplication()->getIdentity()->id != $row->checked_out;
         $isInline     = Redshop::getConfig()->getBool('INLINE_EDITING');
         $value        = $row->{$config['dataCol']};
 

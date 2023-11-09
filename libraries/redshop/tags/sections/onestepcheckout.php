@@ -9,6 +9,7 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -48,7 +49,7 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
         JPluginHelper::importPlugin('redshop_shipping');
         $dispatcher = RedshopHelperUtility::getDispatcher();
         $dispatcher->trigger('onRenderCustomField');
-        $user           = JFactory::getUser();
+        $user           = Factory::getApplication()->getIdentity();
         $app            = JFactory::getApplication();
         $session        = JFactory::getSession();
         $auth           = $session->get('auth');
@@ -89,13 +90,15 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
 
         $loginTemplate = "";
 
-        if (!$usersInfoId && Redshop::getConfig()->getInt('REGISTER_METHOD') != 1
-            && Redshop::getConfig()->getInt('REGISTER_METHOD') != 3) {
+        if (
+            !$usersInfoId && Redshop::getConfig()->getInt('REGISTER_METHOD') != 1
+            && Redshop::getConfig()->getInt('REGISTER_METHOD') != 3
+        ) {
             $loginTemplate = RedshopLayoutHelper::render(
                 'tags.checkout.onestep.login',
                 array(
-                    'itemId'    => $itemId,
-                    'returnUrl' => base64_encode(Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout', false)),
+                    'itemId'          => $itemId,
+                    'returnUrl'       => base64_encode(Redshop\IO\Route::_('index.php?option=com_redshop&view=checkout', false)),
                     'thirdPartyLogin' => $thirdPartyLogin
                 ),
                 '',
@@ -292,20 +295,20 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
             $this->replacements['{edit_billing_address}'] = '';
         }
 
-	    if ($this->isTagExists('{clear_user_info}') && $usersInfoId && Redshop::getConfig()->getInt('ENABLE_CLEAR_USER_INFO') == 1) {
-		    $this->replacements['{clear_user_info}'] = RedshopLayoutHelper::render(
-			    'tags.common.button',
-			    array(
-				    'class' => 'btn btn-primary',
-				    'attr'  => 'type="button" name="clear_user_info" onclick="javascript:clearUserInfo();"',
-				    'text'  => Text::_('COM_REDSHOP_CLEAR_USER_INFO')
-			    ),
-			    '',
-			    RedshopLayoutHelper::$layoutOption
-		    );
-	    } else {
-		    $this->replacements['{clear_user_info}'] = '';
-	    }
+        if ($this->isTagExists('{clear_user_info}') && $usersInfoId && Redshop::getConfig()->getInt('ENABLE_CLEAR_USER_INFO') == 1) {
+            $this->replacements['{clear_user_info}'] = RedshopLayoutHelper::render(
+                'tags.common.button',
+                array(
+                    'class' => 'btn btn-primary',
+                    'attr'  => 'type="button" name="clear_user_info" onclick="javascript:clearUserInfo();"',
+                    'text'  => Text::_('COM_REDSHOP_CLEAR_USER_INFO')
+                ),
+                '',
+                RedshopLayoutHelper::$layoutOption
+            );
+        } else {
+            $this->replacements['{clear_user_info}'] = '';
+        }
 
         $isCompany = isset($billingAddresses->is_company) ? $billingAddresses->is_company : 0;
 
@@ -362,8 +365,8 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
 
         $this->template    = RedshopHelperTemplate::parseRedshopPlugin($this->template);
         $showLoginTemplate = (!$user->id && empty($auth['users_info_id']) && Redshop::getConfig()->getInt(
-                'REGISTER_METHOD'
-            ) != 1 && Redshop::getConfig()->getInt('REGISTER_METHOD') != 3);
+            'REGISTER_METHOD'
+        ) != 1 && Redshop::getConfig()->getInt('REGISTER_METHOD') != 3);
 
         $this->template = RedshopLayoutHelper::render(
             'tags.checkout.onestep.template',

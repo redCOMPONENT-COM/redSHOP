@@ -16,12 +16,13 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 defined('_JEXEC') or die;
 
-$app = \JFactory::getApplication();
+$app = Factory::getApplication();
 
 // Load redSHOP Library
 \JLoader::import('redshop.library');
@@ -31,15 +32,15 @@ $config = \Redshop::getConfig();
 // Don't redirect view if current view is "install"
 if (!$config->isExists() && $app->input->getCmd('view') != 'install') {
     $controller = 'redshop';
-    \JFactory::getApplication()->input->set('view', 'redshop');
-    \JFactory::getApplication()->input->set('layout', 'noconfig');
+    Factory::getApplication()->input->set('view', 'redshop');
+    Factory::getApplication()->input->set('layout', 'noconfig');
 }
 
 \Redshop\Shipping\Rate::removeShippingRate();
-$json = \JFactory::getApplication()->input->get('json');
+$json = Factory::getApplication()->input->get('json');
 
-$view           = \JFactory::getApplication()->input->getCmd('view', '');
-$user           = \JFactory::getUser();
+$view           = Factory::getApplication()->input->getCmd('view', '');
+$user           = Factory::getApplication()->getIdentity();
 $userType       = array_keys($user->groups);
 $user->usertype = $userType[0];
 $user->gid      = $user->groups[$user->usertype];
@@ -50,8 +51,8 @@ if (!$user->authorise('core.manage', 'com_redshop') && !$json) {
     return false;
 }
 
-$isWizard = \JFactory::getApplication()->input->getInt('wizard', 0);
-$step     = \JFactory::getApplication()->input->get('step', '');
+$isWizard = Factory::getApplication()->input->getInt('wizard', 0);
+$step     = Factory::getApplication()->input->get('step', '');
 
 // Initialize wizard
 if ($isWizard || $step != '') {
@@ -59,7 +60,7 @@ if ($isWizard || $step != '') {
         throw new Exception('COM_REDSHOP_DONT_HAVE_PERMISSION');
     }
 
-    \JFactory::getApplication()->input->set('view', 'wizard');
+    Factory::getApplication()->input->set('view', 'wizard');
 
     require_once JPATH_COMPONENT . '/helpers/wizard/wizard.php';
     $redSHOPWizard = new \redSHOPWizard;
@@ -70,11 +71,11 @@ if ($isWizard || $step != '') {
 
 $view = $app->input->get('view', 'redshop');
 
-$user        = \JFactory::getUser();
-$task        = \JFactory::getApplication()->input->getCmd('task', '');
-$layout      = \JFactory::getApplication()->input->getCmd('layout', '');
-$showButtons = \JFactory::getApplication()->input->getInt('showbuttons', 0);
-$showAll     = \JFactory::getApplication()->input->getInt('showall', 0);
+$user        = Factory::getApplication()->getIdentity();
+$task        = Factory::getApplication()->input->getCmd('task', '');
+$layout      = Factory::getApplication()->input->getCmd('layout', '');
+$showButtons = Factory::getApplication()->input->getInt('showbuttons', 0);
+$showAll     = Factory::getApplication()->input->getInt('showall', 0);
 
 // Check for array format.
 $filter = \JFilterInput::getInstance();
@@ -87,7 +88,7 @@ if (is_array($task)) {
 
 // Check for a not controller.task command.
 if ($command != '' && strpos($command, '.') === false) {
-    \JFactory::getApplication()->input->set('task', $view . '.' . $command);
+    Factory::getApplication()->input->set('task', $view . '.' . $command);
     $task = $command;
 } elseif ($command != '' && strpos($command, '.') !== false) {
     $commands = explode('.', $command);
@@ -98,7 +99,7 @@ if ($command != '' && strpos($command, '.') === false) {
 // Set the controller page
 if (!file_exists(JPATH_COMPONENT . '/controllers/' . $view . '.php')) {
     $view = 'redshop';
-    \JFactory::getApplication()->input->set('view', $view);
+    Factory::getApplication()->input->set('view', $view);
 }
 
 \RedshopHelperConfig::script('SITE_URL', \JURI::root());
@@ -115,7 +116,7 @@ Text::script('COM_REDSHOP_DELETE_CONFIRM');
 // Execute the task.
 $controller = BaseController::getInstance('Redshop');
 
-$task = \JFactory::getApplication()->input->getCmd('task', '');
+$task = Factory::getApplication()->input->getCmd('task', '');
 
 $controller->execute($task);
 $controller->redirect();

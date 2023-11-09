@@ -9,6 +9,7 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -81,8 +82,10 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
 
             $html = '';
 
-            if (($prefix == 'private' && $this->data['isCompany'] != 1) ||
-                $prefix == 'company' && $this->data['isCompany'] == 1) {
+            if (
+                ($prefix == 'private' && $this->data['isCompany'] != 1) ||
+                $prefix == 'company' && $this->data['isCompany'] == 1
+            ) {
                 $html = !empty($template->template_desc) ?
                     $template->template_desc :
                     RedshopHelperTemplate::getDefaultTemplateContent($prefix . '_billing_template');
@@ -130,9 +133,11 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
             $createAccountHtml = '';
             $checkboxStyle     = '';
 
-            if (Redshop::getConfig()->get('REGISTER_METHOD') != 1 && Redshop::getConfig()->get(
+            if (
+                Redshop::getConfig()->get('REGISTER_METHOD') != 1 && Redshop::getConfig()->get(
                     'REGISTER_METHOD'
-                ) != 3) {
+                ) != 3
+            ) {
                 $createAccountHtml = $subTemplate['template'];
 
                 if (Redshop::getConfig()->get('REGISTER_METHOD') == 2) {
@@ -163,8 +168,8 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
                         'value' => (!empty($this->data['data']["username"]) ? $this->data['data']['username'] : ''),
                         'class' => 'inputbox required',
                         'attr'  => 'size="32" maxlength="250" data-msg="' . Text::_(
-                                'COM_REDSHOP_PLEASE_ENTER_USERNAME'
-                            ) . '"'
+                            'COM_REDSHOP_PLEASE_ENTER_USERNAME'
+                        ) . '"'
                     ),
                     '',
                     RedshopLayoutHelper::$layoutOption
@@ -194,8 +199,8 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
                         'value' => (!empty($this->data['data']["username"]) ? $this->data['data']['username'] : ''),
                         'class' => 'inputbox required',
                         'attr'  => 'size="32" maxlength="250" data-msg="' . Text::_(
-                                'COM_REDSHOP_PLEASE_ENTER_PASSWORD'
-                            ) . '"'
+                            'COM_REDSHOP_PLEASE_ENTER_PASSWORD'
+                        ) . '"'
                     ),
                     '',
                     RedshopLayoutHelper::$layoutOption
@@ -225,8 +230,8 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
                         'value' => '',
                         'class' => 'inputbox required',
                         'attr'  => 'size="32" maxlength="250" data-msg="' . Text::_(
-                                'COM_REDSHOP_PLEASE_ENTER_PASSWORD'
-                            ) . '"'
+                            'COM_REDSHOP_PLEASE_ENTER_PASSWORD'
+                        ) . '"'
                     ),
                     '',
                     RedshopLayoutHelper::$layoutOption
@@ -268,7 +273,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
                 $this->replacements['{newsletter_signup_chk}'] = $newsletterSignupCheckHtml;
             }
 
-            if (!empty(\JFactory::getUser()->id)) {
+            if (!empty(Factory::getApplication()->getIdentity()->id)) {
                 return $subTemplate['begin'] . $subTemplate['end'];
             } else {
                 $createAccountHtml = $this->strReplace($this->replacements, $createAccountHtml);
@@ -302,8 +307,10 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
         if ($this->data['showShipping'] && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) {
             $billingIsShipping = "";
 
-            if ((isset($this->data['data']['billisship']) && $this->data['data']['billisship'] == 1)
-                || Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS')) {
+            if (
+                (isset($this->data['data']['billisship']) && $this->data['data']['billisship'] == 1)
+                || Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS')
+            ) {
                 $billingIsShipping = "checked='checked'";
             }
 

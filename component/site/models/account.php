@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -64,7 +65,7 @@ class RedshopModelAccount extends RedshopModel
      */
     public function getUserAccountInfo($uid)
     {
-        $user    = JFactory::getUser();
+        $user    = Factory::getApplication()->getIdentity();
         $session = JFactory::getSession();
         $auth    = $session->get('auth');
         $list    = new stdClass;
@@ -126,7 +127,7 @@ class RedshopModelAccount extends RedshopModel
 
         $tagId      = $app->input->getInt('tagid', 0);
         $wishListId = $app->input->getInt('wishlist_id', 0);
-        $userId     = JFactory::getUser()->id;
+        $userId     = Factory::getApplication()->getIdentity()->id;
         $db         = JFactory::getDbo();
         $query      = $db->getQuery(true);
 
@@ -247,7 +248,7 @@ class RedshopModelAccount extends RedshopModel
         $pid               = $app->input->getInt('pid', 0);
         $wishlistProductId = $app->input->getInt('wishlist_product_id', 0);
 
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         // Check is user have access to wishlist
         $query = $db->getQuery(true)
@@ -321,7 +322,7 @@ class RedshopModelAccount extends RedshopModel
      */
     public function removeTags($tagId)
     {
-        $user  = JFactory::getUser();
+        $user  = Factory::getApplication()->getIdentity();
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__redshop_product_tags_xref'))
@@ -411,7 +412,7 @@ class RedshopModelAccount extends RedshopModel
         $query = $db->getQuery(true)
             ->delete($db->qn('#__redshop_product_compare'))
             ->where($db->qn('product_id') . ' = ' . $productId)
-            ->where($db->qn('user_id') . ' = ' . JFactory::getUser()->id);
+            ->where($db->qn('user_id') . ' = ' . Factory::getApplication()->getIdentity()->id);
 
         if ($db->setQuery($query)->execute()) {
             $app->enqueueMessage(Text::_('COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY'));

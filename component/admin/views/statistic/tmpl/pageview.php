@@ -10,9 +10,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-$user  = JFactory::getUser();
+$user  = Factory::getApplication()->getIdentity();
 $model = $this->getModel('statistic');
 $start = $this->pagination->limitstart;
 $end   = $this->pagination->limit;
@@ -26,11 +27,6 @@ $end   = $this->pagination->limit;
                     <?php echo Text::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption']; ?>
                 </td>
             </tr>
-            <?php /*<tr><td><?php echo Text::_('COM_REDSHOP_STARTDATE');?></td>
-   <td><?php echo JHTML::_('calendar', $this->startdate , 'startdate', 'startdate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
-<tr><td><?php echo Text::_('COM_REDSHOP_ENDDATE');?></td>
-   <td><?php echo JHTML::_('calendar', $this->enddate , 'enddate', 'enddate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
-<tr><td colspan="2"><input type="submit" name="filter" value=<?php echo Text::_('COM_REDSHOP_SUBMIT');?> /></td></tr><?php */?>
         </table>
         <table class="adminlist table table-striped">
             <thead>
@@ -56,12 +52,12 @@ $end   = $this->pagination->limit;
 
                 if ($this->filteroption && $row->viewdate != $disdate) {
                     $disdate = $row->viewdate; ?>
-                    <tr>
-                        <td colspan="3">
-                            <?php echo Text::_("COM_REDSHOP_DATE") . ": " . $disdate; ?>
-                        </td>
-                    </tr>
-                    <?php
+                            <tr>
+                                <td colspan="3">
+                                    <?php echo Text::_("COM_REDSHOP_DATE") . ": " . $disdate; ?>
+                                </td>
+                            </tr>
+                            <?php
                 }
                 $secinfo = $model->getSectionDetail($row->section, $row->section_id);
                 if (count($secinfo) > 0) {
@@ -72,17 +68,17 @@ $end   = $this->pagination->limit;
                 } else {
                     $sectionname = $row->section;
                 } ?>
-                <tr>
-                    <td align="center">
-                        <?php echo $i + 1; ?>
-                    </td>
-                    <td>
-                        <?php echo $sectionname; ?>
-                    </td>
-                    <td align="center">
-                        <?php echo $row->totalpage; ?>
-                    </td>
-                </tr>
+                    <tr>
+                        <td align="center">
+                            <?php echo $i + 1; ?>
+                        </td>
+                        <td>
+                            <?php echo $sectionname; ?>
+                        </td>
+                        <td align="center">
+                            <?php echo $row->totalpage; ?>
+                        </td>
+                    </tr>
             <?php } ?>
             <tfoot>
                 <td colspan="3">

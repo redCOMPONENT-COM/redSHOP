@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -49,7 +50,7 @@ class RedshopModelLogin extends RedshopModel
 
     public function ShopperGroupDetail($sid = 0)
     {
-        $user = JFactory::getUser();
+        $user = Factory::getApplication()->getIdentity();
 
         if ($sid == 0) {
             $query = "SELECT sg.* FROM #__redshop_shopper_group as sg "

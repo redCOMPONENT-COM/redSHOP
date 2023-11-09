@@ -11,6 +11,7 @@ namespace Redshop\Terms;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -30,7 +31,7 @@ class Tag
     public static function replaceTermsConditions($templateDesc = "", $itemId = 1)
     {
         if (strpos($templateDesc, "{terms_and_conditions") !== false) {
-            $user    = \JFactory::getUser();
+            $user    = Factory::getApplication()->getIdentity();
             $session = \JFactory::getSession();
             $auth    = $session->get('auth');
             $list    = array();

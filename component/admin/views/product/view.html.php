@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -173,7 +174,7 @@ class RedshopViewProduct extends RedshopViewAdmin
         $this->list_in_products = $list_in_products;
         $this->keyword          = $keyword;
         $this->search_field     = $search_field;
-        $this->user             = JFactory::getUser();
+        $this->user             = Factory::getApplication()->getIdentity();
         $this->lists            = $lists;
         $this->products         = $products;
         $this->pagination       = $pagination;

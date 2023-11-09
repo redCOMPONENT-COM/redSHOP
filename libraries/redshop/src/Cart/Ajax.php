@@ -9,6 +9,8 @@
 
 namespace Redshop\Cart;
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -22,7 +24,8 @@ class Ajax
      * @throws \Exception
      * @since  __DEPLOY_VERSION__
      */
-    public static function getProductTax() {
+    public static function getProductTax()
+    {
         \Redshop\Helper\Ajax::validateAjaxRequest('get');
 
         $app = \JFactory::getApplication();
@@ -70,7 +73,8 @@ class Ajax
      * @throws \Exception
      * @since  __DEPLOY_VERSION__
      */
-    public static function deleteCartItem() {
+    public static function deleteCartItem()
+    {
         \Redshop\Helper\Ajax::validateAjaxRequest();
 
         $app         = JFactory::getApplication();
@@ -84,7 +88,7 @@ class Ajax
 
         $cartObject = \Redshop\Cart\Render::moduleCart(\Redshop\Cart\Helper::getCart());
 
-        echo $cartObject->cartHtml? $cartObject->cartHtml: '' ;
+        echo $cartObject->cartHtml ? $cartObject->cartHtml : '';
 
         $app->close();
     }
@@ -112,7 +116,7 @@ class Ajax
         $post = \JFactory::getApplication()->input->post->getArray();
         $cart = \Redshop\Cart\Cart::modify(
             \Redshop\Cart\Helper::changeAttribute($post),
-            \JFactory::getUser()->id
+            Factory::getApplication()->getIdentity()->id
         );
 
         \Redshop\Cart\Helper::setCart($cart);
@@ -129,7 +133,8 @@ class Ajax
      * @throws \Exception
      * @since  __DEPLOY_VERSION__
      */
-    public static function cancel() {
+    public static function cancel()
+    {
         $link = \Redshop\IO\Route::_(
             'index.php?option=com_redshop&view=cart&Itemid=' . \JFactory::getApplication()->input->getInt('Itemid'),
             false

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 JHTML::_('bootstrap.modal');
@@ -19,7 +20,7 @@ $url       = $uri->root();
 $Itemid    = $app->input->getInt('Itemid');
 $wishlists = $this->wishlists;
 $productId = $app->input->getInt('product_id');
-$user      = JFactory::getUser();
+$user      = Factory::getApplication()->getIdentity();
 $session   = JFactory::getSession();
 $auth      = $session->get('auth');
 
@@ -47,38 +48,38 @@ $auth      = $session->get('auth');
     } else {
         $pagetitle = Text::_('COM_REDSHOP_LOGIN_PROMPTWISHLIST');
         ?>
-        <br />
+            <br />
 
-        <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-            <?php echo $pagetitle; ?>
-        </h1>
+            <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+                <?php echo $pagetitle; ?>
+            </h1>
 
-        <div>&nbsp;</div>
+            <div>&nbsp;</div>
 
-        <form name="adminForm" method="post" action="">
-            <table class="adminlist">
-                <tbody>
-                    <tr>
-                        <td colspan="3" align="center" class="wishlist_prompt_button_wrapper">
-                            <input type="button" class="wishlist_prompt_button_login"
-                                value="<?php echo Text::_('COM_REDSHOP_ADD_TO_LOGINWISHLIST'); ?>" onclick="window.parent.location.href='<?php echo Redshop\IO\Route::_(
-                                       'index.php?option=com_redshop&view=login&wishlist=1'
-                                   ); ?>'" />&nbsp;
-                            <input type="button" class="wishlist_prompt_button_create"
-                                value="<?php echo Text::_('COM_REDSHOP_CREATE_LOGINACCOUNT'); ?>" onclick="window.parent.location.href='<?php echo Redshop\IO\Route::_(
-                                       'index.php?option=com_redshop&view=registration&Itemid=' . $Itemid . '&wishlist=1'
-                                   ); ?>'" />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <input type="hidden" name="wishlist" value="1" />
-            <input type="hidden" name="view" value="wishlist" />
-            <input type="hidden" name="boxchecked" value="" />
+            <form name="adminForm" method="post" action="">
+                <table class="adminlist">
+                    <tbody>
+                        <tr>
+                            <td colspan="3" align="center" class="wishlist_prompt_button_wrapper">
+                                <input type="button" class="wishlist_prompt_button_login"
+                                    value="<?php echo Text::_('COM_REDSHOP_ADD_TO_LOGINWISHLIST'); ?>" onclick="window.parent.location.href='<?php echo Redshop\IO\Route::_(
+                                           'index.php?option=com_redshop&view=login&wishlist=1'
+                                       ); ?>'" />&nbsp;
+                                <input type="button" class="wishlist_prompt_button_create"
+                                    value="<?php echo Text::_('COM_REDSHOP_CREATE_LOGINACCOUNT'); ?>" onclick="window.parent.location.href='<?php echo Redshop\IO\Route::_(
+                                           'index.php?option=com_redshop&view=registration&Itemid=' . $Itemid . '&wishlist=1'
+                                       ); ?>'" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="hidden" name="wishlist" value="1" />
+                <input type="hidden" name="view" value="wishlist" />
+                <input type="hidden" name="boxchecked" value="" />
 
-            <input type="hidden" name="option" value="com_redshop" />
-            <input type="hidden" name="task" value="viewloginwishlist" />
-        </form>
-    </div>
-    <?php
+                <input type="hidden" name="option" value="com_redshop" />
+                <input type="hidden" name="task" value="viewloginwishlist" />
+            </form>
+        </div>
+        <?php
     }

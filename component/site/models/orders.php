@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 
 /**
  * Class ordersModelorders
@@ -54,13 +55,13 @@ class RedshopModelOrders extends RedshopModel
 
     public function _buildQuery()
     {
-        $user  = JFactory::getUser();
+        $user  = Factory::getApplication()->getIdentity();
         $db    = $this->getDbo();
         $query = $db->getQuery(true);
 
         $query->select('*');
         $query->from($this->_table_prefix . "orders");
-        $query->where('user_id = ' . (int)$user->id);
+        $query->where('user_id = ' . (int) $user->id);
         $query->order('cdate DESC');
 
         return $query;

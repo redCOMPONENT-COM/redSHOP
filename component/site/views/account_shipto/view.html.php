@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
@@ -63,7 +64,7 @@ class RedshopViewAccount_Shipto extends RedshopView
         $app            = JFactory::getApplication();
         $input          = $app->input;
         $task           = $input->getCmd('task');
-        $user           = JFactory::getUser();
+        $user           = Factory::getApplication()->getIdentity();
         $session        = JFactory::getSession();
         $auth           = $session->get('auth');
         $lists          = [];

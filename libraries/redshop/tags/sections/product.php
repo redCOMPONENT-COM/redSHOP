@@ -9,6 +9,7 @@
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -152,7 +153,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
         $url           = JURI::base();
         $uri           = \Joomla\CMS\Uri\Uri::getInstance();
         $Scheme        = $uri->getScheme();
-        $user          = JFactory::getUser();
+        $user          = Factory::getApplication()->getIdentity();
         $document      = JFactory::getDocument();
 
         //Replace Product price when config enable discount is "No"

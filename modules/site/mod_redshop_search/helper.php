@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Helper for mod_redshop_search
  *
@@ -23,7 +25,7 @@ abstract class ModRedshopSearch
      */
     public static function getCategories()
     {
-        $shopperGroupId   = RedshopHelperUser::getShopperGroup(JFactory::getUser()->id);
+        $shopperGroupId   = RedshopHelperUser::getShopperGroup(Factory::getApplication()->getIdentity()->id);
         $shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
         $db               = JFactory::getDbo();
         $query            = $db->getQuery(true)
@@ -48,7 +50,7 @@ abstract class ModRedshopSearch
      */
     public static function getManufacturers()
     {
-        $shopperGroupId   = RedshopHelperUser::getShopperGroup(JFactory::getUser()->id);
+        $shopperGroupId   = RedshopHelperUser::getShopperGroup(Factory::getApplication()->getIdentity()->id);
         $shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
         $db               = JFactory::getDbo();
         $query            = $db->getQuery(true)

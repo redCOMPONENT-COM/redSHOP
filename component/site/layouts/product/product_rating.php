@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -29,7 +30,7 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('redshopjquery.radiobutton');
 
-$user = JFactory::getUser();
+$user = Factory::getApplication()->getIdentity();
 
 if ($user->id) {
     if ($userInfo = RedshopHelperUser::getUserInformation($user->id)) {
@@ -87,14 +88,14 @@ if ($user->id) {
         </div>
 
         <?php if ($user->guest): ?>
-            <div class="row product-rating-row">
-                <label class="col-xs-3">
-                    <?php echo $form->getLabel('email'); ?>
-                </label>
-                <div class="col-xs-9">
-                    <?php echo $form->getInput('email'); ?>
+                <div class="row product-rating-row">
+                    <label class="col-xs-3">
+                        <?php echo $form->getLabel('email'); ?>
+                    </label>
+                    <div class="col-xs-9">
+                        <?php echo $form->getInput('email'); ?>
+                    </div>
                 </div>
-            </div>
         <?php endif; ?>
 
         <div class="row product-rating-row">
@@ -116,7 +117,7 @@ if ($user->id) {
         </div>
 
         <?php if ($user->guest): ?>
-            <?php echo RedshopLayoutHelper::render('registration.captcha') ?>
+                <?php echo RedshopLayoutHelper::render('registration.captcha') ?>
         <?php endif; ?>
     </div>
 

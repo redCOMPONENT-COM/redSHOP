@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -105,7 +106,7 @@ class RedshopControllerAccount extends RedshopController
      */
     public function newsletterUnsubscribe()
     {
-        $user   = JFactory::getUser();
+        $user   = Factory::getApplication()->getIdentity();
         $itemId = JFactory::getApplication()->input->getInt('Itemid');
 
         RedshopHelperNewsletter::removeSubscribe($user->email);
@@ -124,7 +125,7 @@ class RedshopControllerAccount extends RedshopController
     public function deleteAccount()
     {
         $app    = JFactory::getApplication();
-        $userId = JFactory::getUser()->id;
+        $userId = Factory::getApplication()->getIdentity()->id;
 
         /**
          * @var RedshopModelAccount $model ;
