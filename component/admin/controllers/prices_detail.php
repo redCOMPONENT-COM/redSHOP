@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+
+defined('_JEXEC') or die;
 
 class RedshopControllerPrices_detail extends RedshopController
 {
@@ -56,7 +56,7 @@ class RedshopControllerPrices_detail extends RedshopController
         $post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
         $post['cdate']            = Factory::getDate()->format('Y-m-d');
         $cid                      = $this->input->post->get('cid', array(0), 'array');
-        $post['price_id']        = $cid[0];
+        $post['price_id']         = $cid[0];
 
         $this->handleDateTimeRange($post['discount_start_date'], $post['discount_end_date']);
 

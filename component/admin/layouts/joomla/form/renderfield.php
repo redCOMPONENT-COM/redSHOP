@@ -23,21 +23,7 @@ if (!empty($displayData['options']['showonEnabled'])) {
     HtmlHelper::_('redshopjquery.framework');
     HtmlHelper::script('system/showon.min.js', ['version' => 'auto', 'relative' => true]);
 }
-/*
-$class = empty($displayData['options']['class']) ? "" : " " . $displayData['options']['class'];
-$rel   = empty($displayData['options']['rel']) ? "" : " " . $displayData['options']['rel'];
-?>
-<?php if (!empty($displayData['label']) || !empty($displayData['input'])): ?>
-    <div class="form-group row-fluid <?php echo $class; ?>" <?php echo $rel; ?>>
-        <?php if (empty($displayData['options']['hiddenLabel'])): ?>
-            <?php echo $displayData['label']; ?>
-        <?php endif; ?>
-        <div class="col-md-10">
-            <?php echo $displayData['input']; ?>
-        </div>
-    </div>
-<?php endif ?>
-*/
+
 $class           = empty($displayData['options']['class']) ? '' : ' ' . $displayData['options']['class'];
 $rel             = empty($displayData['options']['rel']) ? '' : ' ' . $displayData['options']['rel'];
 $id              = ($displayData['id'] ?? $displayData['name']) . '-desc';
@@ -50,15 +36,19 @@ if (!empty($parentclass)) {
 }
 
 ?>
-<div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
-    <?php if ($hideLabel) : ?>
-        <div class="visually-hidden"><?php echo $displayData['label']; ?></div>
-    <?php else : ?>
-        <div class="control-label"><?php echo $displayData['label']; ?></div>
+<div class="control-group<?php echo $class; ?>" <?php echo $rel; ?>>
+    <?php if ($hideLabel): ?>
+        <div class="visually-hidden">
+            <?php echo $displayData['label']; ?>
+        </div>
+    <?php else: ?>
+        <div class="control-label">
+            <?php echo $displayData['label']; ?>
+        </div>
     <?php endif; ?>
     <div class="controls">
         <?php echo $displayData['input']; ?>
-        <?php if (!$hideDescription && !empty($description)) : ?>
+        <?php if (!$hideDescription && !empty($description)): ?>
             <div id="<?php echo $id; ?>" class="<?php echo $descClass ?>">
                 <small class="form-text">
                     <?php echo $description; ?>

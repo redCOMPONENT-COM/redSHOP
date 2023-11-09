@@ -26,9 +26,7 @@ use Joomla\CMS\Language\Text;
                     <?php if ($field->hidden): ?>
                         <?php echo $field->input ?>
                     <?php endif; ?>
-                    <div class="form-group row-fluid">
-                        <?php echo $this->form->renderField($field->fieldname) ?>
-                    </div>
+                    <?php echo $this->form->renderField($field->fieldname) ?>
                 <?php endforeach; ?>
             </div>
         </div>

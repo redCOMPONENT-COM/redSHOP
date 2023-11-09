@@ -318,11 +318,13 @@ class RedshopMenuLeft_Menu
                 'COM_REDSHOP_PRODUCT_MANAGEMENT',
                 self::$view === 'product' && self::$layout === ''
             )
+            /*
             ->addItem(
                 'index.php?option=com_redshop&view=product&layout=listing',
                 'COM_REDSHOP_PRODUCT_PRICE_VIEW',
                 self::$view === 'product' && self::$layout === 'listing'
             )
+            */
             ->addItem(
                 'index.php?option=com_redshop&view=manufacturers',
                 'COM_REDSHOP_MANUFACTURER_LISTING',
@@ -692,6 +694,11 @@ class RedshopMenuLeft_Menu
         self::$menu->section('custom')
             ->title('COM_REDSHOP_CUSTOMIZATION')
             ->addItem(
+                'index.php?option=com_redshop&view=templates',
+                'COM_REDSHOP_TEMPLATE_LISTING',
+                self::$view === 'templates'
+            )
+            ->addItem(
                 'index.php?option=com_redshop&view=fields',
                 'COM_REDSHOP_FIELDS_LISTING',
                 self::$view === 'fields'
@@ -700,11 +707,6 @@ class RedshopMenuLeft_Menu
                 'index.php?option=com_redshop&view=field_groups',
                 'COM_REDSHOP_FIELD_GROUP_MANAGEMENT',
                 self::$view === 'field_groups'
-            )
-            ->addItem(
-                'index.php?option=com_redshop&view=templates',
-                'COM_REDSHOP_TEMPLATE_LISTING',
-                self::$view === 'templates'
             )
             ->addItem(
                 'index.php?option=com_redshop&view=texts',

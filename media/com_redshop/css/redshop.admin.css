@@ -28725,36 +28725,6 @@ h3.popover-header {
     margin: 0px;
 }
 
-.select2-container {
-    width: 100%;
-    max-width: 100%;
-}
-
-.select2-container .select2-choice {
-    background-image: none !important;
-    background-color: #ffffff !important;
-    height: 42px !important;
-    line-height: 40px;
-    border: 1px solid #ccc !important;
-    box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
-    color: #555;
-    padding-left: 10px;
-}
-
-.select2-container .select2-choice span {
-    color: #555;
-}
-
-.select2-container .select2-choice .select2-arrow {
-    background-image: unset;
-    background-color: #f0f4fb;
-    border: 0px !important;
-}
-
-.select2-container .select2-choice .select2-arrow b {
-    background: url(/media/com_redshop/css/select2/select2.png) no-repeat 0 5px;
-}
-
 .contentpane .subhead {
     margin: 0px 0px 0;
 }
@@ -28784,6 +28754,49 @@ a[target=_blank]::before {
 
 a.btn.btn-success {
     color: #fff;
+}
+
+.valid {
+    -webkit-box-shadow: 0 0 0 0.2rem #bdffc3;
+    box-shadow: 0 0 0 0.2rem #bdffc3;
+}
+
+.select2-container {
+    width: 100%;
+    max-width: 100%;
+}
+
+.select2-container .select2-choice {
+    background-image: none !important;
+    background-color: #ffffff !important;
+    height: 42px !important;
+    line-height: 40px;
+    box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+    color: #555;
+    padding-left: 10px;
+}
+
+.select2-container .select2-choice span {
+    color: #555;
+}
+
+.select2-container .select2-choice .select2-arrow {
+    background-image: unset;
+    background-color: #f0f4fb;
+    border: 0px !important;
+}
+
+.select2-container .select2-choice .select2-arrow b {
+    background: url(/media/com_redshop/css/select2/select2.png) no-repeat 0 5px;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice {
+    padding: 10px 15px 10px 20px;
+}
+
+.select2-search-choice-close {
+    width: 14px;
+    top: 9px;
 }
 
 /*

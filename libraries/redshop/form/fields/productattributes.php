@@ -40,8 +40,10 @@ class JFormFieldProductattributes extends ListField
     {
         $db       = JFactory::getDbo();
         $subQuery = "SELECT a.product_id, ap.attribute_id, a.attribute_name, ap.property_name 
-					FROM #__redshop_product_attribute_property ap LEFT JOIN #__redshop_product_attribute a 
-					ON a.attribute_id = ap.attribute_id WHERE a.attribute_published = 1 AND a.product_id > 0 ";
+                    FROM #__redshop_product_attribute_property ap LEFT JOIN #__redshop_product_attribute a 
+                    ON a.attribute_id = ap.attribute_id 
+                    WHERE a.attribute_published = 1 
+                    AND a.product_id > 0 ";
 
         if (!empty($this->product_ids)) {
             $subQuery .= " AND a.product_id IN (" . implode(',', $this->product_ids) . ") ";

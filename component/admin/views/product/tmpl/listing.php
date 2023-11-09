@@ -15,7 +15,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Html\HtmlHelper;
 
 // HtmlHelper::_('behavior.formvalidator');
-Factory::getDocument()->getWebAssetManager()->useScript('form.validate');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->useScript('form.validate');
 
 $model = $this->getModel('product');
 
@@ -158,9 +160,6 @@ $model = $this->getModel('product');
                                 $row->product_price,
                                 false
                             ); ?>" />
-                        <a class='joom-box btn btn-primary btn-sm' rel="{handler: 'iframe', size: {x: 750, y: 400}}"
-                            href="index.php?tmpl=component&option=com_redshop&view=product_price&pid=<?php echo $row->product_id ?>">
-                            <i class="fa fa-plus"></i>
                     </td>
                     <td width="20%">
                         <label id="discount_price_<?php echo $row->product_id ?>-lbl"

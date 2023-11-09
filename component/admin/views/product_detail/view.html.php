@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -79,7 +80,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
      */
     public function display($tpl = null)
     {
-        $app         = JFactory::getApplication();
+        $app         = Factory::getApplication();
         $this->input = $app->input;
         $user        = JFactory::getUser();
 
@@ -91,6 +92,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $this->option = $this->input->getString('option', 'com_redshop');
         $lists        = array();
 
+        /** @var RedshopModelProduct_detail $model */
         $model  = $this->getModel('product_detail');
         $detail = $this->get('data');
 
@@ -268,7 +270,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             $supplier = array_merge($supps, $supplier);
         }
 
-        JToolBarHelper::title(Text::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'pencil-2 redshop_products48');
+        // JToolBarHelper::title(Text::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'pencil-2 redshop_products48');
 
         $document = JFactory::getDocument();
 
@@ -319,8 +321,8 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $text = $isNew ? Text::_('COM_REDSHOP_NEW') : $detail->product_name . " - " . Text::_('COM_REDSHOP_EDIT');
 
         JToolBarHelper::title(
-            Text::_('COM_REDSHOP_PRODUCT') . ': <small><small>[ ' . $text . ' ]</small></small>',
-            'pencil-2 redshop_products48'
+            Text::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL') . ' <small>[ ' . $text . ' ]</small>',
+            'redshop_products48'
         );
 
         JToolBarHelper::apply();

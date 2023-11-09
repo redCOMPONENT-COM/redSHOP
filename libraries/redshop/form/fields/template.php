@@ -51,6 +51,27 @@ class JFormFieldTemplate extends ListField
             }
         }
 
-        return array_merge(parent::getOptions(), $options);
+        $options = array_merge(parent::getOptions(), $options);
+
+        $attr = '';
+
+        // Initialize some field attributes.
+        $attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+        $attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
+        $attr .= $this->element['multiple'] ? ' multiple' : '';
+
+        // Initialize JavaScript field attributes.
+        $attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+
+        return JHTML::_(
+            'select.genericlist',
+            $options,
+            $this->name,
+            trim($attr),
+            'value',
+            'text',
+            $this->value,
+            $this->id
+        );
     }
 }

@@ -26,7 +26,7 @@ $input = $app->input;
 $format = $input->getString('format');
 
 if ('raw' === $format) {
-    /** @var RView $view */
+    /** @var RedshopView $view */
     $view = $data['view'];
 
     if (!($view instanceof RedshopViewAdmin || $view instanceof RedshopViewList || $view instanceof RedshopViewForm)) {
@@ -53,14 +53,14 @@ echo JLayoutHelper::render('component.assets');
 $displaySidebar = false;
 
 if (isset($data['sidebar_display'])) {
-    $displaySidebar = (bool)$data['sidebar_display'];
+    $displaySidebar = (bool) $data['sidebar_display'];
 }
 
 // Do we have to display the sidebar ?
 $disableSidebar = false;
 
 if (isset($data['sidebar_disable'])) {
-    $disableSidebar = (bool)$data['sidebar_disable'];
+    $disableSidebar = (bool) $data['sidebar_disable'];
 }
 
 // The view to render.
@@ -68,7 +68,7 @@ if (!isset($data['view'])) {
     throw new InvalidArgumentException('No view specified in the component layout.');
 }
 
-/** @var RView $view */
+/** @var RedshopView $view */
 $view = $data['view'];
 
 if (!($view instanceof RedshopViewAdmin || $view instanceof RedshopViewList || $view instanceof RedshopViewForm)) {
@@ -84,15 +84,15 @@ if ($content instanceof Exception) {
     return $content;
 }
 ?>
-    <script type="text/javascript">
-        jQuery(document).ready(function () {
-            <?php if (!$displaySidebar && !$disableSidebar) : ?>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        <?php if (!$displaySidebar && !$disableSidebar): ?>
             jQuery('body').addClass('sidebar-collapse');
-            <?php endif; ?>
-        });
-    </script>
+        <?php endif; ?>
+    });
+</script>
 
-<?php if ($view->getLayout() === 'modal' || $view->getName() == 'wizard') : ?>
+<?php if ($view->getLayout() === 'modal' || $view->getName() == 'wizard'): ?>
     <div class="row-fluid RedSHOP">
         <section id="component">
             <div class="row-fluid message-sys" id="message-sys"></div>
@@ -101,7 +101,7 @@ if ($content instanceof Exception) {
             </div>
         </section>
     </div>
-<?php elseif ($templateComponent) : ?>
+<?php elseif ($templateComponent): ?>
     <div class="redSHOP">
         <section id="component">
             <div class="message-sys" id="message-sys"></div>
@@ -110,6 +110,6 @@ if ($content instanceof Exception) {
             </div>
         </section>
     </div>
-<?php else : ?>
+<?php else: ?>
     <?php echo JLayoutHelper::render('component.full', $displayData); ?>
 <?php endif;

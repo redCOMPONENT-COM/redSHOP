@@ -19,18 +19,19 @@ use Joomla\CMS\Language\Text;
  * @var  object $field
  * @var  array  $displayData
  */
+
 extract($displayData);
+
 ?>
 <div class="form-group row-fluid ">
-	<label for="name" class="col-md-2 control-label hasPopover">
-		<?php
-		echo Text::_($field->getAttribute('label')) ?>:
-	</label>
-	<div class="col-md-8">
-		<strong>
-			<?php
-			echo Text::_($field->value) ?>
-		</strong>
-	</div>
-
+    <label for="name" class="col-md-2 control-label hasPopover">
+        <?php
+        echo Text::_($field->getAttribute('label')) ?>:
+    </label>
+    <div class="col-md-8">
+        <strong>
+            <?php
+            echo Text::_($field->value) ?>
+        </strong>
+    </div>
 </div>

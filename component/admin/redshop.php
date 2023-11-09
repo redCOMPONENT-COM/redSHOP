@@ -16,10 +16,10 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+
+defined('_JEXEC') or die;
 
 $app = \JFactory::getApplication();
 

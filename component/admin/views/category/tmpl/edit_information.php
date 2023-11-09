@@ -28,8 +28,8 @@ foreach ($media->getAll() as $mediaItem) {
         $backMediaId = $mediaItem->getId();
     }
 }
-?>
 
+?>
 <div class="row">
     <div class="col-sm-8">
         <div class="box box-primary">

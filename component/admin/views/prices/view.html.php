@@ -24,7 +24,14 @@ class RedshopViewPrices extends RedshopViewAdmin
         $document->setTitle(Text::_('COM_REDSHOP_PRODUCT_PRICE'));
         jimport('joomla.html.pagination');
 
-        JToolBarHelper::title(Text::_('COM_REDSHOP_PRODUCT_PRICE'), 'redshop_vatrates48');
+        $detail = $this->get('data');
+        $text   = $detail[0]->product_name;
+
+        JToolBarHelper::title(
+            Text::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL') . ' <small>[ ' . $text . ' ]</small>',
+            'pencil-2 redshop_products48'
+        );
+
         JToolbarHelper::addNew();
         JToolbarHelper::EditList();
         JToolBarHelper::deleteList();
