@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseInterface;
 
 /**
  * Joomla! helper
@@ -288,5 +289,28 @@ class RedshopHelperJoomla
         }
 
         return $user;
+    }
+
+    /**
+     * Method for creating a Database instance.
+     *
+     * @throws    Exception
+     * @since    __DEPLOY_VERSION__
+     *
+     */
+    public static function createDatabase()
+    {
+        $app = Factory::getApplication();
+
+        $database = Factory::getContainer()->get(DatabaseInterface::class);
+        // $database = Factory::getContainer()->get('DatabaseDriver');
+
+        if (!$database) {
+            $app->enqueueMessage(Text::_($database->getError()), 'warning');
+
+            return false;
+        }
+
+        return $database;
     }
 }

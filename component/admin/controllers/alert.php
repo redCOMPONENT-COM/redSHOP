@@ -12,9 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 /**
- * Class Redshop Controller Discount
+ * Alert
  *
- * @since  1.5
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       2.0.6
  */
 class RedshopControllerAlert extends RedshopController
 {

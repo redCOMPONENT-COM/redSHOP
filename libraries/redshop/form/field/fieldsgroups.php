@@ -41,9 +41,7 @@ class RedshopFormFieldFieldsgroups extends ListField
     {
         JModelList::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models', 'RedshopModel');
 
-        /**
-         * @var  $model  RedshopModelField_Groups
-         */
+        /** @var  $model  RedshopModelField_Groups */
         $model = JModelList::getInstance('Field_Groups', 'RedshopModel');
         $model->setState('list.limit', 99);
         $groups = $model->getItems();

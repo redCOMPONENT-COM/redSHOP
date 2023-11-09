@@ -16,6 +16,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
 ?>
 <form action="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop&view=attributes'); ?>" method="post"
     name="adminForm" id="adminForm">

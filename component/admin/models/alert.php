@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelAlert extends RedshopModel
 {
     /**
@@ -17,7 +16,7 @@ class RedshopModelAlert extends RedshopModel
      *
      * @param   array  $config  An optional associative array of configuration settings.
      *
-     * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     * @see     JModelLegacy
      */
     public function __construct($config = array())
     {

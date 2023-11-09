@@ -87,7 +87,7 @@ class RedshopLayoutFile extends RedshopLayoutBase
     {
         $component = null;
 
-        switch ((string)$option) {
+        switch ((string) $option) {
             case 'none':
                 $component = null;
                 break;
@@ -247,7 +247,7 @@ class RedshopLayoutFile extends RedshopLayoutBase
     public function setClient($client)
     {
         // Force string conversion to avoid unexpected states
-        switch ((string)$client) {
+        switch ((string) $client) {
             case 'site':
             case '0':
                 $client = 0;
@@ -259,7 +259,7 @@ class RedshopLayoutFile extends RedshopLayoutBase
                 break;
 
             default:
-                $client = (int)JFactory::getApplication()->isClient('administrator');
+                $client = (int) JFactory::getApplication()->isClient('administrator');
                 break;
         }
 
@@ -291,7 +291,7 @@ class RedshopLayoutFile extends RedshopLayoutBase
     public function removeIncludePaths($paths)
     {
         if (!empty($paths)) {
-            $paths = (array)$paths;
+            $paths = (array) $paths;
 
             $this->includePaths = array_diff($this->includePaths, $paths);
         }
@@ -306,7 +306,7 @@ class RedshopLayoutFile extends RedshopLayoutBase
      */
     public function setDebug($debug)
     {
-        $this->options->set('debug', (boolean)$debug);
+        $this->options->set('debug', (boolean) $debug);
     }
 
     /**

@@ -429,7 +429,7 @@ class RedshopModelList extends JModelList
         $params = $app->isClient('site') ? $app->getParams() : null;
 
         // Receive & set filters
-        if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array')) {
+        if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', 'array', 'array')) {
             foreach ($filters as $name => $value) {
                 // Exclude if blacklisted
                 if (!in_array($name, $this->filterBlacklist)) {
@@ -441,7 +441,7 @@ class RedshopModelList extends JModelList
         $limit = 0;
 
         // Receive & set list options
-        if ($list = $app->getUserStateFromRequest($this->context . '.list', 'list', array(), 'array')) {
+        if ($list = $app->getUserStateFromRequest($this->context . '.list', 'list', 'array', 'array')) {
             foreach ($list as $name => $value) {
                 // Exclude if blacklisted
                 if (!in_array($name, $this->listBlacklist)) {

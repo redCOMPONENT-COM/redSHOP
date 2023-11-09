@@ -50,7 +50,9 @@ class RedshopModelTemplates extends RedshopModelList
      */
     public function getListQuery()
     {
-        $db    = JFactory::getDbo();
+        $db = RedshopHelperJoomla::createDatabase();
+        // $this->getDbo()
+        // $db    = JFactory::getDbo();
         $query = $db->getQuery(true);
 
         $query->select('t.*')
@@ -74,8 +76,7 @@ class RedshopModelTemplates extends RedshopModelList
         // Filter by search in name.
         $published = $this->getState('filter.published');
 
-        if ($published != '')
-        {
+        if ($published != '') {
             $query->where($db->qn('t.published') . ' = ' . $db->q($published));
         }
 

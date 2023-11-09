@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelAlert_detail extends RedshopModel
 {
     public $_id = null;
@@ -24,7 +23,7 @@ class RedshopModelAlert_detail extends RedshopModel
 
         $array = JFactory::getApplication()->input->get('cid', 0, 'array');
 
-        $this->setId((int)$array[0]);
+        $this->setId((int) $array[0]);
     }
 
     public function setId($id)
@@ -60,7 +59,7 @@ class RedshopModelAlert_detail extends RedshopModel
             $db   = $this->_db;
 
             $fields = array(
-                $db->qn('read') . ' = ' . $db->q((int)$read)
+                $db->qn('read') . ' = ' . $db->q((int) $read)
             );
 
             // Conditions for which records should be updated.

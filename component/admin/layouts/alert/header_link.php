@@ -10,11 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\BaseModel;
-use Joomla\CMS\MVC\Model\LegacyModelLoaderTrait;
 
-BaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
-$model       = LegacyModelLoaderTrait::getInstance("Alert", "RedshopModel");
+JModelList::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models', 'RedshopModel');
+/** @var  $model  RedshopModelAlert */
+$model       = JModelList::getInstance('Alert', 'RedshopModel');
 $alertsCount = $model->countAlert();
 $alerts      = $model->getAlert(5);
 
