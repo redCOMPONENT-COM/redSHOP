@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
+    <name>PLG_REDSHOP_PAYMENT_GPAY_DOMESTIC</name>
+    <version>1.0.0</version>
+    <redshop>2.0</redshop>
+    <creationDate>Mar 2022</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>support@redweb.vn</authorEmail>
+    <authorUrl>https://redweb.vn/</authorUrl>
+    <copyright>redWEB Vietnam</copyright>
+    <license>GNU General Public License v2</license>
+    <description>PLG_REDSHOP_PAYMENT_GPAY_DOMESTIC_DESC</description>
+
+    <files>
+        <filename plugin="gpay_domestic">gpay_domestic.php</filename>
+        <filename>logo.png</filename>
+    </files>
+
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_gpay_domestic.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_gpay_domestic.sys.ini</language>
+    </languages>
+
+    <config>
+        <fields name="params">
+            <fieldset name="basic" label="extra">
+                <field name="production"
+                       type="text"
+                       default=""
+                       required="true"
+                       label="PLG_REDSHOP_PAYMENT_GPAY_DOMESTIC_URL_API_PRODUCTION"
+                />
+                <field name="sandbox"
+                       type="text"
+                       default=""
+                       required="true"
+                       label="PLG_REDSHOP_PAYMENT_GPAY_DOMESTIC_URL_API_SANDBOX"
+                />
+                <field
+                        name="merchantCode"
+                        type="text"
+                        default=""
+                        required="true"
+                        label="PLG_REDSHOP_PAYMENT_GPAY_DOMESTIC_MERCHANT_CODE"
+                />
+                <field name="password"
+                       type="text"
+                       default=""
+                       required="true"
+                       label="PLG_REDSHOP_PAYMENT_GPAY_DOMESTIC_PASSWORD"
+                />
+
+                <field name="privateKey"
+                       type="textarea"
+                       default=""
+                       required="true"
+                       label="PLG_REDSHOP_PAYMENT_GPAY_DOMESTIC_PRIVATE_KEY"
+                />
+
+                <field
+                        name="isTest"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        default="1"
+                        label="PLG_REDSHOP_PAYMENT_GPAY_DOMESTIC_ENVIRONMENT">
+                    <option value="1">Sandbox</option>
+                    <option value="0">Live</option>
+                </field>
+
+                <field
+                        name="logo"
+                        label="PLG_REDSHOP_PAYMENT_GPAY_DOMESTIC_LOGO"
+                        type="media"
+                        preview="true"
+                        default="/plugins/redshop_payment/gpay_domestic/logo.png"
+                />
+            </fieldset>
+            <fieldset name="advanced">
+                <field
+                        name="verify_status"
+                        type="sql"
+                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
+                        key_field="st_value"
+                        value_field="st_title"
+                        default="C"
+                        label="PLG_REDSHOP_PAYMENT_GPAY_DOMESTIC_ORDER_STATUS">
+                </field>
+                <field
+                        name="invalid_status"
+                        type="sql"
+                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                        key_field="st_value"
+                        value_field="st_title"
+                        default="P"
+                        label="PLG_REDSHOP_PAYMENT_GPAY_DOMESTIC_SUCCESS_FAILED_STATUS"
+                />
+            </fieldset>
+        </fields>
+    </config>
+</extension>
