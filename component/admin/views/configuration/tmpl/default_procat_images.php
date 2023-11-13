@@ -27,7 +27,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
     </label>
     <div class="col-md-8">
         <?php $categoryDefaultImage = $this->config->get('CATEGORY_DEFAULT_IMAGE'); ?>
-        <input class="text_area" type="file" name="categoryImg" id="categoryImg" size="40" />
+        <input class="form-control" type="file" name="categoryImg" id="categoryImg" size="40" />
         <input type="hidden" name="category_default_image" id="category_default_image"
             value="<?php echo $categoryDefaultImage ?>" />
         <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $categoryDefaultImage)): ?>
@@ -52,7 +52,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
     </label>
     <div class="col-md-8">
         <?php $productDefaultImage = $this->config->get('PRODUCT_DEFAULT_IMAGE'); ?>
-        <input class="text_area" type="file" name="productImg" id="productImg" size="40" />
+        <input class="form-control" type="file" name="productImg" id="productImg" size="40" />
         <input type="hidden" name="product_default_image" id="product_default_image"
             value="<?php echo $productDefaultImage; ?>" />
         <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $productDefaultImage)): ?>
@@ -76,7 +76,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
     </label>
     <div class="col-md-8">
         <?php $watermarkImage = $this->config->get('WATERMARK_IMAGE'); ?>
-        <input class="text_area" type="file" name="watermarkImg" id="watermarkImg" size="40" />
+        <input class="form-control" type="file" name="watermarkImg" id="watermarkImg" size="40" />
         <input type="hidden" name="watermark_image" id="watermark_image" value="<?php echo $watermarkImage; ?>" />
         <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $watermarkImage)): ?>
             <div class="divimages" id="prodwaterdiv">
@@ -101,7 +101,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
     </label>
     <div class="col-md-8">
         <?php $productOutofstockImage = $this->config->get('PRODUCT_OUTOFSTOCK_IMAGE'); ?>
-        <input class="text_area" type="file" name="productoutofstockImg" id="categoryImg" size="40" />
+        <input class="form-control" type="file" name="productoutofstockImg" id="categoryImg" size="40" />
         <input type="hidden" name="product_outofstock_image" id="product_outofstock_image"
             value="<?php echo $productOutofstockImage ?>" />
         <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $productOutofstockImage)): ?>
@@ -127,7 +127,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
     </label>
     <div class="col-md-8">
         <?php $productDetailLightboxCloseBtnImage = $this->config->get('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE'); ?>
-        <input class="text_area" type="file" name="imgslimbox" id="imgslimbox" size="40" />
+        <input class="form-control" type="file" name="imgslimbox" id="imgslimbox" size="40" />
         <input type="hidden" name="product_detail_lighbox_close_button_image"
             id="product_detail_lighbox_close_button_image" value="<?php echo $productDetailLightboxCloseBtnImage; ?>" />
         <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $productDetailLightboxCloseBtnImage)): ?>

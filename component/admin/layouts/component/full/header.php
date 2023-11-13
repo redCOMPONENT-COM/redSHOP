@@ -23,10 +23,15 @@ $logoLgUrl = JUri::root() . 'media/com_redshop/images/redshop_white_logo.png';
 
 <!-- Logo -->
 <a href="<?php echo Redshop\IO\Route::_('index.php?option=com_redshop'); ?>" class="logo">
-  <span class="logo-lg">
-	  <img src="<?php echo $logoLgUrl ?>" class="center-block">
-  </span>
+    <span class="logo-lg">
+        <img src="<?php echo $logoLgUrl ?>" class="center-block">
+    </span>
 </a>
+
+<!-- Component title -->
+<div class="component-title">
+    <?php echo JFactory::getApplication()->JComponentTitle; ?>
+</div>
 
 <!-- Header Navbar: style can be found in header.less -->
 <nav class="navbar navbar-static-top" role="navigation">

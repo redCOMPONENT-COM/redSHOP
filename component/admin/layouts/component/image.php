@@ -14,8 +14,8 @@ use Joomla\CMS\Language\Text;
 extract($displayData);
 
 $image_path = $type . '/' . trim($image);
-?>
 
+?>
 <div class="alert alert-info imagewarning">
     <?php echo Text::_('COM_REDSHOP_UPLOAD_IMAGE_WARNING'); ?>
 </div>
@@ -39,7 +39,7 @@ $image_path = $type . '/' . trim($image);
         <input type="checkbox" name="<?php echo $deleteid ?>" id="<?php echo $deleteid ?>" class="hidden">
 
         <div class="divimagebuttons">
-		<span id="editbtn" aria-hidden="true" class="fa-stack fa-lg">
+        <span id="editbtn" aria-hidden="true" class="fa-stack fa-lg">
           <i class="fa fa-square fa-stack-2x"></i>
           <i class="fa fa-pencil-square-o fa-stack-1x fa-inverse"></i>
         </span>

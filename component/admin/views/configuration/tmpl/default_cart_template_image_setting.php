@@ -53,7 +53,7 @@ echo RedshopLayoutHelper::render(
         <?php echo Text::_('COM_REDSHOP_ADDTOCART_IMAGE_LBL'); ?>
     </label>
     <div class="col-md-8">
-        <input class="text_area" type="file" name="cartimg" id="cartimg" size="50" />
+        <input class="form-control" type="file" name="cartimg" id="cartimg" size="50" />
         <input type="hidden" name="addtocart_image" id="addtocart_image"
             value="<?php echo $this->config->get('ADDTOCART_IMAGE'); ?>" />
         <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $this->config->get('ADDTOCART_IMAGE'))): ?>
@@ -83,6 +83,7 @@ echo RedshopLayoutHelper::render(
            value="' . $this->config->get('ADDTOCART_BACKGROUND') . '" />'
     )
 );
+
 ?>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
@@ -91,7 +92,7 @@ echo RedshopLayoutHelper::render(
     </label>
     <div class="col-md-8">
         <?php $requestquoteImage = $this->config->get('REQUESTQUOTE_IMAGE'); ?>
-        <input class="text_area" type="file" name="quoteimg" id="quoteimg" size="50" />
+        <input class="form-control" type="file" name="quoteimg" id="quoteimg" size="50" />
         <input type="hidden" name="requestquote_image" id="requestquote_image"
             value="<?php echo $requestquoteImage; ?>" />
         <?php if (File::exists(JPATH_ROOT . $addToCartPath . $requestquoteImage)): ?>
@@ -127,7 +128,7 @@ echo RedshopLayoutHelper::render(
     </label>
     <div class="col-md-8">
         <?php $addtocartUpdate = $this->config->get('ADDTOCART_UPDATE'); ?>
-        <input class="text_area" type="file" name="cartupdate" id="cartupdate" size="50" />
+        <input class="form-control" type="file" name="cartupdate" id="cartupdate" size="50" />
         <input type="hidden" name="addtocart_update" id="addtocart_update" value="<?php echo $addtocartUpdate; ?>" />
         <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $addtocartUpdate)): ?>
             <div class="divimages" id="cartupdatediv">
@@ -151,7 +152,7 @@ echo RedshopLayoutHelper::render(
     </label>
     <div class="col-md-8">
         <?php $addtocartDelete = $this->config->get('ADDTOCART_DELETE'); ?>
-        <input class="text_area" type="file" name="cartdelete" id="cartdelete" size="50" />
+        <input class="form-control" type="file" name="cartdelete" id="cartdelete" size="50" />
         <input type="hidden" name="addtocart_delete" id="addtocart_delete" value="<?php echo $addtocartDelete; ?>" />
         <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $addtocartDelete)): ?>
             <div class="divimages" id="cartdeldiv">

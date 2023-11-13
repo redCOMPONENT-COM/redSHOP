@@ -296,7 +296,8 @@ $editor = JEditor::getInstance();
                                             <input type="text" class="divfieldText hide form-control" name="extra_name[]"
                                                 id="extra_name<?php echo $index ?>"
                                                 value="<?php echo htmlentities($extraData->field_name); ?>" />
-                                            <input type="file" class="divfieldFile hide pull-left" name="extra_name_file[]" />
+                                            <input type="file" class="divfieldFile hide pull-left form-control"
+                                                name="extra_name_file[]" />
                                         </td>
                                         <td>
                                             <input type="text" name="extra_value[]" class="form-control"

@@ -61,17 +61,34 @@ $js = "function jSelectArticle_terms_article_id(id, title, catid) {
     document.getElementById('terms_article_id_id').value = id;
     document.getElementById('terms_article_id_name').value = title;
     (function($){
-		$('#ModalConfigDetail').modal('hide');
-	})(jQuery);
+        $('#ModalSelectTermsArticle').modal('hide');
+    })(jQuery);
 }";
 $doc->addScriptDeclaration($js);
-$link = 'index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=jSelectArticle_terms_article_id';
+
 $html = '<div class="input-group">'
     . '<input type="text" id="terms_article_id_name" class="form-control"'
     . ' value="' . htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8') . '" disabled="disabled"/>'
     . '<span class="input-group-btn">'
-    . '<button type="button" class="joom-box btn btn-seconday ModalConfigDetailButton"'
-    . ' data-url="' . $link . '">' . Text::_('COM_REDSHOP_Select') . '</button>'
+    . RedshopLayoutHelper::render(
+        'modal.button',
+        [
+            'selector' => 'ModalSelectTermsArticle',
+            'params'   => [
+                'title'       => Text::_('COM_REDSHOP_SELECT_AN_ARTICLE'),
+                'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                        ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
+                                    </button>',
+                'buttonText'  => Text::_('COM_REDSHOP_SELECT_AN_ARTICLE'),
+                'buttonClass' => 'btn btn-secondary',
+                'url'         => Redshop\IO\Route::_(
+                    'index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=jSelectArticle_terms_article_id'
+                ),
+                'modalWidth'  => '80',
+                'bodyHeight'  => '60',
+            ]
+        ]
+    )
     . '</span></div><input type="hidden" id="terms_article_id_id" name="terms_article_id" value="' . $article_id . '"/>';
 
 echo RedshopLayoutHelper::render(

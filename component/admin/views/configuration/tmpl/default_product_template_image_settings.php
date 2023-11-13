@@ -354,7 +354,7 @@ echo RedshopLayoutHelper::render(
     </label>
     <div class="col-md-8">
         <?php $preOrderImage = $this->config->get('PRE_ORDER_IMAGE'); ?>
-        <input class="text_area" type="file" name="file_pre_order_image" id="file_pre_order_image" size="40" />
+        <input class="form-control" type="file" name="file_pre_order_image" id="file_pre_order_image" size="40" />
         <input type="hidden" name="pre_order_image" id="pre_order_image" value="<?php echo $preOrderImage ?>" />
 
         <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $preOrderImage)): ?>

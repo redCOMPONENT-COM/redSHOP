@@ -10,6 +10,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Layout variables
  * ======================================
@@ -22,7 +25,7 @@ extract($displayData);
 ?>
 <div class="control-group">
     <div class="">
-        <input type="file" name="logo" id="logo" size="77" />
+        <input class="form-control" type="file" name="logo" id="logo" size="77" />
     </div>
     <div class="">
         <?php
@@ -40,12 +43,27 @@ extract($displayData);
                     Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
                 );
                 ?>
-                <a href="<?php
-                echo $imagePath; ?>" id="image_display_href" class="joom-box"
-                    rel="{handler: 'image', size: {x: 570, y: 400}}">
-                    <img src="<?php
-                    echo $imageThumbPath; ?>" id="image_display" border="0" width="200" />
-                </a>
+                <?php
+                echo RedshopLayoutHelper::render(
+                    'modal.a',
+                    [
+                        'selector' => 'ModalShoppergroupLogo',
+                        'params'   => [
+                            'title'      => Text::_('COM_REDSHOP_UPLOAD'),
+                            'footer'     => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
+                                                </button>',
+                            'aContent'   => RedshopLayoutHelper::render(
+                                'joomla.html.image',
+                                ['src' => $imageThumbPath, 'alt' => 'Shoppergroup logo', 'id' => 'image_display', 'width' => '200']
+                            ),
+                            'aClass'     => '',
+                            'url'        => $imagePath,
+                            'modalWidth' => '50',
+                            'bodyHeight' => '70',
+                        ]
+                    ]
+                ); ?>
             </div>
             <?php
         endif; ?>

@@ -267,12 +267,27 @@ if (
                 <div class="imageBlock">
                     <?php
                     if ($subPropertyImage) {
-                        ?>
-
-                        <a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $subPropertyImage; ?>">
-                            <img id="subpropertyImage<?php echo $keyAttr . $keySubProp; ?>"
-                                src="<?php echo $subPropertyImageThumb; ?>" />
-                        </a>
+                        echo
+                            RedshopLayoutHelper::render(
+                                'modal.a',
+                                [
+                                    'selector' => 'ModalSubropertyImage',
+                                    'params'   => [
+                                        'title'      => '',
+                                        'footer'     => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
+                                                </button>',
+                                        'aContent'   => RedshopLayoutHelper::render(
+                                            'joomla.html.image',
+                                            ['src' => $subPropertyImageThumb, 'alt' => 'Subproperty image']
+                                        ),
+                                        'aClass'     => '',
+                                        'url'        => $subPropertyImage,
+                                        'modalWidth' => '50',
+                                        'bodyHeight' => '70',
+                                    ]
+                                ]
+                            ); ?>
 
                         <input value="<?php echo Text::_('COM_REDSHOP_REMOVE_IMAGE'); ?>" type="button"
                             class="btn deleteSubPropertyMainImage" id="deleteSubPropertyMainImage_<?php echo $subProperty->subattribute_color_id; ?>_<?php
@@ -284,7 +299,7 @@ if (
                         <?php
                     }
                     ?>
-                    <input type="file" value=""
+                    <input class="form-control" type="file" value=""
                         name="attribute_<?php echo $keyAttr; ?>_property_<?php echo $keyProperty; ?>_subproperty_<?php echo $keySubProp; ?>_image" />
                 </div>
             </div>
@@ -302,5 +317,4 @@ if (
         $data->dispatcher->trigger('productTypeSubPropertyValue', array($property, $subProperty));
     }
     ?>
-
 </div>

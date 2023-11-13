@@ -104,51 +104,51 @@ class Property
         $cartForm .= $cartTemplate->template_desc;
 
         $cartForm .= "
-			<input type='hidden' name='product_id' id='product_id' value='" . $productId . "'>
-			<input type='hidden' name='category_id' value='" . $categoryId . "'>
-			<input type='hidden' name='view' value='cart'>
-			<input type='hidden' name='task' value='add'>
-			<input type='hidden' name='option' value='com_redshop'>
-			<input type='hidden' name='Itemid' id='Itemid' value='" . $itemId . "'>
-			<input type='hidden' name='sel_wrapper_id' id='sel_wrapper_id' value='0'>
+            <input type='hidden' name='product_id' id='product_id' value='" . $productId . "'>
+            <input type='hidden' name='category_id' value='" . $categoryId . "'>
+            <input type='hidden' name='view' value='cart'>
+            <input type='hidden' name='task' value='add'>
+            <input type='hidden' name='option' value='com_redshop'>
+            <input type='hidden' name='Itemid' id='Itemid' value='" . $itemId . "'>
+            <input type='hidden' name='sel_wrapper_id' id='sel_wrapper_id' value='0'>
 
-			<input type='hidden' name='accessory_data' id='accessory_data' value='0'>
-			<input type='hidden' name='acc_attribute_data' id='acc_attribute_data' value='0'>
-			<input type='hidden' name='acc_quantity_data' id='acc_quantity_data' value='0'>
-			<input type='hidden' name='acc_property_data' id='acc_property_data' value='0'>
-			<input type='hidden' name='acc_subproperty_data' id='acc_subproperty_data' value='0'>
-			<input type='hidden' name='accessory_price' id='accessory_price' value='0'>
+            <input type='hidden' name='accessory_data' id='accessory_data' value='0'>
+            <input type='hidden' name='acc_attribute_data' id='acc_attribute_data' value='0'>
+            <input type='hidden' name='acc_quantity_data' id='acc_quantity_data' value='0'>
+            <input type='hidden' name='acc_property_data' id='acc_property_data' value='0'>
+            <input type='hidden' name='acc_subproperty_data' id='acc_subproperty_data' value='0'>
+            <input type='hidden' name='accessory_price' id='accessory_price' value='0'>
 
-			<input type='hidden' name='requiedAttribute' id='requiedAttribute' value='' reattribute=''>
-			<input type='hidden' name='requiedProperty' id='requiedProperty' value='' reproperty=''>
+            <input type='hidden' name='requiedAttribute' id='requiedAttribute' value='' reattribute=''>
+            <input type='hidden' name='requiedProperty' id='requiedProperty' value='' reproperty=''>
 
-			<input type='hidden' name='main_price' id='main_price" . $productId . "' value='" . $productPrice . "' />
-			<input type='hidden' name='tmp_product_price' id='tmp_product_price' value='0'>
+            <input type='hidden' name='main_price' id='main_price" . $productId . "' value='" . $productPrice . "' />
+            <input type='hidden' name='tmp_product_price' id='tmp_product_price' value='0'>
 
-			<input type='hidden' name='product_old_price' id='product_old_price" . $productId . "' value='"
+            <input type='hidden' name='product_old_price' id='product_old_price" . $productId . "' value='"
             . $productOldPrice . "' />
-			<input type='hidden' name='tmp_product_old_price' id='tmp_product_old_price' value='0'>
+            <input type='hidden' name='tmp_product_old_price' id='tmp_product_old_price' value='0'>
 
-			<input type='hidden' name='product_price_no_vat' id='product_price_no_vat" . $productId . "' value='"
+            <input type='hidden' name='product_price_no_vat' id='product_price_no_vat" . $productId . "' value='"
             . $productPriceNoVat . "' />
-			<input type='hidden' name='total_price_no_vat_per_product' id='total_price_no_vat_per_product' value='0'>
+            <input type='hidden' name='total_price_no_vat_per_product' id='total_price_no_vat_per_product' value='0'>
 
-			<input type='hidden' name='min_quantity' id='min_quantity' value='" . $quantityMin . "' requiredtext='"
+            <input type='hidden' name='min_quantity' id='min_quantity' value='" . $quantityMin . "' requiredtext='"
             . Text::_('COM_REDSHOP_MINIMUM_QUANTITY_SHOULD_BE') . "'>
-			<input type='hidden' name='max_quantity' id='max_quantity' value='" . $quantityMax . "' requiredtext='"
+            <input type='hidden' name='max_quantity' id='max_quantity' value='" . $quantityMax . "' requiredtext='"
             . Text::_('COM_REDSHOP_MAXIMUM_QUANTITY_SHOULD_BE') . "'>
 
-			<input type='hidden' name='attribute_data' id='attribute_data' value='" . $attributeId . "'>
-			<input type='hidden' name='property_data' id='property_data' value='" . $propertyId . "'>
-			<input type='hidden' name='subproperty_data' id='subproperty_data' value='0'>
+            <input type='hidden' name='attribute_data' id='attribute_data' value='" . $attributeId . "'>
+            <input type='hidden' name='property_data' id='property_data' value='" . $propertyId . "'>
+            <input type='hidden' name='subproperty_data' id='subproperty_data' value='0'>
 
-			<input type='hidden' name='calcHeight' id='hidden_calc_height' value='' />
-			<input type='hidden' name='calcWidth' id='hidden_calc_width' value='' />
-			<input type='hidden' name='calcDepth' id='hidden_calc_depth' value='' />
-			<input type='hidden' name='calcRadius' id='hidden_calc_radius' value='' >
-			<input type='hidden' name='calcUnit' id='hidden_calc_unit' value='' />
-			<input type='hidden' name='pdcextraid' id='hidden_calc_extraid' value='' />
-			<input type='hidden' name='hidden_attribute_cartimage' id='hidden_attribute_cartimage" . $productId .
+            <input type='hidden' name='calcHeight' id='hidden_calc_height' value='' />
+            <input type='hidden' name='calcWidth' id='hidden_calc_width' value='' />
+            <input type='hidden' name='calcDepth' id='hidden_calc_depth' value='' />
+            <input type='hidden' name='calcRadius' id='hidden_calc_radius' value='' >
+            <input type='hidden' name='calcUnit' id='hidden_calc_unit' value='' />
+            <input type='hidden' name='pdcextraid' id='hidden_calc_extraid' value='' />
+            <input type='hidden' name='hidden_attribute_cartimage' id='hidden_attribute_cartimage" . $productId .
             "' value='' />";
 
         if ($product->product_type == "subscription") {

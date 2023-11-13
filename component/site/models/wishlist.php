@@ -43,7 +43,7 @@ class RedshopModelWishlist extends RedshopModel
         $session = JFactory::getSession();
 
         if ($user->id) {
-            $wishlists    = $this->getUserWishlist();
+            $wishlists    = RedshopHelperWishlist::getUserWishlist();
             $wishProducts = array();
 
             foreach ($wishlists as $key => $wishlist) {
@@ -89,18 +89,6 @@ class RedshopModelWishlist extends RedshopModel
             ->where($db->qn('product_id') . ' IN (' . implode(',', ArrayHelper::toInteger($productIds)) . ')');
 
         return $db->setQuery($query)->loadObjectList();
-    }
-
-    /**
-     * Method for get User Wishlist
-     *
-     * @return  bool|mixed
-     *
-     * @deprecated  2.0.3  Use RedshopHelperWishlist::getUserWishlist() instead.
-     */
-    public function getUserWishlist()
-    {
-        return RedshopHelperWishlist::getUserWishlist();
     }
 
     public function getWishlistProductFromSession()

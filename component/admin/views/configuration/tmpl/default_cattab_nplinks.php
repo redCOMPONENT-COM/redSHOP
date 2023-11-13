@@ -84,7 +84,7 @@ echo RedshopLayoutHelper::render(
         <?php $imagePreviousLinkFind = $this->config->get('IMAGE_PREVIOUS_LINK_FIND'); ?>
         <div>
             <div>
-                <input class="text_area" type="file" name="imgpre" id="imgpre" size="40" />
+                <input class="form-control" type="file" name="imgpre" id="imgpre" size="40" />
                 <input type="hidden" name="image_previous_link" id="image_previous_link"
                     value="<?php echo $imagePreviousLinkFind; ?>" />
                 <a href="#123"
@@ -114,7 +114,7 @@ echo RedshopLayoutHelper::render(
         <?php $imageNextLinkFind = $this->config->get('IMAGE_NEXT_LINK_FIND'); ?>
         <div>
             <div>
-                <input class="text_area" type="file" name="imgnext" id="imgnext" size="40" />
+                <input class="form-control" type="file" name="imgnext" id="imgnext" size="40" />
                 <input type="hidden" name="image_next_link" id="image_next_link"
                     value="<?php echo $imageNextLinkFind; ?>" />
                 <a href="#123"

@@ -27088,7 +27088,7 @@ body .navbar-fixed-top {
 
 .page-title [class^="icon-"],
 .page-title [class*=" icon-"] {
-    margin-right: 16px;
+    margin-right: 10px;
 }
 
 @media (max-width: 767px) {
@@ -29252,4 +29252,9 @@ a.btn.btn-success {
 
 .skin-joomla .main-footer {
     border: 0;
+}
+
+.icon-generic:before {
+    content: "\f485";
+    margin-left: 55px;
 }

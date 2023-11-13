@@ -20,11 +20,6 @@ if ($view == 'redshop') {
 }
 
 ?>
-
-<div class="component-title">
-    <?php echo JFactory::getApplication()->JComponentTitle; ?>
-</div>
-
 <div id="subhead-container" class="subhead mb-3 <?php echo $classtoolbar ?>">
     <?php echo $toolbar->render() ?>
 </div>

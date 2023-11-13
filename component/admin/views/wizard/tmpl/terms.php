@@ -44,13 +44,13 @@ $params = JFactory::getApplication()->input->get('params', '', 'raw');
                         $article->title = Text::_('COM_REDSHOP_SELECT_AN_ARTICLE');
                     }
                     $js = "
-		function jSelectArticle_terms_article_id(id, title, catid) {
-			document.getElementById('terms_article_id_id').value = id;
-			document.getElementById('terms_article_id_name').value = title;
-			(function($){
-				$('#ModalConfigDetail').modal('hide');
-			})(jQuery);
-		}";
+                    function jSelectArticle_terms_article_id(id, title, catid) {
+                        document.getElementById('terms_article_id_id').value = id;
+                        document.getElementById('terms_article_id_name').value = title;
+                        (function($){
+                            $('#ModalSelectTermsArticle').modal('hide');
+                        })(jQuery);
+                    }";
                     $doc->addScriptDeclaration($js);
 
                     $link = 'index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=jSelectArticle_terms_article_id';
@@ -59,8 +59,27 @@ $params = JFactory::getApplication()->input->get('params', '', 'raw');
                         ENT_QUOTES,
                         'UTF-8'
                     ) . '" disabled="disabled" /></div>';
-                    $html .= '<div class="button2-left"><div class="blank"><button type="button" class="joom-box btn btn-default ModalConfigDetailButton"'
-                        . ' data-url="' . $link . '">' . Text::_('COM_REDSHOP_Select') . '</button></div></div>' . "\n";
+                    $html .= '<div class="button2-left"><div class="blank">' . 
+                                RedshopLayoutHelper::render(
+                                    'modal.button',
+                                    [
+                                        'selector' => 'ModalSelectTermsArticle',
+                                        'params'   => [
+                                            'title'       => Text::_('COM_REDSHOP_SELECT_AN_ARTICLE'),
+                                            'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
+                                                                </button>',
+                                            'buttonText'  => Text::_('COM_REDSHOP_SELECT_AN_ARTICLE'),
+                                            'buttonClass' => 'btn btn-secondary',
+                                            'url'         => Redshop\IO\Route::_(
+                                                'index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=jSelectArticle_terms_article_id'
+                                            ),
+                                            'modalWidth'  => '80',
+                                            'bodyHeight'  => '60',
+                                        ]
+                                    ]
+                                )
+                                . '</div></div>' . "\n";
                     $html .= "\n" . '<input type="hidden" id="terms_article_id_id" name="terms_article_id" value="' . $article_id . '" />';
 
                     echo $html;
@@ -96,12 +115,4 @@ $params = JFactory::getApplication()->input->get('params', '', 'raw');
         </table>
     </form>
 </div>
-<?php
-echo RedshopLayoutHelper::render(
-    'modal.iframe',
-    [
-        'modalButton' => '.ModalConfigDetailButton',
-        'selector'    => 'ModalConfigDetail',
-    ]
-);
 

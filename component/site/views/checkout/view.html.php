@@ -181,22 +181,6 @@ class RedshopViewCheckout extends RedshopView
             $lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(14, 0, 'billingRequired valid');
         }
 
-        // Modal button for Add shipping address
-        echo RedshopLayoutHelper::render(
-            'modal.iframe',
-            [
-                'modalButton' => '.ModalAddShippingAddressButton',
-                'selector'    => 'ModalAddShippingAddress',
-                'params'      => [
-                    'title'      => '',
-                    'footer'     => '',
-                    'modalWidth' => '40',
-                    'bodyHeight' => '80',
-                    'modalCss'   => '',
-                ]
-            ]
-        );
-
         if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE')) {
             $this->setLayout('onestepcheckout');
         }

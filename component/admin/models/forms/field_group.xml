@@ -23,6 +23,7 @@
         <field
                 name="section"
                 type="redshop.fieldsection"
+                class="form-control"
                 label="COM_REDSHOP_FIELD_SECTION_HEADER"
                 description="COM_REDSHOP_TOOLTIP_FIELD_SECTION"
                 table-width="17%"

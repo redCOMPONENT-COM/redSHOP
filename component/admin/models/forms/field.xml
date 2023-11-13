@@ -32,6 +32,7 @@
         <field
                 name="type"
                 type="redshop.fieldtype"
+                class="form-control"
                 label="COM_REDSHOP_FIELD_TYPE_HEADER"
                 description="COM_REDSHOP_TOOLTIP_FIELD_TYPE"
                 table-width="17%"
@@ -39,6 +40,7 @@
         <field
                 name="section"
                 type="redshop.fieldsection"
+                class="form-control"
                 label="COM_REDSHOP_FIELD_SECTION_HEADER"
                 description="COM_REDSHOP_TOOLTIP_FIELD_SECTION"
                 onchange="sectionValidation()"
@@ -47,6 +49,7 @@
         <field
                 name="groupId"
                 type="redshop.fieldsgroups"
+                class="form-control"
                 label="COM_REDSHOP_FIELD_GROUP_HEADER"
                 description="COM_REDSHOP_FIELD_GROUP_HEADER_DESC"
                 table-width="17%"

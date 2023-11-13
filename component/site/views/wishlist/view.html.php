@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Router\Route;
 
 /**
  * Wishlist View
@@ -39,8 +36,8 @@ class RedshopViewWishlist extends RedshopView
 
         $model = $this->getModel("wishlist");
 
-        $this->params    = $app->getParams('com_redshop');
-        $this->wishlists = $model->getUserWishlist();
+        $this->params    = $app->getParams();
+        $this->wishlists = RedshopHelperWishlist::getUserWishlist();
 
         if ($task == 'viewwishlist' || $layout == 'viewwishlist') {
             $this->setlayout('viewwishlist');
@@ -51,24 +48,6 @@ class RedshopViewWishlist extends RedshopView
         } else {
             $this->wish_session = $model->getWishlistProductFromSession();
         }
-
-        // Modal button for Add to wishlist
-        /*
-        echo RedshopLayoutHelper::render(
-            'modal.iframe',
-            [
-                'modalButton'     => '.modalAddToWishlistButton',
-                'selector'        => 'modalAddToWishlist',
-                'params'          => [
-                            'title'      => Text::_('COM_REDSHOP_ADD_TOO_WISHLIST'),
-                            'footer'     => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">' . Text::_('COM_REDSHOP_CLOSE') . '</button>',
-                            'modalWidth' => '50',
-                            'bodyHeight' => '40',
-                            'modalCss'   => '',
-                ]
-            ]
-        );
-        */
 
         parent::display($tpl);
     }
