@@ -205,14 +205,32 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
             $item = (array) $item;
 
             foreach ($item as $column => $value) {
-                if ($column == 'category_full_image' && $value != "") {
-                    if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $value)) {
-                        $item[$column] = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $value;
+                $idCate = $item['id'];
+
+                if ($item['category_full_image'] == "") {
+                    $fullImage     = RedshopHelperMedia::getMedia('category', $idCate, 'full', 'images');
+                    $fullImageName = $fullImage[0]->media_name;
+                    if (is_null($fullImageName)) {
+                        $item['category_full_image'] = '';
                     } else {
-                        $item[$column] = "";
+                        if (file_exists(JPATH_SITE . '/media/com_redshop/images/category/' . $idCate . '/' . $fullImageName)) {
+                            $item['category_full_image'] = $fullImageName;
+                        } else {
+                            $item['category_full_image'] = "";
+                        }
                     }
-                } else {
-                    $item[$column] = str_replace(array("\n", "\r"), "", $value);
+                } elseif ($item['category_thumb_image'] == "") {
+                    $thumbImage     = RedshopHelperMedia::getMedia('category', $idCate, 'back', 'images');
+                    $thumbImageName = $thumbImage[0]->media_name;
+                    if (is_null($thumbImageName)) {
+                        $item['category_thumb_image'] = '';
+                    } else {
+                        if (file_exists(JPATH_SITE . '/media/com_redshop/images/category/' . $idCate . '/' . $thumbImageName)) {
+                            $item['category_thumb_image'] = $thumbImageName;
+                        } else {
+                            $item['category_thumb_image'] = "";
+                        }
+                    }
                 }
             }
 
