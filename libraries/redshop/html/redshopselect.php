@@ -306,7 +306,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 
         if (isset($options['list.attr']) && is_array($options['list.attr'])) {
             if (!isset($options['list.attr']['class']) || $options['list.attr']['class'] == '') {
-                $options['list.attr']['class'] = 'searchSelect2';
+                $options['list.attr']['class'] = 'searchSelect2 form-control';
             }
 
             $attribs = \Joomla\Utilities\ArrayHelper::toString($options['list.attr']);
@@ -315,7 +315,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
                 $attribs = ' ' . $attribs;
             }
         } else {
-            $attribs = ' class="searchSelect2"';
+            $attribs = ' class="searchSelect2 form-control"';
         }
 
         return '<input type="hidden" name="' . $name . '" id="' . $id . '" value="' . $value . '"' . $attribs . ' />';

@@ -57,12 +57,12 @@ use Joomla\CMS\Language\Text;
                                     ),
                                     'select2.ajaxOptions' => array(
                                         'typeField' => ', accessoryList: function(){
-										var listAcc = [];
-										jQuery(\'input.childProductAccessory\').each(function(){
-											listAcc[listAcc.length] = jQuery(this).val();
-										});
-										return listAcc.join(",");
-									}'
+                                        var listAcc = [];
+                                        jQuery(\'input.childProductAccessory\').each(function(){
+                                            listAcc[listAcc.length] = jQuery(this).val();
+                                        });
+                                        return listAcc.join(",");
+                                    }'
                                     ),
                                 )
                             );
