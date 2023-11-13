@@ -105,12 +105,12 @@ foreach ($media->getAll() as $mediaItem) {
             //SqueezeBox.presets.onClose = function (e) {
             //    if (this.options.classWindow == 'additional-media-popup') {
             //        var reloading_img = '<div class="image" style="text-align: center;"><img src="' + redSHOP.RSConfig._('SITE_URL') + '/media/com_redshop/images/reloading.gif" alt="" border="0" ></div>';
-			//
+            //
             //        <?php //JFactory::getApplication()->setUserState(
             //        'com_redshop.product_detail.selectedTabPosition',
             //        'general_data'
             //    )  ?>
-			//
+            //
             //        $('#general_data').html(reloading_img);
             //        window.location.reload();
             //    }
@@ -122,7 +122,9 @@ foreach ($media->getAll() as $mediaItem) {
     <div class="col-sm-8">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_PRODUCT_INFORMATION'); ?></h3>
+                <h3 class="box-title">
+                    <?php echo Text::_('COM_REDSHOP_PRODUCT_INFORMATION'); ?>
+                </h3>
             </div>
             <div class="box-body">
                 <div class="row">
@@ -132,28 +134,23 @@ foreach ($media->getAll() as $mediaItem) {
                                 <?php echo Text::_('COM_REDSHOP_PRODUCT_NAME'); ?>
                                 <span class="star text-danger"> *</span>
                             </label>
-                            <input class="form-control"
-                                   type="text"
-                                   name="product_name"
-                                   id="product_name"
-                                   size="32"
-                                   maxlength="250"
-                                   value="<?php echo htmlspecialchars($this->detail->product_name); ?>"/>
+                            <input class="form-control" type="text" name="product_name" id="product_name" size="32"
+                                maxlength="250" value="<?php echo htmlspecialchars($this->detail->product_name); ?>" />
                         </div>
 
                         <div class="form-group">
                             <label for="product_number" id="product_number-lbl">
-                                <?php echo Text::_('COM_REDSHOP_PRODUCT_NUMBER') ?><span
-                                        class="star text-danger"> *</span>
-                                <?php echo HtmlHelper::_('redshop.tooltip',
+                                <?php echo Text::_('COM_REDSHOP_PRODUCT_NUMBER') ?><span class="star text-danger">
+                                    *</span>
+                                <?php echo HtmlHelper::_(
+                                    'redshop.tooltip',
                                     Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'),
                                     Text::_('COM_REDSHOP_PRODUCT_NUMBER')
                                 ); ?>
                             </label>
-                            <input class="form-control validate-productNumber"
-                                   type="text" name="product_number" id="product_number" size="32" maxlength="250"
-                                   value="<?php echo $this->detail->product_number; ?>"
-                            />
+                            <input class="form-control validate-productNumber" type="text" name="product_number"
+                                id="product_number" size="32" maxlength="250"
+                                value="<?php echo $this->detail->product_number; ?>" />
                             <span class="text-error"></span>
                         </div>
 
@@ -162,7 +159,8 @@ foreach ($media->getAll() as $mediaItem) {
                                 <?php echo Text::_('COM_REDSHOP_PRODUCT_CATEGORY'); ?>
                                 <span class="star text-danger"> *</span>
                                 <?php
-                                echo HtmlHelper::_('redshop.tooltip',
+                                echo HtmlHelper::_(
+                                    'redshop.tooltip',
                                     Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_CATEGORY'),
                                     Text::_('COM_REDSHOP_PRODUCT_CATEGORY')
                                 );
@@ -175,7 +173,8 @@ foreach ($media->getAll() as $mediaItem) {
                             <label for="product_type">
                                 <?php echo Text::_('COM_REDSHOP_PRODUCT_TYPE'); ?>
                                 <?php
-                                echo HtmlHelper::_('redshop.tooltip',
+                                echo HtmlHelper::_(
+                                    'redshop.tooltip',
                                     Text::_('COM_REDSHOP_PRODUCT_TYPE_TIP'),
                                     Text::_('COM_REDSHOP_PRODUCT_TYPE')
                                 );
@@ -189,7 +188,8 @@ foreach ($media->getAll() as $mediaItem) {
                                 <?php echo Text::_('COM_REDSHOP_PRODUCT_TEMPLATE'); ?>
                                 <span class="star text-danger"> *</span>
                                 <?php
-                                echo HtmlHelper::_('redshop.tooltip',
+                                echo HtmlHelper::_(
+                                    'redshop.tooltip',
                                     Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_TEMPLATE'),
                                     Text::_('COM_REDSHOP_PRODUCT_TEMPLATE')
                                 );
@@ -202,7 +202,8 @@ foreach ($media->getAll() as $mediaItem) {
                             <label for="manufacturer_id">
                                 <?php echo Text::_('COM_REDSHOP_PRODUCT_MANUFACTURER'); ?>
                                 <?php
-                                echo HtmlHelper::_('redshop.tooltip',
+                                echo HtmlHelper::_(
+                                    'redshop.tooltip',
                                     Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_MANUFACTURER'),
                                     Text::_('COM_REDSHOP_PRODUCT_MANUFACTURER')
                                 );
@@ -212,7 +213,9 @@ foreach ($media->getAll() as $mediaItem) {
                         </div>
 
                         <div class="form-group">
-                            <label for="published0"><?php echo Text::_('COM_REDSHOP_PUBLISHED'); ?></label>
+                            <label for="published0">
+                                <?php echo Text::_('COM_REDSHOP_PUBLISHED'); ?>
+                            </label>
                             <?php echo $this->lists['published']; ?>
                         </div>
                     </div>
@@ -221,7 +224,8 @@ foreach ($media->getAll() as $mediaItem) {
                             <label for="product_price">
                                 <?php echo Text::_('COM_REDSHOP_PRODUCT_PRICE'); ?>
                                 <?php
-                                echo HtmlHelper::_('redshop.tooltip',
+                                echo HtmlHelper::_(
+                                    'redshop.tooltip',
                                     Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_PRICE'),
                                     Text::_('COM_REDSHOP_PRODUCT_PRICE')
                                 );
@@ -229,11 +233,13 @@ foreach ($media->getAll() as $mediaItem) {
                             </label>
 
                             <div class="input-group">
-                                <span class="input-group-text"><?php echo Redshop::getConfig()->get(
+                                <span class="input-group-text">
+                                    <?php echo Redshop::getConfig()->get(
                                         'REDCURRENCY_SYMBOL'
-                                    ) ?></span>
+                                    ) ?>
+                                </span>
                                 <input class="form-control" type="text" name="product_price" id="product_price"
-                                       size="10" maxlength="10" value="<?php echo $this->detail->product_price ?>"/>
+                                    size="10" maxlength="10" value="<?php echo $this->detail->product_price ?>" />
                             </div>
                         </div>
 
@@ -241,7 +247,8 @@ foreach ($media->getAll() as $mediaItem) {
                             <label for="product_tax_group_id">
                                 <?php echo Text::_('COM_REDSHOP_PRODUCT_TAX_GROUP'); ?>
                                 <?php
-                                echo HtmlHelper::_('redshop.tooltip',
+                                echo HtmlHelper::_(
+                                    'redshop.tooltip',
                                     Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_TAX'),
                                     Text::_('COM_REDSHOP_PRODUCT_TAX_GROUP')
                                 );
@@ -254,7 +261,8 @@ foreach ($media->getAll() as $mediaItem) {
                             <label for="discount_price">
                                 <?php echo Text::_('COM_REDSHOP_DISCOUNT_PRICE'); ?>
                                 <?php
-                                echo HtmlHelper::_('redshop.tooltip',
+                                echo HtmlHelper::_(
+                                    'redshop.tooltip',
                                     Text::_('COM_REDSHOP_TOOLTIP_DISCOUNT_PRICE'),
                                     Text::_('COM_REDSHOP_DISCOUNT_PRICE')
                                 );
@@ -262,20 +270,23 @@ foreach ($media->getAll() as $mediaItem) {
                             </label>
 
                             <div class="input-group">
-                                <span class="input-group-text"><?php echo Redshop::getConfig()->get(
+                                <span class="input-group-text">
+                                    <?php echo Redshop::getConfig()->get(
                                         'REDCURRENCY_SYMBOL'
-                                    ) ?></span>
+                                    ) ?>
+                                </span>
                                 <input class="form-control" type="text" name="discount_price" id="discount_price"
-                                       size="10"
-                                       maxlength="10" style="text-align: left;"
-                                       value="<?php echo $this->detail->discount_price; ?>"/>
+                                    size="10" maxlength="10" style="text-align: left;"
+                                    value="<?php echo $this->detail->discount_price; ?>" />
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="discount_stratdate"><?php echo Text::_(
+                            <label for="discount_stratdate">
+                                <?php echo Text::_(
                                     'COM_REDSHOP_DISCOUNT_START_DATE'
-                                ); ?></label>
+                                ); ?>
+                            </label>
                             <?php
                             $startDate = null;
 
@@ -301,9 +312,11 @@ foreach ($media->getAll() as $mediaItem) {
                         </div>
 
                         <div class="form-group">
-                            <label for="discount_enddate"><?php echo Text::_(
+                            <label for="discount_enddate">
+                                <?php echo Text::_(
                                     'COM_REDSHOP_DISCOUNT_END_DATE'
-                                ); ?></label>
+                                ); ?>
+                            </label>
                             <?php
                             $endDate = null;
 
@@ -329,7 +342,7 @@ foreach ($media->getAll() as $mediaItem) {
                         </div>
 
                         <?php $display = "";
-                        if (!$this->detail->discount_stratdate || !$this->detail->discount_enddate) : ?>
+                        if (!$this->detail->discount_stratdate || !$this->detail->discount_enddate): ?>
                             <?php $display = 'style="display: none"' ?>
                         <?php endif; ?>
 
@@ -344,7 +357,8 @@ foreach ($media->getAll() as $mediaItem) {
                             <label for="product_tax_group_id">
                                 <?php echo Text::_('JTAG'); ?>
                                 <?php
-                                echo HtmlHelper::_('redshop.tooltip',
+                                echo HtmlHelper::_(
+                                    'redshop.tooltip',
                                     Text::_('JTAG'),
                                     Text::_('JTAG_DESC')
                                 );
@@ -360,11 +374,15 @@ foreach ($media->getAll() as $mediaItem) {
 
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_DESCRIPTION'); ?></h3>
+                <h3 class="box-title">
+                    <?php echo Text::_('COM_REDSHOP_DESCRIPTION'); ?>
+                </h3>
             </div>
             <div class="box-body">
                 <div class="form-group">
-                    <label><?php echo Text::_('COM_REDSHOP_FULL_DESCRIPTION'); ?></label>
+                    <label>
+                        <?php echo Text::_('COM_REDSHOP_FULL_DESCRIPTION'); ?>
+                    </label>
                     <?php echo $editor->display(
                         "product_desc",
                         $this->detail->product_desc,
@@ -377,7 +395,9 @@ foreach ($media->getAll() as $mediaItem) {
                 <div class="clearfix"></div>
 
                 <div class="form-group">
-                    <label><?php echo Text::_('COM_REDSHOP_SHORT_DESCRIPTION'); ?></label>
+                    <label>
+                        <?php echo Text::_('COM_REDSHOP_SHORT_DESCRIPTION'); ?>
+                    </label>
                     <?php echo $editor->display(
                         "product_s_desc",
                         $this->detail->product_s_desc,
@@ -394,7 +414,9 @@ foreach ($media->getAll() as $mediaItem) {
     <div class="col-sm-4">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_PRODUCT_IMAGE'); ?></h3>
+                <h3 class="box-title">
+                    <?php echo Text::_('COM_REDSHOP_PRODUCT_IMAGE'); ?>
+                </h3>
             </div>
             <div class="box-body">
                 <div class="form-group">
@@ -409,15 +431,31 @@ foreach ($media->getAll() as $mediaItem) {
                         $fullMediaId
                     ) ?>
                 </div>
-                <?php if ($this->detail->product_id > 0) : ?>
-                    <?php $ilink = 'index.php?tmpl=component&option=com_redshop&view=media&section_id='
-                        . $this->detail->product_id . '&showbuttons=1&media_section=product'; ?>
+                <?php if ($this->detail->product_id > 0): ?>
                     <div class="form-group">
-                        <button type="button"
-								class="joom-box btn btn-primary ModalProductDetailButton"
-								data-url="<?php echo Redshop\IO\Route::_($ilink, false) ?>">
-                            <?php echo Text::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES'); ?>
-                        </button>
+                        <?php echo
+                            RedshopLayoutHelper::render(
+                                'modal.button',
+                                [
+                                    'selector' => 'ModalAddAdditionalImages',
+                                    'params'   => [
+                                        'title'       => Text::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES'),
+                                        'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
+                                                </button>',
+                                        'buttonText'  => Text::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES'),
+                                        'buttonClass' => 'btn btn-primary',
+                                        'url'         => Redshop\IO\Route::_(
+                                            'index.php?tmpl=component&option=com_redshop&view=media&section_id='
+                                            . $this->detail->product_id . '&showbuttons=1&media_section=product'
+                                            ,
+                                            false
+                                        ),
+                                        'modalWidth'  => '80',
+                                        'bodyHeight'  => '60',
+                                    ]
+                                ]
+                            ); ?>
                     </div>
                 <?php endif; ?>
             </div>
@@ -425,7 +463,9 @@ foreach ($media->getAll() as $mediaItem) {
 
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_PRODUCT_BACK_IMAGE'); ?></h3>
+                <h3 class="box-title">
+                    <?php echo Text::_('COM_REDSHOP_PRODUCT_BACK_IMAGE'); ?>
+                </h3>
             </div>
             <div class="box-body">
                 <?php
@@ -445,147 +485,133 @@ foreach ($media->getAll() as $mediaItem) {
 
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_PRODUCT_MEASURES'); ?></h3>
+                <h3 class="box-title">
+                    <?php echo Text::_('COM_REDSHOP_PRODUCT_MEASURES'); ?>
+                </h3>
             </div>
             <div class="box-body">
                 <div class="form-group">
                     <label for="product_volume">
                         <?php echo Text::_('COM_REDSHOP_PRODUCT_VOLUME'); ?>
-                        (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?><sup>3</sup>)
+                        (
+                        <?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?><sup>3</sup>)
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_VOLUME'),
                             Text::_('COM_REDSHOP_PRODUCT_VOLUME')
                         );
                         ?>
                     </label>
-                    <input class="form-control"
-                           type="text"
-                           name="product_volume"
-                           id="product_volume"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_volume); ?>"
-                    />
+                    <input class="form-control" type="text" name="product_volume" id="product_volume" size="10"
+                        maxlength="10"
+                        value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_volume); ?>" />
                 </div>
 
                 <div class="form-group">
                     <label for="product_length">
                         <?php echo Text::_('COM_REDSHOP_PRODUCT_LENGTH'); ?>
-                        (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
+                        (
+                        <?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_LENGTH'),
                             Text::_('COM_REDSHOP_PRODUCT_LENGTH')
                         );
                         ?>
                     </label>
-                    <input class="form-control"
-                           type="text"
-                           name="product_length"
-                           id="product_length"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_length); ?>"
-                    />
+                    <input class="form-control" type="text" name="product_length" id="product_length" size="10"
+                        maxlength="10"
+                        value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_length); ?>" />
                 </div>
 
                 <div class="form-group">
                     <label for="product_width">
                         <?php echo Text::_('COM_REDSHOP_PRODUCT_WIDTH'); ?>
-                        (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
+                        (
+                        <?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_WIDTH'),
                             Text::_('COM_REDSHOP_PRODUCT_WIDTH')
                         );
                         ?>
                     </label>
-                    <input class="form-control"
-                           type="text"
-                           name="product_width"
-                           id="product_width"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_width); ?>"
-                    />
+                    <input class="form-control" type="text" name="product_width" id="product_width" size="10"
+                        maxlength="10"
+                        value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_width); ?>" />
                 </div>
 
                 <div class="form-group">
                     <label for="product_height">
                         <?php echo Text::_('COM_REDSHOP_PRODUCT_HEIGHT'); ?>
-                        (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
+                        (
+                        <?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_HEIGHT'),
                             Text::_('COM_REDSHOP_PRODUCT_HEIGHT')
                         );
                         ?>
                     </label>
-                    <input class="form-control"
-                           type="text"
-                           name="product_height"
-                           id="product_height"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_height); ?>"
-                    />
+                    <input class="form-control" type="text" name="product_height" id="product_height" size="10"
+                        maxlength="10"
+                        value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_height); ?>" />
                 </div>
 
                 <div class="form-group">
                     <label for="product_diameter">
                         <?php echo Text::_('COM_REDSHOP_PRODUCT_DIAMETER'); ?>
-                        (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
+                        (
+                        <?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_DIAMETER'),
                             Text::_('COM_REDSHOP_PRODUCT_DIAMETER')
                         );
                         ?>
                     </label>
-                    <input class="form-control"
-                           type="text"
-                           name="product_diameter"
-                           id="product_diameter"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_diameter); ?>"
-                    />
+                    <input class="form-control" type="text" name="product_diameter" id="product_diameter" size="10"
+                        maxlength="10"
+                        value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_diameter); ?>" />
                 </div>
 
                 <div class="form-group">
                     <label for="weight">
                         <?php echo Text::_('COM_REDSHOP_WEIGHT_LBL'); ?>
-                        (<?php echo Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'); ?>)
+                        (
+                        <?php echo Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'); ?>)
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_WEIGHT'),
                             Text::_('COM_REDSHOP_WEIGHT_LBL')
                         );
                         ?>
                     </label>
-                    <input class="form-control"
-                           type="text"
-                           name="weight"
-                           id="weight"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->weight); ?>"
-                    />
+                    <input class="form-control" type="text" name="weight" id="weight" size="10" maxlength="10"
+                        value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->weight); ?>" />
                 </div>
             </div>
         </div>
 
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><?php echo Text::_('COM_REDSHOP_ADDITIONAL_INFORMATION'); ?></h3>
+                <h3 class="box-title">
+                    <?php echo Text::_('COM_REDSHOP_ADDITIONAL_INFORMATION'); ?>
+                </h3>
             </div>
             <div class="box-body">
                 <div class="form-group">
                     <label for="supplier_id">
                         <?php echo Text::_('COM_REDSHOP_SUPPLIER'); ?>
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_SUPPLIER'),
                             Text::_('COM_REDSHOP_SUPPLIER')
                         );
@@ -598,7 +624,8 @@ foreach ($media->getAll() as $mediaItem) {
                     <label for="product_parent_id">
                         <?php echo Text::_('COM_REDSHOP_PARENT_PRODUCT'); ?>
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_PARENT_PRODUCT'),
                             Text::_('COM_REDSHOP_PARENT_PRODUCT')
                         );
@@ -626,7 +653,8 @@ foreach ($media->getAll() as $mediaItem) {
                     <label for="product_special0">
                         <?php echo Text::_('COM_REDSHOP_PRODUCT_SPECIAL'); ?>
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL'),
                             Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL_LBL')
                         );
@@ -639,7 +667,8 @@ foreach ($media->getAll() as $mediaItem) {
                     <label for="expired0">
                         <?php echo Text::_('COM_REDSHOP_PRODUCT_EXPIRED'); ?>
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED'),
                             Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED_LBL')
                         );
@@ -652,7 +681,8 @@ foreach ($media->getAll() as $mediaItem) {
                     <label for="not_for_sale0">
                         <?php echo Text::_('COM_REDSHOP_PRODUCT_NOT_FOR_SALE'); ?>
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE'),
                             Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_LBL')
                         );
@@ -665,7 +695,8 @@ foreach ($media->getAll() as $mediaItem) {
                     <label for="not_for_sale_showprice0">
                         <?php echo Text::_('COM_REDSHOP_PRODUCT_NOT_FOR_SALE_SHOWPRICE'); ?>
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_SHOWPRICE'),
                             Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_SHOWPRICE_LBL')
                         );
@@ -678,7 +709,8 @@ foreach ($media->getAll() as $mediaItem) {
                     <label for="preorder">
                         <?php echo Text::_('COM_REDSHOP_PRODUCT_PREORDER'); ?>
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREORDER'),
                             Text::_('COM_REDSHOP_PRODUCT_PREORDER')
                         );
@@ -691,29 +723,25 @@ foreach ($media->getAll() as $mediaItem) {
                     <label for="minimum_per_product_total">
                         <?php echo Text::_('COM_REDSHOP_MINIMUM_PER_PRODUCT_TOTAL_LBL'); ?>
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_MINIMUM_PER_PRODUCT_TOTAL'),
                             Text::_('COM_REDSHOP_MINIMUM_PER_PRODUCT_TOTAL_LBL')
                         );
                         ?>
                     </label>
-                    <input class="form-control"
-                           type="number"
-                           name="minimum_per_product_total"
-                           id="minimum_per_product_total"
-                           min="0"
-                           oninput="validity.valid || (value='');"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo $this->detail->minimum_per_product_total; ?>"/>
+                    <input class="form-control" type="number" name="minimum_per_product_total"
+                        id="minimum_per_product_total" min="0" oninput="validity.valid || (value='');" size="10"
+                        maxlength="10" value="<?php echo $this->detail->minimum_per_product_total; ?>" />
                 </div>
 
-                <?php if (Redshop::getConfig()->get('ALLOW_PRE_ORDER')) : ?>
+                <?php if (Redshop::getConfig()->get('ALLOW_PRE_ORDER')): ?>
                     <div class="form-group">
                         <label>
                             <?php echo Text::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL'); ?>
                             <?php
-                            echo HtmlHelper::_('redshop.tooltip',
+                            echo HtmlHelper::_(
+                                'redshop.tooltip',
                                 Text::_('COM_REDSHOP_TOOLTIP_PRODUCT_AVAILABILITY_DATE'),
                                 Text::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL')
                             );
@@ -742,44 +770,32 @@ foreach ($media->getAll() as $mediaItem) {
                     <label for="min_order_product_quantity">
                         <?php echo Text::_('COM_REDSHOP_MINIMUM_ORDER_PRODUCT_QUANTITY_LBL'); ?>
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_MINIMUM_ORDER_PRODUCT_QUANTITY'),
                             Text::_('COM_REDSHOP_MINIMUM_ORDER_PRODUCT_QUANTITY_LBL')
                         );
                         ?>
                     </label>
-                    <input class="form-control"
-                           type="number"
-                           name="min_order_product_quantity"
-                           id="min_order_product_quantity"
-                           min="0"
-                           oninput="validity.valid || (value='');"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo $this->detail->min_order_product_quantity; ?>"
-                    />
+                    <input class="form-control" type="number" name="min_order_product_quantity"
+                        id="min_order_product_quantity" min="0" oninput="validity.valid || (value='');" size="10"
+                        maxlength="10" value="<?php echo $this->detail->min_order_product_quantity; ?>" />
                 </div>
 
                 <div class="form-group">
                     <label for="max_order_product_quantity">
                         <?php echo Text::_('COM_REDSHOP_MAXIMUM_ORDER_PRODUCT_QUANTITY_LBL'); ?>
                         <?php
-                        echo HtmlHelper::_('redshop.tooltip',
+                        echo HtmlHelper::_(
+                            'redshop.tooltip',
                             Text::_('COM_REDSHOP_TOOLTIP_MAXIMUM_ORDER_PRODUCT_QUANTITY'),
                             Text::_('COM_REDSHOP_TOOLTIP_MAXIMUM_ORDER_PRODUCT_QUANTITY')
                         );
                         ?>
                     </label>
-                    <input class="form-control"
-                           type="number"
-                           name="max_order_product_quantity"
-                           id="max_order_product_quantity"
-                           min="0"
-                           oninput="validity.valid || (value='');"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo @$this->detail->max_order_product_quantity; ?>"
-                    />
+                    <input class="form-control" type="number" name="max_order_product_quantity"
+                        id="max_order_product_quantity" min="0" oninput="validity.valid || (value='');" size="10"
+                        maxlength="10" value="<?php echo @$this->detail->max_order_product_quantity; ?>" />
                 </div>
             </div>
         </div>

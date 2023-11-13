@@ -116,23 +116,51 @@ if (
         </div>
 
         <div class="col-sm-4">
-            <button class="joom-box btn btn-default ModalProductDetailButton" type="button" data-url="<?php echo Redshop\IO\Route::_(
-                'index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $propertyId . '&cid=' . $productId . '&section=property'
-            ); ?>">
-                <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>discountmanagmenet16.png" />
-                <?php echo Text::_(
-                    'COM_REDSHOP_ADD_PRICE_LBL'
+            <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>discountmanagmenet16.png" />
+            <?php echo
+                RedshopLayoutHelper::render(
+                    'modal.button',
+                    [
+                        'selector' => 'ModalAddPropertyPrice',
+                        'params'   => [
+                            'title'       => Text::_('COM_REDSHOP_ADD_PRICE_LBL'),
+                            'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
+                                                </button>',
+                            'buttonText'  => Text::_('COM_REDSHOP_ADD_PRICE_LBL'),
+                            'buttonClass' => 'btn btn-secondary btn-sm',
+                            'url'         => Redshop\IO\Route::_(
+                                'index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $propertyId .
+                                '&cid=' . $productId . '&section=property'
+                            ),
+                            'modalWidth'  => '80',
+                            'bodyHeight'  => '60',
+                        ]
+                    ]
                 ); ?>
-            </button>
             <?php if (Redshop::getConfig()->get('USE_STOCKROOM')): ?>
-                <button type="button" class="joom-box btn btn-default ModalProductDetailButton" data-url="<?php echo Redshop\IO\Route::_(
-                    'index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $propertyId . '&cid=' . $productId . '&layout=productstockroom&property=property'
-                ); ?>">
-                    <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>stockroom16.png" />
-                    <?php echo Text::_(
-                        'COM_REDSHOP_ACTION_MANAGE_STOCKROOM'
+                <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>stockroom16.png" />
+                <?php echo
+                    RedshopLayoutHelper::render(
+                        'modal.button',
+                        [
+                            'selector' => 'ModalManagePropertyStockroom',
+                            'params'   => [
+                                'title'       => Text::_('COM_REDSHOP_ACTION_MANAGE_STOCKROOM'),
+                                'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
+                                                </button>',
+                                'buttonText'  => Text::_('COM_REDSHOP_ACTION_MANAGE_STOCKROOM'),
+                                'buttonClass' => 'btn btn-secondary btn-sm',
+                                'url'         => Redshop\IO\Route::_(
+                                    'index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $propertyId .
+                                    '&cid=' . $productId . '&layout=productstockroom&property=property'
+                                ),
+                                'modalWidth'  => '80',
+                                'bodyHeight'  => '60',
+                            ]
+                        ]
                     ); ?>
-                </button>
             <?php endif; ?>
         </div>
 
@@ -176,23 +204,53 @@ if (
             <label>
                 <?php echo Text::_('COM_REDSHOP_PRODUCT_IMAGE'); ?>
             </label>
-
             <div class="row ">
-
                 <div class="imageBlock">
-
                     <?php if ($mainImage) { ?>
-                        <a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $mainImage; ?>">
-                            <img src="<?php echo $mainImageThumb; ?>" />
-                        </a>
+                        <?php echo
+                            RedshopLayoutHelper::render(
+                                'modal.a',
+                                [
+                                    'selector' => 'ModalMainPropertyImage',
+                                    'params'   => [
+                                        'title'      => Text::_('COM_REDSHOP_UPLOAD'),
+                                        'footer'     => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
+                                                </button>',
+                                        'aContent'   => RedshopLayoutHelper::render(
+                                            'joomla.html.image',
+                                            ['src' => $mainImageThumb, 'alt' => 'Property main image']
+                                        ),
+                                        'aClass'     => '',
+                                        'url'        => $mainImage,
+                                        'modalWidth' => '50',
+                                        'bodyHeight' => '70',
+                                    ]
+                                ]
+                            ); ?>
                     <?php } ?>
 
-                    <button type="button" class="joom-box btn btn-default ModalProductDetailButton" data-url="<?php echo Redshop\IO\Route::_(
-                        'index.php?tmpl=component&option=com_redshop&view=media&section_id='
-                        . $propertyId . '&showbuttons=1&media_section=property'
-                    ); ?>">
-                        <?php echo Text::_('COM_REDSHOP_UPLOAD'); ?>
-                    </button>
+                    <?php echo
+                        RedshopLayoutHelper::render(
+                            'modal.button',
+                            [
+                                'selector' => 'ModalUploadPropertyImage',
+                                'params'   => [
+                                    'title'       => Text::_('COM_REDSHOP_UPLOAD'),
+                                    'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
+                                                </button>',
+                                    'buttonText'  => Text::_('COM_REDSHOP_UPLOAD'),
+                                    'buttonClass' => 'btn btn-secondary btn-sm',
+                                    'url'         => Redshop\IO\Route::_(
+                                        'index.php?tmpl=component&option=com_redshop&view=media&section_id='
+                                        . $propertyId . '&showbuttons=1&media_section=property'
+                                    ),
+                                    'modalWidth'  => '80',
+                                    'bodyHeight'  => '60',
+                                ]
+                            ]
+                        ); ?>
                 </div>
             </div>
         </div>
@@ -208,14 +266,30 @@ if (
                     <?php
                     if ($propertyImage) {
                         ?>
-
-                        <a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $propertyImage; ?>">
-                            <img id="propertyImage<?php echo $keyAttr . $keyProperty; ?>"
-                                src="<?php echo $propertyImageThumb; ?>" />
-                        </a>
+                        <?php echo
+                            RedshopLayoutHelper::render(
+                                'modal.a',
+                                [
+                                    'selector' => 'ModalPropertyImage',
+                                    'params'   => [
+                                        'title'      => Text::_('COM_REDSHOP_UPLOAD'),
+                                        'footer'     => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
+                                                </button>',
+                                        'aContent'   => RedshopLayoutHelper::render(
+                                            'joomla.html.image',
+                                            ['src' => $propertyImageThumb, 'alt' => 'Property image thumb', 'id' => 'propertyImage' . $keyAttr . $keyProperty]
+                                        ),
+                                        'aClass'     => '',
+                                        'url'        => $propertyImage,
+                                        'modalWidth' => '50',
+                                        'bodyHeight' => '70',
+                                    ]
+                                ]
+                            ); ?>
                         <input id="deletePropertyMainImage_<?php echo $property->property_id; ?>_<?php
                            echo $keyAttr . $keyProperty; ?>" value="<?php echo Text::_('COM_REDSHOP_REMOVE_IMAGE'); ?>"
-                            class="btn deletePropertyMainImage" type="button" />
+                            class="btn btn-secondary btn-sm" type="button" />
                         <?php
                     } else {
                         ?>

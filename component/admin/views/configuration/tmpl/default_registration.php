@@ -67,12 +67,12 @@ $js = "function jSelectArticle_terms_article_id(id, title, catid) {
 $doc->addScriptDeclaration($js);
 $link = 'index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=jSelectArticle_terms_article_id';
 $html = '<div class="input-group">'
-	. '<input type="text" id="terms_article_id_name" class="form-control"'
-	. ' value="' . htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8') . '" disabled="disabled"/>'
-	. '<span class="input-group-btn">'
-	. '<button type="button" class="joom-box btn btn-default ModalConfigDetailButton"'
-	. ' data-url="' . $link . '">' . Text::_('COM_REDSHOP_Select') . '</button>'
-	. '</span></div><input type="hidden" id="terms_article_id_id" name="terms_article_id" value="' . $article_id . '"/>';
+    . '<input type="text" id="terms_article_id_name" class="form-control"'
+    . ' value="' . htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8') . '" disabled="disabled"/>'
+    . '<span class="input-group-btn">'
+    . '<button type="button" class="joom-box btn btn-seconday ModalConfigDetailButton"'
+    . ' data-url="' . $link . '">' . Text::_('COM_REDSHOP_Select') . '</button>'
+    . '</span></div><input type="hidden" id="terms_article_id_id" name="terms_article_id" value="' . $article_id . '"/>';
 
 echo RedshopLayoutHelper::render(
     'config.config',
@@ -90,8 +90,8 @@ echo RedshopLayoutHelper::render(
         'desc'  => Text::_('COM_REDSHOP_TOOLTIP_SHOW_TERMS_AND_CONDITIONS_LBL'),
         'field' => $this->lists['show_terms_and_conditions'] . '<input type="button" class="btn pull-right btn-warning"
                    onclick="javascript:resetTermsCondition();" value="' . Text::_(
-                'COM_REDSHOP_RESET_FOR_ALL_USER'
-            ) . '"/>'
+                    'COM_REDSHOP_RESET_FOR_ALL_USER'
+                ) . '"/>'
     )
 );
 

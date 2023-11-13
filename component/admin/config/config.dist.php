@@ -86,7 +86,7 @@ class RedshopConfig
 
     public $CART_THUMB_HEIGHT = '50';
 
-    public $SHOW_TERMS_AND_CONDITIONS = '0';
+    public $SHOW_TERMS_AND_CONDITIONS = '1';
 
     public $GIFTCARD_THUMB_WIDTH = '0';
 

@@ -332,18 +332,3 @@ JHtml::_('behavior.formvalidator');
         }
     }
 </script>
-<?php
-echo RedshopLayoutHelper::render(
-    'modal.iframe',
-    [
-        'modalButton' => '.ModalProductDetailButton',
-        'selector'    => 'ModalProductDetail',
-        'params'      => [
-            'title'      => '',
-            'footer'     => '',
-            'modalWidth' => '40',
-            'bodyHeight' => '80',
-            'modalCss'   => '',
-        ]
-    ]
-);

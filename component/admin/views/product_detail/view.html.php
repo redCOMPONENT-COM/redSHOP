@@ -132,7 +132,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
                 'select.genericlist',
                 $tags,
                 'tag_id[]',
-                'multiple',
+                'class="form-control" multiple',
                 'id',
                 'tag_name',
                 $associationtags
@@ -156,7 +156,6 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
                 $rand      = rand();
 
                 // Add the type
-
                 $html .= '<div class="select_box_parent" onClick="showBox(' . $rand . ')">' . Text::_(
                     'COM_REDSHOP_TYPE_LIST'
                 )
@@ -380,7 +379,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'select.genericlist',
             $templates,
             'product_template',
-            'class="inputbox" size="1" onchange="set_dynamic_field(this.value,\'' . $detail->product_id . '\',\'1,12,17\');"  ',
+            'class="form-control" size="1" onchange="set_dynamic_field(this.value,\'' . $detail->product_id . '\',\'1,12,17\');"  ',
             'id',
             'name',
             $detail->product_template
@@ -410,7 +409,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'select.genericlist',
             $product_tax,
             'product_tax_id',
-            'class="inputbox" size="1"  ',
+            'class="form-control" size="1"  ',
             'value',
             'text',
             $detail->product_tax_id
@@ -435,7 +434,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $lists['use_individual_payment_method'] = HtmlHelper::_(
             'redshopselect.booleanlist',
             'use_individual_payment_method',
-            'class="inputbox"',
+            'class="form-control"',
             $detail->use_individual_payment_method
         );
 
@@ -443,7 +442,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'select.genericlist',
             $manufacturers,
             'manufacturer_id',
-            'class="inputbox" size="1" ',
+            'class="form-control" size="1" ',
             'value',
             'text',
             $detail->manufacturer_id
@@ -453,7 +452,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'select.genericlist',
             $supplier,
             'supplier_id',
-            'class="inputbox" size="1" ',
+            'class="form-control" size="1" ',
             'value',
             'text',
             $detail->supplier_id
@@ -461,31 +460,31 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $lists['published']        = HtmlHelper::_(
             'redshopselect.booleanlist',
             'published',
-            'class="inputbox"',
+            'class="form-control"',
             $detail->published
         );
         $lists['product_on_sale']  = HtmlHelper::_(
             'redshopselect.booleanlist',
             'product_on_sale',
-            'class="inputbox"',
+            'class="form-control"',
             $detail->product_on_sale
         );
         $lists['copy_attribute']   = HtmlHelper::_(
             'redshopselect.booleanlist',
             'copy_attribute',
-            'class="inputbox"',
+            'class="form-control"',
             0
         );
         $lists['product_special']  = HtmlHelper::_(
             'redshopselect.booleanlist',
             'product_special',
-            'class="inputbox"',
+            'class="form-control"',
             $detail->product_special
         );
         $lists['product_download'] = HtmlHelper::_(
             'redshopselect.booleanlist',
             'product_download',
-            'class="inputbox"',
+            'class="form-control"',
             $detail->product_download
         );
 
@@ -499,26 +498,26 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $lists['not_for_sale']           = HtmlHelper::_(
             'redshopselect.booleanlist',
             'not_for_sale',
-            'class="inputbox"',
+            'class="form-control"',
             $detail->not_for_sale
         );
         $lists['not_for_sale_showprice'] = HtmlHelper::_(
             'redshopselect.booleanlist',
             'not_for_sale_showprice',
-            'class="inputbox"',
+            'class="form-control"',
             $detail->not_for_sale_showprice
         );
 
         $lists['expired']             = HtmlHelper::_(
             'redshopselect.booleanlist',
             'expired',
-            'class="inputbox"',
+            'class="form-control"',
             $detail->expired
         );
         $lists['allow_decimal_piece'] = HtmlHelper::_(
             'redshopselect.booleanlist',
             'allow_decimal_piece',
-            'class="inputbox"',
+            'class="form-control"',
             $detail->allow_decimal_piece
         );
 
@@ -528,7 +527,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'select.genericlist',
             $preorder_data,
             'preorder',
-            'class="inputbox" size="1" ',
+            'class="form-control" size="1" ',
             'value',
             'text',
             $detail->preorder
@@ -538,7 +537,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
         $lists['use_discount_calc'] = HtmlHelper::_(
             'redshopselect.booleanlist',
             'use_discount_calc',
-            'class="inputbox"',
+            'class="form-control"',
             $detail->use_discount_calc
         );
 
@@ -549,7 +548,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'select.genericlist',
             $selectOption,
             'use_range',
-            'class="inputbox" size="1" ',
+            'class="form-control" size="1" ',
             'value',
             'text',
             $detail->use_range
@@ -569,7 +568,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'select.genericlist',
             $selectOption,
             'discount_calc_method',
-            'class="inputbox" size="1" ',
+            'class="form-control" size="1" ',
             'value',
             'text',
             $detail->discount_calc_method
@@ -586,7 +585,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'select.genericlist',
             $selectOption,
             'discount_calc_unit[]',
-            'class="inputbox" size="1" ',
+            'class="form-control" size="1" ',
             'value',
             'text',
             Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT')
@@ -629,7 +628,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'select.genericlist',
             $append_to_global_seo,
             'append_to_global_seo',
-            'class="inputbox" size="1" ',
+            'class="form-control" size="1" ',
             'value',
             'text',
             $detail->append_to_global_seo
@@ -639,7 +638,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'select.genericlist',
             $productVatGroup,
             'product_tax_group_id',
-            'class="inputbox" size="1" ',
+            'class="form-control" size="1" ',
             'value',
             'text',
             $detail->product_tax_group_id
@@ -660,7 +659,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'redshopselect.genericlist',
             $cat_in_sefurl,
             'cat_in_sefurl',
-            'class="inputbox" size="1" ',
+            'class="form-control" size="1" ',
             'value',
             'text',
             $detail->cat_in_sefurl
@@ -681,7 +680,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'select.genericlist',
             $attributesSet,
             'attribute_set_id',
-            'class="inputbox" size="1" ',
+            'class="form-control" size="1" ',
             'value',
             'text',
             $detail->attribute_set_id
@@ -716,7 +715,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'select.genericlist',
             $productTypeOptions,
             'product_type',
-            'onchange="set_dynamic_field(this.value,\'' . $detail->product_id . '\',\'1,12,17\');"',
+            'class="form-control" size="1" onchange="set_dynamic_field(this.value,\'' . $detail->product_id . '\',\'1,12,17\');"',
             'value',
             'text',
             $detail->product_type
@@ -731,7 +730,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'select.genericlist',
             $accountgroup,
             'accountgroup_id',
-            'class="inputbox" size="1" ',
+            'class="form-control" size="1" ',
             'value',
             'text',
             $detail->accountgroup_id
@@ -755,7 +754,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
             'select.genericlist',
             $jtags,
             'jtags[]',
-            'class="inputbox" size="10" multiple="multiple"',
+            'class="form-control" size="10" multiple="multiple"',
             'value',
             'text',
             $currentTags

@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\MVC\Model\BaseModel;
-use Joomla\CMS\MVC\Model\LegacyModelLoaderTrait;
 
 /**
  * Redshop Helper for Media Upload Dropzone
@@ -147,8 +145,8 @@ class RedshopHelperMediaImage
 
         $file = array();
 
-        BaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
-        $media = LegacyModelLoaderTrait::getInstance('Media', 'RedshopModel');
+        JModelList::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
+        $media = JModelList::getInstance('Media', 'RedshopModel');
 
         $listMedia = $media->all();
         $gallery   = array();
@@ -240,8 +238,8 @@ class RedshopHelperMediaImage
      */
     public static function getMediaFiles($selectedImage = '')
     {
-        BaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
-        $media     = LegacyModelLoaderTrait::getInstance('Media', 'RedshopModel');
+        JModelList::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
+        $media     = JModelList::getInstance('Media', 'RedshopModel');
         $listMedia = $media->all();
 
         if (empty($listMedia)) {

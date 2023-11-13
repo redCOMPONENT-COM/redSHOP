@@ -118,21 +118,52 @@ if (
             <input class="text-center input-xmini" type="text" name="<?php echo $subPropPref; ?>[order]"
                 value="<?php echo $subProperty->ordering; ?>">
 
-            <button type="button" class="btn joom-box btn-default ModalProductDetailButton" data-url="<?php echo Redshop\IO\Route::_(
-                'index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId . '&section=subproperty'
-            ); ?>">
-                <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>discountmanagmenet16.png" alt="" />
-                <?php echo Text::_('COM_REDSHOP_ADD_PRICE_LBL'); ?>
-            </button>
+            <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>discountmanagmenet16.png" alt="" />
+            <?php echo
+                RedshopLayoutHelper::render(
+                    'modal.button',
+                    [
+                        'selector' => 'ModalAddSubPropertyPrice',
+                        'params'   => [
+                            'title'       => Text::_('COM_REDSHOP_ADD_PRICE_LBL'),
+                            'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
+                                                </button>',
+                            'buttonText'  => Text::_('COM_REDSHOP_ADD_PRICE_LBL'),
+                            'buttonClass' => 'btn btn-secondary btn-sm',
+                            'url'         => Redshop\IO\Route::_(
+                                'index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' .
+                                $subProperty->subattribute_color_id . '&cid=' . $productId . '&section=subproperty'
+                            ),
+                            'modalWidth'  => '80',
+                            'bodyHeight'  => '60',
+                        ]
+                    ]
+                ); ?>
             <?php if (Redshop::getConfig()->get('USE_STOCKROOM')): ?>
-                <button type="button" class="joom-box btn btn-default ModalProductDetailButton" data-url="<?php echo Redshop\IO\Route::_(
-                    'index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId
-                ); ?>&layout=productstockroom&property=subproperty">
-                    <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>stockroom16.png" />
-                    <?php echo Text::_(
-                        'COM_REDSHOP_ACTION_MANAGE_STOCKROOM'
+                <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>stockroom16.png" />
+                <?php echo
+                    RedshopLayoutHelper::render(
+                        'modal.button',
+                        [
+                            'selector' => 'ModalManageSubPropertyStockroom',
+                            'params'   => [
+                                'title'       => Text::_('COM_REDSHOP_ACTION_MANAGE_STOCKROOM'),
+                                'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
+                                                </button>',
+                                'buttonText'  => Text::_('COM_REDSHOP_ACTION_MANAGE_STOCKROOM'),
+                                'buttonClass' => 'btn btn-secondary btn-sm',
+                                'url'         => Redshop\IO\Route::_(
+                                    'index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' .
+                                    $subProperty->subattribute_color_id . '&cid=' . $productId .
+                                    '&layout=productstockroom&property=subproperty'
+                                ),
+                                'modalWidth'  => '80',
+                                'bodyHeight'  => '60',
+                            ]
+                        ]
                     ); ?>
-                </button>
             <?php endif; ?>
         </div>
 
@@ -175,24 +206,53 @@ if (
                     <?php
                     if ($mainImage) {
                         ?>
-
-                        <a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $mainImage; ?>">
-                            <img src="<?php echo $mainImageThumb; ?>" />
-                        </a>
+                        <?php echo
+                            RedshopLayoutHelper::render(
+                                'modal.a',
+                                [
+                                    'selector' => 'ModalMainSubPropertyImage',
+                                    'params'   => [
+                                        'title'      => Text::_('COM_REDSHOP_UPLOAD'),
+                                        'footer'     => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
+                                                </button>',
+                                        'aContent'   => RedshopLayoutHelper::render(
+                                            'joomla.html.image',
+                                            ['src' => $mainImageThumb, 'alt' => 'Subproperty main image']
+                                        ),
+                                        'aClass'     => '',
+                                        'url'        => $mainImage,
+                                        'modalWidth' => '50',
+                                        'bodyHeight' => '70',
+                                    ]
+                                ]
+                            ); ?>
                         <?php
                     }
-
                     ?>
 
-                    <button type="button" class="joom-box btn btn-default ModalProductDetailButton" data-url="<?php echo Redshop\IO\Route::_(
-                        'index.php?tmpl=component&option=com_redshop&view=media&section_id='
-                        . $subProperty->subattribute_color_id . '&showbuttons=1&media_section=subproperty'
-                    ); ?>">
-                        <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>media16.png" alt="" />
-                        <?php echo Text::_(
-                            'COM_REDSHOP_UPLOAD'
+                    <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>media16.png" alt="" />
+                    <?php echo
+                        RedshopLayoutHelper::render(
+                            'modal.button',
+                            [
+                                'selector' => 'ModalUploadSubPropertyImage',
+                                'params'   => [
+                                    'title'       => Text::_('COM_REDSHOP_UPLOAD'),
+                                    'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
+                                                </button>',
+                                    'buttonText'  => Text::_('COM_REDSHOP_UPLOAD'),
+                                    'buttonClass' => 'btn btn-secondary btn-sm',
+                                    'url'         => Redshop\IO\Route::_(
+                                        'index.php?tmpl=component&option=com_redshop&view=media&section_id='
+                                        . $subProperty->subattribute_color_id . '&showbuttons=1&media_section=subproperty'
+                                    ),
+                                    'modalWidth'  => '80',
+                                    'bodyHeight'  => '60',
+                                ]
+                            ]
                         ); ?>
-                    </button>
                 </div>
             </div>
         </div>

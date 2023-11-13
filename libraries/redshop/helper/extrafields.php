@@ -14,8 +14,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Redshop\Helper\ExtraFields;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\MVC\Model\BaseModel;
-use Joomla\CMS\MVC\Model\LegacyModelLoaderTrait;
 
 jimport('joomla.filesystem.file');
 
@@ -462,10 +460,10 @@ class RedshopHelperExtrafields
     ) {
         $db = JFactory::getDbo();
 
-        BaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models', 'RedshopModel');
+        JModelList::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models', 'RedshopModel');
 
         /** @var RedshopModelFields $model */
-        $model        = LegacyModelLoaderTrait::getInstance('Fields', 'RedshopModel');
+        $model        = JModelList::getInstance('Fields', 'RedshopModel');
         $customFields = $model->getFieldsBySection($fieldSection, $fieldName, $front, $checkout);
 
         if (!count($customFields)) {
@@ -987,10 +985,10 @@ class RedshopHelperExtrafields
      */
     public static function getSectionFieldDataList($fieldId, $section = 0, $orderItemId = 0, $userEmail = "")
     {
-        BaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models', 'RedshopModel');
+        JModelList::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models', 'RedshopModel');
 
         /** @var RedshopModelFields $model */
-        $model = LegacyModelLoaderTrait::getInstance('Fields', 'RedshopModel');
+        $model = JModelList::getInstance('Fields', 'RedshopModel');
 
         return $model->getFieldDataList($fieldId, $section, $orderItemId, $userEmail);
     }

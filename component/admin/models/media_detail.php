@@ -27,12 +27,11 @@ class RedshopModelMedia_detail extends RedshopModel
     {
         parent::__construct();
         $this->_table_prefix = '#__redshop_';
-		$array               = JFactory::getApplication()->input->get('cid', [], 'array');
+        $array               = JFactory::getApplication()->input->get('cid', [], 'array');
 
-		if (array_key_exists(0, $array))
-		{
-			$this->setId((int) $array[0]);
-		}
+        if (array_key_exists(0, $array)) {
+            $this->setId((int) $array[0]);
+        }
     }
 
     public function setId($id)
@@ -60,7 +59,7 @@ class RedshopModelMedia_detail extends RedshopModel
             $this->_db->setQuery($query);
             $this->_data = $this->_db->loadObject();
 
-            return (boolean)$this->_data;
+            return (boolean) $this->_data;
         }
 
         return true;
@@ -117,7 +116,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
             $this->_data = $detail;
 
-            return (boolean)$this->_data;
+            return (boolean) $this->_data;
         }
 
         return true;
@@ -134,14 +133,14 @@ class RedshopModelMedia_detail extends RedshopModel
 
         if (!$row->bind($data)) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
 
         if (!$row->store()) {
             /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+            $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
             return false;
         }
@@ -157,7 +156,7 @@ class RedshopModelMedia_detail extends RedshopModel
     {
         $db     = JFactory::getDbo();
         $query  = $db->getQuery(true);
-        $search = ' = ' . (int)$id;
+        $search = ' = ' . (int) $id;
 
         switch ($type) {
             case 'category':
@@ -287,7 +286,7 @@ class RedshopModelMedia_detail extends RedshopModel
             $this->_db->setQuery($query);
             $rs = $this->_db->loadObject();
 
-            if (count($rs) > 0) {
+            if (!empty($rs)) {
                 if ($rs->media_type == "images") {
                     switch ($media_section) {
                         case "product":
@@ -343,7 +342,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
         // Update ordering values
         for ($i = 0, $in = count($cid); $i < $in; $i++) {
-            $row->load((int)$cid[$i]);
+            $row->load((int) $cid[$i]);
 
             // Track categories
             if ($row->ordering != $order[$i]) {
@@ -351,13 +350,13 @@ class RedshopModelMedia_detail extends RedshopModel
 
                 if (!$row->store()) {
                     /** @scrutinizer ignore-deprecated */
-                    $this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
+                    $this->setError( /** @scrutinizer ignore-deprecated */$row->getError());
 
                     return false;
                 }
 
                 // Remember to updateOrder this group
-                $condition = 'section_id = ' . (int)$row->section_id . ' AND media_section = "' . $row->media_section . '"';
+                $condition = 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"';
                 $found     = false;
 
                 foreach ($conditions as $cond) {
@@ -386,7 +385,7 @@ class RedshopModelMedia_detail extends RedshopModel
     {
         $row = $this->getTable();
         $row->load($this->_id);
-        $row->move(-1, 'section_id = ' . (int)$row->section_id . ' AND media_section = "' . $row->media_section . '"');
+        $row->move(-1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"');
         $row->store();
 
         return true;
@@ -396,7 +395,7 @@ class RedshopModelMedia_detail extends RedshopModel
     {
         $row = $this->getTable();
         $row->load($this->_id);
-        $row->move(1, 'section_id = ' . (int)$row->section_id . ' AND media_section = "' . $row->media_section . '"');
+        $row->move(1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"');
         $row->store();
 
         return true;
