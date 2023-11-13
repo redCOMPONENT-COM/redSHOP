@@ -1501,13 +1501,14 @@ class RedshopHelperExtrafields
                 // 12 :- Date Picker
                 case self::TYPE_DATE_PICKER:
                     $extraFieldValue = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
-                    $extraFieldValueDateFormat = strtotime($extraFieldValue);
-                    $extraFieldValueDateFormatByConfig = RedshopHelperDatetime::convertDateFormat($extraFieldValueDateFormat);
+                    $format = \Redshop::getConfig()->get('DEFAULT_DATEFORMAT');
+                    $extraFieldValue = date($format, strtotime($extraFieldValue));
+
                     $exField .= RedshopLayoutHelper::render(
                         'field_display.datepicker',
                         array(
                             'extraFieldLabel' => $extraFieldLabel,
-                            'extraFieldValue' => $extraFieldValueDateFormatByConfig,
+                            'extraFieldValue' => $extraFieldValue,
                             'sendMail'        => $sendmail
                         ),
                         '',
