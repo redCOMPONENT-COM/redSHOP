@@ -26,12 +26,12 @@ class PlgRedshop_LoginFacebook extends JPlugin
     public function onThirdPartyLogin()
     {
         try {
-            $fb = $this->getFbObject();
+            $fb     = $this->getFbObject();
             $helper = $fb->getRedirectLoginHelper();
 
             $permissions = ['email']; // Optional permissions
 
-            $linkLogin =  $helper->getLoginUrl(
+            $linkLogin = $helper->getLoginUrl(
                 JRoute::_(
                     \JUri::root() . 'index.php?option=com_ajax&group=redshop_login&plugin=fbLoginCallBack&format=raw'
                 ),
@@ -40,9 +40,10 @@ class PlgRedshop_LoginFacebook extends JPlugin
 
             return [
                 'linkLogin' => $linkLogin,
-                'plugin' => $this->_name
+                'plugin'    => $this->_name
             ];
-        } catch (\Facebook\Exceptions\FacebookSDKException $e) {
+        }
+        catch (\Facebook\Exceptions\FacebookSDKException $e) {
             return false;
         }
     }
@@ -52,22 +53,25 @@ class PlgRedshop_LoginFacebook extends JPlugin
      */
     public function onAjaxFbLoginCallBack()
     {
-        $app    = \JFactory::getApplication();
-        $fb = $this->getFbObject();
+        $app = \JFactory::getApplication();
+        $fb  = $this->getFbObject();
 
-        $helper = $fb->getRedirectLoginHelper();
+        $helper      = $fb->getRedirectLoginHelper();
+        $urlCallback = JURI::root() . 'index.php?option=com_ajax&group=redshop_login&plugin=fbLoginCallBack&format=raw';
 
         try {
-            $accessToken = $helper->getAccessToken('https://dev.lacaph.com.web1.redhost.vn/index.php?option=com_ajax&group=redshop_login&plugin=fbLoginCallBack&format=raw');
-        } catch (\Facebook\Exceptions\FacebookResponseException $e) {
+            $accessToken = $helper->getAccessToken($urlCallback);
+        }
+        catch (\Facebook\Exceptions\FacebookResponseException $e) {
             // When Graph returns an error
             $app->enqueueMessage('Graph returned an error: ' . $e->getMessage());
-        } catch (\Facebook\Exceptions\FacebookSDKException $e) {
+        }
+        catch (\Facebook\Exceptions\FacebookSDKException $e) {
             // When validation fails or other local issues
             $app->enqueueMessage('Facebook SDK returned an error: ' . $e->getMessage());
         }
 
-        if ( ! isset($accessToken)) {
+        if (!isset($accessToken)) {
             if ($helper->getError()) {
                 header('HTTP/1.0 401 Unauthorized');
                 $msg = "Error: " . $helper->getError() . "\n";
@@ -98,11 +102,12 @@ class PlgRedshop_LoginFacebook extends JPlugin
         //$tokenMetadata->validateUserId('123');
         $tokenMetadata->validateExpiration();
 
-        if ( ! $accessToken->isLongLived()) {
+        if (!$accessToken->isLongLived()) {
             // Exchanges a short-lived access token for a long-lived one
             try {
                 $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
-            } catch (Facebook\Exceptions\FacebookSDKException $e) {
+            }
+            catch (Facebook\Exceptions\FacebookSDKException $e) {
                 $app->enqueueMessage("Error getting long-lived access token: " . $e->getMessage());
             }
 
@@ -112,7 +117,7 @@ class PlgRedshop_LoginFacebook extends JPlugin
         $response = $fb->get('/me?fields=id,name,email', $token);
         $userFb   = $response->getGraphUser();
 
-        $_SESSION['fb_access_token'] = (string)$accessToken;
+        $_SESSION['fb_access_token'] = (string) $accessToken;
 
         $password = \JUserHelper::genRandomPassword(32);
 
@@ -120,7 +125,7 @@ class PlgRedshop_LoginFacebook extends JPlugin
         $data['password']  = $password;
         $data['password2'] = $password;
         $data['email']     = $data['email1'] = $data['username'] = $userFb->getEmail();
-        $data['name']      = $data['firstname'] = $userFb->getName();
+        $data['name'] = $data['firstname'] = $userFb->getName();
 
         Redshop\Helper\Login::loginJoomlaRedShop($data);
     }
