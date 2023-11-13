@@ -35,6 +35,11 @@ $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')
             form.product_price.focus();
             return;
         }
+        if (form.product_price.value <= form.discount_price.value) {
+            alert("<?php echo Text::_('COM_REDSHOP_DISCOUNT_PRICE_MUST_BE_LOWER_THAN_PRODUCT_PRICE', true); ?>");
+            form.product_price.focus();
+            return;
+        }
         Joomla.submitform(pressbutton);
     };
 </script>
