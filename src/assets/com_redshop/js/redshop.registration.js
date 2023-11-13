@@ -1,4 +1,4 @@
-if (typeof(window['jQuery']) != "undefined") {
+if (typeof (window['jQuery']) != "undefined") {
     var rss = jQuery.noConflict();
     var rs = jQuery.noConflict();
 
@@ -50,17 +50,17 @@ if (typeof(window['jQuery']) != "undefined") {
                             || (!rs("#createaccount").length && rs("#username").length);
                     },
                     minlength: 2,
-                    remote :
-                        {
-                            url: "index.php?tmpl=component&option=com_redshop&view=registration&task=ajaxValidateNewJoomlaUser",
-                            type: "post",
-                            data: {
-                                username: function() {
-                                    return rs("#adminForm input[name='username']").val();
-                                }
-                            },
-                            async: false
-                        }
+                    remote:
+                    {
+                        url: "index.php?tmpl=component&option=com_redshop&view=registration&task=ajaxValidateNewJoomlaUser",
+                        type: "post",
+                        data: {
+                            username: function () {
+                                return rs("#adminForm input[name='username']").val();
+                            }
+                        },
+                        async: false
+                    }
                 },
                 company_name: {
                     required: function () {
@@ -68,7 +68,7 @@ if (typeof(window['jQuery']) != "undefined") {
                     }
                 },
                 address: {
-                    required: function() {
+                    required: function () {
                         return redSHOP.RSConfig._('REQUIRED_ADDRESS') == 1
                     }
                 },
@@ -90,7 +90,7 @@ if (typeof(window['jQuery']) != "undefined") {
                 },
                 ean_number: {
                     required: function () {
-                        return rs("#toggler2").is(":checked") && rs("#ean_number").length > 0  && redSHOP.RSConfig._('REQUIRED_EAN_NUMBER') == 1;
+                        return rs("#toggler2").is(":checked") && rs("#ean_number").length > 0 && redSHOP.RSConfig._('REQUIRED_EAN_NUMBER') == 1;
                     },
                     minlength: 13,
                     maxlength: 13,
@@ -99,7 +99,12 @@ if (typeof(window['jQuery']) != "undefined") {
                     number: true
                 },
                 email1: {
-                    email: true
+                    email: true,
+                    required: function () {
+                        emailString = rs("input[name='email1']").val();
+                        emailStringTrim = trim(emailString);
+                        rs("input[name='email1']").val(emailStringTrim);
+                    }
                 },
                 email2: {
                     required: true,
@@ -200,17 +205,17 @@ if (typeof(window['jQuery']) != "undefined") {
                     number: Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT')
                 }
             },
-           /* invalidHandler: function(e,validator) {
-                //validator.errorList contains an array of objects, where each object has properties "element" and "message".  element is the actual HTML Input.
-                for (var i=0;i<validator.errorList.length;i++){
-                    console.log(validator.errorList[i]);
-                }
-
-                //validator.errorMap is an object mapping input names -> error messages
-                for (var i in validator.errorMap) {
-                    console.log(i, ":", validator.errorMap[i]);
-                }
-            },*/
+            /* invalidHandler: function(e,validator) {
+                 //validator.errorList contains an array of objects, where each object has properties "element" and "message".  element is the actual HTML Input.
+                 for (var i=0;i<validator.errorList.length;i++){
+                     console.log(validator.errorList[i]);
+                 }
+ 
+                 //validator.errorMap is an object mapping input names -> error messages
+                 for (var i in validator.errorMap) {
+                     console.log(i, ":", validator.errorMap[i]);
+                 }
+             },*/
 
             focusInvalid: false,
             invalidHandler: function (form, validator) {
