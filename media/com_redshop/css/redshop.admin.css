@@ -2197,6 +2197,7 @@ table th[class*="col-"] {
     }
 }
 
+/*
 fieldset {
     padding: 0;
     margin: 0;
@@ -2396,14 +2397,15 @@ input[type="search"] {
     padding-top: 0 !important;
 }
 
-/*.radio input[type="radio"],
+.radio input[type="radio"],
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
   position: absolute;
   margin-left: -20px;
   margin-top: 4px \9;
-}*/
+}
+
 .radio+.radio,
 .checkbox+.checkbox {
     margin-top: -5px;
@@ -2815,7 +2817,7 @@ select[multiple].input-lg {
     }
 }
 
-/*
+
 .btn {
     display: inline-block;
     margin-bottom: 0;
@@ -18392,7 +18394,7 @@ td .controls .checkbox {
 }
 
 .message-sys {
-    padding: 0 30px;
+    padding: 0 10px;
 }
 
 .message-sys button.close {

@@ -26,7 +26,7 @@ $text     = $displayData['text'];
 $desc     = $displayData['description'];
 $for      = $displayData['for'];
 $req      = $displayData['required'];
-$classes  = array_filter((array)$displayData['classes']);
+$classes  = array_filter((array) $displayData['classes']);
 $position = $displayData['position'];
 
 $id    = $for . '-lbl';
@@ -34,7 +34,7 @@ $title = '';
 
 // If a description is specified, use it to build a tooltip.
 if (!empty($desc)) {
-//  HtmlHelper::_('redshopjquery.popover');
+    //  HtmlHelper::_('redshopjquery.popover');
     $classes[] = 'hasPopover';
     $title     = ' title="' . trim($text) . '" data-bs-content="' . trim($desc) . '"';
 }
@@ -45,8 +45,12 @@ if ($req) {
 }
 
 ?>
-<label id="<?php echo $id ?>" for="<?php echo $for ?>"<?php if (!empty($classes)) {
-    echo ' class="' . implode(' ', $classes) . '"';
-           } ?><?php echo $title ?><?php echo $position ?>>
-    <?php echo $text ?><?php if ($req) : ?><span class="star text-danger">&#160;*</span><?php endif; ?>
+<label id="<?php echo $id ?>" for="<?php echo $for ?>" <?php if (!empty($classes)) {
+          echo ' class="' . implode(' ', $classes) . '"';
+      } ?><?php echo $title ?><?php echo $position ?>>
+    <?php echo $text ?>
+    <span class="form-control-feedback"></span>
+    <?php if ($req): ?>
+            <span class="star" aria-hidden="true">&nbsp;*</span>
+    <?php endif; ?>
 </label>

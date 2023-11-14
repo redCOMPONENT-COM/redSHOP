@@ -20,6 +20,7 @@ echo RedshopLayoutHelper::render(
         'field' => $this->lists['watermark_manufacturer_image']
     )
 );
+
 echo RedshopLayoutHelper::render(
     'config.config',
     array(
@@ -28,6 +29,7 @@ echo RedshopLayoutHelper::render(
         'field' => $this->lists['watermark_manufacturer_thumb_image']
     )
 );
+
 ?>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"

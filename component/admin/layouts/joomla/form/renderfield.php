@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
@@ -21,7 +22,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 if (!empty($displayData['options']['showonEnabled'])) {
     HtmlHelper::_('redshopjquery.framework');
-    HtmlHelper::script('system/showon.min.js', ['version' => 'auto', 'relative' => true]);
+    /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+    $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+    $wa->useScript('showon');
 }
 
 $class           = empty($displayData['options']['class']) ? '' : ' ' . $displayData['options']['class'];
