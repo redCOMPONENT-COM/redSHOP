@@ -285,15 +285,15 @@ class RedshopHelperDiscount
         $couponDiscount = 0;
 
         if (array_key_exists('coupon', $cart)) {
-	        for ($c = 0; $c < $couponIndex; $c++) {
-				
-				//remove the coupon if the cart's sub_total > the coupon's sub_total
-		        if((double)$cart['product_subtotal'] < (double)$cart['coupon'][$c]['coupon_subtotal']) {
-			
-			        unset($cart['coupon'][$c]);
-		        }
-	        }
-			
+            for ($c = 0; $c < $couponIndex; $c++) {
+
+                // Remove the coupon if the cart's sub_total > the coupon's sub_total
+                if ((double) $cart['product_subtotal'] < (double) $cart['coupon'][$c]['coupon_subtotal']) {
+
+                    unset($cart['coupon'][$c]);
+                }
+            }
+
             if (count($cart['coupon']) > 1) {
                 foreach ($cart['coupon'] as $cartCoupon) {
                     $couponDiscount += $cartCoupon['coupon_value'];

@@ -83,20 +83,22 @@ class RedshopHelperCartDiscount
         $coupon = \Redshop\Promotion\Voucher::getCouponData($couponCode, $cart['product_subtotal_excl_vat']);
 
         foreach ($cart['coupon'] as $cartCoupon) {
+            // Check if coupon is allready applied
+            // @TODO change return message to message this
             if ($coupon->id == $cartCoupon['coupon_id']) {
                 return false;
             }
         }
 
         if (!empty($coupon)) {
-            $discountType = $coupon->type;
-            $couponId     = $coupon->id;
-            $couponType   = $coupon->effect;
-            $couponUser   = $coupon->userid;
-	        $couponSubtotal = $coupon->subtotal;
-            $userType     = false;
-            $return       = true;
-            $counter      = 0;
+            $discountType   = $coupon->type;
+            $couponId       = $coupon->id;
+            $couponType     = $coupon->effect;
+            $couponUser     = $coupon->userid;
+            $couponSubtotal = $coupon->subtotal;
+            $userType       = false;
+            $return         = true;
+            $counter        = 0;
 
             foreach ($cart['coupon'] as $key => $val) {
                 if ($val['coupon_code'] == $couponCode) {
@@ -105,10 +107,20 @@ class RedshopHelperCartDiscount
             }
 
             if ($coupon->amount_left <= $counter) {
+                // Check if there are coupons left
+                // @TODO change return message to message this
+                return false;
+            }
+
+            if ($cart['product_subtotal_excl_vat'] <= $coupon->value) {
+                // Check if coupon is higher than prouct price
+                // @TODO change return message to message this
                 return false;
             }
 
             if ($couponType == 1) {
+                // Check if coupon is global or user
+                // @TODO change return message to message (You need to login to use this coupon)
                 if (!$user->id) {
                     return false;
                 }
@@ -126,6 +138,8 @@ class RedshopHelperCartDiscount
                     $userType = $couponUser != $userData->userid;
                 } else {
                     if ($couponUser != $user->id) {
+                        // Check if coupon belongs to user
+                        // @TODO change return message to message (The coupon dont belong to you)
                         return false;
                     }
 
@@ -168,6 +182,12 @@ class RedshopHelperCartDiscount
                 $couponValue = $avgVAT * $coupon->value;
             } else {
                 $couponValue = ($subTotal * $coupon->value) / (100);
+            }
+
+            if ($cart['product_subtotal_excl_vat'] <= $couponValue) {
+                // Check if coupon is higher than prouct price
+                // @TODO change return message to message this
+                return false;
             }
 
             $key = \Redshop\Helper\Utility::rsMultiArrayKeyExists('coupon', $cart);
@@ -259,7 +279,7 @@ class RedshopHelperCartDiscount
                 $coupons['coupon'][$couponIndex]['coupon_value']              = $couponValue;
                 $coupons['coupon'][$couponIndex]['remaining_coupon_discount'] = $couponRemaining;
                 $coupons['coupon'][$couponIndex]['transaction_coupon_id']     = $transactionCouponId;
-	            $coupons['coupon'][$couponIndex]['coupon_subtotal']           = $couponSubtotal;
+                $coupons['coupon'][$couponIndex]['coupon_subtotal']           = $couponSubtotal;
 
                 $coupons['coupon'] = array_merge($coupons['coupon'], $oldCoupons);
 

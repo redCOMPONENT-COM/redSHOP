@@ -15,9 +15,7 @@ use Joomla\CMS\Language\Text;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-$wa->useStyle('webcomponent.joomla-alert')
-    ->useScript('messages')
-    ->useScript('form.validate');
+$wa->useScript('form.validate');
 //JHtml::_('behavior.formvalidator');
 
 /**
