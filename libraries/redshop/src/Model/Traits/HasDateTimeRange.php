@@ -45,11 +45,15 @@ trait HasDateTimeRange
         }
 
         if (!empty($startDate) && !is_numeric($startDate)) {
-            $startDate = date_create_from_format($format, $startDate, $tz)->setTimezone($UTC)->getTimestamp();
+            $startDate = date_create_from_format($format, $startDate, $tz)->setTime(0, 0, 0)->setTimezone(
+                $UTC
+            )->getTimestamp();
         }
 
         if (!empty($endDate) && !is_numeric($endDate)) {
-            $endDate = date_create_from_format($format, $endDate, $tz)->setTimezone($UTC)->getTimestamp();
+            $endDate = date_create_from_format($format, $endDate, $tz)->setTime(23, 59, 59)->setTimezone(
+                $UTC
+            )->getTimestamp();
         }
     }
 }
