@@ -83,32 +83,5 @@ if (is_array($msgList) && !empty($msgList)) {
 ?>
 <div id="system-message-container" aria-live="polite">
         <?php echo $msgOutput; ?>
-</div>
-<?php if (is_array($msgList) && !empty($msgList)): ?>
-        <div id="system-message">
-                <?php foreach ($msgList as $type => $msgs): ?>
-                        <div class="alert alert-<?php echo $type; ?>">
-                                <?php // This requires JS so we should add it trough JS. Progressive enhancement and stuff. ?>
-                                <?php if ($allowClose): ?>
-                                        <a class="close" data-dismiss="alert">×</a>
-                                <?php endif; ?>
-                                <?php if (!empty($msgs)): ?>
 
-                                        <?php if ($showHeading): ?>
-                                                <h4 class="alert-heading">
-                                                        <?php echo Text::_($type); ?>
-                                                </h4>
-                                        <?php endif; ?>
-                                        <div>
-                                                <?php foreach ($msgs as $msg): ?>
-                                                        <p>
-                                                                <?php echo $msg; ?>
-                                                        </p>
-                                                <?php endforeach; ?>
-                                        </div>
-                                <?php endif; ?>
-                        </div>
-                <?php endforeach; ?>
-        </div>
-<?php endif; ?>
 </div>

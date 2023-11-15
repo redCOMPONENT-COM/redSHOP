@@ -2401,9 +2401,9 @@ input[type="search"] {
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
-  position: absolute;
-  margin-left: -20px;
-  margin-top: 4px \9;
+    position: absolute;
+    margin-left: -20px;
+    margin-top: 4px \9;
 }
 
 .radio+.radio,
@@ -29259,4 +29259,8 @@ a.btn.btn-success {
 .icon-generic:before {
     content: "\f485";
     margin-left: 55px;
+}
+
+.form-control {
+    display: block;
 }
