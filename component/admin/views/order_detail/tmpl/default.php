@@ -1587,7 +1587,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
         var subTotal = <?php echo $subtotal_excl_vat ?>;
         var discount = parseFloat(jQuery('#update_discount').val());
 
-        var specialDiscount = parseFloat(jQuery('#special_discount').val());
+        var specialDiscount = (parseFloat(jQuery('#special_discount').val()) * subTotal) / 100;
 
         if ((discount < 0) || (specialDiscount < 0)) {
             alert('<?php echo JText::_("COM_REDSHOP_ORDER_DISCOUNT_NOT_LESS_THAN_ZERO") ?>');
@@ -1629,6 +1629,14 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
 
         jQuery("#special_discount").keydown(function (e) {
             validateInputFloat(e);
+        });
+        jQuery("#update_discount, #special_discount").keypress(function (e, form) {
+            if(e.which == 13){
+                var check = validateDiscount(form);
+                if (check == false) {
+                    e.preventDefault();
+                }
+            }
         });
 
         jQuery("input[name=update_price]").keydown(function (e) {

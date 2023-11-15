@@ -840,15 +840,12 @@ class RedshopModelOrder_detail extends RedshopModel
         $orderItems  = RedshopHelperOrder::getOrderItemDetail($this->_id, 0, 0, true);
         $orderItemId = isset($data['order_item_id']) ? $data['order_item_id'] : 0;
 
-        if (!$orderData->special_discount) {
-            $orderData->special_discount = 0;
-        }
+        $orderData->special_discount = !$orderData->special_discount ? 0 : $orderData->special_discount;
 
-        if (!$orderData->special_discount_amount) {
-            $orderData->special_discount_amount = 0;
-        }
 
-        if ($data['special_discount'] == $orderData->special_discount && $chk != true) {
+        $orderData->special_discount_amount = !$orderData->special_discount_amount ? $orderData->special_discount_amount = 0 : $orderData->special_discount_amount;
+
+        if ($data['special_discount'] == $orderData->special_discount && $chk !== true) {
             return false;
         }
 
@@ -856,6 +853,7 @@ class RedshopModelOrder_detail extends RedshopModel
         $orderSubTotal      = 0;
         $orderSubTotalNoVat = 0;
         $orderTax           = $orderData->order_tax;
+        $orderDiscount      = $orderData->order_discount;
         $orderDetailTax     = array();
 
         foreach ($orderItems as $orderItem) {
@@ -871,11 +869,21 @@ class RedshopModelOrder_detail extends RedshopModel
             $orderTax = array_sum($orderDetailTax);
         }
 
-        $discountPrice                      = ($orderSubTotal * $specialDiscount) / 100;
-        $orderData->special_discount        = $specialDiscount;
-        $orderData->special_discount_amount = $discountPrice;
 
-        $orderData->order_total = $orderSubTotal + $orderData->order_shipping - $discountPrice - $orderData->order_discount;
+        $specialDiscountPrice               = ($orderSubTotal * $specialDiscount) / 100;
+        $orderData->special_discount        = $specialDiscount;
+        $orderData->special_discount_amount = $specialDiscountPrice;
+
+        $totalDiscountPrice = Redshop\Order\Helper::totalDiscountCalculator($orderDiscount , $specialDiscountPrice);
+
+        if ($totalDiscountPrice > $orderSubTotal) {
+            $specialDiscountPrice               = $orderSubTotal - $orderDiscount;
+            $orderData->special_discount_amount = $specialDiscountPrice;
+            $orderData->special_discount        = ($specialDiscountPrice * 100) / $orderSubTotal;
+            $orderData->order_total             = $orderSubTotal + $orderData->order_shipping - $totalDiscountPrice;
+        }
+
+        $orderData->order_total = $orderSubTotal + $orderData->order_shipping - $specialDiscountPrice - $orderData->order_discount;
         $post                   = array();
 
         $paymentmethod                            = RedshopHelperOrder::getPaymentMethodInfo(
@@ -912,7 +920,8 @@ class RedshopModelOrder_detail extends RedshopModel
             return false;
         }
 
-        $this->_dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
+        $dispatcher = JEventDispatcher::getInstance();
+        $dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
 
         if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
             RedshopEconomic::renewInvoiceInEconomic($orderData);
@@ -1037,9 +1046,9 @@ class RedshopModelOrder_detail extends RedshopModel
         // Get Order Info
         $orderData = $this->getTable('order_detail');
         $orderData->load($this->_id);
-
-        $orderItems      = RedshopHelperOrder::getOrderItemDetail($this->_id);
-        $update_discount = abs($data['update_discount']);
+        $orderItems           = RedshopHelperOrder::getOrderItemDetail($this->_id);
+        $update_discount      = abs($data['update_discount']);
+        $specialDiscountPrice = $orderData->special_discount_amount;
 
         if ($update_discount == $orderData->order_discount) {
             return false;
@@ -1057,6 +1066,11 @@ class RedshopModelOrder_detail extends RedshopModel
 
         if ($update_discount > $temporder_total) {
             $update_discount = $subtotal;
+        }
+        $totalDiscountPrice = Redshop\Order\Helper::totalDiscountCalculator($specialDiscountPrice , $update_discount);
+
+        if ($totalDiscountPrice > $subtotal) {
+            $update_discount    = $subtotal - $specialDiscountPrice;
         }
 
         if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == '0' && Redshop::getConfig()->get(
