@@ -1031,44 +1031,21 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
             }
 
             if ($this->isTagExists('{form_rating}')) {
-                $reviewForm = RedshopLayoutHelper::render(
-                    'modal.button',
-                    [
-                        'selector' => 'ModalWriteReview',
-                        'params'   => [
-                            'title'       => Text::_('COM_REDSHOP_WRITE_REVIEW'),
-                            'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
-                                                </button>',
-                            'buttonText'  => Text::_('COM_REDSHOP_WRITE_REVIEW'),
-                            'buttonClass' => 'btn btn-primary',
-                            'url'         => JURI::root(
-                            ) . 'index.php?option=com_redshop&view=product_rating&tmpl=component&product_id=' . $this->product->product_id .
-                                '&category_id=' . $this->product->category_id .
-                                '&Itemid=' . $this->itemId,
-                            'modalWidth'  => '80',
-                            'bodyHeight'  => '60',
+                $reviewForm =
+                    RedshopLayoutHelper::render(
+                        'modal.button',
+                        [
+                            'selector' => 'ModalWriteReview',
+                            'params'   => [
+                                //'description'  => 'title: ' . Text::_('COM_REDSHOP_WRITE_REVIEW'),
+                                'descPosition' => 'top',
+                                'buttonText'   => Text::_('COM_REDSHOP_WRITE_REVIEW'),
+                                'buttonClass'  => 'btn btn-primary',
+                                'url'          => Redshop\IO\Route::_('index.php?option=com_redshop&view=product_rating&tmpl=component&product_id='
+                                    . $this->product->product_id . '&category_id=' . $this->product->category_id . '&Itemid=' . $this->itemId),
+                            ]
                         ]
-                    ]
-                );
-
-                /*RedshopLayoutHelper::render(
-                    'modal.button',
-                    [
-                        'selector' => 'ModalWriteReview',
-                        'params'   => [
-                            'description'  => 'title: ' . Text::_('COM_REDSHOP_WRITE_REVIEW'),
-                            'descPosition' => 'top',
-                            'buttonText'   => Text::_('COM_REDSHOP_WRITE_REVIEW'),
-                            'buttonClass'  => 'btn btn-primary',
-                            'url'          => JURI::root(
-                            ) . 'index.php?option=com_redshop&view=product_rating&tmpl=component&product_id=' . $this->product->product_id .
-                                '&category_id=' . $this->product->category_id .
-                                '&Itemid=' . $this->itemId,
-                        ]
-                    ]
-                );
-                */
+                    );
 
                 $this->addReplace('{form_rating}', $reviewForm);
             }

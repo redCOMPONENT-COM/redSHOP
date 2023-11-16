@@ -61,20 +61,22 @@ if (empty($params['width'])) {
 
 if (empty($params['description'])) {
     $params['description'] = '';
-}
-
-if (empty($params['descPosition'])) {
-    $descPosition = '"bottom",';
+    $descPosition          = '';
 } else {
-    $descPosition = 'descPosition: "' . $params['descPosition'] . '"';
+    if (empty($params['descPosition'])) {
+        $descPosition = '"bottom",';
+    } else {
+        $descPosition = 'descPosition: "' . $params['descPosition'] . '"';
+    }
+
 }
 ?>
 
-<button class="<?php echo $selector ?> <?php echo $params['buttonClass'] ?> hasTooltip"
+<a class="<?php echo $selector ?> <?php echo $params['buttonClass'] ?> hasTooltip"
     id="<?php echo $params['buttonId'] ?>" href="<?php echo $params['url'] ?>"
     data-glightbox="<?php echo $params['description'] ?>">
     <?php echo $params['buttonText'] ?>
-</button>
+</a>
 
 <script type="text/javascript">
     var lightboxDescription = GLightbox({

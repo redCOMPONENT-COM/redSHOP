@@ -1,9 +1,9 @@
 // Import Bootstrap Compass integration
-@import "bootstrap-compass";
+// @import "bootstrap-compass";
 // Import custom Bootstrap variables
 @import "bootstrap-variables";
 // Import Bootstrap for Sass
-@import "bootstrap";
+// @import "bootstrap";
 @import "bootstrap-nav-wizard";
 
 body {
@@ -152,6 +152,7 @@ body {
 
 }
 
+/*
 input.inputbox,
 textarea,
 input[type="text"],
@@ -171,7 +172,6 @@ input[type="color"],
 .uneditable-input {
     @extend .form-control;
 }
-
 
 .form-group {
     position: relative;
@@ -208,6 +208,7 @@ input[type="color"],
     }
 
 }
+*/
 
 #ajax_cart_button_inside {
 
@@ -711,6 +712,13 @@ div#redshopcomponent {
     background: url(/media/com_redshop/css/select2/select2.png) no-repeat 0 5px;
 }
 
+.form-group {
+    .select2-container {
+        width: 100%;
+        clear: both;
+    }
+}
+
 .align-right {
     text-align: right;
 }
@@ -735,10 +743,6 @@ div#redshopcomponent {
     box-shadow: 0 0 0 0.2rem #bdffc3;
 }
 
-.goverlay {
-    background: rgba(0, 0, 0, 0.6);
-}
-
 .glightbox-clean {
     .gdesc-inner {
         padding: 10px 15px;
@@ -756,4 +760,12 @@ div#redshopcomponent {
         font-size: 1.2em;
         font-family: inherit;
     }
+}
+
+.goverlay {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.gslide iframe {
+    padding: 20px;
 }
