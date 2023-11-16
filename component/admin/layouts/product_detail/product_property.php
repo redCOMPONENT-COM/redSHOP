@@ -209,27 +209,18 @@ if (
                     <?php if ($mainImage) { ?>
                         <?php echo
                             RedshopLayoutHelper::render(
-                                'modal.a',
+                                'modal.a-image',
                                 [
-                                    'selector' => 'ModalMainPropertyImage',
-                                    'params'   => [
-                                        'title'      => Text::_('COM_REDSHOP_UPLOAD'),
-                                        'footer'     => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
-                                                </button>',
-                                        'aContent'   => RedshopLayoutHelper::render(
-                                            'joomla.html.image',
-                                            ['src' => $mainImageThumb, 'alt' => 'Property main image']
-                                        ),
-                                        'aClass'     => '',
-                                        'url'        => $mainImage,
-                                        'modalWidth' => '50',
-                                        'bodyHeight' => '70',
+                                    'selector'        => 'ModalMainPropertyImage',
+                                    'imageAttributes' => ['alt' => 'Main Property Image'],
+                                    'params'          => [
+                                        'imageThumbPath' => $mainImageThumb,
+                                        'imageMainPath'  => $mainImage,
                                     ]
                                 ]
-                            ); ?>
+                            );
+                        ?>
                     <?php } ?>
-
                     <?php echo
                         RedshopLayoutHelper::render(
                             'modal.button',

@@ -29264,3 +29264,26 @@ a.btn.btn-success {
 .form-control {
     display: block;
 }
+
+.goverlay {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.glightbox-clean {
+    .gdesc-inner {
+        padding: 10px 15px;
+    }
+
+    .gslide-title {
+        font-size: 2em;
+        font-weight: bold;
+        font-family: inherit;
+        margin-bottom: 10px;
+        margin-top: 0px;
+    }
+
+    .gslide-desc {
+        font-size: 1.2em;
+        font-family: inherit;
+    }
+}

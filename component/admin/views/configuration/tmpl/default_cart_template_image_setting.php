@@ -15,8 +15,8 @@ use Joomla\CMS\Filesystem\File;
 
 $url           = JUri::root();
 $addToCartPath = "/components/com_redshop/assets/images/";
-
 ?>
+
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover"
         data-bs-content="<?php echo Text::_('COM_REDSHOP_TOOLTIP_CART_THUMB_WIDTH_LBL'); ?>">
@@ -58,12 +58,19 @@ echo RedshopLayoutHelper::render(
             value="<?php echo $this->config->get('ADDTOCART_IMAGE'); ?>" />
         <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $this->config->get('ADDTOCART_IMAGE'))): ?>
             <div class="divimages" id="cartdiv">
-                <a class="joom-box"
-                    href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $this->config->get('ADDTOCART_IMAGE') ?>"
-                    title="<?php echo $this->config->get('ADDTOCART_IMAGE') ?>" rel="{handler: 'image', size: {}}">
-                    <img alt="<?php echo $this->config->get('ADDTOCART_IMAGE') ?>" class="thumbnail"
-                        src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $this->config->get('ADDTOCART_IMAGE') ?>" />
-                </a>
+                <?php echo
+                    RedshopLayoutHelper::render(
+                        'modal.a-image',
+                        [
+                            'selector'        => 'cartImage',
+                            'imageAttributes' => ['alt' => 'Image name'],
+                            'params'          => [
+                                'imageThumbPath' => REDSHOP_FRONT_IMAGES_ABSPATH . $this->config->get('ADDTOCART_IMAGE'),
+                                'imageMainPath'  => REDSHOP_FRONT_IMAGES_ABSPATH . $this->config->get('ADDTOCART_IMAGE'),
+                            ]
+                        ]
+                    );
+                ?>
                 <a class="remove_link" href="#" onclick="delimg('<?php echo $this->config->get(
                     'ADDTOCART_IMAGE'
                 ) ?>','cartdiv','<?php echo $addToCartPath ?>');">
@@ -97,11 +104,19 @@ echo RedshopLayoutHelper::render(
             value="<?php echo $requestquoteImage; ?>" />
         <?php if (File::exists(JPATH_ROOT . $addToCartPath . $requestquoteImage)): ?>
             <div class="divimages" id="quotediv">
-                <a class="joom-box" href="<?php echo $url . $addToCartPath . $requestquoteImage; ?>"
-                    title="<?php echo $requestquoteImage; ?>" rel="{handler: 'image', size: {}}">
-                    <img alt="<?php echo $requestquoteImage; ?>"
-                        src="<?php echo $url . $addToCartPath . $requestquoteImage; ?>" class="thumbnail" />
-                </a>
+                <?php echo
+                    RedshopLayoutHelper::render(
+                        'modal.a-image',
+                        [
+                            'selector'        => 'cartImage',
+                            'imageAttributes' => ['alt' => 'Request quote image'],
+                            'params'          => [
+                                'imageThumbPath' => $url . $addToCartPath . $requestquoteImage,
+                                'imageMainPath'  => $url . $addToCartPath . $requestquoteImage,
+                            ]
+                        ]
+                    );
+                ?>
                 <a class="remove_link" href="#"
                     onclick="delimg('<?php echo $requestquoteImage ?>','quotediv','<?php echo $addToCartPath ?>');">
                     <?php echo Text::_('COM_REDSHOP_REMOVE_IMAGE') ?>
@@ -132,11 +147,19 @@ echo RedshopLayoutHelper::render(
         <input type="hidden" name="addtocart_update" id="addtocart_update" value="<?php echo $addtocartUpdate; ?>" />
         <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $addtocartUpdate)): ?>
             <div class="divimages" id="cartupdatediv">
-                <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartUpdate; ?>"
-                    title="<?php echo $addtocartUpdate; ?>" rel="{handler: 'image', size: {}}">
-                    <img alt="<?php echo $addtocartUpdate; ?>" class="thumbnail"
-                        src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartUpdate; ?>" />
-                </a>
+                <?php echo
+                    RedshopLayoutHelper::render(
+                        'modal.a-image',
+                        [
+                            'selector'        => 'addToCartUpdateImage',
+                            'imageAttributes' => ['alt' => 'Add To Cart Update Image'],
+                            'params'          => [
+                                'imageThumbPath' => REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartUpdate,
+                                'imageMainPath'  => REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartUpdate,
+                            ]
+                        ]
+                    );
+                ?>
                 <a class="remove_link" href="#"
                     onclick="delimg('<?php echo $addtocartUpdate ?>','cartupdatediv','<?php echo $addToCartPath ?>');">
                     <?php echo Text::_('COM_REDSHOP_REMOVE_IMAGE') ?>
@@ -156,11 +179,19 @@ echo RedshopLayoutHelper::render(
         <input type="hidden" name="addtocart_delete" id="addtocart_delete" value="<?php echo $addtocartDelete; ?>" />
         <?php if (File::exists(REDSHOP_FRONT_IMAGES_RELPATH . $addtocartDelete)): ?>
             <div class="divimages" id="cartdeldiv">
-                <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartDelete; ?>"
-                    title="<?php echo $addtocartDelete; ?>" rel="{handler: 'image', size: {}}">
-                    <img alt="<?php echo $addtocartDelete; ?>" class="thumbnail"
-                        src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartDelete; ?>" />
-                </a>
+                <?php echo
+                    RedshopLayoutHelper::render(
+                        'modal.a-image',
+                        [
+                            'selector'        => 'addToCartDeleteImage',
+                            'imageAttributes' => ['alt' => 'Add To Cart Delete Image'],
+                            'params'          => [
+                                'imageThumbPath' => REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartDelete,
+                                'imageMainPath'  => REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartDelete,
+                            ]
+                        ]
+                    );
+                ?>
                 <a class="remove_link" href="#"
                     onclick="delimg('<?php echo $addtocartDelete ?>','cartdeldiv','<?php echo $addToCartPath ?>');">
                     <?php echo Text::_('COM_REDSHOP_REMOVE_IMAGE') ?>
