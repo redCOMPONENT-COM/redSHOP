@@ -1552,16 +1552,15 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
             if (Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX')) {
                 $moreImages .= RedshopLayoutHelper::render(
-                    'tags.product.more_image.lightbox',
+                    'modal.lightbox',
                     [
-                        'linkImage'    => $linkImage,
-                        'altText'      => $altText,
-                        'pimg'         => $pimg,
-                        'hoverimgPath' => $hoverimgPath,
-                        'productId'    => $this->product->product_id
-                    ],
-                    '',
-                    $this->optionLayout
+                        'selector'        => 'ModalAdditionalImage' . $altText,
+                        'imageAttributes' => ['alt' => "' $altText '"],
+                        'params'          => [
+                            'imageThumbPath' => $pimg,
+                            'imageMainPath'  => $linkImage,
+                        ]
+                    ]
                 );
             } else {
                 if (Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE')) {

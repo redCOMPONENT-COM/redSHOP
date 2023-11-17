@@ -47,7 +47,7 @@ class Render
         $preSelectedResult = array(),
         $suffixId = ''
     ) {
-        $isLight       = (int)$isLight;
+        $isLight       = (int) $isLight;
         $imageName     = trim($imageName);
         $linkImageName = trim($linkImageName);
         $productId     = $product->product_id;
@@ -55,9 +55,11 @@ class Render
         $productImage  = $product->product_full_image;
         $dispatcher    = \RedshopHelperUtility::getDispatcher();
 
-        if ($isLight !== 2 && $product->product_thumb_image && file_exists(
+        if (
+            $isLight !== 2 && $product->product_thumb_image && file_exists(
                 $middlePath . $product->product_thumb_image
-            )) {
+            )
+        ) {
             $productImage = $product->product_thumb_image;
         }
 
@@ -135,32 +137,18 @@ class Render
             );
         } else {
             if ($isLight === 1) {
-                $thumbImage = \RedshopLayoutHelper::render(
-                    'tags.common.img_link',
-                    array(
-                        'link'     => $linkImage,
-                        'linkAttr' => 'id="a_main_image' . $commonId . '" rel="myallimg" title="' . $title . '"',
-                        'src'      => $imgSource,
-                        'alt'      => $altText,
-                        'imgAttr'  => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '"'
-                    ),
-                    '',
-                    \RedshopLayoutHelper::$layoutOption
-                );
-            } elseif (\Redshop::getConfig()->getInt('PRODUCT_IS_LIGHTBOX') === 1) {
-                $thumbImage = \RedshopLayoutHelper::render(
-                    'tags.common.img_link',
-                    array(
-                        'class'    => 'joom-box',
-                        'link'     => $linkImage,
-                        'linkAttr' => $title,
-                        'src'      => $imgSource,
-                        'alt'      => $altText,
-                        'imgAttr'  => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '"'
-                    ),
-                    '',
-                    \RedshopLayoutHelper::$layoutOption
-                );
+                $thumbImage =
+                    \RedshopLayoutHelper::render(
+                        'modal.lightbox',
+                        [
+                            'selector'        => 'ModalMainImage',
+                            'imageAttributes' => ['alt' => 'main_image', 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '"'],
+                            'params'          => [
+                                'imageThumbPath' => $imgSource,
+                                'imageMainPath'  => $linkImage,
+                            ]
+                        ]
+                    );
             } else {
                 $thumbImage = \RedshopLayoutHelper::render(
                     'tags.common.img_link',

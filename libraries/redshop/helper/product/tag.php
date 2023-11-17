@@ -572,9 +572,19 @@ class RedshopHelperProductTag
             }
 
             if ($productAddingIsLightbox) {
-                $productAdditionalImageDivStart = '<div class="additional_image"><a href="' . $linkImage . '" title="' . $altText . '" '
-                    . 'rel="myallimg">';
-                $productAdditionalImageDivEnd   = "</a></div>";
+                $productAdditionalImageDivStart = '<div class="additional_image">' .
+                    RedshopLayoutHelper::render(
+                        'modal.lightbox',
+                        [
+                            'selector'        => 'ModalMainPropertyImage',
+                            'imageAttributes' => ['alt' => '" . $altText . "'],
+                            'params'          => [
+                                'imageThumbPath' => $linkImage,
+                                'imageMainPath'  => $linkImage,
+                            ]
+                        ]
+                    );
+                $productAdditionalImageDivEnd   = "</div>";
                 $return .= $productAdditionalImageDivStart;
                 $return .= '<img src="' . $productImg . '" alt="' . $altText . '" title="' . $altText . '">';
                 $productHrefEnd                 = "";
