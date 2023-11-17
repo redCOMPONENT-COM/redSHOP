@@ -1,0 +1,60 @@
+name: Report a bug / issue
+description: Report an issue with redShop for Joomla
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Environment
+  - type: input
+    validations:
+      required: true
+    attributes:
+      label: What version of redShop has the issue?
+      placeholder: minimum 4.0.0
+  - type: input
+    attributes:
+      label: What version of Joomla has the issue?
+      placeholder: minimum 4.3.4
+  - type: input
+    validations:
+      required: true
+    attributes:
+      label: What php version has the issue?
+      placeholder: minimum php 8
+      description: >-
+        Can be found Joomla Home dashboard > Site Information
+  - type: input
+    attributes:
+      label: What did Joomla error reporting state?
+      placeholder: 
+      description: >-
+        Can be enabled in Joomla Backend > System > Global Configuration > Server > Error Reporting= Maximum
+  - type: input
+    attributes:
+      label: What did Chrome inspector console state?
+      placeholder: 
+      description: >-
+        Right-click on the page and click "Inspect"
+  - type: markdown
+    attributes:
+      value: |
+        # Details
+  - type: textarea
+    validations:
+      required: true
+    attributes:
+      label: Describe the issue
+      placeholder: 
+      description: >-
+        Plese be detailed in the desciption.
+  - type: textarea
+    attributes:
+      label: Fix
+      description: >-
+        If you have already made a fix but unable to do it on Github then write it here
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: >-
+        If you have any additional information for us, use the field below.
