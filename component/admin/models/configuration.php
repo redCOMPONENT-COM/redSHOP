@@ -553,7 +553,7 @@ class RedshopModelConfiguration extends RedshopModel
         $version = Text::_('COM_REDSHOP_FILE_NOT_FOUND');
 
         if (File::exists($xmlfile)) {
-            $data    = JInstaller::parseXMLInstallFile($xmlfile);
+            $data    = \Joomla\CMS\Installer\Installer::parseXMLInstallFile($xmlfile);
             $version = $data['version'];
         }
 

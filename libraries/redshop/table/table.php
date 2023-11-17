@@ -66,7 +66,7 @@ class RedshopTable extends AbstractTable
             $option = (strpos($option, 'com_') === 0 ? '' : 'com_') . $option;
 
             if ($option == 'com_installer') {
-                $installer = JInstaller::getInstance();
+                $installer = \Joomla\CMS\Installer\Installer::getInstance();
                 $option    = $installer->manifestClass->getElement($installer);
             }
         }

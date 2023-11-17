@@ -35,7 +35,7 @@ class RedshopHelperBreadcrumb
     {
         $app = JFactory::getApplication();
 
-        /** @var JPathway $pathway */
+        /** @var \Joomla\CMS\Pathway\Pathway $pathway */
         $pathway = $app->getPathway();
 
         $view           = $app->input->getCmd('view');

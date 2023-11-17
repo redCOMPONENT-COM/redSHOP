@@ -70,7 +70,7 @@ class RedshopViewProduct extends RedshopView
     {
         // Request variables
         $this->redTemplate     = Redtemplate::getInstance();
-        $this->textHelper      = new text_library; // Not used anymore?
+        $this->textHelper      = new RedshopHelperText; // Not used anymore?
         $this->app             = Factory::getApplication();
         $this->input           = $this->app->input;
         $this->model           = $this->getModel('product');

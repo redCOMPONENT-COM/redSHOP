@@ -102,7 +102,7 @@ class RedshopModelZip_import extends RedshopModel
         }
 
         // Get an installer instance
-        $installer = JInstaller::getInstance();
+        $installer = \Joomla\CMS\Installer\Installer::getInstance();
 
         // Install the package
         if (!$installer->install($package['dir'])) {
@@ -130,7 +130,7 @@ class RedshopModelZip_import extends RedshopModel
             $package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
         }
 
-        JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+        \Joomla\CMS\Installer\InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
         ?>
                 <script type='text/javascript' language='javascript'>
                     window.location = "index.php?option=com_redshop&view=zip_import&msg=suc";
@@ -165,7 +165,7 @@ class RedshopModelZip_import extends RedshopModel
         }
 
         // Download the package at the URL given
-        $p_file = JInstallerHelper::downloadPackage(trim(strip_tags($url)));
+        $p_file = \Joomla\CMS\Installer\InstallerHelper::downloadPackage(trim(strip_tags($url)));
 
         // Was the package downloaded?
         if (!$p_file) {
@@ -182,7 +182,7 @@ class RedshopModelZip_import extends RedshopModel
         $tmp_dest = $config->get('tmp_path');
 
         // Unpack the downloaded package file
-        $package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
+        $package = \Joomla\CMS\Installer\InstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
         ?>
                 <script type='text/javascript' language='javascript'>
@@ -234,7 +234,7 @@ class RedshopModelZip_import extends RedshopModel
         }
 
         // Detect the package type
-        $type = JInstallerHelper::detectType($p_dir);
+        $type = \Joomla\CMS\Installer\InstallerHelper::detectType($p_dir);
 
         // Did you give us a valid package?
         if (!$type) {

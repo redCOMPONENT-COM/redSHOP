@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\Adapter\ComponentAdapter;
 
 /**
@@ -29,7 +29,7 @@ class Com_RedshopInstallerScript
     public $status = null;
 
     /**
-     * The common JInstaller instance used to install all the extensions
+     * The common Installer instance used to install all the extensions
      *
      * @var  object
      */
@@ -89,13 +89,13 @@ class Com_RedshopInstallerScript
     }
 
     /**
-     * Get the common JInstaller instance used to install all the extensions
+     * Get the common Installer instance used to install all the extensions
      *
-     * @return JInstaller The JInstaller object
+     * @return Installer The Installer object
      */
     public function getInstaller()
     {
-        $this->installer = new JInstaller;
+        $this->installer = new Installer;
 
         return $this->installer;
     }
@@ -120,7 +120,7 @@ class Com_RedshopInstallerScript
             ->where("element = " . $db->quote($element));
 
         if (!is_null($state)) {
-            $query->where("state = " . (int)$state);
+            $query->where("state = " . (int) $state);
         }
 
         if (!is_null($folder)) {
@@ -147,8 +147,8 @@ class Com_RedshopInstallerScript
 
         if ($nodes = $manifest->modules->module) {
             foreach ($nodes as $node) {
-                $extName   = (string)$node->attributes()->name;
-                $extClient = (string)$node->attributes()->client;
+                $extName   = (string) $node->attributes()->name;
+                $extClient = (string) $node->attributes()->client;
                 $extPath   = $src . '/modules/' . $extClient . '/' . $extName;
 
                 if (is_dir($extPath)) {
@@ -178,8 +178,8 @@ class Com_RedshopInstallerScript
             $installer = $this->getInstaller();
 
             foreach ($nodes as $node) {
-                $extName  = (string)$node->attributes()->name;
-                $extGroup = (string)$node->attributes()->group;
+                $extName  = (string) $node->attributes()->name;
+                $extGroup = (string) $node->attributes()->group;
                 $extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
                 $result   = 0;
 
@@ -357,7 +357,7 @@ class Com_RedshopInstallerScript
         $db    = Factory::getDbo();
         $query = $db->getQuery(true);
         $query->update($db->quoteName("#__extensions"))
-            ->set("enabled = " . (int)$state)
+            ->set("enabled = " . (int) $state)
             ->where('type = ' . $db->quote('plugin'))
             ->where('element = ' . $db->quote($extName))
             ->where('folder = ' . $db->quote($extGroup));
@@ -379,8 +379,7 @@ class Com_RedshopInstallerScript
      */
     public function postflight($type, $parent)
     {
-        if ($type == 'uninstall')
-        {
+        if ($type == 'uninstall') {
             return;
         }
 
@@ -433,8 +432,8 @@ class Com_RedshopInstallerScript
             $installer = $this->getInstaller();
 
             foreach ($nodes as $node) {
-                $extName  = (string)$node->attributes()->name;
-                $extGroup = (string)$node->attributes()->group;
+                $extName  = (string) $node->attributes()->name;
+                $extGroup = (string) $node->attributes()->group;
 
                 if ($extId = $this->searchExtension($extName, 'plugin', null, $extGroup)) {
                     $installer->uninstall('plugin', $extId);
@@ -457,8 +456,8 @@ class Com_RedshopInstallerScript
 
         if ($nodes = $manifest->modules->module) {
             foreach ($nodes as $node) {
-                $extName   = (string)$node->attributes()->name;
-                $extClient = (string)$node->attributes()->client;
+                $extName   = (string) $node->attributes()->name;
+                $extClient = (string) $node->attributes()->client;
 
                 if ($extId = $this->searchExtension($extName, 'module')) {
                     $this->getInstaller()->uninstall('module', $extId);
@@ -481,7 +480,7 @@ class Com_RedshopInstallerScript
 
         if ($nodes = $manifest->libraries->library) {
             foreach ($nodes as $node) {
-                $extName = (string)$node->attributes()->name;
+                $extName = (string) $node->attributes()->name;
 
                 if ($extId = $this->searchExtension($extName, 'library')) {
                     $this->getInstaller()->uninstall('library', $extId);
@@ -518,8 +517,7 @@ class Com_RedshopInstallerScript
     {
         $this->type = $type;
 
-        if ($type != 'uninstall')
-        {
+        if ($type != 'uninstall') {
             $this->implementProcedure();
         }
 
@@ -566,46 +564,63 @@ class Com_RedshopInstallerScript
      */
     protected function procedureRemoveColumn()
     {
-        $db    = Factory::getDbo();
-        $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Column_Remove');
+        $db = Factory::getDbo();
+        //      $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Column_Remove');
+        $query = "DROP PROCEDURE IF EXISTS redSHOP_Column_Remove";
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureRemoveColumn DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureRemoveColumn DROP', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
-
-        $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Column_Remove") . "(
-            IN " . $db->quoteName('tableName') . " VARCHAR(50),
-            IN " . $db->quoteName('columnName') . " VARCHAR(50)
-            )
-            LANGUAGE SQL
-            NOT DETERMINISTIC
-            CONTAINS SQL
-            COMMENT " . $db->quote('Procedure for use in redSHOP to remove column to table avoid unexpected errors.') . "
-            BEGIN
-                SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
-                IF ((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=columnName AND TABLE_NAME=tableName AND table_schema = DATABASE()) >= 1)
-                THEN
-                    set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP COLUMN `',columnName,'`');
-                    prepare DynamicStatement from @StatementToExecute ;
-                    execute DynamicStatement ;
-                    deallocate prepare DynamicStatement ;
-                END IF ;
-            END";
-
-        try
-        {
+        /*
+                $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Column_Remove") . "(
+                    IN " . $db->quoteName('tableName') . " VARCHAR(50),
+                    IN " . $db->quoteName('columnName') . " VARCHAR(50)
+                    )
+                    LANGUAGE SQL
+                    NOT DETERMINISTIC
+                    CONTAINS SQL
+                    COMMENT " . $db->quote('Procedure for use in redSHOP to remove column to table avoid unexpected errors.') . "
+                    BEGIN
+                        SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(
+                        JFactory::getConfig()->get('dbprefix')
+                    ) . ") ;
+                        IF ((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=columnName AND TABLE_NAME=tableName AND table_schema = DATABASE()) >= 1)
+                        THEN
+                            set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP COLUMN `',columnName,'`');
+                            prepare DynamicStatement from @StatementToExecute ;
+                            execute DynamicStatement ;
+                            deallocate prepare DynamicStatement ;
+                        END IF ;
+                    END";
+        */
+        $query = "CREATE PROCEDURE redSHOP_Column_Remove
+    IN tableName VARCHAR(50),
+    IN columnName VARCHAR(50)
+    
+    LANGUAGE SQL
+    NOT DETERMINISTIC
+    CONTAINS SQL
+    COMMENT " . $db->quote('Procedure for use in redSHOP to remove column to table avoid unexpected errors.') . "
+    BEGIN
+        SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
+        IF ((SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=columnName AND TABLE_NAME=tableName AND table_schema = DATABASE()) >= 1)
+        THEN
+            set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP COLUMN `',columnName,'`');
+            prepare DynamicStatement from @StatementToExecute ;
+            execute DynamicStatement ;
+            deallocate prepare DynamicStatement ;
+        END IF ;
+    END";
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureRemoveColumn CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureRemoveColumn CREATE', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
     }
 
@@ -621,13 +636,11 @@ class Com_RedshopInstallerScript
         $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Column_Update');
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureUpdateColumn DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureUpdateColumn DROP', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Column_Update") . "(
@@ -640,15 +653,15 @@ class Com_RedshopInstallerScript
             NOT DETERMINISTIC
             CONTAINS SQL
             COMMENT " . $db->quote(
-                'Procedure for use in redSHOP to update / add column to table avoid unexpected errors.'
-            ) . "
+                    'Procedure for use in redSHOP to update / add column to table avoid unexpected errors.'
+                ) . "
             BEGIN
                 SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 SET columnDetail = REPLACE(columnDetail, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 set @ColOldExist = (SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=columnName AND TABLE_NAME=tableName AND table_schema = DATABASE());
                 set @ColNewExist = (SELECT COUNT(*) FROM information_schema.COLUMNS WHERE COLUMN_NAME=newColumnName AND TABLE_NAME=tableName AND table_schema = DATABASE());
                 IF (@ColOldExist = 0 AND @ColNewExist = 0) THEN
@@ -687,13 +700,11 @@ class Com_RedshopInstallerScript
                 END IF;
             END";
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureUpdateColumn CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureUpdateColumn CREATE', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
     }
 
@@ -709,13 +720,11 @@ class Com_RedshopInstallerScript
         $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Index_Remove');
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureIndexRemove DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureIndexRemove DROP', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Index_Remove") . "(
@@ -728,11 +737,11 @@ class Com_RedshopInstallerScript
             COMMENT " . $db->quote('Procedure for use in redSHOP to remove index from table avoid unexpected errors.') . "
             BEGIN
                 SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 SET indexName = REPLACE(indexName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 IF ((SELECT COUNT(*) AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name = tableName AND index_name = indexName) >= 1)
                 THEN
                     set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP INDEX `',indexName,'`');
@@ -742,13 +751,11 @@ class Com_RedshopInstallerScript
                 END IF ;
             END";
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureIndexRemove CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureIndexRemove CREATE', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
     }
 
@@ -764,13 +771,11 @@ class Com_RedshopInstallerScript
         $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Index_Add');
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureIndexAdd DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureIndexAdd DROP', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Index_Add") . "(
@@ -784,14 +789,14 @@ class Com_RedshopInstallerScript
             COMMENT " . $db->quote('Procedure for use in redSHOP to Add index to table avoid unexpected errors..') . "
             BEGIN
                 SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 SET indexName = REPLACE(indexName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 SET indexData = REPLACE(indexData, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 CALL redSHOP_Index_Remove(tableName, indexName) ;
                 set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD INDEX `',indexName,'` ',indexData);
                 prepare DynamicStatement from @StatementToExecute ;
@@ -799,13 +804,11 @@ class Com_RedshopInstallerScript
                 deallocate prepare DynamicStatement ;
             END";
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureIndexAdd CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureIndexAdd CREATE', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
     }
 
@@ -821,13 +824,11 @@ class Com_RedshopInstallerScript
         $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Index_Unique_Add');
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureUniqueIndexAdd DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureUniqueIndexAdd DROP', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Index_Unique_Add") . "(
@@ -839,18 +840,18 @@ class Com_RedshopInstallerScript
             NOT DETERMINISTIC
             CONTAINS SQL
             COMMENT " . $db->quote(
-                'Procedure for use in redSHOP to Add Unique Index to table avoid unexpected errors..'
-            ) . "
+                    'Procedure for use in redSHOP to Add Unique Index to table avoid unexpected errors..'
+                ) . "
             BEGIN
                 SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 SET indexName = REPLACE(indexName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 SET indexData = REPLACE(indexData, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 CALL redSHOP_Index_Remove(tableName, indexName);
                 set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD UNIQUE INDEX `',indexName,'` ',indexData);
                 prepare DynamicStatement from @StatementToExecute ;
@@ -858,13 +859,11 @@ class Com_RedshopInstallerScript
                 deallocate prepare DynamicStatement ;
             END";
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureUniqueIndexAdd CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureUniqueIndexAdd CREATE', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
     }
 
@@ -880,13 +879,11 @@ class Com_RedshopInstallerScript
         $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Index_Fulltext_Add');
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureFulltextIndexAdd DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureFulltextIndexAdd DROP', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Index_Fulltext_Add") . "(
@@ -898,18 +895,18 @@ class Com_RedshopInstallerScript
             NOT DETERMINISTIC
             CONTAINS SQL
             COMMENT " . $db->quote(
-                'Procedure for use in redSHOP to Add Unique Index to table avoid unexpected errors..'
-            ) . "
+                    'Procedure for use in redSHOP to Add Unique Index to table avoid unexpected errors..'
+                ) . "
             BEGIN
                 SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 SET indexName = REPLACE(indexName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 SET indexData = REPLACE(indexData, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 CALL redSHOP_Index_Remove(tableName, indexName);
                 set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD FULLTEXT INDEX `',indexName,'` ',indexData);
                 prepare DynamicStatement from @StatementToExecute ;
@@ -917,13 +914,11 @@ class Com_RedshopInstallerScript
                 deallocate prepare DynamicStatement ;
             END";
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureFulltextIndexAdd CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureFulltextIndexAdd CREATE', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
     }
 
@@ -939,13 +934,11 @@ class Com_RedshopInstallerScript
         $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Constraint_Remove');
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureConstraintRemove DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureConstraintRemove DROP', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Constraint_Remove") . "(
@@ -956,15 +949,15 @@ class Com_RedshopInstallerScript
             NOT DETERMINISTIC
             CONTAINS SQL
             COMMENT " . $db->quote(
-                'Procedure for use in redSHOP to Add Constraint (Foreign Key) to table avoid unexpected errors..'
-            ) . "
+                    'Procedure for use in redSHOP to Add Constraint (Foreign Key) to table avoid unexpected errors..'
+                ) . "
             BEGIN
                 SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 SET refName = REPLACE(refName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 IF ((SELECT COUNT(*) AS constraint_exists FROM information_schema.TABLE_CONSTRAINTS WHERE TABLE_SCHEMA = DATABASE() and TABLE_NAME = tableName AND CONSTRAINT_NAME = refName AND CONSTRAINT_TYPE = 'FOREIGN KEY') >= 1)
                 THEN
                     SET FOREIGN_KEY_CHECKS = 0;
@@ -976,13 +969,11 @@ class Com_RedshopInstallerScript
                 END IF ;
             END";
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureConstraintRemove CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureConstraintRemove CREATE', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
     }
 
@@ -998,13 +989,11 @@ class Com_RedshopInstallerScript
         $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Constraint_Update');
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureConstraintUpdate DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureConstraintUpdate DROP', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Constraint_Update") . "(
@@ -1020,24 +1009,24 @@ class Com_RedshopInstallerScript
             NOT DETERMINISTIC
             CONTAINS SQL
             COMMENT " . $db->quote(
-                'Procedure for use in redSHOP to Update/Create Constraint (Foreign Key) to table avoid unexpected errors..'
-            ) . "
+                    'Procedure for use in redSHOP to Update/Create Constraint (Foreign Key) to table avoid unexpected errors..'
+                ) . "
             BEGIN
                 SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 SET constraintName = REPLACE(constraintName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 SET columnName = REPLACE(columnName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 SET tableRef = REPLACE(tableRef, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 SET columnRef = REPLACE(columnRef, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 CALL redSHOP_Constraint_Remove(tableName, constraintName);
                 SET FOREIGN_KEY_CHECKS = 0;
                 SET @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD CONSTRAINT `',constraintName,'` FOREIGN KEY (`',columnName,'`) REFERENCES `',tableRef,'` (`',columnRef,'`) ON UPDATE ',onUpdateAction,' ON DELETE ',onDeleteAction);
@@ -1047,13 +1036,11 @@ class Com_RedshopInstallerScript
                 SET FOREIGN_KEY_CHECKS = 1;
             END";
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureConstraintUpdate CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedureConstraintUpdate CREATE', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
     }
 
@@ -1069,13 +1056,11 @@ class Com_RedshopInstallerScript
         $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Primary_Remove');
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedurePrimaryRemove DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedurePrimaryRemove DROP', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Primary_Remove") . "(
@@ -1085,15 +1070,15 @@ class Com_RedshopInstallerScript
             NOT DETERMINISTIC
             CONTAINS SQL
             COMMENT " . $db->quote(
-                'Procedure for use in redSHOP to remove primary key from table avoid unexpected errors.'
-            ) . "
+                    'Procedure for use in redSHOP to remove primary key from table avoid unexpected errors.'
+                ) . "
             BEGIN
                 SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 IF ((SELECT COUNT(*) AS index_exists FROM information_schema.table_constraints WHERE TABLE_SCHEMA = DATABASE() and table_name = tableName AND constraint_name = " . $db->quote(
-                'PRIMARY'
-            ) . ") >= 1)
+                    'PRIMARY'
+                ) . ") >= 1)
                 THEN
                     set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` DROP PRIMARY KEY');
                     prepare DynamicStatement from @StatementToExecute ;
@@ -1102,13 +1087,11 @@ class Com_RedshopInstallerScript
                 END IF ;
             END";
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedurePrimaryRemove CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedurePrimaryRemove CREATE', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
     }
 
@@ -1124,13 +1107,11 @@ class Com_RedshopInstallerScript
         $db    = Factory::getDbo();
         $query = "DROP PROCEDURE IF EXISTS " . $db->quoteName('redSHOP_Primary_Add');
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedurePrimaryAdd DROP', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedurePrimaryAdd DROP', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
 
         $query = "CREATE PROCEDURE " . $db->quoteName("redSHOP_Primary_Add") . "(
@@ -1143,11 +1124,11 @@ class Com_RedshopInstallerScript
             COMMENT " . $db->quote('Procedure for use in redSHOP to Add primary to table avoid unexpected errors..') . "
             BEGIN
                 SET tableName = REPLACE(tableName, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 SET keyData = REPLACE(keyData, " . $db->quote('#__') . ", " . $db->quote(
-                JFactory::getConfig()->get('dbprefix')
-            ) . ") ;
+                    JFactory::getConfig()->get('dbprefix')
+                ) . ") ;
                 CALL redSHOP_Primary_Remove(tableName) ;
                 set @StatementToExecute = concat('ALTER TABLE `',DATABASE(),'`.`',tableName,'` ADD PRIMARY KEY(',keyData,')');
                 prepare DynamicStatement from @StatementToExecute ;
@@ -1155,13 +1136,11 @@ class Com_RedshopInstallerScript
                 deallocate prepare DynamicStatement ;
             END";
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
         }
-        catch (Exception $e)
-        {
-            JFactory::getApplication()->enqueueMessage (JText::sprintf ('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedurePrimaryAdd CREATE', $e->getCode () . ' - ' . $e->getMessage ()), 'ERROR');
+        catch (Exception $e) {
+            JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', 'procedurePrimaryAdd CREATE', $e->getCode() . ' - ' . $e->getMessage()), 'ERROR');
         }
     }
 }
