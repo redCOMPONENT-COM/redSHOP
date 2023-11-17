@@ -119,7 +119,7 @@ if (
             <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>discountmanagmenet16.png" />
             <?php echo
                 RedshopLayoutHelper::render(
-                    'modal.button',
+                    'modal.lightbox',
                     [
                         'selector' => 'ModalAddPropertyPrice',
                         'params'   => [
@@ -137,11 +137,10 @@ if (
                 <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>stockroom16.png" />
                 <?php echo
                     RedshopLayoutHelper::render(
-                        'modal.button',
+                        'modal.lightbox',
                         [
                             'selector' => 'ModalManagePropertyStockroom',
                             'params'   => [
-                                //'description'  => 'title: ' . Text::_('COM_REDSHOP_ACTION_MANAGE_STOCKROOM')',
                                 'descPosition' => 'top',
                                 'buttonText'   => Text::_('COM_REDSHOP_ACTION_MANAGE_STOCKROOM'),
                                 'buttonClass'  => 'btn btn-primary',
@@ -201,7 +200,7 @@ if (
                     <?php if ($mainImage) { ?>
                         <?php echo
                             RedshopLayoutHelper::render(
-                                'modal.a-image',
+                                'modal.lightbox',
                                 [
                                     'selector'        => 'ModalMainPropertyImage',
                                     'imageAttributes' => ['alt' => 'Main Property Image'],
@@ -215,14 +214,16 @@ if (
                     <?php } ?>
                     <?php echo
                         RedshopLayoutHelper::render(
-                            'modal.button',
+                            'modal.lightbox',
                             [
                                 'selector' => 'ModalUploadPropertyImage',
                                 'params'   => [
-                                    //'description'  => 'title: ' . Text::_('COM_REDSHOP_UPLOAD')',
-                                    'descPosition' => 'top',
+                                    'description'  => 'title: ' . Text::_('COM_REDSHOP_ACTION_MANAGE_STOCKROOM') . '; description: Test her er e nden eder ',
+                                    'descPosition' => 'bottom',
                                     'buttonText'   => Text::_('COM_REDSHOP_UPLOAD'),
                                     'buttonClass'  => 'btn btn-primary',
+                                    'width'        => '95%',
+                                    'height'       => '',
                                     'url'          => Redshop\IO\Route::_(
                                         'index.php?tmpl=component&option=com_redshop&view=media&section_id='
                                         . $propertyId . '&showbuttons=1&media_section=property'
@@ -248,7 +249,7 @@ if (
                         ?>
                         <?php echo
                             RedshopLayoutHelper::render(
-                                'modal.a-image',
+                                'modal.lightbox',
                                 [
                                     'selector'        => 'ModalPropertyImage',
                                     'imageAttributes' => ['alt' => 'Property image thumb', 'id' => 'propertyImage' . $keyAttr . $keyProperty],

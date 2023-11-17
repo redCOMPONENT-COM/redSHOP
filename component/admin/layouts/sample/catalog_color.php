@@ -54,22 +54,19 @@ $url = $uri->root();
                 <div class="image">
                     <?php echo
                         RedshopLayoutHelper::render(
-                            'modal.a',
+                            'modal.lightbox',
                             [
                                 'selector' => 'ModalSampleLogo',
                                 'params'   => [
-                                    'title'      => '',
-                                    'footer'     => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
-                                                </button>',
-                                    'aContent'   => 'Image',
-                                    'aClass'     => '',
-                                    'url'        => $imageLink,
-                                    'modalWidth' => '60',
-                                    'bodyHeight' => '40',
+                                    'buttonText'  => 'Image',
+                                    'buttonClass' => 'btn btn-secondary btn-sm',
+                                    'width'       => '',
+                                    'height'      => '',
+                                    'url'         => $imageLink,
                                 ]
                             ]
-                        ); ?>
+                        );
+                    ?>
                 </div>
             </div>
         </td>

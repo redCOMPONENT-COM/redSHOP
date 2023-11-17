@@ -435,27 +435,24 @@ foreach ($media->getAll() as $mediaItem) {
                     <div class="form-group">
                         <?php echo
                             RedshopLayoutHelper::render(
-                                'modal.button',
+                                'modal.lightbox',
                                 [
                                     'selector' => 'ModalAddAdditionalImages',
                                     'params'   => [
-                                        'title'       => Text::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES'),
-                                        'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
-                                                </button>',
                                         'buttonText'  => Text::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES'),
                                         'buttonClass' => 'btn btn-primary',
+                                        'width'       => '',
+                                        'height'      => '',
                                         'url'         => Redshop\IO\Route::_(
                                             'index.php?tmpl=component&option=com_redshop&view=media&section_id='
                                             . $this->detail->product_id . '&showbuttons=1&media_section=product'
                                             ,
                                             false
                                         ),
-                                        'modalWidth'  => '80',
-                                        'bodyHeight'  => '60',
                                     ]
                                 ]
-                            ); ?>
+                            );
+                        ?>
                     </div>
                 <?php endif; ?>
             </div>

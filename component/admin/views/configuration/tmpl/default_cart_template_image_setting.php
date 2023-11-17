@@ -60,7 +60,7 @@ echo RedshopLayoutHelper::render(
             <div class="divimages" id="cartdiv">
                 <?php echo
                     RedshopLayoutHelper::render(
-                        'modal.a-image',
+                        'modal.lightbox',
                         [
                             'selector'        => 'cartImage',
                             'imageAttributes' => ['alt' => 'Image name'],
@@ -106,7 +106,7 @@ echo RedshopLayoutHelper::render(
             <div class="divimages" id="quotediv">
                 <?php echo
                     RedshopLayoutHelper::render(
-                        'modal.a-image',
+                        'modal.lightbox',
                         [
                             'selector'        => 'cartImage',
                             'imageAttributes' => ['alt' => 'Request quote image'],
@@ -149,7 +149,7 @@ echo RedshopLayoutHelper::render(
             <div class="divimages" id="cartupdatediv">
                 <?php echo
                     RedshopLayoutHelper::render(
-                        'modal.a-image',
+                        'modal.lightbox',
                         [
                             'selector'        => 'addToCartUpdateImage',
                             'imageAttributes' => ['alt' => 'Add To Cart Update Image'],
@@ -181,7 +181,7 @@ echo RedshopLayoutHelper::render(
             <div class="divimages" id="cartdeldiv">
                 <?php echo
                     RedshopLayoutHelper::render(
-                        'modal.a-image',
+                        'modal.lightbox',
                         [
                             'selector'        => 'addToCartDeleteImage',
                             'imageAttributes' => ['alt' => 'Add To Cart Delete Image'],

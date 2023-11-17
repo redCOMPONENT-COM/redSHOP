@@ -43,27 +43,19 @@ extract($displayData);
                     Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
                 );
                 ?>
-                <?php
-                echo RedshopLayoutHelper::render(
-                    'modal.a',
-                    [
-                        'selector' => 'ModalShoppergroupLogo',
-                        'params'   => [
-                            'title'      => Text::_('COM_REDSHOP_UPLOAD'),
-                            'footer'     => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
-                                                </button>',
-                            'aContent'   => RedshopLayoutHelper::render(
-                                'joomla.html.image',
-                                ['src' => $imageThumbPath, 'alt' => 'Shoppergroup logo', 'id' => 'image_display', 'width' => '200']
-                            ),
-                            'aClass'     => '',
-                            'url'        => $imagePath,
-                            'modalWidth' => '50',
-                            'bodyHeight' => '70',
+                <?php echo
+                    RedshopLayoutHelper::render(
+                        'modal.lightbox',
+                        [
+                            'selector'        => 'ModalShoppergroupLogo',
+                            'imageAttributes' => ['alt' => 'Shoppergroup logo', 'id' => 'image_display'],
+                            'params'          => [
+                                'imageThumbPath' => $imageThumbPath,
+                                'imageMainPath'  => $imagePath,
+                            ]
                         ]
-                    ]
-                ); ?>
+                    );
+                ?>
             </div>
             <?php
         endif; ?>

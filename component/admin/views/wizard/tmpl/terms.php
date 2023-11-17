@@ -79,21 +79,21 @@ $params = JFactory::getApplication()->input->get('params', '', 'raw');
                             ]
                         )
                         /*
-                                                RedshopLayoutHelper::render(
-                                                    'modal.button',
-                                                    [
-                                                        'selector' => 'ModalSelectTermsArticle',
-                                                        'params'   => [
-                                                            'description'   => 'title: ' . Text::_('COM_REDSHOP_SELECT_AN_ARTICLE'),
-                                                            'descPosistion' => 'top',
-                                                            'buttonText'    => Text::_('COM_REDSHOP_SELECT_AN_ARTICLE'),
-                                                            'buttonClass'   => 'btn btn-secondary',
-                                                            'url'           => Redshop\IO\Route::_(
-                                                                'index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=jSelectArticle_terms_article_id'
-                                                            ),
-                                                        ]
-                                                    ]
-                                                )
+                            RedshopLayoutHelper::render(
+                                'modal.lightbox',
+                                [
+                                    'selector' => 'ModalSelectTermsArticle',
+                                    'params'   => [
+                                        'buttonText'  => Text::_('COM_REDSHOP_SELECT_AN_ARTICLE'),
+                                        'buttonClass' => 'btn btn-secondary',
+                                        'width'       => '',
+                                        'height'      => '',
+                                        'url'         => Redshop\IO\Route::_(
+                                        'index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=jSelectArticle_terms_article_id'
+                                    ),
+                                    ]
+                                ]
+                            )
                                                 */
 
                         . '</div></div>' . "\n";

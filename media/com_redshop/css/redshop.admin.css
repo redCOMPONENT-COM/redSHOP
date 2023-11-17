@@ -29265,10 +29265,6 @@ a.btn.btn-success {
     display: block;
 }
 
-.goverlay {
-    background: rgba(0, 0, 0, 0.6);
-}
-
 .glightbox-clean {
     .gdesc-inner {
         padding: 10px 15px;
@@ -29287,3 +29283,25 @@ a.btn.btn-success {
         font-family: inherit;
     }
 }
+
+.goverlay {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.gslide iframe {
+    padding: 20px;
+}
+
+/* Hotfix for Glightbox title with url iframe */
+@media (min-width: 769px) {
+    .gslide-description.description-top {
+        position: absolute;
+        top: -92px;
+    }
+
+    .gslide-description.description-bottom {
+        position: absolute;
+        bottom: -92px;
+    }
+}
+/* Hotfix for Glightbox title with url iframe */

@@ -415,27 +415,25 @@ HtmlHelper::_('redshopjquery.framework');
                             'joomla.html.image',
                             ['src' => REDSHOP_MEDIA_IMAGES_ABSPATH . 'media16.png', 'alt' => 'media', 'align' => 'absmiddle']
                         ); ?>
-                        <?php
-                        echo RedshopLayoutHelper::render(
-                            'modal.button',
-                            [
-                                'selector' => 'ModalSelectMedia',
-                                'params'   => [
-                                    'title'       => '',
-                                    'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
-                                                    </button>',
-                                    'buttonText'  => '(' . count($model->MediaDetail($product->product_id)) . ')',
-                                    'buttonClass' => 'btn btn-link',
-                                    'buttonId'    => 'ModalSelectMedia' . $index,
-                                    'url'         => 'index.php?option=com_redshop&view=media&section_id='
-                                        . $product->product_id . '&showbuttons=1&media_section=product&section_name='
-                                        . $product->product_name . '&tmpl=component',
-                                    'modalWidth'  => '80',
-                                    'bodyHeight'  => '60',
+                        <?php echo
+                            RedshopLayoutHelper::render(
+                                'modal.lightbox',
+                                [
+                                    'selector' => 'ModalSelectMedia',
+                                    'params'   => [
+                                        'buttonText'  => '(' . count($model->MediaDetail($product->product_id)) . ')',
+                                        'buttonClass' => 'btn btn-link',
+                                        'buttonId'    => 'ModalSelectMedia' . $index,
+                                        'width'       => '90%',
+                                        'height'      => '',
+                                        'url'         => Redshop\IO\Route::_(
+                                            'index.php?option=com_redshop&view=media&section_id='
+                                            . $product->product_id . '&showbuttons=1&media_section=product&section_name='
+                                            . $product->product_name . '&tmpl=component'
+                                        ),
+                                    ]
                                 ]
-                            ]
-                        );
+                            );
                         ?>
                     </td>
                     <td align="center">
@@ -448,25 +446,23 @@ HtmlHelper::_('redshopjquery.framework');
                                 'align' => 'absmiddle'
                             ]
                         ); ?>
-                        <?php
-                        echo RedshopLayoutHelper::render(
-                            'modal.button',
-                            [
-                                'selector' => 'ModalSelectWrapper',
-                                'params'   => [
-                                    'title'       => '',
-                                    'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
-                                                </button>',
-                                    'buttonText'  => '(' . count($wrapper) . ')',
-                                    'buttonClass' => 'btn btn-link',
-                                    'buttonId'    => 'ModalSelectWrapperButton' . $index,
-                                    'url'         => 'index.php?option=com_redshop&showall=1&view=wrapper&layout=edit&tmpl=component&product_id=' . $product->product_id,
-                                    'modalWidth'  => '40',
-                                    'bodyHeight'  => '70',
+                        <?php echo
+                            RedshopLayoutHelper::render(
+                                'modal.lightbox',
+                                [
+                                    'selector' => 'ModalSelectWrapper',
+                                    'params'   => [
+                                        'buttonText'  => '(' . count($wrapper) . ')',
+                                        'buttonClass' => 'btn btn-link',
+                                        'buttonId'    => 'ModalSelectWrapperButton' . $index,
+                                        'width'       => '650',
+                                        'height'      => '',
+                                        'url'         => Redshop\IO\Route::_(
+                                            'index.php?option=com_redshop&showall=1&view=wrapper&layout=edit&tmpl=component&product_id=' . $product->product_id
+                                        ),
+                                    ]
                                 ]
-                            ]
-                        );
+                            );
                         ?>
                     </td>
                     <td align="center">

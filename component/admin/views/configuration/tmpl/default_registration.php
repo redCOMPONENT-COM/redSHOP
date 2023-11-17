@@ -89,6 +89,23 @@ $html = '<div class="input-group">'
             ]
         ]
     )
+    /*
+        RedshopLayoutHelper::render(
+            'modal.lightbox',
+            [
+                'selector' => 'ModalSelectTermsArticle',
+                'params'   => [
+                    'buttonText'  => Text::_('COM_REDSHOP_SELECT_AN_ARTICLE'),
+                    'buttonClass' => 'btn btn-secondary',
+                    'width'       => '',
+                    'height'      => '',
+                    'url'         => Redshop\IO\Route::_(
+                        'index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=jSelectArticle_terms_article_id'
+                    ),
+                ]
+            ]
+        )
+        */
     . '</span></div><input type="hidden" id="terms_article_id_id" name="terms_article_id" value="' . $article_id . '"/>';
 
 echo RedshopLayoutHelper::render(

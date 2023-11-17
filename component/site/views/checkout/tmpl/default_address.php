@@ -47,22 +47,19 @@ $cart    = \Redshop\Cart\Helper::getCart();
                         echo $this->loadTemplate('billing'); ?>
                         <?php echo
                             RedshopLayoutHelper::render(
-                                'modal.button',
+                                'modal.lightbox',
                                 [
                                     'selector' => 'ModalEditBilling',
                                     'params'   => [
-                                        'title'       => Text::_('COM_REDSHOP_EDIT'),
-                                        'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
-                                                </button>',
                                         'buttonText'  => Text::_('COM_REDSHOP_EDIT'),
                                         'buttonClass' => 'btn btn-primary',
+                                        'width'       => '',
+                                        'height'      => '',
                                         'url'         => $editbill,
-                                        'modalWidth'  => '80',
-                                        'bodyHeight'  => '60',
                                     ]
                                 ]
-                            ); ?>
+                            );
+                        ?>
                         <?php if (($auth['users_info_id'] && Redshop::getConfig()->getInt('ENABLE_CLEAR_USER_INFO') == 1) && !$user->id): ?>
                             <button type="button" class="btn btn-primary" name="clear_user_info"
                                 onclick="javascript:clearUserInfo();">
@@ -76,22 +73,19 @@ $cart    = \Redshop\Cart\Helper::getCart();
                         </div>
                         <?php echo
                             RedshopLayoutHelper::render(
-                                'modal.button',
+                                'modal.lightbox',
                                 [
                                     'selector' => 'ModalAddBilling',
                                     'params'   => [
-                                        'title'       => Text::_('COM_REDSHOP_ADD'),
-                                        'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
-                                                </button>',
                                         'buttonText'  => Text::_('COM_REDSHOP_ADD'),
                                         'buttonClass' => 'btn btn-primary',
+                                        'width'       => '',
+                                        'height'      => '',
                                         'url'         => $editbill,
-                                        'modalWidth'  => '80',
-                                        'bodyHeight'  => '60',
                                     ]
                                 ]
-                            ); ?>
+                            );
+                        ?>
                         <?php
                     } ?>
                 </div>
@@ -157,22 +151,19 @@ $cart    = \Redshop\Cart\Helper::getCart();
                                 </label>
                                 <?php echo
                                     RedshopLayoutHelper::render(
-                                        'modal.a',
+                                        'modal.lightbox',
                                         [
-                                            'selector' => 'ModalMainPropertyImage',
+                                            'selector' => 'ModalEditAddAddress',
                                             'params'   => [
-                                                'title'      => Text::_('COM_REDSHOP_EDIT_LBL'),
-                                                'footer'     => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
-                                                </button>',
-                                                'aContent'   => Text::_('COM_REDSHOP_EDIT_LBL'),
-                                                'aClass'     => '',
-                                                'url'        => $edit_addlink,
-                                                'modalWidth' => '80',
-                                                'bodyHeight' => '60',
+                                                'buttonText'  => Text::_('COM_REDSHOP_EDIT_LBL'),
+                                                'buttonClass' => '',
+                                                'width'       => '800',
+                                                'height'      => '',
+                                                'url'         => $edit_addlink,
                                             ]
                                         ]
-                                    ); ?>
+                                    );
+                                ?>
                                 <a href="<?php echo $delete_addlink; ?>" title="">(
                                     <?php echo Text::_('COM_REDSHOP_DELETE_LBL'); ?>)
                                 </a>
@@ -181,22 +172,19 @@ $cart    = \Redshop\Cart\Helper::getCart();
 
                         <?php echo
                             RedshopLayoutHelper::render(
-                                'modal.button',
+                                'modal.lightbox',
                                 [
                                     'selector' => 'ModalAddShippingAddress',
                                     'params'   => [
-                                        'title'       => Text::_('COM_REDSHOP_ADD_ADDRESS'),
-                                        'footer'      => '<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                                                    ' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '
-                                                </button>',
                                         'buttonText'  => Text::_('COM_REDSHOP_ADD_ADDRESS'),
                                         'buttonClass' => 'btn btn-primary',
+                                        'width'       => '800',
+                                        'height'      => '',
                                         'url'         => $addAddLink,
-                                        'modalWidth'  => '80',
-                                        'bodyHeight'  => '60',
                                     ]
                                 ]
-                            ); ?>
+                            );
+                        ?>
                     </div>
                 </div>
             </div>
